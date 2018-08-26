@@ -24,7 +24,7 @@
 
 ### Hiện thời gian làm bài của kỳ thi
 
-<p align="center"><img src="https://lh3.googleusercontent.com/zUpvTtgPWgR28PBNm0QDHOocEpoMax_gzBRuZLI2-jVgfdL9MyxzE8-5Ov4gHK4UK-biGPgjcgVje6VxC9_Us5EXuaSaygDJHitu8zP7JZq1JA8q9rr2M2tqJ8BpeFk28oweUeNZ1A=w2400"></p>
+<p align="center"><img src="https://lh3.googleusercontent.com/nWQj7AcZSnGXrquFEPTgtDDaylu70aRXy_hrcIv1WUtjDvUlpI7BVDibCTbJ4gktebBoKA5uulDjYW_Jn3HQ1sP6l8tc4KpL0cBGpN5wy4KLN8kqYgyeLZPRanOWIt5chfrLWqDuWw=w2400"></p>
 
 ### Nhật ký nộp bài và bảng xếp hạng được cập nhật tự động
 
