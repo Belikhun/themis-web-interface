@@ -1,7 +1,7 @@
 # Themis Web Interface
 
 <p align="center">
-  <img src="https://lh3.googleusercontent.com/MSVW2BqWe44tFatuXLEB6h09rRmJoyLHHTnkXk5sdShgmyaYTuXmuUbx1gMROmKBMrVr59D82mTR514gxR5I5Z9L8qy60OVbtQ3PWy7ip2GvWrYBRYrDOfUsxzkfzCuggMmT4T5Y3g=w2400">
+  <img src="https://lh3.googleusercontent.com/GGuTHy37pp8qJTtirJQL-jQw4GHlsKfCTAt8_NHsmy3jTquS3AYcODCvEXvYH1hBz6Wm43NV__l6zTsAX9izIeiOe_aysK-LKYBtHZce5j5mkMp-yqfm270_NEmVLqoZLmn7pbpCPw=w2400">
 </p>
 
 Được viết bằng PHP và JavaScript. Dự án không sử dụng library khác như jQuery, Bootstrap, etc...
