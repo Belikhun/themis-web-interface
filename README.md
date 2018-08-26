@@ -4,7 +4,7 @@
   <img src="https://lh3.googleusercontent.com/MSVW2BqWe44tFatuXLEB6h09rRmJoyLHHTnkXk5sdShgmyaYTuXmuUbx1gMROmKBMrVr59D82mTR514gxR5I5Z9L8qy60OVbtQ3PWy7ip2GvWrYBRYrDOfUsxzkfzCuggMmT4T5Y3g=w2400">
 </p>
 
-Được viết bằng PHP và JavaScript, không dùng bất kỳ library bên ngoài như jQuery, Bootstrap, etc...
+Được viết bằng PHP và JavaScript. Dự án không sử dụng library khác như jQuery, Bootstrap, etc...
 
 - [Yêu cầu](##Yêu-cầu)
 - [Tính năng](##Tính-năng)
