@@ -1,0 +1,209 @@
+/* 
+|====================================================|
+|                     login.css                      |
+|            Copyright (c) 2018 Belikhun.            |
+|      This file is licensed under MIT license.      |
+|====================================================|
+*/
+
+body {
+    background-color: #ffffff;
+    font-family: "Segoe UI", Calibri, Geneva, Verdana, sans-serif;
+    margin: unset;
+    font-size: 13px;
+    color: #7c7c7c;
+}
+
+a {
+    color: #3a8fc8;
+    transition:
+        color 0.1s linear 0s;
+}
+
+a:hover {
+    color: #48b0f7;
+}
+
+.text-overflow {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+t {
+    position: relative;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: none;
+    word-wrap: break-word;
+    color: rgb(63, 63, 63);
+}
+
+.left-panel {
+    position: absolute;
+    display: block;
+    left: 0px;
+    width: calc(100% - 340px);
+    height: 100%;
+    opacity: 1;
+}
+
+.left-panel .wallpaper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    filter: brightness(0.8);
+    background-image: url("/data/img/login-wallpaper.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.left-panel .footer {
+    position: absolute;
+    bottom: 20px;
+    left: 30px;
+    max-width: calc(100% - 100px);
+    font-size: 13px;
+    color: rgb(231, 231, 231);
+}
+
+.right-panel {
+    position: absolute;
+    right: 0px;
+    width: 400px;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    transition: width 0.2s ease;
+    background-color: #f0f0f0;
+    overflow: hidden;
+}
+
+.right-panel .header {
+    position: relative;
+    top: 0px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    font-family: Calibri;
+}
+
+.right-panel .header img.icon {
+    position: relative;
+    display: inline-block;
+    height: 44px;
+    width: 44px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.right-panel .header .info {
+    position: relative;
+    display: inline-block;
+    width: calc(100% - 54px);
+    list-style: none;
+    text-align: left;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: unset;
+    padding: unset;
+}
+
+.right-panel .header .info .name {
+    position: relative;
+    font-size: 18px;
+    color: #494949;
+}
+
+.right-panel .header .info .description {
+    position: relative;
+    font-size: 11px;
+    color: rgba(73, 73, 73, 0.6);
+    letter-spacing: 0.4px;
+}
+
+.right-panel .center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: calc(100% - 160px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 80px 40px 40px 40px;
+    transform: translate(-50%, -50%);
+}
+
+.right-panel .center .title {
+    font-size: 18px;
+    font-weight: 300;
+    color: #494949;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.right-panel .center #form_container {
+    margin-top: 20px;
+}
+
+.right-panel .center #form_container div button {
+    margin-top: 30px;
+    margin-right: 10px;
+}
+
+.right-panel .center #form_container #form_username #form_message {
+    display: inline-block;
+    max-width: 100%;
+    font-size: 13px;
+    margin-top: 20px;
+    color: #933432;
+    letter-spacing: 0.01em;
+}
+
+.right-panel .center #form_container #form_username,
+.right-panel .center #form_container #form_password {
+    position: absolute;
+    width: calc(100% - 80px);
+    transition: transform 0.2s cubic-bezier(0.06, 0.81, 0, 0.98);
+}
+
+.right-panel .center #form_container #form_password {
+    transform: translateX(calc(100% + 80px));
+}
+
+.right-panel .center #form_container #form_username.hide {
+    transform: translateX(calc(-100% - 80px));
+}
+
+.right-panel .center #form_container #form_username.hide + #form_password {
+    transform: unset;
+}
+
+.right-panel .center #form_container #form_password .profile {
+    display: flex;
+    align-items: center;
+}
+
+.right-panel .center #form_container #form_password .profile #form_avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.right-panel .footer {
+    position: absolute;
+    bottom: 20px;
+    width: calc(100% - 40px);
+    font-size: 11px;
+    border-top: 1px solid rgba(47, 47, 47, 0.4);
+    padding-top: 16px;
+}
+
+@media only screen and (max-width: 600px) {
+    .right-panel {
+        width: 100%;
+    }
+}

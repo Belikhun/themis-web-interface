@@ -1,0 +1,124 @@
+/* 
+|====================================================|
+|                     button.css                     |
+|            Copyright (c) 2018 Belikhun.            |
+|      This file is licensed under MIT license.      |
+|====================================================|
+*/
+
+.btn {
+    color: rgb(250, 250, 250);
+    background-color: rgb(33, 187, 98);
+    font-size: 12px;
+    font-family: "Segoe UI", sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding-left: 18px;
+    padding-right: 18px;
+    padding-top: 7.2px;
+    padding-bottom: 7.2px;
+    border-width: 0px;
+    border-style: solid;
+    border-color: rgb(0, 0, 0);
+    border-image: initial;
+    border-radius: 5px;
+    outline: none;
+    box-sizing: border-box;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 1s cubic-bezier(0.06, 0.81, 0, 0.98);
+}
+
+.btn:hover {
+    background-color: #2ECC71;
+}
+
+.btn:active {
+    background-color: #208B4E;
+}
+
+.btn.gray {
+    background-color: #34495e;
+}
+
+.btn.gray:hover {
+    background-color: #3c5a79;
+}
+
+.btn.gray:active {
+    background-color: #2a3a4b;
+}
+
+.btn.red {
+    background-color: #e74c3c;
+}
+
+.btn.red:hover {
+    background-color: #f74734;
+}
+
+.btn.red:active {
+    background-color: #be5044;
+}
+
+.btn.yellow {
+    background-color: #f1c40f;
+}
+
+.btn.yellow:hover {
+    background-color: #f8c809;
+}
+
+.btn.yellow:active {
+    background-color: #ddb619;
+}
+
+.btn:disabled {
+    background-color: #3b4249;
+    color: rgb(119, 119, 119);
+    cursor: default;
+}
+
+.ms-btn {
+    color: white;
+    background-color: transparent;
+    font-size: 12px;
+    font-family: "Segoe UI", sans-serif;
+    font-weight: normal;
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-width: 2px;
+    border-style: solid;
+    border-image: initial;
+    border-color: transparent;
+    outline: none;
+    text-decoration: none;
+    transition: all 1s cubic-bezier(0.06, 0.81, 0, 0.98);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ms-btn .text {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 12px;
+}
+
+.ms-btn .icon {
+    margin-right: 12px;
+    width: 24px;
+    height: 24px;
+}
+
+.ms-btn:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.ms-btn:active {
+    border-color: transparent;
+    background-color: rgba(255, 255, 255, 0.4);
+    transform: scale(0.96);
+}

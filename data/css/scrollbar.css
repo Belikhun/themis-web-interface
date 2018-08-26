@@ -1,0 +1,24 @@
+/* 
+|====================================================|
+|                   scrollbar.css                    |
+|            Copyright (c) 2018 Belikhun.            |
+|      This file is licensed under MIT license.      |
+|====================================================|
+*/
+
+::-webkit-scrollbar {
+    width: 4px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #d8d8d8;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #959595;
+}

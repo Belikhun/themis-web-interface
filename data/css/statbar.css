@@ -1,0 +1,82 @@
+/* 
+|====================================================|
+|                    statbar.css                     |
+|            Copyright (c) 2018 Belikhun.            |
+|      This file is licensed under MIT license.      |
+|====================================================|
+*/
+
+#status {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 40px;
+    -webkit-transform: translateY(-40px);
+        -ms-transform: translateY(-40px);
+            transform: translateY(-40px);
+    background-color: white;
+    z-index: 99;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    transition:
+        all 1s cubic-bezier(0.06, 0.81, 0, 0.98);
+}
+
+#status.ok {
+    transform: none;
+    background-color: #2ecc71;
+}
+
+#status.error {
+    transform: none;
+    background-color: #e74c3c;
+}
+
+#status.warning {
+    transform: none;
+    background-color: #f1c40f;
+}
+
+#status.info {
+    transform: none;
+    background-color: #34495e;
+}
+
+#status span.simple-spinner {
+    position: absolute;
+    height: 14px;
+    width: 14px;
+    left: 10px;
+    display: none;
+}
+
+#status.spinner span.simple-spinner {
+    display: block;
+}
+
+#status .text {
+    position: relative;
+    font-size: 14px;
+    font-weight: bold;
+    max-width: calc(100% - 80px);
+    margin: unset;
+    transform: all 1s cubic-bezier(0.06, 0.81, 0, 0.98);
+    color: white;
+}
+
+#status .close {
+    position: absolute;
+    right: 10px;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}

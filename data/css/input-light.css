@@ -1,0 +1,60 @@
+/* 
+|====================================================|
+|                  input-light.css                   |
+|            Copyright (c) 2018 Belikhun.            |
+|      This file is licensed under MIT license.      |
+|====================================================|
+*/
+
+.formgroup {
+    position: relative;
+    padding: 15px 0 0;
+    margin-top: 8px;
+}
+
+.formfield {
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid rgba(224, 224, 224, 0.4);
+    outline: 0;
+    font-family: "Segoe UI", sans-serif;
+    font-size: 14px;
+    color: #cecece;
+    user-select: none;
+    padding: 6px 0 7px 0;
+    background: transparent;
+    transition: border-color 0.5s;
+}
+
+.formfield::placeholder {
+    color: transparent;
+}
+
+.formfield:placeholder-shown~.formlabel {
+    font-size: 11px;
+    cursor: text;
+    top: 24px;
+}
+
+label,
+.formfield:focus~.formlabel {
+    position: absolute;
+    top: 4px;
+    display: block;
+    transition: 0.3s;
+    font-size: 9px;
+    font-family: "Segoe UI", sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #72767d;
+    user-select: none;
+}
+
+.formfield:focus~.formlabel {
+    color: #b9bbbe;
+}
+
+.formfield:focus {
+    padding: 6px 0;
+    border-bottom: 2px solid rgba(224, 224, 224, 0.8);
+}

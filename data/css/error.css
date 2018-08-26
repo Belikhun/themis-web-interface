@@ -1,0 +1,156 @@
+/* 
+|====================================================|
+|                     error.css                      |
+|            Copyright (c) 2018 Belikhun.            |
+|      This file is licensed under MIT license.      |
+|====================================================|
+*/
+
+body {
+    font-family: "Segoe UI", Calibri, Geneva, sans-serif;
+    font-weight: normal;
+    font-size: 20px;
+    color: white;
+    overflow: hidden;
+}
+
+.background {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-image: url("/data/img/error-wallpaper.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.5) blur(30px);
+    transform: scale(1.2);
+}
+
+.main-container {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: calc(100% - 50px);
+    word-wrap: break-word;
+    overflow: auto;
+}
+
+.main-container p.code {
+    position: relative;
+    font-family: "Segoe UI";
+    font-size: 70px;
+    font-weight: lighter;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    margin: 60px 0 0 0;
+}
+
+.main-container p.code font.protocol {
+    font-family: Calibri;
+    font-size: 18px;
+    font-weight: 100;
+    color: rgb(30, 202, 233);
+}
+
+.main-container p.name {
+    font-family: "Segoe UI";
+    font-size: 32px;
+    font-weight: 600;
+    color: rgb(228, 228, 228);
+    text-align: center;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+    margin: 0 0 20px 0;
+}
+
+.main-container p.desc {
+    font-family: "Segoe UI";
+    font-size: 16px;
+    font-weight: normal;
+    color: rgb(204, 204, 204);
+    text-align: center;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+    width: 80%;
+    padding: unset;
+    margin: unset;
+}
+
+.main-container p.info {
+    font-family: Calibri;
+    font-size: 14px;
+    font-weight: lighter;
+    color: rgb(182, 182, 182);
+    text-align: center;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+    width: 80%;
+    padding-top: 10px;
+    padding-bottom: 30px;
+    margin: 0px;
+}
+
+.main-container button.btn {
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+    margin-top: 10px;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 50px;
+    width: 420px;
+    padding: 0 20px 0 20px;
+    display: flex;
+    align-items: center;
+}
+
+.footer img.icon {
+    position: relative;
+    border-radius: 50%;
+    height: 80%;
+    width: auto;
+    float: left;
+}
+
+.footer p {
+    position: relative;
+    font-family: Calibri;
+    font-size: 12px;
+    text-align: left;
+    color: #fafafa;
+    margin: 0 0 0 10px;
+    float: left;
+}
+
+@media only screen and (max-width: 450px) {
+
+    .footer img.icon {
+        display: none;
+    }
+
+    .footer {
+        left: 0px;
+        transform: translateX(0);
+        width: 100%;
+        padding: unset;
+        justify-content: center;
+    }
+
+    .footer p {
+        text-align: center;
+        margin: unset;
+    }
+
+}

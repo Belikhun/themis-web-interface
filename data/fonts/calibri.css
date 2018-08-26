@@ -1,0 +1,31 @@
+/* 
+|====================================================|
+|                    calibri.css                     |
+|            Copyright (c) 2018 Belikhun.            |
+|      This file is licensed under MIT license.      |
+|====================================================|
+*/
+
+@font-face {
+    font-family: "Calibri";
+    src: local("Calibri"),
+        url("Calibri.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Calibri";
+    src: local("Calibri Light"), local("Calibri-Light"),
+        url("Calibri-Light.woff") format("woff");
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Calibri";
+    src: local("Calibri Bold"), local("Calibri-Bold"),
+        url("Calibri-Bold.woff") format("woff");
+    font-weight: bold;
+    font-style: normal;
+}
