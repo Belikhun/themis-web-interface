@@ -34,7 +34,7 @@
 ### Người dùng có thể thay đổi ảnh đại diện, tên và mật khẩu (có thể tắt trong file config)
 
 ## Cài đặt
-Bạn có thể tải trực tiếp phiên bản tích hợp sẵn UniServer tại [đây](http://www.mediafire.com/file/vzcc6c865rzf1g7/themis-interface%20v0.0.1%20unstable.zip) hoặc ```git clone``` repositories này và thiết lập máy chủ riêng.
+Bạn có thể tải trực tiếp phiên bản tích hợp sẵn UniServer tại [đây](https://github.com/belivipro9x99/themis-webinterface/releases/) hoặc ```git clone``` repositories này và thiết lập máy chủ riêng.
 
 Apache config:
 ```
