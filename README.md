@@ -22,9 +22,9 @@
 
 <p align="center"><img src="https://lh3.googleusercontent.com/eq1Abpp_hyOW9zYVYyeAkXfb-xA01JWuZ7lXoTHujMA4YqcAkv0PWRSjQXyrCwkdLjrV4pKkHCe6jmIYjAdKPk-1ys8xqZzSoGExIX2rK8-wCRAR5lw0VDr94LR-4lKKUwOpFwULyQ=w2400"></p>
 
-### Hiện thời gian làm bài của một kỳ thi
+### Hiện thời gian làm bài của kỳ thi
 
-<p align="center"><img src="https://lh3.googleusercontent.com/DsPVndDfDPUQS07w62mA1C8WtvNafba2mXTAnq7mc2SEDeDnF7TKT3qzDeIPG922QBaa5f2ShFW0vgfhMbBZM4YV12TWlgt9gB0tXnknJamzEpOnp7WPxex_hNYd0HiG0Ckd_vBpWg=w2400"></p>
+<p align="center"><img src="https://lh3.googleusercontent.com/zUpvTtgPWgR28PBNm0QDHOocEpoMax_gzBRuZLI2-jVgfdL9MyxzE8-5Ov4gHK4UK-biGPgjcgVje6VxC9_Us5EXuaSaygDJHitu8zP7JZq1JA8q9rr2M2tqJ8BpeFk28oweUeNZ1A=w2400"></p>
 
 ### Nhật ký nộp bài và bảng xếp hạng được cập nhật tự động
 
