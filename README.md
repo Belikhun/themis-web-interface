@@ -86,3 +86,10 @@ Hầu hết cấu hình đều có ở trong tệp ```config.php``` , trong tệ
 ### Tài khoản
 
 Tài khoản được lưu trong tệp ```api/xmldb/account.xml``` và có thể chỉnh sửa bằng excel.
+
+## Todo
+
+- [ ] Clean code
+- [ ] Hiển thị các bài trong hàng chờ chấm điểm
+- [ ] Xem trực tiếp tệp log trên web
+- [ ] Tìm và vá các lỗ hổng bào mật
