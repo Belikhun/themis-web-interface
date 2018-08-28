@@ -1,2 +1,3 @@
 data/css/* linguist-vendored
+data/fonts/* linguist-vendored
 lib/* linguist-vendored=false
