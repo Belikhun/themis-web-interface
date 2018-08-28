@@ -12,7 +12,7 @@
 - [Cấu hình](##Cấu-hình)
   - [config.php](###config.php)
   - [Tài khoản](###Tài-khoản)
-- [Cập nhật 0.0.2](###Thay-đổi-trong-0.0.2)
+- [Cập nhật v0.2.0](###Thay-đổi-trong-v0.2.0)
 
 ## Yêu cầu
 - PHP/7 trở lên
@@ -95,7 +95,7 @@ Hầu hết cấu hình đều có ở trong tệp ```config.php``` , bao gồm:
 
 Tài khoản được lưu trong tệp ```api/xmldb/account.xml``` và có thể chỉnh sửa bằng excel.
 
-## Thay đổi trong 0.0.2
+## Thay đổi trong v0.2.0
 
 * Cho phép tải nhiều bài cùng lúc và hiện các bài đang trong hàng chờ
 * Hiển thị tình trạng hiện tại của bài đã nộp
