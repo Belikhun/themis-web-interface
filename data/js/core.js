@@ -4,15 +4,7 @@
 //|      This file is licensed under MIT license.      |
 //|====================================================|
 
-function getapi(url = null, method = "GET", callout = () => {}, file = null, onprogress = () => {}, error = function (ise, res, t) {
-    if (ise)
-        statbar.change(statbar.type.ERROR, res, false);
-    else {
-        statbar.change(statbar.type.ERROR,
-            "[" + res.code + "] " + t.status + " " + t.statusText + " >> " + res.description,
-            false);
-    }
-}) {
+function getapi(url = null, method = "GET", callout = () => {}, file = null, onprogress = () => {}, error = function (res) {}){
     var xhr = new XMLHttpRequest();
     var fd = new FormData();
     fd.append("file", file);
@@ -22,12 +14,16 @@ function getapi(url = null, method = "GET", callout = () => {}, file = null, onp
             try {
                 var res = JSON.parse(this.responseText);
             } catch (e) {
-                error(true, e);
+                statbar.change(statbar.type.ERROR, e, false);
+                error(e);
                 return;
             }
 
             if (this.status != 200 || res.code != 0) {
-                error(false, res, this);
+                statbar.change(statbar.type.ERROR,
+                    "[" + res.code + "] " + this.status + " " + this.statusText + " >> " + res.description,
+                false);
+                error(res);
             } else {
                 callout(res.data);
             }
@@ -76,6 +72,26 @@ function parsetime(secs = 0) {
     }
 };
 
+function escape_html(str) {
+
+    if ((str === null) || (str === ""))
+        return false;
+    else
+        str = str.toString();
+
+    var map = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "\'": "&#039;"
+    };
+
+    return str.replace(/[&<>"']/g, function (m) {
+        return map[m];
+    });
+}
+
 class regPanel {
     constructor(elem) {
         if (elem.tagName != "PANEL")
@@ -87,6 +103,7 @@ class regPanel {
         var ri = fcfn(ehead, "ri").childNodes;
         this.eref = fcfn(ri, "ref");
         this.eset = fcfn(ri, "set");
+        this.eclo = fcfn(ri, "clo");
         this.emain = fcfn(elem.childNodes, "main");
     }
 
@@ -94,30 +111,56 @@ class regPanel {
         return this.emain;
     }
 
-    refonclick(f = () => {}) {
-        this.eref.addEventListener("click", f, true);
+    get ref() {
+        var t = this;
+        return {
+            onclick(f = () => {}) {
+                t.eref.addEventListener("click", f, true);
+            },
+
+            hide(h = true) {
+                if (h)
+                    t.eref.style.display = "none";
+                else
+                    t.eref.style.display = "inline-block";
+            }
+        }
     }
 
-    setonclick(f = () => {}) {
-        this.eset.addEventListener("click", f, true);
+    get set() {
+        var t = this;
+        return {
+            onclick(f = () => {}) {
+                t.eset.addEventListener("click", f, true);
+            },
+
+            hide(h = true) {
+                if (h)
+                    t.eset.style.display = "none";
+                else
+                    t.eset.style.display = "inline-block";
+            }
+        }
     }
 
-    hideref(b = true) {
-        if (b)
-            this.eref.style.display = "none";
-        else
-            this.eref.style.display = "inline-block";
+    get clo() {
+        var t = this;
+        return {
+            onclick(f = () => {}) {
+                t.eclo.addEventListener("click", f, true);
+            },
+
+            hide(h = true) {
+                if (h)
+                    t.eclo.style.display = "none";
+                else
+                    t.eclo.style.display = "inline-block";
+            }
+        }
     }
 
-    hideset(b = true) {
-        if (b)
-            this.eset.style.display = "none";
-        else
-            this.eset.style.display = "inline-block";
-    }
-
-    title(s = "") {
-        this.etitle.innerText = s;
+    set title(str = "") {
+        this.etitle.innerText = str;
     }
 }
 
@@ -134,37 +177,18 @@ core = {
         this.file.init();
         this.timer.init();
         this.userpanel.init();
+        this.wrapper.init();
         this.fetchlog();
         this.fetchrank();
-        this.file.fileseled = this.uploadfile;
-        this.logpanel.refonclick(() => {
+        this.logpanel.ref.onclick(() => {
             core.fetchlog(true);
         });
-        this.rankpanel.refonclick(() => {
+        this.rankpanel.ref.onclick(() => {
             core.fetchrank(true);
         });
-        core.flogint = setInterval(this.fetchlog, 5000);
-        core.frankint = setInterval(this.fetchrank, 5000);
-    },
-
-    uploadfile: function (file) {
-        getapi("/api/test/upload", "POST", function (d) {
-            statbar.change(statbar.type.ok, "Tải tệp lên thành công!");
-            core.file.state.innerText = "Tải lên thành công!";
-        }, file, function (e) {
-            core.file.size.innerText = e.loaded + "/" + e.total;
-            core.file.percent.innerText = ((e.loaded / e.total) * 100).toFixed(0) + "%";
-            core.file.bar.style.width = (e.loaded / e.total) * 100 + "%";
-        }, function (ise, res, t) {
-            if (ise)
-                statbar.change(statbar.type.ERROR, res, false);
-            else {
-                statbar.change(statbar.type.ERROR,
-                    "[" + res.code + "] " + t.status + " " + t.statusText + " >> " + res.description,
-                    false);
-            }
-            core.file.state.innerText = "Tải lên thất bại";
-        })
+        core.file.onUploadSuccess = this.fetchlog;
+        core.flogint = setInterval(this.fetchlog, 1000);
+        core.frankint = setInterval(this.fetchrank, 2000);
     },
 
     fetchlog: function (bypass = false) {
@@ -175,17 +199,48 @@ core = {
 
             core.logpanel.main.innerHTML = "";
             out = "<ul class=\"log-item-container\">\n";
-            for (var i = 0; i < data.length; i++) {
+
+            for (var i = 0; i < data.judging.length; i++) {
+                out += [
+                    "<li class=\"log-item judging\">",
+                        "<div class=\"h\">",
+                            "<ul class=\"l\">",
+                                "<li class=\"t\">" + data.judging[i].lastmodify + "</li>",
+                                "<li class=\"n\">" + data.judging[i].name + "</li>",
+                            "</ul>",
+                            "<t class=\"r\">Đang chấm</t>",
+                        "</div>",
+                        "<a class=\"d\"></a>",
+                    "</li>"
+                ].join("\n");
+            }
+
+            for (var i = 0; i < data.queues.length; i++) {
+                out += [
+                    "<li class=\"log-item queue\">",
+                        "<div class=\"h\">",
+                            "<ul class=\"l\">",
+                                "<li class=\"t\">" + data.queues[i].lastmodify + "</li>",
+                                "<li class=\"n\">" + data.queues[i].name + "</li>",
+                            "</ul>",
+                            "<t class=\"r\">Đang chờ</t>",
+                        "</div>",
+                        "<a class=\"d\"></a>",
+                    "</li>"
+                ].join("\n");
+            }
+
+            for (var i = 0; i < data.logs.length; i++) {
                 out += [
                     "<li class=\"log-item\">",
                     "<div class=\"h\">",
                     "<ul class=\"l\">",
-                    "<li class=\"t\">" + data[i].lastmodify + "</li>",
-                    "<li class=\"n\">" + data[i].name + "</li>",
+                    "<li class=\"t\">" + data.logs[i].lastmodify + "</li>",
+                    "<li class=\"n\">" + data.logs[i].name + "</li>",
                     "</ul>",
-                    "<t class=\"r\">" + data[i].out + "</t>",
+                    "<t class=\"r\">" + data.logs[i].out + "</t>",
                     "</div>",
-                    "<a class=\"d\" href=\"" + data[i].url + "\"></a>",
+                    "<span class=\"d\" onclick=\"core.viewlog(\'" + data.logs[i].url + "\')\"></span>",
                     "</li>"
                 ].join("\n");
             }
@@ -229,7 +284,7 @@ core = {
                         "<td>" + rank + "</td>",
                         "<td>",
                             "<img class=\"avt\" src=\"/api/avt/get?u=" + data.rank[i].username + "\">",
-                            "<t class=\"name\">" + escape(data.rank[i].name) + "</t>",
+                            "<t class=\"name\">" + escape_html(data.rank[i].name) + "</t>",
                         "</td>",
                         "<td class=\"number\">" + parseFloat(data.rank[i].total).toFixed(2) + "</td>"
                 ].join("\n");
@@ -245,6 +300,18 @@ core = {
         });
     },
 
+    viewlog(url) {
+        getapi(url, "GET", function(res) {
+            core.wrapper.show(url.split("/").pop().replace("getlog?f=", ""));
+            var out = "<ul class=\"viewlog-container\">\n";
+            for (var i = 0; i < res.length; i++) {
+                out += "<li>" + res[i] + "</li>\n";
+            }
+            out += "</ul>";
+            core.wrapper.panel.main.innerHTML = out;
+        });
+    },
+
     file: {
         dropzone: document.getElementById("file_dropzone"),
         state: document.getElementById("file_upstate"),
@@ -253,15 +320,16 @@ core = {
         percent: document.getElementById("file_perc"),
         size: document.getElementById("file_size"),
         panel: new regPanel(document.getElementById("uploadp")),
-        fileseled: function() {},
+        uploadcooldown: 1000,
+        onUploadSuccess: function() {},
 
         init: function () {
             this.dropzone.addEventListener("dragenter", this.dragenter, false);
             this.dropzone.addEventListener("dragleave", this.dragleave, false);
             this.dropzone.addEventListener("dragover", this.dragover, false);
             this.dropzone.addEventListener("drop", this.filesel, false);
-            this.panel.refonclick(this.reset);
-            this.panel.hideset();
+            this.panel.ref.onclick(this.reset);
+            this.panel.set.hide();
         },
 
         reset: function () {
@@ -278,16 +346,15 @@ core = {
             e.preventDefault();
             this.classList.remove("drag");
 
-            var file = e.dataTransfer.files[0];
+            var files = e.dataTransfer.files;
 
             this.classList.add("hide");
-            core.file.name.innerText = file.name;
-            core.file.state.innerText = "Đang tải lên...";
+            core.file.state.innerText = "Chuẩn bị tải lên " + files.length + " tệp...";
             core.file.size.innerText = "00/00";
             core.file.percent.innerText = "0%";
             core.file.bar.style.width = "0%";
             setTimeout(() => {
-                core.file.fileseled(file);
+                core.file.upload(files);
             }, 1000);
         },
 
@@ -308,7 +375,37 @@ core = {
             e.preventDefault();
             e.dataTransfer.dropEffect = "copy";
             this.classList.add("drag");
-        }
+        },
+
+        upload: function (files, i = 0) {
+            if (i > files.length - 1) {
+                core.file.reset();
+                return;
+            }
+
+            core.file.name.innerText = files[i].name;
+            core.file.state.innerText = "Đang tải lên " + (i + 1) + "/" + files.length +"...";
+            core.file.size.innerText = "00/00";
+            core.file.percent.innerText = "0%";
+            core.file.bar.style.width = "0%";
+
+            setTimeout(() => {
+                getapi("/api/test/upload", "POST", function (d) {
+                    core.file.state.innerText = "Tải lên thành công! " + (i + 1) + "/" + files.length;
+                    core.file.onUploadSuccess();
+                    setTimeout(() => {
+                        core.file.upload(files, i + 1);
+                    }, core.file.uploadcooldown / 2);
+                }, files[i], function (e) {
+                    core.file.size.innerText = e.loaded + "/" + e.total;
+                    core.file.percent.innerText = ((e.loaded / e.total) * 100).toFixed(0) + "%";
+                    core.file.bar.style.width = (e.loaded / e.total) * 100 + "%";
+                }, function (res) {
+                    core.file.state.innerText = "Tải lên thất bại";
+                    setTimeout(core.file.reset, 2000);
+                })
+            }, core.file.uploadcooldown / 2);
+        },
     },
 
     timer: {
@@ -323,8 +420,8 @@ core = {
         last: 0,
 
         init: function() {
-            this.timepanel.hideset();
-            this.timepanel.refonclick(core.timer.fetchtime);
+            this.timepanel.set.hide();
+            this.timepanel.ref.onclick(core.timer.fetchtime);
             this.fetchtime(true);
         },
 
@@ -501,14 +598,7 @@ core = {
                 statbar.change(statbar.type.OK, "Thay đổi thông tin thành công!");
                 core.userpanel.reset();
                 core.userpanel.reload(res.name, 1);
-            }, null, () => {}, function (ise, res, t) {
-                if (ise)
-                    statbar.change(statbar.type.ERROR, res, false);
-                else {
-                    statbar.change(statbar.type.ERROR,
-                        "[" + res.code + "] " + t.status + " " + t.statusText + " >> " + res.description,
-                        false);
-                }
+            }, null, () => {}, function (res) {
                 core.userpanel.reset();
             });
         },
@@ -517,14 +607,7 @@ core = {
             getapi("/api/edit?p=" + pass + "&np=" + npass + "&rnp=" + renpass, "GET", function(res) {
                 statbar.change(statbar.type.OK, "Thay đổi thông tin thành công!");
                 core.userpanel.reset();
-            }, null, () => {}, function (ise, res, t) {
-                if (ise)
-                    statbar.change(statbar.type.ERROR, res, false);
-                else {
-                    statbar.change(statbar.type.ERROR,
-                        "[" + res.code + "] " + t.status + " " + t.statusText + " >> " + res.description,
-                        false);
-                }
+            }, null, () => {}, function (res) {
                 core.userpanel.reset();
             });
         },
@@ -546,14 +629,7 @@ core = {
             getapi("/api/avt/change", "POST", function (d) {
                 core.userpanel.reset();
                 core.userpanel.reload(d);
-            }, file, () => {}, function (ise, res, t) {
-                if (ise)
-                    statbar.change(statbar.type.ERROR, res, false);
-                else {
-                    statbar.change(statbar.type.ERROR,
-                        "[" + res.code + "] " + t.status + " " + t.statusText + " >> " + res.description,
-                        false);
-                }
+            }, file, () => {}, function (res) {
                 core.userpanel.reset();
             });
         },
@@ -577,6 +653,26 @@ core = {
             this.classList.add("drag");
         }
 
+    },
+
+    wrapper: {
+        wrapper: document.getElementById("wrapper"),
+        panel: new regPanel(document.getElementById("wrapp")),
+
+        init: function() {
+            this.panel.set.hide();
+            this.panel.ref.hide();
+            this.panel.clo.onclick(this.hide);
+        },
+
+        show: function(title = "") {
+            core.wrapper.wrapper.classList.add("show");
+            core.wrapper.panel.title = title;
+        },
+
+        hide: function() {
+            core.wrapper.wrapper.classList.remove("show");
+        }
     }
 
 }

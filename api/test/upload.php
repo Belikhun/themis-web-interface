@@ -32,7 +32,7 @@
 
     $file = $_FILES["file"]["name"];
     $filename = explode(".", $file);
-    $acceptext = array("pas", "cpp", "py", "java");
+    $acceptext = array("pas", "cpp", "c", "pp", "exe", "class", "py", "java");
     $extension = pathinfo($file, PATHINFO_EXTENSION);
     if (in_array($extension, $acceptext) && ($_FILES["file"]["size"] <= $maxfilesize)) {
         if ($_FILES["file"]["error"] > 0) {
@@ -50,7 +50,7 @@
                 "max" => $maxfilesize
             ));
         } else {
-            stop(15, "Chỉ chấp nhận tệp pas, cpp, py và java!", 400);
+            stop(15, "Không chấp nhận tệp!", 400);
         }
     }
 

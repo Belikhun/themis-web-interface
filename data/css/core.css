@@ -37,11 +37,6 @@ t {
 
 #status {
     top: 58px !important;
-    z-index: 2 !important;
-}
-
-.nav {
-    z-index: 3 !important;
 }
 
 /* Change Autocomplete styles in Chrome*/
@@ -77,7 +72,7 @@ panel .head {
     position: relative;
     width: 100%;
     height: 40px;
-    padding: 10px 20px;
+    padding: 10px 10px 10px 20px;
     box-sizing: border-box;
     border-bottom: 1px solid #e6e6e6;
     display: flex;
@@ -93,11 +88,13 @@ panel .head .le {
 panel .head .ri {
     position: absolute;
     /*float: right;*/
-    right: 20px;
+    right: 10px;
     display: flex;
     align-items: center;
 }
 
+panel .head .ri i.set,
+panel .head .ri i.clo,
 panel .head .ri i.ref {
     position: relative;
     color: rgba(98, 98, 98, 0.54);
@@ -106,24 +103,17 @@ panel .head .ri i.ref {
     font-weight: bold;
     cursor: pointer;
     transition: color 0.2s ease;
-}
-
-panel .head .ri i.ref:hover {
-    color: rgba(98, 98, 98, 0.82);
-}
-
-panel .head .ri i.set:hover {
-    color: rgba(98, 98, 98, 0.82);
+    padding: 0 2px;
 }
 
 panel .head .ri i.set {
-    position: relative;
-    color: rgba(98, 98, 98, 0.54);
     font-size: 16px;
-    display: inline;
-    cursor: pointer;
-    transition: color 0.2s ease;
-    padding-left: 4px;
+}
+
+panel .head .ri i.clo:hover,
+panel .head .ri i.set:hover,
+panel .head .ri i.ref:hover {
+    color: rgba(98, 98, 98, 0.82);
 }
 
 panel .main {
@@ -181,30 +171,68 @@ panel .main {
     margin: 10px 10px 20px 20px;
 }
 
+#wrapper {
+    position: fixed;
+    box-sizing: border-box;
+    padding-top: 60px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 2;
+    display: none;
+}
+
+#wrapper.show {
+    display: block;
+}
+
+#wrapp {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-50% + 20px));
+    width: calc(100% - 200px);
+    height: calc(100% - 200px);
+    margin: unset;
+}
+
 @media only screen and (max-width: 800px) {
     #uploadp {
         width: calc(100% - 40px);
         margin: 20px 20px 10px 20px;
     }
+
     #timep.show {
         width: calc(100% - 40px);
         margin: 10px 20px;
         float: left;
     }
+
     #logp {
         width: calc(100% - 40px);
         height: calc(100% - 40px);
         float: left;
         margin: 10px 20px;
     }
+
     #timep.show+#logp {
         height: calc(100% - 40px);
         margin: 10px 20px;
     }
+
     #rankp {
         width: calc(100% - 40px);
         height: calc(100% - 40px);
         margin: 10px 20px 20px 20px;
+    }
+
+    #wrapp {
+        width: 100%;
+        height: 50%;
+        bottom: 0px;
+        top: unset;
+        left: unset;
+        transform: unset;
     }
 }
 
@@ -257,7 +285,6 @@ ul.log-item-container li.log-item .h .l .n {
     font-size: 13px;
     font-weight: bold;
     color: rgba(72, 176, 247, 0.8);
-    text-transform: uppercase;
 }
 
 ul.log-item-container li.log-item .h .r {
@@ -285,15 +312,39 @@ ul.log-item-container li.log-item .d {
 }
 
 ul.log-item-container li.log-item .d::before {
-    content: "vertical_align_bottom";
+    content: "open_in_browser";
     font-family: "Material Icons";
-    font-weight: bold;
-    font-size: 12px;
+    font-weight: lighter;
+    font-size: 16px;
 }
 
 ul.log-item-container li.log-item .d:hover {
     background-color: #f1f1f1;
     color: #6e6e6e;
+}
+
+ul.log-item-container li.log-item.queue .h .l .n {
+    color: #8e44ad;
+}
+
+ul.log-item-container li.log-item.queue .d::before {
+    content: "\f2f1";
+    font-family: "Font Awesome 5 Free";
+    animation: spin 1s linear 0s infinite forwards;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+ul.log-item-container li.log-item.judging .h .l .n {
+    color: #2ecc71;
+}
+
+ul.log-item-container li.log-item.judging .d::before {
+    content: "\f0e3";
+    font-family: "Font Awesome 5 Free";
+    animation: spin 1s linear 0s infinite forwards;
+    font-weight: 600;
+    font-size: 12px;
 }
 
 .fileupload-container #file_dropzone {
@@ -432,6 +483,7 @@ td:nth-child(2) {
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    display: block;
 }
 
 .ranking-container table tr td:nth-child(2) .name {
@@ -557,6 +609,48 @@ td {
     font-size: 14px;
     font-weight: bold;
     color: rgba(116, 116, 116, 0.7);
+}
+
+.viewlog-container {
+    width: 100%;
+    max-height: 100%;
+    top: 0px;
+    box-sizing: border-box;
+    padding: 20px 0;
+    margin: unset;
+    list-style: none;
+}
+
+.viewlog-container li {
+    text-align: left;
+    max-width: 100%;
+    counter-increment: viewlog-line;
+    margin: 2px 10px 2px 50px;
+    padding: 0 10px;
+    height: 20px;
+    box-sizing: border-box;
+    border-left: 1px solid rgba(82, 82, 82, 0.3);
+    color: rgb(95, 95, 95);
+    font-family: "Consolas";
+    font-weight: bold;
+}
+
+.viewlog-container li:hover {
+    background-color: rgba(190, 190, 190, 0.2);
+}
+
+.viewlog-container li::before {
+    position: absolute;
+    transform: translateX(calc(-100% - 10px));
+    content: counter(viewlog-line);
+    text-align: right;
+    padding: 0 10px 0 30px;
+    margin-right: 10px;
+    color: rgb(160, 160, 160);
+}
+
+.viewlog-container li:hover::before {
+    color: #3196da;
 }
 
 footer {
@@ -694,6 +788,15 @@ footer .bottom {
 
 footer .bottom li {
     padding-top: 10px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 @media only screen and (max-width: 750px) {

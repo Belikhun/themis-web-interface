@@ -9,11 +9,11 @@
 	$logsDir = "D:\Themis\data\uploadDir\Logs";
 	//Thời gian bắt đầu kỳ thi
 	$bt = Array(
-		"gio" => 00,
-		"phut" => 00,
+		"gio" => 21,
+		"phut" => 40,
 		"giay" => 00,
-		"ngay" => 1,
-		"thang" => 1,
+		"ngay" => 28,
+		"thang" => 8,
 		"nam" => 2018
 	);
 	date_default_timezone_set("Asia/Ho_Chi_Minh"); //Timezone

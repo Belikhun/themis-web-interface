@@ -14,7 +14,7 @@
     height: 56px;
     background-color: #202225;
     border-bottom: 2px solid #868686;
-    z-index: 1;
+    z-index: 99;
     user-select: none;
 }
 

@@ -10,6 +10,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/config.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/api/xmldb/account.php";
     header("Cache-Control: max-age=0, must-revalidate", true);
+    define("VERSION", "0.0.2");
 
     if (!islogedin()) {
         require "login.php";
@@ -32,7 +33,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title></title>
+        <title>Themis Web Interface v<?php print VERSION; ?></title>
 
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/loader.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
@@ -44,6 +45,7 @@
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/core.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/calibri.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/material-font.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/consolas.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/fontawesome.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="https://fonts.googleapis.com/css?family=Open+Sans" />
 
@@ -135,6 +137,21 @@
             <i class="material-icons close">close</i>
         </div>
 
+        <div id="wrapper">
+            <panel id="wrapp">
+                <div class="head">
+                    <t class="le"></t>
+                    <span class="ri">
+                        <i class="material-icons ref">refresh</i>
+                        <i class="material-icons set">settings</i>
+                        <i class="material-icons clo">close</i>
+                    </span>
+                </div>
+                <div class="main">
+                </div>
+            </panel>
+        </div>
+
         <div id="container">
 
             <panel id="uploadp">
@@ -146,7 +163,7 @@
                     </span>
                 </div>
                 <div class="main fileupload-container">
-                    <div id="file_dropzone">Thả tệp tại đây (chỉ tệp pas, cpp, py hoặc java)</div>
+                    <div id="file_dropzone">Thả tệp tại đây</div>
                     <div class="info">
                         <t id="file_upstate">null</t>
                         <t id="file_name">null</t>
@@ -204,7 +221,7 @@
 
             <footer>
                 <ul class="left">
-                    <li class="title">HỆ THỐNG NỘP BÀI TRỰC TUYẾN</li>
+                    <li class="title">HỆ THỐNG NỘP BÀI TRỰC TUYẾN v<?php print VERSION; ?></li>
                     <li class="author">
                         <ul class="container">
                             <li class="name">Tác giả:

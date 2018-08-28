@@ -127,8 +127,8 @@
         return $size;
     }
 
-    function remdubarr($inp) {
-        $out = Array(0);
+    function arrayremdub($inp) {
+        $out = Array();
         $i = 0;
         sort($inp, SORT_NATURAL);
         foreach($inp as $k => $v)
