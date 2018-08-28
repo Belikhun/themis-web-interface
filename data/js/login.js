@@ -109,5 +109,6 @@ login = {
         login.form.password.input.value = "";
         login.form.password.input.disabled = true;
         login.form.password.submit.disabled = true;
+        login.form.username.input.focus();
     },
 }

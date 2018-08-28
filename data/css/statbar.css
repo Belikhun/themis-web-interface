@@ -16,7 +16,7 @@
         -ms-transform: translateY(-40px);
             transform: translateY(-40px);
     background-color: white;
-    z-index: 99;
+    z-index: 98;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
