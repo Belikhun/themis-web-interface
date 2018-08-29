@@ -6,13 +6,14 @@
 
 Được viết bằng PHP và JavaScript. Dự án không sử dụng library khác như jQuery, Bootstrap,...
 
-- [Yêu cầu](##Yêu-cầu)
-- [Tính năng](##Tính-năng)
-- [Cài đặt](##Cài-đặt)
-- [Cấu hình](##Cấu-hình)
-  - [config.php](###config.php)
-  - [Tài khoản](###Tài-khoản)
-- [Cập nhật v0.2.0](###Thay-đổi-trong-v0.2.0)
+- [Yêu cầu](#Yêu-cầu)
+- [Tính năng](#Tính-năng)
+- [Cài đặt](#Cài-đặt)
+- [Cấu hình](#Cấu-hình)
+  - [config.php](##config.php)
+  - [Tài khoản](##Tài-khoản)
+- [Cập nhật v0.2.0](##Thay-đổi-trong-v0.2.0)
+  - [Cập nhật v0.2.1](##Thay-đổi-trong-v0.2.1)
 
 ## Yêu cầu
 - PHP/7 trở lên
