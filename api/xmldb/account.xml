@@ -55,9 +55,9 @@
    <Row ss:AutoFitHeight="0">
     <Cell ss:StyleID="s63"><Data ss:Type="String">admin</Data></Cell>
     <Cell ss:StyleID="s63"><Data ss:Type="String">admin</Data></Cell>
-    <Cell ss:StyleID="s63"><Data ss:Type="String">a</Data></Cell>
-    <Cell ss:StyleID="s63"><Data ss:Type="String">Th&#xED; sinh 1</Data></Cell>
-    <Cell ss:StyleID="s63"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s63"><Data ss:Type="String">0cc175b9c0f1b6a831c399e269772661</Data></Cell>
+    <Cell ss:StyleID="s63"><Data ss:Type="String">Admin</Data></Cell>
+    <Cell ss:StyleID="s63"><Data ss:Type="Number">2</Data></Cell>
     <Cell ss:StyleID="s63"/>
     <Cell ss:StyleID="s63"/>
     <Cell ss:StyleID="s63"/>

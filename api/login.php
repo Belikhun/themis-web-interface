@@ -14,10 +14,10 @@
         stop(9, "You are already logged in!", 403);
 
     if (!isset($_GET["u"]))
-        stop(1, "Missing GET parameter u.", 400);
+        stop(1, "Undefined GET parameter u.", 400);
 
     if (!isset($_GET["p"]))
-        stop(2, "Missing GET parameter p.", 400);
+        stop(2, "Undefined GET parameter p.", 400);
     
     $username = trim($_GET["u"]);
     $password = trim($_GET["p"]);
@@ -32,7 +32,9 @@
         $_SESSION["username"] = $username;
         $_SESSION["id"] = $udata["id"];
         $_SESSION["name"] = $udata["name"];
+        $_SESSION["api_token"] = bin2hex(random_bytes(64));
         stop(0, "Login Successfully.", 200, Array(
+            "token" => $_SESSION["api_token"],
             "redirect" => "/"
         ));
     }

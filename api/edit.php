@@ -15,29 +15,34 @@
         stop(9, "You are not logged in!", 403);
     $username = $_SESSION["username"];
 
+    if (!isset($_GET["t"]))
+        stop(14, "Undefined GET parameter t.");
+    if ($_GET["t"] !== $_SESSION["api_token"])
+        stop(27, "Wrong token!");
+
     if ($allowEditInfo == false)
         stop(25, "Editing info is not allowed!", 403);
 
     $change = Array();
 
-    if (isset($_GET["n"]))
-        $change["name"] = trim($_GET["n"]);
+    if (isset($_POST["n"]))
+        $change["name"] = trim($_POST["n"]);
 
     require_once "xmldb/account.php";
     $userdata = getuserdata($username);
 
-    if (isset($_GET["p"])) {
-        $oldpass = $_GET["p"];
+    if (isset($_POST["p"])) {
+        $oldpass = $_POST["p"];
         if ($oldpass != $userdata["password"] && md5($oldpass) != $userdata["password"])
             stop(4, "Wrong Password!", 403);
 
-        if (!isset($_GET["np"]))
-            stop(23, "Missing GET parameter np.", 400);
-        $newpass = trim($_GET["np"]);
+        if (!isset($_POST["np"]))
+            stop(23, "Undefined GET parameter np.", 400);
+        $newpass = trim($_POST["np"]);
 
-        if (!isset($_GET["rnp"]))
-            stop(23, "Missing GET parameter rnp.", 400);
-        $renewpass = trim($_GET["rnp"]);
+        if (!isset($_POST["rnp"]))
+            stop(23, "Undefined GET parameter rnp.", 400);
+        $renewpass = trim($_POST["rnp"]);
 
         if ($newpass != $renewpass)
             stop(24, "Parameter np and rnp must have the same value.", 400);

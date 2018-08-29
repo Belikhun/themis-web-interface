@@ -21,6 +21,11 @@
 	if (!islogedin())
 		stop(9, "Bạn chưa đăng nhập.", 403);
 
+	if (!isset($_GET["t"]))
+        stop(14, "Undefined GET parameter t.");
+    if ($_GET["t"] !== $_SESSION["api_token"])
+        stop(27, "Wrong token!");
+
 	$username = $_SESSION["username"];
 
 	$updir = glob($uploadDir ."/*.*");

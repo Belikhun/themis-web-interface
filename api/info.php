@@ -11,7 +11,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belipack.php";
 
     if (!isset($_GET["u"]))
-        stop(1, "Missing GET Parameter u.");
+        stop(1, "Undefined GET Parameter u.");
 
     $username = trim($_GET["u"]);
     require_once "xmldb/account.php";

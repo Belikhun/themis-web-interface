@@ -11,13 +11,16 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belipack.php";
 	require_once $_SERVER["DOCUMENT_ROOT"]."/config.php";
 
-    if (!islogedin()) {
+    if (!islogedin())
         stop(10, "Bạn chưa đăng nhập.", 403);
-    }
 
-    if (!isset($_FILES["file"])) {
+    if (!isset($_GET["t"]))
+        stop(14, "Undefined GET parameter t.");
+    if ($_GET["t"] !== $_SESSION["api_token"])
+        stop(27, "Wrong token!");
+
+    if (!isset($_FILES["file"]))
         stop(13, "Chưa chọn file!", 400);
-    }
 
     $t = $beginTime - time() + ($duringTime * 60);
 

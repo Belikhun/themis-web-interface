@@ -95,6 +95,12 @@ Hầu hết cấu hình đều có ở trong tệp ```config.php``` , bao gồm:
 
 Tài khoản được lưu trong tệp ```api/xmldb/account.xml``` và có thể chỉnh sửa bằng excel.
 
+## Thay đổi trong v0.2.1
+
+* API now require a token
+* Vá các lỗ hổng bảo mật:
+  * CSRF
+
 ## Thay đổi trong v0.2.0
 
 * Cho phép tải nhiều bài cùng lúc và hiện các bài đang trong hàng chờ

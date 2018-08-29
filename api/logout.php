@@ -14,6 +14,11 @@
     if (!islogedin())
         stop(10, "You Are Not Logged In!", 403);
 
+    if (!isset($_GET["t"]))
+        stop(14, "Undefined GET parameter t.");
+    if ($_GET["t"] !== $_SESSION["api_token"])
+        stop(27, "Wrong token!");
+
     // Unset all of the session variables
     $_SESSION = array();
     $_SESSION["username"] = null;

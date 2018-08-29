@@ -13,8 +13,13 @@
     if (!islogedin())
         stop(9, "Bạn chưa đăng nhập.", 403);
 
+    if (!isset($_GET["t"]))
+        stop(14, "Undefined GET parameter t.");
+    if ($_GET["t"] !== $_SESSION["api_token"])
+        stop(27, "Wrong token!");
+
     if (!isset($_GET["f"]))
-        stop(21, "Missing GET parameter f.", 400);
+        stop(21, "Undefined GET parameter f.", 400);
 
     $file = $_GET["f"];
     $file = str_replace("\"", "", $file);

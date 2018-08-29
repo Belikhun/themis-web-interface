@@ -4,11 +4,48 @@
 //|      This file is licensed under MIT license.      |
 //|====================================================|
 
-function getapi(url = null, method = "GET", callout = () => {}, file = null, onprogress = () => {}, error = function (res) {}){
-    var xhr = new XMLHttpRequest();
-    var fd = new FormData();
-    fd.append("file", file);
+function myajax(data = Array(), callout = function() {}, progress = function() {}, error = function() {}) {
+    // wont work
+    // for (var i = 0; i < data.length; i++)
+    //     var (Object.keys(data)[i]) = postdata[i];
+    if ("url" in data && "method" in data) {
+        var url = data.url;
+        var method = data.method;
+    } else
+        return false;
 
+    var get = Array();
+    var post = Array();
+    var file = null;
+
+    if ("get" in data) {
+        get = data.get;
+        get.length = Object.keys(get).length;
+    }
+    if ("post" in data) {
+        post = data.post;
+        post.length = Object.keys(post).length;
+    }
+
+    var xhr = new XMLHttpRequest();
+    var pd = new FormData();
+    if ("file" in data)
+        pd.append("file", data.file);
+
+    for (var i = 0; i < post.length; i++) {
+        kn = Object.keys(post)[i];
+        pd.append(kn, post[kn]);
+    }
+
+    for (var i = 0; i < get.length; i++) {
+        if (i == 0)
+            url += "?";
+        var kn = Object.keys(get)[i];
+        url += kn + "=" + get[kn];
+        if (i < get.length - 1)
+            url += "&";
+    }
+        
     xhr.addEventListener("readystatechange", function () {
         if (this.readyState === this.DONE) {
             try {
@@ -31,11 +68,11 @@ function getapi(url = null, method = "GET", callout = () => {}, file = null, onp
     });
 
     xhr.upload.addEventListener("progress", function (e) {
-        onprogress(e);
+        progress(e);
     }, false);
 
     xhr.open(method, url);
-    xhr.send(fd);
+    xhr.send(pd);
 }
 
 function fcfn(nodes, classname) {
@@ -173,6 +210,7 @@ core = {
     frankint: null,
 
     init: function () {
+        console.log("Core init...");
         document.getElementById("loader").classList.add("done");
         this.file.init();
         this.timer.init();
@@ -192,7 +230,13 @@ core = {
     },
 
     fetchlog: function (bypass = false) {
-        getapi("/api/test/logs", "GET", function (data) {
+        myajax({
+            url: "/api/test/logs",
+            method: "GET",
+            get: {
+                "t": API_TOKEN
+            }
+        }, function (data) {
             if (comparearray(data, core.plogdata) && !bypass)
                 return;
             console.log("update log");
@@ -251,7 +295,13 @@ core = {
     },
 
     fetchrank: function (bypass = false) {
-        getapi("/api/test/rank", "GET", function (data) {
+        myajax({
+            url: "/api/test/rank",
+            method: "GET",
+            get: {
+                "t": API_TOKEN
+            }
+        }, function (data) {
             if (comparearray(data, core.prankdata) && !bypass)
                 return;
             console.log("update rank");
@@ -265,7 +315,7 @@ core = {
                         "<th>Thí sinh</th>",
                         "<th>Tổng</th>",
             ].join("\n");
-            console.log(list.length);
+
             for (var i = 0; i < list.length; i++)
                 out += "<th>" + list[i] + "</th>\n";
             out += "</tr>\n";
@@ -301,8 +351,16 @@ core = {
     },
 
     viewlog(url) {
-        getapi(url, "GET", function(res) {
-            core.wrapper.show(url.split("/").pop().replace("getlog?f=", ""));
+        file = url.split("/").pop().replace("getlog?f=", "");
+        myajax({
+            url: "/api/test/getlog",
+            method: "GET",
+            get: {
+                "f": file,
+                "t": API_TOKEN
+            }
+        }, function(res) {
+            core.wrapper.show(file);
             var out = "<ul class=\"viewlog-container\">\n";
             for (var i = 0; i < res.length; i++) {
                 out += "<li>" + res[i] + "</li>\n";
@@ -390,13 +448,20 @@ core = {
             core.file.bar.style.width = "0%";
 
             setTimeout(() => {
-                getapi("/api/test/upload", "POST", function (d) {
+                myajax({
+                    url: "/api/test/upload",
+                    method: "POST",
+                    get: {
+                        "t": API_TOKEN,
+                    },
+                    file: files[i],
+                }, function (d) {
                     core.file.state.innerText = "Tải lên thành công! " + (i + 1) + "/" + files.length;
                     core.file.onUploadSuccess();
                     setTimeout(() => {
                         core.file.upload(files, i + 1);
                     }, core.file.uploadcooldown / 2);
-                }, files[i], function (e) {
+                }, function (e) {
                     core.file.size.innerText = e.loaded + "/" + e.total;
                     core.file.percent.innerText = ((e.loaded / e.total) * 100).toFixed(0) + "%";
                     core.file.bar.style.width = (e.loaded / e.total) * 100 + "%";
@@ -426,7 +491,13 @@ core = {
         },
 
         fetchtime: function(init = false) {
-            getapi("/api/test/timer", "GET", function(data) {
+            myajax({
+                url: "/api/test/timer",
+                method: "GET",
+                get: {
+                    "t": API_TOKEN
+                }
+            }, function(data) {
                 core.timer.timedata = data;
                 if (data.d == 0)
                     return;
@@ -569,7 +640,13 @@ core = {
         },
 
         logout: function() {
-            getapi("/api/logout", "GET", function() {
+            myajax({
+                url: "/api/logout",
+                method: "GET",
+                get: {
+                    "t": API_TOKEN
+                }
+            }, function() {
                 location.reload();
             })
         },
@@ -594,17 +671,37 @@ core = {
         },
         
         changename: function(name) {
-            getapi("/api/edit?n=" + name, "GET", function(res) {
+            myajax({
+                url: "/api/edit",
+                method: "POST",
+                get: {
+                    "t": API_TOKEN,
+                },
+                post: {
+                    "n": name
+                }
+            }, function(res) {
                 statbar.change(statbar.type.OK, "Thay đổi thông tin thành công!");
                 core.userpanel.reset();
                 core.userpanel.reload(res.name, 1);
-            }, null, () => {}, function (res) {
+            }, () => {}, function (res) {
                 core.userpanel.reset();
             });
         },
 
         changepass: function(pass, npass, renpass) {
-            getapi("/api/edit?p=" + pass + "&np=" + npass + "&rnp=" + renpass, "GET", function(res) {
+            myajax({
+                url: "/api/edit",
+                method: "POST",
+                get: {
+                    "t": API_TOKEN,
+                },
+                post: {
+                    "p": pass,
+                    "np": npass,
+                    "rnp": renpass
+                }
+            }, function(res) {
                 statbar.change(statbar.type.OK, "Thay đổi thông tin thành công!");
                 core.userpanel.reset();
             }, null, () => {}, function (res) {
@@ -626,10 +723,17 @@ core = {
         },
 
         avtupload: function(file) {
-            getapi("/api/avt/change", "POST", function (d) {
+            myajax({
+                url: "/api/avt/change",
+                method: "POST",
+                get: {
+                    "t": API_TOKEN,
+                },
+                file: file,
+            }, function (d) {
                 core.userpanel.reset();
                 core.userpanel.reload(d);
-            }, file, () => {}, function (res) {
+            }, () => {}, function (res) {
                 core.userpanel.reset();
             });
         },

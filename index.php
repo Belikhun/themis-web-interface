@@ -263,6 +263,9 @@
             gtag('config', 'UA-124598427-1');
         </script>
 
+        <script>
+            const API_TOKEN = "<?php echo $_SESSION["api_token"]; ?>";
+        </script>
 
     </body>
 
