@@ -4,33 +4,14 @@
 //|      This file is licensed under MIT license.      |
 //|====================================================|
 
-function myajax(data = Array(), callout = function() {}, progress = function() {}, error = function() {}) {
-    // wont work
-    // for (var i = 0; i < data.length; i++)
-    //     var (Object.keys(data)[i]) = postdata[i];
-    if ("url" in data && "method" in data) {
-        var url = data.url;
-        var method = data.method;
-    } else
-        return false;
-
-    var get = Array();
-    var post = Array();
-    var file = null;
-
-    if ("get" in data) {
-        get = data.get;
-        get.length = Object.keys(get).length;
-    }
-    if ("post" in data) {
-        post = data.post;
-        post.length = Object.keys(post).length;
-    }
+function myajax({url = "/", method = "GET", get = Array(), post = Array(), file = null}, callout = function() {}, progress = function() {}, error = function() {}) {
+    get.length = Object.keys(get).length;
+    post.length = Object.keys(post).length;
 
     var xhr = new XMLHttpRequest();
     var pd = new FormData();
-    if ("file" in data)
-        pd.append("file", data.file);
+    if (file)
+        pd.append("file", file);
 
     for (var i = 0; i < post.length; i++) {
         kn = Object.keys(post)[i];
