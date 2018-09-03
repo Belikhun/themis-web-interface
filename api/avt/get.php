@@ -27,7 +27,6 @@
         contenttype($ext);
         readfile($username. "." .$ext);
     } else {
-        http_response_code(404);
         contenttype("jpg");
         readfile("avt.default");
         exit();

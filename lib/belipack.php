@@ -139,6 +139,14 @@
         return $out;
     }
 
+    function arrayremblk($inp) {
+        $out = Array();
+        foreach($inp as $i => $v)
+            if (isset($v))
+                array_push($out, $v);
+        return $out;
+    }
+
     function pathspace($path) {
         $free = disk_free_space($path);
         $total = disk_total_space($path);

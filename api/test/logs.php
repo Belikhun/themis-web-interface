@@ -53,13 +53,14 @@
 	} else {
 		$lqfs = $_SESSION["logs-module"]["lastqueuesfiles"];
 		foreach($lqfs as $i => $item)
-			if (!file_exists($item))
+			if (!in_array($item, $queuefiles))
 				array_push($judging, Array(
 					"name" => getname($item),
 					"lastmodify" => date("d/m/Y H:i:s"),
 					"lastmtime" => time(),
 				));
-		
+
+		$judging = arrayremblk($judging);
 		$_SESSION["logs-module"]["lastqueuesfiles"] = $queuefiles;
 	}
 
@@ -83,9 +84,8 @@
 			copy($log, $logtmp);
 			$flog = fopen($logtmp, "r");
 
-			// TODO: This part is not working correctly
 			foreach ($judging as $i => $item)
-				if ($item["name"] === $name && $item["lastmtime"] < filemtime($log))
+				if ($item["name"] === $name && file_exists($log) && (int)$item["lastmtime"] < (int)filemtime($log))
 					unset($judging[$i]);
 
 			if ($publish == true) {
@@ -107,6 +107,7 @@
 			"name" => $name,
 			"out" => $out,
 			"lastmodify" => $lastm,
+			"lastmtime" => filemtime($log),
 			"url" => $url
 		));
 	}

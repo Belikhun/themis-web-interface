@@ -190,7 +190,7 @@ core = {
     flogint: null,
     frankint: null,
 
-    init: function () {
+    init() {
         console.log("Core init...");
         document.getElementById("loader").classList.add("done");
         this.file.init();
@@ -210,7 +210,7 @@ core = {
         core.frankint = setInterval(this.fetchrank, 2000);
     },
 
-    fetchlog: function (bypass = false) {
+    fetchlog(bypass = false) {
         myajax({
             url: "/api/test/logs",
             method: "GET",
@@ -220,7 +220,6 @@ core = {
         }, function (data) {
             if (comparearray(data, core.plogdata) && !bypass)
                 return;
-            console.log("update log");
 
             core.logpanel.main.innerHTML = "";
             out = "<ul class=\"log-item-container\">\n";
@@ -275,7 +274,7 @@ core = {
         })
     },
 
-    fetchrank: function (bypass = false) {
+    fetchrank(bypass = false) {
         myajax({
             url: "/api/test/rank",
             method: "GET",
@@ -285,7 +284,6 @@ core = {
         }, function (data) {
             if (comparearray(data, core.prankdata) && !bypass)
                 return;
-            console.log("update rank");
 
             core.rankpanel.main.innerHTML = "";
             var list = data.list;
@@ -360,9 +358,9 @@ core = {
         size: document.getElementById("file_size"),
         panel: new regPanel(document.getElementById("uploadp")),
         uploadcooldown: 1000,
-        onUploadSuccess: function() {},
+        onUploadSuccess() {},
 
-        init: function () {
+        init() {
             this.dropzone.addEventListener("dragenter", this.dragenter, false);
             this.dropzone.addEventListener("dragleave", this.dragleave, false);
             this.dropzone.addEventListener("dragover", this.dragover, false);
@@ -371,7 +369,7 @@ core = {
             this.panel.set.hide();
         },
 
-        reset: function () {
+        reset() {
             core.file.dropzone.classList.remove("hide");
             core.file.name.innerText = "null";
             core.file.state.innerText = "null";
@@ -380,7 +378,7 @@ core = {
             core.file.bar.style.width = "0%";
         },
 
-        filesel: function (e) {
+        filesel(e) {
             e.stopPropagation();
             e.preventDefault();
             this.classList.remove("drag");
@@ -397,26 +395,26 @@ core = {
             }, 1000);
         },
 
-        dragenter: function (e) {
+        dragenter(e) {
             e.stopPropagation();
             e.preventDefault();
             this.classList.add("drag");
         },
 
-        dragleave: function (e) {
+        dragleave(e) {
             e.stopPropagation();
             e.preventDefault();
             this.classList.remove("drag");
         },
 
-        dragover: function (e) {
+        dragover(e) {
             e.stopPropagation();
             e.preventDefault();
             e.dataTransfer.dropEffect = "copy";
             this.classList.add("drag");
         },
 
-        upload: function (files, i = 0) {
+        upload(files, i = 0) {
             if (i > files.length - 1) {
                 core.file.reset();
                 return;
@@ -465,13 +463,13 @@ core = {
         interval: null,
         last: 0,
 
-        init: function() {
+        init() {
             this.timepanel.set.hide();
             this.timepanel.ref.onclick(core.timer.fetchtime);
             this.fetchtime(true);
         },
 
-        fetchtime: function(init = false) {
+        fetchtime(init = false) {
             myajax({
                 url: "/api/test/timer",
                 method: "GET",
@@ -491,7 +489,7 @@ core = {
             });
         },
 
-        startinterval: function() {
+        startinterval() {
             core.timer.timeupdate();
             core.timer.interval = setInterval(() => {
                 core.timer.timedata.t--;
@@ -499,7 +497,7 @@ core = {
             }, 1000);
         },
 
-        reset: function() {
+        reset() {
             clearInterval(this.interval);
             this.time.classList.remove("red");
             this.time.classList.remove("green");
@@ -512,7 +510,7 @@ core = {
             core.timer.timedata.stage = 0;
         },
 
-        timeupdate: function() {
+        timeupdate() {
             if ((data = core.timer.timedata).t == 0)
                 switch (data.stage) {
                     case 1:
@@ -598,7 +596,7 @@ core = {
         logoutbtn: document.getElementById("userp_logout"),
         toggler: document.getElementById("upanel_toggler"),
 
-        init: function () {
+        init() {
             this.avtw.addEventListener("dragenter", this.dragenter, false);
             this.avtw.addEventListener("dragleave", this.dragleave, false);
             this.avtw.addEventListener("dragover", this.dragover, false);
@@ -620,7 +618,7 @@ core = {
             this.logoutbtn.addEventListener("click", this.logout);
         },
 
-        logout: function() {
+        logout() {
             myajax({
                 url: "/api/logout",
                 method: "GET",
@@ -632,7 +630,7 @@ core = {
             })
         },
 
-        reset: function () {
+        reset() {
             core.userpanel.avtw.classList.remove("drop");
             core.userpanel.avtw.classList.remove("load");
             core.userpanel.form.nameform.getElementsByTagName("button")[0].disabled = false;
@@ -643,7 +641,7 @@ core = {
             core.userpanel.form.renpass.value = null;
         },
 
-        reload: function(data, m = 0) {
+        reload(data, m = 0) {
             core.fetchrank(true);
             if (m == 0)
                 core.userpanel.uavt.src = core.userpanel.avt.src = data.src;
@@ -651,7 +649,7 @@ core = {
                 core.userpanel.uname.innerText = core.userpanel.name.innerText = data;
         },
         
-        changename: function(name) {
+        changename(name) {
             myajax({
                 url: "/api/edit",
                 method: "POST",
@@ -670,7 +668,7 @@ core = {
             });
         },
 
-        changepass: function(pass, npass, renpass) {
+        changepass(pass, npass, renpass) {
             myajax({
                 url: "/api/edit",
                 method: "POST",
@@ -690,7 +688,7 @@ core = {
             });
         },
 
-        filesel: function (e) {
+        filesel(e) {
             e.stopPropagation();
             e.preventDefault();
             this.classList.remove("drag");
@@ -703,7 +701,7 @@ core = {
             }, 1000);
         },
 
-        avtupload: function(file) {
+        avtupload(file) {
             myajax({
                 url: "/api/avt/change",
                 method: "POST",
@@ -719,19 +717,19 @@ core = {
             });
         },
 
-        dragenter: function (e) {
+        dragenter(e) {
             e.stopPropagation();
             e.preventDefault();
             this.classList.add("drag");
         },
 
-        dragleave: function (e) {
+        dragleave(e) {
             e.stopPropagation();
             e.preventDefault();
             this.classList.remove("drag");
         },
 
-        dragover: function (e) {
+        dragover(e) {
             e.stopPropagation();
             e.preventDefault();
             e.dataTransfer.dropEffect = "copy";
@@ -744,18 +742,18 @@ core = {
         wrapper: document.getElementById("wrapper"),
         panel: new regPanel(document.getElementById("wrapp")),
 
-        init: function() {
+        init() {
             this.panel.set.hide();
             this.panel.ref.hide();
             this.panel.clo.onclick(this.hide);
         },
 
-        show: function(title = "") {
+        show(title = "") {
             core.wrapper.wrapper.classList.add("show");
             core.wrapper.panel.title = title;
         },
 
-        hide: function() {
+        hide() {
             core.wrapper.wrapper.classList.remove("show");
         }
     }
