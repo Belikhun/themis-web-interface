@@ -99,7 +99,7 @@ Tài khoản được lưu trong tệp ```api/xmldb/account.xml``` và có thể
 
 ## Thay đổi trong v0.2.2
 
-* Xửa lỗi hiển thị tình trạng bài nộp không chính xác.
+* Sửa lỗi hiển thị tình trạng bài nộp không chính xác.
 
 ## Thay đổi trong v0.2.1
 
