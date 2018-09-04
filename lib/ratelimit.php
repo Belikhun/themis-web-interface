@@ -53,7 +53,7 @@
         stop(
             17,
             "NO SPAMMING IN THE HALL! ". $time ." seconds detention for you! You should know better.",
-            403,
+            429,
             Array(
                 "bantime" => $time,
                 "banstart" => $_SESSION["unban"] - $bantime,

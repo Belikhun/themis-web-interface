@@ -14,7 +14,7 @@
 		$n = null;
 		preg_match("/\]\[(.{1,})/", $str, $t);
 		if (count($t) != 0 && isset($t[count($t) - 1]))
-			$n = str_replace("]", "", str_replace("[", "", $t[count($t) - 1]));
+			$n = str_replace(".log", "", str_replace("]", "", str_replace("[", "", $t[count($t) - 1])));
 		return $n;
 	}
 	
@@ -22,9 +22,9 @@
 		stop(9, "Bạn chưa đăng nhập.", 403);
 
 	if (!isset($_GET["t"]))
-        stop(14, "Undefined GET parameter t.");
+        stop(14, "Token required.", 400);
     if ($_GET["t"] !== $_SESSION["api_token"])
-        stop(27, "Wrong token!");
+        stop(27, "Wrong token!", 403);
 
 	$username = $_SESSION["username"];
 
@@ -80,9 +80,7 @@
 			$out = "Đã chấm xong!";
 			$lastm = null;
 			$name = getname($log);
-			$logtmp = $log .".tmp";
-			copy($log, $logtmp);
-			$flog = fopen($logtmp, "r");
+			$flog = fopen($log, "r");
 
 			foreach ($judging as $i => $item)
 				if ($item["name"] === $name && file_exists($log) && (int)$item["lastmtime"] < (int)filemtime($log))
@@ -100,7 +98,6 @@
 				$name = str_replace(PHP_EOL, "", fgets($log));
 			}
 			fclose($flog);
-			unlink($logtmp);
 		}
 
 		array_push($logres, Array(

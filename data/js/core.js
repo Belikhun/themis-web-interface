@@ -93,7 +93,7 @@ function parsetime(secs = 0) {
 function escape_html(str) {
 
     if ((str === null) || (str === ""))
-        return false;
+        return "";
     else
         str = str.toString();
 
@@ -278,9 +278,6 @@ core = {
         myajax({
             url: "/api/test/rank",
             method: "GET",
-            get: {
-                "t": API_TOKEN
-            }
         }, function (data) {
             if (comparearray(data, core.prankdata) && !bypass)
                 return;

@@ -14,9 +14,9 @@
         stop(9, "Bạn chưa đăng nhập.", 403);
 
     if (!isset($_GET["t"]))
-        stop(14, "Undefined GET parameter t.");
+        stop(14, "Token required.", 400);
     if ($_GET["t"] !== $_SESSION["api_token"])
-        stop(27, "Wrong token!");
+        stop(27, "Wrong token!", 403);
 
     if (!isset($_GET["f"]))
         stop(21, "Undefined GET parameter f.", 400);

@@ -14,10 +14,10 @@
     if (!islogedin())
         stop(10, "Bạn chưa đăng nhập.", 403);
 
-    if (!isset($_GET["t"]))
-        stop(14, "Undefined GET parameter t.");
+        if (!isset($_GET["t"]))
+        stop(14, "Token required.", 400);
     if ($_GET["t"] !== $_SESSION["api_token"])
-        stop(27, "Wrong token!");
+        stop(27, "Wrong token!", 403);
 
     if (!isset($_FILES["file"]))
         stop(13, "Chưa chọn file!", 400);
@@ -53,7 +53,7 @@
                 "max" => $maxfilesize
             ));
         } else {
-            stop(15, "Không chấp nhận tệp!", 400);
+            stop(15, "Không chấp nhận tệp!", 415);
         }
     }
 
