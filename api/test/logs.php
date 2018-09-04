@@ -12,7 +12,7 @@
 
 	function getname(string $str) {
 		$n = null;
-		preg_match("/(\[\w{1,}\]\.[a-zA-Z1-9]{1,})/", $str, $t);
+		preg_match("/\]\[(.{1,})/", $str, $t);
 		if (count($t) != 0 && isset($t[count($t) - 1]))
 			$n = str_replace("]", "", str_replace("[", "", $t[count($t) - 1]));
 		return $n;

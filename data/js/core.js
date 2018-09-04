@@ -342,7 +342,7 @@ core = {
             core.wrapper.show(file);
             var out = "<ul class=\"viewlog-container\">\n";
             for (var i = 0; i < res.length; i++) {
-                out += "<li>" + res[i] + "</li>\n";
+                out += "<li>" + escape_html(res[i]) + "</li>\n";
             }
             out += "</ul>";
             core.wrapper.panel.main.innerHTML = out;

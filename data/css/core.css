@@ -236,8 +236,6 @@ panel .main {
     }
 }
 
-/*style for log*/
-
 ul.log-item-container {
     position: relative;
     width: 100%;
@@ -625,14 +623,14 @@ td {
     text-align: left;
     max-width: 100%;
     counter-increment: viewlog-line;
-    margin: 2px 10px 2px 50px;
+    margin: 4px 10px 4px 50px;
     padding: 0 10px;
-    height: 20px;
     box-sizing: border-box;
     border-left: 1px solid rgba(82, 82, 82, 0.3);
     color: rgb(95, 95, 95);
     font-family: "Consolas";
     font-weight: bold;
+    white-space: pre-wrap;
 }
 
 .viewlog-container li:hover {

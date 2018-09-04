@@ -10,11 +10,12 @@
 - [Tính năng](#Tính-năng)
 - [Cài đặt](#Cài-đặt)
 - [Cấu hình](#Cấu-hình)
-  - [config.php](##config.php)
-  - [Tài khoản](##Tài-khoản)
-- [Cập nhật v0.2.0](##Thay-đổi-trong-v0.2.0)
-  - [Cập nhật v0.2.1](##Thay-đổi-trong-v0.2.1)
-  - [Cập nhật v0.2.2](##Thay-đổi-trong-v0.2.2)
+  - [config.php](#config.php)
+  - [Tài khoản](#Tài-khoản)
+- [Cập nhật v0.2.0](#Thay-đổi-trong-v0.2.0)
+  - [Cập nhật v0.2.1](#Thay-đổi-trong-v0.2.1)
+  - [Cập nhật v0.2.2](#Thay-đổi-trong-v0.2.2)
+  - [Cập nhật v0.2.3](#Thay-đổi-trong-v0.2.3)
 
 ## Yêu cầu
 - PHP/7 trở lên
@@ -97,16 +98,6 @@ Hầu hết cấu hình đều có ở trong tệp ```config.php``` , bao gồm:
 
 Tài khoản được lưu trong tệp ```api/xmldb/account.xml``` và có thể chỉnh sửa bằng excel.
 
-## Thay đổi trong v0.2.2
-
-* Sửa lỗi hiển thị tình trạng bài nộp không chính xác.
-
-## Thay đổi trong v0.2.1
-
-* API now require a token
-* Vá các lỗ hổng bảo mật:
-  * CSRF
-
 ## Thay đổi trong v0.2.0
 
 * Cho phép tải nhiều bài cùng lúc và hiện các bài đang trong hàng chờ
@@ -119,6 +110,21 @@ Tài khoản được lưu trong tệp ```api/xmldb/account.xml``` và có thể
   * XSS
   * LFI/RFI
   * Slowloris DoS
+
+### Thay đổi trong v0.2.1
+
+* API now require a token
+* Vá các lỗ hổng bảo mật:
+  * CSRF
+
+### Thay đổi trong v0.2.2
+
+* Sửa lỗi hiển thị tình trạng bài nộp không chính xác.
+
+### Thay đổi trong v0.2.3
+
+* Sửa một số lỗi.
+
 
 ## Todo
 
