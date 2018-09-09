@@ -651,6 +651,14 @@ td {
     color: #3196da;
 }
 
+.cpanel-container {
+    position: relative;
+    width: 100%;
+    height: calc(100% - 4px);
+    border: unset;
+    overflow: hidden;
+}
+
 footer {
     position: relative;
     background-color: #222222;

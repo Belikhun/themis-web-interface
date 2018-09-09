@@ -7,16 +7,14 @@
 
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belipack.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/config.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
 
     if (!islogedin())
         stop(9, "Bạn chưa đăng nhập.", 403);
 
-    if (!isset($_GET["t"]))
-        stop(14, "Token required.", 400);
-    if ($_GET["t"] !== $_SESSION["api_token"])
-        stop(27, "Wrong token!", 403);
+    if ($config["viewlog"] == false)
+        stop(25, "Xem nhật ký đã bị vô hiệu hóa!", 403);
 
     if (!isset($_GET["f"]))
         stop(21, "Undefined GET parameter f.", 400);
@@ -27,12 +25,12 @@
 
     $username = $_SESSION["username"];
 
-    if (!(strpos($file, "[". $username ."]") > 0) || $publish == false)
+    if (!(strpos($file, "[". $username ."]") > 0))
         stop(8, "Lỗi không xác định...", 400);
 
     $line = Array();
     
-    $logf = fopen($logsDir ."/". $file, "r");
+    $logf = fopen($config["logdir"] ."/". $file, "r");
     while (($l = fgets($logf)) !== false)
         array_push($line, str_replace(PHP_EOL, "", $l));
 

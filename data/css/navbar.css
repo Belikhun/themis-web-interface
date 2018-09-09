@@ -294,6 +294,7 @@
     text-align: right;
     font-size: 12px;
     padding: 4px 0 4px 10px;
+    margin: 4px 0;
     border-radius: 6px;
     user-select: none;
     color: rgb(160, 160, 160);
@@ -307,6 +308,14 @@
 
 .nav .profile .footer .container .logout::before {
     content: "\f2f5";
+    font-family: "Font Awesome 5 Free";
+    font-size: 18px;
+    font-weight: 600;
+    padding-right: 8px;
+}
+
+.nav .profile .footer .container .setting::before {
+    content: "\f013";
     font-family: "Font Awesome 5 Free";
     font-size: 18px;
     font-weight: 600;

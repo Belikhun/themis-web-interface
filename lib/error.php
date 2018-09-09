@@ -129,13 +129,6 @@
         </p>
 
         <button class="btn gray" onclick="location.href = '/'">Về Trang Chủ</button>
-        <br>
-        <button class="btn" onclick="location.href = '/phpmyadmin'">phpmyadmin</button>
-        <br>
-        <button class="btn yellow" onclick="location.href = '/dev/audiostream'">audiostream (indev)</button>
-        <br>
-        <button class="btn red" onclick="location.href = '/phim'">phim (indev)</button>
-        
 
     </div>
 

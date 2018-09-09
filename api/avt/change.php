@@ -7,24 +7,24 @@
 
     // Include config file
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belipack.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/config.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
 
     $maxfilesize = 2097152;
 
     if (!islogedin())
         stop(10, "You Are Not Logged In!", 403);
 
-    if (!isset($_GET["t"]))
+    if (!isset($_POST["t"]))
         stop(14, "Token required.", 400);
-    if ($_GET["t"] !== $_SESSION["api_token"])
+    if ($_POST["t"] !== $_SESSION["api_token"])
         stop(27, "Wrong token!", 403);
 
-    if ($allowEditInfo == false)
-        stop(25, "Editing info is not allowed!", 403);
+    if ($config["editinfo"] == false)
+        stop(25, "Thay đổi thông tin đã bị vô hiệu hóa!", 403);
     
     if (!isset($_FILES["file"]))
-        stop(13, "No File", 403);
+        stop(13, "Chưa chọn tệp!", 400);
 
     $file = $_FILES["file"]["name"];
     $acceptext = array("jpg", "png", "gif", "webp");
@@ -46,14 +46,14 @@
         }
     } else {
         if (!$_FILES["file"]["name"]) {
-            stop(13, "No File Choosen.", 400);
+            stop(13, "Chưa chọn tệp!", 400);
         } else if (($_FILES["file"]["size"] > $maxfilesize))  {
-            stop(14, "File Too Large!", 400, Array(
+            stop(14, "Tệp quá lớn!", 400, Array(
                 "this" => $_FILES["file"]["size"],
                 "max" => $maxfilesize
             ));
         } else {
-            stop(15, "Only Accept png, jpg, webp and gif image!", 400);
+            stop(15, "Chỉ chấp nhận ảnh png, jpg, webp hoặc gif!", 400);
         }
     }
 

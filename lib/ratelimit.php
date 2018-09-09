@@ -5,7 +5,7 @@
     //|      This file is licensed under MIT license.      |
     //|====================================================|
 
-    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belipack.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
 
     $maxrequest = 6;
     $perseconds = 1;

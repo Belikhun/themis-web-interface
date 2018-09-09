@@ -1,0 +1,100 @@
+/* 
+|====================================================|
+|                     input.css                      |
+|            Copyright (c) 2018 Belikhun.            |
+|      This file is licensed under MIT license.      |
+|====================================================|
+*/
+
+.formgroup {
+    position: relative;
+    padding: 15px 0 0;
+    margin-top: 8px;
+}
+
+.formgroup .formfield {
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid rgba(224, 224, 224, 0.4);
+    outline: 0;
+    font-family: "Segoe UI", sans-serif;
+    font-size: 14px;
+    color: #cecece;
+    user-select: none;
+    padding: 6px 0 7px 0;
+    background: transparent;
+    transition: border-color 0.5s;
+}
+
+.formgroup .formfield::placeholder {
+    color: transparent;
+}
+
+.formgroup .formfield:placeholder-shown~.formlabel {
+    font-size: 11px;
+    cursor: text;
+    top: 24px;
+}
+
+.formgroup label,
+.formgroup .formfield:focus~.formlabel {
+    position: absolute;
+    top: 4px;
+    display: block;
+    transition: 0.3s;
+    font-size: 9px;
+    font-family: "Segoe UI", sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #72767d;
+    user-select: none;
+}
+
+.formgroup .formfield:focus~.formlabel {
+    color: #b9bbbe;
+}
+
+.formgroup .formfield:focus {
+    padding: 6px 0;
+    border-bottom: 2px solid rgba(224, 224, 224, 0.8);
+}
+
+/* Dark Color */
+
+.formgroup.dark .formfield {
+    border-bottom: 1px solid rgba(39, 39, 39, 0.4);
+    color: #424242;
+}
+
+.formgroup.dark label,
+.formgroup.dark .formfield:focus~.formlabel {
+    color: #b1b3b8;
+}
+
+.formgroup.dark .formfield:focus~.formlabel {
+    color: #5f5f62;
+}
+
+.formgroup.dark .formfield:focus {
+    border-bottom: 2px solid rgba(39, 39, 39, 0.8);
+}
+
+/* Blue */
+
+.formgroup.blue .formfield {
+    border-bottom: 1px solid rgba(39, 39, 39, 0.4);
+    color: #424242;
+}
+
+.formgroup.blue label,
+.formgroup.blue .formfield:focus~.formlabel {
+    color: #b1b3b8;
+}
+
+.formgroup.blue .formfield:focus~.formlabel {
+    color: #4285f4;
+}
+
+.formgroup.blue .formfield:focus {
+    border-bottom: 2px solid #4285f4;
+}

@@ -4,112 +4,6 @@
 //|      This file is licensed under MIT license.      |
 //|====================================================|
 
-function myajax({url = "/", method = "GET", get = Array(), post = Array(), file = null}, callout = function() {}, progress = function() {}, error = function() {}) {
-    get.length = Object.keys(get).length;
-    post.length = Object.keys(post).length;
-
-    var xhr = new XMLHttpRequest();
-    var pd = new FormData();
-    if (file)
-        pd.append("file", file);
-
-    for (var i = 0; i < post.length; i++) {
-        kn = Object.keys(post)[i];
-        pd.append(kn, post[kn]);
-    }
-
-    for (var i = 0; i < get.length; i++) {
-        if (i == 0)
-            url += "?";
-        var kn = Object.keys(get)[i];
-        url += kn + "=" + get[kn];
-        if (i < get.length - 1)
-            url += "&";
-    }
-        
-    xhr.addEventListener("readystatechange", function () {
-        if (this.readyState === this.DONE) {
-            try {
-                var res = JSON.parse(this.responseText);
-            } catch (e) {
-                statbar.change(statbar.type.ERROR, e, false);
-                error(e);
-                return;
-            }
-
-            if (this.status != 200 || res.code != 0) {
-                statbar.change(statbar.type.ERROR,
-                    "[" + res.code + "] " + this.status + " " + this.statusText + " >> " + res.description,
-                false);
-                error(res);
-            } else {
-                callout(res.data);
-            }
-        }
-    });
-
-    xhr.upload.addEventListener("progress", function (e) {
-        progress(e);
-    }, false);
-
-    xhr.open(method, url);
-    xhr.send(pd);
-}
-
-function fcfn(nodes, classname) {
-    for (var i = 0; i < nodes.length; i++)
-        if (nodes[i].className && nodes[i].classList.contains(classname))
-            return nodes[i];
-}
-
-function comparearray(arr1, arr2) {
-    if (JSON.stringify(arr1) == JSON.stringify(arr2))
-        return true;
-    return false;
-}
-
-function parsetime(secs = 0) {
-    var d = "";
-    if (secs < 0) {
-        secs = -secs;
-        d = "-";
-    }
-    var sec_num = parseInt(secs, 10)    
-    var hours   = Math.floor(sec_num / 3600) % 24
-    var minutes = Math.floor(sec_num / 60) % 60
-    var seconds = sec_num % 60
-    
-    return {
-        "h": hours,
-        "m": minutes,
-        "s": seconds,
-        "str": d + [hours,minutes,seconds]
-        .map(v => v < 10 ? "0" + v : v)
-        .filter((v,i) => v !== "00" || i > 0)
-        .join(":")
-    }
-};
-
-function escape_html(str) {
-
-    if ((str === null) || (str === ""))
-        return "";
-    else
-        str = str.toString();
-
-    var map = {
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        "\"": "&quot;",
-        "\'": "&#039;"
-    };
-
-    return str.replace(/[&<>"']/g, function (m) {
-        return map[m];
-    });
-}
-
 class regPanel {
     constructor(elem) {
         if (elem.tagName != "PANEL")
@@ -183,8 +77,8 @@ class regPanel {
 }
 
 core = {
-    logpanel: new regPanel(document.getElementById("logp")),
-    rankpanel: new regPanel(document.getElementById("rankp")),
+    logpanel: new regPanel($("#logp")),
+    rankpanel: new regPanel($("#rankp")),
     plogdata: new Array(),
     prankdata: new Array(),
     flogint: null,
@@ -192,7 +86,7 @@ core = {
 
     init() {
         console.log("Core init...");
-        document.getElementById("loader").classList.add("done");
+        $("#loader").classList.add("done");
         this.file.init();
         this.timer.init();
         this.userpanel.init();
@@ -214,9 +108,6 @@ core = {
         myajax({
             url: "/api/test/logs",
             method: "GET",
-            get: {
-                "t": API_TOKEN
-            }
         }, function (data) {
             if (comparearray(data, core.plogdata) && !bypass)
                 return;
@@ -331,9 +222,8 @@ core = {
         myajax({
             url: "/api/test/getlog",
             method: "GET",
-            get: {
-                "f": file,
-                "t": API_TOKEN
+            query: {
+                "f": file
             }
         }, function(res) {
             core.wrapper.show(file);
@@ -346,14 +236,20 @@ core = {
         });
     },
 
+    showcp() {
+        core.userpanel.toggler.classList.remove("showupanel");
+        core.wrapper.show("Admin CPanel");
+        core.wrapper.panel.main.innerHTML = "<iframe class=\"cpanel-container\" src=\"config.php\"></iframe>"
+    },
+
     file: {
-        dropzone: document.getElementById("file_dropzone"),
-        state: document.getElementById("file_upstate"),
-        name: document.getElementById("file_name"),
-        bar: document.getElementById("file_bar"),
-        percent: document.getElementById("file_perc"),
-        size: document.getElementById("file_size"),
-        panel: new regPanel(document.getElementById("uploadp")),
+        dropzone: $("#file_dropzone"),
+        state: $("#file_upstate"),
+        name: $("#file_name"),
+        bar: $("#file_bar"),
+        percent: $("#file_perc"),
+        size: $("#file_size"),
+        panel: new regPanel($("#uploadp")),
         uploadcooldown: 1000,
         onUploadSuccess() {},
 
@@ -427,7 +323,7 @@ core = {
                 myajax({
                     url: "/api/test/upload",
                     method: "POST",
-                    get: {
+                    form: {
                         "t": API_TOKEN,
                     },
                     file: files[i],
@@ -450,12 +346,12 @@ core = {
     },
 
     timer: {
-        timepanel: new regPanel(document.getElementById("timep")),
-        state: document.getElementById("time_state"),
-        time: document.getElementById("time_time"),
-        bar: document.getElementById("time_bar"),
-        start: document.getElementById("time_start"),
-        end: document.getElementById("time_end"),
+        timepanel: new regPanel($("#timep")),
+        state: $("#time_state"),
+        time: $("#time_time"),
+        bar: $("#time_bar"),
+        start: $("#time_start"),
+        end: $("#time_end"),
         timedata: Array(),
         interval: null,
         last: 0,
@@ -470,15 +366,12 @@ core = {
             myajax({
                 url: "/api/test/timer",
                 method: "GET",
-                get: {
-                    "t": API_TOKEN
-                }
             }, function(data) {
                 core.timer.timedata = data;
                 if (data.d == 0)
                     return;
                 if (init) {
-                    document.getElementById("timep").classList.add("show");
+                    $("#timep").classList.add("show");
                     core.timer.last = 0;
                     clearInterval(core.timer.interval);
                     core.timer.startinterval();
@@ -576,22 +469,22 @@ core = {
     },
 
     userpanel: {
-        uname: document.getElementById("user_name"),
-        uavt: document.getElementById("user_avt"),
-        avt: document.getElementById("userp_avt"),
-        avtw: document.getElementById("userp_avtw"),
-        name: document.getElementById("userp_name"),
-        tag: document.getElementById("userp_tag"),
+        uname: $("#user_name"),
+        uavt: $("#user_avt"),
+        avt: $("#userp_avt"),
+        avtw: $("#userp_avtw"),
+        name: $("#userp_name"),
+        tag: $("#userp_tag"),
         form: {
-            nameform: document.getElementById("userp_edit_name_form"),
-            passform: document.getElementById("userp_edit_pass_form"),
-            name: document.getElementById("userp_edit_name"),
-            pass: document.getElementById("userp_edit_pass"),
-            npass: document.getElementById("userp_edit_npass"),
-            renpass: document.getElementById("userp_edit_renpass"),
+            nameform: $("#userp_edit_name_form"),
+            passform: $("#userp_edit_pass_form"),
+            name: $("#userp_edit_name"),
+            pass: $("#userp_edit_pass"),
+            npass: $("#userp_edit_npass"),
+            renpass: $("#userp_edit_renpass"),
         },
-        logoutbtn: document.getElementById("userp_logout"),
-        toggler: document.getElementById("upanel_toggler"),
+        logoutbtn: $("#userp_logout"),
+        toggler: $("#upanel_toggler"),
 
         init() {
             this.avtw.addEventListener("dragenter", this.dragenter, false);
@@ -618,8 +511,8 @@ core = {
         logout() {
             myajax({
                 url: "/api/logout",
-                method: "GET",
-                get: {
+                method: "POST",
+                form: {
                     "t": API_TOKEN
                 }
             }, function() {
@@ -650,11 +543,9 @@ core = {
             myajax({
                 url: "/api/edit",
                 method: "POST",
-                get: {
-                    "t": API_TOKEN,
-                },
-                post: {
-                    "n": name
+                form: {
+                    "n": name,
+                    "t": API_TOKEN
                 }
             }, function(res) {
                 statbar.change(statbar.type.OK, "Thay đổi thông tin thành công!");
@@ -669,18 +560,16 @@ core = {
             myajax({
                 url: "/api/edit",
                 method: "POST",
-                get: {
-                    "t": API_TOKEN,
-                },
-                post: {
+                form: {
                     "p": pass,
                     "np": npass,
-                    "rnp": renpass
+                    "rnp": renpass,
+                    "t": API_TOKEN
                 }
             }, function(res) {
                 statbar.change(statbar.type.OK, "Thay đổi thông tin thành công!");
                 core.userpanel.reset();
-            }, null, () => {}, function (res) {
+            }, () => {}, function (res) {
                 core.userpanel.reset();
             });
         },
@@ -702,7 +591,7 @@ core = {
             myajax({
                 url: "/api/avt/change",
                 method: "POST",
-                get: {
+                form: {
                     "t": API_TOKEN,
                 },
                 file: file,
@@ -736,8 +625,8 @@ core = {
     },
 
     wrapper: {
-        wrapper: document.getElementById("wrapper"),
-        panel: new regPanel(document.getElementById("wrapp")),
+        wrapper: $("#wrapper"),
+        panel: new regPanel($("#wrapp")),
 
         init() {
             this.panel.set.hide();

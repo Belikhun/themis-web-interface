@@ -7,7 +7,7 @@
 
     // Include config file
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belipack.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
     
     if (!isset($_GET["u"])) {
         contenttype("jpg");

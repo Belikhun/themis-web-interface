@@ -6,11 +6,11 @@
     //|====================================================|
 
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ecatch.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belipack.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/config.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/api/xmldb/account.php";
     header("Cache-Control: max-age=0, must-revalidate", true);
-    define("VERSION", "0.0.2");
+    define("VERSION", "0.3.0-release");
 
     if (!islogedin()) {
         require "login.php";
@@ -38,7 +38,7 @@
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/loader.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/navbar.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/input-light.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/input.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/spinner.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/statbar.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/scrollbar.css" />
@@ -62,20 +62,20 @@
                 <img class="icon" src="/data/img/icon.png" />
                 <ul class="title">
                     <li class="main text-overflow">
-                        <?php echo $contestName; ?>
+                        <?php print $config["contest"]["name"]; ?>
                     </li>
                     <li class="sub text-overflow">
-                        <?php echo $description; ?>
+                        <?php print $config["contest"]["description"]; ?>
                     </li>
                 </ul>
             </span>
             <span id="upanel_toggler" class="rnav">
                 <ul class="info">
                     <li class="tag">
-                        <?php echo $username ."#". $id; ?>
+                        <?php print $username ."#". $id; ?>
                     </li>
                     <li id="user_name" class="name">
-                        <?php echo htmlspecialchars($name); ?>
+                        <?php print htmlspecialchars($name); ?>
                     </li>
                 </ul>
                 <img id="user_avt" class="avatar" src="/api/avt/get?u=<?php echo $username; ?>" />
@@ -94,8 +94,8 @@
                             </div>
                         </div>
                     </div>
-                    <t id="userp_name" class="name text-overflow"><?php echo htmlspecialchars($name); ?></t>
-                    <t id="userp_tag" class="tag"><?php echo $username ."#". $id; ?></t>
+                    <t id="userp_name" class="name text-overflow"><?php print htmlspecialchars($name); ?></t>
+                    <t id="userp_tag" class="tag"><?php print $username ."#". $id; ?></t>
                 </div>
                 <div class="body">
                     <t class="title">Đổi tên</t>
@@ -125,6 +125,9 @@
                 </div>
                 <div class="footer">
                     <ul class="container">
+                        <?php if(getuserdata($_SESSION["username"])["id"] == "admin") { ?>
+                            <li id="userp_setting" class="setting" onclick="core.showcp();">Cài đặt</li>
+                        <?php } ?>
                         <li id="userp_logout" class="logout">Đăng xuất</li>
                     </ul>
                 </div>
@@ -251,6 +254,7 @@
         </div>
 
         <script src="/data/js/statbar.js" type="text/javascript"></script>
+        <script src="/data/js/belibrary.js" type="text/javascript"></script>
         <script src="/data/js/core.js" type="text/javascript"></script>
 
         <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -264,7 +268,7 @@
         </script>
 
         <script>
-            const API_TOKEN = "<?php echo $_SESSION["api_token"]; ?>";
+            const API_TOKEN = "<?php print $_SESSION["api_token"]; ?>";
         </script>
 
     </body>

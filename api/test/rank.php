@@ -7,11 +7,11 @@
 
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belipack.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/api/xmldb/account.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/config.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
 
-    $logdir = glob($logsDir ."/*.log");
+    $logdir = glob($config["logdir"] ."/*.log");
     $res = Array();
     $namelist = Array();
 
@@ -28,7 +28,7 @@
         if (count($t) != 0 && isset($t[count($t) - 1]))
             $point = (float)str_replace(",", ".", $t[count($t) - 1]);
 
-        if ($publish == true) {
+        if ($config["publish"] == true) {
             $namelist[$i] = $name;
             $res[$user]["list"][$name] = $point;
         }
@@ -40,7 +40,7 @@
         $res[$user]["total"] += $point;
     }
 
-    if ($publish == true) {
+    if ($config["publish"] == true) {
         $nlr = arrayremdub($namelist);
         $namelist = ((count($nlr) > 0) ? $nlr : Array());
     }

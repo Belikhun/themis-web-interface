@@ -6,19 +6,19 @@
 
 login = {
     form: {
-        container: document.getElementById("form_container"),
+        container: $("#form_container"),
         username: {
-            container: document.getElementById("form_username"),
-            input: document.getElementById("form_username_input"),
-            submit: document.getElementById("form_username_submit"),
-            message: document.getElementById("form_message"),
+            container: $("#form_username"),
+            input: $("#form_username_input"),
+            submit: $("#form_username_submit"),
+            message: $("#form_message"),
         },
         password: {
-            container: document.getElementById("form_password"),
-            avatar: document.getElementById("form_avatar"),
-            user: document.getElementById("form_user"),
-            input: document.getElementById("form_password_input"),
-            submit: document.getElementById("form_password_submit")
+            container: $("#form_password"),
+            avatar: $("#form_avatar"),
+            user: $("#form_user"),
+            input: $("#form_password_input"),
+            submit: $("#form_password_submit")
         }
     },
 
@@ -38,18 +38,20 @@ login = {
         login.form.password.input.disabled = true;
         login.form.password.submit.disabled = true;
         setTimeout(() => {
-            login.login(login.form.username.input.value, login.form.password.input.value, function(data) {
-                window.location.href = data.redirect;
-            }, function(ise, res, t) {
-                if (ise) {
-                    login.reset();
-                    login.form.username.message.innerText = res;
-                } else {
-                    login.reset();
-                    login.form.username.message.innerText = res.description;
+            myajax({
+                "url": "/api/login",
+                "method": "POST",
+                "form": {
+                    "u": login.form.username.input.value,
+                    "p": login.form.password.input.value
                 }
-            })
-        }, 1000);
+            }, function(data) {
+                window.location.href = data.redirect;
+            }, () => {}, function(e) {
+                login.reset();
+                login.form.username.message.innerText = e.description;
+            }, true)
+        }, 500);
     },
 
     checkusername: function() {
@@ -60,42 +62,18 @@ login = {
         }
         login.form.username.input.disabled = true;
         login.form.username.submit.disabled = true;
-        setTimeout(() => {
+        login.form.password.avatar.onload = () => {
             login.showpassinp(val);
-        }, 1000);
+        };
+        login.form.password.avatar.src = "/api/avt/get?u=" + val;
     },
 
     showpassinp: function (username) {
-        console.log(username);
         login.form.username.container.classList.add("hide");
-        login.form.password.avatar.src = "/api/avt/get?u=" + username;
         login.form.password.user.innerText = username;
         login.form.password.input.disabled = false;
         login.form.password.input.focus();
         login.form.password.submit.disabled = false;
-    },
-
-    login: function (username, password, callout = () => {}, error = () => {}) {
-        var xhr = new XMLHttpRequest();
-
-        xhr.addEventListener("readystatechange", function () {
-            if (this.readyState === this.DONE) {
-                try {
-                    var res = JSON.parse(this.responseText);
-                } catch (e) {
-                    error(true, e);
-                    return;
-                }
-
-                if (this.status != 200 || res.code != 0)
-                    error(false, res, this);
-                else
-                    callout(res.data);
-            }
-        });
-
-        xhr.open("GET", "/api/login?u=" + username + "&p=" + password, true);
-        xhr.send();
     },
 
     reset: function () {

@@ -73,6 +73,18 @@
     background-color: #ddb619;
 }
 
+.btn.blue {
+    background-color: #4285f4;
+}
+
+.btn.blue:hover {
+    background-color: #5694f6;
+}
+
+.btn.blue:active {
+    background-color: #2d76eb;
+}
+
 .btn:disabled {
     background-color: #3b4249;
     color: rgb(119, 119, 119);

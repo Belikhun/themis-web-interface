@@ -8,20 +8,20 @@
     // Include config file
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belipack.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/config.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
 
     if (!islogedin())
         stop(9, "You are not logged in!", 403);
     $username = $_SESSION["username"];
 
-    if (!isset($_GET["t"]))
+    if (!isset($_POST["t"]))
         stop(14, "Token required.", 400);
-    if ($_GET["t"] !== $_SESSION["api_token"])
+    if ($_POST["t"] !== $_SESSION["api_token"])
         stop(27, "Wrong token!", 403);
 
-    if ($allowEditInfo == false)
-        stop(25, "Editing info is not allowed!", 403);
+    if ($config["editinfo"] == false)
+        stop(25, "Thay đổi thông tin đã bị vô hiệu hóa!", 403);
 
     $change = Array();
 
@@ -37,24 +37,24 @@
             stop(4, "Wrong Password!", 403);
 
         if (!isset($_POST["np"]))
-            stop(23, "Undefined GET parameter np.", 400);
+            stop(23, "Undefined POST parameter np.", 400);
         $newpass = trim($_POST["np"]);
 
         if (!isset($_POST["rnp"]))
-            stop(23, "Undefined GET parameter rnp.", 400);
+            stop(23, "Undefined POST parameter rnp.", 400);
         $renewpass = trim($_POST["rnp"]);
 
         if ($newpass != $renewpass)
-            stop(24, "Parameter np and rnp must have the same value.", 400);
+            stop(24, "np and rnp does not match.", 400);
 
         $change["password"] = md5($newpass);
         $change["repass"] = $userdata["repass"] + 1;
     }
 
     if (!isset($change["name"]) && !isset($change["password"]))
-        stop(0, "No Action Taken.", 200);
+        stop(30, "No Action Taken.", 200);
 
     if (edituser($username, $change) == USER_EDIT_SUCCESS)
         stop(0, "Success!", 200, $change);
     else
-        stop(0, "Edit Failed.", 500);
+        stop(12, "Edit Failed.", 500);

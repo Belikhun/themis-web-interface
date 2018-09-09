@@ -9,14 +9,14 @@
     // Include config file
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belipack.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
     
     if (!islogedin())
         stop(10, "You Are Not Logged In!", 403);
 
-    if (!isset($_GET["t"]))
+    if (!isset($_POST["t"]))
         stop(14, "Token required.", 400);
-    if ($_GET["t"] !== $_SESSION["api_token"])
+    if ($_POST["t"] !== $_SESSION["api_token"])
         stop(27, "Wrong token!", 403);
 
     // Unset all of the session variables

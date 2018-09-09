@@ -7,8 +7,11 @@
 
 	require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belipack.php";
-	require_once $_SERVER["DOCUMENT_ROOT"]."/config.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
+	require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
+	
+	if (!islogedin())
+		stop(9, "Bạn chưa đăng nhập.", 403);
 
 	function getname(string $str) {
 		$n = null;
@@ -17,18 +20,10 @@
 			$n = str_replace(".log", "", str_replace("]", "", str_replace("[", "", $t[count($t) - 1])));
 		return $n;
 	}
-	
-	if (!islogedin())
-		stop(9, "Bạn chưa đăng nhập.", 403);
-
-	if (!isset($_GET["t"]))
-        stop(14, "Token required.", 400);
-    if ($_GET["t"] !== $_SESSION["api_token"])
-        stop(27, "Wrong token!", 403);
 
 	$username = $_SESSION["username"];
 
-	$updir = glob($uploadDir ."/*.*");
+	$updir = glob($config["uploaddir"] ."/*.*");
 	$queues = Array();
 	$queuefiles = Array();
 
@@ -64,16 +59,16 @@
 		$_SESSION["logs-module"]["lastqueuesfiles"] = $queuefiles;
 	}
 
-	$logdir = glob($logsDir ."/*.log");
+	$logdir = glob($config["logdir"] ."/*.log");
 	$logres = Array();
 
 	foreach($logdir as $log) {
 		if (!strpos($log, "[". $username ."]") > 0)
 			continue;
 
-		$url = "#";
+		$url = null;
 
-		if ($publish == true)
+		if ($config["viewlog"] == true)
 			$url = "/api/test/getlog?f=" . basename($log);
 
 		if (strpos(strtolower($log), ".log") > 0) {
@@ -86,7 +81,7 @@
 				if ($item["name"] === $name && file_exists($log) && (int)$item["lastmtime"] < (int)filemtime($log))
 					unset($judging[$i]);
 
-			if ($publish == true) {
+			if ($config["publish"] == true) {
 				$lastm = date("d/m/Y H:i:s", filemtime($log));
 				$out = str_replace(PHP_EOL, "", fgets($flog));
 				$out = substr($out, strlen($username) + strlen(pathinfo($name, PATHINFO_FILENAME)) + 8);
@@ -94,8 +89,8 @@
 				if (count($t) != 0 && isset($t[count($t) - 1]))
 					$out = $t[count($t) - 1];
 			} else {
-				fgets($log);
-				$name = str_replace(PHP_EOL, "", fgets($log));
+				fgets($flog);
+				$name = str_replace(PHP_EOL, "", fgets($flog));
 			}
 			fclose($flog);
 		}
