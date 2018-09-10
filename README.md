@@ -6,6 +6,7 @@
 
 Được viết bằng HTML, CSS, PHP và JavaScript. Dự án không sử dụng library khác như jQuery, Bootstrap,...
 
+- [Demo](#demo)
 - [Yêu cầu](#yêu-cầu)
 - [Tính năng](#yính-năng)
 - [Cài đặt](#cài-đặt)
@@ -19,6 +20,20 @@
   - [Cập nhật v0.2.3](#thay-đổi-trong-v023)
 - [API Document](#api-document)
 - [Ảnh chụp màn hình](#screenshot)
+
+## Demo
+* Link: [000webhost](https://tweb-demo.000webhostapp.com/)
+* Tài khoản:
+
+| id    | username | password |
+|-------|----------|----------|
+| admin | admin    |   admin  |
+| 1     | user1    | 123456   |
+| 2     | user2    | 123456   |
+
+* Lưu ý:
+  - Chức năng thay đổi mật khẩu và thay đổi thư mục upload đã tắt.
+  - Bài nộp lên sẽ không được Themis chấm.
 
 ## Yêu cầu
 - PHP/7 trở lên
