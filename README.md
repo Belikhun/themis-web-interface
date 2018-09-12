@@ -181,5 +181,6 @@ Coming soon...
 
 ## Todo
 
+- [ ] Redesign user panel
 - [ ] Clean code
 - [ ] Tìm và vá các lỗ hổng bào mật (?)
