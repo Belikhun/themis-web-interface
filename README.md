@@ -13,14 +13,14 @@
 - [Cấu hình](#cấu-hình)
   - [config.php](#config.php)
   - [Tài khoản](#tài-khoản)
+- [API Document](#api-document)
+- [Ảnh chụp màn hình](#screenshot)
 - [Cập nhật v0.3.1](#thay-đổi-trong-v031)
   - [Cập nhật v0.3.0](#thay-đổi-trong-v030)
   - [Cập nhật v0.2.3](#thay-đổi-trong-v023)
   - [Cập nhật v0.2.2](#thay-đổi-trong-v022)
   - [Cập nhật v0.2.1](#thay-đổi-trong-v021)
   - [Cập nhật v0.2.0](#thay-đổi-trong-v020)
-- [API Document](#api-document)
-- [Ảnh chụp màn hình](#screenshot)
 
 ## Demo
 * Link: [000webhost](https://tweb-demo.000webhostapp.com/)
@@ -132,10 +132,34 @@ Cấu hình được lưu tại tệp ```data/config.json```, bao gồm:
 
 Dữ liệu tài khoản được lưu tại ```api/xmldb/account.xml```. Có thể sử dụng các trình soạn thảo như Excel để chỉnh sửa.
 
-## Thay đổi trong v0.3.1
+## API Document
 
-* Sửa hiệu ứng ở trang đăng nhập
+API giúp bạn có thể giao tiếp với hệ thống mà không cần phải sử dụng trang web nộp bài. Nhờ API mà bạn có thể xây dựng một chương trình chạy phía client trong trường hợp trang web nộp bài không hoạt động.
+
+Hiện tại chưa có document dành cho api.
+
+## Screenshot
+
+<p align="center"><img src="https://lh3.googleusercontent.com/6oJb7OJ3Ess9PhQzbKF1hNyt2Pf1gftCo2NEC-WG4qQFpVDno2oPP_druUg73IPZCKQ6ZS21PkF2rrcgC-78LIpzcwQDmO37e4fyT1FUAMiufRbUIRkpYEyoGc0s4OeijZzUhFkA-A=w2400"></p>
+
+<p align="center"><img src="https://lh3.googleusercontent.com/0qI_1fJ24CgWRDGC9nHKBCZZQG5PjekiYWf95DK5O_goP1vy-RVUk5AH48ORMYBEs7F62R4nlyatDlBx7a5p5u2ioCIAQQu7mtGhmlLNRTmn9ziPCdkNQdF8NuzAzhlj9a3WO8oUcQ=w2400"></p>
+
+<p align="center"><img  src="https://lh3.googleusercontent.com/V01itVgLIwZ5G3rm4LIMq806p-saWwyaBKXY74kbTNOqW3txo4K1hZ1klPSysCFqWm7xch7_hfvZCk6PiHx8NREytyb9Q51hFSSSR26dX0AqjOgleRs56iJ5eT52Q25NwC-j3h8wsw=w2400"></p>
+
+<p align="center"><img  src="https://lh3.googleusercontent.com/_QIWVoc3GY1M-ZgXO-FFgUo0RKwEtMkYP8syCKJzJvVjkygWgfLSMlm2OrhRXN9hNJmfJdezU8Kb2xOgiu99LLu5ohH7fb7ZltjnBsCSG5yz8QrCxMr6S6dwCNtYuUZVLHXaIWMhtA=w2400"></p>
+
+<p align="center"><img  src="https://lh3.googleusercontent.com/mjse5RHXz8G5GLPA-zIKY1WUSq5PuEXj0vnozRFFzvktMn8ziky--FJf4Kk0dLrbIVdb711kye7yDcwcCsofZxG9LWJ3EIssdJ8zSoqVgkrtSjx3VUNDWxfJN4JhtHxPXOrTYz8MDA=w2400"></p>
+
+<p align="center"><img  src="https://lh3.googleusercontent.com/P0eY3CqreDbQCZTwofOG45FvG0U5fuZmnHWeXfeJnGXloHwnGeg2WTwSl00OOdhVOszs6cgxbLAwUBuLLTHau4cYoFlocUk17qAo2J8WP3uKNJqvfHDopY56Yqs-nHPCrwCGsyz-WQ=w2400"></p>
+
+<p align="center"><img  src="https://lh3.googleusercontent.com/EVndQX11gR5D7v1pAcOFDXLDixPevqahUBCYsi3DwDqGU4xNQ0O7PZN1vkuHbk31XpxVEdlsyGV1Tvxr3DMKCwLG5HebbJmagP9G2mNDWUd_rNIVw9aMvPpagTWZTFoJ1TLq5ecOAQ=w2400"></p>
+
+### Thay đổi trong v0.3.1
+
 * Thiết kế lại user profile
+* Sửa lỗi hiển thị sai thời gian khi số giây vượt quá 86400
+* Sửa lại hiệu ứng trang đăng nhập
+* Sửa lỗi hiển thị trang chính và trang đăng nhập trên điện thoại
 
 ### Thay đổi trong v0.3.0
 
@@ -166,28 +190,6 @@ Dữ liệu tài khoản được lưu tại ```api/xmldb/account.xml```. Có th
   * XSS
   * LFI/RFI
   * Slowloris DoS
-
-## API Document
-
-API giúp bạn có thể giao tiếp với hệ thống mà không cần phải sử dụng trang web nộp bài. Nhờ API mà bạn có thể xây dựng một chương trình chạy phía client trong trường hợp trang web nộp bài không hoạt động.
-
-Hiện tại chưa có document dành cho api.
-
-## Screenshot
-
-<p align="center"><img src="https://lh3.googleusercontent.com/6oJb7OJ3Ess9PhQzbKF1hNyt2Pf1gftCo2NEC-WG4qQFpVDno2oPP_druUg73IPZCKQ6ZS21PkF2rrcgC-78LIpzcwQDmO37e4fyT1FUAMiufRbUIRkpYEyoGc0s4OeijZzUhFkA-A=w2400"></p>
-
-<p align="center"><img src="https://lh3.googleusercontent.com/0qI_1fJ24CgWRDGC9nHKBCZZQG5PjekiYWf95DK5O_goP1vy-RVUk5AH48ORMYBEs7F62R4nlyatDlBx7a5p5u2ioCIAQQu7mtGhmlLNRTmn9ziPCdkNQdF8NuzAzhlj9a3WO8oUcQ=w2400"></p>
-
-<p align="center"><img  src="https://lh3.googleusercontent.com/V01itVgLIwZ5G3rm4LIMq806p-saWwyaBKXY74kbTNOqW3txo4K1hZ1klPSysCFqWm7xch7_hfvZCk6PiHx8NREytyb9Q51hFSSSR26dX0AqjOgleRs56iJ5eT52Q25NwC-j3h8wsw=w2400"></p>
-
-<p align="center"><img  src="https://lh3.googleusercontent.com/_QIWVoc3GY1M-ZgXO-FFgUo0RKwEtMkYP8syCKJzJvVjkygWgfLSMlm2OrhRXN9hNJmfJdezU8Kb2xOgiu99LLu5ohH7fb7ZltjnBsCSG5yz8QrCxMr6S6dwCNtYuUZVLHXaIWMhtA=w2400"></p>
-
-<p align="center"><img  src="https://lh3.googleusercontent.com/mjse5RHXz8G5GLPA-zIKY1WUSq5PuEXj0vnozRFFzvktMn8ziky--FJf4Kk0dLrbIVdb711kye7yDcwcCsofZxG9LWJ3EIssdJ8zSoqVgkrtSjx3VUNDWxfJN4JhtHxPXOrTYz8MDA=w2400"></p>
-
-<p align="center"><img  src="https://lh3.googleusercontent.com/P0eY3CqreDbQCZTwofOG45FvG0U5fuZmnHWeXfeJnGXloHwnGeg2WTwSl00OOdhVOszs6cgxbLAwUBuLLTHau4cYoFlocUk17qAo2J8WP3uKNJqvfHDopY56Yqs-nHPCrwCGsyz-WQ=w2400"></p>
-
-<p align="center"><img  src="https://lh3.googleusercontent.com/EVndQX11gR5D7v1pAcOFDXLDixPevqahUBCYsi3DwDqGU4xNQ0O7PZN1vkuHbk31XpxVEdlsyGV1Tvxr3DMKCwLG5HebbJmagP9G2mNDWUd_rNIVw9aMvPpagTWZTFoJ1TLq5ecOAQ=w2400"></p>
 
 ## Todo
 

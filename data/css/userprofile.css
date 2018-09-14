@@ -7,7 +7,7 @@
 */
 
 #user_profile {
-    position: absolute;
+    position: fixed;
     width: 260px;
     top: 58px;
     right: 0px;

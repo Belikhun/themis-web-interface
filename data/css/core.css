@@ -11,6 +11,8 @@ body {
     font-family: "Segoe UI", Calibri, Geneva, Verdana, sans-serif;
     margin: unset;
     overflow: hidden;
+    width: 100vw;
+    height: 100vh;
 }
 
 a {
