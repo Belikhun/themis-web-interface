@@ -7,9 +7,10 @@
 */
 
 body {
-    background-color: #ebebeb;
+    background-color: #666666;
     font-family: "Segoe UI", Calibri, Geneva, Verdana, sans-serif;
     margin: unset;
+    overflow: hidden;
 }
 
 a {
@@ -26,13 +27,9 @@ t {
     position: relative;
     font-size: 14px;
     font-weight: normal;
-    font-style: none;
+    font-style: normal;
     color: rgb(29, 29, 29);
     word-wrap: break-word;
-}
-
-#container.showstatus {
-    top: 40px;
 }
 
 #status {
@@ -46,15 +43,29 @@ input:-webkit-autofill {
 }
 
 body #container {
-    position: absolute;
-    width: 100%;
-    top: 0px;
-    bottom: 0px;
-    padding-top: 60px;
+    position: relative;
+    display: block;
+    width: 100vw;
+    height: calc(100vh - 58px);
+    top: 58px;
+    background-color: #ebebeb;
     box-sizing: border-box;
-    -webkit-transition: top 1s cubic-bezier(0.06, 0.81, 0, 0.98);
-    -o-transition: top 1s cubic-bezier(0.06, 0.81, 0, 0.98);
-    transition: top 1s cubic-bezier(0.06, 0.81, 0, 0.98);
+    overflow: auto;
+    transition:
+        transform 0.4s ease,
+        filter 0.4s ease,
+        top 1s cubic-bezier(0.06, 0.81, 0, 0.98);
+}
+
+body #container .content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+#container.showstatus {
+    height: calc(100vh - 98px);
+    top: 98px;
 }
 
 panel {
@@ -625,11 +636,13 @@ td {
     counter-increment: viewlog-line;
     margin: 4px 10px 4px 50px;
     padding: 0 10px;
+    min-height: 20px;
     box-sizing: border-box;
     border-left: 1px solid rgba(82, 82, 82, 0.3);
     color: rgb(95, 95, 95);
     font-family: "Consolas";
     font-weight: bold;
+    font-size: 17px;
     white-space: pre-wrap;
 }
 
@@ -644,11 +657,11 @@ td {
     text-align: right;
     padding: 0 10px 0 30px;
     margin-right: 10px;
-    color: rgb(160, 160, 160);
+    color: rgb(192, 192, 192);
 }
 
 .viewlog-container li:hover::before {
-    color: #3196da;
+    color: #2984c0;
 }
 
 .cpanel-container {

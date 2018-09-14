@@ -109,6 +109,7 @@ $("#form-container").addEventListener("submit", e => {
         }
     }, res => {
         statbar.change(statbar.type.OK, "Thay đổi cài đặt thành công.");
+        update();
         statbar.hide(3000);
     })
 }, false)

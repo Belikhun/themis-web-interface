@@ -17,7 +17,7 @@
         stop(25, "Xem nhật ký đã bị vô hiệu hóa!", 403);
 
     if (!isset($_GET["f"]))
-        stop(21, "Undefined GET parameter f.", 400);
+        stop(21, "Chưa xác định giá trị f.", 400);
 
     $file = $_GET["f"];
     $file = str_replace("\"", "", $file);
@@ -34,5 +34,5 @@
     while (($l = fgets($logf)) !== false)
         array_push($line, str_replace(PHP_EOL, "", $l));
 
-    stop(0, "Success!", 200, $line);
+    stop(0, "Thành công!", 200, $line);
 ?>

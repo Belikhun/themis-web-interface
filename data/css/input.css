@@ -17,7 +17,7 @@
     border: 0;
     border-bottom: 1px solid rgba(224, 224, 224, 0.4);
     outline: 0;
-    font-family: "Segoe UI", sans-serif;
+    font-family: "Calibri", "Segoe UI", sans-serif;
     font-size: 14px;
     color: #cecece;
     user-select: none;
@@ -31,7 +31,7 @@
 }
 
 .formgroup .formfield:placeholder-shown~.formlabel {
-    font-size: 11px;
+    font-size: 13px;
     cursor: text;
     top: 24px;
 }
@@ -42,8 +42,8 @@
     top: 4px;
     display: block;
     transition: 0.3s;
-    font-size: 9px;
-    font-family: "Segoe UI", sans-serif;
+    font-size: 10px;
+    font-family: "Calibri", "Segoe UI", sans-serif;
     font-weight: 700;
     text-transform: uppercase;
     color: #72767d;

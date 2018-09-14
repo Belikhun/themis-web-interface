@@ -79,6 +79,7 @@ class regPanel {
 core = {
     logpanel: new regPanel($("#logp")),
     rankpanel: new regPanel($("#rankp")),
+    container: $("#container"),
     plogdata: new Array(),
     prankdata: new Array(),
     flogint: null,
@@ -89,7 +90,7 @@ core = {
         $("#loader").classList.add("done");
         this.file.init();
         this.timer.init();
-        this.userpanel.init();
+        this.userprofile.init();
         this.wrapper.init();
         this.fetchlog();
         this.fetchrank();
@@ -237,7 +238,7 @@ core = {
     },
 
     showcp() {
-        core.userpanel.toggler.classList.remove("showupanel");
+        core.userprofile.toggler.classList.remove("showupanel");
         core.wrapper.show("Admin CPanel");
         core.wrapper.panel.main.innerHTML = "<iframe class=\"cpanel-container\" src=\"config.php\"></iframe>"
     },
@@ -415,7 +416,6 @@ core = {
                         core.timer.timedata.stage = 4;
                         break;
                     default:
-                        console.warn("sth went wrong");
                         core.timer.reset();
                         break;
                 }
@@ -468,16 +468,18 @@ core = {
         }
     },
 
-    userpanel: {
+    userprofile: {
         uname: $("#user_name"),
         uavt: $("#user_avt"),
         avt: $("#userp_avt"),
         avtw: $("#userp_avtw"),
         name: $("#userp_name"),
         tag: $("#userp_tag"),
-        form: {
+        body: {
             nameform: $("#userp_edit_name_form"),
             passform: $("#userp_edit_pass_form"),
+            namepanel: null,
+            passpanel: null,
             name: $("#userp_edit_name"),
             pass: $("#userp_edit_pass"),
             npass: $("#userp_edit_npass"),
@@ -485,24 +487,76 @@ core = {
         },
         logoutbtn: $("#userp_logout"),
         toggler: $("#upanel_toggler"),
+        userprofile: $("#user_profile"),
+
+        panel: class {
+            constructor(elem) {
+                if (!elem.classList.contains("panel"))
+                    return false;
+        
+                this.elem = elem;
+                this.etitle = fcfn(elem.childNodes, "title");
+                this.container = $("#userp_right_panel");
+                this.lpanel = $("#userp_left_panel");
+
+                var _this = this;
+                this.etitle.addEventListener("click", () => {
+                    _this.close();
+                })
+            }
+        
+            close() {
+                this.elem.classList.remove("show");
+                this.container.classList.remove("show");
+                this.lpanel.classList.remove("hide");
+            }
+
+            show() {
+                this.elem.classList.add("show");
+                this.container.classList.add("show");
+                this.lpanel.classList.add("hide");
+            }
+
+            toggle() {
+                this.elem.classList.toggle("show");
+                this.container.classList.toggle("show");
+                this.lpanel.classList.toggle("hide");
+            }
+
+            set toggler(e) {
+                var _this = this;
+                e.addEventListener("click", () => {
+                    _this.elem.classList.toggle("show");
+                    _this.container.classList.toggle("show");
+                    _this.lpanel.classList.toggle("hide");
+                });
+            }
+        
+            set title(str = "") {
+                this.etitle.innerText = str;
+            }
+        },
 
         init() {
             this.avtw.addEventListener("dragenter", this.dragenter, false);
             this.avtw.addEventListener("dragleave", this.dragleave, false);
             this.avtw.addEventListener("dragover", this.dragover, false);
             this.avtw.addEventListener("drop", this.filesel, false);
-            this.toggler.addEventListener("click", function() {
-                this.classList.toggle("showupanel");
-            }, false);
+            this.toggler.addEventListener("click", this.toggle, false);
 
-            this.form.nameform.addEventListener("submit", function() {
+            this.body.namepanel = new this.panel($("#userp_edit_name_panel"));
+            this.body.passpanel = new this.panel($("#userp_edit_pass_panel"));
+            this.body.namepanel.toggler = $("#userp_edit_name_toggler");
+            this.body.passpanel.toggler = $("#userp_edit_pass_toggler");
+
+            this.body.nameform.addEventListener("submit", function() {
                 this.getElementsByTagName("button")[0].disabled = true;
-                core.userpanel.changename(core.userpanel.form.name.value);
+                core.userprofile.changename(core.userprofile.body.name.value);
             }, false)
 
-            this.form.passform.addEventListener("submit", function() {
+            this.body.passform.addEventListener("submit", function() {
                 this.getElementsByTagName("button")[0].disabled = true;
-                core.userpanel.changepass(core.userpanel.form.pass.value, core.userpanel.form.npass.value, core.userpanel.form.renpass.value);
+                core.userprofile.changepass(core.userprofile.body.pass.value, core.userprofile.body.npass.value, core.userprofile.body.renpass.value);
             }, false)
 
             this.logoutbtn.addEventListener("click", this.logout);
@@ -520,23 +574,28 @@ core = {
             })
         },
 
+        toggle() {
+            core.userprofile.toggler.classList.toggle("active");
+            core.userprofile.userprofile.classList.toggle("show");
+        },
+
         reset() {
-            core.userpanel.avtw.classList.remove("drop");
-            core.userpanel.avtw.classList.remove("load");
-            core.userpanel.form.nameform.getElementsByTagName("button")[0].disabled = false;
-            core.userpanel.form.passform.getElementsByTagName("button")[0].disabled = false;
-            core.userpanel.form.name.value = null;
-            core.userpanel.form.pass.value = null;
-            core.userpanel.form.npass.value = null;
-            core.userpanel.form.renpass.value = null;
+            core.userprofile.avtw.classList.remove("drop");
+            core.userprofile.avtw.classList.remove("load");
+            core.userprofile.body.nameform.getElementsByTagName("button")[0].disabled = false;
+            core.userprofile.body.passform.getElementsByTagName("button")[0].disabled = false;
+            core.userprofile.body.name.value = null;
+            core.userprofile.body.pass.value = null;
+            core.userprofile.body.npass.value = null;
+            core.userprofile.body.renpass.value = null;
         },
 
         reload(data, m = 0) {
             core.fetchrank(true);
             if (m == 0)
-                core.userpanel.uavt.src = core.userpanel.avt.src = data.src;
+                core.userprofile.uavt.src = core.userprofile.avt.src = data.src;
             else
-                core.userpanel.uname.innerText = core.userpanel.name.innerText = data;
+                core.userprofile.uname.innerText = core.userprofile.name.innerText = data;
         },
         
         changename(name) {
@@ -549,10 +608,10 @@ core = {
                 }
             }, function(res) {
                 statbar.change(statbar.type.OK, "Thay đổi thông tin thành công!");
-                core.userpanel.reset();
-                core.userpanel.reload(res.name, 1);
+                core.userprofile.reset();
+                core.userprofile.reload(res.name, 1);
             }, () => {}, function (res) {
-                core.userpanel.reset();
+                core.userprofile.reset();
             });
         },
 
@@ -568,9 +627,9 @@ core = {
                 }
             }, function(res) {
                 statbar.change(statbar.type.OK, "Thay đổi thông tin thành công!");
-                core.userpanel.reset();
+                core.userprofile.reset();
             }, () => {}, function (res) {
-                core.userpanel.reset();
+                core.userprofile.reset();
             });
         },
 
@@ -583,7 +642,7 @@ core = {
 
             this.classList.add("load");
             setTimeout(() => {
-                core.userpanel.avtupload(file);
+                core.userprofile.avtupload(file);
             }, 1000);
         },
 
@@ -596,10 +655,10 @@ core = {
                 },
                 file: file,
             }, function (d) {
-                core.userpanel.reset();
-                core.userpanel.reload(d);
+                core.userprofile.reset();
+                core.userprofile.reload(d);
             }, () => {}, function (res) {
-                core.userpanel.reset();
+                core.userprofile.reset();
             });
         },
 

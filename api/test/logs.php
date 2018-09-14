@@ -106,7 +106,7 @@
 
 	$_SESSION["logs-module"]["judging"] = $judging;
 
-	stop(0, "Success!", 200, Array(
+	stop(0, "Thành công!", 200, Array(
 		"queues" => $queues,
 		"judging" => $judging,
 		"logs" => $logres,

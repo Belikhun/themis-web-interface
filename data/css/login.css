@@ -34,7 +34,7 @@ t {
     position: relative;
     font-size: 14px;
     font-weight: normal;
-    font-style: none;
+    font-style: normal;
     word-wrap: break-word;
     color: rgb(63, 63, 63);
 }
@@ -63,9 +63,27 @@ t {
     position: absolute;
     bottom: 20px;
     left: 30px;
-    max-width: calc(100% - 100px);
-    font-size: 13px;
-    color: rgb(231, 231, 231);
+    max-width: 55%;
+    margin: unset;
+    padding: unset;
+}
+
+.left-panel .footer .title {
+    font-weight: 400;
+    font-size: 23px;
+    word-spacing: 1px;
+    color: #fff;
+}
+
+.left-panel .footer .sub {
+    font-size: 11px;
+    color: #fff;
+}
+
+.left-panel .footer .sub2 {
+    padding-top: 10px;
+    font-size: 10px;
+    color: rgb(189, 189, 189);
 }
 
 .right-panel {
@@ -124,19 +142,14 @@ t {
 }
 
 .right-panel .center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: calc(100% - 160px);
-    overflow-x: hidden;
-    overflow-y: auto;
+    position: relative;
+    height: calc(100% - 100px);
     box-sizing: border-box;
-    padding: 80px 40px 40px 40px;
-    transform: translate(-50%, -50%);
+    padding: 80px 20px 20px 20px;
 }
 
 .right-panel .center .title {
+    position: relative;
     font-size: 18px;
     font-weight: 300;
     color: #494949;
@@ -145,7 +158,13 @@ t {
 }
 
 .right-panel .center #form_container {
-    margin-top: 20px;
+    position: relative;
+    width: 100%;
+    padding-top: 20px;
+    box-sizing: border-box;
+    height: calc(100% - 34px);
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .right-panel .center #form_container div button {
@@ -165,28 +184,38 @@ t {
 .right-panel .center #form_container #form_username,
 .right-panel .center #form_container #form_password {
     position: absolute;
-    width: calc(100% - 80px);
-    transition: transform 0.2s cubic-bezier(0.06, 0.81, 0, 0.98);
+    display: inline-block;
+    width: 100%;
+    transition: transform 0.4s ease;
 }
 
 .right-panel .center #form_container #form_password {
-    transform: translateX(calc(100% + 80px));
+    right: -100%;
 }
 
-.right-panel .center #form_container #form_username.hide {
-    transform: translateX(calc(-100% - 80px));
-}
-
+.right-panel .center #form_container #form_username.hide,
 .right-panel .center #form_container #form_username.hide + #form_password {
-    transform: unset;
+    transform: translateX(-100%);
 }
 
-.right-panel .center #form_container #form_password .profile {
+.right-panel .center #form_container #form_password #form_profile {
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
-.right-panel .center #form_container #form_password .profile #form_avatar {
+.right-panel .center #form_container #form_password #form_profile::before {
+    content: "\f104";
+    font-family: "Font Awesome 5 Free";
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    min-width: 18px;
+    min-height: 18px;
+    padding-right: 10px;
+}
+
+.right-panel .center #form_container #form_password #form_profile #form_avatar {
     width: 44px;
     height: 44px;
     border-radius: 50%;

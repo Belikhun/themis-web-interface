@@ -15,12 +15,12 @@
         stop(10, "Bạn chưa đăng nhập.", 403);
 
     if (!isset($_POST["t"]))
-        stop(14, "Token required.", 400);
+        stop(14, "Yêu cầu token.", 400);
     if ($_POST["t"] !== $_SESSION["api_token"])
-        stop(27, "Wrong token!", 403);
+        stop(27, "Sai token!", 403);
 
     if ($config["submit"] == false)
-        stop(10, "Submit đã bị vô hiệu hóa!", 403);
+        stop(10, "Nộp bài đã bị vô hiệu hóa!", 403);
 
     if (!isset($_FILES["file"]))
         stop(13, "Chưa chọn file!", 400);

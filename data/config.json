@@ -10,11 +10,11 @@
             "seconds": 0,
             "minutes": 0,
             "hours": 12,
-            "days": 9,
+            "days": 14,
             "months": 9,
             "years": 2018
         },
-        "during": 0,
+        "during": 120,
         "offset": 30
     },
     "publish": true,

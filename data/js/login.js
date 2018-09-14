@@ -19,19 +19,22 @@ login = {
             user: $("#form_user"),
             input: $("#form_password_input"),
             submit: $("#form_password_submit")
-        }
+        },
+        profile: $("#form_profile")
     },
 
     init: function () {
-        this.form.username.input.focus();
         this.form.username.submit.addEventListener("click", this.checkusername);
-        this.form.username.input.addEventListener("keyup", function(e) {
-            e.preventDefault();
-            if (event.keyCode === 13) {
+        this.form.username.input.addEventListener("keyup", (e) => {
+            if (event.keyCode == 13 || event.keyCode == 9) {
                 login.checkusername();
             }
         });
         this.form.container.addEventListener("submit", this.submit, false);
+        this.form.profile.addEventListener("click", () => {this.reset(true)});
+        this.form.username.input.disabled = false;
+        this.form.username.submit.disabled = false;
+        this.form.username.input.focus();
     },
 
     submit: function () {
@@ -68,17 +71,20 @@ login = {
         login.form.password.avatar.src = "/api/avt/get?u=" + val;
     },
 
-    showpassinp: function (username) {
+    showpassinp: function(username) {
         login.form.username.container.classList.add("hide");
         login.form.password.user.innerText = username;
         login.form.password.input.disabled = false;
-        login.form.password.input.focus();
         login.form.password.submit.disabled = false;
+        setTimeout(() => {
+            login.form.password.input.focus();
+        }, 400);
     },
 
-    reset: function () {
+    reset: function(keepusername = false) {
         login.form.username.container.classList.remove("hide");
-        login.form.username.input.value = "";
+        if (!keepusername)
+            login.form.username.input.value = "";
         login.form.username.message.innerText = "";
         login.form.username.input.disabled = false;
         login.form.username.submit.disabled = false;

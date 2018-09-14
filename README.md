@@ -13,11 +13,12 @@
 - [Cấu hình](#cấu-hình)
   - [config.php](#config.php)
   - [Tài khoản](#tài-khoản)
-- [Cập nhật v0.3.0](#thay-đổi-trong-v030)
-- [Cập nhật v0.2.0](#thay-đổi-trong-v020)
-  - [Cập nhật v0.2.1](#thay-đổi-trong-v021)
-  - [Cập nhật v0.2.2](#thay-đổi-trong-v022)
+- [Cập nhật v0.3.1](#thay-đổi-trong-v031)
+  - [Cập nhật v0.3.0](#thay-đổi-trong-v030)
   - [Cập nhật v0.2.3](#thay-đổi-trong-v023)
+  - [Cập nhật v0.2.2](#thay-đổi-trong-v022)
+  - [Cập nhật v0.2.1](#thay-đổi-trong-v021)
+  - [Cập nhật v0.2.0](#thay-đổi-trong-v020)
 - [API Document](#api-document)
 - [Ảnh chụp màn hình](#screenshot)
 
@@ -113,9 +114,9 @@ Bạn có thể thay đổi cấu hình trực tiếp trong bảng cài đặt d
 
 * Yêu cầu: ID của tài khoản (không phải username) là ```admin```, nếu không sẽ không có quyền truy cập.
 
-### data/config.json
+### config.json
 
-Hầu hết cấu hình đều có ở trong tệp ```data/config.json``` , bao gồm:
+Cấu hình được lưu tại tệp ```data/config.json```, bao gồm:
 * Tên kì thi
 * Mô tả kì thi
 * Thư mục lưu bài
@@ -129,15 +130,34 @@ Hầu hết cấu hình đều có ở trong tệp ```data/config.json``` , bao 
 
 ### Tài khoản
 
-Tài khoản được lưu trong tệp ```api/xmldb/account.xml``` và có thể chỉnh sửa bằng excel.
+Dữ liệu tài khoản được lưu tại ```api/xmldb/account.xml```. Có thể sử dụng các trình soạn thảo như Excel để chỉnh sửa.
 
-## Thay đổi trong v0.3.0
+## Thay đổi trong v0.3.1
+
+* Sửa hiệu ứng ở trang đăng nhập
+* Thiết kế lại user profile
+
+### Thay đổi trong v0.3.0
 
 * Chuyển định dạng tệp config thành json.
 * Thêm bảng cài đặt dành cho admin.
 * Sửa một số lỗi.
 
-## Thay đổi trong v0.2.0
+### Thay đổi trong v0.2.3
+
+* Sửa một số lỗi.
+
+### Thay đổi trong v0.2.2
+
+* Sửa lỗi hiển thị tình trạng bài nộp không chính xác.
+
+### Thay đổi trong v0.2.1
+
+* API now require a token
+* Vá các lỗ hổng bảo mật:
+  * CSRF
+
+### Thay đổi trong v0.2.0
 
 * Cho phép tải nhiều bài cùng lúc và hiện các bài đang trong hàng chờ
 * Hiển thị tình trạng hiện tại của bài đã nộp
@@ -147,33 +167,23 @@ Tài khoản được lưu trong tệp ```api/xmldb/account.xml``` và có thể
   * LFI/RFI
   * Slowloris DoS
 
-### Thay đổi trong v0.2.1
-
-* API now require a token
-* Vá các lỗ hổng bảo mật:
-  * CSRF
-
-### Thay đổi trong v0.2.2
-
-* Sửa lỗi hiển thị tình trạng bài nộp không chính xác.
-
-### Thay đổi trong v0.2.3
-
-* Sửa một số lỗi.
-
 ## API Document
 
-Coming soon...
+API giúp bạn có thể giao tiếp với hệ thống mà không cần phải sử dụng trang web nộp bài. Nhờ API mà bạn có thể xây dựng một chương trình chạy phía client trong trường hợp trang web nộp bài không hoạt động.
+
+Hiện tại chưa có document dành cho api.
 
 ## Screenshot
 
-<p align="center"><img src="https://lh3.googleusercontent.com/T2LPaA2KKX_P2BbDFOqz6MRgXDi6xll12Hqnq9yXngdlNjRPH81_1QVrc0dO3PZ2Qidq5-AVnWMpTR5M8nKnLc92x398vjutnDaM0IM7UhgXJWsgUIbdmqW3reKcQVMLg92N3wmopw=w2400"></p>
+<p align="center"><img src="https://lh3.googleusercontent.com/6oJb7OJ3Ess9PhQzbKF1hNyt2Pf1gftCo2NEC-WG4qQFpVDno2oPP_druUg73IPZCKQ6ZS21PkF2rrcgC-78LIpzcwQDmO37e4fyT1FUAMiufRbUIRkpYEyoGc0s4OeijZzUhFkA-A=w2400"></p>
 
-<p align="center"><img src="https://lh3.googleusercontent.com/BeZ5x6wXr4mNsujNBAWZtR8Tpigv7pDhtJd8GDbKiO7M2eZjWMn07QWMJkN5_RlEuc2iGNOEQHFSYa34fXhsZZpx8CkbatRBFBvvwldR-06x307lTnT-4_vsIHDRcYkUI1Ynfn3acQ=w2400"></p>
+<p align="center"><img src="https://lh3.googleusercontent.com/0qI_1fJ24CgWRDGC9nHKBCZZQG5PjekiYWf95DK5O_goP1vy-RVUk5AH48ORMYBEs7F62R4nlyatDlBx7a5p5u2ioCIAQQu7mtGhmlLNRTmn9ziPCdkNQdF8NuzAzhlj9a3WO8oUcQ=w2400"></p>
 
 <p align="center"><img  src="https://lh3.googleusercontent.com/V01itVgLIwZ5G3rm4LIMq806p-saWwyaBKXY74kbTNOqW3txo4K1hZ1klPSysCFqWm7xch7_hfvZCk6PiHx8NREytyb9Q51hFSSSR26dX0AqjOgleRs56iJ5eT52Q25NwC-j3h8wsw=w2400"></p>
 
-<p align="center"><img  src="https://lh3.googleusercontent.com/i_cf0jGmO3j3t2jMpADWwJ9l7bJvHHkWyGsFRfu2Dm5WVTi9JSADlMSySGfgpEOK1GP_yV8C1z-2_CTxVGx4-73hunPmdIEa5j79_zBlgM2hj5kKEE1RnHzUi4q5qyo3IBJcScKNGw=w2400"></p>
+<p align="center"><img  src="https://lh3.googleusercontent.com/_QIWVoc3GY1M-ZgXO-FFgUo0RKwEtMkYP8syCKJzJvVjkygWgfLSMlm2OrhRXN9hNJmfJdezU8Kb2xOgiu99LLu5ohH7fb7ZltjnBsCSG5yz8QrCxMr6S6dwCNtYuUZVLHXaIWMhtA=w2400"></p>
+
+<p align="center"><img  src="https://lh3.googleusercontent.com/mjse5RHXz8G5GLPA-zIKY1WUSq5PuEXj0vnozRFFzvktMn8ziky--FJf4Kk0dLrbIVdb711kye7yDcwcCsofZxG9LWJ3EIssdJ8zSoqVgkrtSjx3VUNDWxfJN4JhtHxPXOrTYz8MDA=w2400"></p>
 
 <p align="center"><img  src="https://lh3.googleusercontent.com/P0eY3CqreDbQCZTwofOG45FvG0U5fuZmnHWeXfeJnGXloHwnGeg2WTwSl00OOdhVOszs6cgxbLAwUBuLLTHau4cYoFlocUk17qAo2J8WP3uKNJqvfHDopY56Yqs-nHPCrwCGsyz-WQ=w2400"></p>
 

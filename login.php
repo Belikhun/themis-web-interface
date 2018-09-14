@@ -38,10 +38,11 @@
 
         <div class="left-panel">
             <div class="wallpaper"></div>
-            <t class="footer text-overflow">
-                Chương trình chấm điểm <a href="https://dsapblog.wordpress.com/">Themis</a> được thiết kế bởi Lê Minh Hoàng và Đỗ Đức Đông.
-                <br>Ảnh nền bởi Belikhun.
-            </t>
+            <ul class="footer">
+                <li class="title text-overflow">Chương trình chấm điểm <a href="https://dsapblog.wordpress.com/">Themis</a></li>
+                <li class="sub text-overflow">Copyright © Lê Minh Hoàng & Đỗ Đức Đông</li>
+                <li class="sub2 text-overflow">background image by Belikhun.</li>
+            </ul>
         </div>
 
         <div class="right-panel">
@@ -62,23 +63,23 @@
                 <form id="form_container" action="javascript:void(0);">
                     <div id="form_username">
                         <div class="formgroup dark">
-                            <input id="form_username_input" type="text" name="username" class="formfield" autocomplete="off" placeholder="Tên tài khoản" required>
-                            <label for="username" class="formlabel">Tên tài khoản</label>
+                            <input id="form_username_input" type="text" class="formfield" autocomplete="off" placeholder="Tên tài khoản" required disabled>
+                            <label for="form_username_input" class="formlabel">Tên tài khoản</label>
                         </div>
 
-                        <button id="form_username_submit" type="button" class="btn gray">Tiếp</button>
+                        <button id="form_username_submit" type="button" class="btn gray" disabled>Tiếp</button>
                         <t id="form_message"></t>
                     </div>
 
                     <div id="form_password">
-                        <div class="profile">
+                        <div id="form_profile">
                             <img alt="avt" src="" id="form_avatar" />
                             <t id="form_user"></t>
                         </div>
 
                         <div class="formgroup dark">
-                            <input id="form_password_input" type="password" name="password" class="formfield" autocomplete="off" placeholder="Mật khẩu" required disabled>
-                            <label for="password" class="formlabel">Mật khẩu</label>
+                            <input id="form_password_input" type="password" class="formfield" autocomplete="off" placeholder="Mật khẩu" required disabled>
+                            <label for="form_password_input" class="formlabel">Mật khẩu</label>
                         </div>
 
                         <button id="form_password_submit" type="submit" class="btn" disabled>Đăng nhập</button>
@@ -92,6 +93,16 @@
 
         <script src="/data/js/belibrary.js" type="text/javascript"></script>
         <script src="/data/js/login.js" type="text/javascript"></script>
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124598427-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-124598427-1');
+        </script>
 
     </body>
 

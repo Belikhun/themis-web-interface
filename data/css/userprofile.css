@@ -1,0 +1,302 @@
+/* 
+|====================================================|
+|                  userprofile.css                   |
+|            Copyright (c) 2018 Belikhun.            |
+|      This file is licensed under MIT license.      |
+|====================================================|
+*/
+
+#user_profile {
+    position: absolute;
+    width: 260px;
+    top: 58px;
+    right: 0px;
+    bottom: 0px;
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, .2), 0 0 0 1px rgba(32, 34, 37, .6);
+    background-color: #121212;
+    transition:
+        transform 0.4s ease,
+        top 1s cubic-bezier(0.06, 0.81, 0, 0.98);
+    transform: translateX(100%);
+    z-index: 2;
+}
+
+#status.ok ~ #user_profile,
+#status.error ~ #user_profile,
+#status.warning ~ #user_profile,
+#status.info ~ #user_profile {
+    top: 98px;
+}
+
+#user_profile.show {
+    transform: unset;
+}
+
+#user_profile.show ~ #container {
+    transform: translateX(-220px) scale(0.9);
+    filter: blur(3px) brightness(0.6);
+    border: 1px solid #7c7c7c;
+}
+
+#user_profile .header {
+    display: flex;
+    height: 180px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px 10px;
+    color: #fff;
+    background-color: #121212;
+    line-height: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    flex: 1 1 auto;
+}
+
+#user_profile .header .avatar {
+    position: relative;
+    display: block;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    cursor: pointer;
+    outline: 0;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+#user_profile .header .avatar img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+#user_profile .header .avatar .wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#user_profile .header .avatar .wrapper i.pencil::before {
+    content: "\f303";
+    font-family: "Font Awesome 5 Free";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    display: none;
+}
+
+#user_profile .header .avatar .wrapper i.drag::before {
+    content: "\f103";
+    font-family: "Font Awesome 5 Free";
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 800;
+    display: none;
+}
+
+#user_profile .header .avatar .wrapper .material-spinner {
+    transform: scale(0.6);
+    display: none;
+}
+
+#user_profile .header .avatar:hover .wrapper.drag .pencil::before,
+#user_profile .header .avatar:hover .wrapper.load .pencil::before {
+    display: none;
+}
+
+#user_profile .header .avatar:hover .wrapper .pencil::before,
+#user_profile .header .avatar .wrapper.drag i.drag::before,
+#user_profile .header .avatar .wrapper.load .material-spinner {
+    display: block;
+}
+
+#user_profile .header .avatar:hover .wrapper,
+#user_profile .header .avatar .wrapper.drag,
+#user_profile .header .avatar .wrapper.load {
+    opacity: 1;
+}
+
+#user_profile .header .name {
+    color: #fff;
+    font-weight: 600;
+    margin-bottom: 2px;
+    font-size: 16px;
+    line-height: 20px;
+    max-width: 100%;
+}
+
+#user_profile .header .tag {
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+}
+
+#user_profile .body {
+    position: relative;
+    padding: 10px;
+    width: 100%;
+    height: calc(100% - 180px);
+    overflow: auto;
+    background-color: #161718;
+    box-sizing: border-box;
+    padding: 4px 0;
+    overflow-x: hidden;
+    margin: unset;
+}
+
+#user_profile .body .left {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    margin: unset;
+    padding: unset;
+    list-style: none;
+    transition:
+        transform 0.4s ease;
+    transform: unset;
+}
+
+#user_profile .body .left.hide {
+    transform: translateX(-100%);
+}
+
+#user_profile .body .left li.item {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    text-align: right;
+    font-size: 12px;
+    padding: 16px 20px;
+    user-select: none;
+    box-sizing: border-box;
+    color: rgb(160, 160, 160);
+    transition: all 0.2s ease;
+}
+
+#user_profile .body .left li.item:hover {
+    color: rgb(202, 202, 202);
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+#user_profile .body .left li.item::before {
+    content: "\f111";
+    font-family: "Font Awesome 5 Free";
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    min-width: 18px;
+    min-height: 18px;
+    padding-right: 14px;
+}
+
+#user_profile .body .left li.item.name::before {
+    content: "\f129";
+}
+
+#user_profile .body .left li.item.pass::before {
+    content: "\f084";
+}
+
+#user_profile .body .left li.item.config::before {
+    content: "\f013";
+}
+
+#user_profile .body .left li.item.logout::before {
+    content: "\f2f5";
+}
+
+#user_profile .body .left li.item.arr::after {
+    content: "\f105";
+    position: absolute;
+    font-family: "Font Awesome 5 Free";
+    font-size: 18px;
+    font-weight: 600;
+    right: 20px;
+}
+
+#user_profile .body .left li.line {
+    height: 1px;
+    background-color: rgba(80, 80, 80, 0.5);
+    margin: 8px 0;
+}
+
+#user_profile .body .right {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    transition:
+        transform 0.4s ease;
+    transform: translateX(100%);
+}
+
+#user_profile .body .right.show {
+    transform: unset;
+}
+
+#user_profile .body .right .panel {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: inherit;
+    top: 0px;
+    transition:
+        transform 0s linear;
+    transition-delay: 0.4s;
+    transform: translateX(100%);
+}
+
+#user_profile .body .right .panel.show {
+    transition-delay: unset;
+    transform: unset;
+}
+
+#user_profile .body .right .panel .title {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    text-align: right;
+    font-size: 12px;
+    padding: 16px 20px;
+    user-select: none;
+    box-sizing: border-box;
+    color: rgb(160, 160, 160);
+    background-color: rgb(26, 26, 26);
+    transition: all 0.2s ease;
+}
+
+#user_profile .body .right .panel .title:hover {
+    color: rgb(202, 202, 202);
+}
+
+#user_profile .body .right .panel .title::before {
+    content: "\f104";
+    font-family: "Font Awesome 5 Free";
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    min-width: 18px;
+    min-height: 18px;
+    padding-right: 14px;
+}
+
+#user_profile .body .right .panel .root {
+    display: block;
+    margin: 0px 20px 10px 20px
+}
+
+#user_profile .body .right .panel .root .btn {
+    display: block;
+    margin: 16px 0 0 calc(100% - 60px);
+}

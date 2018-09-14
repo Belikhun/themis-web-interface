@@ -10,7 +10,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/api/xmldb/account.php";
     header("Cache-Control: max-age=0, must-revalidate", true);
-    define("VERSION", "0.3.0-release");
+    define("VERSION", "0.3.1");
 
     if (!islogedin()) {
         require "login.php";
@@ -38,6 +38,7 @@
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/loader.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/navbar.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/userprofile.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/input.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/spinner.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/statbar.css" />
@@ -81,57 +82,6 @@
                 <img id="user_avt" class="avatar" src="/api/avt/get?u=<?php echo $username; ?>" />
                 <img class="arrow" src="/data/img/arr.png" />
             </span>
-
-            <span class="profile">
-                <div class="header">
-                    <div class="avatar" title="Thả ảnh vào đây để thay đổi ảnh đại diện">
-                        <img id="userp_avt" class="avatar" src="/api/avt/get?u=<?php echo $username; ?>" />
-                        <div id="userp_avtw" class="wrapper">
-                            <i class="pencil"></i>
-                            <i class="drag"></i>
-                            <div class="material-spinner">
-                                <svg><circle cx="50%" cy="50%" r="20" fill="none"/></svg>
-                            </div>
-                        </div>
-                    </div>
-                    <t id="userp_name" class="name text-overflow"><?php print htmlspecialchars($name); ?></t>
-                    <t id="userp_tag" class="tag"><?php print $username ."#". $id; ?></t>
-                </div>
-                <div class="body">
-                    <t class="title">Đổi tên</t>
-                    <form class="root" id="userp_edit_name_form" autocomplete="off" action="javascript:void(0);">
-                        <div class="formgroup">
-                            <input id="userp_edit_name" name="name" type="text" class="formfield" placeholder="Tên" required>
-                            <label for="name" class="formlabel">Tên</label>
-                        </div>
-                        <button type="submit" class="btn green">Gửi</button>
-                    </form>
-                    <t class="title">Đổi mật khẩu</t>
-                    <form class="root" id="userp_edit_pass_form" autocomplete="off" action="javascript:void(0);">
-                        <div class="formgroup">
-                            <input id="userp_edit_pass" type="password" name="password" class="formfield" placeholder="Mật khẩu" required>
-                            <label for="password" class="formlabel">Mật khẩu</label>
-                        </div>
-                        <div class="formgroup">
-                            <input id="userp_edit_npass" type="password" name="newpassword" class="formfield" placeholder="Mật khẩu mới" required>
-                            <label for="newpassword" class="formlabel">Mật khẩu mới</label>
-                        </div>
-                        <div class="formgroup">
-                            <input id="userp_edit_renpass" type="password" name="renewpass" class="formfield" placeholder="Nhập lại mật khẩu mới" required>
-                            <label for="renewpass" class="formlabel">Nhập lại mật khẩu mới</label>
-                        </div>
-                        <button type="submit" class="btn red">Gửi</button>
-                    </form>
-                </div>
-                <div class="footer">
-                    <ul class="container">
-                        <?php if(getuserdata($_SESSION["username"])["id"] == "admin") { ?>
-                            <li id="userp_setting" class="setting" onclick="core.showcp();">Cài đặt</li>
-                        <?php } ?>
-                        <li id="userp_logout" class="logout">Đăng xuất</li>
-                    </ul>
-                </div>
-            </span>
         </div>
 
         <div id="status">
@@ -139,6 +89,64 @@
             <t class="text"></t>
             <i class="material-icons close">close</i>
         </div>
+
+        <span id="user_profile">
+            <div class="header">
+                <div class="avatar" title="Thả ảnh vào đây để thay đổi ảnh đại diện">
+                    <img id="userp_avt" class="avatar" src="/api/avt/get?u=<?php echo $username; ?>" />
+                    <div id="userp_avtw" class="wrapper">
+                        <i class="pencil"></i>
+                        <i class="drag"></i>
+                        <div class="material-spinner">
+                            <svg><circle cx="50%" cy="50%" r="20" fill="none"/></svg>
+                        </div>
+                    </div>
+                </div>
+                <t id="userp_name" class="name text-overflow"><?php print htmlspecialchars($name); ?></t>
+                <t id="userp_tag" class="tag"><?php print $username ."#". $id; ?></t>
+            </div>
+            <div class="body">
+                <ul id="userp_left_panel" class="left">
+                    <li id="userp_edit_name_toggler" class="item name arr">Đổi tên người dùng</li>
+                    <li id="userp_edit_pass_toggler" class="item pass arr">Đổi mật khẩu</li>
+                    <li class="line"></li>
+                    <?php if(getuserdata($_SESSION["username"])["id"] == "admin") { ?>
+                        <li id="userp_edit_name_toggler" class="item config" onclick="core.showcp();">Cài đặt</li>
+                    <?php } ?>
+                    <li id="userp_logout" class="item logout">Đăng xuất</li>
+                </ul>
+                <div id="userp_right_panel" class="right">
+                    <div id="userp_edit_name_panel" class="panel">
+                        <div class="title">Đổi Tên</div>
+                        <form class="root" id="userp_edit_name_form" autocomplete="off" action="javascript:void(0);">
+                            <div class="formgroup">
+                                <input id="userp_edit_name" type="text" class="formfield" placeholder="Tên" required>
+                                <label for="userp_edit_name" class="formlabel">Tên</label>
+                            </div>
+                            <button type="submit" class="btn green">Gửi</button>
+                        </form>
+                    </div>
+                    <div id="userp_edit_pass_panel" class="panel">
+                        <div class="title">Đổi Mật Khẩu</div>
+                        <form class="root" id="userp_edit_pass_form" autocomplete="off" action="javascript:void(0);">
+                            <div class="formgroup">
+                                <input id="userp_edit_pass" type="password" class="formfield" placeholder="Mật khẩu" required>
+                                <label for="userp_edit_pass" class="formlabel">Mật khẩu</label>
+                            </div>
+                            <div class="formgroup">
+                                <input id="userp_edit_npass" type="password" class="formfield" placeholder="Mật khẩu mới" required>
+                                <label for="userp_edit_npass" class="formlabel">Mật khẩu mới</label>
+                            </div>
+                            <div class="formgroup">
+                                <input id="userp_edit_renpass" type="password" class="formfield" placeholder="Nhập lại mật khẩu mới" required>
+                                <label for="userp_edit_renpass" class="formlabel">Nhập lại mật khẩu mới</label>
+                            </div>
+                            <button type="submit" class="btn red">Gửi</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </span>
 
         <div id="wrapper">
             <panel id="wrapp">
@@ -156,71 +164,72 @@
         </div>
 
         <div id="container">
-
-            <panel id="uploadp">
-                <div class="head">
-                    <t class="le">Nộp bài</t>
-                    <span class="ri">
-                        <i class="material-icons ref">refresh</i>
-                        <i class="material-icons set">settings</i>
-                    </span>
-                </div>
-                <div class="main fileupload-container">
-                    <div id="file_dropzone">Thả tệp tại đây</div>
-                    <div class="info">
-                        <t id="file_upstate">null</t>
-                        <t id="file_name">null</t>
-                        <div class="bar">
-                            <div id="file_bar"></div>
-                            <t id="file_perc">0%</t>
-                            <t id="file_size">00/00</t>
+            <div class="content">
+                <panel id="uploadp">
+                    <div class="head">
+                        <t class="le">Nộp bài</t>
+                        <span class="ri">
+                            <i class="material-icons ref">refresh</i>
+                            <i class="material-icons set">settings</i>
+                        </span>
+                    </div>
+                    <div class="main fileupload-container">
+                        <div id="file_dropzone">Thả tệp tại đây</div>
+                        <div class="info">
+                            <t id="file_upstate">null</t>
+                            <t id="file_name">null</t>
+                            <div class="bar">
+                                <div id="file_bar"></div>
+                                <t id="file_perc">0%</t>
+                                <t id="file_size">00/00</t>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </panel>
+                </panel>
 
-            <panel id="timep">
-                <div class="head">
-                    <t class="le">Thời gian</t>
-                    <span class="ri">
-                        <i class="material-icons ref">refresh</i>
-                        <i class="material-icons set">settings</i>
-                    </span>
-                </div>
-                <div class="main time-container">
-                    <t id="time_state">---</t>
-                    <t id="time_time">--:--</t>
-                    <div class="bar">
-                        <div id="time_bar"></div>
-                        <t id="time_start">--:--</t>
-                        <t id="time_end">--:--</t>
+                <panel id="timep">
+                    <div class="head">
+                        <t class="le">Thời gian</t>
+                        <span class="ri">
+                            <i class="material-icons ref">refresh</i>
+                            <i class="material-icons set">settings</i>
+                        </span>
                     </div>
-                </div>
-            </panel>
+                    <div class="main time-container">
+                        <t id="time_state">---</t>
+                        <t id="time_time">--:--</t>
+                        <div class="bar">
+                            <div id="time_bar"></div>
+                            <t id="time_start">--:--</t>
+                            <t id="time_end">--:--</t>
+                        </div>
+                    </div>
+                </panel>
 
-            <panel id="logp">
-                <div class="head">
-                    <t class="le">Nhật ký</t>
-                    <span class="ri">
-                        <i class="material-icons ref">refresh</i>
-                        <i class="material-icons set">settings</i>
-                    </span>
-                </div>
-                <div class="main">
-                </div>
-            </panel>
+                <panel id="logp">
+                    <div class="head">
+                        <t class="le">Nhật ký</t>
+                        <span class="ri">
+                            <i class="material-icons ref">refresh</i>
+                            <i class="material-icons set">settings</i>
+                        </span>
+                    </div>
+                    <div class="main">
+                    </div>
+                </panel>
 
-            <panel id="rankp">
-                <div class="head">
-                    <t class="le">Xếp hạng</t>
-                    <span class="ri">
-                        <i class="material-icons ref">refresh</i>
-                        <i class="material-icons set">settings</i>
-                    </span>
-                </div>
-                <div class="main ranking-container">
-                </div>
-            </panel>
+                <panel id="rankp">
+                    <div class="head">
+                        <t class="le">Xếp hạng</t>
+                        <span class="ri">
+                            <i class="material-icons ref">refresh</i>
+                            <i class="material-icons set">settings</i>
+                        </span>
+                    </div>
+                    <div class="main ranking-container">
+                    </div>
+                </panel>
+            </div>
 
             <footer>
                 <ul class="left">
@@ -228,7 +237,7 @@
                     <li class="author">
                         <ul class="container">
                             <li class="name">Tác giả:
-                                <t>Belikhun (Đỗ Mạnh Hà)</t>
+                                <t>Đỗ Mạnh Hà</t>
                             </li>
                             <li class="info">Trường THPT Lạc Long Quân, Hòa Bình.</li>
                         </ul>

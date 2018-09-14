@@ -121,22 +121,21 @@ function fcfn(nodes, classname) {
             return nodes[i];
 }
 
-function parsetime(secs = 0) {
+function parsetime(t = 0) {
     var d = "";
-    if (secs < 0) {
-        secs = -secs;
+    if (t < 0) {
+        t = -t;
         d = "-";
     }
-    var sec_num = parseInt(secs, 10)    
-    var hours   = Math.floor(sec_num / 3600) % 24
-    var minutes = Math.floor(sec_num / 60) % 60
-    var seconds = sec_num % 60
+    var h = Math.floor(t / 3600);
+    var m = Math.floor(t % 3600 / 60);
+    var s = Math.floor(t % 3600 % 60);
     
     return {
-        "h": hours,
-        "m": minutes,
-        "s": seconds,
-        "str": d + [hours, minutes, seconds]
+        "h": h,
+        "m": m,
+        "s": s,
+        "str": d + [h, m, s]
             .map(v => v < 10 ? "0" + v : v)
             .filter((v,i) => v !== "00" || i > 0)
             .join(":")
@@ -148,10 +147,8 @@ function $(selector) {
     switch (selector.charAt(0)) {
         case ".":
             return document.getElementsByClassName(e);
-            break;
         case "#":
             return document.getElementById(e);
-            break;
         default:
             return document.getElementsByTagName(selector);
     }

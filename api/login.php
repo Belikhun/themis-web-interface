@@ -14,10 +14,10 @@
         stop(9, "Bạn đã đăng nhập bằng một tài khoản khác!", 403);
 
     if (!isset($_POST["u"]))
-        stop(1, "Undefined POST parameter u.", 400);
+        stop(1, "Chưa xác định giá trị u.", 400);
 
     if (!isset($_POST["p"]))
-        stop(2, "Undefined POST parameter p.", 400);
+        stop(2, "Chưa xác định giá trị p.", 400);
     
     $username = trim($_POST["u"]);
     $password = trim($_POST["p"]);

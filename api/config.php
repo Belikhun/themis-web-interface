@@ -19,12 +19,12 @@
         stop(29, "Access Denied!", 403);
 
     if ($_SERVER["REQUEST_METHOD"] == "GET")
-        stop(0, "Success!", 200, $config);
+        stop(0, "Thành công!", 200, $config);
     else {
         if (!isset($_POST["t"]))
-            stop(14, "Token required.", 400);
+            stop(14, "Yêu cầu token.", 400);
         if ($_POST["t"] !== $_SESSION["api_token"])
-            stop(27, "Wrong token!", 403);
+            stop(27, "Sai token!", 403);
 
         $TYPE_ARRAY = Array(
             "string" => "Array",
@@ -78,7 +78,7 @@
                     $changed = true;
                     return $target = $type["handler"]($_POST[$key]);
                 } else
-                    stop(28, "Type Mismatch! ". $type["string"] ." expected in POST parameter ". $key, 400);
+                    stop(28, "Loại giá trị không khớp! Yêu cầu ". $key ." là ". $type["string"], 400);
         }
 
         setting("cn", $config["contest"]["name"], $TYPE_STRING);
@@ -99,8 +99,8 @@
         setting("vi", $config["viewlog"], $TYPE_BOOL);
 
         if ($changed == false)
-            stop(30, "No Action Taken.", 200);
+            stop(30, "Không hành động nào được thực hiện.", 200);
 
         save_config($config);
-        stop(0, "Success!", 200);
+        stop(0, "Thành công!", 200);
     }
