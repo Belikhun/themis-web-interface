@@ -191,5 +191,6 @@ Hiện tại chưa có document dành cho api.
 
 ## Todo
 
+- [ ] Redesign user panel
 - [ ] Clean code
 - [ ] Tìm và vá các lỗ hổng bào mật (?)
