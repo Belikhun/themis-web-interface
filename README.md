@@ -1,10 +1,10 @@
-# Themis Web Interface
-
 <p align="center">
   <img src="https://lh3.googleusercontent.com/Kq44rw8L_8-4NbWNAektkXXMnh_6nl57w1dTpms74HlvdHtSIbvXKgiApsoE3RcapN6-tERQ9kZQMPSMg1LkvwMP4TaMS86-UOnyGI1-kG8NfrbvqHzndP5mYylqSJ6Vb941CdXHZw=w2400">
 </p>
 
-Được viết bằng HTML, CSS, PHP và JavaScript. Dự án không sử dụng library khác như jQuery, Bootstrap,...
+Themis Web Interface là giải pháp tổ chức và quản lí kì thi tin học giúp thí sinh có thể nộp bài, theo dõi kết quả qua LAN hoặc WAN.
+
+Dự án sử dụng các ngôn ngữ HTML, CSS, PHP và JavaScript, không sử dụng các library khác như jQuery, Bootstrap, React,...
 
 - [Demo](#demo)
 - [Yêu cầu](#yêu-cầu)
