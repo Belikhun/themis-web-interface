@@ -11,13 +11,13 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
 
     if (!islogedin())
-        stop(9, "Bạn chưa đăng nhập.", 403);
+        stop(11, "Bạn chưa đăng nhập.", 403);
 
     if ($config["viewlog"] == false)
-        stop(25, "Xem nhật ký đã bị vô hiệu hóa!", 403);
+        stop(23, "Xem nhật ký đã bị tắt!", 403);
 
     if (!isset($_GET["f"]))
-        stop(21, "Chưa xác định giá trị f.", 400);
+        stop(1, "Undefined query: f", 400);
 
     $file = $_GET["f"];
     $file = str_replace("\"", "", $file);
@@ -26,7 +26,7 @@
     $username = $_SESSION["username"];
 
     if (!(strpos($file, "[". $username ."]") > 0))
-        stop(8, "Lỗi không xác định...", 400);
+        stop(44, "Không tìm thấy!", 404);
 
     $line = Array();
     

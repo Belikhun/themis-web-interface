@@ -15,12 +15,14 @@
   - [Tài khoản](#tài-khoản)
 - [API Document](#api-document)
 - [Ảnh chụp màn hình](#screenshot)
-- [Cập nhật v0.3.1](#thay-đổi-trong-v031)
+- [Cập nhật v0.3.2](#thay-đổi-trong-v032)
+  - [Cập nhật v0.3.1](#thay-đổi-trong-v031)
   - [Cập nhật v0.3.0](#thay-đổi-trong-v030)
   - [Cập nhật v0.2.3](#thay-đổi-trong-v023)
   - [Cập nhật v0.2.2](#thay-đổi-trong-v022)
   - [Cập nhật v0.2.1](#thay-đổi-trong-v021)
   - [Cập nhật v0.2.0](#thay-đổi-trong-v020)
+- [Contributor](#contributor)
 
 ## Demo
 * Link: [000webhost](https://tweb-demo.000webhostapp.com/)
@@ -38,6 +40,7 @@
 
 ## Yêu cầu
 - PHP/7 trở lên
+  - php_xml (```apt install php-xml```)
 - Apache/2 trở lên
 
 ## Tính năng
@@ -65,44 +68,65 @@
 
 * Mobile Responsive
 
-## Cài đặt
-Bạn có thể tải trực tiếp phiên bản tích hợp sẵn UniServer tại [đây](https://github.com/belivipro9x99/themis-webinterface/releases/) hoặc ```git clone``` repository này và thiết lập máy chủ riêng.
+## Tải về & Cài đặt
+Bạn có thể tải trực tiếp phiên bản tích hợp sẵn UniServer ở phần [releases](https://github.com/belivipro9x99/themis-webinterface/releases/), sau đó giải nén tệp zip vừa tải về. Để khởi động máy chủ chạy tệp UniController.exe sau đó nhấn Start Apache.
 
-Apache config:
+Hoặc ```git clone``` repository này và thiết lập máy chủ riêng.
+
+Apache configuration:
 ```
-ErrorDocument 400 /lib/error.php
-ErrorDocument 401 /lib/error.php
-ErrorDocument 403 /lib/error.php
-ErrorDocument 404 /lib/error.php
-ErrorDocument 405 /lib/error.php
-ErrorDocument 406 /lib/error.php
-ErrorDocument 408 /lib/error.php
-ErrorDocument 414 /lib/error.php
-ErrorDocument 500 /lib/error.php
-ErrorDocument 502 /lib/error.php
+<VirtualHost *:80>
+  ServerAdmin someone@localhost
+  ServerName localhost
+  ServerAlias themisweb.lan
+  DocumentRoot (document root)
 
-<Directory "(apache2 document root)/api">
-  Options +FollowSymLinks -Indexes
-  AllowOverride All
-  Order allow,deny
-  Allow from all
-  Require all granted
+  ErrorDocument 400 /lib/error.php
+  ErrorDocument 401 /lib/error.php
+  ErrorDocument 403 /lib/error.php
+  ErrorDocument 404 /lib/error.php
+  ErrorDocument 405 /lib/error.php
+  ErrorDocument 406 /lib/error.php
+  ErrorDocument 408 /lib/error.php
+  ErrorDocument 414 /lib/error.php
+  ErrorDocument 500 /lib/error.php
+  ErrorDocument 502 /lib/error.php
 
-  # Rewrite url
-  RewriteEngine on
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteRule ^([^\.]+)$ $1.php [NC,L]
-</Directory>
+  <Directory "(document root)">
+    Options -Indexes
+    AllowOverride All
+    Order allow,deny
+    Allow from all
+    Require all granted
+  </Directory>
 
-<Directory "(apache2 document root)/api/xmldb">
-  Options -Indexes
-  Deny from all
-</Directory>
+  <Directory "(document root)/api">
+    Options +FollowSymLinks -Indexes
+    AllowOverride All
+    Order allow,deny
+    Allow from all
+    Require all granted
 
-<IfModule mod_reqtimeout.c>
-  RequestReadTimeout header=20-40,MinRate=500 body=20,MinRate=500
-</IfModule>
+    # Rewrite url
+    RewriteEngine on
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^([^\.]+)$ $1.php [NC,L]
+  </Directory>
+
+  <Directory "(document root)/api/xmldb">
+    Options -Indexes
+    Deny from all
+  </Directory>
+
+  <IfModule mod_reqtimeout.c>
+    RequestReadTimeout header=20-40,MinRate=500 body=20,MinRate=500
+  </IfModule>
+
+  ErrorLog ${APACHE_LOG_DIR}/error.log
+  CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
 ```
+**Trong đó**: ```(document root)``` là thư mục chứa toàn bộ tệp tin của dự án.
 
 ## Cấu hình
 
@@ -134,9 +158,9 @@ Dữ liệu tài khoản được lưu tại ```api/xmldb/account.xml```. Có th
 
 ## API Document
 
-API giúp bạn có thể giao tiếp với hệ thống mà không cần phải sử dụng trang web nộp bài. Nhờ API mà bạn có thể xây dựng một chương trình chạy phía client trong trường hợp trang web nộp bài không hoạt động.
+API giúp bạn có thể giao tiếp với hệ thống mà không cần phải sử dụng trang web nộp bài. Do đó bạn có thể viết một chương trình chạy phía client trong trường hợp trang web nộp bài không hoạt động.
 
-Hiện tại chưa có document dành cho api.
+Toàn bộ Document đều có ở trong [wiki](https://github.com/belivipro9x99/themis-web-interface-reloaded/wiki) của dự án.
 
 ## Screenshot
 
@@ -153,6 +177,12 @@ Hiện tại chưa có document dành cho api.
 <p align="center"><img  src="https://lh3.googleusercontent.com/P0eY3CqreDbQCZTwofOG45FvG0U5fuZmnHWeXfeJnGXloHwnGeg2WTwSl00OOdhVOszs6cgxbLAwUBuLLTHau4cYoFlocUk17qAo2J8WP3uKNJqvfHDopY56Yqs-nHPCrwCGsyz-WQ=w2400"></p>
 
 <p align="center"><img  src="https://lh3.googleusercontent.com/EVndQX11gR5D7v1pAcOFDXLDixPevqahUBCYsi3DwDqGU4xNQ0O7PZN1vkuHbk31XpxVEdlsyGV1Tvxr3DMKCwLG5HebbJmagP9G2mNDWUd_rNIVw9aMvPpagTWZTFoJ1TLq5ecOAQ=w2400"></p>
+
+## Thay đổi trong v0.3.2
+* Một số chỉnh sửa cho API
+* Thay đổi ảnh nền footer và errorpage
+* Thêm apiexample
+* Thên API Document trong Wiki
 
 ### Thay đổi trong v0.3.1
 
@@ -191,7 +221,6 @@ Hiện tại chưa có document dành cho api.
   * LFI/RFI
   * Slowloris DoS
 
-## Todo
+## Contributor
 
-- [ ] Clean code
-- [ ] Tìm và vá các lỗ hổng bào mật (?)
+A very big thanks to ```namkojj```, aka [Nam](https://www.facebook.com/profile.php?id=100008107446343) for helping me translating, hunting bug and testing this project.

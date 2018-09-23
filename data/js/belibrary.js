@@ -4,13 +4,15 @@
 //|      This file is licensed under MIT license.      |
 //|====================================================|
 
+
 function myajax({
     url = "/",
     method = "GET",
     query = Array(),
     form = Array(),
-    file = null
-}, callout = function () {}, progress = function () {}, error = function () {}, epass = false) {
+    file = null,
+    type = "json",
+}, callout = () => {}, progress = () => {}, error = () => {}, disablestatbar = false) {
     query.length = Object.keys(query).length;
     form.length = Object.keys(form).length;
 
@@ -35,53 +37,68 @@ function myajax({
 
     xhr.addEventListener("readystatechange", function () {
         if (this.readyState === this.DONE) {
-            try {
-                var res = JSON.parse(this.responseText);
-            } catch (e) {
-                if (epass == true) {
-                    error(e);
-                    return;
-                }
 
-                if (this.status == 0) {
-                    document.lostconnect = true;
+            if (this.status == 0 && disablestatbar == false) {
+                document.lostconnect = true;
+                if (!disablestatbar)
                     statbar.change(statbar.type.ERROR,
                         `HTTP ${this.status} ${this.statusText} >> Mất kết nối đến máy chủ. Đang thử kết nối lại...`,
                         true);
-                } else if (this.responseText == "" || !this.responseText)
+                return false;
+            } else if ((this.responseText == "" || !this.responseText) && this.status != 200) {
+                if (!disablestatbar)
                     statbar.change(statbar.type.ERROR,
                         `HTTP ${this.status} ${this.statusText}`,
                         false);
-                else
-                    statbar.change(statbar.type.ERROR, e, false);
-                error(e);
-                return;
+                error(null);
+                return false;
             }
 
-            if (this.status != 200 || res.code != 0) {
-                if (epass == true) {
-                    error(res);
-                    return;
+            if (type == "json") {
+                try {
+                    var res = JSON.parse(this.responseText);
+                } catch (e) {
+                    if (!disablestatbar)
+                        statbar.change(statbar.type.ERROR, e, false);
+                    error(e);
+                    return false;
                 }
 
-                statbar.change(statbar.type.ERROR,
-                    `[${res.code}] HTTP ${this.status} ${this.statusText} >> ${res.description}`,
-                    false);
-                error(res);
+                if (this.status != 200 || (res.code != 0 && res.code < 100)) {
+                    if (!disablestatbar)
+                        statbar.change(statbar.type.ERROR,
+                            `[${res.code}] HTTP ${this.status} ${this.statusText} >> ${res.description}`,
+                            false);
+                    error(res);
+                    return false;
+                }
+                resdata = res.data;
             } else {
-                if (document.lostconnect == true) {
-                    document.lostconnect = false;
+                if (this.status != 200) {
+                    if (!disablestatbar)
+                        statbar.change(statbar.type.ERROR,
+                            `HTTP ${this.status} ${this.statusText}`,
+                            false);
+                    error(res);
+                    return false;
+                }
+                resdata = this.responseText;
+            }
+
+            if (document.lostconnect == true) {
+                document.lostconnect = false;
+                if (!disablestatbar) {
                     statbar.change(statbar.type.OK,
                         `HTTP ${this.status} ${this.statusText} >> Đã kết nối tới máy chủ.`,
                         false);
                     statbar.hide(3000);
                 }
-                callout(res.data);
             }
+            callout(resdata);
         }
     });
 
-    xhr.upload.addEventListener("progress", function (e) {
+    xhr.addEventListener("progress", e => {
         progress(e);
     }, false);
 

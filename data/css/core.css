@@ -636,8 +636,8 @@ td {
     text-align: left;
     max-width: 100%;
     counter-increment: viewlog-line;
-    margin: 4px 10px 4px 50px;
-    padding: 0 10px;
+    margin: 0 10px 0 50px;
+    padding: 4px 10px;
     min-height: 20px;
     box-sizing: border-box;
     border-left: 1px solid rgba(82, 82, 82, 0.3);
@@ -676,7 +676,10 @@ td {
 
 footer {
     position: relative;
-    background-color: #222222;
+    background-image: url("/data/img/footer-bg.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
     box-sizing: border-box;
     width: 100%;
     padding: 20px;

@@ -10,7 +10,7 @@ body {
     font-family: "Segoe UI", Calibri, Geneva, sans-serif;
     font-weight: normal;
     font-size: 20px;
-    color: white;
+    color: rgb(93, 93, 93);
     overflow: hidden;
 }
 
@@ -20,13 +20,12 @@ body {
     left: 0px;
     width: 100%;
     height: 100%;
-    background-image: url("/data/img/error-wallpaper.jpg");
+    background-image: url("/data/img/error-bg.jpg");
     background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
     background-position: center;
-    filter: brightness(0.5) blur(30px);
-    transform: scale(1.2);
+    background-size: cover;
+    filter: brightness(0.5);
+    transform: scale(1);
 }
 
 .main-container {
@@ -105,15 +104,16 @@ body {
 }
 
 .footer {
-    position: fixed;
+    position: absolute;
     bottom: 0px;
     left: 50%;
     transform: translateX(-50%);
     height: 50px;
-    width: 420px;
+    width: 80%;
     padding: 0 20px 0 20px;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .footer img.icon {
@@ -151,6 +151,7 @@ body {
     .footer p {
         text-align: center;
         margin: unset;
+        padding: 0 20px;
     }
 
 }

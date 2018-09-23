@@ -55,7 +55,7 @@
         return ($a > $b) ? -1 : 1;
     });
     
-    stop(0, "Success!", 200, Array(
+    stop(0, "Thành công!", 200, Array(
         "list" => $namelist,
         "rank" => $res
     ));

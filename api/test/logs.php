@@ -11,7 +11,7 @@
 	require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
 	
 	if (!islogedin())
-		stop(9, "Bạn chưa đăng nhập.", 403);
+		stop(11, "Bạn chưa đăng nhập.", 403);
 
 	function getname(string $str) {
 		$n = null;
@@ -69,7 +69,7 @@
 		$url = null;
 
 		if ($config["viewlog"] == true)
-			$url = "/api/test/getlog?f=" . basename($log);
+			$url = "/api/test/viewlog?f=" . basename($log);
 
 		if (strpos(strtolower($log), ".log") > 0) {
 			$out = "Đã chấm xong!";

@@ -5,9 +5,7 @@
     //|      This file is licensed under MIT license.      |
     //|====================================================|
 
-    if (session_status() == PHP_SESSION_NONE) {
-        session_start();
-    }
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
 
     if (isset($_GET["c"]) && is_numeric($_GET["c"])) {
         http_response_code($_GET["c"]);
@@ -134,7 +132,7 @@
 
     <div class="footer">
         <img src="/data/img/icon.png" class="icon">
-        <p>Sample Text Sample Text Sample Text Sample Text Sample Text Sample Text Sample Text Sample Text Sample Text</p>
+        <p>Themis Web Interface. Copyright (c) 2018 Belikhun. This project is copyrighted under MIT license.</p>
     </div>
 
 </body>

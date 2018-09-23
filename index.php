@@ -10,7 +10,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/api/xmldb/account.php";
     header("Cache-Control: max-age=0, must-revalidate", true);
-    define("VERSION", "0.3.1");
+    define("VERSION", "0.3.2");
 
     if (!islogedin()) {
         require "login.php";
@@ -21,7 +21,6 @@
     $userdata = getuserdata($username);
     $name = $userdata["name"];
     $id = $userdata["id"];
-
 ?>
 
     <!DOCTYPE html>
@@ -113,6 +112,9 @@
                     <?php if(getuserdata($_SESSION["username"])["id"] == "admin") { ?>
                         <li id="userp_edit_name_toggler" class="item config" onclick="core.showcp();">Cài đặt</li>
                     <?php } ?>
+                    <a href="https://github.com/belivipro9x99/themis-web-interface-reloaded/issues" target="_blank"><li class="item report">Báo lỗi</li></a>
+                    <a href="https://github.com/belivipro9x99/themis-web-interface-reloaded/wiki" target="_blank"><li class="item wiki">Wiki</li></a>
+                    <a href="https://github.com/belivipro9x99/themis-web-interface-reloaded" target="_blank"><li class="item repo">Github Repository</li></a>
                     <li id="userp_logout" class="item logout">Đăng xuất</li>
                 </ul>
                 <div id="userp_right_panel" class="right">
@@ -246,7 +248,7 @@
                 <ul class="right">
                     <li class="title">Liên Hệ</t>
                     </li>
-                    <li class="tel">01668275002</li>
+                    <li class="tel">03668275002</li>
                     <li class="email">belivipro9x99@gmail.com</li>
                     <li class="facebook">
                         <a href="https://www.facebook.com/belivipro9x99">belivipro9x99</a>

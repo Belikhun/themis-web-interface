@@ -1,11 +1,16 @@
 <?php
     //|====================================================|
-    //|                    belipack.php                    |
+    //|                   belibrary.php                    |
     //|            Copyright (c) 2018 Belikhun.            |
     //|      This file is licensed under MIT license.      |
     //|====================================================|
 
     if (session_status() == PHP_SESSION_NONE) {
+        if (isset($_POST["sessid"]))
+            session_id($_POST["sessid"]);
+        elseif (isset($_GET["sessid"]))
+            session_id($_GET["sessid"]);
+
         session_start();
     }
 
@@ -92,19 +97,19 @@
             return null;
     }
 
-    function stop($c = null, $d = null, $hc = 500, $b = array()) {
+    function stop($c = null, $d = null, $sc = 200, $b = array()) {
         global $runtime;
 
         $out = Array(
             "code" => $c,
+            "status" => $sc,
             "description" => $d,
             "user" => $_SESSION["username"],
             "data" => $b,
             "runtime" => $runtime->stop()
         );
 
-        if ($c != 0)
-            http_response_code($hc);
+        http_response_code($sc);
 
         header("Content-Type: application/json", true);
         echo(json_encode($out));

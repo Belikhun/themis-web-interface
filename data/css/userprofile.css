@@ -171,6 +171,11 @@
     transform: translateX(-100%);
 }
 
+#user_profile .body .left a {
+    text-decoration: unset;
+    font-weight: normal;
+}
+
 #user_profile .body .left li.item {
     cursor: pointer;
     display: flex;
@@ -210,6 +215,19 @@
 
 #user_profile .body .left li.item.config::before {
     content: "\f013";
+}
+
+#user_profile .body .left li.item.report::before {
+    content: "\f188";
+}
+
+#user_profile .body .left li.item.repo::before {
+    content: "\f09b";
+    font-family: "Font Awesome 5 Brands";
+}
+
+#user_profile .body .left li.item.wiki::before {
+    content: "\f02d";
 }
 
 #user_profile .body .left li.item.logout::before {

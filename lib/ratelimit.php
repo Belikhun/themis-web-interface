@@ -33,7 +33,7 @@
             //count
             $_SESSION["requestcount"]++;
             if ($_SESSION["requestcount"] > $maxrequest) {
-                //start banning
+                //ban
                 $_SESSION["banned"] = true;
                 $_SESSION["unban"] = $now + $bantime;
                 printbanmsg();
@@ -55,9 +55,9 @@
             "NO SPAMMING IN THE HALL! ". $time ." seconds detention for you! You should know better.",
             429,
             Array(
-                "bantime" => $time,
-                "banstart" => $_SESSION["unban"] - $bantime,
-                "banend" => $_SESSION["unban"]
+                "reset" => $time,
+                "start" => $_SESSION["unban"] - $bantime,
+                "end" => $_SESSION["unban"]
             )
         );
     }

@@ -219,9 +219,9 @@ core = {
     },
 
     viewlog(url) {
-        file = url.split("/").pop().replace("getlog?f=", "");
+        file = url.split("/").pop().replace("viewlog?f=", "");
         myajax({
-            url: "/api/test/getlog",
+            url: "/api/test/viewlog",
             method: "GET",
             query: {
                 "f": file
@@ -325,7 +325,7 @@ core = {
                     url: "/api/test/upload",
                     method: "POST",
                     form: {
-                        "t": API_TOKEN,
+                        "token": API_TOKEN,
                     },
                     file: files[i],
                 }, function (d) {
@@ -359,7 +359,9 @@ core = {
 
         init() {
             this.timepanel.set.hide();
-            this.timepanel.ref.onclick(core.timer.fetchtime);
+            this.timepanel.ref.onclick(() => {
+                this.fetchtime();
+            });
             this.fetchtime(true);
         },
 
@@ -367,24 +369,27 @@ core = {
             myajax({
                 url: "/api/test/timer",
                 method: "GET",
-            }, function(data) {
-                core.timer.timedata = data;
-                if (data.d == 0)
+            }, data => {
+                this.timedata = data;
+                if (data.during <= 0) {
+                    $("#timep").classList.remove("show");
+                    clearInterval(this.interval);
                     return;
+                }
                 if (init) {
                     $("#timep").classList.add("show");
-                    core.timer.last = 0;
-                    clearInterval(core.timer.interval);
-                    core.timer.startinterval();
+                    this.last = 0;
+                    clearInterval(this.interval);
+                    this.startinterval();
                 }
             });
         },
 
         startinterval() {
-            core.timer.timeupdate();
-            core.timer.interval = setInterval(() => {
-                core.timer.timedata.t--;
-                core.timer.timeupdate();
+            this.timeupdate();
+            this.interval = setInterval(() => {
+                this.timedata.time--;
+                this.timeupdate();
             }, 1000);
         },
 
@@ -397,35 +402,35 @@ core = {
             this.start.innerText = "--:--";
             this.end.innerText = "--:--";
             this.state.innerText = "---";
-            core.timer.last = 0;
-            core.timer.timedata.stage = 0;
+            this.last = 0;
+            this.timedata.stage = 0;
         },
 
         timeupdate() {
-            if ((data = core.timer.timedata).t == 0)
+            if ((data = this.timedata).time == 0)
                 switch (data.stage) {
                     case 1:
-                        core.timer.timedata.stage = 2;
-                        core.timer.timedata.t = data.d;
+                        this.timedata.stage = 2;
+                        this.timedata.time = data.during;
                         break;
                     case 2:
-                        core.timer.timedata.stage = 3;
-                        core.timer.timedata.t = data.b;
+                        this.timedata.stage = 3;
+                        this.timedata.time = data.offset;
                         break;
                     case 3:
-                        core.timer.timedata.stage = 4;
+                        this.timedata.stage = 4;
                         break;
                     default:
-                        core.timer.reset();
+                        this.reset();
                         break;
                 }
-            data = core.timer.timedata;
-            t = data.t;
+            data = this.timedata;
+            t = data.time;
 
             switch(data.stage) {
                 case 1:
-                    if (core.timer.last == 0)
-                        core.timer.last = t;
+                    if (this.last == 0)
+                        this.last = t;
                     this.time.classList.remove("red");
                     this.time.classList.remove("green");
                     this.time.innerText = parsetime(t).str;
@@ -438,18 +443,18 @@ core = {
                     this.time.classList.remove("red");
                     this.time.classList.add("green");
                     this.time.innerText = parsetime(t).str;
-                    this.bar.style.width = (t/data.d)*100 + "%";
+                    this.bar.style.width = (t/data.during)*100 + "%";
                     this.start.innerText = parsetime(t).str;
-                    this.end.innerText = parsetime(data.d).str;
+                    this.end.innerText = parsetime(data.during).str;
                     this.state.innerText = "Thời gian làm bài";
                     break;
                 case 3:
                     this.time.classList.remove("green");
                     this.time.classList.add("red");
                     this.time.innerText = parsetime(t).str;
-                    this.bar.style.width = (t/data.b)*100 + "%";
+                    this.bar.style.width = (t/data.offset)*100 + "%";
                     this.start.innerText = parsetime(t).str;
-                    this.end.innerText = parsetime(data.b).str;
+                    this.end.innerText = parsetime(data.offset).str;
                     this.state.innerText = "Thời gian bù";
                     break;
                 case 4:
@@ -567,7 +572,7 @@ core = {
                 url: "/api/logout",
                 method: "POST",
                 form: {
-                    "t": API_TOKEN
+                    "token": API_TOKEN
                 }
             }, function() {
                 location.reload();
@@ -604,7 +609,7 @@ core = {
                 method: "POST",
                 form: {
                     "n": name,
-                    "t": API_TOKEN
+                    "token": API_TOKEN
                 }
             }, function(res) {
                 statbar.change(statbar.type.OK, "Thay đổi thông tin thành công!");
@@ -623,7 +628,7 @@ core = {
                     "p": pass,
                     "np": npass,
                     "rnp": renpass,
-                    "t": API_TOKEN
+                    "token": API_TOKEN
                 }
             }, function(res) {
                 statbar.change(statbar.type.OK, "Thay đổi thông tin thành công!");
@@ -651,7 +656,7 @@ core = {
                 url: "/api/avt/change",
                 method: "POST",
                 form: {
-                    "t": API_TOKEN,
+                    "token": API_TOKEN,
                 },
                 file: file,
             }, function (d) {

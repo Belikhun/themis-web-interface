@@ -11,11 +11,15 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
 
     if (!isset($_GET["u"]))
-        stop(1, "Chưa xác định giá trị u.");
+        stop(1, "Undefined query: u", 400);
 
     $username = trim($_GET["u"]);
     require_once "xmldb/account.php";
 
-    echo htmlspecialchars(getuserdata($username)["name"], ENT_QUOTES, "UTF-8");
+    $data = getuserdata($username);
+    unset($data["password"]);
+    unset($data["repass"]);
+
+    stop(0, "Thành công!", 200, $data);
 
 ?>

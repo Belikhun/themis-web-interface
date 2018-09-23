@@ -53,9 +53,9 @@ t {
     width: 100%;
     height: 100%;
     filter: brightness(0.8);
-    background-image: url("/data/img/login-wallpaper.png");
+    background-image: url("/data/img/login-bg.png");
     background-repeat: no-repeat;
-    background-position: center center;
+    background-position: center;
     background-size: cover;
 }
 

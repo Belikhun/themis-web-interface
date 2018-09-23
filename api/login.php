@@ -11,13 +11,13 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
 
     if (islogedin())
-        stop(9, "Bạn đã đăng nhập bằng một tài khoản khác!", 403);
+        stop(12, "Đã đăng nhập bằng username: ". $_SESSION["username"], 403);
 
     if (!isset($_POST["u"]))
-        stop(1, "Chưa xác định giá trị u.", 400);
+        stop(2, "Undefined form: u", 400);
 
     if (!isset($_POST["p"]))
-        stop(2, "Chưa xác định giá trị p.", 400);
+        stop(2, "Undefined form: p", 400);
     
     $username = trim($_POST["u"]);
     $password = trim($_POST["p"]);
@@ -25,24 +25,23 @@
 
     $res = simplelogin($username, $password);
     if ($res == LOGIN_SUCCESS) {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
         $udata = getuserdata($username);
         $_SESSION["username"] = $username;
         $_SESSION["id"] = $udata["id"];
         $_SESSION["name"] = $udata["name"];
         $_SESSION["api_token"] = bin2hex(random_bytes(64));
+        session_regenerate_id();
         stop(0, "Đăng nhập thành công.", 200, Array(
             "token" => $_SESSION["api_token"],
+            "sessid" => session_id(),
             "redirect" => "/"
         ));
     }
     else if ($res == LOGIN_WRONGPASSWORD)
-        stop(4, "Sai mật khẩu!", 403);
+        stop(14, "Sai mật khẩu!", 403);
     else if ($res == LOGIN_USERNAMENOTFOUND)
-        stop(3, "Sai tên đăng nhập!", 403);
+        stop(13, "Sai tên đăng nhập!", 403);
     else
-        stop(8, "Lỗi không rõ.", 500);
+        stop(-1, "Lỗi không rõ.", 500);
 
 ?>

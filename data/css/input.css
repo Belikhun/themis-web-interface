@@ -15,7 +15,7 @@
 .formgroup .formfield {
     width: 100%;
     border: 0;
-    border-bottom: 1px solid rgba(224, 224, 224, 0.4);
+    border-bottom: 1px solid rgba(131, 131, 131, 0.4);
     outline: 0;
     font-family: "Calibri", "Segoe UI", sans-serif;
     font-size: 14px;
@@ -46,7 +46,7 @@
     font-family: "Calibri", "Segoe UI", sans-serif;
     font-weight: 700;
     text-transform: uppercase;
-    color: #72767d;
+    color: #5a5b5f;
     user-select: none;
 }
 
