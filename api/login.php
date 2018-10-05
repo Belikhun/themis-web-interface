@@ -12,16 +12,10 @@
 
     if (islogedin())
         stop(12, "Đã đăng nhập bằng username: ". $_SESSION["username"], 403);
-
-    if (!isset($_POST["u"]))
-        stop(2, "Undefined form: u", 400);
-
-    if (!isset($_POST["p"]))
-        stop(2, "Undefined form: p", 400);
     
-    $username = trim($_POST["u"]);
-    $password = trim($_POST["p"]);
-    require_once "xmldb/account.php";
+    $username = reqform("u");
+    $password = reqform("p");
+    require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
 
     $res = simplelogin($username, $password);
     if ($res == LOGIN_SUCCESS) {

@@ -8,29 +8,42 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/api/xmldb/account.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
+
+	function parsename(string $path) {
+		$path = basename($path);
+		$path = str_replace("[", " ", str_replace(".", " ", str_replace("]", "", $path)));
+		list($id, $username, $filename, $ext) = sscanf($path, "%s %s %s %s");
+		return Array(
+			"id" => $id,
+			"username" => $username,
+			"filename" => $filename,
+			"ext" => $ext,
+			"name" => $filename.".".$ext
+		);
+	}
 
     $logdir = glob($config["logdir"] ."/*.log");
     $res = Array();
     $namelist = Array();
 
     foreach ($logdir as $i => $log) {
-        $user = getStringBetween(basename($log), "[", "]");
-		$flog = fopen($log, "r");
-		$l1 = str_replace(PHP_EOL, "", fgets($flog));
-		$name = str_replace(PHP_EOL, "", fgets($flog));
-		$out = substr($l1, strlen($user) + strlen(pathinfo($name, PATHINFO_FILENAME)) + 8);
+        $data = parsename($log);
+        $user = $data["username"];
+        $flog = fopen($log, "r");
+        $line = str_replace(PHP_EOL, "", fgets($flog));
         fclose($flog);
+        $out = substr($line, strlen($user) + strlen(pathinfo($data["filename"], PATHINFO_FILENAME)) + 8);
 
         $point = 0;
-		preg_match("/[0-9]{1,},[0-9]{1,}/", $out, $t);
+        preg_match("/[0-9]{1,},[0-9]{1,}/", $out, $t);
         if (count($t) != 0 && isset($t[count($t) - 1]))
             $point = (float)str_replace(",", ".", $t[count($t) - 1]);
 
         if ($config["publish"] == true) {
-            $namelist[$i] = $name;
-            $res[$user]["list"][$name] = $point;
+            $namelist[$i] = $data["filename"];
+            $res[$user]["list"][$data["filename"]] = $point;
         }
 
         $res[$user]["username"] = $user;
@@ -45,7 +58,7 @@
         $namelist = ((count($nlr) > 0) ? $nlr : Array());
     }
 
-    usort($res, function($a, $b){
+    usort($res, function($a, $b) {
         $a = $a["total"];
         $b = $b["total"];
     

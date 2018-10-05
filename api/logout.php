@@ -14,10 +14,7 @@
     if (!islogedin())
         stop(11, "Bạn chưa đăng nhập!", 403);
 
-    if (!isset($_POST["token"]))
-        stop(4, "Token please!", 400);
-    if ($_POST["token"] !== $_SESSION["api_token"])
-        stop(5, "Wrong token!", 403);
+    checktoken();
 
     // Unset all of the session variables
     $_SESSION = array();

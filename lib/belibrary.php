@@ -24,12 +24,64 @@
             return false;
     }
 
+    /**
+     * Kiểm tra token trong session với token được gửi trong form
+     */
+    function checktoken() {
+        if (!isset($_POST["token"]))
+            stop(4, "Token please!", 400);
+        if ($_POST["token"] !== $_SESSION["api_token"])
+            stop(5, "Wrong token!", 403);
+    }
+
     function getStringBetween($str, $from, $to) {
         $sub = substr($str, strpos($str, $from) + strlen($from), strlen($str));
         return substr($sub, 0, strpos($sub, $to));
     }
 
-    function contenttype(string $e) {
+    function reqform(string $key) {
+        if (!isset($_POST[$key]))
+            stop(1, "Undefined form: ". $key, 400);
+        else
+            return trim($_POST[$key]);
+    }
+
+    function reqquery(string $key) {
+        if (!isset($_GET[$key]))
+            stop(1, "Undefined query: ". $key, 400);
+        else
+            return trim($_GET[$key]);
+    }
+
+    function getform(string $key, $isnul = null) {
+        return isset($_POST[$key]) ? trim($_POST[$key]) : $isnul;
+    }
+
+    function getquery(string $key, $isnul = null) {
+        return isset($_GET[$key]) ? trim($_GET[$key]) : $isnul;
+    }
+
+    /**
+     * Remove the directory and its content (all files and subdirectories).
+     * @param string path to directory
+     */
+    function rmrf($dir) {
+        foreach (glob($dir) as $file)
+            if (is_dir($file)) {
+                rmrf("$file/*");
+                rmdir($file);
+            } else
+                unlink($file);
+    }
+
+    /**
+     * Thay đổi header Content-Type tương ứng với đuôi tệp
+     * 
+     * @param string Đuôi tên tệp
+     * @return bool true nếu thành công.
+     * 
+     */
+    function contenttype(string $ext) {
         $mimet = Array(
             "txt" => "text/plain",
             "htm" => "text/html",
@@ -90,9 +142,9 @@
             "ods" => "application/vnd.oasis.opendocument.spreadsheet",
         );
 
-        if (isset($mimet[$e])) {
-            header("Content-Type: ". $mimet[$e]);
-            return $mimet[$e];
+        if (isset($mimet[$ext])) {
+            header("Content-Type: ". $mimet[$ext]);
+            return $mimet[$ext];
         } else
             return null;
     }
@@ -210,6 +262,7 @@
             $this -> fos($this -> path, "w");
             fwrite($this -> stream, $data);
             $this -> fcs();
+            return true;
         }
     }
 

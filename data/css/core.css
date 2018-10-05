@@ -398,26 +398,32 @@ ul.log-item-container li.log-item.judging .d::before {
     position: absolute;
     width: 100%;
     height: 100%;
-    display: flex;
-    justify-content: center;
+    box-sizing: border-box;
+    padding: 20px;
     transition: all 0.4s ease;
     opacity: 0;
 }
 
 .fileupload-container .info #file_upstate {
-    position: absolute;
-    top: 22px;
+    position: relative;
+    display: block;
+    padding: 0 0 2px 0;
+    box-sizing: border-box;
+    width: 100%;
     font-size: 20px;
     font-weight: 100;
+    text-align: center;
     text-transform: uppercase;
     color: rgb(136, 136, 136);
 }
 
 .fileupload-container .info #file_name {
-    position: absolute;
-    top: 50px;
+    position: relative;
+    display: block;
+    width: 100%;
     font-size: 12px;
     font-weight: 500;
+    text-align: center;
     text-transform: uppercase;
     color: rgb(93, 93, 93);
 }
@@ -425,6 +431,8 @@ ul.log-item-container li.log-item.judging .d::before {
 .fileupload-container .info .bar {
     position: absolute;
     bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
     width: 90%;
     height: 2px;
     background-color: rgba(90, 90, 90, 0.2);
@@ -438,6 +446,10 @@ ul.log-item-container li.log-item.judging .d::before {
     width: 0%;
     background-color: #16dfb6;
     transition: width 0.2s ease;
+}
+
+.fileupload-container .info .bar #file_bar.red {
+    background-color: #c0392b;
 }
 
 .fileupload-container .info .bar #file_perc {

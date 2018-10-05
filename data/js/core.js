@@ -86,7 +86,12 @@ core = {
     frankint: null,
 
     init() {
-        console.log("Core init...");
+        console.log("%cSTOP! ✋", "font-size: 72px; font-weight: 900;");
+        console.log(
+            "%cThis feature is intended for developers. Pasting something here could give strangers access to your account.",
+            "font-size: 18px; font-weight: 700;"
+        );
+        console.log("init...");
         $("#loader").classList.add("done");
         this.file.init();
         this.timer.init();
@@ -260,16 +265,19 @@ core = {
             this.dropzone.addEventListener("dragover", this.dragover, false);
             this.dropzone.addEventListener("drop", this.filesel, false);
             this.panel.ref.onclick(this.reset);
+            this.panel.title = "Nộp bài";
             this.panel.set.hide();
         },
 
         reset() {
             core.file.dropzone.classList.remove("hide");
+            core.file.panel.title = "Nộp bài";
             core.file.name.innerText = "null";
             core.file.state.innerText = "null";
             core.file.size.innerText = "00/00";
             core.file.percent.innerText = "0%";
             core.file.bar.style.width = "0%";
+            core.file.bar.className = "";
         },
 
         filesel(e) {
@@ -310,15 +318,17 @@ core = {
 
         upload(files, i = 0) {
             if (i > files.length - 1) {
-                core.file.reset();
+                this.reset();
                 return;
             }
 
-            core.file.name.innerText = files[i].name;
-            core.file.state.innerText = "Đang tải lên " + (i + 1) + "/" + files.length +"...";
-            core.file.size.innerText = "00/00";
-            core.file.percent.innerText = "0%";
-            core.file.bar.style.width = "0%";
+            this.name.innerText = files[i].name;
+            this.state.innerText = "Đang tải lên...";
+            this.panel.title = "Nộp bài - Đang tải lên " + (i + 1) + "/" + files.length +"...";
+            this.size.innerText = "00/00";
+            this.percent.innerText = "0%";
+            this.bar.style.width = "0%";
+            this.bar.classList.remove("red");
 
             setTimeout(() => {
                 myajax({
@@ -328,21 +338,23 @@ core = {
                         "token": API_TOKEN,
                     },
                     file: files[i],
-                }, function (d) {
-                    core.file.state.innerText = "Tải lên thành công! " + (i + 1) + "/" + files.length;
-                    core.file.onUploadSuccess();
+                }, data => {
+                    this.state.innerText = "Tải lên thành công! " + (i + 1) + "/" + files.length;
+                    this.onUploadSuccess();
                     setTimeout(() => {
-                        core.file.upload(files, i + 1);
-                    }, core.file.uploadcooldown / 2);
-                }, function (e) {
-                    core.file.size.innerText = e.loaded + "/" + e.total;
-                    core.file.percent.innerText = ((e.loaded / e.total) * 100).toFixed(0) + "%";
-                    core.file.bar.style.width = (e.loaded / e.total) * 100 + "%";
-                }, function (res) {
-                    core.file.state.innerText = "Tải lên thất bại";
-                    setTimeout(core.file.reset, 2000);
+                        this.upload(files, i + 1);
+                    }, this.uploadcooldown / 2);
+                }, e => {
+                    this.size.innerText = e.loaded + "/" + e.total;
+                    this.percent.innerText = ((e.loaded / e.total) * 100).toFixed(0) + "%";
+                    this.bar.style.width = (e.loaded / e.total) * 100 + "%";
+                }, res => {
+                    statbar.hide();
+                    this.state.innerText = res.description;
+                    this.panel.title = "Nộp bài - Đã dừng.";
+                    this.bar.classList.add("red");
                 })
-            }, core.file.uploadcooldown / 2);
+            }, this.uploadcooldown / 2);
         },
     },
 

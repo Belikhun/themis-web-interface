@@ -16,15 +16,12 @@
 
     if (!islogedin())
         stop(11, "Bạn chưa đăng nhập.", 403);
+        
+    checktoken();
 
-    require_once $_SERVER["DOCUMENT_ROOT"]."/api/xmldb/account.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
     if (getuserdata($_SESSION["username"])["id"] != "admin")
         stop(31, "Access Denied!", 403);
-
-    if (!isset($_POST["token"]))
-        stop(4, "Token please!", 400);
-    if ($_POST["token"] !== $_SESSION["api_token"])
-        stop(5, "Wrong token!", 403);
 
     $TYPE_ARRAY = Array(
         "string" => "Array",

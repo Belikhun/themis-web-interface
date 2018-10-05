@@ -10,11 +10,8 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
 
-    if (!isset($_GET["u"]))
-        stop(1, "Undefined query: u", 400);
-
-    $username = trim($_GET["u"]);
-    require_once "xmldb/account.php";
+    $username = reqquery("u");
+    require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
 
     $data = getuserdata($username);
     unset($data["password"]);

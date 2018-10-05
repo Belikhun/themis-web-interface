@@ -16,10 +16,7 @@
     if ($config["viewlog"] == false)
         stop(23, "Xem nhật ký đã bị tắt!", 403);
 
-    if (!isset($_GET["f"]))
-        stop(1, "Undefined query: f", 400);
-
-    $file = $_GET["f"];
+    $file = reqquery("f");
     $file = str_replace("\"", "", $file);
     $file = str_replace("/", "", $file);
 

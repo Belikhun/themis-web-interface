@@ -8,9 +8,9 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ecatch.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/api/xmldb/account.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
     header("Cache-Control: max-age=0, must-revalidate", true);
-    define("VERSION", "0.3.2");
+    define("VERSION", "0.3.3");
 
     if (!islogedin()) {
         require "login.php";

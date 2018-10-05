@@ -35,6 +35,10 @@ function myajax({
             url += "&";
     }
 
+    xhr.upload.addEventListener("progress", e => {
+        progress(e);
+    }, false);
+
     xhr.addEventListener("readystatechange", function () {
         if (this.readyState === this.DONE) {
 
@@ -97,10 +101,6 @@ function myajax({
             callout(resdata);
         }
     });
-
-    xhr.addEventListener("progress", e => {
-        progress(e);
-    }, false);
 
     xhr.open(method, url);
     xhr.send(pd);

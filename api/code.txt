@@ -29,6 +29,7 @@
 42  file too large
 43  file not accepted
 44  file not found
+45  file exist
 
 // 10x: info
 101 no during time

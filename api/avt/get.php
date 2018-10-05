@@ -12,7 +12,6 @@
     if (!isset($_GET["u"])) {
         contenttype("jpg");
         readfile("avt.default");
-        exit();
     }
 
     $username = trim($_GET["u"]);
@@ -29,7 +28,7 @@
     } else {
         contenttype("jpg");
         readfile("avt.default");
-        exit();
     }
 
+    exit();
 ?>

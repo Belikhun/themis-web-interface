@@ -18,15 +18,14 @@
     $uri = $_SERVER["REQUEST_URI"];
     $cl_ip = $_SERVER["REMOTE_ADDR"];
     $cl = $_SERVER["HTTP_USER_AGENT"];
-    if (isset($_SERVER["REDIRECT_STATUS"])) {
+    if (isset($_SERVER["REDIRECT_STATUS"]))
         $errcode = $_SERVER["REDIRECT_STATUS"];
-    } else if (isset($_GET["code"])) {
+    elseif (isset($_GET["code"]))
         $errcode = trim($_GET["code"]);
-    } else {
+    else
         $errcode = null;
-    }
     
-    $errdescbonus = null;
+    $errdesc2 = null;
 
     if (isset($_SESSION["errordata_array"])) {
         $err = $_SESSION["errordata_array"];
@@ -34,7 +33,7 @@
 
         $errcode = $err["errcode"];
         http_response_code($errcode);
-        $errdescbonus = "<b>Lỗi[".$err["num"]."]:</b> <i>" . $err["str"] . "</i> tại <i>" . $err["file"] . "</i> dòng " . $err["line"];
+        $errdesc2 = "<b>Lỗi[".$err["num"]."]:</b> <i>" . $err["str"] . "</i> tại <i>" . $err["file"] . "</i> dòng " . $err["line"];
     }
 
     switch ($errcode) {
@@ -88,8 +87,8 @@
             break;
     }
 
-    if ($errdescbonus != null)
-        $desc = $errdescbonus;
+    if ($errdesc2 != null)
+        $desc = $errdesc2;
 
 ?>
 

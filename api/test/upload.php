@@ -9,15 +9,25 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
-	require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
+
+	function parsename(string $path) {
+		$path = basename($path);
+		$path = str_replace("[", " ", str_replace(".", " ", str_replace("]", "", $path)));
+		list($id, $username, $filename, $ext) = sscanf($path, "%s %s %s %s");
+		return Array(
+			"id" => $id,
+			"username" => $username,
+			"filename" => $filename,
+			"ext" => $ext,
+			"name" => $filename.".".$ext
+		);
+	}
 
     if (!islogedin())
         stop(11, "Bạn chưa đăng nhập.", 403);
 
-    if (!isset($_POST["token"]))
-        stop(4, "Token please!", 400);
-    if ($_POST["token"] !== $_SESSION["api_token"])
-        stop(5, "Wrong token!", 403);
+    checktoken();
 
     if ($config["submit"] == false)
         stop(22, "Nộp bài đã bị tắt!", 403);
@@ -38,28 +48,33 @@
             stop(104, "Đã qua giờ nộp bài!", 403);
     }
 
+    require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";
+
     $maxfilesize = 10*1024*1024;
     $username = $_SESSION["username"];
     $userid = $_SESSION["id"];
+    apache_setenv("no-gzip", "1");
 
-    $file = $_FILES["file"]["name"];
-    $filename = explode(".", $file);
+    $file = strtolower($_FILES["file"]["name"]);
+    $filename = pathinfo($file, PATHINFO_FILENAME);
+    if (!problem_exist($filename))
+        stop(44, "Không có đề cho bài này!", 404, $filename);
+
     $acceptext = array("pas", "cpp", "c", "pp", "exe", "class", "py", "java");
     $extension = pathinfo($file, PATHINFO_EXTENSION);
-    if (in_array($extension, $acceptext) && ($_FILES["file"]["size"] <= $maxfilesize)) {
-        if ($_FILES["file"]["error"] > 0) {
-            stop(-1, "Lỗi không rõ.", 500);
-        } else {
-            move_uploaded_file($_FILES["file"]["tmp_name"], $config["uploaddir"] ."/". $userid ."[". $username ."][". $filename[0] ."].". end($filename));
-            stop(0, "Nộp bài thành công.", 200);
-        }
-    } elseif (($_FILES["file"]["size"] > $maxfilesize))  {
+
+    if (!in_array($extension, $acceptext) or !problem_checkext($filename, $extension))
+        stop(43, "Không chấp nhận tệp!", 415);
+
+    if (($_FILES["file"]["size"] > $maxfilesize))
         stop(42, "Tệp quá lớn!", 400, Array(
-            "file" => $_FILES["file"]["size"],
+            "size" => $_FILES["file"]["size"],
             "max" => $maxfilesize
         ));
-    } else {
-        stop(43, "Không chấp nhận tệp!", 415);
-    }
 
+    if ($_FILES["file"]["error"] > 0)
+        stop(-1, "Lỗi không rõ.", 500);
+
+    move_uploaded_file($_FILES["file"]["tmp_name"], $config["uploaddir"] ."/". $userid ."[". $username ."][". $filename ."].". $extension);
+    stop(0, "Nộp bài thành công.", 200);
 ?>

@@ -15,7 +15,8 @@ Dự án sử dụng các ngôn ngữ HTML, CSS, PHP và JavaScript, không sử
   - [Tài khoản](#tài-khoản)
 - [API Document](#api-document)
 - [Ảnh chụp màn hình](#screenshot)
-- [Cập nhật v0.3.2](#thay-đổi-trong-v032)
+- [Cập nhật v0.3.3](#thay-đổi-trong-v033)
+  - [Cập nhật v0.3.2](#thay-đổi-trong-v032)
   - [Cập nhật v0.3.1](#thay-đổi-trong-v031)
   - [Cập nhật v0.3.0](#thay-đổi-trong-v030)
   - [Cập nhật v0.2.3](#thay-đổi-trong-v023)
@@ -178,7 +179,10 @@ Toàn bộ Document đều có ở trong [wiki](https://github.com/belivipro9x99
 
 <p align="center"><img  src="https://lh3.googleusercontent.com/EVndQX11gR5D7v1pAcOFDXLDixPevqahUBCYsi3DwDqGU4xNQ0O7PZN1vkuHbk31XpxVEdlsyGV1Tvxr3DMKCwLG5HebbJmagP9G2mNDWUd_rNIVw9aMvPpagTWZTFoJ1TLq5ecOAQ=w2400"></p>
 
-## Thay đổi trong v0.3.2
+## Thay đổi trong v0.3.3
+* Sửa lỗi hiển thị thanh quá trình tải lên
+
+### Thay đổi trong v0.3.2
 * Một số chỉnh sửa cho API
 * Thay đổi ảnh nền footer và errorpage
 * Thêm apiexample
