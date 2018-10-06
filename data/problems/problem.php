@@ -31,7 +31,7 @@
                 "id" => $i,
                 "name" => $item["name"],
                 "point" => $item["point"],
-                "accept" => $item["accept"]
+                "image" => "/api/test/problems/image?id=". $i
             ));
         }
         
@@ -44,6 +44,7 @@
             return PROBLEM_ERROR_IDREJECT;
 
         $data = $problem_list[$id];
+        $data["id"] = $id;
         $data["image"] = "/api/test/problems/image?id=".$id;
         return $data;
     }

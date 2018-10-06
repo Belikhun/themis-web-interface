@@ -30,15 +30,26 @@
     if (!is_numeric($point))
         stop(3, "Loại biến không khớp! Yêu cầu form point là number", 400);
     $point = (float)$point;
+    $time = getform("time", 1);
+    if (!is_numeric($time))
+        stop(3, "Loại biến không khớp! Yêu cầu form time là number", 400);
+    $time = (float)$time;
     $accept = isset($_POST["acpt"]) ? json_decode($_POST["acpt"], true) : Array();
     $test = isset($_POST["test"]) ? json_decode($_POST["test"], true) : Array();
+    $inptype = getform("inptype", "Bàn Phím");
+    $outtype = getform("outtype", "Màn Hình");
     $image = isset($_FILES["img"]) ? $_FILES["img"] : null;
 
     $code = problem_add($id, Array(
         "name" => $name,
         "description" => $description,
         "point" => $point,
+        "time" => $time,
         "accept" => $accept,
+        "type" => Array(
+            "inp" => $inptype,
+            "out" => $outtype
+        ),
         "test" => $test,
     ), $image);
 

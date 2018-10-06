@@ -193,56 +193,43 @@
                     <div class="head">
                         <t class="le">Đề bài</t>
                         <span class="ri">
+                            <i class="material-icons bak">keyboard_arrow_left</i>
                             <i class="material-icons ref">refresh</i>
                             <i class="material-icons set">settings</i>
                         </span>
                     </div>
                     <div class="main problem-container">
-                        <ul class="problem-list">
-                            <li class="item">
-                                <img class="icon" src="/data/problems/bai1/triag.png">
-                                <ul class="name">
-                                    <li class="title">Sample</li>
-                                    <li class="point">5 điểm</li>
-                                </ul>
-                            </li>
-                            <li class="item">
-                                <img class="icon" src="/data/problems/bai1/triag.png">
-                                <ul class="name">
-                                    <li class="title">Sample</li>
-                                    <li class="point">5 điểm</li>
-                                </ul>
-                            </li>
+                        <ul class="problem-list" id="problem_list">
                         </ul>
                         <div class="problem">
-                            <t class="title">Cạnh Tam Giác</t>
-                            <t class="point">5 điểm</t>
+                            <t class="name" id="problem_name"></t>
+                            <t class="point" id="problem_point"></t>
                             <table class="type">
                                 <tr class="filename">
                                     <td>Tên tệp</td>
-                                    <td>sample</td>
+                                    <td id="problem_type_filename"></td>
                                 </tr>
                                 <tr class="ext">
                                     <td>Đuôi tệp</td>
-                                    <td>pas, py, java, cpp</td>
+                                    <td id="problem_type_ext"></td>
                                 </tr>
-                                <tr class="ext">
+                                <tr class="time">
                                     <td>Thời gian</td>
-                                    <td>1 giây</td>
+                                    <td id="problem_type_time"></td>
                                 </tr>
                                 <tr class="inp">
                                     <td>Dữ liệu vào</td>
-                                    <td>Bàn Phím</td>
+                                    <td id="problem_type_inp"></td>
                                 </tr>
                                 <tr class="out">
                                     <td>Dữ liệu ra</td>
-                                    <td>Màn hình</td>
+                                    <td id="problem_type_out"></td>
                                 </tr>
                             </table>
-                            <img class="image" src="/data/problems/bai1/triag.png">
-                            <t class="description">
-                                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Non, velit commodi perspiciatis alias rerum optio eaque at quaerat asperiores dignissimos vitae fugiat quas ut facere fugit cupiditate. Veniam, ducimus dignissimos!
-                            </t>
+                            <img class="image" id="problem_image" src="">
+                            <t class="description" id="problem_description"></t>
+                            <table class="test" id="problem_test">
+                            </table>
                         </div>
                     </div>
                 </panel>

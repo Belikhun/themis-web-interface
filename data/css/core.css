@@ -108,7 +108,8 @@ panel .head .ri {
 
 panel .head .ri i.set,
 panel .head .ri i.clo,
-panel .head .ri i.ref {
+panel .head .ri i.ref,
+panel .head .ri i.bak {
     position: relative;
     color: rgba(98, 98, 98, 0.54);
     font-size: 18px;
@@ -125,7 +126,8 @@ panel .head .ri i.set {
 
 panel .head .ri i.clo:hover,
 panel .head .ri i.set:hover,
-panel .head .ri i.ref:hover {
+panel .head .ri i.ref:hover,
+panel .head .ri i.bak:hover {
     color: rgba(98, 98, 98, 0.82);
 }
 
@@ -401,6 +403,10 @@ ul.log-item-container li.log-item.judging .d::before {
     font-size: 12px;
 }
 
+.fileupload-container {
+    overflow: hidden;
+}
+
 .fileupload-container #file_dropzone {
     position: absolute;
     display: flex;
@@ -526,7 +532,8 @@ ul.log-item-container li.log-item.judging .d::before {
     margin: unset;
     padding: unset;
     list-style: none;
-    overflow: hidden auto;
+    overflow-x: hidden;
+    overflow-y: auto;
     transition: all 0.4s ease;
 }
 
@@ -562,20 +569,21 @@ ul.log-item-container li.log-item.judging .d::before {
     border-radius: 25px;
 }
 
-.problem-container .problem-list li.item .name {
+.problem-container .problem-list li.item .title {
     list-style: none;
     margin: unset;
     padding: 0 0 0 10px;
 }
 
-.problem-container .problem-list li.item .name .title {
+.problem-container .problem-list li.item .title .name {
     position: relative;
     font-size: 16px;
     color: #494949;
 }
 
-.problem-container .problem-list li.item .name .point {
+.problem-container .problem-list li.item .title .point {
     position: relative;
+    display: inline-block;
     font-size: 11px;
     color: #ecf0f1;
     letter-spacing: 0.4px;
@@ -593,7 +601,8 @@ ul.log-item-container li.log-item.judging .d::before {
     right: 0px;
     box-sizing: border-box;
     padding: 10px;
-    overflow: hidden auto;
+    overflow-x: hidden;
+    overflow-y: auto;
     transform: translateX(100%);
     transition: all 0.4s ease;
 }
@@ -606,7 +615,7 @@ ul.log-item-container li.log-item.judging .d::before {
     transform: unset;
 }
 
-.problem-container .problem .title {
+.problem-container .problem .name {
     display: block;
     text-align: center;
     font-size: 18px;
@@ -625,11 +634,19 @@ ul.log-item-container li.log-item.judging .d::before {
 
 .problem-container .problem table {
     list-style: none;
-    margin: unset;
-    padding: 8px 10px;
+    display: block;
+    overflow: auto;
+    width: 100%;
+    margin: 10px 0;
     font-size: 13px;
     border-spacing: 0px;
     color: rgb(92, 92, 92);
+}
+
+.problem-container .problem table th {
+    border-bottom: 2px solid rgba(100, 100, 100, 0.8);
+    text-align: left;
+    padding: 10px 0;
 }
 
 .problem-container .problem table tr:hover {
@@ -638,19 +655,26 @@ ul.log-item-container li.log-item.judging .d::before {
 
 .problem-container .problem table tr td {
     border-bottom: 1px solid #c0c0c0;
+    max-width: 100%;
     padding: 7px 0;
 }
 
+.problem-container .problem table tr th:nth-child(1),
 .problem-container .problem table tr td:nth-child(1) {
-    width: unset;
+    width: auto;
     min-width: 80px;
     text-align: left;
-    padding-right: 16px;
+    padding: 0 16px 0 8px;
+}
+
+.problem-container .problem table.test tr td {
+    font-family: "Consolas";
 }
 
 .problem-container .problem .image {
     width: 100%;
-    padding: 10px 0;
+    margin: 20px 0 10px 0;
+    border: 1px solid #ccc;
 }
 
 .ranking-container {

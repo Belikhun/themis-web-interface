@@ -15,6 +15,7 @@ class regPanel {
         var ri = fcfn(ehead, "ri").childNodes;
         this.eref = fcfn(ri, "ref");
         this.eset = fcfn(ri, "set");
+        this.ebak = fcfn(ri, "bak");
         this.eclo = fcfn(ri, "clo");
         this.emain = fcfn(elem.childNodes, "main");
     }
@@ -51,6 +52,22 @@ class regPanel {
                     t.eset.style.display = "none";
                 else
                     t.eset.style.display = "inline-block";
+            }
+        }
+    }
+
+    get bak() {
+        var t = this;
+        return {
+            onclick(f = () => {}) {
+                t.ebak.addEventListener("click", f, true);
+            },
+
+            hide(h = true) {
+                if (h)
+                    t.ebak.style.display = "none";
+                else
+                    t.ebak.style.display = "inline-block";
             }
         }
     }
@@ -97,6 +114,7 @@ core = {
         this.timer.init();
         this.userprofile.init();
         this.wrapper.init();
+        this.problems.init();
         this.fetchlog();
         this.fetchrank();
         this.logpanel.ref.onclick(() => {
@@ -360,6 +378,92 @@ core = {
 
     problems: {
         panel: new regPanel($("#problemp")),
+        list: $("#problem_list"),
+        name: $("#problem_name"),
+        point: $("#problem_point"),
+        type: {
+            "filename": $("#problem_type_filename"),
+            "ext": $("#problem_type_ext"),
+            "time": $("#problem_type_time"),
+            "inp": $("#problem_type_inp"),
+            "out": $("#problem_type_out")
+        },
+        image: $("#problem_image"),
+        description: $("#problem_description"),
+        test: $("#problem_test"),
+
+        init() {
+            this.panel.set.hide();
+            this.panel.bak.hide();
+            this.panel.bak.onclick(() => {
+                this.list.classList.remove("hide");
+                this.panel.title = "Đề bài"
+                this.panel.bak.hide();
+            })
+            this.panel.ref.onclick(f => {
+                this.getlist();
+            });
+            this.getlist();
+        },
+
+        getlist() {
+            myajax({
+                "url": "/api/test/problems/list",
+                "method": "GET"
+            }, data => {
+                this.list.innerHTML = "";
+                data.forEach(item => {
+                    html = [
+                        "<li class=\"item\" onclick=\"core.problems.getproblem(\'" + item.id + "\');\">",
+                            "<img class=\"icon\" src=\"" + item.image + "\">",
+                            "<ul class=\"title\">",
+                                "<li class=\"name\">" + item.name + "</li>",
+                                "<li class=\"point\">" + item.point + " điểm</li>",
+                            "</ul>",
+                        "</li>",
+                    ].join("\n");
+                    this.list.innerHTML += html;
+                })
+            })
+        },
+
+        getproblem(id) {
+            myajax({
+                "url": "/api/test/problems/get",
+                "method": "GET",
+                "query": {
+                    "id": id
+                }
+            }, data => {
+                this.name.innerText = data.name;
+                this.panel.title = "Đề bài - " + data.name;
+                this.point.innerText = data.point + " điểm";
+                this.type.filename.innerText = data.id;
+                this.type.ext.innerText = data.accept.join(", ");
+                this.type.time.innerText = data.time + " giây";
+                this.type.inp.innerText = data.type.inp;
+                this.type.out.innerText = data.type.out;
+                this.image.src = data.image;
+                this.description.innerText = data.description;
+                testhtml = "";
+                data.test.forEach(item => {
+                    testhtml += [
+                        "<tr>",
+                            "<td>" + item.inp + "</td>",
+                            "<td>" + item.out + "</td>",
+                        "</tr>"
+                    ].join("\n");
+                })
+                this.test.innerHTML = [
+                    "<tr>",
+                        "<th>Input</th>",
+                        "<th>Output</th>",
+                    "</tr>"
+                ].join("\n") + testhtml;
+                this.list.classList.add("hide");
+                this.panel.bak.hide(false);
+            })
+        }
     },
 
     timer: {

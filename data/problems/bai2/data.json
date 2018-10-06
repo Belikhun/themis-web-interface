@@ -1,0 +1,26 @@
+{
+    "name": "Diện Tích",
+    "description": "Tính diện tích của hình tam giác với 3 cạnh a, b, c cho trước.",
+    "accept": [
+        "pas",
+        "java",
+        "py"
+    ],
+    "image": "triag.png",
+    "point": 5,
+    "time": 1,
+    "type": {
+        "inp": "Bàn Phím",
+        "out": "Màn Hình"
+    },
+    "test": [
+        {
+            "inp": "0 0 0",
+            "out": "0"
+        },
+        {
+            "inp": "3 4 5",
+            "out": "6"
+        }
+    ]
+}
