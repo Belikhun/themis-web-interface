@@ -26,6 +26,10 @@
     
     $name = reqform("name");
     $description = reqform("desc");
+    $point = reqform("point");
+    if (!is_numeric($point))
+        stop(3, "Loại biến không khớp! Yêu cầu form point là number", 400);
+    $point = (float)$point;
     $accept = isset($_POST["acpt"]) ? json_decode($_POST["acpt"], true) : Array();
     $test = isset($_POST["test"]) ? json_decode($_POST["test"], true) : Array();
     $image = isset($_FILES["img"]) ? $_FILES["img"] : null;
@@ -33,6 +37,7 @@
     $code = problem_add($id, Array(
         "name" => $name,
         "description" => $description,
+        "point" => $point,
         "accept" => $accept,
         "test" => $test,
     ), $image);

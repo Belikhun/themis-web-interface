@@ -22,6 +22,9 @@
     $id = reqform("id");
     $name = getform("name");
     $description = getform("desc");
+    $point = getform("point");
+    if ($isset($point) && !is_numeric($point))
+        $point = null;
     $accept = json_decode(getform("acpt", Array()), true);
     $test = json_decode(getform("test", Array()), true);
     $image = isset($_FILES["img"]) ? $_FILES["img"] : null;
@@ -29,6 +32,7 @@
     $code = problem_edit($id, Array(
         "name" => $name,
         "description" => $description,
+        "point" => $point,
         "accept" => $accept,
         "test" => $test,
     ), $image);

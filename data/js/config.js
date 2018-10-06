@@ -24,7 +24,6 @@ viewlog = $("#viewlog");
 function cvtime(h, m, s) {
     return [h, m, s]
         .map(v => v < 10 ? "0" + v : v)
-        .filter((v,i) => v !== "00" || i > 0)
         .join(":");
 }
 
@@ -46,7 +45,7 @@ function prdate(inp) {
 function prtime(inp) {
     var t = inp.split(":");
     return {
-        "h": parseInt(t[0]),
+        "h": parseInt(t[0] ? t[0] : 00),
         "m": parseInt(t[1] ? t[1] : 00),
         "s": parseInt(t[2] ? t[2] : 00)
     }

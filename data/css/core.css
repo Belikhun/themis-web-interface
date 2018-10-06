@@ -144,10 +144,17 @@ panel .main {
 #uploadp {
     display: block;
     float: left;
-    width: calc(100% - 410px);
+    width: calc(100% - 780px);
     height: 200px;
     min-height: 200px;
     margin: 20px 10px 10px 20px;
+}
+
+#problemp {
+    display: block;
+    float: left;
+    height: 200px;
+    margin: 20px 10px 10px 10px;
 }
 
 #timep {
@@ -169,7 +176,7 @@ panel .main {
     margin: 20px 20px 20px 10px;
 }
 
-#timep.show+#logp {
+#timep.show + #logp {
     height: calc(100% - 260px);
     min-height: 240px;
     margin: 10px 20px 20px 10px;
@@ -204,15 +211,51 @@ panel .main {
     top: 50%;
     left: 50%;
     transform: translate(-50%, calc(-50% + 20px));
-    width: calc(100% - 200px);
-    height: calc(100% - 200px);
+    width: calc(100% - 80px);
+    height: calc(100% - 100px);
     margin: unset;
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1150px) {
+    #uploadp {
+        width: calc(100% - 410px);
+    }
+
+    #problemp {
+        margin: 20px 10px 10px 10px;
+    }
+
+    #logp {
+        margin: 10px 20px 20px 10px;
+        height: calc(100% - 260px);
+        min-height: 240px;
+    }
+
+    #rankp {
+        height: calc(100% - 260px);
+    }
+
+    #timep {
+        float: left;
+        width: calc(100% - 410px);
+        margin: 10px 10px 10px 20px;
+    }
+
+    #timep.show + #logp {
+        height: calc(100% - 40px);
+        min-height: 460px;
+    }
+}
+
+@media only screen and (max-width: 700px) {
     #uploadp {
         width: calc(100% - 40px);
         margin: 20px 20px 10px 20px;
+    }
+
+    #problemp {
+        width: calc(100% - 40px);
+        margin: 10px 20px;
     }
 
     #timep.show {
@@ -472,6 +515,144 @@ ul.log-item-container li.log-item.judging .d::before {
     color: rgba(116, 116, 116, 0.7);
 }
 
+.problem-container {
+    overflow: hidden!important;
+}
+
+.problem-container .problem-list {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin: unset;
+    padding: unset;
+    list-style: none;
+    overflow: hidden auto;
+    transition: all 0.4s ease;
+}
+
+.problem-container .problem-list li.item {
+    position: relative;
+    width: 100%;
+    height: 60px;
+    box-sizing: border-box;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.problem-container .problem-list li.item:hover {
+    background-color: rgba(202, 202, 202, 0.1);
+}
+
+.problem-container .problem-list li.item:after {
+    content: "\f105";
+    position: absolute;
+    font-family: "Font Awesome 5 Free";
+    font-size: 18px;
+    font-weight: 600;
+    color: #95a5a6;
+    right: 20px;
+}
+
+.problem-container .problem-list li.item img.icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+}
+
+.problem-container .problem-list li.item .name {
+    list-style: none;
+    margin: unset;
+    padding: 0 0 0 10px;
+}
+
+.problem-container .problem-list li.item .name .title {
+    position: relative;
+    font-size: 16px;
+    color: #494949;
+}
+
+.problem-container .problem-list li.item .name .point {
+    position: relative;
+    font-size: 11px;
+    color: #ecf0f1;
+    letter-spacing: 0.4px;
+    background-color: #27ae60;
+    padding: 2px 6px;
+    margin: 2px 0 0 0;
+    border-radius: 4px;
+}
+
+.problem-container .problem {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    right: 0px;
+    box-sizing: border-box;
+    padding: 10px;
+    overflow: hidden auto;
+    transform: translateX(100%);
+    transition: all 0.4s ease;
+}
+
+.problem-container .problem-list.hide {
+    transform: translateX(-100%);
+}
+
+.problem-container .problem-list.hide + .problem {
+    transform: unset;
+}
+
+.problem-container .problem .title {
+    display: block;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #34495e;
+}
+
+.problem-container .problem .point {
+    display: block;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 200;
+    color: #287548;
+    letter-spacing: 0.4px;
+}
+
+.problem-container .problem table {
+    list-style: none;
+    margin: unset;
+    padding: 8px 10px;
+    font-size: 13px;
+    border-spacing: 0px;
+    color: rgb(92, 92, 92);
+}
+
+.problem-container .problem table tr:hover {
+    background-color: rgba(192, 192, 192, 0.1);
+}
+
+.problem-container .problem table tr td {
+    border-bottom: 1px solid #c0c0c0;
+    padding: 7px 0;
+}
+
+.problem-container .problem table tr td:nth-child(1) {
+    width: unset;
+    min-width: 80px;
+    text-align: left;
+    padding-right: 16px;
+}
+
+.problem-container .problem .image {
+    width: 100%;
+    padding: 10px 0;
+}
+
 .ranking-container {
     overflow: auto;
 }
@@ -484,7 +665,7 @@ ul.log-item-container li.log-item.judging .d::before {
 
 .ranking-container table tr th,
 td:nth-child(1) {
-    width: 20px !important;
+    width: 20px;
     text-align: center;
 }
 

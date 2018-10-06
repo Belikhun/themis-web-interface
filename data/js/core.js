@@ -358,6 +358,10 @@ core = {
         },
     },
 
+    problems: {
+        panel: new regPanel($("#problemp")),
+    },
+
     timer: {
         timepanel: new regPanel($("#timep")),
         state: $("#time_state"),

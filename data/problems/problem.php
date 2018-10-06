@@ -30,6 +30,7 @@
             array_push($list, Array(
                 "id" => $i,
                 "name" => $item["name"],
+                "point" => $item["point"],
                 "accept" => $item["accept"]
             ));
         }
