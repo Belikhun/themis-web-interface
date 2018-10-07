@@ -49,6 +49,11 @@ Dự án sử dụng các ngôn ngữ HTML, CSS, PHP và JavaScript, không sử
 
 <p align="center"><img src="https://lh3.googleusercontent.com/K4qASNz9XrcPx6LvGQzoKzq5ypenBTL9LmhKvENALO08O3t1XyNrvo4DT5W1iBzQAEi1mtkn6g9JrgADa12aw2DTMY5a_2989wNrq0D37s6BsEI5GwR8QBZ_N_Y91rgzx1VYYFQbTg=w2400" width="600px"></p>
 
+* Danh sách đề bài được liệt kê trực tiếp
+
+<p align="center"><img src="https://lh3.googleusercontent.com/R2lFhbW5KwjzQjQqJ-pdpBJRFn3_6agAxf5bSNgB0dq-EJwlSilVfXnmHreAbBlNQk96EkHKJN9qYC-mlh0L3yAGcsuUoeE5OVUSXe7CucjwmpX_CJtbhz42nJM8t30WnA8rtfstxg=w2400" width="400px"></p>
+<p align="center"><img src="https://lh3.googleusercontent.com/gDQ_bUkUE2Jc-DEN0TQy6ER8X5Au6LB2s1myw48f2inzX35tudsIDbZcBBcfF7Mvyru275hd6uUmq-l3wJKmMj9DLVriES9hJc6I0VgeOct94QXpXQJFs9AXWkFPdY2zHJe_AExKyQ=w2400" width="400px"></p>
+
 * Hiện thời gian làm bài của kỳ thi
 
 <p align="center"><img src="https://lh3.googleusercontent.com/nWQj7AcZSnGXrquFEPTgtDDaylu70aRXy_hrcIv1WUtjDvUlpI7BVDibCTbJ4gktebBoKA5uulDjYW_Jn3HQ1sP6l8tc4KpL0cBGpN5wy4KLN8kqYgyeLZPRanOWIt5chfrLWqDuWw=w2400" width="600px"></p>
@@ -114,7 +119,7 @@ Apache configuration:
     RewriteRule ^([^\.]+)$ $1.php [NC,L]
   </Directory>
 
-  <Directory "(document root)/api/xmldb">
+  <Directory "(document root)/data/xmldb">
     Options -Indexes
     Deny from all
   </Directory>
@@ -155,7 +160,7 @@ Cấu hình được lưu tại tệp ```data/config.json```, bao gồm:
 
 ### Tài khoản
 
-Dữ liệu tài khoản được lưu tại ```api/xmldb/account.xml```. Có thể sử dụng các trình soạn thảo như Excel để chỉnh sửa.
+Dữ liệu tài khoản được lưu tại ```data/xmldb/account.xml```. Có thể sử dụng các trình soạn thảo như Excel để chỉnh sửa.
 
 ## API Document
 
@@ -180,9 +185,14 @@ Toàn bộ Document đều có ở trong [wiki](https://github.com/belivipro9x99
 <p align="center"><img  src="https://lh3.googleusercontent.com/EVndQX11gR5D7v1pAcOFDXLDixPevqahUBCYsi3DwDqGU4xNQ0O7PZN1vkuHbk31XpxVEdlsyGV1Tvxr3DMKCwLG5HebbJmagP9G2mNDWUd_rNIVw9aMvPpagTWZTFoJ1TLq5ecOAQ=w2400"></p>
 
 ## Thay đổi trong v0.3.3
+
 * Sửa lỗi hiển thị thanh quá trình tải lên
+* Thêm bảng đề bài
+* Thêm problems API
+* Sửa một số bug
 
 ### Thay đổi trong v0.3.2
+
 * Một số chỉnh sửa cho API
 * Thay đổi ảnh nền footer và errorpage
 * Thêm apiexample
@@ -227,4 +237,4 @@ Toàn bộ Document đều có ở trong [wiki](https://github.com/belivipro9x99
 
 ## Contributor
 
-A very big thanks to ```namkojj```, aka [Nam](https://www.facebook.com/profile.php?id=100008107446343) for helping me translating, hunting bug and testing this project.
+Many thanks to ```namkojj```, aka [Nam](https://www.facebook.com/profile.php?id=100008107446343) for helping me translating, hunting bug and testing this project.

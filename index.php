@@ -109,12 +109,12 @@
                     <li id="userp_edit_name_toggler" class="item name arr">Đổi tên người dùng</li>
                     <li id="userp_edit_pass_toggler" class="item pass arr">Đổi mật khẩu</li>
                     <li class="line"></li>
-                    <?php if(getuserdata($_SESSION["username"])["id"] == "admin") { ?>
+                    <?php if ($id == "admin") { ?>
                         <li id="userp_edit_name_toggler" class="item config" onclick="core.showcp();">Cài đặt</li>
                     <?php } ?>
-                    <a href="https://github.com/belivipro9x99/themis-web-interface-reloaded/issues" target="_blank"><li class="item report">Báo lỗi</li></a>
-                    <a href="https://github.com/belivipro9x99/themis-web-interface-reloaded/wiki" target="_blank"><li class="item wiki">Wiki</li></a>
-                    <a href="https://github.com/belivipro9x99/themis-web-interface-reloaded" target="_blank"><li class="item repo">Github Repository</li></a>
+                    <a href="https://github.com/belivipro9x99/themis-web-interface/issues" target="_blank"><li class="item report">Báo lỗi</li></a>
+                    <a href="https://github.com/belivipro9x99/themis-web-interface/wiki" target="_blank"><li class="item wiki">Wiki</li></a>
+                    <a href="https://github.com/belivipro9x99/themis-web-interface" target="_blank"><li class="item repo">Github Repository</li></a>
                     <li id="userp_logout" class="item logout">Đăng xuất</li>
                 </ul>
                 <div id="userp_right_panel" class="right">
@@ -195,8 +195,67 @@
                         <span class="ri">
                             <i class="material-icons bak">keyboard_arrow_left</i>
                             <i class="material-icons ref">refresh</i>
-                            <i class="material-icons set">settings</i>
+                            <i class="material-icons set" <?php if ($id != "admin") {?>style="display: none;"<?php }; ?>>settings</i>
                         </span>
+                    </div>
+                    <div class="sett problem-settings">
+                        <div class="header">
+                            <div class="left">
+                                <span id="problem_edit_btn_back" class="back"></span>
+                            </div>
+                            <t id="problem_edit_title" class="title">Chỉnh sửa đề</t>
+                            <div class="right">
+                                <span id="problem_edit_btn_add" class="add"></span>
+                                <span id="problem_edit_btn_check" class="check"></span>
+                            </div>
+                        </div>
+                        <div class="container">
+                            <ul id="problem_edit_list" class="problem-list"></ul>
+                            <form id="problem_edit_form" class="problem" action="javascript:void(0);" autocomplete="off">
+                                <div class="formgroup blue">
+                                    <input id="problem_edit_id" type="text" class="formfield" placeholder="Tên Tệp" required>
+                                    <label for="problem_edit_id" class="formlabel">Tên Tệp</label>
+                                </div>
+                                <div class="formgroup blue">
+                                    <input id="problem_edit_name" type="text" class="formfield" placeholder="Tên Bài" required>
+                                    <label for="problem_edit_name" class="formlabel">Tên Bài</label>
+                                </div>
+                                <div class="formgroup blue">
+                                    <input id="problem_edit_point" type="number" class="formfield" placeholder="Điểm" required>
+                                    <label for="problem_edit_point" class="formlabel">Điểm</label>
+                                </div>
+                                <div class="formgroup blue">
+                                    <input id="problem_edit_time" type="number" class="formfield" placeholder="Thời gian chạy" value="1" required>
+                                    <label for="problem_edit_time" class="formlabel">Thời gian chạy</label>
+                                </div>
+                                <div class="formgroup blue">
+                                    <input id="problem_edit_inptype" type="text" class="formfield" placeholder="Dữ liệu vào" value="Bàn Phím" required>
+                                    <label for="problem_edit_inptype" class="formlabel">Dữ liệu vào</label>
+                                </div>
+                                <div class="formgroup blue">
+                                    <input id="problem_edit_outtype" type="text" class="formfield" placeholder="Dữ liệu ra" value="Màn Hình" required>
+                                    <label for="problem_edit_outtype" class="formlabel">Dữ liệu ra</label>
+                                </div>
+                                <div class="formgroup blue">
+                                    <input id="problem_edit_accept" type="text" class="formfield" placeholder="Đuôi tệp" value="pas|py|cpp|java" required>
+                                    <label for="problem_edit_accept" class="formlabel">Đuôi tệp (dùng | để ngăn cách)</label>
+                                </div>
+                                <div class="formgroup blue">
+                                    <input id="problem_edit_image" type="file" class="formfield" accept="image/*" placeholder="Ảnh">
+                                    <label for="problem_edit_image" class="formlabel">Ảnh (không yêu cầu)</label>
+                                </div>
+                                <div class="formgroup blue">
+                                    <textarea id="problem_edit_desc" class="formfield" placeholder="Nội dung" required></textarea>
+                                    <label for="problem_edit_desc" class="formlabel">Nội dung</label>
+                                </div>
+                                <div class="test-container">
+                                    <t class="test">Test ví dụ</t>
+                                    <div class="test-list" id="problem_edit_test_list"></div>
+                                    <span class="test-add" id="problem_edit_test_add"></span>
+                                </div>
+                                <button id="problem_edit_submit" type="submit"></button>
+                            </form>
+                        </div>
                     </div>
                     <div class="main problem-container">
                         <ul class="problem-list" id="problem_list">
@@ -291,7 +350,7 @@
                     </li>
                 </ul>
                 <ul class="right">
-                    <li class="title">Liên Hệ</t>
+                    <li class="title">Liên Hệ</textarea>
                     </li>
                     <li class="tel">03668275002</li>
                     <li class="email">belivipro9x99@gmail.com</li>

@@ -45,7 +45,8 @@
 
         $data = $problem_list[$id];
         $data["id"] = $id;
-        $data["image"] = "/api/test/problems/image?id=".$id;
+        if (isset($data["image"]))
+            $data["image"] = "/api/test/problems/image?id=". $id;
         return $data;
     }
 
@@ -73,8 +74,9 @@
             if ($files["error"] > 0)
                 return PROBLEM_ERROR;
 
-            unlink($problem_dir."/".$id."/".$problem_list[$id]["image"]);
-            move_uploaded_file($files["tmp_name"], $problem_dir."/".$id."/".$file);
+            if (isset($problem_list[$id]["image"]) && file_exists($problem_dir ."/". $id ."/". $problem_list[$id]["image"]))
+                unlink($problem_dir ."/". $id ."/". $problem_list[$id]["image"]);
+            move_uploaded_file($files["tmp_name"], $problem_dir ."/". $id ."/". $file);
             $new["image"] = $file;
         }
 
@@ -129,16 +131,21 @@
         if (!isset($problem_list[$id]))
             return PROBLEM_ERROR_IDREJECT;
 
-        $i = $problem_list[$id]["image"];
-        $f = $problem_dir."/".$id."/".$i;
+        if (isset($problem_list[$id]["image"])) {
+            $i = $problem_list[$id]["image"];
+            $f = $problem_dir."/".$id."/".$i;
 
-        if (file_exists($f)) {
             contenttype(pathinfo($i, PATHINFO_EXTENSION));
             header("Content-Length: ", filesize($f));
             readfile($f);
             return PROBLEM_OKAY;
-        } else
-            return PROBLEM_ERROR;
+        }
+
+        $f = $problem_dir ."/image.default";
+        contenttype("png");
+        header("Content-Length: ", filesize($f));
+        readfile($f);
+        return PROBLEM_ERROR;
     }
 
     function problem_remove(String $id) {

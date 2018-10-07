@@ -38,14 +38,14 @@
             <li class="title">Kì thi</li>
             <li class="name">
                 <div class="formgroup blue">
-                    <input id="contest-name" type="text" name="name" class="formfield" autocomplete="off" placeholder="Tên kì thi" required>
-                    <label for="name" class="formlabel">Tên kì thi</label>
+                    <input id="contest-name" type="text" class="formfield" autocomplete="off" placeholder="Tên kì thi" required>
+                    <label for="contest-name" class="formlabel">Tên kì thi</label>
                 </div>
             </li>
             <li class="description">
                 <div class="formgroup blue">
-                    <input id="contest-description" type="text" name="description" class="formfield" autocomplete="off" placeholder="Mô tả kì thi" required>
-                    <label for="description" class="formlabel">Mô tả kì thi</label>
+                    <input id="contest-description" type="text" class="formfield" autocomplete="off" placeholder="Mô tả kì thi" required>
+                    <label for="contest-description" class="formlabel">Mô tả kì thi</label>
                 </div>
             </li>
         </ul>
@@ -54,7 +54,7 @@
             <li class="title">Thư mục</li>
             <li class="upload">
                 <div class="formgroup blue">
-                    <input id="uploaddir" type="text" name="uploaddir" class="formfield" autocomplete="off" placeholder="Thư mục lưu bài làm" required>
+                    <input id="uploaddir" type="text" class="formfield" autocomplete="off" placeholder="Thư mục lưu bài làm" required>
                     <label for="uploaddir" class="formlabel">Thư mục lưu bài làm</label>
                 </div>
             </li>
@@ -64,32 +64,32 @@
             <li class="title">Thời gian</li>
             <li class="zone">
                 <div class="formgroup blue">
-                    <input id="time-zone" type="text" name="zone" class="formfield" autocomplete="off" placeholder="Khu vực" required>
-                    <label for="zone" class="formlabel">Khu vực</label>
+                    <input id="time-zone" type="text" class="formfield" autocomplete="off" placeholder="Khu vực" required>
+                    <label for="time-zone" class="formlabel">Khu vực</label>
                 </div>
             </li>
             <li class="begindate">
                 <div class="formgroup blue">
-                    <input id="time-begindate" type="date" name="begindate" class="formfield" autocomplete="off" placeholder="Ngày bắt đầu kì thi" required>
-                    <label for="begindate" class="formlabel">Ngày bắt đầu kì thi</label>
+                    <input id="time-begindate" type="date" class="formfield" autocomplete="off" placeholder="Ngày bắt đầu kì thi" required>
+                    <label for="time-begindate" class="formlabel">Ngày bắt đầu kì thi</label>
                 </div>
             </li>
             <li class="begintime">
                 <div class="formgroup blue">
-                    <input id="time-begintime" type="time" name="begintime" step="1" class="formfield" autocomplete="off" placeholder="Thời gian bắt đầu kì thi" required>
-                    <label for="begintime" class="formlabel">Thời gian bắt đầu kì thi</label>
+                    <input id="time-begintime" type="time" step="1" class="formfield" autocomplete="off" placeholder="Thời gian bắt đầu kì thi" required>
+                    <label for="time-begintime" class="formlabel">Thời gian bắt đầu kì thi</label>
                 </div>
             </li>
             <li class="during">
                 <div class="formgroup blue">
-                    <input id="time-during" type="number" name="during" class="formfield" autocomplete="off" placeholder="Thời gian làm bài" required>
-                    <label for="during" class="formlabel">Thời gian làm bài</label>
+                    <input id="time-during" type="number" class="formfield" autocomplete="off" placeholder="Thời gian làm bài" required>
+                    <label for="time-during" class="formlabel">Thời gian làm bài</label>
                 </div>
             </li>
             <li class="offset">
                 <div class="formgroup blue">
-                    <input id="time-offset" type="number" name="offset" class="formfield" autocomplete="off" placeholder="Thời gian bù" required>
-                    <label for="offset" class="formlabel">Thời gian bù</label>
+                    <input id="time-offset" type="number" class="formfield" autocomplete="off" placeholder="Thời gian bù" required>
+                    <label for="time-offset" class="formlabel">Thời gian bù</label>
                 </div>
             </li>
         </ul>

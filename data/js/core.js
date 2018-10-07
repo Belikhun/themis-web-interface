@@ -17,6 +17,10 @@ class regPanel {
         this.eset = fcfn(ri, "set");
         this.ebak = fcfn(ri, "bak");
         this.eclo = fcfn(ri, "clo");
+        this.esett = fcfn(elem.childNodes, "sett");
+        this.eset.addEventListener("click", e => {
+            this.esett.classList.toggle("show");
+        })
         this.emain = fcfn(elem.childNodes, "main");
     }
 
@@ -35,7 +39,7 @@ class regPanel {
                 if (h)
                     t.eref.style.display = "none";
                 else
-                    t.eref.style.display = "inline-block";
+                    t.eref.style.display = "inline";
             }
         }
     }
@@ -51,7 +55,7 @@ class regPanel {
                 if (h)
                     t.eset.style.display = "none";
                 else
-                    t.eset.style.display = "inline-block";
+                    t.eset.style.display = "inline";
             }
         }
     }
@@ -67,7 +71,7 @@ class regPanel {
                 if (h)
                     t.ebak.style.display = "none";
                 else
-                    t.ebak.style.display = "inline-block";
+                    t.ebak.style.display = "inline";
             }
         }
     }
@@ -83,7 +87,7 @@ class regPanel {
                 if (h)
                     t.eclo.style.display = "none";
                 else
-                    t.eclo.style.display = "inline-block";
+                    t.eclo.style.display = "inline";
             }
         }
     }
@@ -103,7 +107,7 @@ core = {
     frankint: null,
 
     init() {
-        console.log("%cSTOP! ✋", "font-size: 72px; font-weight: 900;");
+        console.log("%cSTOP!", "font-size: 72px; font-weight: 900;");
         console.log(
             "%cThis feature is intended for developers. Pasting something here could give strangers access to your account.",
             "font-size: 18px; font-weight: 700;"
@@ -117,6 +121,8 @@ core = {
         this.problems.init();
         this.fetchlog();
         this.fetchrank();
+        this.logpanel.set.hide();
+        this.rankpanel.set.hide();
         this.logpanel.ref.onclick(() => {
             core.fetchlog(true);
         });
@@ -393,7 +399,6 @@ core = {
         test: $("#problem_test"),
 
         init() {
-            this.panel.set.hide();
             this.panel.bak.hide();
             this.panel.bak.onclick(() => {
                 this.list.classList.remove("hide");
@@ -404,12 +409,13 @@ core = {
                 this.getlist();
             });
             this.getlist();
+            this.edit.init(this);
         },
 
         getlist() {
             myajax({
-                "url": "/api/test/problems/list",
-                "method": "GET"
+                url: "/api/test/problems/list",
+                method: "GET"
             }, data => {
                 this.list.innerHTML = "";
                 data.forEach(item => {
@@ -429,10 +435,10 @@ core = {
 
         getproblem(id) {
             myajax({
-                "url": "/api/test/problems/get",
-                "method": "GET",
-                "query": {
-                    "id": id
+                url: "/api/test/problems/get",
+                method: "GET",
+                query: {
+                    id: id
                 }
             }, data => {
                 this.name.innerText = data.name;
@@ -443,7 +449,11 @@ core = {
                 this.type.time.innerText = data.time + " giây";
                 this.type.inp.innerText = data.type.inp;
                 this.type.out.innerText = data.type.out;
-                this.image.src = data.image;
+                if (data.image) {
+                    this.image.style.display = "block";
+                    this.image.src = data.image;
+                } else
+                    this.image.style.display = "none";
                 this.description.innerText = data.description;
                 testhtml = "";
                 data.test.forEach(item => {
@@ -463,6 +473,262 @@ core = {
                 this.list.classList.add("hide");
                 this.panel.bak.hide(false);
             })
+        },
+
+        edit: {
+            _this: null,
+            title: $("#problem_edit_title"),
+            headbtn: {
+                back: $("#problem_edit_btn_back"),
+                add: $("#problem_edit_btn_add"),
+                check: $("#problem_edit_btn_check"),
+            },
+            form: {
+                form: $("#problem_edit_form"),
+                id: $("#problem_edit_id"),
+                name: $("#problem_edit_name"),
+                point: $("#problem_edit_point"),
+                time: $("#problem_edit_time"),
+                inptype: $("#problem_edit_inptype"),
+                outtype: $("#problem_edit_outtype"),
+                accept: $("#problem_edit_accept"),
+                image: $("#problem_edit_image"),
+                desc: $("#problem_edit_desc"),
+                testlist: $("#problem_edit_test_list"),
+                testadd: $("#problem_edit_test_add"),
+                submit() {
+                    $("#problem_edit_submit").click();
+                }
+            },
+            list: $("#problem_edit_list"),
+            action: null,
+
+            hide(elem) {
+                elem.style.display = "none";
+            },
+
+            show(elem) {
+                elem.style.display = "inline-block";
+            },
+
+            init(_this) {
+                this._this = _this;
+                this.hide(this.headbtn.back);
+                this.hide(this.headbtn.check);
+                this.headbtn.check.addEventListener("click", e => {
+                    this.form.submit();
+                });
+                this.headbtn.back.addEventListener("click", e => {
+                    this.showlist();
+                });
+                this.headbtn.add.addEventListener("click", e => {
+                    this.newproblem();
+                });
+                this._this.panel.set.onclick(e => {
+                    this.getlist();
+                });
+                this.form.form.addEventListener("submit", e => {
+                    this.postsubmit();
+                });
+                this.form.testadd.addEventListener("click", e => {
+                    html = [
+                        "<div class=\"cell\">",
+                            "<textarea placeholder=\"Input\" required></textarea>",
+                            "<textarea placeholder=\"Output\" required></textarea>",
+                            "<span class=\"delete\" onclick=\"core.problems.edit.remtest(this)\"></span>",
+                        "</div>"
+                    ].join("\n");
+                    this.form.testlist.insertAdjacentHTML("beforeend", html);
+                });
+            },
+
+            remtest(elem) {
+                this.form.testlist.removeChild(elem.parentNode);
+            },
+
+            hidelist() {
+                this.list.classList.add("hide");
+                this.hide(this.headbtn.add);
+                this.show(this.headbtn.back);
+                this.show(this.headbtn.check);
+            },
+
+            showlist() {
+                this.list.classList.remove("hide");
+                this.show(this.headbtn.add);
+                this.hide(this.headbtn.back);
+                this.hide(this.headbtn.check);
+                this.title.innerText = "Chỉnh sửa đề";
+            },
+
+            getlist() {
+                myajax({
+                    url: "/api/test/problems/list",
+                    method: "GET"
+                }, data => {
+                    this.list.innerHTML = "";
+                    data.forEach(item => {
+                        html = [
+                            "<li class=\"item\">",
+                                "<img class=\"icon\" src=\"" + item.image + "\">",
+                                "<ul class=\"title\">",
+                                    "<li class=\"id\">" + item.id + "</li>",
+                                    "<li class=\"name\">" + item.name + "</li>",
+                                "</ul>",
+                                "<div class=\"action\">",
+                                    "<span class=\"delete\" onclick=\"core.problems.edit.remproblem('" + item.id + "')\"></span>",
+                                    "<span class=\"edit\" onclick=\"core.problems.edit.editproblem('" + item.id + "')\"></span>",
+                                "</div>",
+                            "</li>",
+                        ].join("\n");
+                        this.list.innerHTML += html;
+                    })
+                })
+            },
+
+            resetform() {
+                this.form.id.value = "";
+                this.form.id.disabled = false;
+                this.form.name.value = "";
+                this.form.point.value = null;
+                this.form.time.value = 1;
+                this.form.inptype.value = "Bàn Phím";
+                this.form.outtype.value = "Màn hình";
+                this.form.accept.value = "pas|py|cpp|java";
+                this.form.image.value = null;
+                this.form.desc.value = "";
+                this.form.testlist.innerHTML = "";
+            },
+
+            newproblem() {
+                this.resetform();
+                this.form.id.disabled = false;
+                this.title.innerText = "Tạo đề";
+                this.action = "add";
+                this.hidelist();
+                setTimeout(e => {
+                    this.form.id.focus();
+                }, 300);
+            },
+
+            editproblem(id) {
+                myajax({
+                    url: "/api/test/problems/get",
+                    method: "GET",
+                    query: {
+                        id: id
+                    }
+                }, data => {
+                    this.resetform();
+                    this.title.innerText = "Chỉnh sửa - " + data.id;
+                    this.action = "edit";
+
+                    this.form.id.value = data.id;
+                    this.form.id.disabled = true;
+                    this.form.name.value = data.name;
+                    this.form.point.value = data.point;
+                    this.form.time.value = data.time;
+                    this.form.inptype.value = data.type.inp;
+                    this.form.outtype.value = data.type.out;
+                    this.form.accept.value = data.accept.join("|");
+                    this.form.image.value = null;
+                    this.form.desc.value = data.description;
+
+                    var html = "";
+                    data.test.forEach(item => {
+                        html += [
+                            "<div class=\"cell\">",
+                                "<textarea placeholder=\"Input\" required>" + item.inp + "</textarea>",
+                                "<textarea placeholder=\"Output\" required>" + item.out + "</textarea>",
+                                "<span class=\"delete\" onclick=\"core.problems.edit.remtest(this)\"></span>",
+                            "</div>"
+                        ].join("\n");
+                    })
+                    this.form.testlist.innerHTML = html;
+                    
+                    this.hidelist();
+                    setTimeout(e => {
+                        this.form.name.focus();
+                    }, 300);
+                })
+            },
+
+            remproblem(id) {
+                if (!confirm("Bạn có chắc muốn xóa " + id + " không?"))
+                    return false;
+
+                myajax({
+                    url: "/api/test/problems/remove",
+                    method: "POST",
+                    form: {
+                        id: id,
+                        token: API_TOKEN
+                    }
+                }, data => {
+                    this.getlist();
+                    this.showlist();
+                    this._this.getlist();
+                })
+            },
+
+            postsubmit() {
+                var data = new Array();
+                data.id = this.form.id.value;
+                data.name = this.form.name.value;
+                data.point = this.form.point.value;
+                data.time = this.form.time.value;
+                data.inptype = this.form.inptype.value;
+                data.outtype = this.form.outtype.value;
+                data.accept = this.form.accept.value.split("|");
+                data.image = (this.form.image.files.length != 0) ? this.form.image.files[0] : null;
+                data.desc = this.form.desc.value;
+
+                var test = new Array();
+                var testlist = this.form.testlist.getElementsByTagName("div");
+
+                for (var i = 0; i < testlist.length; i++) {
+                    var e = testlist[i].getElementsByTagName("textarea");
+                    if (e[0].value == "" && e[1].value == "")
+                        continue;
+
+                    var t = {
+                        inp: e[0].value,
+                        out: e[1].value
+                    }
+                    test.push(t);
+                }
+                data.test = test;
+
+                this.submit(this.action, data, data => {
+                    this.getlist();
+                    this.showlist();
+                    this._this.getlist();
+                })
+            },
+
+            submit(action, data, success = () => {}) {
+                if (["edit", "add"].indexOf(action) == -1)
+                    return false;
+
+                myajax({
+                    url: "/api/test/problems/" + action,
+                    method: "POST",
+                    form: {
+                        id: data.id,
+                        name: data.name,
+                        point: data.point,
+                        time: data.time,
+                        inptype: data.inptype,
+                        outtype: data.outtype,
+                        acpt: JSON.stringify(data.accept),
+                        img: data.image,
+                        desc: data.desc,
+                        test: JSON.stringify(data.test),
+                        token: API_TOKEN
+                    }
+                }, success);
+            }
+
         }
     },
 

@@ -160,12 +160,14 @@ function parsetime(t = 0) {
 };
 
 function $(selector) {
-    var e = selector.slice(1, selector.length);
+    var n = selector.slice(1, selector.length);
     switch (selector.charAt(0)) {
         case ".":
-            return document.getElementsByClassName(e);
+            return document.getElementsByClassName(n);
         case "#":
-            return document.getElementById(e);
+            return document.getElementById(n);
+        case "@":
+            return document.getElementsByName(n);
         default:
             return document.getElementsByTagName(selector);
     }

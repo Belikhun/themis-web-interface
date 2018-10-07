@@ -19,6 +19,7 @@
     // Unset all of the session variables
     $_SESSION = array();
     $_SESSION["username"] = null;
+    session_destroy();
 
     stop(0, "Đăng xuất thành công.", 200);
 

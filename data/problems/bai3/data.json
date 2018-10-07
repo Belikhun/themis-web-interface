@@ -1,0 +1,29 @@
+{
+    "name": "S\u1ed1 nguy\u00ean t\u1ed1",
+    "point": "10",
+    "time": 1,
+    "type": {
+        "inp": "B\u00e0n Ph\u00edm",
+        "out": "M\u00e0n h\u00ecnh"
+    },
+    "accept": [
+        "pas",
+        "py"
+    ],
+    "description": "Vi\u1ebft ch\u01b0\u01a1ng tr\u00ecnh x\u00e9t xem m\u1ed9t s\u1ed1 n c\u00f3 ph\u1ea3i l\u00e0 s\u1ed1 nguy\u00ean t\u1ed1 kh\u00f4ng?",
+    "test": [
+        {
+            "inp": "61",
+            "out": "1"
+        },
+        {
+            "inp": "55",
+            "out": "0"
+        },
+        {
+            "inp": "73",
+            "out": "1"
+        }
+    ],
+    "image": "prime number chart ii.jpg"
+}

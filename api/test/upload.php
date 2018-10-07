@@ -60,7 +60,7 @@
     if (!problem_exist($filename))
         stop(44, "Không có đề cho bài này!", 404, $filename);
 
-    $acceptext = array("pas", "cpp", "c", "pp", "exe", "class", "py", "java");
+    $acceptext = Array("pas", "cpp", "c", "pp", "exe", "class", "py", "java");
     $extension = pathinfo($file, PATHINFO_EXTENSION);
 
     if (!in_array($extension, $acceptext) or !problem_checkext($filename, $extension))

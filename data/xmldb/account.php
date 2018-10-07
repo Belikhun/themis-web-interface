@@ -70,11 +70,11 @@
                         if ($cellindex = array_search($k, $acchead))
                             $cell -> item($cellindex) -> textContent = $val;
 
-                    if($dom -> save($_SERVER["DOCUMENT_ROOT"] ."/api/xmldb/acctmp.xml") == false)
+                    if($dom -> save($_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/acctmp.xml") == false)
                         return USER_EDIT_ERROR;
                     //copy($_SERVER["DOCUMENT_ROOT"] ."/api/xmldb/acctmp.xml", $_SERVER["DOCUMENT_ROOT"] ."/api/xmldb/account.xml");
                     //unlink($_SERVER["DOCUMENT_ROOT"] ."/api/xmldb/acctmp.xml");
-                    rename($_SERVER["DOCUMENT_ROOT"] ."/api/xmldb/acctmp.xml", $_SERVER["DOCUMENT_ROOT"] ."/api/xmldb/account.xml");
+                    rename($_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/acctmp.xml", $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.xml");
                     return USER_EDIT_SUCCESS;
                 }
         }

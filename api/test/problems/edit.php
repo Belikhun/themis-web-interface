@@ -23,7 +23,7 @@
     $name = getform("name");
     $description = getform("desc");
     $point = getform("point");
-    if ($isset($point) && !is_numeric($point))
+    if (isset($point) && !is_numeric($point))
         $point = null;
     $accept = json_decode(getform("acpt", Array()), true);
     $test = json_decode(getform("test", Array()), true);

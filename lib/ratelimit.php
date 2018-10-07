@@ -7,8 +7,8 @@
 
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
 
-    $maxrequest = 6;
-    $perseconds = 1;
+    $maxrequest = 60;
+    $perseconds = 10;
     $bantime = 15;
 
     if (!isset($_SESSION["firstrequest"]))
