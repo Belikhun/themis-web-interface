@@ -14,14 +14,13 @@ class regPanel {
         this.etitle = fcfn(ehead, "le");
         var ri = fcfn(ehead, "ri").childNodes;
         this.eref = fcfn(ri, "ref");
-        this.eset = fcfn(ri, "set");
         this.ebak = fcfn(ri, "bak");
         this.eclo = fcfn(ri, "clo");
-        this.esett = fcfn(elem.childNodes, "sett");
-        this.eset.addEventListener("click", e => {
-            this.esett.classList.toggle("show");
-        })
         this.emain = fcfn(elem.childNodes, "main");
+    }
+
+    get panel() {
+        return this.elem;
     }
 
     get main() {
@@ -40,22 +39,6 @@ class regPanel {
                     t.eref.style.display = "none";
                 else
                     t.eref.style.display = "inline";
-            }
-        }
-    }
-
-    get set() {
-        var t = this;
-        return {
-            onclick(f = () => {}) {
-                t.eset.addEventListener("click", f, true);
-            },
-
-            hide(h = true) {
-                if (h)
-                    t.eset.style.display = "none";
-                else
-                    t.eset.style.display = "inline";
             }
         }
     }
@@ -105,46 +88,62 @@ core = {
     prankdata: new Array(),
     flogint: null,
     frankint: null,
+    _this: this,
 
-    init() {
+    init(done = () => {}) {
+        console.time("inittime");
         console.log("%cSTOP!", "font-size: 72px; font-weight: 900;");
         console.log(
             "%cThis feature is intended for developers. Pasting something here could give strangers access to your account.",
             "font-size: 18px; font-weight: 700;"
         );
         console.log("init...");
-        $("#loader").classList.add("done");
-        this.file.init();
-        this.timer.init();
-        this.userprofile.init();
-        this.wrapper.init();
-        this.problems.init();
-        this.fetchlog();
-        this.fetchrank();
-        this.logpanel.set.hide();
-        this.rankpanel.set.hide();
-        this.logpanel.ref.onclick(() => {
-            core.fetchlog(true);
-        });
         this.rankpanel.ref.onclick(() => {
-            core.fetchrank(true);
+            this.fetchrank(true);
         });
-        core.file.onUploadSuccess = this.fetchlog;
-        core.flogint = setInterval(this.fetchlog, 1000);
-        core.frankint = setInterval(this.fetchrank, 2000);
+        this.fetchrank();
+        this.frankint = setInterval(e => {this.fetchrank()}, 2000);
+        this.timer.init();
+        
+        if (LOGGED_IN) {
+            this.file.init();
+            this.problems.init();
+            this.userprofile.init();
+            this.wrapper.init();
+            this.fetchlog();
+            this.logpanel.ref.onclick(() => {
+                this.fetchlog(true);
+            });
+            this.file.onUploadSuccess = e => (this.fetchlog());
+            this.flogint = setInterval(e => {this.fetchlog()}, 1000);
+            if (IS_ADMIN) {
+                this.settings.init();
+                this.navlink.init();
+            }
+        }
+        console.timeEnd("inittime");
+        done();
     },
 
     fetchlog(bypass = false) {
         myajax({
             url: "/api/test/logs",
             method: "GET",
-        }, function (data) {
-            if (comparearray(data, core.plogdata) && !bypass)
-                return;
+        }, data => {
+            if (comparearray(data, this.plogdata) && !bypass)
+                return false;
 
-            core.logpanel.main.innerHTML = "";
-            out = "<ul class=\"log-item-container\">\n";
+            var list = this.logpanel.main.getElementsByClassName("log-item-container")[0];
+            if (data.judging.length == 0 && data.logs.length == 0 && data.queues.length == 0) {
+                this.logpanel.main.classList.add("blank");
+                this.plogdata = data;
+                list.innerHTML = "";
+                return false;
+            } else
+                this.logpanel.main.classList.remove("blank");
 
+            var out = "";
+            
             for (var i = 0; i < data.judging.length; i++) {
                 out += [
                     "<li class=\"log-item judging\">",
@@ -189,9 +188,9 @@ core = {
                     "</li>"
                 ].join("\n");
             }
-            out += "</ul>";
-            core.logpanel.main.innerHTML = out;
-            core.plogdata = data;
+
+            list.innerHTML = out;
+            this.plogdata = data;
         })
     },
 
@@ -199,11 +198,19 @@ core = {
         myajax({
             url: "/api/test/rank",
             method: "GET",
-        }, function (data) {
-            if (comparearray(data, core.prankdata) && !bypass)
-                return;
+        }, data => {
+            if (comparearray(data, this.prankdata) && !bypass)
+                return false;
 
-            core.rankpanel.main.innerHTML = "";
+            if (data.list.length == 0 && data.rank.length == 0) {
+                this.rankpanel.main.classList.add("blank");
+                this.prankdata = data;
+                this.rankpanel.main.innerHTML = "";
+                return false;
+            } else
+                this.rankpanel.main.classList.remove("blank");
+    
+
             var list = data.list;
             var out = [
                 "<table>",
@@ -242,8 +249,8 @@ core = {
                 out += "</tr>";
             }
             out += "</table>";
-            core.rankpanel.main.innerHTML = out;
-            core.prankdata = data;
+            this.rankpanel.main.innerHTML = out;
+            this.prankdata = data;
         });
     },
 
@@ -255,21 +262,15 @@ core = {
             query: {
                 "f": file
             }
-        }, function(res) {
+        }, data => {
             core.wrapper.show(file);
             var out = "<ul class=\"viewlog-container\">\n";
-            for (var i = 0; i < res.length; i++) {
-                out += "<li>" + escape_html(res[i]) + "</li>\n";
+            for (var i = 0; i < data.length; i++) {
+                out += "<li>" + escape_html(data[i]) + "</li>\n";
             }
             out += "</ul>";
             core.wrapper.panel.main.innerHTML = out;
         });
-    },
-
-    showcp() {
-        core.userprofile.toggler.classList.remove("showupanel");
-        core.wrapper.show("Admin CPanel");
-        core.wrapper.panel.main.innerHTML = "<iframe class=\"cpanel-container\" src=\"config.php\"></iframe>"
     },
 
     file: {
@@ -290,7 +291,6 @@ core = {
             this.dropzone.addEventListener("drop", this.filesel, false);
             this.panel.ref.onclick(this.reset);
             this.panel.title = "Nộp bài";
-            this.panel.set.hide();
         },
 
         reset() {
@@ -362,16 +362,17 @@ core = {
                         "token": API_TOKEN,
                     },
                     file: files[i],
+                    onupload: e => {
+                        this.size.innerText = e.loaded + "/" + e.total;
+                        this.percent.innerText = ((e.loaded / e.total) * 100).toFixed(0) + "%";
+                        this.bar.style.width = (e.loaded / e.total) * 100 + "%";
+                    }
                 }, data => {
                     this.state.innerText = "Tải lên thành công! " + (i + 1) + "/" + files.length;
                     this.onUploadSuccess();
                     setTimeout(() => {
                         this.upload(files, i + 1);
                     }, this.uploadcooldown / 2);
-                }, e => {
-                    this.size.innerText = e.loaded + "/" + e.total;
-                    this.percent.innerText = ((e.loaded / e.total) * 100).toFixed(0) + "%";
-                    this.bar.style.width = (e.loaded / e.total) * 100 + "%";
                 }, res => {
                     statbar.hide();
                     this.state.innerText = res.description;
@@ -409,7 +410,6 @@ core = {
                 this.getlist();
             });
             this.getlist();
-            this.edit.init(this);
         },
 
         getlist() {
@@ -474,262 +474,6 @@ core = {
                 this.panel.bak.hide(false);
             })
         },
-
-        edit: {
-            _this: null,
-            title: $("#problem_edit_title"),
-            headbtn: {
-                back: $("#problem_edit_btn_back"),
-                add: $("#problem_edit_btn_add"),
-                check: $("#problem_edit_btn_check"),
-            },
-            form: {
-                form: $("#problem_edit_form"),
-                id: $("#problem_edit_id"),
-                name: $("#problem_edit_name"),
-                point: $("#problem_edit_point"),
-                time: $("#problem_edit_time"),
-                inptype: $("#problem_edit_inptype"),
-                outtype: $("#problem_edit_outtype"),
-                accept: $("#problem_edit_accept"),
-                image: $("#problem_edit_image"),
-                desc: $("#problem_edit_desc"),
-                testlist: $("#problem_edit_test_list"),
-                testadd: $("#problem_edit_test_add"),
-                submit() {
-                    $("#problem_edit_submit").click();
-                }
-            },
-            list: $("#problem_edit_list"),
-            action: null,
-
-            hide(elem) {
-                elem.style.display = "none";
-            },
-
-            show(elem) {
-                elem.style.display = "inline-block";
-            },
-
-            init(_this) {
-                this._this = _this;
-                this.hide(this.headbtn.back);
-                this.hide(this.headbtn.check);
-                this.headbtn.check.addEventListener("click", e => {
-                    this.form.submit();
-                });
-                this.headbtn.back.addEventListener("click", e => {
-                    this.showlist();
-                });
-                this.headbtn.add.addEventListener("click", e => {
-                    this.newproblem();
-                });
-                this._this.panel.set.onclick(e => {
-                    this.getlist();
-                });
-                this.form.form.addEventListener("submit", e => {
-                    this.postsubmit();
-                });
-                this.form.testadd.addEventListener("click", e => {
-                    html = [
-                        "<div class=\"cell\">",
-                            "<textarea placeholder=\"Input\" required></textarea>",
-                            "<textarea placeholder=\"Output\" required></textarea>",
-                            "<span class=\"delete\" onclick=\"core.problems.edit.remtest(this)\"></span>",
-                        "</div>"
-                    ].join("\n");
-                    this.form.testlist.insertAdjacentHTML("beforeend", html);
-                });
-            },
-
-            remtest(elem) {
-                this.form.testlist.removeChild(elem.parentNode);
-            },
-
-            hidelist() {
-                this.list.classList.add("hide");
-                this.hide(this.headbtn.add);
-                this.show(this.headbtn.back);
-                this.show(this.headbtn.check);
-            },
-
-            showlist() {
-                this.list.classList.remove("hide");
-                this.show(this.headbtn.add);
-                this.hide(this.headbtn.back);
-                this.hide(this.headbtn.check);
-                this.title.innerText = "Chỉnh sửa đề";
-            },
-
-            getlist() {
-                myajax({
-                    url: "/api/test/problems/list",
-                    method: "GET"
-                }, data => {
-                    this.list.innerHTML = "";
-                    data.forEach(item => {
-                        html = [
-                            "<li class=\"item\">",
-                                "<img class=\"icon\" src=\"" + item.image + "\">",
-                                "<ul class=\"title\">",
-                                    "<li class=\"id\">" + item.id + "</li>",
-                                    "<li class=\"name\">" + item.name + "</li>",
-                                "</ul>",
-                                "<div class=\"action\">",
-                                    "<span class=\"delete\" onclick=\"core.problems.edit.remproblem('" + item.id + "')\"></span>",
-                                    "<span class=\"edit\" onclick=\"core.problems.edit.editproblem('" + item.id + "')\"></span>",
-                                "</div>",
-                            "</li>",
-                        ].join("\n");
-                        this.list.innerHTML += html;
-                    })
-                })
-            },
-
-            resetform() {
-                this.form.id.value = "";
-                this.form.id.disabled = false;
-                this.form.name.value = "";
-                this.form.point.value = null;
-                this.form.time.value = 1;
-                this.form.inptype.value = "Bàn Phím";
-                this.form.outtype.value = "Màn hình";
-                this.form.accept.value = "pas|py|cpp|java";
-                this.form.image.value = null;
-                this.form.desc.value = "";
-                this.form.testlist.innerHTML = "";
-            },
-
-            newproblem() {
-                this.resetform();
-                this.form.id.disabled = false;
-                this.title.innerText = "Tạo đề";
-                this.action = "add";
-                this.hidelist();
-                setTimeout(e => {
-                    this.form.id.focus();
-                }, 300);
-            },
-
-            editproblem(id) {
-                myajax({
-                    url: "/api/test/problems/get",
-                    method: "GET",
-                    query: {
-                        id: id
-                    }
-                }, data => {
-                    this.resetform();
-                    this.title.innerText = "Chỉnh sửa - " + data.id;
-                    this.action = "edit";
-
-                    this.form.id.value = data.id;
-                    this.form.id.disabled = true;
-                    this.form.name.value = data.name;
-                    this.form.point.value = data.point;
-                    this.form.time.value = data.time;
-                    this.form.inptype.value = data.type.inp;
-                    this.form.outtype.value = data.type.out;
-                    this.form.accept.value = data.accept.join("|");
-                    this.form.image.value = null;
-                    this.form.desc.value = data.description;
-
-                    var html = "";
-                    data.test.forEach(item => {
-                        html += [
-                            "<div class=\"cell\">",
-                                "<textarea placeholder=\"Input\" required>" + item.inp + "</textarea>",
-                                "<textarea placeholder=\"Output\" required>" + item.out + "</textarea>",
-                                "<span class=\"delete\" onclick=\"core.problems.edit.remtest(this)\"></span>",
-                            "</div>"
-                        ].join("\n");
-                    })
-                    this.form.testlist.innerHTML = html;
-                    
-                    this.hidelist();
-                    setTimeout(e => {
-                        this.form.name.focus();
-                    }, 300);
-                })
-            },
-
-            remproblem(id) {
-                if (!confirm("Bạn có chắc muốn xóa " + id + " không?"))
-                    return false;
-
-                myajax({
-                    url: "/api/test/problems/remove",
-                    method: "POST",
-                    form: {
-                        id: id,
-                        token: API_TOKEN
-                    }
-                }, data => {
-                    this.getlist();
-                    this.showlist();
-                    this._this.getlist();
-                })
-            },
-
-            postsubmit() {
-                var data = new Array();
-                data.id = this.form.id.value;
-                data.name = this.form.name.value;
-                data.point = this.form.point.value;
-                data.time = this.form.time.value;
-                data.inptype = this.form.inptype.value;
-                data.outtype = this.form.outtype.value;
-                data.accept = this.form.accept.value.split("|");
-                data.image = (this.form.image.files.length != 0) ? this.form.image.files[0] : null;
-                data.desc = this.form.desc.value;
-
-                var test = new Array();
-                var testlist = this.form.testlist.getElementsByTagName("div");
-
-                for (var i = 0; i < testlist.length; i++) {
-                    var e = testlist[i].getElementsByTagName("textarea");
-                    if (e[0].value == "" && e[1].value == "")
-                        continue;
-
-                    var t = {
-                        inp: e[0].value,
-                        out: e[1].value
-                    }
-                    test.push(t);
-                }
-                data.test = test;
-
-                this.submit(this.action, data, data => {
-                    this.getlist();
-                    this.showlist();
-                    this._this.getlist();
-                })
-            },
-
-            submit(action, data, success = () => {}) {
-                if (["edit", "add"].indexOf(action) == -1)
-                    return false;
-
-                myajax({
-                    url: "/api/test/problems/" + action,
-                    method: "POST",
-                    form: {
-                        id: data.id,
-                        name: data.name,
-                        point: data.point,
-                        time: data.time,
-                        inptype: data.inptype,
-                        outtype: data.outtype,
-                        acpt: JSON.stringify(data.accept),
-                        img: data.image,
-                        desc: data.desc,
-                        test: JSON.stringify(data.test),
-                        token: API_TOKEN
-                    }
-                }, success);
-            }
-
-        }
     },
 
     timer: {
@@ -744,11 +488,20 @@ core = {
         last: 0,
 
         init() {
-            this.timepanel.set.hide();
             this.timepanel.ref.onclick(() => {
                 this.fetchtime();
             });
+            this.timepanel.clo.onclick(e => {
+                this.close();
+            })
+            if (LOGGED_IN)
+                this.timepanel.clo.hide();
             this.fetchtime(true);
+        },
+
+        close() {
+            this.reset();
+            this.timepanel.panel.classList.remove("show");
         },
 
         fetchtime(init = false) {
@@ -929,28 +682,28 @@ core = {
         },
 
         init() {
-            this.avtw.addEventListener("dragenter", this.dragenter, false);
-            this.avtw.addEventListener("dragleave", this.dragleave, false);
-            this.avtw.addEventListener("dragover", this.dragover, false);
-            this.avtw.addEventListener("drop", this.filesel, false);
-            this.toggler.addEventListener("click", this.toggle, false);
+            this.avtw.addEventListener("dragenter",  e => {this.dragenter(e)}, false);
+            this.avtw.addEventListener("dragleave", e => {this.dragleave(e)}, false);
+            this.avtw.addEventListener("dragover", e => {this.dragover(e)}, false);
+            this.avtw.addEventListener("drop", e => {this.filesel(e)}, false);
+            this.toggler.addEventListener("click", e => {this.toggle(e)}, false);
 
             this.body.namepanel = new this.panel($("#userp_edit_name_panel"));
             this.body.passpanel = new this.panel($("#userp_edit_pass_panel"));
             this.body.namepanel.toggler = $("#userp_edit_name_toggler");
             this.body.passpanel.toggler = $("#userp_edit_pass_toggler");
 
-            this.body.nameform.addEventListener("submit", function() {
-                this.getElementsByTagName("button")[0].disabled = true;
-                core.userprofile.changename(core.userprofile.body.name.value);
+            this.body.nameform.addEventListener("submit", e => {
+                this.body.nameform.getElementsByTagName("button")[0].disabled = true;
+                this.changename(this.body.name.value);
             }, false)
 
-            this.body.passform.addEventListener("submit", function() {
-                this.getElementsByTagName("button")[0].disabled = true;
-                core.userprofile.changepass(core.userprofile.body.pass.value, core.userprofile.body.npass.value, core.userprofile.body.renpass.value);
+            this.body.passform.addEventListener("submit", e => {
+                this.body.passform.getElementsByTagName("button")[0].disabled = true;
+                this.changepass(this.body.pass.value, this.body.npass.value, this.body.renpass.value);
             }, false)
 
-            this.logoutbtn.addEventListener("click", this.logout);
+            this.logoutbtn.addEventListener("click", e => {this.logout(e)}, false);
         },
 
         logout() {
@@ -966,27 +719,27 @@ core = {
         },
 
         toggle() {
-            core.userprofile.toggler.classList.toggle("active");
-            core.userprofile.userprofile.classList.toggle("show");
+            this.toggler.classList.toggle("active");
+            this.userprofile.classList.toggle("show");
         },
 
         reset() {
-            core.userprofile.avtw.classList.remove("drop");
-            core.userprofile.avtw.classList.remove("load");
-            core.userprofile.body.nameform.getElementsByTagName("button")[0].disabled = false;
-            core.userprofile.body.passform.getElementsByTagName("button")[0].disabled = false;
-            core.userprofile.body.name.value = null;
-            core.userprofile.body.pass.value = null;
-            core.userprofile.body.npass.value = null;
-            core.userprofile.body.renpass.value = null;
+            this.avtw.classList.remove("drop");
+            this.avtw.classList.remove("load");
+            this.body.nameform.getElementsByTagName("button")[0].disabled = false;
+            this.body.passform.getElementsByTagName("button")[0].disabled = false;
+            this.body.name.value = null;
+            this.body.pass.value = null;
+            this.body.npass.value = null;
+            this.body.renpass.value = null;
         },
 
         reload(data, m = 0) {
             core.fetchrank(true);
             if (m == 0)
-                core.userprofile.uavt.src = core.userprofile.avt.src = data.src;
+                this.uavt.src = this.avt.src = data.src;
             else
-                core.userprofile.uname.innerText = core.userprofile.name.innerText = data;
+                this.uname.innerText = this.name.innerText = data;
         },
         
         changename(name) {
@@ -997,12 +750,11 @@ core = {
                     "n": name,
                     "token": API_TOKEN
                 }
-            }, function(res) {
-                statbar.change(statbar.type.OK, "Thay đổi thông tin thành công!");
-                core.userprofile.reset();
-                core.userprofile.reload(res.name, 1);
-            }, () => {}, function (res) {
-                core.userprofile.reset();
+            }, data => {
+                this.reset();
+                this.reload(data.name, 1);
+            }, data => {
+                this.reset();
             });
         },
 
@@ -1016,24 +768,25 @@ core = {
                     "rnp": renpass,
                     "token": API_TOKEN
                 }
-            }, function(res) {
-                statbar.change(statbar.type.OK, "Thay đổi thông tin thành công!");
-                core.userprofile.reset();
-            }, () => {}, function (res) {
-                core.userprofile.reset();
+            }, data => {
+                statbar.change(statbar.type.OK, "Thay đổi mật khẩu thành công!");
+                statbar.hide(2000);
+                this.reset();
+            }, data => {
+                this.reset();
             });
         },
 
         filesel(e) {
             e.stopPropagation();
             e.preventDefault();
-            this.classList.remove("drag");
+            this.avtw.classList.remove("drag");
 
             var file = e.dataTransfer.files[0];
 
-            this.classList.add("load");
+            this.avtw.classList.add("load");
             setTimeout(() => {
-                core.userprofile.avtupload(file);
+                this.avtupload(file);
             }, 1000);
         },
 
@@ -1045,33 +798,370 @@ core = {
                     "token": API_TOKEN,
                 },
                 file: file,
-            }, function (d) {
-                core.userprofile.reset();
-                core.userprofile.reload(d);
-            }, () => {}, function (res) {
-                core.userprofile.reset();
+            }, data => {
+                this.reset();
+                this.reload(data);
+            }, data => {
+                this.reset();
             });
         },
 
         dragenter(e) {
             e.stopPropagation();
             e.preventDefault();
-            this.classList.add("drag");
+            this.avtw.classList.add("drag");
         },
 
         dragleave(e) {
             e.stopPropagation();
             e.preventDefault();
-            this.classList.remove("drag");
+            this.avtw.classList.remove("drag");
         },
 
         dragover(e) {
             e.stopPropagation();
             e.preventDefault();
             e.dataTransfer.dropEffect = "copy";
-            this.classList.add("drag");
+            this.avtw.classList.add("drag");
         }
 
+    },
+
+    settings: {
+        main: $("#container"),
+        cont: $("#container_content"),
+        sett: $("#container_settings"),
+        navcont: $("#userp_left_panel"),
+        navhome: $("#nav_list_home"),
+        navsett: $("#nav_list_sett"),
+        cpanel: new regPanel($("#settings_cpanel")),
+        ppanel: new regPanel($("#settings_problem")),
+
+        init() {
+            this.problems.init();
+            this.cpanel.ref.onclick(e => {
+                var iframe = this.cpanel.main.getElementsByTagName("iframe")[0]; 
+                iframe.contentWindow.location.reload();
+            })
+            this.ppanel.ref.onclick(e => {
+                this.problems.getlist();
+                this.problems.resetform();
+                this.problems.showlist();
+            })
+            this.navhome.addEventListener("click", e => {
+                this.hidesett();
+                core.navlink.activeid(0);
+            })
+            this.navsett.addEventListener("click", e => {
+                this.showsett();
+                core.navlink.activeid(1);
+            })
+        },
+
+        hidesett() {
+            this.main.classList.remove("showsett");
+            this.navhome.classList.add("active");
+            this.navsett.classList.remove("active");
+        },
+
+        showsett() {
+            this.main.classList.add("showsett");
+            this.navhome.classList.remove("active");
+            this.navsett.classList.add("active");
+            this.problems.getlist();
+        },
+
+        problems: {
+            _this: null,
+            title: $("#problem_edit_title"),
+            headbtn: {
+                back: $("#problem_edit_btn_back"),
+                add: $("#problem_edit_btn_add"),
+                check: $("#problem_edit_btn_check"),
+            },
+            form: {
+                form: $("#problem_edit_form"),
+                id: $("#problem_edit_id"),
+                name: $("#problem_edit_name"),
+                point: $("#problem_edit_point"),
+                time: $("#problem_edit_time"),
+                inptype: $("#problem_edit_inptype"),
+                outtype: $("#problem_edit_outtype"),
+                accept: $("#problem_edit_accept"),
+                image: $("#problem_edit_image"),
+                desc: $("#problem_edit_desc"),
+                testlist: $("#problem_edit_test_list"),
+                testadd: $("#problem_edit_test_add"),
+                submit() {
+                    $("#problem_edit_submit").click();
+                }
+            },
+            list: $("#problem_edit_list"),
+            action: null,
+
+            hide(elem) {
+                elem.style.display = "none";
+            },
+
+            show(elem) {
+                elem.style.display = "inline-block";
+            },
+
+            init() {
+                this._this = core.problems;
+                this.hide(this.headbtn.back);
+                this.hide(this.headbtn.check);
+                this.headbtn.check.addEventListener("click", e => {
+                    this.form.submit();
+                });
+                this.headbtn.back.addEventListener("click", e => {
+                    this.showlist();
+                });
+                this.headbtn.add.addEventListener("click", e => {
+                    this.newproblem();
+                });
+                this.form.form.addEventListener("submit", e => {
+                    this.postsubmit();
+                });
+                this.form.testadd.addEventListener("click", e => {
+                    html = [
+                        "<div class=\"cell\">",
+                            "<textarea placeholder=\"Input\" required></textarea>",
+                            "<textarea placeholder=\"Output\" required></textarea>",
+                            "<span class=\"delete\" onclick=\"core.settings.problems.remtest(this)\"></span>",
+                        "</div>"
+                    ].join("\n");
+                    this.form.testlist.insertAdjacentHTML("beforeend", html);
+                });
+            },
+
+            remtest(elem) {
+                this.form.testlist.removeChild(elem.parentNode);
+            },
+
+            hidelist() {
+                this.list.classList.add("hide");
+                this.hide(this.headbtn.add);
+                this.show(this.headbtn.back);
+                this.show(this.headbtn.check);
+            },
+
+            showlist() {
+                this.list.classList.remove("hide");
+                this.show(this.headbtn.add);
+                this.hide(this.headbtn.back);
+                this.hide(this.headbtn.check);
+                this.title.innerText = "Danh sách";
+            },
+
+            getlist() {
+                myajax({
+                    url: "/api/test/problems/list",
+                    method: "GET"
+                }, data => {
+                    this.list.innerHTML = "";
+                    data.forEach(item => {
+                        html = [
+                            "<li class=\"item\">",
+                                "<img class=\"icon\" src=\"" + item.image + "\">",
+                                "<ul class=\"title\">",
+                                    "<li class=\"id\">" + item.id + "</li>",
+                                    "<li class=\"name\">" + item.name + "</li>",
+                                "</ul>",
+                                "<div class=\"action\">",
+                                    "<span class=\"delete\" onclick=\"core.settings.problems.remproblem('" + item.id + "')\"></span>",
+                                    "<span class=\"edit\" onclick=\"core.settings.problems.editproblem('" + item.id + "')\"></span>",
+                                "</div>",
+                            "</li>",
+                        ].join("\n");
+                        this.list.innerHTML += html;
+                    })
+                })
+            },
+
+            resetform() {
+                this.form.id.value = "";
+                this.form.id.disabled = false;
+                this.form.name.value = "";
+                this.form.point.value = null;
+                this.form.time.value = 1;
+                this.form.inptype.value = "Bàn Phím";
+                this.form.outtype.value = "Màn hình";
+                this.form.accept.value = "pas|py|cpp|java";
+                this.form.image.value = null;
+                this.form.desc.value = "";
+                this.form.testlist.innerHTML = "";
+            },
+
+            newproblem() {
+                this.resetform();
+                this.form.id.disabled = false;
+                this.title.innerText = "Thêm đề";
+                this.action = "add";
+                this.hidelist();
+                setTimeout(e => {
+                    this.form.id.focus();
+                }, 300);
+            },
+
+            editproblem(id) {
+                myajax({
+                    url: "/api/test/problems/get",
+                    method: "GET",
+                    query: {
+                        id: id
+                    }
+                }, data => {
+                    this.resetform();
+                    this.title.innerText = data.id;
+                    this.action = "edit";
+
+                    this.form.id.value = data.id;
+                    this.form.id.disabled = true;
+                    this.form.name.value = data.name;
+                    this.form.point.value = data.point;
+                    this.form.time.value = data.time;
+                    this.form.inptype.value = data.type.inp;
+                    this.form.outtype.value = data.type.out;
+                    this.form.accept.value = data.accept.join("|");
+                    this.form.image.value = null;
+                    this.form.desc.value = data.description;
+
+                    var html = "";
+                    data.test.forEach(item => {
+                        html += [
+                            "<div class=\"cell\">",
+                                "<textarea placeholder=\"Input\" required>" + item.inp + "</textarea>",
+                                "<textarea placeholder=\"Output\" required>" + item.out + "</textarea>",
+                                "<span class=\"delete\" onclick=\"core.settings.problems.remtest(this)\"></span>",
+                            "</div>"
+                        ].join("\n");
+                    })
+                    this.form.testlist.innerHTML = html;
+                    
+                    this.hidelist();
+                    setTimeout(e => {
+                        this.form.name.focus();
+                    }, 300);
+                })
+            },
+
+            remproblem(id) {
+                if (!confirm("Bạn có chắc muốn xóa " + id + " không?"))
+                    return false;
+
+                myajax({
+                    url: "/api/test/problems/remove",
+                    method: "POST",
+                    form: {
+                        id: id,
+                        token: API_TOKEN
+                    }
+                }, data => {
+                    this.getlist();
+                    this.showlist();
+                    this._this.getlist();
+                })
+            },
+
+            postsubmit() {
+                var data = new Array();
+                data.id = this.form.id.value;
+                data.name = this.form.name.value;
+                data.point = this.form.point.value;
+                data.time = this.form.time.value;
+                data.inptype = this.form.inptype.value;
+                data.outtype = this.form.outtype.value;
+                data.accept = this.form.accept.value.split("|");
+                data.image = (this.form.image.files.length != 0) ? this.form.image.files[0] : null;
+                data.desc = this.form.desc.value;
+
+                var test = new Array();
+                var testlist = this.form.testlist.getElementsByTagName("div");
+
+                for (var i = 0; i < testlist.length; i++) {
+                    var e = testlist[i].getElementsByTagName("textarea");
+                    if (e[0].value == "" && e[1].value == "")
+                        continue;
+
+                    var t = {
+                        inp: e[0].value,
+                        out: e[1].value
+                    }
+                    test.push(t);
+                }
+                data.test = test;
+
+                this.submit(this.action, data, data => {
+                    this.getlist();
+                    this.showlist();
+                    this._this.getlist();
+                })
+            },
+
+            submit(action, data, success = () => {}) {
+                if (["edit", "add"].indexOf(action) == -1)
+                    return false;
+
+                myajax({
+                    url: "/api/test/problems/" + action,
+                    method: "POST",
+                    form: {
+                        id: data.id,
+                        name: data.name,
+                        point: data.point,
+                        time: data.time,
+                        inptype: data.inptype,
+                        outtype: data.outtype,
+                        acpt: JSON.stringify(data.accept),
+                        img: data.image,
+                        desc: data.desc,
+                        test: JSON.stringify(data.test),
+                        token: API_TOKEN
+                    }
+                }, success);
+            }
+        }
+    },
+
+    navlink: {
+        container: $("#nav_list"),
+        list: null,
+        prev: null,
+
+        init() {
+            this.list = list = this.container.getElementsByTagName("span");
+            var _this = this;
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].dataset.default == "true") {
+                    this.prev = list[i];
+                    list[i].classList.add("active");
+                }
+                list[i].addEventListener("click", function(e) {
+                    _this.active(this);
+                }, false);
+            }
+        },
+
+        activeid(i) {
+            this.prev.classList.remove("active");
+            this.list[i].classList.add("active");
+
+            this.prev = this.list[i];
+        },
+
+        active(elem) {
+            this.prev.classList.remove("active");
+            //$("#" + this.prev.dataset.showid).classList.remove("show");
+            elem.classList.add("active");
+            //$("#" + elem.dataset.showid).classList.add("show");
+            if (elem.dataset.default == "true")
+                core.settings.hidesett();
+            else
+                core.settings.showsett();
+
+            this.prev = elem;
+        }
     },
 
     wrapper: {
@@ -1079,7 +1169,6 @@ core = {
         panel: new regPanel($("#wrapp")),
 
         init() {
-            this.panel.set.hide();
             this.panel.ref.hide();
             this.panel.clo.onclick(this.hide);
         },

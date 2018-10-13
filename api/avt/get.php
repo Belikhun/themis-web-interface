@@ -9,9 +9,10 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
     
-    if (!isset($_GET["u"])) {
+    if (!isset($_GET["u"]) || empty($_GET["u"])) {
         contenttype("jpg");
         readfile("avt.default");
+        exit();
     }
 
     $username = trim($_GET["u"]);

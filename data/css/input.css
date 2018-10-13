@@ -30,14 +30,14 @@
     color: transparent;
 }
 
-.formgroup .formfield:placeholder-shown~.formlabel {
+.formgroup .formfield:placeholder-shown ~ .formlabel {
     font-size: 13px;
     cursor: text;
     top: 24px;
 }
 
 .formgroup label,
-.formgroup .formfield:focus~.formlabel {
+.formgroup .formfield:focus ~ .formlabel {
     position: absolute;
     top: 4px;
     display: block;
@@ -50,13 +50,18 @@
     user-select: none;
 }
 
-.formgroup .formfield:focus~.formlabel {
+.formgroup .formfield:focus ~ .formlabel {
     color: #b9bbbe;
 }
 
 .formgroup .formfield:focus {
     padding: 6px 0;
     border-bottom: 2px solid rgba(224, 224, 224, 0.8);
+}
+
+.formgroup .formfield:disabled {
+    color: rgb(172, 172, 172)!important;
+    cursor: not-allowed;
 }
 
 /* Dark Color */

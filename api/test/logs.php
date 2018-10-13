@@ -57,7 +57,7 @@
 				$p = parsename($item);
 				$loglist = glob($config["logdir"] ."/*.*");
 				foreach ($loglist as $log)
-					if (strpos($log, $p["filename"]) > 0)
+					if (strpos($log, $p["filename"]) > 0 && (strpos($log, $username) > 0))
 						unlink($log);
 
 				array_push($judging, Array(

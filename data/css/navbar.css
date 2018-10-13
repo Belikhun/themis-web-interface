@@ -12,8 +12,8 @@
     left: 0px;
     width: 100%;
     height: 56px;
-    background-color: #121212;
-    border-bottom: 2px solid #262626;
+    background-color: #191919;
+    border-bottom: 2px solid #3a3a3a;
     z-index: 99;
     user-select: none;
 }
@@ -21,6 +21,7 @@
 .nav .lnav {
     position: relative;
     height: 100%;
+    max-width: 55%;
     float: left;
     display: flex;
     align-items: center;
@@ -37,6 +38,7 @@
 
 .nav .lnav .title {
     position: relative;
+    max-width: calc(100% - 58px);
     padding-left: 0px;
     float: left;
     list-style: none;
@@ -67,15 +69,20 @@
 .nav .rnav {
     position: relative;
     height: 100%;
+    max-width: 25%;
     float: right;
     cursor: pointer;
     display: flex;
     align-items: center;
 }
 
+.nav .rnav .login {
+    margin-right: 10px;
+    color: #dfdfdf;
+}
+
 .nav .rnav img.arrow {
     position: relative;
-    float: right;
     margin-right: 10px;
     transform: rotate(90deg);
     transition-property: transform;
@@ -93,15 +100,14 @@
     width: 44px;
     border-radius: 100%;
     margin: 0px 10px 0px 10px;
-    float: right;
     object-fit: cover;
 }
 
 .nav .rnav .info {
     position: relative;
-    margin: 0 0 0 0;
-    padding-left: 0px;
-    float: right;
+    margin: unset;
+    padding: unset;
+    max-width: calc(100% - 82px);
     list-style: none;
     text-align: right;
     font-family: Calibri;
@@ -122,12 +128,61 @@
     color: #f1e6d0;
 }
 
+
+.nav .mnav {
+    position: relative;
+    height: calc(100% + 2px);
+    max-width: 20%;
+    float: right;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 10px 0 0;
+    box-sizing: border-box;
+}
+
+.nav .mnav .item {
+    position: relative;
+    height: 100%;
+    border-bottom: 2px solid transparent;
+    color: #c9aa71;
+    font-size: 12px;
+    font-weight: 700;
+    margin: 0 6px;
+    overflow: hidden;
+    box-sizing: border-box;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.8s cubic-bezier(.06, .81, 0, .98);
+}
+
+.nav .mnav .item:hover {
+    color: #f1e6d0;
+}
+
+.nav .mnav .item.active {
+    border-color: #c79a3c;
+    color: #fff;
+}
+
+.nav .mnav .separator {
+    width: 2px;
+    background-color: #2f2f2f;
+    display: inline-block;
+    height: calc(100% - 30px);
+    margin: 0 10px;
+}
+
 @media only screen and (max-width: 700px) {
     
     .nav .lnav {
         position: absolute;
         width: 100%;
         height: 100%;
+        max-width: unset;
     }
 
     .nav .lnav .title {
@@ -139,6 +194,10 @@
     }
 
     .nav .rnav .info {
+        display: none;
+    }
+
+    .nav .mnav {
         display: none;
     }
 

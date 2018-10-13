@@ -194,6 +194,20 @@
     background-color: rgba(0, 0, 0, 0.2);
 }
 
+#user_profile .body .left li.item.active {
+    background-color: #2d3436;
+}
+
+#user_profile .body .left .navlink {
+    display: none!important;
+}
+
+@media only screen and (max-width: 700px) {
+    #user_profile .body .left .navlink {
+        display: flex!important;
+    }
+}
+
 #user_profile .body .left li.item::before {
     content: "\f111";
     font-family: "Font Awesome 5 Free";
@@ -211,6 +225,10 @@
 
 #user_profile .body .left li.item.pass::before {
     content: "\f084";
+}
+
+#user_profile .body .left li.item.home::before {
+    content: "\f015";
 }
 
 #user_profile .body .left li.item.config::before {

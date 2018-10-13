@@ -6,7 +6,8 @@
     //|====================================================|
 
 	require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
-	
+	define("VERSION", "0.3.4");
+
 	$config = (new fip($_SERVER["DOCUMENT_ROOT"] ."/data/config.json")) -> read();
 	$config = json_decode($config, true);
 
@@ -20,9 +21,11 @@
 		$config["time"]["begin"]["years"]
 	);
 	$config["logdir"] = $config["uploaddir"] ."/Logs";
+	$config["version"] = VERSION;
 
 	function save_config(Array $config) {
 		unset($config["time"]["begin"]["times"]);
 		unset($config["logdir"]);
+		unset($config["version"]);
 		(new fip($_SERVER["DOCUMENT_ROOT"] ."/data/config.json")) -> write(json_encode($config, JSON_PRETTY_PRINT));
 	}

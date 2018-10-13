@@ -8,19 +8,22 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ecatch.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
     header("Cache-Control: max-age=0, must-revalidate", true);
-    define("VERSION", "0.3.3");
 
-    if (!islogedin()) {
-        require "login.php";
-        die();
+    $loggedin = false;
+    $username = null;
+    $userdata = null;
+    $name = null;
+    $id = null;
+
+    if (islogedin()) {
+        require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
+        $loggedin = true;
+        $username = $_SESSION["username"];
+        $userdata = getuserdata($username);
+        $name = $userdata["name"];
+        $id = $userdata["id"];
     }
-
-    $username = $_SESSION["username"];
-    $userdata = getuserdata($username);
-    $name = $userdata["name"];
-    $id = $userdata["id"];
 ?>
 
     <!DOCTYPE html>
@@ -47,15 +50,59 @@
         <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/material-font.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/consolas.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/fontawesome.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="https://fonts.googleapis.com/css?family=Open+Sans" />
-
     </head>
 
-    <body onload="core.init();">
-
+    <body class="<?php print ($loggedin ? ($id == "admin" ? "admin" : "user") : "guest"); ?>">
         <div class="loader" id="loader">
-            <div class="spinner"></div>
+            <div class="mid">
+                <div class="spinner"></div>
+                <div class="progress">
+                    <div id="loader_bar" class="inner"></div>
+                </div>
+            </div>
+            <div class="foot">
+                <div class="icon">
+                    <img src="data/img/chrome-icon.png">
+                    <img src="data/img/coccoc-icon.png">
+                </div>
+                <t class="text">
+                    Trang web hoạt động tốt nhất trên trình duyệt chrome và coccoc.
+                </t>
+            </div>
         </div>
+
+        <script type="text/javascript">
+            loader = {
+                container: document.getElementById("loader"),
+                bar: document.getElementById("loader_bar"),
+                onload: () => {},
+
+                init() {
+                    this.bar.dataset.slow = true;
+                    setTimeout(e => {
+                        this.bar.style.width = "95%";
+                    }, 600);
+                    document.body.onload = e => {
+                        this.loaded();
+                    };
+                },
+
+                loaded() {
+                    this.bar.dataset.slow = false;
+                    this.bar.style.width = "100%";
+                    setTimeout(e => {
+                        $("#loader").classList.add("done");
+                        this.onload();
+                    }, 600);
+                }
+            }
+
+            loader.onload = () => {
+                core.init();
+            }
+
+            loader.init();
+        </script>
 
         <div class="nav">
             <span class="lnav">
@@ -70,17 +117,28 @@
                 </ul>
             </span>
             <span id="upanel_toggler" class="rnav">
-                <ul class="info">
-                    <li class="tag">
-                        <?php print $username ."#". $id; ?>
-                    </li>
-                    <li id="user_name" class="name">
-                        <?php print htmlspecialchars($name); ?>
-                    </li>
-                </ul>
-                <img id="user_avt" class="avatar" src="/api/avt/get?u=<?php echo $username; ?>" />
-                <img class="arrow" src="/data/img/arr.png" />
+                <?php if ($loggedin) { ?>
+                    <ul class="info">
+                        <li class="tag text-overflow">
+                            <?php print $username ."#". $id; ?>
+                        </li>
+                        <li id="user_name" class="name text-overflow">
+                            <?php print htmlspecialchars($name); ?>
+                        </li>
+                    </ul>
+                    <img id="user_avt" class="avatar" src="/api/avt/get?u=<?php print $username; ?>" />
+                    <img class="arrow" src="/data/img/arr.png" />
+                <?php } else { ?>
+                    <button class="login ms-btn" onclick="window.location.href='/login.php'">Đăng nhập</button>
+                <?php } ?>
             </span>
+            <?php if ($id == "admin") { ?>
+                <div id="nav_list" class="mnav">
+                    <span data-showid="container_content" data-default="true" class="item">Home</span>
+                    <span data-showid="container_settings" class="item">Cài đặt</span>
+                    <div class="separator"></div>
+                </div>
+            <?php } ?>
         </div>
 
         <div id="status">
@@ -92,7 +150,7 @@
         <span id="user_profile">
             <div class="header">
                 <div class="avatar" title="Thả ảnh vào đây để thay đổi ảnh đại diện">
-                    <img id="userp_avt" class="avatar" src="/api/avt/get?u=<?php echo $username; ?>" />
+                    <img id="userp_avt" class="avatar" src="<?php print $loggedin ? "/api/avt/get?u=".$username : ""; ?>" />
                     <div id="userp_avtw" class="wrapper">
                         <i class="pencil"></i>
                         <i class="drag"></i>
@@ -106,15 +164,18 @@
             </div>
             <div class="body">
                 <ul id="userp_left_panel" class="left">
+                    <?php if ($id == "admin") { ?>
+                        <li id="nav_list_home" class="item home active navlink">Trang chủ</li>
+                        <li id="nav_list_sett" class="item config navlink">Cài đặt</li>
+                        <li class="line navlink"></li>
+                    <?php } ?>
                     <li id="userp_edit_name_toggler" class="item name arr">Đổi tên người dùng</li>
                     <li id="userp_edit_pass_toggler" class="item pass arr">Đổi mật khẩu</li>
                     <li class="line"></li>
-                    <?php if ($id == "admin") { ?>
-                        <li id="userp_edit_name_toggler" class="item config" onclick="core.showcp();">Cài đặt</li>
-                    <?php } ?>
                     <a href="https://github.com/belivipro9x99/themis-web-interface/issues" target="_blank"><li class="item report">Báo lỗi</li></a>
                     <a href="https://github.com/belivipro9x99/themis-web-interface/wiki" target="_blank"><li class="item wiki">Wiki</li></a>
                     <a href="https://github.com/belivipro9x99/themis-web-interface" target="_blank"><li class="item repo">Github Repository</li></a>
+                    <li class="line"></li>
                     <li id="userp_logout" class="item logout">Đăng xuất</li>
                 </ul>
                 <div id="userp_right_panel" class="right">
@@ -156,7 +217,6 @@
                     <t class="le"></t>
                     <span class="ri">
                         <i class="material-icons ref">refresh</i>
-                        <i class="material-icons set">settings</i>
                         <i class="material-icons clo">close</i>
                     </span>
                 </div>
@@ -166,13 +226,12 @@
         </div>
 
         <div id="container">
-            <div class="content">
+            <div id="container_content" class="content">
                 <panel id="uploadp">
                     <div class="head">
                         <t class="le">Nộp bài</t>
                         <span class="ri">
                             <i class="material-icons ref">refresh</i>
-                            <i class="material-icons set">settings</i>
                         </span>
                     </div>
                     <div class="main fileupload-container">
@@ -195,15 +254,114 @@
                         <span class="ri">
                             <i class="material-icons bak">keyboard_arrow_left</i>
                             <i class="material-icons ref">refresh</i>
-                            <i class="material-icons set" <?php if ($id != "admin") {?>style="display: none;"<?php }; ?>>settings</i>
                         </span>
                     </div>
-                    <div class="sett problem-settings">
+                    <div class="main problem-container">
+                        <ul class="problem-list" id="problem_list">
+                        </ul>
+                        <div class="problem">
+                            <t class="name" id="problem_name"></t>
+                            <t class="point" id="problem_point"></t>
+                            <table class="type">
+                                <tr class="filename">
+                                    <td>Tên tệp</td>
+                                    <td id="problem_type_filename"></td>
+                                </tr>
+                                <tr class="ext">
+                                    <td>Đuôi tệp</td>
+                                    <td id="problem_type_ext"></td>
+                                </tr>
+                                <tr class="time">
+                                    <td>Thời gian</td>
+                                    <td id="problem_type_time"></td>
+                                </tr>
+                                <tr class="inp">
+                                    <td>Dữ liệu vào</td>
+                                    <td id="problem_type_inp"></td>
+                                </tr>
+                                <tr class="out">
+                                    <td>Dữ liệu ra</td>
+                                    <td id="problem_type_out"></td>
+                                </tr>
+                            </table>
+                            <img class="image" id="problem_image" src="">
+                            <t class="description" id="problem_description"></t>
+                            <table class="test" id="problem_test">
+                            </table>
+                        </div>
+                    </div>
+                </panel>
+
+                <panel id="timep">
+                    <div class="head">
+                        <t class="le">Thời gian</t>
+                        <span class="ri">
+                            <i class="material-icons ref">refresh</i>
+                            <i class="material-icons clo">close</i>
+                        </span>
+                    </div>
+                    <div class="main time-container">
+                        <t id="time_state">---</t>
+                        <t id="time_time">--:--</t>
+                        <div class="bar">
+                            <div id="time_bar"></div>
+                            <t id="time_start">--:--</t>
+                            <t id="time_end">--:--</t>
+                        </div>
+                    </div>
+                </panel>
+
+                <panel id="logp">
+                    <div class="head">
+                        <t class="le">Nhật ký</t>
+                        <span class="ri">
+                            <i class="material-icons ref">refresh</i>
+                        </span>
+                    </div>
+                    <div class="main">
+                        <ul class="log-item-container">
+                        </ul>
+                    </div>
+                </panel>
+
+                <panel id="rankp">
+                    <div class="head">
+                        <t class="le">Xếp hạng</t>
+                        <span class="ri">
+                            <i class="material-icons ref">refresh</i>
+                        </span>
+                    </div>
+                    <div class="main ranking-container">
+                    </div>
+                </panel>
+            </div>
+
+            <div id="container_settings" class="settings">
+                <panel id="settings_cpanel">
+                    <div class="head">
+                        <t class="le">Admin CPanel</t>
+                        <span class="ri">
+                            <i class="material-icons ref">refresh</i>
+                        </span>
+                    </div>
+                    <div class="main">
+                        <iframe class="cpanel-container" src="config.php"></iframe>
+                    </div>
+                </panel>
+
+                <panel id="settings_problem">
+                    <div class="head">
+                        <t class="le">Đề bài</t>
+                        <span class="ri">
+                            <i class="material-icons ref">refresh</i>
+                        </span>
+                    </div>
+                    <div class="main problem-settings">
                         <div class="header">
                             <div class="left">
                                 <span id="problem_edit_btn_back" class="back"></span>
                             </div>
-                            <t id="problem_edit_title" class="title">Chỉnh sửa đề</t>
+                            <t id="problem_edit_title" class="title">Danh sách</t>
                             <div class="right">
                                 <span id="problem_edit_btn_add" class="add"></span>
                                 <span id="problem_edit_btn_check" class="check"></span>
@@ -257,83 +415,6 @@
                             </form>
                         </div>
                     </div>
-                    <div class="main problem-container">
-                        <ul class="problem-list" id="problem_list">
-                        </ul>
-                        <div class="problem">
-                            <t class="name" id="problem_name"></t>
-                            <t class="point" id="problem_point"></t>
-                            <table class="type">
-                                <tr class="filename">
-                                    <td>Tên tệp</td>
-                                    <td id="problem_type_filename"></td>
-                                </tr>
-                                <tr class="ext">
-                                    <td>Đuôi tệp</td>
-                                    <td id="problem_type_ext"></td>
-                                </tr>
-                                <tr class="time">
-                                    <td>Thời gian</td>
-                                    <td id="problem_type_time"></td>
-                                </tr>
-                                <tr class="inp">
-                                    <td>Dữ liệu vào</td>
-                                    <td id="problem_type_inp"></td>
-                                </tr>
-                                <tr class="out">
-                                    <td>Dữ liệu ra</td>
-                                    <td id="problem_type_out"></td>
-                                </tr>
-                            </table>
-                            <img class="image" id="problem_image" src="">
-                            <t class="description" id="problem_description"></t>
-                            <table class="test" id="problem_test">
-                            </table>
-                        </div>
-                    </div>
-                </panel>
-
-                <panel id="timep">
-                    <div class="head">
-                        <t class="le">Thời gian</t>
-                        <span class="ri">
-                            <i class="material-icons ref">refresh</i>
-                            <i class="material-icons set">settings</i>
-                        </span>
-                    </div>
-                    <div class="main time-container">
-                        <t id="time_state">---</t>
-                        <t id="time_time">--:--</t>
-                        <div class="bar">
-                            <div id="time_bar"></div>
-                            <t id="time_start">--:--</t>
-                            <t id="time_end">--:--</t>
-                        </div>
-                    </div>
-                </panel>
-
-                <panel id="logp">
-                    <div class="head">
-                        <t class="le">Nhật ký</t>
-                        <span class="ri">
-                            <i class="material-icons ref">refresh</i>
-                            <i class="material-icons set">settings</i>
-                        </span>
-                    </div>
-                    <div class="main">
-                    </div>
-                </panel>
-
-                <panel id="rankp">
-                    <div class="head">
-                        <t class="le">Xếp hạng</t>
-                        <span class="ri">
-                            <i class="material-icons ref">refresh</i>
-                            <i class="material-icons set">settings</i>
-                        </span>
-                    </div>
-                    <div class="main ranking-container">
-                    </div>
                 </panel>
             </div>
 
@@ -355,10 +436,10 @@
                     <li class="tel">03668275002</li>
                     <li class="email">belivipro9x99@gmail.com</li>
                     <li class="facebook">
-                        <a href="https://www.facebook.com/belivipro9x99">belivipro9x99</a>
+                        <a href="https://www.facebook.com/belivipro9x99">Belikhun</a>
                     </li>
                     <li class="github">
-                        <a href="https://github.com/belivipro9x99">belivipro9x99</a>
+                        <a href="https://github.com/belivipro9x99">Belikhun</a>
                     </li>
                 </ul>
                 <ul class="bottom">
@@ -367,6 +448,12 @@
             </footer>
 
         </div>
+
+        <script>
+            const IS_ADMIN = <?php print ($id == "admin" ? "true" : "false"); ?>;
+            const LOGGED_IN = <?php print ($loggedin == true ? "true" : "false"); ?>;
+            const API_TOKEN = "<?php print isset($_SESSION["api_token"]) ? $_SESSION["api_token"] : null; ?>";
+        </script>
 
         <script src="/data/js/statbar.js" type="text/javascript"></script>
         <script src="/data/js/belibrary.js" type="text/javascript"></script>
@@ -380,10 +467,6 @@
             gtag('js', new Date());
 
             gtag('config', 'UA-124598427-1');
-        </script>
-
-        <script>
-            const API_TOKEN = "<?php print $_SESSION["api_token"]; ?>";
         </script>
 
     </body>

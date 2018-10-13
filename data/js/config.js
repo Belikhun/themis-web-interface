@@ -106,7 +106,7 @@ $("#form-container").addEventListener("submit", e => {
             "viewlog": viewlog.checked,
             "token": API_TOKEN
         }
-    }, res => {
+    }, data => {
         statbar.change(statbar.type.OK, "Thay đổi cài đặt thành công.");
         update();
         statbar.hide(3000);

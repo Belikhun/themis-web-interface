@@ -39,7 +39,6 @@ t {
 }
 
 /* Change Autocomplete styles in Chrome*/
-
 input:-webkit-autofill {
     background-color: rgba(0, 0, 0, 0)!important;
 }
@@ -52,7 +51,8 @@ body #container {
     top: 58px;
     background-color: #ebebeb;
     box-sizing: border-box;
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
     transition:
         transform 0.4s ease,
         filter 0.4s ease,
@@ -63,6 +63,55 @@ body #container .content {
     position: relative;
     width: 100%;
     height: 100%;
+    transition: all 0.4s ease;
+}
+
+body #container .settings {
+    position: absolute;
+    top: 0px;
+    right: -100%;
+    width: 100%;
+    height: 100%;
+    transition: all 0.4s ease;
+}
+
+body #container.showsett .settings,
+body #container.showsett .content {
+    transform: translateX(-100%);
+}
+
+body #container.showsett .settings #settings_cpanel {
+    position: relative;
+    float: left;
+    display: block;
+    margin: 20px 10px 20px 20px;
+    width: calc(100% - 420px);
+    height: calc(100% - 40px);
+    min-height: 460px;
+}
+
+body #container.showsett .settings #settings_problem {
+    position: relative;
+    float: right;
+    margin: 20px 20px 20px 10px;
+    width: 360px;
+    height: calc(100% - 40px);
+    min-height: 460px;
+}
+
+@media only screen and (max-width: 700px) {
+
+    body #container.showsett .settings #settings_cpanel {
+        margin: 20px 20px 10px 20px;
+        width: calc(100% - 40px);
+    }
+
+    body #container.showsett .settings #settings_problem {
+        margin: 10px 20px 20px 20px;
+        width: calc(100% - 40px);
+        height: calc(100% + 400px);
+    }
+
 }
 
 #container.showstatus {
@@ -75,11 +124,9 @@ panel {
     width: 350px;
     background-color: white;
     box-shadow: 0px 0px 5px rgba(98, 98, 98, 0.2);
-    color: rgb(32, 32, 32);
     margin: 20px;
     box-sizing: border-box;
     display: block;
-    border-radius: 4px;
 }
 
 panel .head {
@@ -88,6 +135,7 @@ panel .head {
     height: 40px;
     padding: 10px 10px 10px 20px;
     box-sizing: border-box;
+    background-color: rgb(238, 240, 243);
     border-bottom: 1px solid #e6e6e6;
     display: flex;
     align-items: center;
@@ -95,8 +143,9 @@ panel .head {
 
 panel .head .le {
     position: relative;
-    color: rgba(90, 90, 90, 0.7);
+    color: rgba(56, 56, 56, 0.8);
     font-size: 14px;
+    font-weight: 500;
 }
 
 panel .head .ri {
@@ -107,7 +156,6 @@ panel .head .ri {
     align-items: center;
 }
 
-panel .head .ri i.set,
 panel .head .ri i.clo,
 panel .head .ri i.ref,
 panel .head .ri i.bak {
@@ -125,12 +173,7 @@ panel .head .ri i.bak {
     font-size: 20px;
 }
 
-panel .head .ri i.set {
-    font-size: 16px;
-}
-
 panel .head .ri i.clo:hover,
-panel .head .ri i.set:hover,
 panel .head .ri i.ref:hover,
 panel .head .ri i.bak:hover {
     color: rgba(98, 98, 98, 0.82);
@@ -241,6 +284,23 @@ panel .main {
     margin: unset;
 }
 
+body.guest #timep.show {
+    width: calc(100% - 40px);
+    margin: 20px 20px 10px 20px;
+}
+
+
+body.guest #rankp {
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+    margin: 20px;
+}
+
+body.guest #timep.show ~ #rankp {
+    margin: 10px 20px 20px 20px;
+    height: calc(100% - 260px);
+}
+
 @media only screen and (max-width: 1150px) {
     #uploadp {
         width: calc(100% - 410px);
@@ -309,7 +369,7 @@ panel .main {
 
     #wrapp {
         width: 100%;
-        height: 50%;
+        height: 80%;
         bottom: 0px;
         top: unset;
         left: unset;
@@ -317,7 +377,32 @@ panel .main {
     }
 }
 
-ul.log-item-container {
+#logp div.main.blank::before {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, calc(-50% - 44px));
+    content: "\f564";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 72px;
+    color: rgb(192, 192, 192);
+}
+
+#logp div.main.blank::after {
+    content: "There seems to be nothing here.";
+    position: absolute;
+    display: block;
+    width: 100%;
+    top: 50%;
+    transform: translateY(calc(-50% + 14px));
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    color: rgb(192, 192, 192);
+}
+
+#logp div.main ul.log-item-container {
     position: relative;
     width: 100%;
     height: 100%;
@@ -326,7 +411,7 @@ ul.log-item-container {
     padding: unset;
 }
 
-ul.log-item-container li.log-item {
+#logp div.main ul.log-item-container li.log-item {
     position: relative;
     box-sizing: border-box;
     width: calc(100% - 25px);
@@ -335,7 +420,7 @@ ul.log-item-container li.log-item {
     padding-right: 25px;
 }
 
-ul.log-item-container li.log-item .h {
+#logp div.main ul.log-item-container li.log-item .h {
     position: relative;
     width: 100%;
     height: 100%;
@@ -345,7 +430,7 @@ ul.log-item-container li.log-item .h {
     align-items: center;
 }
 
-ul.log-item-container li.log-item .h .l {
+#logp div.main ul.log-item-container li.log-item .h .l {
     position: relative;
     list-style: none;
     margin: unset;
@@ -354,19 +439,19 @@ ul.log-item-container li.log-item .h .l {
     overflow: hidden;
 }
 
-ul.log-item-container li.log-item .h .l .t {
+#logp div.main ul.log-item-container li.log-item .h .l .t {
     font-size: 10px;
     font-weight: normal;
     color: rgba(59, 71, 82, 0.7);
 }
 
-ul.log-item-container li.log-item .h .l .n {
+#logp div.main ul.log-item-container li.log-item .h .l .n {
     font-size: 13px;
     font-weight: bold;
-    color: rgba(72, 176, 247, 0.8);
+    color: #48b0f7;
 }
 
-ul.log-item-container li.log-item .h .r {
+#logp div.main ul.log-item-container li.log-item .h .r {
     position: absolute;
     right: 6px;
     color: rgba(98, 98, 98, 0.7);
@@ -374,7 +459,7 @@ ul.log-item-container li.log-item .h .r {
     letter-spacing: 0.01em;
 }
 
-ul.log-item-container li.log-item .d {
+#logp div.main ul.log-item-container li.log-item .d {
     position: absolute;
     right: 0px;
     top: 0px;
@@ -390,23 +475,23 @@ ul.log-item-container li.log-item .d {
     text-decoration: none;
 }
 
-ul.log-item-container li.log-item .d::before {
+#logp div.main ul.log-item-container li.log-item .d::before {
     content: "open_in_browser";
     font-family: "Material Icons";
     font-weight: lighter;
     font-size: 16px;
 }
 
-ul.log-item-container li.log-item .d:hover {
+#logp div.main ul.log-item-container li.log-item .d:hover {
     background-color: #f1f1f1;
     color: #6e6e6e;
 }
 
-ul.log-item-container li.log-item.queue .h .l .n {
+#logp div.main ul.log-item-container li.log-item.queue .h .l .n {
     color: #8e44ad;
 }
 
-ul.log-item-container li.log-item.queue .d::before {
+#logp div.main ul.log-item-container li.log-item.queue .d::before {
     content: "\f2f1";
     font-family: "Font Awesome 5 Free";
     animation: spin 1s linear 0s infinite forwards;
@@ -414,11 +499,11 @@ ul.log-item-container li.log-item.queue .d::before {
     font-size: 12px;
 }
 
-ul.log-item-container li.log-item.judging .h .l .n {
+#logp div.main ul.log-item-container li.log-item.judging .h .l .n {
     color: #2ecc71;
 }
 
-ul.log-item-container li.log-item.judging .d::before {
+#logp div.main ul.log-item-container li.log-item.judging .d::before {
     content: "\f0e3";
     font-family: "Font Awesome 5 Free";
     animation: spin 1s linear 0s infinite forwards;
@@ -549,13 +634,6 @@ ul.log-item-container li.log-item.judging .d::before {
     height: 220px;
 }
 
-@media only screen and (max-width: 700px) {
-    .problem-settings {
-        min-width: calc(100vw - 20px);
-        right: -12px!important;
-    }
-}
-
 .problem-settings .header {
     height: 30px;
     border-bottom: 1px solid #cacaca;
@@ -609,7 +687,7 @@ ul.log-item-container li.log-item.judging .d::before {
 
 .problem-settings .container {
     position: relative;
-    height: calc(100% - 30px);
+    height: calc(100% - 36px);
     background-color: #fafafa;
     overflow: hidden;
 }
@@ -1002,35 +1080,60 @@ ul.log-item-container li.log-item.judging .d::before {
     border: 1px solid #ccc;
 }
 
-.ranking-container {
+#rankp div.ranking-container {
     overflow: auto;
 }
 
-.ranking-container table {
+#rankp div.ranking-container.blank::before {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, calc(-50% - 44px));
+    content: "\f02d";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 72px;
+    color: rgb(192, 192, 192);
+}
+
+#rankp div.ranking-container.blank::after {
+    content: "There is nothing here, yet.";
+    position: absolute;
+    display: block;
+    width: 100%;
+    top: 50%;
+    transform: translateY(calc(-50% + 14px));
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    color: rgb(192, 192, 192);
+}
+
+#rankp div.ranking-container table {
     box-sizing: border-box;
     padding: 10px;
     min-width: 100%;
 }
 
-.ranking-container table tr th:nth-child(1),
-.ranking-container table tr td:nth-child(1) {
+#rankp div.ranking-container table tr th:nth-child(1),
+#rankp div.ranking-container table tr td:nth-child(1) {
     width: 20px;
     text-align: center;
 }
 
-.ranking-container table tr th:nth-child(2),
-.ranking-container table tr td:nth-child(2) {
+#rankp div.ranking-container table tr th:nth-child(2),
+#rankp div.ranking-container table tr td:nth-child(2) {
     text-align: left;
 }
 
-.ranking-container table tr td:nth-child(2) {
+#rankp div.ranking-container table tr td:nth-child(2) {
     display: flex;
     align-items: center;
     padding: 10px;
     margin-left: 10px;
 }
 
-.ranking-container table tr td:nth-child(2) .avt {
+#rankp div.ranking-container table tr td:nth-child(2) .avt {
     position: relative;
     width: 40px;
     height: 40px;
@@ -1038,17 +1141,17 @@ ul.log-item-container li.log-item.judging .d::before {
     display: block;
 }
 
-.ranking-container table tr td:nth-child(2) .name {
+#rankp div.ranking-container table tr td:nth-child(2) .name {
     position: relative;
     margin-left: 12px;
 }
 
-.ranking-container table tr td:nth-child(3) {
-    color: #2c3e50;
+#rankp div.ranking-container table tr td:nth-child(3) {
+    color: #3c7be7;
     font-weight: bold;
 }
 
-.ranking-container table tr:nth-child(2) td:nth-child(2) .name {
+#rankp div.ranking-container table tr:nth-child(2) td:nth-child(2) .name {
     color: white;
     font-weight: bold;
     background-color: #e74c3c;
@@ -1056,7 +1159,7 @@ ul.log-item-container li.log-item.judging .d::before {
     border-radius: 4px;
 }
 
-.ranking-container table tr:nth-child(3) td:nth-child(2) .name {
+#rankp div.ranking-container table tr:nth-child(3) td:nth-child(2) .name {
     color: white;
     font-weight: bold;
     background-color: #33b96b;
@@ -1064,7 +1167,7 @@ ul.log-item-container li.log-item.judging .d::before {
     border-radius: 4px;
 }
 
-.ranking-container table tr:nth-child(4) td:nth-child(2) .name {
+#rankp div.ranking-container table tr:nth-child(4) td:nth-child(2) .name {
     color: white;
     font-weight: bold;
     background-color: #8e44ad;
@@ -1072,17 +1175,18 @@ ul.log-item-container li.log-item.judging .d::before {
     border-radius: 4px;
 }
 
-.ranking-container table tr th {
+#rankp div.ranking-container table tr th {
     border-bottom: 1px solid #c0c0c0;
+    color: rgb(82, 82, 82);
 }
 
-.ranking-container table tr th,
+#rankp div.ranking-container table tr th,
 td {
     padding: 10px;
     font-size: 12px;
 }
 
-.ranking-container table tr td.number {
+#rankp div.ranking-container table tr td.number {
     font-size: 12px;
     text-align: right;
 }
@@ -1174,12 +1278,13 @@ td {
 }
 
 .viewlog-container li {
+    position: relative;
     text-align: left;
     max-width: 100%;
     counter-increment: viewlog-line;
     margin: 0 10px 0 50px;
     padding: 4px 10px;
-    min-height: 20px;
+    min-height: 30px;
     box-sizing: border-box;
     border-left: 1px solid rgba(82, 82, 82, 0.3);
     color: rgb(95, 95, 95);
@@ -1195,11 +1300,10 @@ td {
 
 .viewlog-container li::before {
     position: absolute;
-    transform: translateX(calc(-100% - 10px));
+    width: 40px;
+    left: -50px;
     content: counter(viewlog-line);
     text-align: right;
-    padding: 0 10px 0 30px;
-    margin-right: 10px;
     color: rgb(192, 192, 192);
 }
 
@@ -1305,19 +1409,19 @@ footer .right li.tel::before {
 
 footer .right li.email::before {
     content: "\f0e0";
-    color: rgb(255, 187, 187);
+    color: rgb(255, 249, 249);
 }
 
 footer .right li.facebook::before {
     content: "\f09a";
     font-family: "Font Awesome 5 Brands";
-    color: rgb(124, 124, 255);
+    color: #4267B2;
 }
 
 footer .right li.github::before {
     content: "\f092";
     font-family: "Font Awesome 5 Brands";
-    color: rgb(94, 210, 221);
+    color: rgb(93, 199, 209);
 }
 
 footer .right .title {
@@ -1372,4 +1476,25 @@ footer .bottom li {
         float: left;
         max-width: 100%;
     }
+}
+
+/* Element to hide when user is not admin */
+
+body.user div#container div#container_settings,
+body.user div.nav div#nav_list.mnav,
+body.user span#user_profile div.body ul#userp_left_panel li.navlink {
+    display: none!important;
+    visibility: hidden!important;
+}
+
+/* Element to hide when user is guest */
+
+body.guest div#container div#container_settings,
+body.guest div.nav div#nav_list.mnav,
+body.guest #uploadp,
+body.guest #problemp,
+body.guest #logp,
+body.guest span#user_profile {
+    display: none!important;
+    visibility: hidden!important;
 }

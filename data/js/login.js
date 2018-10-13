@@ -24,75 +24,78 @@ login = {
     },
 
     init: function () {
-        this.form.username.submit.addEventListener("click", this.checkusername);
-        this.form.username.input.addEventListener("keyup", (e) => {
+        this.form.username.submit.addEventListener("click", e => {this.checkusername()}, false);
+        this.form.username.input.addEventListener("keyup", event => {
             if (event.keyCode == 13 || event.keyCode == 9) {
                 login.checkusername();
             }
         });
-        this.form.container.addEventListener("submit", this.submit, false);
-        this.form.profile.addEventListener("click", () => {this.reset(true)});
+        this.form.container.addEventListener("submit", e => {this.submit()}, false);
+        this.form.profile.addEventListener("click", e => {this.reset(true)}, false);
         this.form.username.input.disabled = false;
         this.form.username.submit.disabled = false;
         this.form.username.input.focus();
     },
 
-    submit: function () {
-        login.form.password.input.disabled = true;
-        login.form.password.submit.disabled = true;
+    submit() {
+        this.form.password.input.disabled = true;
+        this.form.password.submit.disabled = true;
         setTimeout(() => {
             myajax({
                 "url": "/api/login",
                 "method": "POST",
                 "form": {
-                    "u": login.form.username.input.value,
-                    "p": login.form.password.input.value
+                    "u": this.form.username.input.value,
+                    "p": this.form.password.input.value
                 }
-            }, function(data) {
+            }, data => {
                 window.location.href = data.redirect;
-            }, () => {}, function(e) {
-                login.reset();
-                login.form.username.message.innerText = e.description;
+            }, data => {
+                if (data.code == 14)
+                    this.reset(true);
+                else
+                    this.reset(false);
+                this.form.username.message.innerText = data.description;
             }, true)
         }, 500);
     },
 
-    checkusername: function() {
-        var val = login.form.username.input.value;
+    checkusername() {
+        var val = this.form.username.input.value;
         if (val == "" || val == null) {
             login.form.username.input.focus();
             return false;
         }
-        login.form.username.input.disabled = true;
-        login.form.username.submit.disabled = true;
-        login.form.password.avatar.onload = () => {
-            login.showpassinp(val);
+        this.form.username.input.disabled = true;
+        this.form.username.submit.disabled = true;
+        this.form.password.avatar.onload = e => {
+            this.showpassinp(val);
         };
-        login.form.password.avatar.src = "/api/avt/get?u=" + val;
+        this.form.password.avatar.src = "/api/avt/get?u=" + val;
     },
 
-    showpassinp: function(username) {
-        login.form.username.container.classList.add("hide");
-        login.form.password.user.innerText = username;
-        login.form.password.input.disabled = false;
-        login.form.password.submit.disabled = false;
+    showpassinp(username) {
+        this.form.username.container.classList.add("hide");
+        this.form.password.user.innerText = username;
+        this.form.password.input.disabled = false;
+        this.form.password.submit.disabled = false;
         setTimeout(() => {
-            login.form.password.input.focus();
+            this.form.password.input.focus();
         }, 400);
     },
 
-    reset: function(keepusername = false) {
-        login.form.username.container.classList.remove("hide");
+    reset(keepusername = false) {
+        this.form.username.container.classList.remove("hide");
         if (!keepusername)
-            login.form.username.input.value = "";
-        login.form.username.message.innerText = "";
-        login.form.username.input.disabled = false;
-        login.form.username.submit.disabled = false;
-        login.form.password.avatar.src = "";
-        login.form.password.user.innerText = "";
-        login.form.password.input.value = "";
-        login.form.password.input.disabled = true;
-        login.form.password.submit.disabled = true;
-        login.form.username.input.focus();
+            this.form.username.input.value = "";
+        this.form.username.message.innerText = "";
+        this.form.username.input.disabled = false;
+        this.form.username.submit.disabled = false;
+        this.form.password.avatar.src = "";
+        this.form.password.user.innerText = "";
+        this.form.password.input.value = "";
+        this.form.password.input.disabled = true;
+        this.form.password.submit.disabled = true;
+        this.form.username.input.focus();
     },
 }

@@ -12,7 +12,9 @@ function myajax({
     form = Array(),
     file = null,
     type = "json",
-}, callout = () => {}, progress = () => {}, error = () => {}, disablestatbar = false) {
+    onupload = e => {},
+    ondownload = e => {},
+}, callout = () => {}, error = () => {}, disablestatbar = false) {
     query.length = Object.keys(query).length;
     form.length = Object.keys(form).length;
 
@@ -36,8 +38,12 @@ function myajax({
     }
 
     xhr.upload.addEventListener("progress", e => {
-        progress(e);
+        onupload(e);
     }, false);
+
+    xhr.addEventListener("progress", e => {
+        ondownload(e);
+    })
 
     xhr.addEventListener("readystatechange", function () {
         if (this.readyState === this.DONE) {
