@@ -11,6 +11,7 @@
     
     if (!isset($_GET["u"]) || empty($_GET["u"])) {
         contenttype("jpg");
+        header("Content-length: ". filesize("avt.default"));
         readfile("avt.default");
         exit();
     }
@@ -25,9 +26,11 @@
     if (count($files) > 0) {
         $ext = pathinfo($files[0], PATHINFO_EXTENSION);
         contenttype($ext);
+        header("Content-length: ". filesize($username. "." .$ext));
         readfile($username. "." .$ext);
     } else {
         contenttype("jpg");
+        header("Content-length: ". filesize("avt.default"));
         readfile("avt.default");
     }
 

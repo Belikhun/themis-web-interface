@@ -2,37 +2,46 @@
   <img src="https://lh3.googleusercontent.com/BzHUxZCQ6_pIxYvI-Lh0Mi5ydeZkgH7vzeh27x8d8n4f89J3pQnKlkaTGwUVjPtm5NCnQCYCfRPJmwUUVLb1mNLC3nsTMrougqTBScEbVNZpE6s8ZDBoUW1ZfABER1cK36H2dqUvrQ=w2400">
 </p>
 
-Themis Web Interface là giải pháp tổ chức và quản lí kì thi tin học giúp thí sinh có thể nộp bài, theo dõi kết quả qua LAN hoặc WAN.
+<p align="center">
+	<a href="https://github.com/belivipro9x99/themis-webinterface/releases/"><img src="https://img.shields.io/badge/release-v0.3.4-brightgreen.svg?longCache=true&style=popout-square"></a>
+	<img src="https://img.shields.io/badge/license-MIT-orange.svg?longCache=true&style=popout-square">
+	<img src="https://img.shields.io/badge/status-not tested-blue.svg?longCache=true&style=popout-square">
+</p>
 
-Dự án sử dụng các ngôn ngữ HTML, CSS, PHP và JavaScript, không sử dụng các library khác như jQuery, Bootstrap, React,...
+---
+
+**Themis Web Interface** là giải pháp giúp học sinh nộp bài tới phần mềm chấm điểm **[Themis](https://dsapblog.wordpress.com)** và theo dõi kết quả chấm điểm qua LAN hoặc WAN.
+
+Dự án sử dụng các ngôn ngữ **HTML, CSS, PHP và JavaScript**. Không sử dụng các library khác như **jQuery, Bootstrap, React,...**
 
 - [Demo](#demo)
 - [Yêu cầu](#yêu-cầu)
-- [Tính năng](#yính-năng)
-- [Cài đặt](#cài-đặt)
+- [Tính năng](#tính-năng)
+- [Tải về & Cài đặt](#tải-về--cài-đặt)
 - [Cấu hình](#cấu-hình)
-  - [config.php](#config.php)
+  - [Trực tiếp bằng bảng cài đặt](#trực-tiếp-bằng-bảng-cài-đặt)
+  - [config.json](#configjson)
   - [Tài khoản](#tài-khoản)
 - [API Document](#api-document)
-- [Ảnh chụp màn hình](#screenshot)
-- [Cập nhật v0.3.4](#thay-đổi-trong-v034)
-  - [Cập nhật v0.3.3](#thay-đổi-trong-v033)
-  - [Cập nhật v0.3.2](#thay-đổi-trong-v032)
-  - [Cập nhật v0.3.1](#thay-đổi-trong-v031)
-  - [Cập nhật v0.3.0](#thay-đổi-trong-v030)
-  - [Cập nhật v0.2.3](#thay-đổi-trong-v023)
-  - [Cập nhật v0.2.2](#thay-đổi-trong-v022)
-  - [Cập nhật v0.2.1](#thay-đổi-trong-v021)
-  - [Cập nhật v0.2.0](#thay-đổi-trong-v020)
+- [Screenshot](#screenshot)
+- [Thay đổi trong v0.3.4](#thay-đổi-trong-v034)
+  - [Thay đổi trong v0.3.3](#thay-đổi-trong-v033)
+  - [Thay đổi trong v0.3.2](#thay-đổi-trong-v032)
+  - [Thay đổi trong v0.3.1](#thay-đổi-trong-v031)
+  - [Thay đổi trong v0.3.0](#thay-đổi-trong-v030)
+  - [Thay đổi trong v0.2.3](#thay-đổi-trong-v023)
+  - [Thay đổi trong v0.2.2](#thay-đổi-trong-v022)
+  - [Thay đổi trong v0.2.1](#thay-đổi-trong-v021)
+  - [Thay đổi trong v0.2.0](#thay-đổi-trong-v020)
 - [Contributor](#contributor)
 
 ## Demo
-* Link: [000webhost](https://tweb-demo.000webhostapp.com/)
-* Tài khoản:
+* **000webhost**: [https://tweb-demo.000webhostapp.com/](https://tweb-demo.000webhostapp.com/)
+### Tài khoản:
 
 | id    | username | password |
-|-------|----------|----------|
-| admin | admin    |   admin  |
+|:------|:---------|:---------|
+| admin | admin    | admin    |
 | 1     | user1    | 123456   |
 | 2     | user2    | 123456   |
 
@@ -167,9 +176,9 @@ Dữ liệu tài khoản được lưu tại ```data/xmldb/account.xml```. Có t
 
 ## API Document
 
-API giúp bạn có thể giao tiếp với hệ thống mà không cần phải sử dụng trang web nộp bài. Do đó bạn có thể viết một chương trình chạy phía client trong trường hợp trang web nộp bài không hoạt động.
+**API** giúp bạn có thể giao tiếp với hệ thống mà không cần phải sử dụng trang web nộp bài. Do đó bạn có thể viết một chương trình chạy phía client trong trường hợp trang web nộp bài không hoạt động.
 
-Toàn bộ Document đều có ở trong [wiki](https://github.com/belivipro9x99/themis-web-interface-reloaded/wiki) của dự án.
+Toàn bộ **Document** đều có ở trong [wiki](https://github.com/belivipro9x99/themis-web-interface-reloaded/wiki) của dự án.
 
 ## Screenshot
 
