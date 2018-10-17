@@ -21,7 +21,7 @@
     if (!isset($_FILES["file"]))
         stop(41, "Chưa chọn tệp!", 400);
 
-    $maxfilesize = 2097152;
+    $maxfilesize = 1024;
     $file = $_FILES["file"]["name"];
     $acceptext = array("jpg", "png", "gif", "webp");
     $extension = pathinfo($file, PATHINFO_EXTENSION);
