@@ -423,9 +423,16 @@ core = {
                 url: "/api/test/problems/list",
                 method: "GET"
             }, data => {
-                this.list.innerHTML = "";
+                if (data.length == 0) {
+                    this.panel.main.classList.add("blank");
+                    this.list.innerHTML = "";
+                    return false;
+                } else
+                    this.panel.main.classList.remove("blank");
+
+                var html = "";
                 data.forEach(item => {
-                    html = [
+                    html += [
                         "<li class=\"item\" onclick=\"core.problems.getproblem(\'" + item.id + "\');\">",
                             "<img class=\"icon\" src=\"" + item.image + "\">",
                             "<ul class=\"title\">",
@@ -434,8 +441,8 @@ core = {
                             "</ul>",
                         "</li>",
                     ].join("\n");
-                    this.list.innerHTML += html;
                 })
+                this.list.innerHTML = html;
             })
         },
 
@@ -495,7 +502,7 @@ core = {
 
         init() {
             this.timepanel.ref.onclick(() => {
-                this.fetchtime();
+                this.fetchtime(true);
             });
             this.timepanel.clo.onclick(e => {
                 this.close();

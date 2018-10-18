@@ -423,11 +423,11 @@
                     <div class="title">HỆ THỐNG NỘP BÀI TRỰC TUYẾN</div>
                     <div class="info">
                         <div class="badge">
-                            <a href="https://github.com/belivipro9x99/themis-webinterface/releases/"><img src="/t/badge?su=release&st=v<?php print VERSION; ?>&c=brightgreen"></a>
-                            <img src="/t/badge?su=license&st=MIT&c=orange">
-                            <img src="/t/badge?su=status&st=not tested&c=blue">
-                            <img src="/t/badge?su=author&st=Đỗ Mạnh Hà&c=red">
-                            <img src="/t/badge?su=school&st=THPT Lạc Long Quân, Hòa Bình&c=yellow">
+                            <a href="https://github.com/belivipro9x99/themis-webinterface/releases/"><img src="/tool/badge?su=release&st=v<?php print VERSION; ?>&c=brightgreen"></a>
+                            <img src="/tool/badge?su=license&st=MIT&c=orange">
+                            <img src="/tool/badge?su=status&st=not tested&c=blue">
+                            <img src="/tool/badge?su=author&st=Đỗ Mạnh Hà&c=red">
+                            <img src="/tool/badge?su=school&st=THPT Lạc Long Quân, Hòa Bình&c=yellow">
                         </div>
                         <t><b>Themis Web Interface</b> là một dự án mã nguồn mở, phi lợi nhuận với mục đích chính nhằm biến việc quản lí và tổ chức các buổi học lập trình, ôn tập và tổ chức kì thi trở nên dễ dàng hơn.</t>
                     </div>
