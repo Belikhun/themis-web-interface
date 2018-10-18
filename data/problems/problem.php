@@ -131,19 +131,20 @@
         if (!isset($problem_list[$id]))
             return PROBLEM_ERROR_IDREJECT;
 
+        apache_setenv("no-gzip", "1");
         if (isset($problem_list[$id]["image"])) {
             $i = $problem_list[$id]["image"];
             $f = $problem_dir."/".$id."/".$i;
 
             contenttype(pathinfo($i, PATHINFO_EXTENSION));
-            header("Content-Length: ", filesize($f));
+            header("Content-Length: ".filesize($f));
             readfile($f);
             return PROBLEM_OKAY;
         }
 
         $f = $problem_dir ."/image.default";
         contenttype("png");
-        header("Content-Length: ", filesize($f));
+        header("Content-Length: ".filesize($f));
         readfile($f);
         return PROBLEM_ERROR;
     }

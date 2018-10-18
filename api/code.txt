@@ -32,7 +32,7 @@
 45  file exist
 
 // 10x: info
-101 no during time
+101 not in contest mode
 102 modified nothing
-103 not in time
-104 time is up
+103 contest not started
+104 contest ended

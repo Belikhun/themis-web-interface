@@ -35,19 +35,7 @@
     if (!isset($_FILES["file"]))
         stop(41, "Chưa chọn tệp!", 400);
 
-    $duringTime = $config["time"]["during"];
-
-    if ($duringTime > 0) {
-        $beginTime = $config["time"]["begin"]["times"];
-        $offsetTime = $config["time"]["offset"];
-        $t = $beginTime - time() + ($duringTime * 60);
-
-        if ($t > $duringTime * 60)
-            stop(103, "Chưa đến giờ nộp bài.", 403);
-        else if($t < -$offsetTime && $duringTime != 0)
-            stop(104, "Đã qua giờ nộp bài!", 403);
-    }
-
+    contest_timecheck();
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";
 
     $maxfilesize = 10*1024*1024;

@@ -82,7 +82,7 @@ function myajax({
                     error(res);
                     return false;
                 }
-                resdata = res.data;
+                callout(res.data, res);
             } else {
                 if (this.status != 200) {
                     if (!disablestatbar)
@@ -92,7 +92,7 @@ function myajax({
                     error(res);
                     return false;
                 }
-                resdata = this.responseText;
+                callout(this.responseText, null);
             }
 
             if (document.lostconnect == true) {
@@ -104,7 +104,6 @@ function myajax({
                     statbar.hide(3000);
                 }
             }
-            callout(resdata);
         }
     });
 

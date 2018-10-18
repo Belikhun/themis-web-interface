@@ -11,9 +11,9 @@
 	require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
 
 	if ($config["time"]["during"] <= 0)
-		stop(101, "Unlimited Time.", 200, Array(
+		stop(101, "Not in Contest mode.", 200, Array(
 			"during" => $config["time"]["during"],
-			"stage" => 0
+			"phase" => 0
 		));
 
 	$beginTime = $config["time"]["begin"]["times"];
@@ -23,15 +23,15 @@
 
 	if ($t > $duringTime * 60) {
 		$t -= $duringTime * 60;
-		$stage = 1;
+		$phase = 1;
 	} else if ($t > 0) {
-		$stage = 2;
+		$phase = 2;
 	} else if ($t > -$offsetTime) {
 		$t += $offsetTime;
-		$stage = 3;
+		$phase = 3;
 	} else {
 		$t += $offsetTime;
-		$stage = 4;
+		$phase = 4;
 	}
 
 
@@ -39,6 +39,6 @@
 		"time" => $t,
 		"during" => $duringTime * 60,
 		"offset" => $offsetTime,
-		"stage" => $stage
+		"phase" => $phase
 	));
 ?>

@@ -5,6 +5,8 @@
     //|      This file is licensed under MIT license.      |
     //|====================================================|
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
+    if (!islogedin())
+        die("no u");
 ?>
 
 <!DOCTYPE html>

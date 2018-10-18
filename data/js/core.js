@@ -367,7 +367,13 @@ core = {
                         this.percent.innerText = ((e.loaded / e.total) * 100).toFixed(0) + "%";
                         this.bar.style.width = (e.loaded / e.total) * 100 + "%";
                     }
-                }, data => {
+                }, (data, res) => {
+                    if ([103, 104].includes(res.code)) {
+                        this.state.innerText = res.description;
+                        this.panel.title = "Nộp bài - Đã dừng.";
+                        this.bar.classList.add("red");
+                        return false;
+                    }
                     this.state.innerText = "Tải lên thành công! " + (i + 1) + "/" + files.length;
                     this.onUploadSuccess();
                     setTimeout(() => {
@@ -542,22 +548,23 @@ core = {
             this.end.innerText = "--:--";
             this.state.innerText = "---";
             this.last = 0;
-            this.timedata.stage = 0;
+            this.timedata.phase = 0;
         },
 
         timeupdate() {
             if ((data = this.timedata).time == 0)
-                switch (data.stage) {
+                switch (data.phase) {
                     case 1:
-                        this.timedata.stage = 2;
+                        this.timedata.phase = 2;
                         this.timedata.time = data.during;
+                        core.problems.getlist();
                         break;
                     case 2:
-                        this.timedata.stage = 3;
+                        this.timedata.phase = 3;
                         this.timedata.time = data.offset;
                         break;
                     case 3:
-                        this.timedata.stage = 4;
+                        this.timedata.phase = 4;
                         break;
                     default:
                         this.reset();
@@ -566,7 +573,7 @@ core = {
             data = this.timedata;
             t = data.time;
 
-            switch(data.stage) {
+            switch(data.phase) {
                 case 1:
                     if (this.last == 0)
                         this.last = t;
