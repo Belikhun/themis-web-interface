@@ -1339,9 +1339,9 @@ footer .left {
     box-sizing: border-box;
     display: block;
     float: left;
-    list-style: none;
     margin: unset;
     padding: 20px;
+    max-width: 50%;
 }
 
 footer .left .title {
@@ -1353,17 +1353,23 @@ footer .left .title {
     border-bottom: 1px solid rgba(199, 199, 199, 0.4);
 }
 
-footer .left .author .container {
-    margin: unset;
-    list-style: none;
+footer .left .info {
     padding-left: 20px;
+}
+
+footer .left .info .badge {
+    padding-bottom: 10px;
+}
+
+footer .left .info t {
+    display: block;
     font-weight: lighter;
     font-size: 14px;
     color: #c0c0c0;
+    padding: 2px 0;
 }
 
-footer .left .author .container .name t {
-    font-weight: bold;
+footer .left .info t b {
     font-size: 14px;
     color: #dfdfdf;
 }

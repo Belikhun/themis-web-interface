@@ -10,9 +10,11 @@
 
 ---
 
-**Themis Web Interface** là giải pháp giúp học sinh nộp bài tới phần mềm chấm điểm **[Themis](https://dsapblog.wordpress.com)** và theo dõi kết quả chấm điểm qua LAN hoặc WAN.
+**Themis Web Interface** là một dự án mã nguồn mở, phi lợi nhuận với mục đích chính nhằm biến việc quản lí và tổ chức các buổi học lập trình, ôn tập và tổ chức kì thi trở nên dễ dàng hơn.
 
-Dự án sử dụng các ngôn ngữ **HTML, CSS, PHP và JavaScript**. Không sử dụng các library khác như **jQuery, Bootstrap, React,...**
+**Themis Web Interface** giúp học sinh nộp bài tới phần mềm chấm điểm **[Themis](https://dsapblog.wordpress.com)** và theo dõi kết quả chấm điểm qua LAN hoặc WAN.
+
+**Themis Web Interface** được viết bằng các ngôn ngữ **HTML, CSS, PHP và JavaScript**. Dự án không sử dụng các library khác như **jQuery, Bootstrap, React, ...**
 
 - [Demo](#demo)
 - [Yêu cầu](#yêu-cầu)

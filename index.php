@@ -419,17 +419,19 @@
             </div>
 
             <footer>
-                <ul class="left">
-                    <li class="title">HỆ THỐNG NỘP BÀI TRỰC TUYẾN v<?php print VERSION; ?></li>
-                    <li class="author">
-                        <ul class="container">
-                            <li class="name">Tác giả:
-                                <t>Đỗ Mạnh Hà</t>
-                            </li>
-                            <li class="info">Trường THPT Lạc Long Quân, Hòa Bình.</li>
-                        </ul>
-                    </li>
-                </ul>
+                <span class="left">
+                    <div class="title">HỆ THỐNG NỘP BÀI TRỰC TUYẾN</div>
+                    <div class="info">
+                        <div class="badge">
+                            <a href="https://github.com/belivipro9x99/themis-webinterface/releases/"><img src="/t/badge?su=release&st=v<?php print VERSION; ?>&c=brightgreen"></a>
+                            <img src="/t/badge?su=license&st=MIT&c=orange">
+                            <img src="/t/badge?su=status&st=not tested&c=blue">
+                            <img src="/t/badge?su=author&st=Đỗ Mạnh Hà&c=red">
+                            <img src="/t/badge?su=school&st=THPT Lạc Long Quân, Hòa Bình&c=yellow">
+                        </div>
+                        <t><b>Themis Web Interface</b> là một dự án mã nguồn mở, phi lợi nhuận với mục đích chính nhằm biến việc quản lí và tổ chức các buổi học lập trình, ôn tập và tổ chức kì thi trở nên dễ dàng hơn.</t>
+                    </div>
+                </span>
                 <ul class="right">
                     <li class="title">Liên Hệ</textarea>
                     </li>
