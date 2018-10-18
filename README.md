@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-	<a href="https://github.com/belivipro9x99/themis-webinterface/releases/"><img src="https://img.shields.io/badge/release-v0.3.4-brightgreen.svg?longCache=true&style=popout-square"></a>
+	<a href="https://github.com/belivipro9x99/themis-webinterface/releases/"><img src="https://img.shields.io/badge/release-v0.3.5-brightgreen.svg?longCache=true&style=popout-square"></a>
 	<img src="https://img.shields.io/badge/license-MIT-orange.svg?longCache=true&style=popout-square">
 	<img src="https://img.shields.io/badge/status-not tested-blue.svg?longCache=true&style=popout-square">
 </p>
@@ -26,7 +26,8 @@
   - [Tài khoản](#tài-khoản)
 - [API Document](#api-document)
 - [Screenshot](#screenshot)
-- [Thay đổi trong v0.3.4](#thay-đổi-trong-v034)
+- [Thay đổi trong v0.3.5](#thay-đổi-trong-v035)
+  - [Thay đổi trong v0.3.4](#thay-đổi-trong-v034)
   - [Thay đổi trong v0.3.3](#thay-đổi-trong-v033)
   - [Thay đổi trong v0.3.2](#thay-đổi-trong-v032)
   - [Thay đổi trong v0.3.1](#thay-đổi-trong-v031)
@@ -200,7 +201,12 @@ Toàn bộ **Document** đều có ở trong [wiki](https://github.com/belivipro
 
 <p align="center"><img  src="https://lh3.googleusercontent.com/8zv18Zl9nEZtjXv8dUTohaa6PeVfr1eb8lenfQ4jpVnwptkSQZqUzfr1YJhhaLG9GWm5KyW3iNoayQxipCNBFyGNKDXSCgqVhZpjEfKeAzoJy9e2CTsGWCwuT_MOjzDnLZLMP7ybrQ=w2400"></p>
 
-## Thay đổi trong v0.3.4
+## Thay đổi trong v0.3.5
+
+* Ẩn danh sách đề bài trước khi kì thi bắt đầu.
+* Chuyển đổi toàn bộ ảnh về định dạng webp.
+
+### Thay đổi trong v0.3.4
 
 * Cho phép xem thời gian và xếp hạng mà không cần đăng nhập
 * Tách riêng trang chủ và bảng điều khiển cho admin
