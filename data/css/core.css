@@ -1321,7 +1321,7 @@ td {
 
 footer {
     position: relative;
-    background-image: url("/data/img/footer-bg.jpg");
+    background-image: url("/data/img/footer-bg.webp");
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;

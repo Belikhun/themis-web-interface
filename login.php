@@ -47,7 +47,7 @@
 
         <div class="right-panel">
             <div class="header">
-                <img class="icon" src="/data/img/icon.png">
+                <img class="icon" src="/data/img/icon.webp">
                 <ul class="info">
                     <li class="name text-overflow">
                         <?php print $config["contest"]["name"]; ?>

@@ -62,8 +62,8 @@
             </div>
             <div class="foot">
                 <div class="icon">
-                    <img src="data/img/chrome-icon.png">
-                    <img src="data/img/coccoc-icon.png">
+                    <img src="data/img/chrome-icon.webp">
+                    <img src="data/img/coccoc-icon.webp">
                 </div>
                 <t class="text">
                     Trang web hoạt động tốt nhất trên trình duyệt chrome và coccoc.
@@ -106,7 +106,7 @@
 
         <div class="nav">
             <span class="lnav">
-                <img class="icon" src="/data/img/icon.png" />
+                <img class="icon" src="/data/img/icon.webp" />
                 <ul class="title">
                     <li class="main text-overflow">
                         <?php print $config["contest"]["name"]; ?>
@@ -127,7 +127,7 @@
                         </li>
                     </ul>
                     <img id="user_avt" class="avatar" src="/api/avt/get?u=<?php print $username; ?>" />
-                    <img class="arrow" src="/data/img/arr.png" />
+                    <img class="arrow" src="/data/img/arr.webp" />
                 <?php } else { ?>
                     <button class="login ms-btn" onclick="window.location.href='/login.php'">Đăng nhập</button>
                 <?php } ?>

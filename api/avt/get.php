@@ -8,6 +8,7 @@
     // Include config file
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
+    header("Cache-Control: no-cache, no-store, must-revalidate", true);
     
     if (!isset($_GET["u"]) || empty($_GET["u"])) {
         contenttype("jpg");
