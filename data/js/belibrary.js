@@ -82,7 +82,8 @@ function myajax({
                     error(res);
                     return false;
                 }
-                callout(res.data, res);
+                data = res.data;
+                rawdata = res;
             } else {
                 if (this.status != 200) {
                     if (!disablestatbar)
@@ -92,7 +93,8 @@ function myajax({
                     error(res);
                     return false;
                 }
-                callout(this.responseText, null);
+                data = this.responseText;
+                rawdata = null;
             }
 
             if (document.lostconnect == true) {
@@ -104,6 +106,7 @@ function myajax({
                     statbar.hide(3000);
                 }
             }
+            callout(data, rawdata);
         }
     });
 
@@ -152,14 +155,14 @@ function parsetime(t = 0) {
     var h = Math.floor(t / 3600);
     var m = Math.floor(t % 3600 / 60);
     var s = Math.floor(t % 3600 % 60);
-    
+
     return {
         "h": h,
         "m": m,
         "s": s,
         "str": d + [h, m, s]
             .map(v => v < 10 ? "0" + v : v)
-            .filter((v,i) => v !== "00" || i > 0)
+            .filter((v, i) => v !== "00" || i > 0)
             .join(":")
     }
 };

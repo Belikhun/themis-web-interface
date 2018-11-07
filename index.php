@@ -75,12 +75,12 @@
             loader = {
                 container: document.getElementById("loader"),
                 bar: document.getElementById("loader_bar"),
-                onload: () => {},
+                onload: fullloaded => {},
 
                 init() {
                     this.bar.dataset.slow = true;
                     setTimeout(e => {
-                        this.bar.style.width = "95%";
+                        this.bar.style.width = "90%";
                     }, 600);
                     document.body.onload = e => {
                         this.loaded();
@@ -89,16 +89,19 @@
 
                 loaded() {
                     this.bar.dataset.slow = false;
-                    this.bar.style.width = "100%";
-                    setTimeout(e => {
-                        $("#loader").classList.add("done");
-                        this.onload();
-                    }, 600);
+                    this.bar.style.width = "95%";
+                    this.onload(() => {
+                        this.bar.style.width = "100%";
+                        setTimeout(e => {
+                            $("#loader").classList.add("done");
+                        }, 600);
+                    });
                 }
             }
 
-            loader.onload = () => {
+            loader.onload = fullloaded => {
                 core.init();
+                fullloaded();
             }
 
             loader.init();

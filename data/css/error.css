@@ -20,7 +20,7 @@ body {
     left: 0px;
     width: 100%;
     height: 100%;
-    background-image: url("/data/img/error-bg.jpg");
+    background-image: url("/data/img/error-bg.webp");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -62,8 +62,8 @@ body {
     color: rgb(228, 228, 228);
     text-align: center;
     position: relative;
-    left: 50%;
-    transform: translate(-50%);
+    display: block;
+    margin: auto;
     margin: 0 0 20px 0;
 }
 
@@ -74,11 +74,10 @@ body {
     color: rgb(204, 204, 204);
     text-align: center;
     position: relative;
-    left: 50%;
-    transform: translate(-50%);
+    display: block;
+    margin: auto;
     width: 80%;
     padding: unset;
-    margin: unset;
 }
 
 .main-container p.info {
@@ -88,19 +87,18 @@ body {
     color: rgb(182, 182, 182);
     text-align: center;
     position: relative;
-    left: 50%;
-    transform: translate(-50%);
+    display: block;
+    margin: auto;
     width: 80%;
     padding-top: 10px;
     padding-bottom: 30px;
-    margin: 0px;
 }
 
 .main-container button.btn {
     position: relative;
-    left: 50%;
-    transform: translate(-50%);
+    margin: auto;
     margin-top: 10px;
+    display: block;
 }
 
 .footer {

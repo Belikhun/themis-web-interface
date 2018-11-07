@@ -130,7 +130,7 @@
     </div>
 
     <div class="footer">
-        <img src="/data/img/icon.png" class="icon">
+        <img src="/data/img/icon.webp" class="icon">
         <p>Themis Web Interface. Copyright (c) 2018 Belikhun. This project is copyrighted under MIT license.</p>
     </div>
 
