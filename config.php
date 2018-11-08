@@ -5,8 +5,7 @@
     //|      This file is licensed under MIT license.      |
     //|====================================================|
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
-    if (!islogedin())
-        die("no u");
+
 ?>
 
 <!DOCTYPE html>
@@ -137,7 +136,7 @@
     <script src="data/js/belibrary.js"></script>
     <script src="data/js/config.js"></script>
     <script>
-        const API_TOKEN = "<?php print $_SESSION["api_token"]; ?>";
+        const API_TOKEN = "<?php print isset($_SESSION["api_token"]) ? $_SESSION["api_token"] : null; ?>";
     </script>
 </body>
 
