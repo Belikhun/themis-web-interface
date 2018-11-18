@@ -176,11 +176,14 @@ t {
     margin-right: 10px;
 }
 
-.right-panel .center #form_container #form_username #form_message {
-    display: inline-block;
+.right-panel .center #form_message {
+    display: block;
+    text-align: left;
     max-width: 100%;
+    min-height: 18px;
+    padding-top: 10px;
+    padding-left: 8px;
     font-size: 13px;
-    margin-top: 20px;
     color: #933432;
     letter-spacing: 0.01em;
 }
@@ -208,15 +211,16 @@ t {
     cursor: pointer;
 }
 
-.right-panel .center #form_container #form_password #form_profile::before {
+.right-panel .center #form_container #form_password #form_profile::after {
     content: "\f104";
+    position: absolute;
+    right: 10px;
     font-family: "Font Awesome 5 Free";
-    font-size: 18px;
+    font-size: 24px;
     font-weight: 600;
     text-align: center;
     min-width: 18px;
     min-height: 18px;
-    padding-right: 10px;
 }
 
 .right-panel .center #form_container #form_password #form_profile #form_avatar {

@@ -91,13 +91,14 @@ core = {
     _this: this,
 
     init(done = () => {}) {
-        console.time("inittime");
         console.log("%cSTOP!", "font-size: 72px; font-weight: 900;");
         console.log(
             "%cThis feature is intended for developers. Pasting something here could give strangers access to your account.",
             "font-size: 18px; font-weight: 700;"
         );
-        console.log("init...");
+
+        clog("info", "Initialising...");
+        var inittime = new stopclock();
         sbar.init();
         this.rankpanel.ref.onclick(() => {
             this.fetchrank(true);
@@ -118,12 +119,18 @@ core = {
             this.file.onUploadSuccess = e => (this.fetchlog());
             this.flogint = setInterval(e => {this.fetchlog()}, 1000);
             if (IS_ADMIN) {
+                clog("info", "Logged in as Admin.");
                 this.settings.init();
                 this.navlink.init();
             }
-        }
-        console.timeEnd("inittime");
+        } else
+            clog("warn", "You are not logged in. Some feature will be disabled.");
         done();
+        clog("debg", "Initialisation took:", {
+            color: flatc("blue"),
+            text: inittime.stop + "s"
+        })
+        clog("okay", "Initialised.");
     },
 
     fetchlog(bypass = false) {
@@ -134,11 +141,20 @@ core = {
             if (comparearray(data, this.plogdata) && !bypass)
                 return false;
 
+            clog("debg", "Updating Log");
+            var updatelog = new stopclock();
+
             var list = this.logpanel.main.getElementsByClassName("log-item-container")[0];
             if (data.judging.length == 0 && data.logs.length == 0 && data.queues.length == 0) {
                 this.logpanel.main.classList.add("blank");
                 this.plogdata = data;
                 list.innerHTML = "";
+
+                clog("debg", "Log Is Blank. Took", {
+                    color: flatc("blue"),
+                    text: updatelog.stop + "s"
+                });
+
                 return false;
             } else
                 this.logpanel.main.classList.remove("blank");
@@ -192,6 +208,11 @@ core = {
 
             list.innerHTML = out;
             this.plogdata = data;
+
+            clog("debg", "Log Updated. Took", {
+                color: flatc("blue"),
+                text: updatelog.stop + "s"
+            });
         })
     },
 
@@ -203,10 +224,19 @@ core = {
             if (comparearray(data, this.prankdata) && !bypass)
                 return false;
 
+            clog("debg", "Updating Rank");
+            var updaterank = new stopclock();
+
             if (data.list.length == 0 && data.rank.length == 0) {
                 this.rankpanel.main.classList.add("blank");
                 this.prankdata = data;
                 this.rankpanel.main.innerHTML = "";
+                
+                clog("debg", "Rank Is Blank. Took", {
+                    color: flatc("blue"),
+                    text: updaterank.stop + "s"
+                });
+
                 return false;
             } else
                 this.rankpanel.main.classList.remove("blank");
@@ -252,10 +282,19 @@ core = {
             out += "</table>";
             this.rankpanel.main.innerHTML = out;
             this.prankdata = data;
+
+            clog("debg", "Rank Updated. Took", {
+                color: flatc("blue"),
+                text: updaterank.stop + "s"
+            });
         });
     },
 
     viewlog(url) {
+        clog("info", "Opening log file", {
+            color: flatc("yellow"),
+            text: url
+        });
         file = url.split("/").pop().replace("viewlog?f=", "");
         myajax({
             url: "/api/test/viewlog",
@@ -292,6 +331,10 @@ core = {
             this.dropzone.addEventListener("drop", this.filesel, false);
             this.panel.ref.onclick(this.reset);
             this.panel.title = "Nộp bài";
+            clog("okay", "Initialised:", {
+                color: flatc("red"),
+                text: "core.file"
+            });
         },
 
         reset() {
@@ -313,6 +356,10 @@ core = {
             var files = e.dataTransfer.files;
 
             this.classList.add("hide");
+            clog("info", "Started uploading", {
+                color: flatc("blue"),
+                text: files.length
+            }, "files");
             core.file.state.innerText = "Chuẩn bị tải lên " + files.length + " tệp...";
             core.file.size.innerText = "00/00";
             core.file.percent.innerText = "0%";
@@ -347,6 +394,10 @@ core = {
                 return;
             }
 
+            clog("info", "Uploading", {
+                color: flatc("yellow"),
+                text: files[i].name
+            }, "files");
             this.name.innerText = files[i].name;
             this.state.innerText = "Đang tải lên...";
             this.panel.title = "Nộp bài - Đang tải lên " + (i + 1) + "/" + files.length +"...";
@@ -370,17 +421,30 @@ core = {
                     }
                 }, (data, res) => {
                     if ([103, 104].includes(res.code)) {
+                        clog("errr", "Upload Stopped:", {
+                            color: flatc("red"),
+                            text: res.description
+                        });
+
                         this.state.innerText = res.description;
                         this.panel.title = "Nộp bài - Đã dừng.";
                         this.bar.classList.add("red");
                         return false;
                     }
+
+                    clog("okay", "Uploaded ", {
+                        color: flatc("yellow"),
+                        text: files[i].name
+                    }, "files");
+
                     this.state.innerText = "Tải lên thành công! " + (i + 1) + "/" + files.length;
                     this.onUploadSuccess();
                     setTimeout(() => {
                         this.upload(files, i + 1);
                     }, this.uploadcooldown / 2);
                 }, res => {
+                    clog("errr", "Upload Stopped.");
+
                     sbar.hide();
                     this.state.innerText = res.description;
                     this.panel.title = "Nộp bài - Đã dừng.";
@@ -417,6 +481,10 @@ core = {
                 this.getlist();
             });
             this.getlist();
+            clog("okay", "Initialised:", {
+                color: flatc("red"),
+                text: "core.problems"
+            });
         },
 
         getlist() {
@@ -448,6 +516,13 @@ core = {
         },
 
         getproblem(id) {
+            clog("info", "Opening problem", {
+                color: flatc("yellow"),
+                text: id
+            });
+            this.list.classList.add("hide");
+            this.panel.bak.hide(false);
+
             myajax({
                 url: "/api/test/problems/get",
                 method: "GET",
@@ -484,8 +559,6 @@ core = {
                         "<th>Output</th>",
                     "</tr>"
                 ].join("\n") + testhtml;
-                this.list.classList.add("hide");
-                this.panel.bak.hide(false);
             })
         },
     },
@@ -511,6 +584,10 @@ core = {
             if (LOGGED_IN)
                 this.timepanel.clo.hide();
             this.fetchtime(true);
+            clog("okay", "Initialised:", {
+                color: flatc("red"),
+                text: "core.timer"
+            });
         },
 
         close() {
@@ -527,6 +604,7 @@ core = {
                 if (data.during <= 0) {
                     $("#timep").classList.remove("show");
                     clearInterval(this.interval);
+                    clog("info", "Timer Disabled: not in contest mode");
                     return;
                 }
                 if (init) {
@@ -719,6 +797,10 @@ core = {
             }, false)
 
             this.logoutbtn.addEventListener("click", e => {this.logout(e)}, false);
+            clog("okay", "Initialised:", {
+                color: flatc("red"),
+                text: "core.userprofile"
+            });
         },
 
         logout() {
@@ -768,6 +850,10 @@ core = {
             }, data => {
                 this.reset();
                 this.reload(data.name, 1);
+                clog("okay", "Changed name to", {
+                    color: flatc("pink"),
+                    text: name
+                })
             }, data => {
                 this.reset();
             });
@@ -787,6 +873,7 @@ core = {
                 sbar.change(sbar.type.OK, "Thay đổi mật khẩu thành công!");
                 sbar.hide(2000);
                 this.reset();
+                clog("okay", "Password changed.");
             }, data => {
                 this.reset();
             });
@@ -816,6 +903,7 @@ core = {
             }, data => {
                 this.reset();
                 this.reload(data);
+                clog("okay", "Avatar changed.");
             }, data => {
                 this.reset();
             });
@@ -857,11 +945,13 @@ core = {
             this.cpanel.ref.onclick(e => {
                 var iframe = this.cpanel.main.getElementsByTagName("iframe")[0]; 
                 iframe.contentWindow.location.reload();
+                clog("okay", "Reloaded CPanel IFrame.");
             })
             this.ppanel.ref.onclick(e => {
                 this.problems.getlist();
                 this.problems.resetform();
                 this.problems.showlist();
+                clog("okay", "Reloaded Problems Panel.");
             })
             this.navhome.addEventListener("click", e => {
                 this.hidesett();
@@ -871,18 +961,24 @@ core = {
                 this.showsett();
                 core.navlink.activeid(1);
             })
+            clog("okay", "Initialised:", {
+                color: flatc("red"),
+                text: "core.settings"
+            });
         },
 
         hidesett() {
             this.main.classList.remove("showsett");
             this.navhome.classList.add("active");
             this.navsett.classList.remove("active");
+            clog("info", "Switched To Main Page");
         },
 
         showsett() {
             this.main.classList.add("showsett");
             this.navhome.classList.remove("active");
             this.navsett.classList.add("active");
+            clog("info", "Switched To Setting Page");
             this.problems.getlist();
         },
 
@@ -947,6 +1043,10 @@ core = {
                         "</div>"
                     ].join("\n");
                     this.form.testlist.insertAdjacentHTML("beforeend", html);
+                });
+                clog("okay", "Initialised:", {
+                    color: flatc("red"),
+                    text: "core.settings.problems"
                 });
             },
 
@@ -1027,6 +1127,10 @@ core = {
                         id: id
                     }
                 }, data => {
+                    clog("info", "Editing problem", {
+                        color: flatc("yellow"),
+                        text: id
+                    });
                     this.resetform();
                     this.title.innerText = data.id;
                     this.action = "edit";
@@ -1062,6 +1166,10 @@ core = {
             },
 
             remproblem(id) {
+                clog("warn", "Deleting Problem", {
+                    color: flatc("yellow"),
+                    text: id + "."
+                }, "Waiting for confirmation");
                 if (!confirm("Bạn có chắc muốn xóa " + id + " không?"))
                     return false;
 
@@ -1073,6 +1181,10 @@ core = {
                         token: API_TOKEN
                     }
                 }, data => {
+                    clog("okay", "Deleted Problem", {
+                        color: flatc("yellow"),
+                        text: id
+                    });
                     this.getlist();
                     this.showlist();
                     this._this.getlist();
@@ -1118,6 +1230,14 @@ core = {
                 if (["edit", "add"].indexOf(action) == -1)
                     return false;
 
+                clog("info", "Problem Submit: ", {
+                    color: flatc("green"),
+                    text: action
+                }, {
+                    color: flatc("yellow"),
+                    text: data.id
+                });
+
                 myajax({
                     url: "/api/test/problems/" + action,
                     method: "POST",
@@ -1156,6 +1276,10 @@ core = {
                     _this.active(this);
                 }, false);
             }
+            clog("okay", "Initialised:", {
+                color: flatc("red"),
+                text: "core.navlink"
+            });
         },
 
         activeid(i) {
@@ -1186,6 +1310,10 @@ core = {
         init() {
             this.panel.ref.hide();
             this.panel.clo.onclick(this.hide);
+            clog("okay", "Initialised:", {
+                color: flatc("red"),
+                text: "core.wrapper"
+            });
         },
 
         show(title = "") {

@@ -1,43 +1,4 @@
-23: 0:13|     0.0010|      LOG|   INFO| Log started at Sat Sep 22 23:00:13 2018
-23: 0:13|     0.0070|     MAIN|   OKAY| Initialised: ehook
-23: 0:13|     0.2778|     MAIN|   OKAY| Initialised: ajax.ajax
-23: 0:13|     0.2798|     MAIN|   OKAY| Initialised: json
-23: 0:22|     8.9109|     AJAX|   DEBG| Creating POST request with form:
-23: 0:22|     8.9139|     AJAX|   DEBG|  u           : admin
-23: 0:22|     8.9159|     AJAX|   DEBG|  p           : admin
-23: 0:22|     8.9179|     AJAX|   INFO| Starting request: http://localhost/api/login
-23: 0:22|     8.9473|     AJAX|   OKAY| POST http://localhost/api/login 200
-23: 0:22|     8.9513|     MAIN|   OKAY| Logged in as admin
-23: 0:22|     8.9603|     AJAX|   INFO| Starting request: http://localhost/api/test/logs
-23: 0:22|     8.9744|     AJAX|   OKAY| GET http://localhost/api/test/logs 200
-23: 0:22|     8.9793|     MAIN|   DEBG| 
-{
-  "code": 0,
-  "description": "Thành công!",
-  "user": "admin",
-  "data": {
-    "queues": [],
-    "judging": [],
-    "logs": []
-  },
-  "runtime": 0.0016789436340332031,
-  "status": 200
-}
-23: 0:22|     8.9823|     AJAX|   DEBG| Creating GET request with query:
-23: 0:22|     8.9843|     AJAX|   DEBG|  sessid      : 8889a85ff2573835f50398b605826141
-23: 0:22|     8.9896|     AJAX|   INFO| Starting request: http://localhost/api/test/logs
-23: 0:22|     9.0036|     AJAX|   OKAY| GET http://localhost/api/test/logs 200
-23: 0:22|     9.0065|     MAIN|   DEBG| 
-{
-  "code": 0,
-  "description": "Thành công!",
-  "user": "admin",
-  "data": {
-    "queues": [],
-    "judging": [],
-    "logs": []
-  },
-  "runtime": 0.0014498233795166016,
-  "status": 200
-}
-23: 0:22|     9.0105|      LOG|   INFO| Log ended.
+19:23:11|     0.0262|      LOG|   INFO| Log started at Sun Nov 18 19:23:11 2018
+19:23:11|     0.0465|     MAIN|   OKAY| Initialised: ehook
+19:23:13|     1.7429|     MAIN|   OKAY| Initialised: ajax.ajax
+19:23:13|     1.7531|     MAIN|   OKAY| Initialised: json

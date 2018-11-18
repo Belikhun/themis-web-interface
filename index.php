@@ -37,6 +37,7 @@
 
         <title>Themis Web Interface v<?php print VERSION; ?></title>
 
+        <!-- Library First -->
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/loader.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/navbar.css" />
@@ -45,7 +46,9 @@
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/spinner.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/statbar.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/scrollbar.css" />
+        <!-- Page Style Core -->
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/core.css" />
+        <!-- Fonts -->
         <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/calibri.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/material-font.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/consolas.css" />
@@ -72,6 +75,7 @@
         </div>
 
         <script type="text/javascript">
+
             loader = {
                 container: document.getElementById("loader"),
                 bar: document.getElementById("loader_bar"),
@@ -454,16 +458,18 @@
 
         </div>
 
+        <!-- Session Data -->
         <script>
             const IS_ADMIN = <?php print ($id == "admin" ? "true" : "false"); ?>;
             const LOGGED_IN = <?php print ($loggedin == true ? "true" : "false"); ?>;
             const API_TOKEN = "<?php print isset($_SESSION["api_token"]) ? $_SESSION["api_token"] : null; ?>";
         </script>
 
-        <script src="/data/js/statbar.js" type="text/javascript"></script>
+        <!-- Library First -->
         <script src="/data/js/belibrary.js" type="text/javascript"></script>
+        <script src="/data/js/statbar.js" type="text/javascript"></script>
+        <!-- Core script -->
         <script src="/data/js/core.js" type="text/javascript"></script>
-
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124598427-1"></script>
         <script>

@@ -31,7 +31,7 @@ login = {
             }
         });
         this.form.container.addEventListener("submit", e => {this.submit()}, false);
-        this.form.profile.addEventListener("click", e => {this.reset(true)}, false);
+        this.form.profile.addEventListener("click", e => {this.reset(false)}, false);
         this.form.username.input.disabled = false;
         this.form.username.submit.disabled = false;
         this.form.username.input.focus();
@@ -85,17 +85,22 @@ login = {
     },
 
     reset(keepusername = false) {
-        this.form.username.container.classList.remove("hide");
-        if (!keepusername)
-            this.form.username.input.value = "";
         this.form.username.message.innerText = "";
         this.form.username.input.disabled = false;
         this.form.username.submit.disabled = false;
-        this.form.password.avatar.src = "";
-        this.form.password.user.innerText = "";
         this.form.password.input.value = "";
-        this.form.password.input.disabled = true;
-        this.form.password.submit.disabled = true;
-        this.form.username.input.focus();
+        if (!keepusername) {
+            this.form.username.input.value = "";
+            this.form.username.container.classList.remove("hide");
+            this.form.password.avatar.src = "";
+            this.form.password.input.disabled = true;
+            this.form.password.submit.disabled = true;
+            this.form.password.user.innerText = "";
+            this.form.username.input.focus();
+        } else {
+            this.form.password.input.disabled = false;
+            this.form.password.submit.disabled = false;
+            this.form.password.input.focus();
+        }
     },
 }

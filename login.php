@@ -66,7 +66,6 @@
                         </div>
 
                         <button id="form_username_submit" type="button" class="btn gray" disabled>Tiếp</button>
-                        <t id="form_message"></t>
                     </div>
 
                     <div id="form_password">
@@ -83,6 +82,8 @@
                         <button id="form_password_submit" type="submit" class="btn" disabled>Đăng nhập</button>
                     </div>
                 </form>
+                
+                <t id="form_message"></t>
             </div>
             <div class="footer">
                 Copyright © 2018 Belikhun. This project is copyrighted under MIT License
