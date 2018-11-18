@@ -114,7 +114,7 @@ body #container.showsett .settings #settings_problem {
 
 }
 
-#container.showstatus {
+#container.sbar {
     height: calc(100vh - 98px);
     top: 98px;
 }

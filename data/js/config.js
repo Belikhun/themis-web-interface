@@ -107,8 +107,8 @@ $("#form-container").addEventListener("submit", e => {
             "token": API_TOKEN
         }
     }, data => {
-        statbar.change(statbar.type.OK, "Thay đổi cài đặt thành công.");
+        sbar.change(sbar.type.OK, "Thay đổi cài đặt thành công.");
         update();
-        statbar.hide(3000);
+        sbar.hide(3000);
     })
 }, false)

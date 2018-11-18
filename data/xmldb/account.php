@@ -5,7 +5,7 @@
     // |      This file is licensed under MIT license.      |
     // |====================================================|
 
-    include_once($_SERVER["DOCUMENT_ROOT"] ."/lib/api_ecatch.php");
+    include_once $_SERVER["DOCUMENT_ROOT"] ."/lib/api_ecatch.php";
 
     $dom = new DOMDocument();
     $dom -> load($_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.xml");

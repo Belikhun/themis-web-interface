@@ -4,11 +4,13 @@
 //|      This file is licensed under MIT license.      |
 //|====================================================|
 
-statbar = {
-    statcontainer: document.getElementById("status"),
+sbar = {
     main: document.getElementById("container"),
-    msgs: document.getElementById("status").getElementsByClassName("text")[0],
-    close: document.getElementById("status").getElementsByClassName("close")[0],
+    bar: {
+        bar: document.getElementById("status"),
+        text: document.getElementById("status").getElementsByClassName("text")[0],
+        close: document.getElementById("status").getElementsByClassName("close")[0],
+    },
     hidetimeout: setTimeout(() => {}, 0),
     type: Object.freeze({
         "OK": 0,
@@ -20,54 +22,60 @@ statbar = {
         2: "WARNING",
         3: "ERROR",
     }),
-    isshowing: false,
+    showing: false,
 
-    change: function(type = 0, msgs = "Sample Text", spinner = false) {
-        this.close.addEventListener("click", () => {this.hide()});
-        var classlist = "";
+    init () {
+        this.bar.close.addEventListener("click", e => {this.hide()});
+    },
+
+    change (type = 0, msgs = "Sample Text", spinner = false) {
+        var clist = "";
 
         switch (type) {
             case 0:
-                classlist += "ok";
+                clist += "ok";
                 break;
             case 1:
-                classlist += "info";
+                clist += "info";
                 break;
             case 2:
-                classlist += "warning";
+                clist += "warning";
                 break;
             case 3: 
-                classlist += "error";
+                clist += "error";
                 break;
             default:
-                classlist += "info";
+                clist += "info";
                 break;
         }
 
-        if (spinner) {
-            classlist += " spinner";
-        }
+        if (spinner)
+            clist += " spinner";
 
-        this.statcontainer.className = classlist;
-        this.main.classList.add("showstatus");
+        this.bar.bar.className = clist;
+        this.main.classList.add("sbar");
 
-        if (type == 0) this.msgs.innerText = msgs
-            else this.msgs.innerText = this.type[type] + ": " + msgs;
+        if (type == 0)
+            this.bar.text.innerText = msgs
+        else
+            this.bar.text.innerText = this.type[type] + ": " + msgs;
+
         this.hide(-1);
-        statbar.isshowing = true;
+        this.showing = true;
 
-        console.log("List: " + classlist);
         return true;
     },
 
-    hide: function(delay = 0) {
-        clearTimeout(statbar.hidetimeout);
+    hide (delay = 0) {
+        clearTimeout(this.hidetimeout);
         if (delay < 0) return false;
-        statbar.hidetimeout = setTimeout(() => {
-            statbar.statcontainer.className = null;
-            statbar.main.classList.remove("showstatus");
-            statbar.isshowing = false;
+
+        this.hidetimeout = setTimeout(e => {
+            this.bar.bar.className = "";
+            this.main.classList.remove("sbar");
+            this.showing = false;
         }, delay);
+
         return true;
     }
 }

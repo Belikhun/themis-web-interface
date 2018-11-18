@@ -13,18 +13,18 @@
         status => "text",
     )) {
         $clist = Array(
-            green => "#97CA00",
-            yellow => "#dfb317",
-            orange => "#fe7d37",
-            red => "#e05d44",
-            blue => "#007ec6",
-            pink => "ff69b4",
-            brightgreen => "#4c1",
-            yellowgreen => "#a4a61d",
-            lightgrey => "#9f9f9f"
+            "green" => "#97CA00",
+            "yellow" => "#dfb317",
+            "orange" => "#fe7d37",
+            "red" => "#e05d44",
+            "blue" => "#007ec6",
+            "pink" => "ff69b4",
+            "brightgreen" => "#4c1",
+            "yellowgreen" => "#a4a61d",
+            "lightgrey" => "#9f9f9f"
         );
         $boxpadding = 18;
-        $ccode = isset($clist[$data[color]]) ? $clist[$data[color]] : "#000";
+        $ccode = isset($clist[$data["color"]]) ? $clist[$data["color"]] : "#000";
         $sulen = mb_strlen($data["subject"]) * 6.5;
         $stlen = mb_strlen($data["status"]) * 6.5;
         $box1 = $sulen + $boxpadding;
@@ -55,7 +55,7 @@
     $status = getquery("st", "Belikhun");
     $color = getquery("c", "brightgreen");
     createbadge(Array(
-        color => $color,
-        subject => $subject,
-        status => $status
+        "color" => $color,
+        "subject" => $subject,
+        "status" => $status
     ));

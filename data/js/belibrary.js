@@ -14,7 +14,7 @@ function myajax({
     type = "json",
     onupload = e => {},
     ondownload = e => {},
-}, callout = () => {}, error = () => {}, disablestatbar = false) {
+}, callout = () => {}, error = () => {}, disablesbar = false) {
     query.length = Object.keys(query).length;
     form.length = Object.keys(form).length;
 
@@ -48,16 +48,16 @@ function myajax({
     xhr.addEventListener("readystatechange", function () {
         if (this.readyState === this.DONE) {
 
-            if (this.status == 0 && disablestatbar == false) {
+            if (this.status == 0 && disablesbar == false) {
                 document.lostconnect = true;
-                if (!disablestatbar)
-                    statbar.change(statbar.type.ERROR,
+                if (!disablesbar)
+                    sbar.change(sbar.type.ERROR,
                         `HTTP ${this.status} ${this.statusText} >> Mất kết nối đến máy chủ. Đang thử kết nối lại...`,
                         true);
                 return false;
             } else if ((this.responseText == "" || !this.responseText) && this.status != 200) {
-                if (!disablestatbar)
-                    statbar.change(statbar.type.ERROR,
+                if (!disablesbar)
+                    sbar.change(sbar.type.ERROR,
                         `HTTP ${this.status} ${this.statusText}`,
                         false);
                 error(null);
@@ -68,15 +68,15 @@ function myajax({
                 try {
                     var res = JSON.parse(this.responseText);
                 } catch (e) {
-                    if (!disablestatbar)
-                        statbar.change(statbar.type.ERROR, e, false);
+                    if (!disablesbar)
+                        sbar.change(sbar.type.ERROR, e, false);
                     error(e);
                     return false;
                 }
 
                 if (this.status != 200 || (res.code != 0 && res.code < 100)) {
-                    if (!disablestatbar)
-                        statbar.change(statbar.type.ERROR,
+                    if (!disablesbar)
+                        sbar.change(sbar.type.ERROR,
                             `[${res.code}] HTTP ${this.status} ${this.statusText} >> ${res.description}`,
                             false);
                     error(res);
@@ -86,8 +86,8 @@ function myajax({
                 rawdata = res;
             } else {
                 if (this.status != 200) {
-                    if (!disablestatbar)
-                        statbar.change(statbar.type.ERROR,
+                    if (!disablesbar)
+                        sbar.change(sbar.type.ERROR,
                             `HTTP ${this.status} ${this.statusText}`,
                             false);
                     error(res);
@@ -99,11 +99,11 @@ function myajax({
 
             if (document.lostconnect == true) {
                 document.lostconnect = false;
-                if (!disablestatbar) {
-                    statbar.change(statbar.type.OK,
+                if (!disablesbar) {
+                    sbar.change(sbar.type.OK,
                         `HTTP ${this.status} ${this.statusText} >> Đã kết nối tới máy chủ.`,
                         false);
-                    statbar.hide(3000);
+                    sbar.hide(3000);
                 }
             }
             callout(data, rawdata);

@@ -23,7 +23,7 @@
     $change = Array();
 
     if (isset($_POST["n"]))
-        $change["name"] = trim($_POST["n"]);
+        $change["name"] = htmlspecialchars(trim($_POST["n"]));
 
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
     $userdata = getuserdata($username);

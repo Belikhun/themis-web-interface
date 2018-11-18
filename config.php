@@ -23,7 +23,6 @@
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/switch.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/config.css" />
-
 </head>
 
 <body id="container">
@@ -132,12 +131,12 @@
         </div>
     </form>
 
-    <script src="data/js/statbar.js"></script>
-    <script src="data/js/belibrary.js"></script>
-    <script src="data/js/config.js"></script>
     <script>
         const API_TOKEN = "<?php print isset($_SESSION["api_token"]) ? $_SESSION["api_token"] : null; ?>";
     </script>
+    <script src="data/js/statbar.js"></script>
+    <script src="data/js/belibrary.js"></script>
+    <script src="data/js/config.js"></script>
 </body>
 
 </html>

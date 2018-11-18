@@ -98,6 +98,7 @@ core = {
             "font-size: 18px; font-weight: 700;"
         );
         console.log("init...");
+        sbar.init();
         this.rankpanel.ref.onclick(() => {
             this.fetchrank(true);
         });
@@ -380,7 +381,7 @@ core = {
                         this.upload(files, i + 1);
                     }, this.uploadcooldown / 2);
                 }, res => {
-                    statbar.hide();
+                    sbar.hide();
                     this.state.innerText = res.description;
                     this.panel.title = "Nộp bài - Đã dừng.";
                     this.bar.classList.add("red");
@@ -620,7 +621,7 @@ core = {
                     this.state.innerText = "ĐÃ HẾT THỜI GIAN LÀM BÀI";
                     break;
                 default:
-                    statbar.change(statbar.type.ERROR, "Lỗi không rõ.");
+                    sbar.change(sbar.type.ERROR, "Lỗi không rõ.");
                     break;
             }
         }
@@ -783,8 +784,8 @@ core = {
                     "token": API_TOKEN
                 }
             }, data => {
-                statbar.change(statbar.type.OK, "Thay đổi mật khẩu thành công!");
-                statbar.hide(2000);
+                sbar.change(sbar.type.OK, "Thay đổi mật khẩu thành công!");
+                sbar.hide(2000);
                 this.reset();
             }, data => {
                 this.reset();

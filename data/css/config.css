@@ -5,7 +5,7 @@ body {
     transition: padding-top 1s cubic-bezier(0.06, 0.81, 0, 0.98);
 }
 
-body.showstatus {
+body.sbar {
     padding-top: 40px;
 }
 
