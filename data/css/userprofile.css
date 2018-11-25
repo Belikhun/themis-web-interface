@@ -153,24 +153,23 @@
 
 #user_profile .body {
     position: relative;
-    padding: 10px;
     width: 100%;
     height: calc(100% - 100px);
     overflow: auto;
     background-color: #F5F5F6;
     box-sizing: border-box;
-    padding: 4px 0;
     overflow-x: hidden;
     margin: unset;
 }
 
 #user_profile .body .left {
-    position: relative;
+    position: absolute;
     width: 100%;
     height: 100%;
+    top: 0px;
     box-sizing: border-box;
     margin: unset;
-    padding: unset;
+    padding: 8px 0;
     list-style: none;
     transition:
         transform 0.4s ease;
@@ -234,7 +233,7 @@
 }
 
 #user_profile .body .left li.item.name::before {
-    content: "\f129";
+    content: "\f2c2";
 }
 
 #user_profile .body .left li.item.pass::before {
@@ -262,6 +261,10 @@
     content: "\f02d";
 }
 
+#user_profile .body .left li.item.info::before {
+    content: "\f129";
+}
+
 #user_profile .body .left li.item.logout::before {
     content: "\f2f5";
 }
@@ -279,6 +282,17 @@
     height: 1px;
     background-color: rgba(80, 80, 80, 0.2);
     margin: 8px 0;
+}
+
+#user_profile .body .left li.text {
+    position: relative;
+    text-align: left;
+    font-size: 12px;
+    font-weight: lighter;
+    padding: 6px 24px;
+    user-select: none;
+    box-sizing: border-box;
+    color: rgb(68, 68, 68);
 }
 
 #user_profile .body .right {

@@ -1299,146 +1299,87 @@ td {
 
 footer {
     position: relative;
-    background-image: url("/data/img/footer-bg.webp");
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
     box-sizing: border-box;
     width: 100%;
-    padding: 20px;
+    padding: 20px 5px;
     display: block;
     float: left;
-    color: #e7e7e7;
 }
 
-footer .left {
+footer .badge {
     position: relative;
-    box-sizing: border-box;
-    display: block;
-    float: left;
-    margin: unset;
-    padding: 20px;
-    max-width: 50%;
-}
-
-footer .left .title {
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    padding-bottom: 4px;
-    word-spacing: 2px;
-    border-bottom: 1px solid rgba(199, 199, 199, 0.4);
-}
-
-footer .left .info {
-    padding-left: 20px;
-}
-
-footer .left .info .badge {
     padding-bottom: 10px;
 }
 
-footer .left .info t {
+footer .description {
     display: block;
-    font-weight: lighter;
+    font-weight: light;
     font-size: 14px;
-    color: #c0c0c0;
-    padding: 2px 0;
+    color: #333333;
+    padding: 2px 10px;
 }
 
-footer .left .info t b {
-    font-size: 14px;
-    color: #dfdfdf;
-}
-
-footer .right {
+footer t.contact {
     position: relative;
-    box-sizing: border-box;
     display: block;
-    float: right;
-    list-style: none;
-    margin: unset;
-    padding: 20px;
-}
-
-footer .right li {
-    padding-left: 40px;
-    padding-bottom: 2px;
-    color: rgb(202, 202, 202);
-    font-weight: 200;
-    font-size: 14px;
-}
-
-footer .right li t,
-footer .right li a {
-    color: #dfdfdf;
+    padding: 10px 0 0 10px;
     font-weight: bold;
 }
 
-footer .right li::before {
+footer ul.contact {
+    position: relative;
+    box-sizing: border-box;
+    display: block;
+    list-style: none;
+    margin: unset;
+    padding: unset;
+}
+
+footer ul.contact li {
+    position: relative;
+    padding-left: 40px;
+    padding-bottom: 2px;
+    color: rgb(0, 0, 0);
+    font-weight: light;
+    font-size: 14px;
+}
+
+footer ul.contact li t,
+footer ul.contact li a {
+    font-weight: bold;
+}
+
+footer ul.contact li::before {
     content: "";
     position: absolute;
-    transform: translateX(calc(-100% - 10px));
+    top: 50%;
+    transform: translate(calc(-100% - 10px), -50%);
     font-family: "Font Awesome 5 Free";
     display: inline-block;
     font-size: 14px;
     font-weight: 600;
 }
 
-footer .right li.tel::before {
+footer ul.contact li.tel::before {
     content: "\f095";
-    color: rgb(38, 206, 38);
+    color: rgb(53, 172, 53);
 }
 
-footer .right li.email::before {
+footer ul.contact li.email::before {
     content: "\f0e0";
-    color: rgb(255, 249, 249);
+    color: #2c3e50;
 }
 
-footer .right li.facebook::before {
+footer ul.contact li.facebook::before {
     content: "\f09a";
     font-family: "Font Awesome 5 Brands";
     color: #4267B2;
 }
 
-footer .right li.github::before {
+footer ul.contact li.github::before {
     content: "\f092";
     font-family: "Font Awesome 5 Brands";
-    color: rgb(93, 199, 209);
-}
-
-footer .right .title {
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    padding-bottom: 4px;
-    padding-left: unset;
-    padding-top: 10px;
-    word-spacing: 2px;
-    color: #e7e7e7;
-    border-bottom: 1px solid rgba(199, 199, 199, 0.4);
-}
-
-footer .right .title::before {
-    content: unset;
-}
-
-footer .bottom {
-    position: relative;
-    box-sizing: border-box;
-    display: inline-block;
-    list-style: none;
-    text-align: left;
-    width: 100%;
-    border-top: 1px solid rgba(199, 199, 199, 0.4);
-    padding: 10px 20px 0 20px;
-    margin: unset;
-    font-weight: 200;
-    font-size: 12px;
-}
-
-footer .bottom li {
-    padding-top: 10px;
+    color: #2c3e50;
 }
 
 @keyframes spin {
@@ -1454,7 +1395,7 @@ footer .bottom li {
     footer .left {
         max-width: 100%;
     }
-    footer .right {
+    footer ul.contact {
         float: left;
         max-width: 100%;
     }

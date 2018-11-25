@@ -786,6 +786,9 @@ core = {
             this.body.namepanel.toggler = $("#userp_edit_name_toggler");
             this.body.passpanel.toggler = $("#userp_edit_pass_toggler");
 
+            var projectpanel = new this.panel ($("#userp_project_info"));
+            projectpanel.toggler = $("#userp_project_info_toggler");
+
             this.body.nameform.addEventListener("submit", e => {
                 this.body.nameform.getElementsByTagName("button")[0].disabled = true;
                 this.changename(this.body.name.value);

@@ -190,7 +190,10 @@
                     <a href="https://github.com/belivipro9x99/themis-web-interface/wiki" target="_blank"><li class="item wiki">Wiki</li></a>
                     <a href="https://github.com/belivipro9x99/themis-web-interface" target="_blank"><li class="item repo">Github Repository</li></a>
                     <li class="line"></li>
+                    <li id="userp_project_info_toggler" class="item info arr">Thông tin Dự án</li>
                     <li id="userp_logout" class="item logout">Đăng xuất</li>
+                    <li class="line"></li>
+                    <li class="text">Copyright © 2018 <a href="https://www.facebook.com/belivipro9x99">Belikhun</a>. This project is licensed under MIT license</li>
                 </ul>
                 <div id="userp_right_panel" class="right">
                     <div id="userp_edit_name_panel" class="panel">
@@ -220,6 +223,32 @@
                             </div>
                             <button type="submit" class="btn red">Gửi</button>
                         </form>
+                    </div>
+                    <div id="userp_project_info" class="panel">
+                        <div class="title">Thông tin</div>
+                        <footer>
+                            <div class="badge">
+                                <a href="https://github.com/belivipro9x99/themis-webinterface/releases/"><img src="/tool/badge?su=release&st=v<?php print VERSION; ?>&c=brightgreen"></a>
+                                <img src="/tool/badge?su=license&st=MIT&c=orange">
+                                <img src="/tool/badge?su=status&st=not tested&c=blue">
+                                <img src="/tool/badge?su=author&st=Đỗ Mạnh Hà&c=red">
+                                <img src="/tool/badge?su=school&st=THPT Lạc Long Quân, Hòa Bình&c=yellow">
+                            </div>
+                            
+                            <t class="description"><b>Themis Web Interface</b> là một dự án mã nguồn mở, phi lợi nhuận với mục đích chính nhằm biến việc quản lí và tổ chức các buổi học lập trình, ôn tập và tổ chức kì thi trở nên dễ dàng hơn.</t>
+                            
+                            <t class="contact">Liên hệ:</t>
+                            <ul class="contact">
+                                <li class="tel">03668275002</li>
+                                <li class="email">belivipro9x99@gmail.com</li>
+                                <li class="facebook">
+                                    <a href="https://www.facebook.com/belivipro9x99">Belikhun</a>
+                                </li>
+                                <li class="github">
+                                    <a href="https://github.com/belivipro9x99">Belikhun</a>
+                                </li>
+                            </ul>
+                        </footer>
                     </div>
                 </div>
             </div>
@@ -431,37 +460,6 @@
                     </div>
                 </panel>
             </div>
-
-            <footer>
-                <span class="left">
-                    <div class="title">HỆ THỐNG NỘP BÀI TRỰC TUYẾN</div>
-                    <div class="info">
-                        <div class="badge">
-                            <a href="https://github.com/belivipro9x99/themis-webinterface/releases/"><img src="/tool/badge?su=release&st=v<?php print VERSION; ?>&c=brightgreen"></a>
-                            <img src="/tool/badge?su=license&st=MIT&c=orange">
-                            <img src="/tool/badge?su=status&st=not tested&c=blue">
-                            <img src="/tool/badge?su=author&st=Đỗ Mạnh Hà&c=red">
-                            <img src="/tool/badge?su=school&st=THPT Lạc Long Quân, Hòa Bình&c=yellow">
-                        </div>
-                        <t><b>Themis Web Interface</b> là một dự án mã nguồn mở, phi lợi nhuận với mục đích chính nhằm biến việc quản lí và tổ chức các buổi học lập trình, ôn tập và tổ chức kì thi trở nên dễ dàng hơn.</t>
-                    </div>
-                </span>
-                <ul class="right">
-                    <li class="title">Liên Hệ</textarea>
-                    </li>
-                    <li class="tel">03668275002</li>
-                    <li class="email">belivipro9x99@gmail.com</li>
-                    <li class="facebook">
-                        <a href="https://www.facebook.com/belivipro9x99">Belikhun</a>
-                    </li>
-                    <li class="github">
-                        <a href="https://github.com/belivipro9x99">Belikhun</a>
-                    </li>
-                </ul>
-                <ul class="bottom">
-                    <li>Copyright © 2018 Belikhun. This project is copyrighted under MIT license</li>
-                </ul>
-            </footer>
 
         </div>
 
