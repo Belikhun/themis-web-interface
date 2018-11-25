@@ -38,7 +38,7 @@
         <title>Themis Web Interface v<?php print VERSION; ?></title>
 
         <!-- Library First -->
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/loader.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/splash.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/navbar.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/userprofile.css" />
@@ -56,11 +56,12 @@
     </head>
 
     <body class="<?php print ($loggedin ? ($id == "admin" ? "admin" : "user") : "guest"); ?>">
-        <div class="loader" id="loader">
+        <div id="splash_screen">
             <div class="mid">
-                <div class="spinner"></div>
+                <div class="logo"></div>
+                <div class="appname">Themis Web Interface v<?php print VERSION; ?></div>
                 <div class="progress">
-                    <div id="loader_bar" class="inner"></div>
+                    <div id="splash_bar" class="inner"></div>
                 </div>
             </div>
             <div class="foot">
@@ -76,9 +77,9 @@
 
         <script type="text/javascript">
 
-            loader = {
-                container: document.getElementById("loader"),
-                bar: document.getElementById("loader_bar"),
+            splash = {
+                container: document.getElementById("splash_screen"),
+                bar: document.getElementById("splash_bar"),
                 onload: fullloaded => {},
 
                 init() {
@@ -97,18 +98,18 @@
                     this.onload(() => {
                         this.bar.style.width = "100%";
                         setTimeout(e => {
-                            $("#loader").classList.add("done");
+                            this.container.classList.add("done");
                         }, 600);
                     });
                 }
             }
 
-            loader.onload = fullloaded => {
+            splash.onload = fullloaded => {
                 core.init();
                 fullloaded();
             }
 
-            loader.init();
+            splash.init();
         </script>
 
         <div class="nav">
