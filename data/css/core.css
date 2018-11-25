@@ -16,7 +16,7 @@ body {
 }
 
 a {
-    color: #e6e6e6;
+    color: #651fff;
 }
 
 .text-overflow {
@@ -1309,7 +1309,6 @@ footer {
     display: block;
     float: left;
     color: #e7e7e7;
-    font-family: Calibri;
 }
 
 footer .left {
@@ -1371,7 +1370,7 @@ footer .right li {
 }
 
 footer .right li t,
-a {
+footer .right li a {
     color: #dfdfdf;
     font-weight: bold;
 }
@@ -1434,7 +1433,6 @@ footer .bottom {
     border-top: 1px solid rgba(199, 199, 199, 0.4);
     padding: 10px 20px 0 20px;
     margin: unset;
-    font-family: "Calibri";
     font-weight: 200;
     font-size: 12px;
 }

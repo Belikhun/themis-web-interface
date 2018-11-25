@@ -135,7 +135,11 @@
                         </li>
                     </ul>
                     <img id="user_avt" class="avatar" src="/api/avt/get?u=<?php print $username; ?>" />
-                    <img class="arrow" src="/data/img/arr.webp" />
+                    <span class="icon-menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
                 <?php } else { ?>
                     <button class="login ms-btn" onclick="window.location.href='/login.php'">Đăng nhập</button>
                 <?php } ?>
@@ -167,8 +171,10 @@
                         </div>
                     </div>
                 </div>
-                <t id="userp_name" class="name text-overflow"><?php print htmlspecialchars($name); ?></t>
-                <t id="userp_tag" class="tag"><?php print $username ."#". $id; ?></t>
+                <ul class="info">
+                    <li id="userp_name" class="name text-overflow"><?php print htmlspecialchars($name); ?></li>
+                    <li id="userp_tag" class="tag"><?php print $username ."#". $id; ?></li>
+                </ul>
             </div>
             <div class="body">
                 <ul id="userp_left_panel" class="left">
@@ -190,7 +196,7 @@
                     <div id="userp_edit_name_panel" class="panel">
                         <div class="title">Đổi Tên</div>
                         <form class="root" id="userp_edit_name_form" autocomplete="off" action="javascript:void(0);">
-                            <div class="formgroup">
+                            <div class="formgroup blue">
                                 <input id="userp_edit_name" type="text" class="formfield" placeholder="Tên" required>
                                 <label for="userp_edit_name" class="formlabel">Tên</label>
                             </div>
@@ -200,15 +206,15 @@
                     <div id="userp_edit_pass_panel" class="panel">
                         <div class="title">Đổi Mật Khẩu</div>
                         <form class="root" id="userp_edit_pass_form" autocomplete="off" action="javascript:void(0);">
-                            <div class="formgroup">
+                            <div class="formgroup blue">
                                 <input id="userp_edit_pass" type="password" class="formfield" placeholder="Mật khẩu" required>
                                 <label for="userp_edit_pass" class="formlabel">Mật khẩu</label>
                             </div>
-                            <div class="formgroup">
+                            <div class="formgroup blue">
                                 <input id="userp_edit_npass" type="password" class="formfield" placeholder="Mật khẩu mới" required>
                                 <label for="userp_edit_npass" class="formlabel">Mật khẩu mới</label>
                             </div>
-                            <div class="formgroup">
+                            <div class="formgroup blue">
                                 <input id="userp_edit_renpass" type="password" class="formfield" placeholder="Nhập lại mật khẩu mới" required>
                                 <label for="userp_edit_renpass" class="formlabel">Nhập lại mật khẩu mới</label>
                             </div>

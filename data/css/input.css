@@ -103,3 +103,23 @@
 .formgroup.blue .formfield:focus {
     border-bottom: 2px solid #4285f4;
 }
+
+/* Purple */
+
+.formgroup.purple .formfield {
+    border-bottom: 1px solid rgba(39, 39, 39, 0.4);
+    color: #424242;
+}
+
+.formgroup.purple label,
+.formgroup.purple .formfield:focus~.formlabel {
+    color: #b1b3b8;
+}
+
+.formgroup.purple .formfield:focus~.formlabel {
+    color: #512da8;
+}
+
+.formgroup.purple .formfield:focus {
+    border-bottom: 2px solid #512da8;
+}
