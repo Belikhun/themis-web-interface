@@ -208,7 +208,7 @@
 }
 
 #user_profile .body .left li.item:hover {
-    color: #3498db;
+    color: #288bce;
     background-color: rgba(52, 152, 219, 0.1);
 }
 
@@ -322,7 +322,7 @@
     padding: 16px 20px;
     user-select: none;
     box-sizing: border-box;
-    color: #3498db;
+    color: #006db3;
     background-color: #E1E2E1;
     transition: all 0.2s ease;
 }
