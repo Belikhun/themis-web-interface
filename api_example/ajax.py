@@ -1,3 +1,10 @@
+#? |-----------------------------------------------------------------------------------------------|
+#? |  /api_example/ajax.py                                                                         |
+#? |                                                                                               |
+#? |  Copyright (c) 2018 Belikhun. All right reserved                                              |
+#? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+#? |-----------------------------------------------------------------------------------------------|
+
 import requests
 from urllib.parse import urlparse
 from log import log

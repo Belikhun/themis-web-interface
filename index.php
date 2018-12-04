@@ -1,9 +1,11 @@
 <?php
-    //|====================================================|
-    //|                     index.php                      |
-    //|            Copyright (c) 2018 Belikhun.            |
-    //|      This file is licensed under MIT license.      |
-    //|====================================================|
+    //? |-----------------------------------------------------------------------------------------------|
+    //? |  index.php                                                                                    |
+    //? |                                                                                               |
+    //? |  Copyright (c) 2018 Belikhun. All right reserved                                              |
+    //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+    //? |-----------------------------------------------------------------------------------------------|
+
 
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ecatch.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
@@ -193,7 +195,7 @@
                     <li id="userp_project_info_toggler" class="item info arr">Thông tin Dự án</li>
                     <li id="userp_logout" class="item logout">Đăng xuất</li>
                     <li class="line"></li>
-                    <li class="text">Copyright © 2018 <a href="https://www.facebook.com/belivipro9x99">Belikhun</a>. This project is licensed under MIT license</li>
+                    <li class="text">Copyright © 2018 <a href="https://www.facebook.com/belivipro9x99">Belikhun</a>. This project is licensed under the MIT License</li>
                 </ul>
                 <div id="userp_right_panel" class="right">
                     <div id="userp_edit_name_panel" class="panel">

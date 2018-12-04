@@ -1,9 +1,10 @@
 <?php
-    // |====================================================|
-    // |                    account.php                     |
-    // |            Copyright (c) 2018 Belikhun.            |
-    // |      This file is licensed under MIT license.      |
-    // |====================================================|
+    //? |-----------------------------------------------------------------------------------------------|
+    //? |  /data/xmldb/account.php                                                                      |
+    //? |                                                                                               |
+    //? |  Copyright (c) 2018 Belikhun. All right reserved                                              |
+    //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+    //? |-----------------------------------------------------------------------------------------------|
 
     include_once $_SERVER["DOCUMENT_ROOT"] ."/lib/api_ecatch.php";
 

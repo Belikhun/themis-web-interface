@@ -1,4 +1,0 @@
-19:23:11|     0.0262|      LOG|   INFO| Log started at Sun Nov 18 19:23:11 2018
-19:23:11|     0.0465|     MAIN|   OKAY| Initialised: ehook
-19:23:13|     1.7429|     MAIN|   OKAY| Initialised: ajax.ajax
-19:23:13|     1.7531|     MAIN|   OKAY| Initialised: json

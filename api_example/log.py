@@ -1,3 +1,10 @@
+#? |-----------------------------------------------------------------------------------------------|
+#? |  /api_example/log.py                                                                          |
+#? |                                                                                               |
+#? |  Copyright (c) 2018 Belikhun. All right reserved                                              |
+#? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+#? |-----------------------------------------------------------------------------------------------|
+
 from colorama import init
 from colorama import Fore, Back, Style
 from inspect import currentframe

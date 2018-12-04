@@ -1,9 +1,10 @@
 <?php
-    //|====================================================|
-    //|                   api_ecatch.php                   |
-    //|            Copyright (c) 2018 Belikhun.            |
-    //|      This file is licensed under MIT license.      |
-    //|====================================================|
+    //? |-----------------------------------------------------------------------------------------------|
+    //? |  /lib/api_ecatch.php                                                                          |
+    //? |                                                                                               |
+    //? |  Copyright (c) 2018 Belikhun. All right reserved                                              |
+    //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+    //? |-----------------------------------------------------------------------------------------------|
 
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
 

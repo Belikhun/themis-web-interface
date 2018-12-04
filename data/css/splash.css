@@ -1,9 +1,10 @@
 /* 
-|====================================================|
-|                    splash.css                      |
-|            Copyright (c) 2018 Belikhun.            |
-|      This file is licensed under MIT license.      |
-|====================================================|
+? |-----------------------------------------------------------------------------------------------|
+? |  /data/css/splash.css                                                                         |
+? |                                                                                               |
+? |  Copyright (c) 2018 Belikhun. All right reserved                                              |
+? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+? |-----------------------------------------------------------------------------------------------|
 */
 
 #splash_screen {
@@ -58,6 +59,7 @@
     width: 100%;
     height: 100%;
     border-radius: 50%;
+    background-color: #3498db;
     background-image: url("/data/img/icon.webp");
     background-position: center;
     background-size: contain;

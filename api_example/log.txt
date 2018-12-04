@@ -1,0 +1,101 @@
+19:17:28|     0.0025|      LOG|   INFO| Log started at Sat Dec  1 19:17:28 2018
+19:17:28|     0.0066|     MAIN|   OKAY| Initialised: ehook
+19:17:28|     0.1945|     MAIN|   OKAY| Initialised: ajax.ajax
+19:17:28|     0.1965|     MAIN|   OKAY| Initialised: json
+19:17:41|    13.1795|     AJAX|   DEBG| Creating POST request with form:
+19:17:41|    13.1835|     AJAX|   DEBG|  u           : admin
+19:17:41|    13.1861|     AJAX|   DEBG|  p           : admin
+19:17:41|    13.1876|     AJAX|   INFO| Starting request: http://localhost/api/login
+19:17:41|    13.2084|     AJAX|   OKAY| POST http://localhost/api/login 200
+19:17:41|    13.2109|     MAIN|   OKAY| Logged in as admin
+19:17:41|    13.2134|     AJAX|   INFO| Starting request: http://localhost/api/test/logs
+19:17:41|    13.4833|     AJAX|   OKAY| GET http://localhost/api/test/logs 200
+19:17:41|    13.4866|     MAIN|   DEBG| 
+{
+  "code": 0,
+  "status": 200,
+  "description": "Th\u00e0nh c\u00f4ng!",
+  "user": "admin",
+  "data": {
+    "queues": [],
+    "judging": [],
+    "logs": [
+      {
+        "name": "bai1.py",
+        "out": "0,00",
+        "lastmodify": "18/11/2018 22:30:42",
+        "lastmtime": 1542555042,
+        "url": "/api/test/viewlog?f=admin[admin][bai1].py.log"
+      },
+      {
+        "name": "bai2.pas",
+        "out": "\u2131 D\u1ecbch l\u1ed7i",
+        "lastmodify": "18/11/2018 22:41:37",
+        "lastmtime": 1542555697,
+        "url": "/api/test/viewlog?f=admin[admin][bai2].pas.log"
+      },
+      {
+        "name": "bai3.pas",
+        "out": "\u2131 D\u1ecbch l\u1ed7i",
+        "lastmodify": "18/11/2018 22:41:39",
+        "lastmtime": 1542555699,
+        "url": "/api/test/viewlog?f=admin[admin][bai3].pas.log"
+      },
+      {
+        "name": "bai4.pas",
+        "out": "\u2131 D\u1ecbch l\u1ed7i",
+        "lastmodify": "18/11/2018 22:41:40",
+        "lastmtime": 1542555700,
+        "url": "/api/test/viewlog?f=admin[admin][bai4].pas.log"
+      }
+    ]
+  },
+  "runtime": 0.2583310604095459
+}
+19:17:41|    13.4895|     AJAX|   DEBG| Creating GET request with query:
+19:17:41|    13.4910|     AJAX|   DEBG|  sessid      : eb200341481c3cc332545bcaa37123a0
+19:17:41|    13.4930|     AJAX|   INFO| Starting request: http://localhost/api/test/logs
+19:17:41|    13.5220|     AJAX|   OKAY| GET http://localhost/api/test/logs 200
+19:17:41|    13.5252|     MAIN|   DEBG| 
+{
+  "code": 0,
+  "status": 200,
+  "description": "Th\u00e0nh c\u00f4ng!",
+  "user": "admin",
+  "data": {
+    "queues": [],
+    "judging": [],
+    "logs": [
+      {
+        "name": "bai1.py",
+        "out": "0,00",
+        "lastmodify": "18/11/2018 22:30:42",
+        "lastmtime": 1542555042,
+        "url": "/api/test/viewlog?f=admin[admin][bai1].py.log"
+      },
+      {
+        "name": "bai2.pas",
+        "out": "\u2131 D\u1ecbch l\u1ed7i",
+        "lastmodify": "18/11/2018 22:41:37",
+        "lastmtime": 1542555697,
+        "url": "/api/test/viewlog?f=admin[admin][bai2].pas.log"
+      },
+      {
+        "name": "bai3.pas",
+        "out": "\u2131 D\u1ecbch l\u1ed7i",
+        "lastmodify": "18/11/2018 22:41:39",
+        "lastmtime": 1542555699,
+        "url": "/api/test/viewlog?f=admin[admin][bai3].pas.log"
+      },
+      {
+        "name": "bai4.pas",
+        "out": "\u2131 D\u1ecbch l\u1ed7i",
+        "lastmodify": "18/11/2018 22:41:40",
+        "lastmtime": 1542555700,
+        "url": "/api/test/viewlog?f=admin[admin][bai4].pas.log"
+      }
+    ]
+  },
+  "runtime": 0.0036170482635498047
+}
+19:17:41|    13.5288|      LOG|   INFO| Log ended.

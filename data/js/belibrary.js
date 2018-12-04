@@ -1,8 +1,9 @@
-//|====================================================|
-//|                    belibrary.js                    |
-//|            Copyright (c) 2018 Belikhun.            |
-//|      This file is licensed under MIT license.      |
-//|====================================================|
+//? |-----------------------------------------------------------------------------------------------|
+//? |  /data/js/belibrary.js                                                                        |
+//? |                                                                                               |
+//? |  Copyright (c) 2018 Belikhun. All right reserved                                              |
+//? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+//? |-----------------------------------------------------------------------------------------------|
 
 function myajax({
     url = "/",
@@ -293,11 +294,12 @@ function $(selector) {
     }
 }
 
-//|====================================================|
-//|                 from web-clog.js                   |
-//|            Copyright (c) 2018 Belikhun.            |
-//|      This code is licensed under MIT license.      |
-//|====================================================|
+//? |-----------------------------------------------------------------------------------------------|
+//? |  from web-clog.js                                                                             |
+//? |                                                                                               |
+//? |  Copyright (c) 2018 Belikhun. All right reserved                                              |
+//? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+//? |-----------------------------------------------------------------------------------------------|
 
 function clog(level, ...args) {
     const font = "Comic Sans MS";

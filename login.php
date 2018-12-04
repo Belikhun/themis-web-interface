@@ -1,9 +1,10 @@
 <?php
-    //|====================================================|
-    //|                     login.php                      |
-    //|            Copyright (c) 2018 Belikhun.            |
-    //|      This file is licensed under MIT license.      |
-    //|====================================================|
+    //? |-----------------------------------------------------------------------------------------------|
+    //? |  login.php                                                                                    |
+    //? |                                                                                               |
+    //? |  Copyright (c) 2018 Belikhun. All right reserved                                              |
+    //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+    //? |-----------------------------------------------------------------------------------------------|
 
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ecatch.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
@@ -86,7 +87,7 @@
                 <t id="form_message"></t>
             </div>
             <div class="footer">
-                Copyright © 2018 Belikhun. This project is copyrighted under MIT License
+                Copyright © 2018 Belikhun. This project is licensed under the MIT License
             </div>
         </div>
 

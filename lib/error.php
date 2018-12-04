@@ -1,9 +1,10 @@
 <?php
-    //|====================================================|
-    //|                     error.php                      |
-    //|            Copyright (c) 2018 Belikhun.            |
-    //|      This file is licensed under MIT license.      |
-    //|====================================================|
+    //? |-----------------------------------------------------------------------------------------------|
+    //? |  /lib/error.php                                                                               |
+    //? |                                                                                               |
+    //? |  Copyright (c) 2018 Belikhun. All right reserved                                              |
+    //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+    //? |-----------------------------------------------------------------------------------------------|
 
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
 
@@ -131,7 +132,7 @@
 
     <div class="footer">
         <img src="/data/img/icon.webp" class="icon">
-        <p>Themis Web Interface. Copyright (c) 2018 Belikhun. This project is copyrighted under MIT license.</p>
+        <p>Themis Web Interface. Copyright (c) 2018 Belikhun. This project is licensed under the MIT License.</p>
     </div>
 
 </body>

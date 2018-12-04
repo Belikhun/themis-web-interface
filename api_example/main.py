@@ -1,3 +1,11 @@
+#? |-----------------------------------------------------------------------------------------------|
+#? |  /api_example/main.py                                                                         |
+#? |                                                                                               |
+#? |  Copyright (c) 2018 Belikhun. All right reserved                                              |
+#? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+#? |-----------------------------------------------------------------------------------------------|
+
+
 from log import log
 import ehook
 log("OKAY", "Initialised: ehook")

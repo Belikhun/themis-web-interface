@@ -1,9 +1,10 @@
 <?php
-    //|====================================================|
-    //|                     ecatch.php                     |
-    //|            Copyright (c) 2018 Belikhun.            |
-    //|      This file is licensed under MIT license.      |
-    //|====================================================|
+    //? |-----------------------------------------------------------------------------------------------|
+    //? |  /lib/ecatch.php                                                                              |
+    //? |                                                                                               |
+    //? |  Copyright (c) 2018 Belikhun. All right reserved                                              |
+    //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+    //? |-----------------------------------------------------------------------------------------------|
 
     if (session_status() == PHP_SESSION_NONE) {
         session_start();
