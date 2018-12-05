@@ -276,7 +276,7 @@ core = {
                 ].join("\n");
 
                 for (var j = 0; j < list.length; j++)
-                    out += "<td class=\"number\">" + parseFloat(data.rank[i].list[list[j]]).toFixed(2) + "</td>\n";
+                    out += `<td class="number${(data.rank[i].log[list[j]]) ? ` link" onclick="core.viewlog('${data.rank[i].log[list[j]]}')` : ""}" >${parseFloat(data.rank[i].list[list[j]]).toFixed(2)}</td>\n`;
                 
                 out += "</tr>";
             }
@@ -398,7 +398,7 @@ core = {
             clog("info", "Uploading", {
                 color: flatc("yellow"),
                 text: files[i].name
-            }, "files");
+            });
             this.name.innerText = files[i].name;
             this.state.innerText = "Đang tải lên...";
             this.panel.title = "Nộp bài - Đang tải lên " + (i + 1) + "/" + files.length +"...";
@@ -436,7 +436,7 @@ core = {
                     clog("okay", "Uploaded ", {
                         color: flatc("yellow"),
                         text: files[i].name
-                    }, "files");
+                    });
 
                     this.state.innerText = "Tải lên thành công! " + (i + 1) + "/" + files.length;
                     this.onUploadSuccess();

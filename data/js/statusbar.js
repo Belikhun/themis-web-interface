@@ -75,28 +75,41 @@ class statusbar {
         if (aliginlist.indexOf(aligin) != -1)
             this[aligin].appendChild(item);
 
-        return item;
+        return {
+            __item: item,
+
+            change(text) {
+                this.__item.title = text;
+                this.__item.getElementsByTagName("text")[0].innerText = text;
+            },
+
+            get() {
+                return this.__item.getElementsByTagName("text")[0].innerText;
+            }
+        };
     }
 
     msg(type = "okay", text = "", {
         spinner = false,
         time = null,
+        lock = false,
     } = {}) {
+        clearTimeout(this.__hidetimeout);
         this.bar.classList.remove(this.__lasttype);
         
         if (type == false) {
             this.__checksize();
             this.bar.classList.remove("msg");
-            clearTimeout(this.__hidetimeout);
             return true;
         }
         
         this.center.innerHTML = "";
         type = type.toLowerCase();
-        const typelist = ["info", "okay", "warn", "errr"]
-        this.__hidetimeout = setTimeout(e => {
-            this.msg(false);
-        }, 6000);
+        const typelist = ["info", "okay", "warn", "errr", "crit"]
+        if (!lock)
+            this.__hidetimeout = setTimeout(e => {
+                this.msg(false);
+            }, 6000);
 
         if (typelist.indexOf(type) != -1) {
             this.__lasttype = type;

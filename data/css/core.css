@@ -1165,6 +1165,15 @@ td {
     text-align: right;
 }
 
+#rankp div.ranking-container table tr td.number.link {
+    color: #16a085;
+    cursor: pointer;
+}
+
+#rankp div.ranking-container table tr td.number.link:hover {
+    background-color: rgba(98, 98, 98, 0.05);
+}
+
 .time-container {
     display: flex !important;
     justify-content: center;

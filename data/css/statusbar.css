@@ -44,6 +44,11 @@
     color: white;
 }
 
+.statusbar.crit {
+    background-color: #8e44ad;
+    color: white;
+}
+
 .statusbar .left,
 .statusbar .center,
 .statusbar .right {

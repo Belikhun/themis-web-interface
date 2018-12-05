@@ -1,6 +1,7 @@
 # Change Logs
 
-- [Thay đổi trong v0.3.5](#thay-đổi-trong-v035)
+- [Thay đổi trong v0.3.6](#thay-đổi-trong-v036)
+  - [Thay đổi trong v0.3.5](#thay-đổi-trong-v035)
   - [Thay đổi trong v0.3.4](#thay-đổi-trong-v034)
   - [Thay đổi trong v0.3.3](#thay-đổi-trong-v033)
   - [Thay đổi trong v0.3.2](#thay-đổi-trong-v032)
@@ -13,7 +14,13 @@
 
 ---
 
-## Thay đổi trong v0.3.5
+### Thay đổi trong v0.3.6
+
+* Thiết kế lại một số thành phần của trang web
+* Sửa một số lỗi
+* Cho phép xem tệp nhật kí của người khác
+
+### Thay đổi trong v0.3.5
 
 * Ẩn danh sách đề bài trước khi kì thi bắt đầu.
 * Chuyển đổi toàn bộ ảnh về định dạng webp.

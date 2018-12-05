@@ -1,9 +1,9 @@
 <p align="center">
-  <img src="https://lh3.googleusercontent.com/BzHUxZCQ6_pIxYvI-Lh0Mi5ydeZkgH7vzeh27x8d8n4f89J3pQnKlkaTGwUVjPtm5NCnQCYCfRPJmwUUVLb1mNLC3nsTMrougqTBScEbVNZpE6s8ZDBoUW1ZfABER1cK36H2dqUvrQ=w2400">
+  <img src="https://lh3.googleusercontent.com/UJ9p8wcOqInslW4xWpJ6ZQ55Lx6DXN85MJvGoLl0G3WroDqQExDdovbLXuD1rg8C3mGxyyRkheWK4t2soF9HcWsxNXgO0lK_iq_iqvwvXz2Bu5JWmPHhbiesqYziSVitpkWSo7P51A=w2400">
 </p>
 
 <p align="center">
-	<a href="https://github.com/belivipro9x99/themis-webinterface/releases/"><img src="https://img.shields.io/badge/release-v0.3.5-brightgreen.svg?longCache=true&style=popout-square"></a>
+	<a href="https://github.com/belivipro9x99/themis-webinterface/releases/"><img src="https://img.shields.io/badge/release-v0.3.6-brightgreen.svg?longCache=true&style=popout-square"></a>
 	<img src="https://img.shields.io/badge/license-MIT-orange.svg?longCache=true&style=popout-square">
 	<img src="https://img.shields.io/badge/status-not tested-blue.svg?longCache=true&style=popout-square">
 </p>
@@ -50,34 +50,34 @@
 ## Tính năng
 * Nộp nhiều bài cùng lúc với 1 lần kéo thả tệp
 
-<p align="center"><img src="https://lh3.googleusercontent.com/K4qASNz9XrcPx6LvGQzoKzq5ypenBTL9LmhKvENALO08O3t1XyNrvo4DT5W1iBzQAEi1mtkn6g9JrgADa12aw2DTMY5a_2989wNrq0D37s6BsEI5GwR8QBZ_N_Y91rgzx1VYYFQbTg=w2400" width="600px"></p>
+<p align="center"><img src="https://lh3.googleusercontent.com/nICHCTwEqqN3wtf42Q0IKhNNlz5aW1fUOcv3oUuMgyheEivumvGx52B5qpwRMuIr5bv9neJYEy3YV43yuRbbyjfVch2EXthuyOB4gZW8JgLtaSQsFSOqInGYTA4k85OltPF4oOOt-A=w2400" width="600px"></p>
 
 * Xem đề bài trên trang
 
-<p align="center"><img src="https://lh3.googleusercontent.com/R2lFhbW5KwjzQjQqJ-pdpBJRFn3_6agAxf5bSNgB0dq-EJwlSilVfXnmHreAbBlNQk96EkHKJN9qYC-mlh0L3yAGcsuUoeE5OVUSXe7CucjwmpX_CJtbhz42nJM8t30WnA8rtfstxg=w2400" width="400px"></p>
-<p align="center"><img src="https://lh3.googleusercontent.com/gDQ_bUkUE2Jc-DEN0TQy6ER8X5Au6LB2s1myw48f2inzX35tudsIDbZcBBcfF7Mvyru275hd6uUmq-l3wJKmMj9DLVriES9hJc6I0VgeOct94QXpXQJFs9AXWkFPdY2zHJe_AExKyQ=w2400" width="400px"></p>
+<p align="center"><img src="https://lh3.googleusercontent.com/YZoLxC4bvE3ms_nzwLQr8-R59iaifNwSyo_ksgoSJn7j80g_MoIgD58XwIvlKsLTqMF_lLHd_cI0trg9todblm8llQNlmFlHUy6Gb3T_ZDzVLEcILzXQHSViblV-ZqciNRwfGK5D2Q=w2400" width="400px"></p>
+<p align="center"><img src="https://lh3.googleusercontent.com/bF3iW95rYuVGlCpMeJ2GIQBUCcgeOcV0IRx6bc4I9j4vgQxw46CsBzD7Sh5sqtYLkCW1wuAHyhMzG78b6AHfJTV3HkEeJu2VscXkG6yHd2rFwBeep22tonfVbSxPn4tC_8jvaB2nHQ=w2400" width="400px"></p>
 
 * Hiện thời gian làm bài của kỳ thi
 
-<p align="center"><img src="https://lh3.googleusercontent.com/nWQj7AcZSnGXrquFEPTgtDDaylu70aRXy_hrcIv1WUtjDvUlpI7BVDibCTbJ4gktebBoKA5uulDjYW_Jn3HQ1sP6l8tc4KpL0cBGpN5wy4KLN8kqYgyeLZPRanOWIt5chfrLWqDuWw=w2400" width="600px"></p>
+<p align="center"><img src="https://lh3.googleusercontent.com/su4qhhtaGnmTrjPcoE_KEOeck9m5tNHPbduTiyakyNsSC1RPFhzSiDa8vWkdCqsQFt2ztntRlfPXQOSuqlM4bIaW4jSTB8Y8HawbBtoC2JSKnlS_kgGT5f4exqsJK6yg-KWRSbnGJQ=w2400" width="600px"></p>
 
 * Nhật ký nộp bài hiển thị tình trạng bài nộp và kết quả của bài sau khi chấm
 
-<p align="center"><img src="https://lh3.googleusercontent.com/l_W7bR4g31DmM38foYihj7UfgGJ0dquxveTO2DDKDT4E3SROfM4ZnAjKQgw50bX51yxGJQijH4aEYowxMDjZOUoKxC5dgDEyWNoyUuiQUjhYOX5FnC1fonDM_xHBHCOO8N3RuLxCAQ=w2400" width="400px"></p>
+<p align="center"><img src="https://lh3.googleusercontent.com/K61mpUos2mVhKh8D50eB8lPoxV0WeJ3BvkzB3FYFjNChyI9SI5_CFXa-ldpAeRLqCk1-UqLT5oep5U0QAjl7jNqzFS0sPHcjmbTZuwroByJPm3ObLZxJecpDdUO18DWgI58bw2It_Q=w2400" width="400px"></p>
 
 * Bảng xếp hạng được cập nhật tự động và sắp xếp thí sinh theo tổng số điểm tất cả bài thi
 
-<p align="center"><img src="https://lh3.googleusercontent.com/6pyA8354I1jpCOXyreTGZ_-CFna3AOeI6Ar7E11EhpatMUCX85aZkJtIqhF3NN6mTctImoeYdjXhCAkEWOWRTTfy44emkHtyCbzMFVKecdqjaaKkdR92NSaIP-boE-eoasKhdgVx5w=w2400" width="600px"></p>
+<p align="center"><img src="https://lh3.googleusercontent.com/uor9LhT3AWEIfb3XZfQYjbyxkwgp1DS-RhXp4u_Tqp3QX3h2EoHkwlW4x2XJeSKecGtvNJl1XDsDde7QJVqBzgJReCKMiYV447cg4VPA7roW3--FtBGu79ivI6CPJDCX5j0W7KZVWg=w2400" width="600px"></p>
 
 * Xem trực tiếp tệp nhật kí
 
-<p align="center"><img width="600px" src="https://lh3.googleusercontent.com/QQhIMvi7V8PTzXz_C-r6TZ21LgK73hTVUtX9VXgCoqWXkSZJVPRbJJPHug24Fce9nHY_a7ZXBpglli4cOdnlJ2vHKdwvNllMoHIDd-ZcwDaWR6PMCjjVewON1oqPt9CSlPgf1__joQ=w2400"></p>
+<p align="center"><img width="600px" src="https://lh3.googleusercontent.com/t55Oq4K9wOwT7WM_jPWlFoERbonMWNNGeXHHqq7sTh7Mkd6t4YLAvV9rODTsBIJvCC1n7e1Cf8IcBl6rodWvuq6pVteklGCLroxgCl7TPyjt0rXWIjHgkWeH6yGvQ_Fu90hrhk0zww=w2400"></p>
 
 * Người dùng có thể thay đổi ảnh đại diện, tên và mật khẩu
 
 * Mobile Responsive
 
-<p align="center"><img width="400px" src="https://lh3.googleusercontent.com/x_2wAcs9pIjAUWi2a7zqb_6LduR1djjwgLXWBwvAV5VimvYEBhD4IgnLjShFfGNwQBFBvp59xL4aJmChjQYz2A92HjRG7UFfc8tRx9S068VuM5cMF_jgLbyHUstwnjE8TlGGQlyN5Q=w2400"></p>
+<p align="center"><img width="400px" src="https://lh3.googleusercontent.com/pZl6Q-RuM9Z84OIAwSHj_LqBGOUK4nCgSFfZg4VakZuaX7rDxKRuWwsAvW_a2Mos5b6kYLJW_LLpNKSa7f-XoNwY2FNAuvlmjSlwFEkaSXfYHky4qoHp5h7o20AZ8Nir97N5PSawqw=w2400"></p>
 
 ## Tải về & Cài đặt
 Bạn có thể tải trực tiếp phiên bản tích hợp sẵn UniServer ở phần [releases](https://github.com/belivipro9x99/themis-webinterface/releases/), sau đó giải nén tệp zip vừa tải về. Để khởi động máy chủ chạy tệp UniController.exe sau đó nhấn Start Apache.
@@ -145,7 +145,7 @@ Apache configuration:
 
 Bạn có thể thay đổi cấu hình, chỉnh sửa đề bài tại tab cài đặt dành cho admin
 
-<p align="center"><img  src="https://lh3.googleusercontent.com/EKXQjUtlEVxwny6EWCSs4672aoC18SUUSDT0GO2Y0Nhyl8lqVj7jm479cyMSwPzD4m1mBxXyTITrQUXN1Vsn9EijvDF-2rrifN9PYpR8U9L_-svZ_VYHihivmCWb0muzslRF_y6dbw=w2400"></p>
+<p align="center"><img  src="https://lh3.googleusercontent.com/SwNsmYDSPXzolROfxn_bHN3C8x1WrFBsTV6zJVNp_jMaHatnpymnHF4N5BXHgFK40qD7yI1342SLfpnMIzBAMiQGBV6sXinaJdS16rdYqq4sUmXawR2wtpDDFV-J4d8o4bOSGaGy8w=w2400"></p>
 
 * Yêu cầu: ID của tài khoản (không phải username) là ```admin```, nếu không sẽ không có quyền truy cập.
 
@@ -175,22 +175,20 @@ Toàn bộ **Document** đều có ở trong [wiki](https://github.com/belivipro
 
 ## Screenshot
 
-<p align="center"><img src="https://lh3.googleusercontent.com/zOS2k_0pz15Q5uVOraYYsJayZEG43TT2tQdNMMGQo4FBZdscZJZOiH3ZGMEflNVCI2zkpe5Ljt0F7vTsosygiTh4u-ZSfccpFX_ra-5Yuk8GCt3JkLihTm7GIWC8a_Dto_7gnhQ33g=w2400"></p>
+<p align="center"><img src="https://lh3.googleusercontent.com/7L7D4QCntNFQk7SLhyxZ-14VYt0tliFVHTq0jtQLHKLFQ488jwSyl2PBebqTzVXnY1vD6LVEaVPrs8AAET_9hGR8VvlFgwXnidU9Li0HBC5BZpwgQOCrk3VI5XTjQrpOVAKU_a98sw=w2400"></p>
 
-<p align="center"><img src="https://lh3.googleusercontent.com/6oJb7OJ3Ess9PhQzbKF1hNyt2Pf1gftCo2NEC-WG4qQFpVDno2oPP_druUg73IPZCKQ6ZS21PkF2rrcgC-78LIpzcwQDmO37e4fyT1FUAMiufRbUIRkpYEyoGc0s4OeijZzUhFkA-A=w2400"></p>
+<p align="center"><img src="https://lh3.googleusercontent.com/cti2fwOlrs165tpV9_TsXf0NXrsfQBLN93_j4QIrixJUKsv8PeK3F7tz9Avn7M4TC4GpUto0ucv9s3PYGEacjo3skhsPxwxCsXoq8c5j5XLPHvJJc46ZRUvWQGXYgLHHGt6zpAy1Mw=w2400"></p>
 
-<p align="center"><img src="https://lh3.googleusercontent.com/0qI_1fJ24CgWRDGC9nHKBCZZQG5PjekiYWf95DK5O_goP1vy-RVUk5AH48ORMYBEs7F62R4nlyatDlBx7a5p5u2ioCIAQQu7mtGhmlLNRTmn9ziPCdkNQdF8NuzAzhlj9a3WO8oUcQ=w2400"></p>
+<p align="center"><img src="https://lh3.googleusercontent.com/ITxtWrNyPTITIax-1t09E86ddizm2KlXatGOilkNjJxaTT3Oi3nLkfOcY4sN1-mBfBuqoiUNW7GbAxF9_SQj3JZyF2WZjJzn8RsQRanfcyWwptbIAeI7yy6H1xZR1b7lvN_C9_j17Q=w2400"></p>
 
-<p align="center"><img  src="https://lh3.googleusercontent.com/fyfLgY269ZggaQup47CMjen2V7mbXVaIgCG3JBKHbTiIYsngnhLQOcKQvLfU-76OTFFdAGKP7jY4wRyqgAbivyyLTI1AU3alXnsUkayoa7cB_3uzpCwQ1hEYnC8g3YV6hb5V16Q7_A=w2400"></p>
+<p align="center"><img  src="https://lh3.googleusercontent.com/ay2242TlEQqIJJ8m7Oy_E8R4QeOEo9US_im_4sfjhIoIll3CtTbIvPAG5mnwZZNRqFXWCmWIa9zuSMITrvTPIyn2wVLhpTcbH75g-KLRLA3vrEZZLYGTGDALlLPNbeGi58_TTUpxdg=w2400"></p>
 
-<p align="center"><img  src="https://lh3.googleusercontent.com/UUE806R7OClaYnEdNlHtW5lG29Pjy5zHhFq2uons61p0e85OR9e2cS7VMw8umS6BwABQbk1hqBOGbUQ-2VHa3Vh4B4rHRxJO_ZqBCCBaUTc2LhSGyXArsnCH5qWq8r5oDS8ZwgKCmw=w2400"></p>
+<p align="center"><img  src="https://lh3.googleusercontent.com/O057HImNuPHG6Bel_yY5RiX55wYR8Gy6QWCwNdJe4hnSe4vxdXgvNlCCSZSp6SpYum90LqRUH8Tlv9rF-6M5jPTkqEzV0PhFHBlGJaFO8IrVNU8bL3St8LGGWA_SqiDTZ6PsV0c2SQ=w2400"></p>
 
-<p align="center"><img  src="https://lh3.googleusercontent.com/mjse5RHXz8G5GLPA-zIKY1WUSq5PuEXj0vnozRFFzvktMn8ziky--FJf4Kk0dLrbIVdb711kye7yDcwcCsofZxG9LWJ3EIssdJ8zSoqVgkrtSjx3VUNDWxfJN4JhtHxPXOrTYz8MDA=w2400"></p>
+<p align="center"><img  src="https://lh3.googleusercontent.com/t55Oq4K9wOwT7WM_jPWlFoERbonMWNNGeXHHqq7sTh7Mkd6t4YLAvV9rODTsBIJvCC1n7e1Cf8IcBl6rodWvuq6pVteklGCLroxgCl7TPyjt0rXWIjHgkWeH6yGvQ_Fu90hrhk0zww=w2400"></p>
 
-<p align="center"><img  src="https://lh3.googleusercontent.com/9Ox6KmuN930I08fZHBijO27lRvtZLB5TknOo8y-_5yK-E0UPfDyWPXlhskWmPqzCN5tJJUvPTX6Bi74w0KyCft6o1J1QPtOeesbVuBEXuFabFGMUpxAjtf_UUisZOFXx1ejURuEosw=w2400"></p>
-
-<p align="center"><img  src="https://lh3.googleusercontent.com/8zv18Zl9nEZtjXv8dUTohaa6PeVfr1eb8lenfQ4jpVnwptkSQZqUzfr1YJhhaLG9GWm5KyW3iNoayQxipCNBFyGNKDXSCgqVhZpjEfKeAzoJy9e2CTsGWCwuT_MOjzDnLZLMP7ybrQ=w2400"></p>
+<p align="center"><img  src="https://lh3.googleusercontent.com/CbCJ7KBpFP4crCDpTcO3pIfRTenidYMjEh7S2tzyqeECBotCyoxVx_mf4vMIh6O3X0FWkkWZsNQCrr_IulQO_l57Go17bzAi8fNY44arMSd6-pwAk70ZIPDaAtKfY1_DhW22fELjzg=w2400"></p>
 
 ## Contributor
 
-Many thanks to ```namkojj```, aka [Nam](https://www.facebook.com/profile.php?id=100008107446343) for helping me translating, hunting bug and testing this project.
+Many thank to ```namkojj```, aka [Nam](https://www.facebook.com/profile.php?id=100008107446343) for helping me translating, hunting bug and testing this project.

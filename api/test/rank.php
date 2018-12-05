@@ -47,8 +47,11 @@
             $res[$user]["list"][$data["filename"]] = $point;
         }
 
+        $res[$user]["log"][$data["filename"]] = ($config["viewlog"] == true) ? "/api/test/viewlog?f=" . basename($log) : null;
+
         $res[$user]["username"] = $user;
         $res[$user]["name"] = getuserdata($user)["name"];
+
         if (!isset($res[$user]["total"]))
             $res[$user]["total"] = 0;
         $res[$user]["total"] += $point;

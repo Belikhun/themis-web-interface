@@ -48,7 +48,7 @@ function myajax({
     xhr.addEventListener("readystatechange", function () {
         if (this.readyState === this.DONE) {
 
-            if (this.status == 0 && disablesbar == false) {
+            if (this.status == 0) {
                 document.lostconnect = true;
                 clog("errr", "Lost connection to server.");
                 return false;
@@ -117,7 +117,7 @@ function myajax({
 
             if (document.lostconnect == true) {
                 document.lostconnect = false;
-                clog("okay", "connected to server");
+                clog("okay", "Connected to server");
             }
             callout(data, rawdata);
         }

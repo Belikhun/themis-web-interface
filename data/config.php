@@ -8,7 +8,7 @@
 
 	require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
-	define("VERSION", "0.3.5");
+	define("VERSION", "0.3.6");
 
 	$config = (new fip($_SERVER["DOCUMENT_ROOT"] ."/data/config.json")) -> read();
 	$config = json_decode($config, true);

@@ -21,14 +21,13 @@
     $file = str_replace("\"", "", $file);
     $file = str_replace("/", "", $file);
 
-    $username = $_SESSION["username"];
+    $lf = $config["logdir"] ."/". $file;
 
-    if (!(strpos($file, "[". $username ."]") > 0))
-        stop(44, "Không tìm thấy!", 404);
+    if (!file_exists($lf))
+        stop(44, "Không tìm thấy tệp nhật kí ". $file, 404);
 
     $line = Array();
-    
-    $logf = fopen($config["logdir"] ."/". $file, "r");
+    $logf = fopen($lf, "r");
     while (($l = fgets($logf)) !== false)
         array_push($line, str_replace(PHP_EOL, "", $l));
 

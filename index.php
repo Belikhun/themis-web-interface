@@ -470,7 +470,7 @@
                 "sv_pr" => $_SERVER["SERVER_PROTOCOL"],
                 "cl" => $_SERVER["HTTP_USER_AGENT"],
                 "cl_ip" => $_SERVER["REMOTE_ADDR"],
-                "username" => $_SESSION["username"],
+                "username" => $_SESSION["username"] ?: "Not Logged In.",
             ), JSON_PRETTY_PRINT); ?>
         </script>
 
@@ -478,22 +478,29 @@
         <script src="/data/js/belibrary.js" type="text/javascript"></script>
         <script src="/data/js/statusbar.js" type="text/javascript"></script>
         <script type="text/javascript">
-            document.sbar = new statusbar(document.body);
+            const sbar = new statusbar(document.body);
+            sbar.__item = new Array();
+
             document.__onclog = (type, ts, msg) => {
                 type = type.toLowerCase();
-                const typelist = ["okay", "warn", "errr"]
+                const typelist = ["okay", "warn", "errr", "crit"]
                 if (typelist.indexOf(type) == -1)
                     return false;
 
-                document.sbar.msg(type, msg, {time: ts});
+                if (type == "errr")
+                    sbar.__item.errr.change(parseInt(sbar.__item.errr.get()) + 1);
+                else if (type == "warn")
+                    sbar.__item.warn.change(parseInt(sbar.__item.warn.get()) + 1);
+
+                sbar.msg(type, msg, {time: ts, lock: (type == "crit") ? true : false});
             }
 
-            document.sbar.additem("0", "warning", {space: false});
-            document.sbar.additem("0", "error");
-            document.sbar.additem(SESSION.sv, "server");
-            document.sbar.additem(SESSION.sv_ip, "globe");
-            document.sbar.additem(SESSION.cl_ip, "desktop", {aligin: "right"});
-            document.sbar.additem(SESSION.username, "account", {aligin: "right"});
+            sbar.__item.warn = sbar.additem("0", "warning", {space: false});
+            sbar.__item.errr = sbar.additem("0", "error");
+            sbar.additem(SESSION.sv, "server");
+            sbar.additem(SESSION.sv_ip, "globe");
+            sbar.additem(SESSION.cl_ip, "desktop", {aligin: "right"});
+            sbar.additem(SESSION.username, "account", {aligin: "right"});
         </script>
 
         <!-- Core script -->
