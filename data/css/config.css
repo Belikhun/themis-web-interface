@@ -12,10 +12,9 @@ body {
     font-family: "Segoe UI", Calibri, Geneva, Verdana, sans-serif;
     margin: unset;
     transition: padding-top 1s cubic-bezier(0.06, 0.81, 0, 0.98);
-}
-
-body.sbar {
-    padding-top: 40px;
+    width: 100vw;
+    height: calc(100vh - 20px);
+    overflow: hidden;
 }
 
 t {
@@ -25,6 +24,12 @@ t {
     font-style: none;
     color: rgb(29, 29, 29);
     word-wrap: break-word;
+}
+
+#form-container {
+    position: relative;
+    height: 100%;
+    overflow: hidden auto;
 }
 
 ul {

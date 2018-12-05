@@ -46,7 +46,7 @@
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/userprofile.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/input.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/spinner.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/statbar.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/statusbar.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/scrollbar.css" />
         <!-- Page Style Core -->
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/core.css" />
@@ -153,12 +153,6 @@
                     <div class="separator"></div>
                 </div>
             <?php } ?>
-        </div>
-
-        <div id="status">
-            <span class="simple-spinner"></span>
-            <t class="text"></t>
-            <i class="material-icons close">close</i>
         </div>
 
         <span id="user_profile">
@@ -470,13 +464,41 @@
             const IS_ADMIN = <?php print ($id == "admin" ? "true" : "false"); ?>;
             const LOGGED_IN = <?php print ($loggedin == true ? "true" : "false"); ?>;
             const API_TOKEN = "<?php print isset($_SESSION["api_token"]) ? $_SESSION["api_token"] : null; ?>";
+            const SESSION = <?php print json_encode(Array(
+                "sv" => $_SERVER["SERVER_SOFTWARE"],
+                "sv_ip" => $_SERVER["SERVER_ADDR"],
+                "sv_pr" => $_SERVER["SERVER_PROTOCOL"],
+                "cl" => $_SERVER["HTTP_USER_AGENT"],
+                "cl_ip" => $_SERVER["REMOTE_ADDR"],
+                "username" => $_SESSION["username"],
+            ), JSON_PRETTY_PRINT); ?>
         </script>
 
         <!-- Library First -->
         <script src="/data/js/belibrary.js" type="text/javascript"></script>
-        <script src="/data/js/statbar.js" type="text/javascript"></script>
+        <script src="/data/js/statusbar.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            document.sbar = new statusbar(document.body);
+            document.__onclog = (type, ts, msg) => {
+                type = type.toLowerCase();
+                const typelist = ["okay", "warn", "errr"]
+                if (typelist.indexOf(type) == -1)
+                    return false;
+
+                document.sbar.msg(type, msg, {time: ts});
+            }
+
+            document.sbar.additem("0", "warning", {space: false});
+            document.sbar.additem("0", "error");
+            document.sbar.additem(SESSION.sv, "server");
+            document.sbar.additem(SESSION.sv_ip, "globe");
+            document.sbar.additem(SESSION.cl_ip, "desktop", {aligin: "right"});
+            document.sbar.additem(SESSION.username, "account", {aligin: "right"});
+        </script>
+
         <!-- Core script -->
         <script src="/data/js/core.js" type="text/javascript"></script>
+        
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124598427-1"></script>
         <script>

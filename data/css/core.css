@@ -8,12 +8,17 @@
 */
 
 body {
+    position: relative;
     background-color: #666666;
     font-family: "Segoe UI", Calibri, Geneva, Verdana, sans-serif;
-    margin: unset;
+    margin-top: unset;
+    margin-left: unset;
+    margin-right: unset;
+    margin-bottom: 20px;
+    box-sizing: border-box;
     overflow: hidden;
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh - 20px);
 }
 
 a {
@@ -35,10 +40,6 @@ t {
     word-wrap: break-word;
 }
 
-#status {
-    top: 58px !important;
-}
-
 /* Change Autocomplete styles in Chrome*/
 input:-webkit-autofill {
     background-color: rgba(0, 0, 0, 0)!important;
@@ -48,7 +49,7 @@ body #container {
     position: relative;
     display: block;
     width: 100vw;
-    height: calc(100vh - 58px);
+    height: calc(100vh - 78px);
     top: 58px;
     background-color: #ebebeb;
     box-sizing: border-box;
@@ -113,11 +114,6 @@ body #container.showsett .settings #settings_problem {
         height: calc(100% + 400px);
     }
 
-}
-
-#container.sbar {
-    height: calc(100vh - 98px);
-    top: 98px;
 }
 
 panel {

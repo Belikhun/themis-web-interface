@@ -100,7 +100,7 @@ core = {
 
         clog("info", "Initialising...");
         var inittime = new stopclock();
-        sbar.init();
+
         this.rankpanel.ref.onclick(() => {
             this.fetchrank(true);
         });
@@ -131,7 +131,7 @@ core = {
             color: flatc("blue"),
             text: inittime.stop + "s"
         })
-        clog("okay", "Initialised.");
+        clog("okay", "Core.js Initialised.");
     },
 
     fetchlog(bypass = false) {
@@ -444,9 +444,8 @@ core = {
                         this.upload(files, i + 1);
                     }, this.uploadcooldown / 2);
                 }, res => {
-                    clog("errr", "Upload Stopped.");
+                    clog("info", "Upload Stopped.");
 
-                    sbar.hide();
                     this.state.innerText = res.description;
                     this.panel.title = "Nộp bài - Đã dừng.";
                     this.bar.classList.add("red");
@@ -700,7 +699,7 @@ core = {
                     this.state.innerText = "ĐÃ HẾT THỜI GIAN LÀM BÀI";
                     break;
                 default:
-                    sbar.change(sbar.type.ERROR, "Lỗi không rõ.");
+                    clog("errr", "Lỗi không rõ.");
                     break;
             }
         }
@@ -874,10 +873,8 @@ core = {
                     "token": API_TOKEN
                 }
             }, data => {
-                sbar.change(sbar.type.OK, "Thay đổi mật khẩu thành công!");
-                sbar.hide(2000);
+                clog("okay", "Thay đổi mật khẩu thành công!");
                 this.reset();
-                clog("okay", "Password changed.");
             }, data => {
                 this.reset();
             });

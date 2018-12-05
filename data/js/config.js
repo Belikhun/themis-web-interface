@@ -80,6 +80,10 @@ function update() {
     });
 }
 
+const sbar = new statusbar(document.body);
+sbar.additem(API_TOKEN, "key", {space: false});
+sbar.additem(USERNAME, "account", {space: false, aligin: "right"});
+
 $("body").onload = update();
 
 $("#form-container").addEventListener("submit", e => {
@@ -108,8 +112,7 @@ $("#form-container").addEventListener("submit", e => {
             "token": API_TOKEN
         }
     }, data => {
-        sbar.change(sbar.type.OK, "Thay đổi cài đặt thành công.");
+        sbar.msg("okay", "Thay đổi cài đặt thành công.");
         update();
-        sbar.hide(3000);
     })
 }, false)

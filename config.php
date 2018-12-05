@@ -18,7 +18,7 @@
     <title>Cài đặt</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/statbar.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/statusbar.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/scrollbar.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/material-font.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/input.css" />
@@ -28,12 +28,6 @@
 </head>
 
 <body id="container">
-
-    <div id="status">
-        <span class="simple-spinner"></span>
-        <t class="text"></t>
-        <i class="material-icons close">close</i>
-    </div>
 
     <form id="form-container" action="javascript:void(0);">
         <ul class="contest">
@@ -135,10 +129,21 @@
 
     <script>
         const API_TOKEN = "<?php print isset($_SESSION["api_token"]) ? $_SESSION["api_token"] : null; ?>";
+        const USERNAME = "<?php print $_SESSION["username"]; ?>";
     </script>
-    <script src="data/js/statbar.js"></script>
     <script src="data/js/belibrary.js"></script>
+    <script src="data/js/statusbar.js"></script>
     <script src="data/js/config.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124598427-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-124598427-1');
+    </script>
 </body>
 
 </html>

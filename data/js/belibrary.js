@@ -14,7 +14,7 @@ function myajax({
     type = "json",
     onupload = e => {},
     ondownload = e => {},
-}, callout = () => {}, error = () => {}, disablesbar = false) {
+}, callout = () => {}, error = () => {}) {
     query.length = Object.keys(query).length;
     form.length = Object.keys(form).length;
 
@@ -51,10 +51,6 @@ function myajax({
             if (this.status == 0 && disablesbar == false) {
                 document.lostconnect = true;
                 clog("errr", "Lost connection to server.");
-                if (!disablesbar)
-                    sbar.change(sbar.type.ERROR,
-                        `HTTP ${this.status} ${this.statusText} >> Mất kết nối đến máy chủ. Đang thử kết nối lại...`,
-                        true);
                 return false;
             } else if ((this.responseText == "" || !this.responseText) && this.status != 200) {
                 clog("errr", {
@@ -68,10 +64,6 @@ function myajax({
                     text: url
                 });
 
-                if (!disablesbar)
-                    sbar.change(sbar.type.ERROR,
-                        `HTTP ${this.status} ${this.statusText} ${url}`,
-                        false);
                 error(null);
                 return false;
             }
@@ -82,8 +74,6 @@ function myajax({
                 } catch (e) {
                     clog("errr", e);
 
-                    if (!disablesbar)
-                        sbar.change(sbar.type.ERROR, e, false);
                     error(e);
                     return false;
                 }
@@ -100,10 +90,6 @@ function myajax({
                         text: "HTTP " + this.status
                     }, this.statusText, ` >>> ${res.description}`);
 
-                    if (!disablesbar)
-                        sbar.change(sbar.type.ERROR,
-                            `[${res.code}] HTTP ${this.status} ${this.statusText} >> ${res.description}`,
-                            false);
                     error(res);
                     return false;
                 }
@@ -122,10 +108,6 @@ function myajax({
                         text: url
                     });
 
-                    if (!disablesbar)
-                        sbar.change(sbar.type.ERROR,
-                            `HTTP ${this.status} ${this.statusText}`,
-                            false);
                     error(res);
                     return false;
                 }
@@ -135,12 +117,7 @@ function myajax({
 
             if (document.lostconnect == true) {
                 document.lostconnect = false;
-                if (!disablesbar) {
-                    sbar.change(sbar.type.OK,
-                        `HTTP ${this.status} ${this.statusText} >> Đã kết nối tới máy chủ.`,
-                        false);
-                    sbar.hide(3000);
-                }
+                clog("okay", "connected to server");
             }
             callout(data, rawdata);
         }
@@ -281,17 +258,7 @@ function flatc(color) {
 }
 
 function $(selector) {
-    var n = selector.slice(1, selector.length);
-    switch (selector.charAt(0)) {
-        case ".":
-            return document.getElementsByClassName(n);
-        case "#":
-            return document.getElementById(n);
-        case "@":
-            return document.getElementsByName(n);
-        default:
-            return document.getElementsByTagName(selector);
-    }
+    return document.querySelector(selector);
 }
 
 //? |-----------------------------------------------------------------------------------------------|
@@ -305,6 +272,9 @@ function clog(level, ...args) {
     const font = "Comic Sans MS";
     const size = "15";
     var date = new Date();
+    const rtime = round(sc.stop, 3).toFixed(3);
+    var str = '';
+
     level = level.toUpperCase();
     lc = flatc({
         DEBG: "blue",
@@ -321,7 +291,7 @@ function clog(level, ...args) {
             padding: 8
         }, {
             color: flatc("blue"),
-            text: round(sc.stop, 3).toFixed(3),
+            text: rtime,
             padding: 8
         }, {
             color: lc,
@@ -341,11 +311,14 @@ function clog(level, ...args) {
     for (var i = 1; i <= text.length; i++) {
         item = text[i-1];
         if (typeof item === "string" || typeof item === "number") {
+            if (i > 3) str += `${item} `;
             out[0] += `%c${item} `;
             out[n] = `font-size: ${size}px; font-family: ${font}; color: ${flatc("black")}`;
             n += 1;
         } else if (typeof item === "object") {
-            out[0] += `%c${pleft(item.text, ((item.padding) ? item.padding : 0))}`
+            var t = pleft(item.text, ((item.padding) ? item.padding : 0));
+            if (i > 3) str += t + " ";
+            out[0] += `%c${t}`;
             if (item.padding) {
                 out[0] += "%c| ";
                 out[n] = `font-size: ${size}px; color: ${item.color};`;
@@ -360,8 +333,12 @@ function clog(level, ...args) {
             console.error(`error: type ${typeof item}`)
     }
 
+    document.__onclog(level, rtime, str);
     console.log.apply(this, out);
 }
+
+if (typeof document.__onclog == "undefined")
+    document.__onclog = (lv, t, m) => {};
 
 // Init
 sc = new stopclock();
