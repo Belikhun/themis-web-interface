@@ -8,14 +8,14 @@
         "zone": "Asia\/Ho_Chi_Minh",
         "begin": {
             "seconds": 0,
-            "minutes": 58,
-            "hours": 21,
-            "days": 5,
+            "minutes": 14,
+            "hours": 23,
+            "days": 6,
             "months": 12,
             "years": 2018
         },
-        "during": 0,
-        "offset": 10
+        "during": 0.1,
+        "offset": 5
     },
     "publish": true,
     "submit": true,

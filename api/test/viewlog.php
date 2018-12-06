@@ -11,9 +11,6 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
 
-    if (!islogedin())
-        stop(11, "Bạn chưa đăng nhập.", 403);
-
     if ($config["viewlog"] == false)
         stop(23, "Xem nhật ký đã bị tắt!", 403);
 

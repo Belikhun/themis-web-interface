@@ -107,12 +107,12 @@ core = {
         this.fetchrank();
         this.frankint = setInterval(e => {this.fetchrank()}, 2000);
         this.timer.init();
+        this.wrapper.init();
         
         if (LOGGED_IN) {
             this.file.init();
             this.problems.init();
             this.userprofile.init();
-            this.wrapper.init();
             this.fetchlog();
             this.logpanel.ref.onclick(() => {
                 this.fetchlog(true);

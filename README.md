@@ -29,7 +29,8 @@
 - [Contributor](#contributor)
 
 ## Demo
-* **000webhost**: [https://tweb-demo.000webhostapp.com/](https://tweb-demo.000webhostapp.com/)
+* **000webhost**: <a href="https://tweb-demo.000webhostapp.com/" target="_blank">https://tweb-demo.000webhostapp.com/</a>
+
 ### Tài khoản:
 
 | id    | username | password |
@@ -50,7 +51,7 @@
 ## Tính năng
 * Nộp nhiều bài cùng lúc với 1 lần kéo thả tệp
 
-<p align="center"><img src="https://lh3.googleusercontent.com/nICHCTwEqqN3wtf42Q0IKhNNlz5aW1fUOcv3oUuMgyheEivumvGx52B5qpwRMuIr5bv9neJYEy3YV43yuRbbyjfVch2EXthuyOB4gZW8JgLtaSQsFSOqInGYTA4k85OltPF4oOOt-A=w2400" width="600px"></p>
+<p align="center"><img src="https://lh3.googleusercontent.com/9eyH0aAXjGL8m5CekX37uohwQl2FR7cp5YM_Uc12P8DZ0Q9ZeeDyrTg0GI8ljJ25bdqhzrjtb1POQ_jyAYY8OCGKXTyMmRARVlU60RcXOMacrgF0MzGB4hTT3wsTI8Bpmi9J6epiCA=w2400" width="600px"></p>
 
 * Xem đề bài trên trang
 
@@ -59,15 +60,15 @@
 
 * Hiện thời gian làm bài của kỳ thi
 
-<p align="center"><img src="https://lh3.googleusercontent.com/su4qhhtaGnmTrjPcoE_KEOeck9m5tNHPbduTiyakyNsSC1RPFhzSiDa8vWkdCqsQFt2ztntRlfPXQOSuqlM4bIaW4jSTB8Y8HawbBtoC2JSKnlS_kgGT5f4exqsJK6yg-KWRSbnGJQ=w2400" width="600px"></p>
+<p align="center"><img src="https://lh3.googleusercontent.com/BRwXRY6fNVzA3yo0ursanE0bduT2OKu0TnLxFUriSefxhRvLv2ZI9TN-FcRK6Y79F0FlMcpnky4XPnDJmKUETu2QdwGpGg0IAio1hBi0TV0du4dePXmqIkubtUgm0nUN80qDJ0CfNw=w2400" width="600px"></p>
 
 * Nhật ký nộp bài hiển thị tình trạng bài nộp và kết quả của bài sau khi chấm
 
-<p align="center"><img src="https://lh3.googleusercontent.com/K61mpUos2mVhKh8D50eB8lPoxV0WeJ3BvkzB3FYFjNChyI9SI5_CFXa-ldpAeRLqCk1-UqLT5oep5U0QAjl7jNqzFS0sPHcjmbTZuwroByJPm3ObLZxJecpDdUO18DWgI58bw2It_Q=w2400" width="400px"></p>
+<p align="center"><img src="https://lh3.googleusercontent.com/MTPWJ_0RX-Vq50VUjqPklyPAfgxgMla2hyh3z_3KxAiIiKj5JQvZS1zl7b4Sa2ui5YLvKGbuQoXQgBhhbZAZE5l6ePLg_TDReFJ1mUpBtEzeaSC2hfRxd-e5fdULnbaXEt32SERXaw=w2400" width="600px"></p>
 
 * Bảng xếp hạng được cập nhật tự động và sắp xếp thí sinh theo tổng số điểm tất cả bài thi
 
-<p align="center"><img src="https://lh3.googleusercontent.com/uor9LhT3AWEIfb3XZfQYjbyxkwgp1DS-RhXp4u_Tqp3QX3h2EoHkwlW4x2XJeSKecGtvNJl1XDsDde7QJVqBzgJReCKMiYV447cg4VPA7roW3--FtBGu79ivI6CPJDCX5j0W7KZVWg=w2400" width="600px"></p>
+<p align="center"><img src="https://lh3.googleusercontent.com/sj05mS7rHhDeRmbe45-HquUKnrLmrDvu2lU2RV61FYfV5Ze5r60RkOi9Rxz_MxcUl77KUTfREAHUu1XcBQ6QdK-fbHYhDWiCA0-8NeUhskkqzD__quBv7yvdogtmhj9HjBH4aoWg4w=w2400" width="600px"></p>
 
 * Xem trực tiếp tệp nhật kí
 

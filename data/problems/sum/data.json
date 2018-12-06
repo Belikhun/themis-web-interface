@@ -1,0 +1,17 @@
+{
+    "name": "sum",
+    "point": 20,
+    "time": 1,
+    "type": {
+        "inp": "B\u00e0n Ph\u00edm",
+        "out": "M\u00e0n h\u00ecnh"
+    },
+    "accept": [
+        "pas",
+        "py",
+        "cpp",
+        "java"
+    ],
+    "description": "susmsms",
+    "test": []
+}
