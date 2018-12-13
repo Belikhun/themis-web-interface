@@ -93,11 +93,11 @@
     <Cell ss:StyleID="s63"/>
    </Row>
    <Row ss:AutoFitHeight="0">
-    <Cell ss:StyleID="s64"><Data ss:Type="String">admin</Data></Cell>
-    <Cell ss:StyleID="s64"><Data ss:Type="String">belivipro9x99</Data></Cell>
-    <Cell ss:StyleID="s64"><Data ss:Type="String">a</Data></Cell>
-    <Cell ss:StyleID="s64"><Data ss:Type="String">Belikhun</Data></Cell>
-    <Cell ss:StyleID="s64"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s64"/>
+    <Cell ss:StyleID="s64"/>
+    <Cell ss:StyleID="s64"/>
+    <Cell ss:StyleID="s64"/>
+    <Cell ss:StyleID="s64"/>
    </Row>
   </Table>
   <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
@@ -117,8 +117,8 @@
    <Panes>
     <Pane>
      <Number>3</Number>
-     <ActiveRow>3</ActiveRow>
-     <ActiveCol>2</ActiveCol>
+     <ActiveRow>4</ActiveRow>
+     <RangeSelection>R5C1:R5C5</RangeSelection>
     </Pane>
    </Panes>
    <ProtectObjects>False</ProtectObjects>

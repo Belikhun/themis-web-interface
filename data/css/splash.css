@@ -127,6 +127,24 @@
     font-size: 12px;
 }
 
+/* Dark */
+
+#splash_screen.dark {
+    background-color: #282829;
+}
+
+#splash_screen.dark .mid .appname {
+    color: #ecf0f1;
+}
+
+#splash_screen.dark .mid .progress {
+    background-color: #4f4f51;
+}
+
+#splash_screen.dark .foot .text {
+    color: #dbdbdb;
+}
+
 @keyframes sk-scaleout {
     0% {
         transform: scale(0.95);
