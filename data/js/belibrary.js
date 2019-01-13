@@ -1,7 +1,7 @@
 //? |-----------------------------------------------------------------------------------------------|
 //? |  /data/js/belibrary.js                                                                        |
 //? |                                                                                               |
-//? |  Copyright (c) 2018 Belikhun. All right reserved                                              |
+//? |  Copyright (c) 2019 Belikhun. All right reserved                                              |
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
@@ -264,7 +264,7 @@ function $(selector) {
 //? |-----------------------------------------------------------------------------------------------|
 //? |  from web-clog.js                                                                             |
 //? |                                                                                               |
-//? |  Copyright (c) 2018 Belikhun. All right reserved                                              |
+//? |  Copyright (c) 2019 Belikhun. All right reserved                                              |
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 

@@ -83,6 +83,8 @@
 ## Tải về & Cài đặt
 Bạn có thể tải trực tiếp phiên bản tích hợp sẵn UniServer ở phần [releases](https://github.com/belivipro9x99/themis-webinterface/releases/), sau đó giải nén tệp zip vừa tải về. Để khởi động máy chủ chạy tệp UniController.exe sau đó nhấn Start Apache.
 
+Nếu khởi động UniServer gặp lỗi vui lòng cài [Microsoft Visual C++ 2015 Redistributable](https://www.microsoft.com/en-us/download/details.aspx?id=52685)
+
 Hoặc ```git clone``` repository này và thiết lập máy chủ riêng.
 
 Apache configuration:
