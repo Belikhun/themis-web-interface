@@ -73,7 +73,7 @@
 
 ## Cài đặt và hướng dẫn sử dụng
 
-Hướng dẫn cài đặt và sử dụng hiện có trong [Wiki](https://github.com/belivipro9x99/themis-web-interface/wiki/installation-config) của dự án.
+Hướng dẫn cài đặt và sử dụng hiện có trong [Wiki](https://github.com/belivipro9x99/themis-web-interface/wiki/installation-and-config) của dự án.
 
 ## API Document
 
