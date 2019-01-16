@@ -11,12 +11,15 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
     header("Cache-Control: no-cache, no-store, must-revalidate", true);
     
-    if (!isset($_GET["u"]) || empty($_GET["u"])) {
-        contenttype("jpg");
-        header("Content-length: ". filesize("avt.default"));
-        readfile("avt.default");
+    function showimg(string $path) {
+        contenttype(pathinfo($path, PATHINFO_EXTENSION));
+        header("Content-length: ". filesize($path));
+        readfile($path);
         exit();
     }
+
+    if (!isset($_GET["u"]) || empty($_GET["u"]))
+        showimg("avt.default");
 
     $username = trim($_GET["u"]);
     $username = str_replace("\"", "", $username);
@@ -25,16 +28,8 @@
 
     $files = glob($username .".*");
 
-    if (count($files) > 0) {
-        $ext = pathinfo($files[0], PATHINFO_EXTENSION);
-        contenttype($ext);
-        header("Content-length: ". filesize($username. "." .$ext));
-        readfile($username. "." .$ext);
-    } else {
-        contenttype("jpg");
-        header("Content-length: ". filesize("avt.default"));
-        readfile("avt.default");
-    }
-
-    exit();
+    if (count($files) > 0)
+        showimg($files[0]);
+    else
+        showimg("avt.default");
 ?>

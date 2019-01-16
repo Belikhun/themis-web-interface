@@ -19,11 +19,7 @@
 - [Demo](#demo)
 - [Yêu cầu](#yêu-cầu)
 - [Tính năng](#tính-năng)
-- [Tải về & Cài đặt](#tải-về--cài-đặt)
-- [Cấu hình](#cấu-hình)
-  - [Trực tiếp bằng bảng cài đặt](#trực-tiếp-bằng-bảng-cài-đặt)
-  - [config.json](#configjson)
-  - [Tài khoản](#tài-khoản)
+- [Cài đặt và hướng dẫn sử dụng](#cài-đặt-và-hướng-dẫn-sử-dụng)
 - [API Document](#api-document)
 - [Screenshot](#screenshot)
 - [Contributor](#contributor)
@@ -42,11 +38,6 @@
 * Lưu ý:
   - Chức năng thay đổi mật khẩu và thay đổi thư mục upload đã tắt.
   - Bài nộp lên sẽ không được Themis chấm.
-
-## Yêu cầu
-- PHP/7 trở lên
-  - php_xml (```apt install php-xml```)
-- Apache/2 trở lên
 
 ## Tính năng
 * Nộp nhiều bài cùng lúc với 1 lần kéo thả tệp
@@ -80,101 +71,15 @@
 
 <p align="center"><img width="400px" src="https://lh3.googleusercontent.com/pZl6Q-RuM9Z84OIAwSHj_LqBGOUK4nCgSFfZg4VakZuaX7rDxKRuWwsAvW_a2Mos5b6kYLJW_LLpNKSa7f-XoNwY2FNAuvlmjSlwFEkaSXfYHky4qoHp5h7o20AZ8Nir97N5PSawqw=w2400"></p>
 
-## Tải về & Cài đặt
-Bạn có thể tải trực tiếp phiên bản tích hợp sẵn UniServer ở phần [releases](https://github.com/belivipro9x99/themis-webinterface/releases/), sau đó giải nén tệp zip vừa tải về. Để khởi động máy chủ chạy tệp UniController.exe sau đó nhấn Start Apache.
+## Cài đặt và hướng dẫn sử dụng
 
-Nếu khởi động UniServer gặp lỗi vui lòng cài [Microsoft Visual C++ 2015 Redistributable](https://www.microsoft.com/en-us/download/details.aspx?id=52685)
-
-Hoặc ```git clone``` repository này và thiết lập máy chủ riêng.
-
-Apache configuration:
-```
-<VirtualHost *:80>
-  ServerAdmin someone@localhost
-  ServerName localhost
-  ServerAlias themisweb.lan
-  DocumentRoot (document root)
-
-  ErrorDocument 400 /lib/error.php
-  ErrorDocument 401 /lib/error.php
-  ErrorDocument 403 /lib/error.php
-  ErrorDocument 404 /lib/error.php
-  ErrorDocument 405 /lib/error.php
-  ErrorDocument 406 /lib/error.php
-  ErrorDocument 408 /lib/error.php
-  ErrorDocument 414 /lib/error.php
-  ErrorDocument 500 /lib/error.php
-  ErrorDocument 502 /lib/error.php
-
-  <Directory "(document root)">
-    Options -Indexes
-    AllowOverride All
-    Order allow,deny
-    Allow from all
-    Require all granted
-  </Directory>
-
-  <Directory "(document root)/api">
-    Options +FollowSymLinks -Indexes
-    AllowOverride All
-    Order allow,deny
-    Allow from all
-    Require all granted
-
-    # Rewrite url
-    RewriteEngine on
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^([^\.]+)$ $1.php [NC,L]
-  </Directory>
-
-  <Directory "(document root)/data/xmldb">
-    Options -Indexes
-    Deny from all
-  </Directory>
-
-  <IfModule mod_reqtimeout.c>
-    RequestReadTimeout header=20-40,MinRate=500 body=20,MinRate=500
-  </IfModule>
-
-  ErrorLog ${APACHE_LOG_DIR}/error.log
-  CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>
-```
-**Trong đó**: ```(document root)``` là thư mục chứa toàn bộ tệp tin của dự án.
-
-## Cấu hình
-
-### Trực tiếp bằng bảng cài đặt
-
-Bạn có thể thay đổi cấu hình, chỉnh sửa đề bài tại tab cài đặt dành cho admin
-
-<p align="center"><img  src="https://lh3.googleusercontent.com/SwNsmYDSPXzolROfxn_bHN3C8x1WrFBsTV6zJVNp_jMaHatnpymnHF4N5BXHgFK40qD7yI1342SLfpnMIzBAMiQGBV6sXinaJdS16rdYqq4sUmXawR2wtpDDFV-J4d8o4bOSGaGy8w=w2400"></p>
-
-* Yêu cầu: ID của tài khoản (không phải username) là ```admin```, nếu không sẽ không có quyền truy cập.
-
-### config.json
-
-Cấu hình được lưu tại tệp ```data/config.json```, bao gồm:
-* Tên kì thi
-* Mô tả kì thi
-* Thư mục lưu bài
-* Thời gian bắt đầu kì thi
-* Thời gian làm bài
-* Thời gian bù
-* Công bố kết quả sau khi chấm
-* Cho phép nộp bài
-* Cho phép thay đổi thông tin
-* Cho phép xem nhật ký chấm
-
-### Tài khoản
-
-Dữ liệu tài khoản được lưu tại ```data/xmldb/account.xml```. Có thể sử dụng các trình soạn thảo như Excel để chỉnh sửa.
+Hướng dẫn cài đặt và sử dụng hiện có trong [Wiki](https://github.com/belivipro9x99/themis-web-interface/wiki/installation-config) của dự án.
 
 ## API Document
 
 **API** giúp bạn có thể giao tiếp với hệ thống mà không cần phải sử dụng trang web nộp bài. Do đó bạn có thể viết một chương trình chạy phía client trong trường hợp trang web nộp bài không hoạt động.
 
-Toàn bộ **Document** đều có ở trong [wiki](https://github.com/belivipro9x99/themis-web-interface-reloaded/wiki) của dự án.
+Toàn bộ **Document** đều có ở trong [Wiki:API](https://github.com/belivipro9x99/themis-web-interface-reloaded/wiki/Getting-Started-with-API) của dự án.
 
 ## Screenshot
 

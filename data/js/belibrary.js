@@ -15,88 +15,45 @@ function myajax({
     onupload = e => {},
     ondownload = e => {},
 }, callout = () => {}, error = () => {}) {
-    query.length = Object.keys(query).length;
-    form.length = Object.keys(form).length;
+    return new Promise((resolve, reject) => {    
+        query.length = Object.keys(query).length;
+        form.length = Object.keys(form).length;
 
-    var xhr = new XMLHttpRequest();
-    var pd = new FormData();
-    if (file)
-        pd.append("file", file);
+        var xhr = new XMLHttpRequest();
+        var pd = new FormData();
+        if (file)
+            pd.append("file", file);
 
-    for (var i = 0; i < form.length; i++) {
-        kn = Object.keys(form)[i];
-        pd.append(kn, form[kn]);
-    }
+        for (var i = 0; i < form.length; i++) {
+            kn = Object.keys(form)[i];
+            pd.append(kn, form[kn]);
+        }
 
-    for (var i = 0; i < query.length; i++) {
-        if (i == 0)
-            url += "?";
-        var kn = Object.keys(query)[i];
-        url += kn + "=" + query[kn];
-        if (i < query.length - 1)
-            url += "&";
-    }
+        for (var i = 0; i < query.length; i++) {
+            if (i == 0)
+                url += "?";
+            var kn = Object.keys(query)[i];
+            url += kn + "=" + query[kn];
+            if (i < query.length - 1)
+                url += "&";
+        }
 
-    xhr.upload.addEventListener("progress", e => {
-        onupload(e);
-    }, false);
+        xhr.upload.addEventListener("progress", e => {
+            onupload(e);
+        }, false);
 
-    xhr.addEventListener("progress", e => {
-        ondownload(e);
-    })
+        xhr.addEventListener("progress", e => {
+            ondownload(e);
+        })
 
-    xhr.addEventListener("readystatechange", function () {
-        if (this.readyState === this.DONE) {
+        xhr.addEventListener("readystatechange", function() {
+            if (this.readyState === this.DONE) {
 
-            if (this.status == 0) {
-                document.lostconnect = true;
-                clog("errr", "Lost connection to server.");
-                return false;
-            } else if ((this.responseText == "" || !this.responseText) && this.status != 200) {
-                clog("errr", {
-                    color: flatc("red"),
-                    text: "HTTP" + this.status
-                }, this.statusText, {
-                    color: flatc("magenta"),
-                    text: method
-                }, {
-                    color: flatc("pink"),
-                    text: url
-                });
-
-                error(null);
-                return false;
-            }
-
-            if (type == "json") {
-                try {
-                    var res = JSON.parse(this.responseText);
-                } catch (e) {
-                    clog("errr", e);
-
-                    error(e);
-                    return false;
-                }
-
-                if (this.status != 200 || (res.code != 0 && res.code < 100)) {
-                    clog("errr", {
-                        color: flatc("magenta"),
-                        text: method
-                    }, {
-                        color: flatc("pink"),
-                        text: url
-                    }, {
-                        color: flatc("red"),
-                        text: "HTTP " + this.status
-                    }, this.statusText, ` >>> ${res.description}`);
-
-                    error(res);
-                    return false;
-                }
-                data = res.data;
-                rawdata = res;
-            } else {
-                if (this.status != 200) {
+                if (this.status == 0) {
+                    document.lostconnect = true;
+                    clog("errr", "Lost connection to Server.");
+                    reject({code: -1, description: "Lost connection to Server"});
+                } else if ((this.responseText == "" || !this.responseText) && this.status != 200) {
                     clog("errr", {
                         color: flatc("red"),
                         text: "HTTP" + this.status
@@ -108,23 +65,69 @@ function myajax({
                         text: url
                     });
 
-                    error(res);
-                    return false;
+                    error(null);
+                    reject({code: 1, description: `HTTP ${this.status}: ${this.statusText}`});
                 }
-                data = this.responseText;
-                rawdata = null;
-            }
 
-            if (document.lostconnect == true) {
-                document.lostconnect = false;
-                clog("okay", "Connected to server");
-            }
-            callout(data, rawdata);
-        }
-    });
+                if (type == "json") {
+                    try {
+                        var res = JSON.parse(this.responseText);
+                    } catch (e) {
+                        clog("errr", e);
 
-    xhr.open(method, url);
-    xhr.send(pd);
+                        error(e);
+                        reject({code: 2, description: `Error parsing JSON`, data: e});
+                    }
+
+                    if (this.status != 200 || (res.code != 0 && res.code < 100)) {
+                        clog("errr", {
+                            color: flatc("magenta"),
+                            text: method
+                        }, {
+                            color: flatc("pink"),
+                            text: url
+                        }, {
+                            color: flatc("red"),
+                            text: "HTTP " + this.status
+                        }, this.statusText, ` >>> ${res.description}`);
+
+                        error(res);
+                        reject({code: 3, description: `HTTP ${this.status}: ${this.statusText}`, data: res});
+                    }
+                    data = res.data;
+                    rawdata = res;
+                } else {
+                    if (this.status != 200) {
+                        clog("errr", {
+                            color: flatc("red"),
+                            text: "HTTP" + this.status
+                        }, this.statusText, {
+                            color: flatc("magenta"),
+                            text: method
+                        }, {
+                            color: flatc("pink"),
+                            text: url
+                        });
+
+                        error(res);
+                        reject({code: 3, description: `HTTP ${this.status}: ${this.statusText}`, data: res});
+                    }
+                    data = this.responseText;
+                    rawdata = null;
+                }
+
+                if (document.lostconnect == true) {
+                    document.lostconnect = false;
+                    clog("okay", "Connected to server");
+                }
+                callout(data, rawdata);
+                resolve(data, rawdata);
+            }
+        })
+        
+        xhr.open(method, url);
+        xhr.send(pd);
+    })
 }
 
 function comparearray(arr1, arr2) {

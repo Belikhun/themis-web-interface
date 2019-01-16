@@ -23,7 +23,7 @@
         stop(41, "Chưa chọn tệp!", 400);
 
     $maxfilesize = 1048576;
-    $file = $_FILES["file"]["name"];
+    $file = strtolower($_FILES["file"]["name"]);
     $acceptext = array("jpg", "png", "gif", "webp");
     $extension = pathinfo($file, PATHINFO_EXTENSION);
 
