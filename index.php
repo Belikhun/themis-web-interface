@@ -43,7 +43,7 @@
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/splash.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/navbar.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/userprofile.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/usersetting.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/input.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/spinner.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/statusbar.css" />

@@ -215,6 +215,7 @@
     height: 100%;
     top: 0px;
     right: 100%;
+    z-index: 2;
 
     display: none;
 }
@@ -255,6 +256,29 @@
 #user_settings .sub .panel.large .container {
     width: calc(100vw - 360px);
     max-width: 840px;
+}
+
+@media only screen and (max-width: 740px) {
+    #user_settings.show {
+        width: 100vw;
+    }
+
+    #user_settings .main .container {
+        width: 100vw;
+    }
+
+    #user_settings .sub {
+        right: 54px;
+        width: 0px;
+    }
+
+    #user_settings .sub .panel.show,
+    #user_settings .sub .panel .container,
+    #user_settings .sub .panel.large.show,
+    #user_settings .sub .panel.large .container {
+        width: calc(100vw - 55px);
+        max-width: unset;
+    }
 }
 
 #user_settings .sub .panel .container .btn-group {
