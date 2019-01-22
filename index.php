@@ -155,99 +155,235 @@
             <?php } ?>
         </div>
 
-        <span id="user_profile">
-            <div class="header">
-                <div class="avatar" title="Thả ảnh vào đây để thay đổi ảnh đại diện">
-                    <img id="userp_avt" class="avatar" src="<?php print $loggedin ? "/api/avt/get?u=".$username : ""; ?>" />
-                    <div id="userp_avtw" class="wrapper">
-                        <i class="pencil"></i>
-                        <i class="drag"></i>
-                        <div class="material-spinner">
-                            <svg><circle cx="50%" cy="50%" r="20" fill="none"/></svg>
+        <span id="user_settings">
+
+            <div class="main">
+                <div class="container">
+
+                    <div class="group home">
+                        <t class="title big center">Cài Đặt</t>
+                        <t class="title small center">Thay đổi thiết đặt chung tại đây</t>
+
+                        <div class="space"></div>
+                    </div>
+
+                    <div class="group user">
+                        <t class="title">Tài Khoản</t>
+                        <t class="title small">Thông tin</t>
+
+                        <div class="item avatar">
+                            <div class="avatar" title="Thả ảnh vào đây để thay đổi ảnh đại diện">
+                                <img id="userp_avt" class="avatar" src="<?php print $loggedin ? "/api/avt/get?u=".$username : ""; ?>" />
+                                <div id="userp_avtw" class="wrapper">
+                                    <i class="pencil"></i>
+                                    <i class="drag"></i>
+                                    <div class="material-spinner">
+                                        <svg><circle cx="50%" cy="50%" r="20" fill="none"/></svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="info">
+                                <t class="left">Tên thí sinh</t>
+                                <t id="userp_name" class="right"><?php print htmlspecialchars($name); ?></t>
+                            </div>
+
+                            <div class="info">
+                                <t class="left">Tên tài khoản</t>
+                                <t class="right"><?php print $username; ?></t>
+                            </div>
+
+                            <div class="info">
+                                <t class="left">Mã số (ID)</t>
+                                <t class="right"><?php print $id; ?></t>
+                            </div>
+                        </div>
+
+                        <t class="title small">Đổi tên</t>
+
+                        <div class="item form">
+                            <form id="userp_edit_name_form" autocomplete="off" action="javascript:void(0);">
+                                <div class="formgroup blue">
+                                    <input id="userp_edit_name" type="text" class="formfield" placeholder="Tên" required>
+                                    <label for="userp_edit_name" class="formlabel">Tên</label>
+                                </div>
+                                <button type="submit" class="sq-btn">Gửi</button>
+                            </form>
+                        </div>
+
+                        <t class="title small">Đổi mật khẩu</t>
+
+                        <div class="item form">
+                            <form id="userp_edit_pass_form" autocomplete="off" action="javascript:void(0);">
+                                <div class="formgroup blue">
+                                    <input id="userp_edit_pass" type="password" class="formfield" placeholder="Mật khẩu" required>
+                                    <label for="userp_edit_pass" class="formlabel">Mật khẩu</label>
+                                </div>
+                                <div class="formgroup blue">
+                                    <input id="userp_edit_npass" type="password" class="formfield" placeholder="Mật khẩu mới" required>
+                                    <label for="userp_edit_npass" class="formlabel">Mật khẩu mới</label>
+                                </div>
+                                <div class="formgroup blue">
+                                    <input id="userp_edit_renpass" type="password" class="formfield" placeholder="Nhập lại mật khẩu mới" required>
+                                    <label for="userp_edit_renpass" class="formlabel">Nhập lại mật khẩu mới</label>
+                                </div>
+                                <button type="submit" class="sq-btn">Gửi</button>
+                            </form>
+                        </div>
+
+                        <t class="title small">Đăng xuất</t>
+
+                        <div class="item logout">
+                            <button id="userp_logout" class="sq-btn pink">Đăng Xuất</button>
+                        </div>
+
+                    </div>
+
+                    <div id="userp_adminConfig" class="group config">
+                        <t class="title">Cài Đặt Hệ Thống</t>
+
+                        <div id="settings_cpanelToggler" class="item arr">Admin Control Panel</div>
+                        <div id="settings_problemToggler" class="item arr">Chỉnh Sửa Test</div>
+                    </div>
+
+                    <div class="group link">
+                        <t class="title">Liên Kết Ngoài</t>
+                        <a class="item" href="https://github.com/belivipro9x99/themis-web-interface/issues" target="_blank">Báo lỗi</a>
+                        <a class="item" href="https://github.com/belivipro9x99/themis-web-interface/wiki" target="_blank">Wiki</a>
+                        <a class="item" href="https://github.com/belivipro9x99/themis-web-interface" target="_blank">Github Repository</a>
+                    </div>
+
+                    <div class="group info">
+                        <t class="title">Thông tin Dự án</t>
+                        <div class="item arr">Thông tin</div>
+
+                        <div class="space"></div>
+                        <t class="title small">Copyright © 2018 <a href="https://www.facebook.com/belivipro9x99">Belikhun</a>. This project is licensed under the MIT License</t>
+                    </div>
+
+                </div>
+                
+            </div>
+            
+            <div id="userp_panelContainer" class="sub">
+            
+                <div id="settings_problem" class="panel">
+                    <div class="container">
+                        <div class="btn-group">
+                            <span class="reload"></span>
+                            <span class="close"></span>
+                        </div>
+
+                        <div class="main problem-settings">
+                            <div class="problem-header">
+                                <div class="left">
+                                    <span id="problem_edit_btn_back" class="back"></span>
+                                </div>
+                                <t id="problem_edit_title" class="title">Danh sách</t>
+                                <div class="right">
+                                    <span id="problem_edit_btn_add" class="add"></span>
+                                    <span id="problem_edit_btn_check" class="check"></span>
+                                </div>
+                            </div>
+                            <div class="problem-container">
+                                <ul id="problem_edit_list" class="problem-list"></ul>
+                                <form id="problem_edit_form" class="problem" action="javascript:void(0);" autocomplete="off">
+                                    <div class="formgroup blue">
+                                        <input id="problem_edit_id" type="text" class="formfield" placeholder="Tên Tệp" required>
+                                        <label for="problem_edit_id" class="formlabel">Tên Tệp</label>
+                                    </div>
+                                    <div class="formgroup blue">
+                                        <input id="problem_edit_name" type="text" class="formfield" placeholder="Tên Bài" required>
+                                        <label for="problem_edit_name" class="formlabel">Tên Bài</label>
+                                    </div>
+                                    <div class="formgroup blue">
+                                        <input id="problem_edit_point" type="number" class="formfield" placeholder="Điểm" required>
+                                        <label for="problem_edit_point" class="formlabel">Điểm</label>
+                                    </div>
+                                    <div class="formgroup blue">
+                                        <input id="problem_edit_time" type="number" class="formfield" placeholder="Thời gian chạy" value="1" required>
+                                        <label for="problem_edit_time" class="formlabel">Thời gian chạy</label>
+                                    </div>
+                                    <div class="formgroup blue">
+                                        <input id="problem_edit_inptype" type="text" class="formfield" placeholder="Dữ liệu vào" value="Bàn Phím" required>
+                                        <label for="problem_edit_inptype" class="formlabel">Dữ liệu vào</label>
+                                    </div>
+                                    <div class="formgroup blue">
+                                        <input id="problem_edit_outtype" type="text" class="formfield" placeholder="Dữ liệu ra" value="Màn Hình" required>
+                                        <label for="problem_edit_outtype" class="formlabel">Dữ liệu ra</label>
+                                    </div>
+                                    <div class="formgroup blue">
+                                        <input id="problem_edit_accept" type="text" class="formfield" placeholder="Đuôi tệp" value="pas|py|cpp|java" required>
+                                        <label for="problem_edit_accept" class="formlabel">Đuôi tệp (dùng | để ngăn cách)</label>
+                                    </div>
+                                    <div class="formgroup blue">
+                                        <input id="problem_edit_image" type="file" class="formfield" accept="image/*" placeholder="Ảnh">
+                                        <label for="problem_edit_image" class="formlabel">Ảnh (không yêu cầu)</label>
+                                    </div>
+                                    <div class="formgroup blue">
+                                        <textarea id="problem_edit_desc" class="formfield" placeholder="Nội dung" required></textarea>
+                                        <label for="problem_edit_desc" class="formlabel">Nội dung</label>
+                                    </div>
+                                    <div class="test-container">
+                                        <t class="test">Test ví dụ</t>
+                                        <div class="test-list" id="problem_edit_test_list"></div>
+                                        <span class="test-add" id="problem_edit_test_add"></span>
+                                    </div>
+                                    <button id="problem_edit_submit" type="submit"></button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <ul class="info">
-                    <li id="userp_name" class="name text-overflow"><?php print htmlspecialchars($name); ?></li>
-                    <li id="userp_tag" class="tag"><?php print $username ."#". $id; ?></li>
-                </ul>
-            </div>
-            <div class="body">
-                <ul id="userp_left_panel" class="left">
-                    <?php if ($id == "admin") { ?>
-                        <li id="nav_list_home" class="item home active navlink">Trang chủ</li>
-                        <li id="nav_list_sett" class="item config navlink">Cài đặt</li>
-                        <li class="line navlink"></li>
-                    <?php } ?>
-                    <li id="userp_edit_name_toggler" class="item name arr">Đổi tên người dùng</li>
-                    <li id="userp_edit_pass_toggler" class="item pass arr">Đổi mật khẩu</li>
-                    <li class="line"></li>
-                    <a href="https://github.com/belivipro9x99/themis-web-interface/issues" target="_blank"><li class="item report">Báo lỗi</li></a>
-                    <a href="https://github.com/belivipro9x99/themis-web-interface/wiki" target="_blank"><li class="item wiki">Wiki</li></a>
-                    <a href="https://github.com/belivipro9x99/themis-web-interface" target="_blank"><li class="item repo">Github Repository</li></a>
-                    <li class="line"></li>
-                    <li id="userp_project_info_toggler" class="item info arr">Thông tin Dự án</li>
-                    <li id="userp_logout" class="item logout">Đăng xuất</li>
-                    <li class="line"></li>
-                    <li class="text">Copyright © 2018 <a href="https://www.facebook.com/belivipro9x99">Belikhun</a>. This project is licensed under the MIT License</li>
-                </ul>
-                <div id="userp_right_panel" class="right">
-                    <div id="userp_edit_name_panel" class="panel">
-                        <div class="title">Đổi Tên</div>
-                        <form class="root" id="userp_edit_name_form" autocomplete="off" action="javascript:void(0);">
-                            <div class="formgroup blue">
-                                <input id="userp_edit_name" type="text" class="formfield" placeholder="Tên" required>
-                                <label for="userp_edit_name" class="formlabel">Tên</label>
-                            </div>
-                            <button type="submit" class="btn green">Gửi</button>
-                        </form>
-                    </div>
-                    <div id="userp_edit_pass_panel" class="panel">
-                        <div class="title">Đổi Mật Khẩu</div>
-                        <form class="root" id="userp_edit_pass_form" autocomplete="off" action="javascript:void(0);">
-                            <div class="formgroup blue">
-                                <input id="userp_edit_pass" type="password" class="formfield" placeholder="Mật khẩu" required>
-                                <label for="userp_edit_pass" class="formlabel">Mật khẩu</label>
-                            </div>
-                            <div class="formgroup blue">
-                                <input id="userp_edit_npass" type="password" class="formfield" placeholder="Mật khẩu mới" required>
-                                <label for="userp_edit_npass" class="formlabel">Mật khẩu mới</label>
-                            </div>
-                            <div class="formgroup blue">
-                                <input id="userp_edit_renpass" type="password" class="formfield" placeholder="Nhập lại mật khẩu mới" required>
-                                <label for="userp_edit_renpass" class="formlabel">Nhập lại mật khẩu mới</label>
-                            </div>
-                            <button type="submit" class="btn red">Gửi</button>
-                        </form>
-                    </div>
-                    <div id="userp_project_info" class="panel">
-                        <div class="title">Thông tin</div>
-                        <footer>
-                            <div class="badge">
-                                <a href="https://github.com/belivipro9x99/themis-webinterface/releases/"><img src="/tool/badge?su=release&st=v<?php print VERSION; ?>&c=brightgreen"></a>
-                                <img src="/tool/badge?su=license&st=MIT&c=orange">
-                                <img src="/tool/badge?su=status&st=not tested&c=blue">
-                                <img src="/tool/badge?su=author&st=Đỗ Mạnh Hà&c=red">
-                                <img src="/tool/badge?su=school&st=THPT Lạc Long Quân, Hòa Bình&c=yellow">
-                            </div>
-                            
-                            <t class="description"><b>Themis Web Interface</b> là một dự án mã nguồn mở, phi lợi nhuận với mục đích chính nhằm biến việc quản lí và tổ chức các buổi học lập trình, ôn tập và tổ chức kì thi trở nên dễ dàng hơn.</t>
-                            
-                            <t class="contact">Liên hệ:</t>
-                            <ul class="contact">
-                                <li class="tel">03668275002</li>
-                                <li class="email">belivipro9x99@gmail.com</li>
-                                <li class="facebook">
-                                    <a href="https://www.facebook.com/belivipro9x99">Belikhun</a>
-                                </li>
-                                <li class="github">
-                                    <a href="https://github.com/belivipro9x99">Belikhun</a>
-                                </li>
-                            </ul>
-                        </footer>
+
+                <div id="settings_cpanel" class="panel">
+                    <div class="container">
+                        <div class="btn-group">
+                            <span class="reload"></span>
+                            <span class="close"></span>
+                        </div>
+                        <div class="main">
+                            <iframe class="cpanel-container" src="config.php"></iframe>
+                        </div>
                     </div>
                 </div>
+
+                <div id="userp_about" class="panel">
+                    <div class="container">
+                        <div class="btn-group">
+                            <span class="reload"></span>
+                            <span class="close"></span>
+                        </div>
+                        <div class="main">
+                            <footer>
+                                <div class="badge">
+                                    <a href="https://github.com/belivipro9x99/themis-webinterface/releases/"><img src="/tool/badge?su=release&st=v<?php print VERSION; ?>&c=brightgreen"></a>
+                                    <img src="/tool/badge?su=license&st=MIT&c=orange">
+                                    <img src="/tool/badge?su=status&st=not tested&c=blue">
+                                    <img src="/tool/badge?su=author&st=Đỗ Mạnh Hà&c=red">
+                                    <img src="/tool/badge?su=school&st=THPT Lạc Long Quân, Hòa Bình&c=yellow">
+                                </div>
+                                
+                                <t class="description"><b>Themis Web Interface</b> là một dự án mã nguồn mở, phi lợi nhuận với mục đích chính nhằm biến việc quản lí và tổ chức các buổi học lập trình, ôn tập và tổ chức kì thi trở nên dễ dàng hơn.</t>
+                                
+                                <t class="contact">Liên hệ:</t>
+                                <ul class="contact">
+                                    <li class="tel">03668275002</li>
+                                    <li class="email">belivipro9x99@gmail.com</li>
+                                    <li class="facebook">
+                                        <a href="https://www.facebook.com/belivipro9x99">Belikhun</a>
+                                    </li>
+                                    <li class="github">
+                                        <a href="https://github.com/belivipro9x99">Belikhun</a>
+                                    </li>
+                                </ul>
+                            </footer>
+                        </div>
+                    </div>
+                </div>
+
             </div>
+
         </span>
 
         <div id="wrapper">
@@ -371,88 +507,6 @@
                         </span>
                     </div>
                     <div class="main ranking-container">
-                    </div>
-                </panel>
-            </div>
-
-            <div id="container_settings" class="settings">
-                <panel id="settings_cpanel">
-                    <div class="head">
-                        <t class="le">Admin CPanel</t>
-                        <span class="ri">
-                            <i class="material-icons ref">refresh</i>
-                        </span>
-                    </div>
-                    <div class="main">
-                        <iframe class="cpanel-container" src="config.php"></iframe>
-                    </div>
-                </panel>
-
-                <panel id="settings_problem">
-                    <div class="head">
-                        <t class="le">Đề bài</t>
-                        <span class="ri">
-                            <i class="material-icons ref">refresh</i>
-                        </span>
-                    </div>
-                    <div class="main problem-settings">
-                        <div class="header">
-                            <div class="left">
-                                <span id="problem_edit_btn_back" class="back"></span>
-                            </div>
-                            <t id="problem_edit_title" class="title">Danh sách</t>
-                            <div class="right">
-                                <span id="problem_edit_btn_add" class="add"></span>
-                                <span id="problem_edit_btn_check" class="check"></span>
-                            </div>
-                        </div>
-                        <div class="container">
-                            <ul id="problem_edit_list" class="problem-list"></ul>
-                            <form id="problem_edit_form" class="problem" action="javascript:void(0);" autocomplete="off">
-                                <div class="formgroup blue">
-                                    <input id="problem_edit_id" type="text" class="formfield" placeholder="Tên Tệp" required>
-                                    <label for="problem_edit_id" class="formlabel">Tên Tệp</label>
-                                </div>
-                                <div class="formgroup blue">
-                                    <input id="problem_edit_name" type="text" class="formfield" placeholder="Tên Bài" required>
-                                    <label for="problem_edit_name" class="formlabel">Tên Bài</label>
-                                </div>
-                                <div class="formgroup blue">
-                                    <input id="problem_edit_point" type="number" class="formfield" placeholder="Điểm" required>
-                                    <label for="problem_edit_point" class="formlabel">Điểm</label>
-                                </div>
-                                <div class="formgroup blue">
-                                    <input id="problem_edit_time" type="number" class="formfield" placeholder="Thời gian chạy" value="1" required>
-                                    <label for="problem_edit_time" class="formlabel">Thời gian chạy</label>
-                                </div>
-                                <div class="formgroup blue">
-                                    <input id="problem_edit_inptype" type="text" class="formfield" placeholder="Dữ liệu vào" value="Bàn Phím" required>
-                                    <label for="problem_edit_inptype" class="formlabel">Dữ liệu vào</label>
-                                </div>
-                                <div class="formgroup blue">
-                                    <input id="problem_edit_outtype" type="text" class="formfield" placeholder="Dữ liệu ra" value="Màn Hình" required>
-                                    <label for="problem_edit_outtype" class="formlabel">Dữ liệu ra</label>
-                                </div>
-                                <div class="formgroup blue">
-                                    <input id="problem_edit_accept" type="text" class="formfield" placeholder="Đuôi tệp" value="pas|py|cpp|java" required>
-                                    <label for="problem_edit_accept" class="formlabel">Đuôi tệp (dùng | để ngăn cách)</label>
-                                </div>
-                                <div class="formgroup blue">
-                                    <input id="problem_edit_image" type="file" class="formfield" accept="image/*" placeholder="Ảnh">
-                                    <label for="problem_edit_image" class="formlabel">Ảnh (không yêu cầu)</label>
-                                </div>
-                                <div class="formgroup blue">
-                                    <textarea id="problem_edit_desc" class="formfield" placeholder="Nội dung" required></textarea>
-                                    <label for="problem_edit_desc" class="formlabel">Nội dung</label>
-                                </div>
-                                <div class="test-container">
-                                    <t class="test">Test ví dụ</t>
-                                    <div class="test-list" id="problem_edit_test_list"></div>
-                                    <span class="test-add" id="problem_edit_test_add"></span>
-                                </div>
-                                <button id="problem_edit_submit" type="submit"></button>
-                            </form>
-                        </div>
                     </div>
                 </panel>
             </div>

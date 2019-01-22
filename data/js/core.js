@@ -11,13 +11,13 @@ class regPanel {
             return false;
 
         this.elem = elem;
-        var ehead = fcfn(elem.childNodes, "head").childNodes;
+        var ehead = fcfn(elem, "head");
         this.etitle = fcfn(ehead, "le");
-        var ri = fcfn(ehead, "ri").childNodes;
+        var ri = fcfn(ehead, "ri");
         this.eref = fcfn(ri, "ref");
         this.ebak = fcfn(ri, "bak");
         this.eclo = fcfn(ri, "clo");
-        this.emain = fcfn(elem.childNodes, "main");
+        this.emain = fcfn(elem, "main");
     }
 
     get panel() {
@@ -112,7 +112,7 @@ core = {
         if (LOGGED_IN) {
             this.file.init();
             this.problems.init();
-            this.userprofile.init();
+            this.userSettings.init();
             this.fetchlog();
             this.logpanel.ref.onclick(() => {
                 this.fetchlog(true);
@@ -122,7 +122,6 @@ core = {
             if (IS_ADMIN) {
                 clog("info", "Logged in as Admin.");
                 this.settings.init();
-                this.navlink.init();
             }
         } else
             clog("warn", "You are not logged in. Some feature will be disabled.");
@@ -705,18 +704,15 @@ core = {
         }
     },
 
-    userprofile: {
+    userSettings: {
         uname: $("#user_name"),
         uavt: $("#user_avt"),
         avt: $("#userp_avt"),
         avtw: $("#userp_avtw"),
         name: $("#userp_name"),
-        tag: $("#userp_tag"),
-        body: {
+        sub: {
             nameform: $("#userp_edit_name_form"),
             passform: $("#userp_edit_pass_form"),
-            namepanel: null,
-            passpanel: null,
             name: $("#userp_edit_name"),
             pass: $("#userp_edit_pass"),
             npass: $("#userp_edit_npass"),
@@ -724,7 +720,9 @@ core = {
         },
         logoutbtn: $("#userp_logout"),
         toggler: $("#upanel_toggler"),
-        userprofile: $("#user_profile"),
+        container: $("#user_settings"),
+        adminConfig: $("#userp_adminConfig"),
+        panelContainer: $("#userp_panelContainer"),
 
         panel: class {
             constructor(elem) {
@@ -732,45 +730,79 @@ core = {
                     return false;
         
                 this.elem = elem;
-                this.etitle = fcfn(elem.childNodes, "title");
-                this.container = $("#userp_right_panel");
-                this.lpanel = $("#userp_left_panel");
+                this.eToggle = null;
+                this.btn_group = fcfn(elem, "btn-group");
+                this.btn_reload = fcfn(this.btn_group, "reload");
+                this.btn_close = fcfn(this.btn_group, "close");
 
-                var _this = this;
-                this.etitle.addEventListener("click", () => {
-                    _this.close();
+                this.btn_close.addEventListener("click", () => {
+                    this.hide();
                 })
             }
         
-            close() {
+            hide() {
                 this.elem.classList.remove("show");
-                this.container.classList.remove("show");
-                this.lpanel.classList.remove("hide");
+                if (this.eToggle)
+                    this.eToggle.classList.remove("active");
             }
 
             show() {
+                this.__hideActive();
+
                 this.elem.classList.add("show");
-                this.container.classList.add("show");
-                this.lpanel.classList.add("hide");
+                if (this.eToggle)
+                    this.eToggle.classList.add("active");
             }
 
             toggle() {
+                this.__hideActive();
+
                 this.elem.classList.toggle("show");
-                this.container.classList.toggle("show");
-                this.lpanel.classList.toggle("hide");
+                if (this.eToggle)
+                    this.eToggle.classList.toggle("active");
+            }
+
+            __hideActive() {
+                var l = this.elem.parentElement.getElementsByClassName("show");
+
+                for (var i = 0; i < l.length; i++) {
+                    l[i].classList.remove("show");
+                }
             }
 
             set toggler(e) {
-                var _this = this;
-                e.addEventListener("click", () => {
-                    _this.elem.classList.toggle("show");
-                    _this.container.classList.toggle("show");
-                    _this.lpanel.classList.toggle("hide");
-                });
+                this.eToggle = e;
+                e.addEventListener("click", e => {
+                    this.toggle(e);
+                })
             }
+
+            get main() {
+                return this.elem;
+            }
+
+            get ref() {
+                var t = this;
+                return {
+                    onclick(f = () => {}) {
+                        t.btn_reload.addEventListener("click", f, true);
+                    },
         
-            set title(str = "") {
-                this.etitle.innerText = str;
+                    hide(h = true) {
+                        if (h)
+                            t.btn_reload.style.display = "none";
+                        else
+                            t.btn_reload.style.display = "block";
+                    }
+                }
+            }
+        },
+
+        __hideAllPanel() {
+            var l = this.panelContainer.getElementsByClassName("show");
+
+            for (var i = 0; i < l.length; i++) {
+                l[i].classList.remove("show");
             }
         },
 
@@ -780,29 +812,22 @@ core = {
             this.avtw.addEventListener("dragover", e => {this.dragover(e)}, false);
             this.avtw.addEventListener("drop", e => {this.filesel(e)}, false);
             this.toggler.addEventListener("click", e => {this.toggle(e)}, false);
+            this.adminConfig.style.display = "none";
 
-            this.body.namepanel = new this.panel($("#userp_edit_name_panel"));
-            this.body.passpanel = new this.panel($("#userp_edit_pass_panel"));
-            this.body.namepanel.toggler = $("#userp_edit_name_toggler");
-            this.body.passpanel.toggler = $("#userp_edit_pass_toggler");
-
-            var projectpanel = new this.panel ($("#userp_project_info"));
-            projectpanel.toggler = $("#userp_project_info_toggler");
-
-            this.body.nameform.addEventListener("submit", e => {
-                this.body.nameform.getElementsByTagName("button")[0].disabled = true;
-                this.changename(this.body.name.value);
+            this.sub.nameform.addEventListener("submit", e => {
+                this.sub.nameform.getElementsByTagName("button")[0].disabled = true;
+                this.changename(this.sub.name.value);
             }, false)
 
-            this.body.passform.addEventListener("submit", e => {
-                this.body.passform.getElementsByTagName("button")[0].disabled = true;
-                this.changepass(this.body.pass.value, this.body.npass.value, this.body.renpass.value);
+            this.sub.passform.addEventListener("submit", e => {
+                this.sub.passform.getElementsByTagName("button")[0].disabled = true;
+                this.changepass(this.sub.pass.value, this.sub.npass.value, this.sub.renpass.value);
             }, false)
 
             this.logoutbtn.addEventListener("click", e => {this.logout(e)}, false);
             clog("okay", "Initialised:", {
                 color: flatc("red"),
-                text: "core.userprofile"
+                text: "core.usersettings"
             });
         },
 
@@ -819,19 +844,22 @@ core = {
         },
 
         toggle() {
+            if (this.container.classList.contains("show"))
+                this.__hideAllPanel();
+
             this.toggler.classList.toggle("active");
-            this.userprofile.classList.toggle("show");
+            this.container.classList.toggle("show");
         },
 
         reset() {
             this.avtw.classList.remove("drop");
             this.avtw.classList.remove("load");
-            this.body.nameform.getElementsByTagName("button")[0].disabled = false;
-            this.body.passform.getElementsByTagName("button")[0].disabled = false;
-            this.body.name.value = null;
-            this.body.pass.value = null;
-            this.body.npass.value = null;
-            this.body.renpass.value = null;
+            this.sub.nameform.getElementsByTagName("button")[0].disabled = false;
+            this.sub.passform.getElementsByTagName("button")[0].disabled = false;
+            this.sub.name.value = null;
+            this.sub.pass.value = null;
+            this.sub.npass.value = null;
+            this.sub.renpass.value = null;
         },
 
         reload(data, m = 0) {
@@ -938,13 +966,21 @@ core = {
         navcont: $("#userp_left_panel"),
         navhome: $("#nav_list_home"),
         navsett: $("#nav_list_sett"),
-        cpanel: new regPanel($("#settings_cpanel")),
-        ppanel: new regPanel($("#settings_problem")),
+        cpanel: null,
+        ppanel: null,
+        adminConfig: $("#userp_adminConfig"),
 
         init() {
+            this.adminConfig.style.display = "block";
+            this.cpanel = new core.userSettings.panel($("#settings_cpanel"));
+            this.ppanel = new core.userSettings.panel($("#settings_problem"));
+
+            this.cpanel.toggler = $("#settings_cpanelToggler");
+            this.ppanel.toggler = $("#settings_problemToggler");
+
             this.problems.init();
             this.cpanel.ref.onclick(e => {
-                var iframe = this.cpanel.main.getElementsByTagName("iframe")[0]; 
+                var iframe = this.cpanel.main.getElementsByTagName("iframe")[0];
                 iframe.contentWindow.location.reload();
                 clog("okay", "Reloaded CPanel IFrame.");
             })
@@ -954,14 +990,7 @@ core = {
                 this.problems.showlist();
                 clog("okay", "Reloaded Problems Panel.");
             })
-            this.navhome.addEventListener("click", e => {
-                this.hidesett();
-                core.navlink.activeid(0);
-            })
-            this.navsett.addEventListener("click", e => {
-                this.showsett();
-                core.navlink.activeid(1);
-            })
+
             clog("okay", "Initialised:", {
                 color: flatc("red"),
                 text: "core.settings"
@@ -984,7 +1013,6 @@ core = {
         },
 
         problems: {
-            _this: null,
             title: $("#problem_edit_title"),
             headbtn: {
                 back: $("#problem_edit_btn_back"),
@@ -1020,7 +1048,6 @@ core = {
             },
 
             init() {
-                this._this = core.problems;
                 this.hide(this.headbtn.back);
                 this.hide(this.headbtn.check);
                 this.headbtn.check.addEventListener("click", e => {
@@ -1257,50 +1284,6 @@ core = {
                     }
                 }, success);
             }
-        }
-    },
-
-    navlink: {
-        container: $("#nav_list"),
-        list: null,
-        prev: null,
-
-        init() {
-            this.list = list = this.container.getElementsByTagName("span");
-            var _this = this;
-            for (var i = 0; i < list.length; i++) {
-                if (list[i].dataset.default == "true") {
-                    this.prev = list[i];
-                    list[i].classList.add("active");
-                }
-                list[i].addEventListener("click", function(e) {
-                    _this.active(this);
-                }, false);
-            }
-            clog("okay", "Initialised:", {
-                color: flatc("red"),
-                text: "core.navlink"
-            });
-        },
-
-        activeid(i) {
-            this.prev.classList.remove("active");
-            this.list[i].classList.add("active");
-
-            this.prev = this.list[i];
-        },
-
-        active(elem) {
-            this.prev.classList.remove("active");
-            //$("#" + this.prev.dataset.showid).classList.remove("show");
-            elem.classList.add("active");
-            //$("#" + elem.dataset.showid).classList.add("show");
-            if (elem.dataset.default == "true")
-                core.settings.hidesett();
-            else
-                core.settings.showsett();
-
-            this.prev = elem;
         }
     },
 

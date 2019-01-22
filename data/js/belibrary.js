@@ -53,6 +53,7 @@ function myajax({
                     document.lostconnect = true;
                     clog("errr", "Lost connection to Server.");
                     reject({code: -1, description: "Lost connection to Server"});
+                    return false;
                 } else if ((this.responseText == "" || !this.responseText) && this.status != 200) {
                     clog("errr", {
                         color: flatc("red"),
@@ -67,16 +68,18 @@ function myajax({
 
                     error(null);
                     reject({code: 1, description: `HTTP ${this.status}: ${this.statusText}`});
+                    return false;
                 }
 
                 if (type == "json") {
                     try {
                         var res = JSON.parse(this.responseText);
                     } catch (e) {
-                        clog("errr", e);
+                        clog("errr", "Error parsing JSON.");
 
                         error(e);
                         reject({code: 2, description: `Error parsing JSON`, data: e});
+                        return false;
                     }
 
                     if (this.status != 200 || (res.code != 0 && res.code < 100)) {
@@ -93,6 +96,7 @@ function myajax({
 
                         error(res);
                         reject({code: 3, description: `HTTP ${this.status}: ${this.statusText}`, data: res});
+                        return false;
                     }
                     data = res.data;
                     rawdata = res;
@@ -111,6 +115,7 @@ function myajax({
 
                         error(res);
                         reject({code: 3, description: `HTTP ${this.status}: ${this.statusText}`, data: res});
+                        return false;
                     }
                     data = this.responseText;
                     rawdata = null;
@@ -157,9 +162,7 @@ function escape_html(str) {
 }
 
 function fcfn(nodes, classname) {
-    for (var i = 0; i < nodes.length; i++)
-        if (nodes[i].className && nodes[i].classList.contains(classname))
-            return nodes[i];
+    return nodes.getElementsByClassName(classname)[0];
 }
 
 function parsetime(t = 0) {
@@ -171,12 +174,14 @@ function parsetime(t = 0) {
     var h = Math.floor(t / 3600);
     var m = Math.floor(t % 3600 / 60);
     var s = Math.floor(t % 3600 % 60);
+    var ms = pleft(parseInt(t.toString().split(".")[1]), 3);
 
     return {
-        "h": h,
-        "m": m,
-        "s": s,
-        "str": d + [h, m, s]
+        h: h,
+        m: m,
+        s: s,
+        ms: ms,
+        str: d + [h, m, s]
             .map(v => v < 10 ? "0" + v : v)
             .filter((v, i) => v !== "00" || i > 0)
             .join(":")
@@ -258,6 +263,11 @@ function flatc(color) {
     }
 
     return (clist[color]) ? clist[color] : clist.black;
+}
+
+function randBetween(min, max, toInt = true) {
+    var rand = Math.random() * (max - min + 1) + min;
+    return toInt ? Math.floor(rand) : rand;
 }
 
 function $(selector) {
