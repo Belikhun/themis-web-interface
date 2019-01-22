@@ -126,7 +126,7 @@
             Your IP: <?php echo($cl_ip); ?><br>
         </p>
 
-        <button class="btn gray" onclick="location.href = '/'">Về Trang Chủ</button>
+        <button class="sq-btn" onclick="location.href = '/'">Về Trang Chủ</button>
 
     </div>
 

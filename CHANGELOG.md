@@ -1,6 +1,7 @@
 # Change Logs
 
-- [Thay đổi trong v0.3.6](#thay-đổi-trong-v036)
+- [Thay đổi trong v0.3.7](#thay-đổi-trong-v037)
+  - [Thay đổi trong v0.3.6](#thay-đổi-trong-v036)
   - [Thay đổi trong v0.3.5](#thay-đổi-trong-v035)
   - [Thay đổi trong v0.3.4](#thay-đổi-trong-v034)
   - [Thay đổi trong v0.3.3](#thay-đổi-trong-v033)
@@ -13,6 +14,13 @@
   - [Thay đổi trong v0.2.0](#thay-đổi-trong-v020)
 
 ---
+
+### Thay đổi trong v0.3.7
+
+* Thiết kế lại user_settings
+* Chuyển hai bảng cài đặt cho admin vào user_settings
+* Sửa lỗi không xem được nhật kí khi chưa đăng nhập
+* Xóa bỏ một số tệp không cần thiết
 
 ### Thay đổi trong v0.3.6
 

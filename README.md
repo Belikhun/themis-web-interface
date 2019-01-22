@@ -75,7 +75,7 @@
 
 ## Cài đặt và hướng dẫn sử dụng
 
-Hướng dẫn cài đặt và sử dụng hiện có trong [Wiki](https://github.com/belivipro9x99/themis-web-interface/wiki/installation-and-config) của dự án.
+Hướng dẫn cài đặt, sử dụng và nâng cấp hiện có trong [Wiki](https://github.com/belivipro9x99/themis-web-interface/wiki/installation-and-config) của dự án.
 
 ## API Document
 
@@ -85,19 +85,21 @@ Toàn bộ **Document** đều có ở trong [Wiki:API](https://github.com/beliv
 
 ## Screenshot
 
-<p align="center"><img src="https://lh3.googleusercontent.com/7L7D4QCntNFQk7SLhyxZ-14VYt0tliFVHTq0jtQLHKLFQ488jwSyl2PBebqTzVXnY1vD6LVEaVPrs8AAET_9hGR8VvlFgwXnidU9Li0HBC5BZpwgQOCrk3VI5XTjQrpOVAKU_a98sw=w2400"></p>
+<p align="center"><img src="https://lh3.googleusercontent.com/hwayDiWGzXbgufohz2bY7bPkuwV5G87peF_8F6nNM3wyXFxep4_z0riHqzOPKB4gwsvWhCFtIxEjLkkMvAn-X8zCj5Uv3A9Dc5Sh3ZVNFylCgGlpAvXjFX4twrKmnRY9oRkioHkjbQ=w2400"></p>
 
-<p align="center"><img src="https://lh3.googleusercontent.com/cti2fwOlrs165tpV9_TsXf0NXrsfQBLN93_j4QIrixJUKsv8PeK3F7tz9Avn7M4TC4GpUto0ucv9s3PYGEacjo3skhsPxwxCsXoq8c5j5XLPHvJJc46ZRUvWQGXYgLHHGt6zpAy1Mw=w2400"></p>
+<p align="center"><img src="https://lh3.googleusercontent.com/ji5o8WyPb3_QrWNbJO8rMDM2SNxRr8ta9QnpGAMD5tiKYf28lQ6fvtbRfS06rElMBW2DwLTw-AwQKyIj_BCodlXPeXG0UoWG7_sDFnxijxg3QoxKELFlo7xfel1Wn4ESR-PSHNDjIQ=w2400"></p>
 
-<p align="center"><img src="https://lh3.googleusercontent.com/ITxtWrNyPTITIax-1t09E86ddizm2KlXatGOilkNjJxaTT3Oi3nLkfOcY4sN1-mBfBuqoiUNW7GbAxF9_SQj3JZyF2WZjJzn8RsQRanfcyWwptbIAeI7yy6H1xZR1b7lvN_C9_j17Q=w2400"></p>
+<p align="center"><img src="https://lh3.googleusercontent.com/UGaJOI_NQuFkzxbGKbOM18UEvzfioakd1SNHfc-VsbOzIVH_a2EMUUxN1LbtSZkmRiITuJklnmaw2J_Me-mMr8Hn3OTd92LBDn3pBjHs24UDbTnEseb6_VLGU60FwPLdHu0QOQgrUQ=w2400"></p>
 
 <p align="center"><img  src="https://lh3.googleusercontent.com/ay2242TlEQqIJJ8m7Oy_E8R4QeOEo9US_im_4sfjhIoIll3CtTbIvPAG5mnwZZNRqFXWCmWIa9zuSMITrvTPIyn2wVLhpTcbH75g-KLRLA3vrEZZLYGTGDALlLPNbeGi58_TTUpxdg=w2400"></p>
 
-<p align="center"><img  src="https://lh3.googleusercontent.com/O057HImNuPHG6Bel_yY5RiX55wYR8Gy6QWCwNdJe4hnSe4vxdXgvNlCCSZSp6SpYum90LqRUH8Tlv9rF-6M5jPTkqEzV0PhFHBlGJaFO8IrVNU8bL3St8LGGWA_SqiDTZ6PsV0c2SQ=w2400"></p>
+<p align="center"><img  src="https://lh3.googleusercontent.com/JoE-vCwvcYzK1RfENe1x6A3U2o8IAvet6W23ZPNerY2LWw7ZC1ch4Ahsm8s5PFSupWnyMmRpf9QIJ1v-MEu7fXh_0CjGo0BpLxOZtE4eerVkACU3nvJ6j1TLqPE-FAuocqsQ5c6yow=w2400"></p>
+
+<p align="center"><img  src="https://lh3.googleusercontent.com/mkP4cd5RY7rlNZks9pESf93_pnbDmtkpXHTDXQ8TtYIc0SjZy-2-PRYM8vNdNSB4ArPS7TB3-U6LIScCEg6cuzlGGXDFPnV-yZ4ECSoEUzzYjr9zl-Ldmnzt9Sv9c3Um82ocV59KoA=w2400"></p>
+
+<p align="center"><img  src="https://lh3.googleusercontent.com/uz8FEL_1nHxlKR9SVRpGDt-dx1OhQgrkh5h5FfV-bo-DtCbHbPNq61E4AAKknBAMHVGGUGQhjffiPgNqspXGlTqjlMIovER5HMQSF-C7qIPGDTH3-SG4dE9sC2q70M04uWle2QOsOw=w2400"></p>
 
 <p align="center"><img  src="https://lh3.googleusercontent.com/t55Oq4K9wOwT7WM_jPWlFoERbonMWNNGeXHHqq7sTh7Mkd6t4YLAvV9rODTsBIJvCC1n7e1Cf8IcBl6rodWvuq6pVteklGCLroxgCl7TPyjt0rXWIjHgkWeH6yGvQ_Fu90hrhk0zww=w2400"></p>
-
-<p align="center"><img  src="https://lh3.googleusercontent.com/CbCJ7KBpFP4crCDpTcO3pIfRTenidYMjEh7S2tzyqeECBotCyoxVx_mf4vMIh6O3X0FWkkWZsNQCrr_IulQO_l57Go17bzAi8fNY44arMSd6-pwAk70ZIPDaAtKfY1_DhW22fELjzg=w2400"></p>
 
 ## Contributor
 
