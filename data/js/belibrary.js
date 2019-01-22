@@ -14,6 +14,7 @@ function myajax({
     type = "json",
     onupload = e => {},
     ondownload = e => {},
+    puredata = false,
 }, callout = () => {}, error = () => {}) {
     return new Promise((resolve, reject) => {    
         query.length = Object.keys(query).length;
@@ -98,7 +99,8 @@ function myajax({
                         reject({code: 3, description: `HTTP ${this.status}: ${this.statusText}`, data: res});
                         return false;
                     }
-                    data = res.data;
+
+                    data = puredata ? res : res.data;
                     rawdata = res;
                 } else {
                     if (this.status != 200) {

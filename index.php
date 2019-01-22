@@ -106,9 +106,11 @@
                 }
             }
 
-            splash.onload = fullloaded => {
-                core.init();
+            splash.onload = async fullloaded => {
+                await core.init();
                 fullloaded();
+
+                await core.checkUpdateAsync();
             }
 
             splash.init();
@@ -548,8 +550,8 @@
             sbar.__item.errr = sbar.additem("0", "error");
             sbar.additem(SESSION.sv, "server");
             sbar.additem(SESSION.sv_ip, "globe");
-            sbar.additem(SESSION.cl_ip, "desktop", {aligin: "right"});
             sbar.additem(SESSION.username, "account", {aligin: "right"});
+            sbar.additem(SESSION.cl_ip, "desktop", {aligin: "right"});
         </script>
 
         <!-- Core script -->

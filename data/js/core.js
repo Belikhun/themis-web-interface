@@ -90,7 +90,7 @@ core = {
     fLogInt: null,
     fRankInt: null,
 
-    init(done = () => {}) {
+    async init() {
         console.log("%cSTOP!", "font-size: 72px; font-weight: 900;");
         console.log(
             "%cThis feature is intended for developers. Pasting something here could give strangers access to your account.",
@@ -124,12 +124,49 @@ core = {
             }
         } else
             clog("warn", "You are not logged in. Some feature will be disabled.");
-        done();
+
+        await this.getServerStatusAsync();
+
         clog("debg", "Initialisation took:", {
             color: flatc("blue"),
             text: initTime.stop + "s"
         })
         clog("okay", "Core.js Initialised.");
+    },
+
+    async getServerStatusAsync() {
+        const data = await myajax({
+            url: "/api/status",
+            method: "GET",
+        }).catch(e => {
+            clog("WARN", "Error while getting server status:", {
+                text: e.description,
+                color: flatc("red"),
+            });
+        });
+
+        window.serverStatus = data;
+    },
+
+    async checkUpdateAsync() {
+        if (!window.serverStatus)
+            return false;
+
+        const data = await myajax({
+            url: "https://api.github.com/repos/belivipro9x99/themis-web-interface/releases/latest",
+            method: "GET",
+            puredata: true
+        }).catch(e => {
+            clog("WARN", "Error Checking for update:", {
+                text: e.description,
+                color: flatc("red"),
+            });
+        });
+
+        if (data.tag_name.indexOf(window.serverStatus.version) == -1) {
+            clog("WARN", "Hiện đã có phiên bản mới:", data.tag_name);
+            sbar.additem(`Có phiên bản mới: ${data.tag_name}`, "hub", {aligin: "right"});
+        }
     },
 
     fetchLog(bypass = false) {

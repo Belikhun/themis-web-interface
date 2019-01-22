@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-	<a href="https://github.com/belivipro9x99/themis-webinterface/releases/"><img src="https://img.shields.io/badge/release-v0.3.6-brightgreen.svg?longCache=true&style=popout-square"></a>
+	<a href="https://github.com/belivipro9x99/themis-webinterface/releases/"><img src="https://img.shields.io/badge/release-v0.3.7-brightgreen.svg?longCache=true&style=popout-square"></a>
 	<img src="https://img.shields.io/badge/license-MIT-orange.svg?longCache=true&style=popout-square">
 	<img src="https://img.shields.io/badge/status-not tested-blue.svg?longCache=true&style=popout-square">
 </p>
@@ -15,6 +15,8 @@
 **Themis Web Interface** giúp học sinh nộp bài tới phần mềm chấm điểm **[Themis](https://dsapblog.wordpress.com)** và theo dõi kết quả chấm điểm qua LAN hoặc WAN.
 
 **Themis Web Interface** được viết bằng các ngôn ngữ **HTML, CSS, PHP và JavaScript**. Dự án không sử dụng các library khác như **jQuery, Bootstrap, React, ...**
+
+> Phiên bản hiện tại là 0.3.7-release
 
 - [Demo](#demo)
 - [Yêu cầu](#yêu-cầu)

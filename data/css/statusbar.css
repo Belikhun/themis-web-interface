@@ -73,7 +73,7 @@
 }
 
 .statusbar .right {
-    justify-content: flex-end;
+    flex-direction: row-reverse;
     margin-right: 6px;
     right: 0px;
 }
