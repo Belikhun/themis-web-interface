@@ -31,7 +31,7 @@ class regPanel {
     get ref() {
         var t = this;
         return {
-            onclick(f = () => {}) {
+            onClick(f = () => {}) {
                 t.eref.addEventListener("click", f, true);
             },
 
@@ -47,7 +47,7 @@ class regPanel {
     get bak() {
         var t = this;
         return {
-            onclick(f = () => {}) {
+            onClick(f = () => {}) {
                 t.ebak.addEventListener("click", f, true);
             },
 
@@ -63,7 +63,7 @@ class regPanel {
     get clo() {
         var t = this;
         return {
-            onclick(f = () => {}) {
+            onClick(f = () => {}) {
                 t.eclo.addEventListener("click", f, true);
             },
 
@@ -82,14 +82,13 @@ class regPanel {
 }
 
 core = {
-    logpanel: new regPanel($("#logp")),
-    rankpanel: new regPanel($("#rankp")),
+    logPanel: new regPanel($("#logp")),
+    rankPanel: new regPanel($("#rankp")),
     container: $("#container"),
-    plogdata: new Array(),
-    prankdata: new Array(),
-    flogint: null,
-    frankint: null,
-    _this: this,
+    pLogData: new Array(),
+    pRankData: new Array(),
+    fLogInt: null,
+    fRankInt: null,
 
     init(done = () => {}) {
         console.log("%cSTOP!", "font-size: 72px; font-weight: 900;");
@@ -99,13 +98,13 @@ core = {
         );
 
         clog("info", "Initialising...");
-        var inittime = new stopclock();
+        var initTime = new stopclock();
 
-        this.rankpanel.ref.onclick(() => {
-            this.fetchrank(true);
+        this.rankPanel.ref.onClick(() => {
+            this.fetchRank(true);
         });
-        this.fetchrank();
-        this.frankint = setInterval(e => {this.fetchrank()}, 2000);
+        this.fetchRank();
+        this.fRankInt = setInterval(e => {this.fetchRank()}, 2000);
         this.timer.init();
         this.wrapper.init();
         
@@ -113,12 +112,12 @@ core = {
             this.file.init();
             this.problems.init();
             this.userSettings.init();
-            this.fetchlog();
-            this.logpanel.ref.onclick(() => {
-                this.fetchlog(true);
+            this.fetchLog();
+            this.logPanel.ref.onClick(() => {
+                this.fetchLog(true);
             });
-            this.file.onUploadSuccess = e => (this.fetchlog());
-            this.flogint = setInterval(e => {this.fetchlog()}, 1000);
+            this.file.onUploadSuccess = e => (this.fetchLog());
+            this.fLogInt = setInterval(e => {this.fetchLog()}, 1000);
             if (IS_ADMIN) {
                 clog("info", "Logged in as Admin.");
                 this.settings.init();
@@ -128,26 +127,27 @@ core = {
         done();
         clog("debg", "Initialisation took:", {
             color: flatc("blue"),
-            text: inittime.stop + "s"
+            text: initTime.stop + "s"
         })
         clog("okay", "Core.js Initialised.");
     },
 
-    fetchlog(bypass = false) {
+    fetchLog(bypass = false) {
         myajax({
             url: "/api/test/logs",
             method: "GET",
         }, data => {
-            if (comparearray(data, this.plogdata) && !bypass)
+            if (comparearray(data, this.pLogData) && !bypass)
                 return false;
 
             clog("debg", "Updating Log");
             var updatelog = new stopclock();
 
-            var list = this.logpanel.main.getElementsByClassName("log-item-container")[0];
+            var list = this.logPanel.main.getElementsByClassName("log-item-container")[0];
+            
             if (data.judging.length == 0 && data.logs.length == 0 && data.queues.length == 0) {
-                this.logpanel.main.classList.add("blank");
-                this.plogdata = data;
+                this.logPanel.main.classList.add("blank");
+                this.pLogData = data;
                 list.innerHTML = "";
 
                 clog("debg", "Log Is Blank. Took", {
@@ -157,7 +157,7 @@ core = {
 
                 return false;
             } else
-                this.logpanel.main.classList.remove("blank");
+                this.logPanel.main.classList.remove("blank");
 
             var out = "";
             
@@ -201,13 +201,13 @@ core = {
                     "</ul>",
                     "<t class=\"r\">" + data.logs[i].out + "</t>",
                     "</div>",
-                    "<span class=\"d\" onclick=\"core.viewlog(\'" + data.logs[i].url + "\')\"></span>",
+                    "<span class=\"d\" onClick=\"core.viewlog(\'" + data.logs[i].url + "\')\"></span>",
                     "</li>"
                 ].join("\n");
             }
 
             list.innerHTML = out;
-            this.plogdata = data;
+            this.pLogData = data;
 
             clog("debg", "Log Updated. Took", {
                 color: flatc("blue"),
@@ -216,21 +216,21 @@ core = {
         })
     },
 
-    fetchrank(bypass = false) {
+    fetchRank(bypass = false) {
         myajax({
             url: "/api/test/rank",
             method: "GET",
         }, data => {
-            if (comparearray(data, this.prankdata) && !bypass)
+            if (comparearray(data, this.pRankData) && !bypass)
                 return false;
 
             clog("debg", "Updating Rank");
             var updaterank = new stopclock();
 
             if (data.list.length == 0 && data.rank.length == 0) {
-                this.rankpanel.main.classList.add("blank");
-                this.prankdata = data;
-                this.rankpanel.main.innerHTML = "";
+                this.rankPanel.main.classList.add("blank");
+                this.pRankData = data;
+                this.rankPanel.main.innerHTML = "";
                 
                 clog("debg", "Rank Is Blank. Took", {
                     color: flatc("blue"),
@@ -239,7 +239,7 @@ core = {
 
                 return false;
             } else
-                this.rankpanel.main.classList.remove("blank");
+                this.rankPanel.main.classList.remove("blank");
     
 
             var list = data.list;
@@ -275,13 +275,13 @@ core = {
                 ].join("\n");
 
                 for (var j = 0; j < list.length; j++)
-                    out += `<td class="number${(data.rank[i].log[list[j]]) ? ` link" onclick="core.viewlog('${data.rank[i].log[list[j]]}')` : ""}" >${parseFloat(data.rank[i].list[list[j]]).toFixed(2)}</td>\n`;
+                    out += `<td class="number${(data.rank[i].log[list[j]]) ? ` link" onClick="core.viewlog('${data.rank[i].log[list[j]]}')` : ""}" >${parseFloat(data.rank[i].list[list[j]]).toFixed(2)}</td>\n`;
                 
                 out += "</tr>";
             }
             out += "</table>";
-            this.rankpanel.main.innerHTML = out;
-            this.prankdata = data;
+            this.rankPanel.main.innerHTML = out;
+            this.pRankData = data;
 
             clog("debg", "Rank Updated. Took", {
                 color: flatc("blue"),
@@ -329,7 +329,7 @@ core = {
             this.dropzone.addEventListener("dragleave", this.dragleave, false);
             this.dropzone.addEventListener("dragover", this.dragover, false);
             this.dropzone.addEventListener("drop", this.filesel, false);
-            this.panel.ref.onclick(this.reset);
+            this.panel.ref.onClick(this.reset);
             this.panel.title = "Nộp bài";
             clog("okay", "Initialised:", {
                 color: flatc("red"),
@@ -471,15 +471,17 @@ core = {
 
         init() {
             this.panel.bak.hide();
-            this.panel.bak.onclick(() => {
+            this.panel.bak.onClick(() => {
                 this.list.classList.remove("hide");
                 this.panel.title = "Đề bài"
                 this.panel.bak.hide();
             })
-            this.panel.ref.onclick(f => {
+
+            this.panel.ref.onClick(f => {
                 this.getlist();
             });
             this.getlist();
+
             clog("okay", "Initialised:", {
                 color: flatc("red"),
                 text: "core.problems"
@@ -501,7 +503,7 @@ core = {
                 var html = "";
                 data.forEach(item => {
                     html += [
-                        "<li class=\"item\" onclick=\"core.problems.getproblem(\'" + item.id + "\');\">",
+                        "<li class=\"item\" onClick=\"core.problems.getproblem(\'" + item.id + "\');\">",
                             "<img class=\"icon\" src=\"" + item.image + "\">",
                             "<ul class=\"title\">",
                                 "<li class=\"name\">" + item.name + "</li>",
@@ -574,10 +576,10 @@ core = {
         last: 0,
 
         init() {
-            this.timepanel.ref.onclick(() => {
+            this.timepanel.ref.onClick(() => {
                 this.fetchtime(true);
             });
-            this.timepanel.clo.onclick(e => {
+            this.timepanel.clo.onClick(e => {
                 this.close();
             })
             if (LOGGED_IN)
@@ -705,25 +707,6 @@ core = {
     },
 
     userSettings: {
-        uname: $("#user_name"),
-        uavt: $("#user_avt"),
-        avt: $("#userp_avt"),
-        avtw: $("#userp_avtw"),
-        name: $("#userp_name"),
-        sub: {
-            nameform: $("#userp_edit_name_form"),
-            passform: $("#userp_edit_pass_form"),
-            name: $("#userp_edit_name"),
-            pass: $("#userp_edit_pass"),
-            npass: $("#userp_edit_npass"),
-            renpass: $("#userp_edit_renpass"),
-        },
-        logoutbtn: $("#userp_logout"),
-        toggler: $("#upanel_toggler"),
-        container: $("#user_settings"),
-        adminConfig: $("#userp_adminConfig"),
-        panelContainer: $("#userp_panelContainer"),
-
         panel: class {
             constructor(elem) {
                 if (!elem.classList.contains("panel"))
@@ -784,7 +767,7 @@ core = {
             get ref() {
                 var t = this;
                 return {
-                    onclick(f = () => {}) {
+                    onClick(f = () => {}) {
                         t.btn_reload.addEventListener("click", f, true);
                     },
         
@@ -797,6 +780,26 @@ core = {
                 }
             }
         },
+
+        uname: $("#user_name"),
+        uavt: $("#user_avt"),
+        avt: $("#usett_avt"),
+        avtw: $("#usett_avtw"),
+        name: $("#usett_name"),
+        sub: {
+            nameform: $("#usett_edit_name_form"),
+            passform: $("#usett_edit_pass_form"),
+            name: $("#usett_edit_name"),
+            pass: $("#usett_edit_pass"),
+            npass: $("#usett_edit_npass"),
+            renpass: $("#usett_edit_renpass"),
+        },
+        logoutbtn: $("#usett_logout"),
+        toggler: $("#usett_toggler"),
+        container: $("#user_settings"),
+        adminConfig: $("#usett_adminConfig"),
+        panelContainer: $("#usett_panelContainer"),
+        aboutPanel: null,
 
         __hideAllPanel() {
             var l = this.panelContainer.getElementsByClassName("show");
@@ -813,6 +816,9 @@ core = {
             this.avtw.addEventListener("drop", e => {this.filesel(e)}, false);
             this.toggler.addEventListener("click", e => {this.toggle(e)}, false);
             this.adminConfig.style.display = "none";
+
+            this.aboutPanel = new this.panel($("#usett_aboutPanel"));
+            this.aboutPanel.toggler = $("#usett_aboutToggler");
 
             this.sub.nameform.addEventListener("submit", e => {
                 this.sub.nameform.getElementsByTagName("button")[0].disabled = true;
@@ -863,7 +869,7 @@ core = {
         },
 
         reload(data, m = 0) {
-            core.fetchrank(true);
+            core.fetchRank(true);
             if (m == 0)
                 this.uavt.src = this.avt.src = data.src;
             else
@@ -961,30 +967,27 @@ core = {
 
     settings: {
         main: $("#container"),
-        cont: $("#container_content"),
-        sett: $("#container_settings"),
-        navcont: $("#userp_left_panel"),
-        navhome: $("#nav_list_home"),
-        navsett: $("#nav_list_sett"),
+        navcont: $("#usett_left_panel"),
         cpanel: null,
         ppanel: null,
-        adminConfig: $("#userp_adminConfig"),
+        adminConfig: $("#usett_adminConfig"),
 
         init() {
             this.adminConfig.style.display = "block";
-            this.cpanel = new core.userSettings.panel($("#settings_cpanel"));
+            this.cpanel = new core.userSettings.panel($("#settings_controlPanel"));
             this.ppanel = new core.userSettings.panel($("#settings_problem"));
 
             this.cpanel.toggler = $("#settings_cpanelToggler");
             this.ppanel.toggler = $("#settings_problemToggler");
 
             this.problems.init();
-            this.cpanel.ref.onclick(e => {
+            this.problems.getlist();
+            this.cpanel.ref.onClick(e => {
                 var iframe = this.cpanel.main.getElementsByTagName("iframe")[0];
                 iframe.contentWindow.location.reload();
                 clog("okay", "Reloaded CPanel IFrame.");
             })
-            this.ppanel.ref.onclick(e => {
+            this.ppanel.ref.onClick(e => {
                 this.problems.getlist();
                 this.problems.resetform();
                 this.problems.showlist();
@@ -1067,7 +1070,7 @@ core = {
                         "<div class=\"cell\">",
                             "<textarea placeholder=\"Input\" required></textarea>",
                             "<textarea placeholder=\"Output\" required></textarea>",
-                            "<span class=\"delete\" onclick=\"core.settings.problems.remtest(this)\"></span>",
+                            "<span class=\"delete\" onClick=\"core.settings.problems.remtest(this)\"></span>",
                         "</div>"
                     ].join("\n");
                     this.form.testlist.insertAdjacentHTML("beforeend", html);
@@ -1112,8 +1115,8 @@ core = {
                                     "<li class=\"name\">" + item.name + "</li>",
                                 "</ul>",
                                 "<div class=\"action\">",
-                                    "<span class=\"delete\" onclick=\"core.settings.problems.remproblem('" + item.id + "')\"></span>",
-                                    "<span class=\"edit\" onclick=\"core.settings.problems.editproblem('" + item.id + "')\"></span>",
+                                    "<span class=\"delete\" onClick=\"core.settings.problems.remproblem('" + item.id + "')\"></span>",
+                                    "<span class=\"edit\" onClick=\"core.settings.problems.editproblem('" + item.id + "')\"></span>",
                                 "</div>",
                             "</li>",
                         ].join("\n");
@@ -1180,7 +1183,7 @@ core = {
                             "<div class=\"cell\">",
                                 "<textarea placeholder=\"Input\" required>" + item.inp + "</textarea>",
                                 "<textarea placeholder=\"Output\" required>" + item.out + "</textarea>",
-                                "<span class=\"delete\" onclick=\"core.settings.problems.remtest(this)\"></span>",
+                                "<span class=\"delete\" onClick=\"core.settings.problems.remtest(this)\"></span>",
                             "</div>"
                         ].join("\n");
                     })
@@ -1215,7 +1218,7 @@ core = {
                     });
                     this.getlist();
                     this.showlist();
-                    this._this.getlist();
+                    core.problems.getlist();
                 })
             },
 
@@ -1250,7 +1253,7 @@ core = {
                 this.submit(this.action, data, data => {
                     this.getlist();
                     this.showlist();
-                    this._this.getlist();
+                    core.problems.getlist();
                 })
             },
 
@@ -1293,7 +1296,7 @@ core = {
 
         init() {
             this.panel.ref.hide();
-            this.panel.clo.onclick(this.hide);
+            this.panel.clo.onClick(this.hide);
             clog("okay", "Initialised:", {
                 color: flatc("red"),
                 text: "core.wrapper"

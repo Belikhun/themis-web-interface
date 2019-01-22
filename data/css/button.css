@@ -157,9 +157,9 @@
     cursor: pointer;
     overflow: hidden;
     z-index: 1;
-    
+
     transition:
-    filter 1s cubic-bezier(0.06, 0.81, 0, 0.98),
+        filter 1s cubic-bezier(0.06, 0.81, 0, 0.98),
         transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
@@ -209,6 +209,11 @@
     transform: scale(0.9);
 }
 
+.sq-btn:disabled {
+    filter: brightness(0.6)!important;
+    cursor: default;
+}
+
 .sq-btn.pink {
     background-color: rgb(255, 102, 170);
 }
@@ -219,4 +224,94 @@
 
 .sq-btn.pink::after {
     border-color: transparent transparent rgb(202, 96, 146) transparent;
+}
+
+.sq-btn.green {
+    background-color: rgb(136, 180, 0);
+}
+
+.sq-btn.green::before {
+    border-color: transparent transparent rgb(156, 204, 0) transparent;
+}
+
+.sq-btn.green::after {
+    border-color: transparent transparent rgb(124, 162, 0) transparent;
+}
+
+.sq-btn.yellow {
+    background-color: rgb(246, 194, 28);
+}
+
+.sq-btn.yellow::before {
+    border-color: transparent transparent rgb(254, 204, 34) transparent;
+}
+
+.sq-btn.yellow::after {
+    border-color: transparent transparent rgb(240, 178, 14) transparent;
+}
+
+.sq-checkbox {
+    position: relative;
+    display: block;
+    width: 24px;
+    height: 12px;
+    cursor: pointer;
+    user-select: none;
+
+    transition: width 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.sq-checkbox input {
+    position: absolute;
+    display: none;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.sq-checkbox .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border: 3px solid rgb(68, 170, 221);
+    border-radius: 10px;
+    box-sizing: border-box;
+
+    transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.sq-checkbox:hover {
+    width: 42px;
+}
+
+.sq-checkbox:hover input ~ .checkmark {
+    background-color: rgba(68, 170, 221, 0.4);
+    border-color: rgb(160, 220, 250);
+}
+
+.sq-checkbox input:checked ~ .checkmark {
+    background-color: rgb(68, 170, 221);
+}
+
+.sq-checkbox:hover input:checked ~ .checkmark {
+    background-color: rgb(160, 220, 250);
+}
+
+.sq-checkbox.pink .checkmark {
+    border-color: rgb(255, 102, 170);
+}
+
+.sq-checkbox.pink:hover input ~ .checkmark {
+    background-color: rgba(255, 102, 171, 0.4);
+    border-color: rgb(255, 194, 214);
+}
+
+.sq-checkbox.pink input:checked ~ .checkmark {
+    background-color: rgb(255, 102, 170);
+}
+
+.sq-checkbox.pink:hover input:checked ~ .checkmark {
+    background-color: rgb(255, 194, 214);
 }

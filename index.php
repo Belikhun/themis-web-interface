@@ -126,7 +126,7 @@
                     </li>
                 </ul>
             </span>
-            <span id="upanel_toggler" class="rnav">
+            <span id="usett_toggler" class="rnav">
                 <?php if ($loggedin) { ?>
                     <ul class="info">
                         <li class="tag text-overflow">
@@ -143,16 +143,9 @@
                         <span></span>
                     </span>
                 <?php } else { ?>
-                    <button class="login ms-btn" onclick="window.location.href='/login.php'">Đăng nhập</button>
+                    <button class="login sq-btn yellow" onclick="window.location.href='/login.php'">Đăng nhập</button>
                 <?php } ?>
             </span>
-            <?php if ($id == "admin") { ?>
-                <div id="nav_list" class="mnav">
-                    <span data-showid="container_content" data-default="true" class="item">Home</span>
-                    <span data-showid="container_settings" class="item">Cài đặt</span>
-                    <div class="separator"></div>
-                </div>
-            <?php } ?>
         </div>
 
         <span id="user_settings">
@@ -173,8 +166,8 @@
 
                         <div class="item avatar">
                             <div class="avatar" title="Thả ảnh vào đây để thay đổi ảnh đại diện">
-                                <img id="userp_avt" class="avatar" src="<?php print $loggedin ? "/api/avt/get?u=".$username : ""; ?>" />
-                                <div id="userp_avtw" class="wrapper">
+                                <img id="usett_avt" class="avatar" src="<?php print $loggedin ? "/api/avt/get?u=".$username : ""; ?>" />
+                                <div id="usett_avtw" class="wrapper">
                                     <i class="pencil"></i>
                                     <i class="drag"></i>
                                     <div class="material-spinner">
@@ -185,7 +178,7 @@
 
                             <div class="info">
                                 <t class="left">Tên thí sinh</t>
-                                <t id="userp_name" class="right"><?php print htmlspecialchars($name); ?></t>
+                                <t id="usett_name" class="right"><?php print htmlspecialchars($name); ?></t>
                             </div>
 
                             <div class="info">
@@ -202,10 +195,10 @@
                         <t class="title small">Đổi tên</t>
 
                         <div class="item form">
-                            <form id="userp_edit_name_form" autocomplete="off" action="javascript:void(0);">
+                            <form id="usett_edit_name_form" autocomplete="off" action="javascript:void(0);">
                                 <div class="formgroup blue">
-                                    <input id="userp_edit_name" type="text" class="formfield" placeholder="Tên" required>
-                                    <label for="userp_edit_name" class="formlabel">Tên</label>
+                                    <input id="usett_edit_name" type="text" class="formfield" placeholder="Tên" required>
+                                    <label for="usett_edit_name" class="formlabel">Tên</label>
                                 </div>
                                 <button type="submit" class="sq-btn">Gửi</button>
                             </form>
@@ -214,18 +207,18 @@
                         <t class="title small">Đổi mật khẩu</t>
 
                         <div class="item form">
-                            <form id="userp_edit_pass_form" autocomplete="off" action="javascript:void(0);">
+                            <form id="usett_edit_pass_form" autocomplete="off" action="javascript:void(0);">
                                 <div class="formgroup blue">
-                                    <input id="userp_edit_pass" type="password" class="formfield" placeholder="Mật khẩu" required>
-                                    <label for="userp_edit_pass" class="formlabel">Mật khẩu</label>
+                                    <input id="usett_edit_pass" type="password" class="formfield" placeholder="Mật khẩu" required>
+                                    <label for="usett_edit_pass" class="formlabel">Mật khẩu</label>
                                 </div>
                                 <div class="formgroup blue">
-                                    <input id="userp_edit_npass" type="password" class="formfield" placeholder="Mật khẩu mới" required>
-                                    <label for="userp_edit_npass" class="formlabel">Mật khẩu mới</label>
+                                    <input id="usett_edit_npass" type="password" class="formfield" placeholder="Mật khẩu mới" required>
+                                    <label for="usett_edit_npass" class="formlabel">Mật khẩu mới</label>
                                 </div>
                                 <div class="formgroup blue">
-                                    <input id="userp_edit_renpass" type="password" class="formfield" placeholder="Nhập lại mật khẩu mới" required>
-                                    <label for="userp_edit_renpass" class="formlabel">Nhập lại mật khẩu mới</label>
+                                    <input id="usett_edit_renpass" type="password" class="formfield" placeholder="Nhập lại mật khẩu mới" required>
+                                    <label for="usett_edit_renpass" class="formlabel">Nhập lại mật khẩu mới</label>
                                 </div>
                                 <button type="submit" class="sq-btn">Gửi</button>
                             </form>
@@ -234,12 +227,12 @@
                         <t class="title small">Đăng xuất</t>
 
                         <div class="item logout">
-                            <button id="userp_logout" class="sq-btn pink">Đăng Xuất</button>
+                            <button id="usett_logout" class="sq-btn pink">Đăng Xuất</button>
                         </div>
 
                     </div>
 
-                    <div id="userp_adminConfig" class="group config">
+                    <div id="usett_adminConfig" class="group config">
                         <t class="title">Cài Đặt Hệ Thống</t>
 
                         <div id="settings_cpanelToggler" class="item arr">Admin Control Panel</div>
@@ -255,7 +248,7 @@
 
                     <div class="group info">
                         <t class="title">Thông tin Dự án</t>
-                        <div class="item arr">Thông tin</div>
+                        <div id="usett_aboutToggler" class="item arr">Thông tin</div>
 
                         <div class="space"></div>
                         <t class="title small">Copyright © 2018 <a href="https://www.facebook.com/belivipro9x99">Belikhun</a>. This project is licensed under the MIT License</t>
@@ -265,13 +258,14 @@
                 
             </div>
             
-            <div id="userp_panelContainer" class="sub">
+            <div id="usett_panelContainer" class="sub">
             
                 <div id="settings_problem" class="panel">
                     <div class="container">
                         <div class="btn-group">
                             <span class="reload"></span>
                             <span class="close"></span>
+                            <span></span>
                         </div>
 
                         <div class="main problem-settings">
@@ -336,11 +330,12 @@
                     </div>
                 </div>
 
-                <div id="settings_cpanel" class="panel">
+                <div id="settings_controlPanel" class="panel large">
                     <div class="container">
                         <div class="btn-group">
                             <span class="reload"></span>
                             <span class="close"></span>
+                            <span></span>
                         </div>
                         <div class="main">
                             <iframe class="cpanel-container" src="config.php"></iframe>
@@ -348,11 +343,12 @@
                     </div>
                 </div>
 
-                <div id="userp_about" class="panel">
+                <div id="usett_aboutPanel" class="panel">
                     <div class="container">
                         <div class="btn-group">
                             <span class="reload"></span>
                             <span class="close"></span>
+                            <span></span>
                         </div>
                         <div class="main">
                             <footer>
@@ -401,115 +397,114 @@
         </div>
 
         <div id="container">
-            <div id="container_content" class="content">
-                <panel id="uploadp">
-                    <div class="head">
-                        <t class="le">Nộp bài</t>
-                        <span class="ri">
-                            <i class="material-icons ref">refresh</i>
-                        </span>
-                    </div>
-                    <div class="main fileupload-container">
-                        <div id="file_dropzone">Thả tệp tại đây</div>
-                        <div class="info">
-                            <t id="file_upstate">null</t>
-                            <t id="file_name">null</t>
-                            <div class="bar">
-                                <div id="file_bar"></div>
-                                <t id="file_perc">0%</t>
-                                <t id="file_size">00/00</t>
-                            </div>
-                        </div>
-                    </div>
-                </panel>
 
-                <panel id="problemp">
-                    <div class="head">
-                        <t class="le">Đề bài</t>
-                        <span class="ri">
-                            <i class="material-icons bak">keyboard_arrow_left</i>
-                            <i class="material-icons ref">refresh</i>
-                        </span>
-                    </div>
-                    <div class="main problem-container">
-                        <ul class="problem-list" id="problem_list">
-                        </ul>
-                        <div class="problem">
-                            <t class="name" id="problem_name"></t>
-                            <t class="point" id="problem_point"></t>
-                            <table class="type">
-                                <tr class="filename">
-                                    <td>Tên tệp</td>
-                                    <td id="problem_type_filename"></td>
-                                </tr>
-                                <tr class="ext">
-                                    <td>Đuôi tệp</td>
-                                    <td id="problem_type_ext"></td>
-                                </tr>
-                                <tr class="time">
-                                    <td>Thời gian</td>
-                                    <td id="problem_type_time"></td>
-                                </tr>
-                                <tr class="inp">
-                                    <td>Dữ liệu vào</td>
-                                    <td id="problem_type_inp"></td>
-                                </tr>
-                                <tr class="out">
-                                    <td>Dữ liệu ra</td>
-                                    <td id="problem_type_out"></td>
-                                </tr>
-                            </table>
-                            <img class="image" id="problem_image" src="">
-                            <t class="description" id="problem_description"></t>
-                            <table class="test" id="problem_test">
-                            </table>
-                        </div>
-                    </div>
-                </panel>
-
-                <panel id="timep">
-                    <div class="head">
-                        <t class="le">Thời gian</t>
-                        <span class="ri">
-                            <i class="material-icons ref">refresh</i>
-                            <i class="material-icons clo">close</i>
-                        </span>
-                    </div>
-                    <div class="main time-container">
-                        <t id="time_state">---</t>
-                        <t id="time_time">--:--</t>
+            <panel id="uploadp">
+                <div class="head">
+                    <t class="le">Nộp bài</t>
+                    <span class="ri">
+                        <i class="material-icons ref">refresh</i>
+                    </span>
+                </div>
+                <div class="main fileupload-container">
+                    <div id="file_dropzone">Thả tệp tại đây</div>
+                    <div class="info">
+                        <t id="file_upstate">null</t>
+                        <t id="file_name">null</t>
                         <div class="bar">
-                            <div id="time_bar"></div>
-                            <t id="time_start">--:--</t>
-                            <t id="time_end">--:--</t>
+                            <div id="file_bar"></div>
+                            <t id="file_perc">0%</t>
+                            <t id="file_size">00/00</t>
                         </div>
                     </div>
-                </panel>
+                </div>
+            </panel>
 
-                <panel id="logp">
-                    <div class="head">
-                        <t class="le">Nhật ký</t>
-                        <span class="ri">
-                            <i class="material-icons ref">refresh</i>
-                        </span>
+            <panel id="problemp">
+                <div class="head">
+                    <t class="le">Đề bài</t>
+                    <span class="ri">
+                        <i class="material-icons bak">keyboard_arrow_left</i>
+                        <i class="material-icons ref">refresh</i>
+                    </span>
+                </div>
+                <div class="main problem-container">
+                    <ul class="problem-list" id="problem_list">
+                    </ul>
+                    <div class="problem">
+                        <t class="name" id="problem_name"></t>
+                        <t class="point" id="problem_point"></t>
+                        <table class="type">
+                            <tr class="filename">
+                                <td>Tên tệp</td>
+                                <td id="problem_type_filename"></td>
+                            </tr>
+                            <tr class="ext">
+                                <td>Đuôi tệp</td>
+                                <td id="problem_type_ext"></td>
+                            </tr>
+                            <tr class="time">
+                                <td>Thời gian</td>
+                                <td id="problem_type_time"></td>
+                            </tr>
+                            <tr class="inp">
+                                <td>Dữ liệu vào</td>
+                                <td id="problem_type_inp"></td>
+                            </tr>
+                            <tr class="out">
+                                <td>Dữ liệu ra</td>
+                                <td id="problem_type_out"></td>
+                            </tr>
+                        </table>
+                        <img class="image" id="problem_image" src="">
+                        <t class="description" id="problem_description"></t>
+                        <table class="test" id="problem_test">
+                        </table>
                     </div>
-                    <div class="main">
-                        <ul class="log-item-container">
-                        </ul>
-                    </div>
-                </panel>
+                </div>
+            </panel>
 
-                <panel id="rankp">
-                    <div class="head">
-                        <t class="le">Xếp hạng</t>
-                        <span class="ri">
-                            <i class="material-icons ref">refresh</i>
-                        </span>
+            <panel id="timep">
+                <div class="head">
+                    <t class="le">Thời gian</t>
+                    <span class="ri">
+                        <i class="material-icons ref">refresh</i>
+                        <i class="material-icons clo">close</i>
+                    </span>
+                </div>
+                <div class="main time-container">
+                    <t id="time_state">---</t>
+                    <t id="time_time">--:--</t>
+                    <div class="bar">
+                        <div id="time_bar"></div>
+                        <t id="time_start">--:--</t>
+                        <t id="time_end">--:--</t>
                     </div>
-                    <div class="main ranking-container">
-                    </div>
-                </panel>
-            </div>
+                </div>
+            </panel>
+
+            <panel id="logp">
+                <div class="head">
+                    <t class="le">Nhật ký</t>
+                    <span class="ri">
+                        <i class="material-icons ref">refresh</i>
+                    </span>
+                </div>
+                <div class="main">
+                    <ul class="log-item-container">
+                    </ul>
+                </div>
+            </panel>
+
+            <panel id="rankp">
+                <div class="head">
+                    <t class="le">Xếp hạng</t>
+                    <span class="ri">
+                        <i class="material-icons ref">refresh</i>
+                    </span>
+                </div>
+                <div class="main ranking-container">
+                </div>
+            </panel>
 
         </div>
 

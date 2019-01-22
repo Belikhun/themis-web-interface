@@ -61,61 +61,6 @@ body #container {
         top 1s cubic-bezier(0.06, 0.81, 0, 0.98);
 }
 
-body #container .content {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transition: all 0.4s ease;
-}
-
-body #container .settings {
-    position: absolute;
-    top: 0px;
-    right: -100%;
-    width: 100%;
-    height: 100%;
-    transition: all 0.4s ease;
-}
-
-body #container.showsett .settings,
-body #container.showsett .content {
-    transform: translateX(-100%);
-}
-
-body #container.showsett .settings #settings_cpanel {
-    position: relative;
-    float: left;
-    display: block;
-    margin: 20px 10px 20px 20px;
-    width: calc(100% - 420px);
-    height: calc(100% - 40px);
-    min-height: 460px;
-}
-
-body #container.showsett .settings #settings_problem {
-    position: relative;
-    float: right;
-    margin: 20px 20px 20px 10px;
-    width: 360px;
-    height: calc(100% - 40px);
-    min-height: 460px;
-}
-
-@media only screen and (max-width: 700px) {
-
-    body #container.showsett .settings #settings_cpanel {
-        margin: 20px 20px 10px 20px;
-        width: calc(100% - 40px);
-    }
-
-    body #container.showsett .settings #settings_problem {
-        margin: 10px 20px 20px 20px;
-        width: calc(100% - 40px);
-        height: calc(100% + 400px);
-    }
-
-}
-
 panel {
     position: relative;
     width: 350px;
@@ -618,7 +563,7 @@ body.guest #timep.show ~ #rankp {
 }
 
 .problem-settings .problem-header {
-    height: 30px;
+    height: 40px;
     background-color: #F5F5F6;
     display: flex;
     align-items: center;
@@ -670,7 +615,7 @@ body.guest #timep.show ~ #rankp {
 
 .problem-settings .problem-container {
     position: relative;
-    height: calc(100% - 36px);
+    height: calc(100% - 46px);
     background-color: transparent;
     overflow: hidden;
 }
@@ -695,11 +640,15 @@ body.guest #timep.show ~ #rankp {
     padding: 0 10px;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid #e6e6e6;
+    border-bottom: unset;
 }
 
 .problem-settings .problem-container .problem-list li.item:hover {
-    background-color: rgba(202, 202, 202, 0.2);
+    background-color: rgba(245, 245, 246, 0.4);
+}
+
+.problem-settings .problem-container .problem-list li.item:after {
+    content: unset;
 }
 
 .problem-settings .problem-container .problem-list li.item .icon {
@@ -1297,8 +1246,9 @@ td {
 
 .cpanel-container {
     position: relative;
+    display: block;
     width: 100%;
-    height: calc(100% - 4px);
+    height: 100%;
     border: unset;
     overflow: hidden;
 }
@@ -1307,7 +1257,7 @@ footer {
     position: relative;
     box-sizing: border-box;
     width: 100%;
-    padding: 20px 5px;
+    padding: 20px;
     display: block;
     float: left;
 }
@@ -1409,17 +1359,13 @@ footer ul.contact li.github::before {
 
 /* Element to hide when user is not admin */
 
-body.user div#container div#container_settings,
-body.user div.nav div#nav_list.mnav,
-body.user span#user_profile div.body ul#userp_left_panel li.navlink {
+body.user span#user_profile div.body ul#usett_left_panel li.navlink {
     display: none!important;
     visibility: hidden!important;
 }
 
 /* Element to hide when user is guest */
 
-body.guest div#container div#container_settings,
-body.guest div.nav div#nav_list.mnav,
 body.guest #uploadp,
 body.guest #problemp,
 body.guest #logp,

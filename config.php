@@ -21,6 +21,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/statusbar.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/scrollbar.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/material-font.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/fontawesome.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/input.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/switch.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
@@ -29,103 +30,119 @@
 
 <body id="container">
 
-    <form id="form-container" action="javascript:void(0);">
-        <ul class="contest">
-            <li class="title">Kì thi</li>
-            <li class="name">
-                <div class="formgroup blue">
-                    <input id="contest-name" type="text" class="formfield" autocomplete="off" placeholder="Tên kì thi" required>
-                    <label for="contest-name" class="formlabel">Tên kì thi</label>
-                </div>
-            </li>
-            <li class="description">
-                <div class="formgroup blue">
-                    <input id="contest-description" type="text" class="formfield" autocomplete="off" placeholder="Mô tả kì thi" required>
-                    <label for="contest-description" class="formlabel">Mô tả kì thi</label>
-                </div>
-            </li>
-        </ul>
+    <div class="wrapper">
+        <form id="form-container" action="javascript:void(0);">
+            <div class="group home">
+                <t class="title big">Admin Control Panel</t>
+                <t class="title small">Thay đổi cài đặt hệ thống</t>
 
-        <ul class="dir">
-            <li class="title">Thư mục</li>
-            <li class="upload">
-                <div class="formgroup blue">
-                    <input id="uploaddir" type="text" class="formfield" autocomplete="off" placeholder="Thư mục lưu bài làm" required>
-                    <label for="uploaddir" class="formlabel">Thư mục lưu bài làm</label>
-                </div>
-            </li>
-        </ul>
+                <div class="space"></div>
+            </div>
 
-        <ul class="time">
-            <li class="title">Thời gian</li>
-            <li class="zone">
-                <div class="formgroup blue">
-                    <input id="time-zone" type="text" class="formfield" autocomplete="off" placeholder="Khu vực" required>
-                    <label for="time-zone" class="formlabel">Khu vực</label>
-                </div>
-            </li>
-            <li class="begindate">
-                <div class="formgroup blue">
-                    <input id="time-begindate" type="date" class="formfield" autocomplete="off" placeholder="Ngày bắt đầu kì thi" required>
-                    <label for="time-begindate" class="formlabel">Ngày bắt đầu kì thi</label>
-                </div>
-            </li>
-            <li class="begintime">
-                <div class="formgroup blue">
-                    <input id="time-begintime" type="time" step="1" class="formfield" autocomplete="off" placeholder="Thời gian bắt đầu kì thi" required>
-                    <label for="time-begintime" class="formlabel">Thời gian bắt đầu kì thi</label>
-                </div>
-            </li>
-            <li class="during">
-                <div class="formgroup blue">
-                    <input id="time-during" type="number" class="formfield" autocomplete="off" placeholder="Thời gian làm bài" required>
-                    <label for="time-during" class="formlabel">Thời gian làm bài</label>
-                </div>
-            </li>
-            <li class="offset">
-                <div class="formgroup blue">
-                    <input id="time-offset" type="number" class="formfield" autocomplete="off" placeholder="Thời gian bù" required>
-                    <label for="time-offset" class="formlabel">Thời gian bù</label>
-                </div>
-            </li>
-        </ul>
+            <div class="group file">
+                <t class="title">Kì thi</t>
 
-        <ul class="other">
-            <li class="title">Khác</li>
-            <li class="publish">
-                <t class="left">Công bố kết quả</t>
-                <label class="material-switch right">
-                    <input id="publish" type="checkbox">
-                    <span class="track"></span>
-                </label>
-            </li>
-            <li class="submit">
-                <t class="left">Cho phép nộp bài</t>
-                <label class="material-switch right">
-                    <input id="submit" type="checkbox">
-                    <span class="track"></span>
-                </label>
-            </li>
-            <li class="editinfo">
-                <t class="left">Cho phép thay đổi thông tin</t>
-                <label class="material-switch right">
-                    <input id="editinfo" type="checkbox">
-                    <span class="track"></span>
-                </label>
-            </li>
-            <li class="viewlog">
-                <t class="left">Cho phép xem tệp nhật ký</t>
-                <label class="material-switch right">
-                    <input id="viewlog" type="checkbox">
-                    <span class="track"></span>
-                </label>
-            </li>
-        </ul>
+                <div class="item">
+                    <div class="formgroup blue">
+                        <input id="contest-name" type="text" class="formfield" autocomplete="off" placeholder="Tên kì thi" required>
+                        <label for="contest-name" class="formlabel">Tên kì thi</label>
+                    </div>
+                </div>
 
-        <div class="footer">
-            <button type="submit" class="btn blue">Lưu thay đổi</button>
-        </div>
-    </form>
+                <div class="item">
+                    <div class="formgroup blue">
+                        <input id="contest-description" type="text" class="formfield" autocomplete="off" placeholder="Mô tả kì thi" required>
+                        <label for="contest-description" class="formlabel">Mô tả kì thi</label>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="group folder">
+                <t class="title">Thư mục</t>
+
+                <div class="item">
+                    <div class="formgroup blue">
+                        <input id="uploaddir" type="text" class="formfield" autocomplete="off" placeholder="Thư mục lưu bài làm" required>
+                        <label for="uploaddir" class="formlabel">Thư mục lưu bài làm</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="group clock">
+                <t class="title">Thời gian</t>
+
+                <div class="item">
+                    <div class="formgroup blue">
+                        <input id="time-zone" type="text" class="formfield" autocomplete="off" placeholder="Khu vực" required>
+                        <label for="time-zone" class="formlabel">Khu vực</label>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="formgroup blue">
+                        <input id="time-begindate" type="date" class="formfield" autocomplete="off" placeholder="Ngày bắt đầu kì thi" required>
+                        <label for="time-begindate" class="formlabel">Ngày bắt đầu kì thi</label>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="formgroup blue">
+                        <input id="time-begintime" type="time" step="1" class="formfield" autocomplete="off" placeholder="Thời gian bắt đầu kì thi" required>
+                        <label for="time-begintime" class="formlabel">Thời gian bắt đầu kì thi</label>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="formgroup blue">
+                        <input id="time-during" type="number" class="formfield" autocomplete="off" placeholder="Thời gian làm bài" required>
+                        <label for="time-during" class="formlabel">Thời gian làm bài</label>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="formgroup blue">
+                        <input id="time-offset" type="number" class="formfield" autocomplete="off" placeholder="Thời gian bù" required>
+                        <label for="time-offset" class="formlabel">Thời gian bù</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="group star">
+                <t class="title">Khác</t>
+
+                <div class="item lr">
+                    <t class="left">Công bố kết quả</t>
+                    <label class="sq-checkbox pink right">
+                        <input id="publish" type="checkbox">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="item lr">
+                    <t class="left">Cho phép nộp bài</t>
+                    <label class="sq-checkbox right">
+                        <input id="submit" type="checkbox">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="item lr">
+                    <t class="left">Cho phép thay đổi thông tin</t>
+                    <label class="sq-checkbox right">
+                        <input id="editinfo" type="checkbox">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="item lr">
+                    <t class="left">Cho phép xem tệp nhật ký</t>
+                    <label class="sq-checkbox right">
+                        <input id="viewlog" type="checkbox">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="footer">
+                <button type="submit" class="sq-btn green">Lưu thay đổi</button>
+            </div>
+
+        </form>
+    </div>
 
     <script>
         const API_TOKEN = "<?php print isset($_SESSION["api_token"]) ? $_SESSION["api_token"] : null; ?>";

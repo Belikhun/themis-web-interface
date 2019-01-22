@@ -66,7 +66,7 @@
                             <label for="form_username_input" class="formlabel">Tên tài khoản</label>
                         </div>
 
-                        <button id="form_username_submit" type="button" class="btn gray" disabled>Tiếp</button>
+                        <button id="form_username_submit" type="button" class="sq-btn" disabled>Tiếp</button>
                     </div>
 
                     <div id="form_password">
@@ -80,7 +80,7 @@
                             <label for="form_password_input" class="formlabel">Mật khẩu</label>
                         </div>
 
-                        <button id="form_password_submit" type="submit" class="btn" disabled>Đăng nhập</button>
+                        <button id="form_password_submit" type="submit" class="sq-btn pink" disabled>Đăng nhập</button>
                     </div>
                 </form>
                 

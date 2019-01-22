@@ -23,7 +23,7 @@
 }
 
 #user_settings.show ~ #container {
-    filter: brightness(0.6);
+    filter: brightness(0.4);
 }
 
 #user_settings .main {
@@ -162,11 +162,11 @@
 }
 
 #user_settings .main .container .group a.item:hover {
-    color: #1c7e6a;
+    color: #01a3a4;
 }
 
 #user_settings .main .container .group a.item:hover::before {
-    color: #1c7e6a;
+    color: #01a3a4;
 }
 
 #user_settings .main .container .group .item.arr {
@@ -196,11 +196,11 @@
 }
 
 #user_settings .main .container .group .item.arr:hover {
-    color: #8e44ad;
+    color: #f368e0;
 }
 
 #user_settings .main .container .group .item.arr:hover::before {
-    color: #8e44ad;
+    color: #f368e0;
 }
 
 #user_settings .main .container .group .space {
@@ -245,6 +245,16 @@
     right: 0px;
     background-color: rgba(245, 245, 246, 0.8);
     overflow: hidden;
+}
+
+#user_settings .sub .panel.large {
+    transition: width 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+#user_settings .sub .panel.large.show,
+#user_settings .sub .panel.large .container {
+    width: calc(100vw - 360px);
+    max-width: 840px;
 }
 
 #user_settings .sub .panel .container .btn-group {
@@ -380,7 +390,21 @@
     content: "\f2f5";
 }
 
+#user_settings .main .container .group.file::after {
+    content: "\f15c";
+}
 
+#user_settings .main .container .group.folder::after {
+    content: "\f07b";
+}
+
+#user_settings .main .container .group.clock::after {
+    content: "\f017";
+}
+
+#user_settings .main .container .group.star::after {
+    content: "\f621";
+}
 
 
 
