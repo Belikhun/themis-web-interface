@@ -17,11 +17,18 @@
     $userdata = null;
     $name = null;
     $id = null;
+    $sessdata = Array(
+        "SERVER_SOFTWARE" => $_SERVER["SERVER_SOFTWARE"],
+        "SERVER_ADDR" => $_SERVER["SERVER_ADDR"],
+        "SERVER_PROTOCOL" => $_SERVER["SERVER_PROTOCOL"],
+        "HTTP_USER_AGENT" => $_SERVER["HTTP_USER_AGENT"],
+        "REMOTE_ADDR" => $_SERVER["REMOTE_ADDR"]
+    );
 
     if (islogedin()) {
         require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
         $loggedin = true;
-        $username = $_SESSION["username"];
+        $sessdata["username"] = $username = $_SESSION["username"];
         $userdata = getuserdata($username);
         $name = $userdata["name"];
         $id = $userdata["id"];
@@ -111,6 +118,10 @@
                 fullloaded();
 
                 await core.checkUpdateAsync();
+
+                gtag("event", "pageView", {
+                    "version": window.serverStatus.version
+                });
             }
 
             splash.init();
@@ -512,17 +523,10 @@
 
         <!-- Session Data -->
         <script>
-            const IS_ADMIN = <?php print ($id == "admin" ? "true" : "false"); ?>;
-            const LOGGED_IN = <?php print ($loggedin == true ? "true" : "false"); ?>;
-            const API_TOKEN = "<?php print isset($_SESSION["api_token"]) ? $_SESSION["api_token"] : null; ?>";
-            const SESSION = <?php print json_encode(Array(
-                "sv" => $_SERVER["SERVER_SOFTWARE"],
-                "sv_ip" => $_SERVER["SERVER_ADDR"],
-                "sv_pr" => $_SERVER["SERVER_PROTOCOL"],
-                "cl" => $_SERVER["HTTP_USER_AGENT"],
-                "cl_ip" => $_SERVER["REMOTE_ADDR"],
-                "username" => $_SESSION["username"] ?: "Not Logged In.",
-            ), JSON_PRETTY_PRINT); ?>
+            const IS_ADMIN = `<?php print ($id == "admin" ? "true" : "false"); ?>` == "true";
+            const LOGGED_IN = `<?php print ($loggedin == true ? "true" : "false"); ?>` == "true";
+            const API_TOKEN = `<?php print isset($_SESSION["api_token"]) ? $_SESSION["api_token"] : null; ?>`;
+            const SESSION = JSON.parse(`<?php print json_encode($sessdata); ?>`);
         </script>
 
         <!-- Library First -->
@@ -548,10 +552,10 @@
 
             sbar.__item.warn = sbar.additem("0", "warning", {space: false});
             sbar.__item.errr = sbar.additem("0", "error");
-            sbar.additem(SESSION.sv, "server");
-            sbar.additem(SESSION.sv_ip, "globe");
+            sbar.additem(SESSION.SERVER_SOFTWARE, "server");
+            sbar.additem(SESSION.SERVER_ADDR, "globe");
             sbar.additem(SESSION.username, "account", {aligin: "right"});
-            sbar.additem(SESSION.cl_ip, "desktop", {aligin: "right"});
+            sbar.additem(SESSION.REMOTE_ADDR, "desktop", {aligin: "right"});
         </script>
 
         <!-- Core script -->
@@ -562,9 +566,13 @@
         <script>
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
+            gtag("js", new Date());
 
-            gtag('config', 'UA-124598427-1');
+            gtag("config", "UA-124598427-1", {
+                "custom_map": {
+                    "dimension1": "version"
+                }
+            });
         </script>
 
     </body>
