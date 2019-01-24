@@ -16,7 +16,14 @@ function myajax({
     ondownload = e => {},
     puredata = false,
 }, callout = () => {}, error = () => {}) {
-    return new Promise((resolve, reject) => {    
+    return new Promise((resolve, reject) => {
+        if (__connection__.onlineState == false) {
+            const t = {code: 105, description: "Disconnected to Server"};
+            reject(t);
+            error(t);
+            return false;
+        }
+
         query.length = Object.keys(query).length;
         form.length = Object.keys(form).length;
 
@@ -51,9 +58,11 @@ function myajax({
             if (this.readyState === this.DONE) {
 
                 if (this.status == 0) {
-                    document.lostconnect = true;
-                    clog("errr", "Lost connection to Server.");
-                    reject({code: -1, description: "Lost connection to Server"});
+                    __connection__.stateChange(false);
+
+                    const t = {code: 105, description: "Disconnected to Server"};
+                    reject(t);
+                    error(t);
                     return false;
                 } else if ((this.responseText == "" || !this.responseText) && this.status != 200) {
                     clog("errr", {
@@ -137,6 +146,14 @@ function myajax({
     })
 }
 
+function delayAsync(time) {
+    return new Promise((resolve, reject) => {
+        setTimeout(e => {
+            resolve();
+        }, time);
+    });
+}
+
 function comparearray(arr1, arr2) {
     if (JSON.stringify(arr1) == JSON.stringify(arr2))
         return true;
@@ -165,6 +182,35 @@ function escape_html(str) {
 
 function fcfn(nodes, classname) {
     return nodes.getElementsByClassName(classname)[0];
+}
+
+function checkServer(ip, callback = () => {}) {
+    return new Promise((resolve, reject) => {
+        var xhr = new XMLHttpRequest();
+        var pon = {};
+        
+        xhr.addEventListener("readystatechange", function() {
+            if (this.readyState == this.DONE) {
+                if (this.status == 0) {
+                    pon = {
+                        code: -1,
+                        description: "Server Offline"
+                    }
+                    reject(pon);
+                } else {
+                    pon = {
+                        code: 0,
+                        description: "Server Online"
+                    }
+                    resolve(pon);
+                }
+                callback(pon);
+            }
+        })
+
+        xhr.open("GET", ip);
+        xhr.send();
+    })
 }
 
 function parsetime(t = 0) {
@@ -284,11 +330,11 @@ function $(selector) {
 //? |-----------------------------------------------------------------------------------------------|
 
 function clog(level, ...args) {
-    const font = "Comic Sans MS";
+    const font = "Segoe UI";
     const size = "15";
     var date = new Date();
     const rtime = round(sc.stop, 3).toFixed(3);
-    var str = '';
+    var str = "";
 
     level = level.toUpperCase();
     lc = flatc({
@@ -309,6 +355,10 @@ function clog(level, ...args) {
             text: rtime,
             padding: 8
         }, {
+            color: flatc("red"),
+            text: window.location.pathname,
+            padding: 16
+        }, {
             color: lc,
             text: level,
             padding: 6
@@ -326,13 +376,13 @@ function clog(level, ...args) {
     for (var i = 1; i <= text.length; i++) {
         item = text[i-1];
         if (typeof item === "string" || typeof item === "number") {
-            if (i > 3) str += `${item} `;
+            if (i > 4) str += `${item} `;
             out[0] += `%c${item} `;
             out[n] = `font-size: ${size}px; font-family: ${font}; color: ${flatc("black")}`;
             n += 1;
         } else if (typeof item === "object") {
             var t = pleft(item.text, ((item.padding) ? item.padding : 0));
-            if (i > 3) str += t + " ";
+            if (i > 4) str += t + " ";
             out[0] += `%c${t}`;
             if (item.padding) {
                 out[0] += "%c| ";
@@ -373,4 +423,48 @@ window.onerror = function(message, source, line, col) {
         color: flatc("yellow"),
         text: `column ${col}.`
     })
+}
+
+__connection__ = {
+    onlineState: true,
+    checkEvery: 2000,
+    checkInterval: null,
+    checkCount: 0,
+    __sbarItem: null,
+
+    stateChange(isOnline = true) {
+        if (!typeof isOnline === "boolean" && isOnline === this.onlineState)
+            return false;
+
+        clog("INFO", `We just went ${isOnline ? "online" : "offline"}!`);
+        this.onlineState = isOnline;
+
+        if (isOnline == true) {
+            clog("okay", "Đã kết nối tới máy chủ.");
+            if (this.__sbarItem)
+                this.__sbarItem.remove();
+
+            clearInterval(this.checkInterval);
+        } else {
+            clog("lcnt", "Mất kết nối tới máy chủ.");
+            this.checkCount = 0;
+            this.__sbarItem = (sbar) ? sbar.additem("Đang thử kết nối lại...", "spinner", {aligin: "right"}) : null;
+
+            this.checkInterval = setInterval(async e => {
+                this.checkCount++;
+                if (this.__sbarItem)
+                    this.__sbarItem.change(`Đang thử kết nối lại... [Lần ${this.checkCount}]`);
+                    
+                await this.__checkConnectionState();
+            }, this.checkEvery);
+        }
+    },
+
+    async __checkConnectionState() {
+        data = await checkServer(window.location.origin);
+        console.log(data);
+
+        if (data.code === 0)
+            return this.stateChange(true);
+    }
 }

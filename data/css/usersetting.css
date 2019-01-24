@@ -209,6 +209,24 @@
     height: 30px;
 }
 
+#user_settings .main .container .group .item.lr {
+    flex-direction: row;
+}
+
+#user_settings .main .container .group .item.lr .left {
+    flex-grow: 3;
+}
+
+#user_settings .main .container .group .item.lr .right {
+    flex-grow: 0;
+}
+
+#user_settings .main .container .group t {
+    color: rgb(90, 90, 90);
+    font-family: "Calibri";
+    font-size: 13px;
+}
+
 #user_settings .sub {
     position: absolute;
     width: calc(100vw - 100%);

@@ -22,6 +22,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/scrollbar.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/material-font.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/fontawesome.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/calibri.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/input.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/switch.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />

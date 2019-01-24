@@ -6,8 +6,8 @@
 //? |-----------------------------------------------------------------------------------------------|
 
 contest = {
-    "name": $("#contest-name"),
-    "desc": $("#contest-description")
+    name: $("#contest-name"),
+    desc: $("#contest-description")
 }
 uploaddir = $("#uploaddir");
 time = {

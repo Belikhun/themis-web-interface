@@ -49,7 +49,7 @@ class statusbar {
     }
 
     __icon(elem, icon) {
-        const iconlist = ["globe", "circle", "hub", "cloud", "block", "key", "desktop", "account", "server", "warning", "error", "info"];
+        const iconlist = ["globe", "circle", "hub", "cloud", "block", "key", "desktop", "account", "server", "warning", "error", "info", "spinner"];
         
         if (iconlist.indexOf(icon) != -1)
             elem.classList.add(`icon-${icon}`);
@@ -78,6 +78,11 @@ class statusbar {
         return {
             __item: item,
 
+            remove() {
+                this.__item.parentElement.removeChild(this.__item);
+                return true;
+            },
+
             change(text) {
                 this.__item.title = text;
                 this.__item.getElementsByTagName("text")[0].innerText = text;
@@ -105,7 +110,8 @@ class statusbar {
         
         this.center.innerHTML = "";
         type = type.toLowerCase();
-        const typelist = ["info", "okay", "warn", "errr", "crit"]
+        const typelist = ["info", "okay", "warn", "errr", "crit", "lcnt"]
+
         if (!lock)
             this.__hidetimeout = setTimeout(e => {
                 this.msg(false);

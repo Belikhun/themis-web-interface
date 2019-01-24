@@ -22,7 +22,8 @@
         "SERVER_ADDR" => $_SERVER["SERVER_ADDR"],
         "SERVER_PROTOCOL" => $_SERVER["SERVER_PROTOCOL"],
         "HTTP_USER_AGENT" => $_SERVER["HTTP_USER_AGENT"],
-        "REMOTE_ADDR" => $_SERVER["REMOTE_ADDR"]
+        "REMOTE_ADDR" => $_SERVER["REMOTE_ADDR"],
+        "username" => null,
     );
 
     if (islogedin()) {
@@ -351,7 +352,7 @@
                             <span></span>
                         </div>
                         <div class="main">
-                            <iframe class="cpanel-container" src="config.php"></iframe>
+                            <iframe class="cpanel-container" src=""></iframe>
                         </div>
                     </div>
                 </div>
@@ -538,7 +539,7 @@
 
             document.__onclog = (type, ts, msg) => {
                 type = type.toLowerCase();
-                const typelist = ["okay", "warn", "errr", "crit"]
+                const typelist = ["okay", "warn", "errr", "crit", "lcnt"]
                 if (typelist.indexOf(type) == -1)
                     return false;
 
@@ -547,14 +548,14 @@
                 else if (type == "warn")
                     sbar.__item.warn.change(parseInt(sbar.__item.warn.get()) + 1);
 
-                sbar.msg(type, msg, {time: ts, lock: (type == "crit") ? true : false});
+                sbar.msg(type, msg, {time: ts, lock: (type == "crit" || type == "lcnt") ? true : false});
             }
 
             sbar.__item.warn = sbar.additem("0", "warning", {space: false});
             sbar.__item.errr = sbar.additem("0", "error");
             sbar.additem(SESSION.SERVER_SOFTWARE, "server");
             sbar.additem(SESSION.SERVER_ADDR, "globe");
-            sbar.additem(SESSION.username, "account", {aligin: "right"});
+            sbar.additem(SESSION.username ? SESSION.username : "Chưa đăng nhập", "account", {aligin: "right"});
             sbar.additem(SESSION.REMOTE_ADDR, "desktop", {aligin: "right"});
         </script>
 

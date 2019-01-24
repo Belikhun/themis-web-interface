@@ -1006,6 +1006,7 @@ core = {
         main: $("#container"),
         navcont: $("#usett_left_panel"),
         cpanel: null,
+        cpanelIframe: null,
         ppanel: null,
         adminConfig: $("#usett_adminConfig"),
 
@@ -1013,17 +1014,20 @@ core = {
             this.adminConfig.style.display = "block";
             this.cpanel = new core.userSettings.panel($("#settings_controlPanel"));
             this.ppanel = new core.userSettings.panel($("#settings_problem"));
+            this.cpanelIframe = this.cpanel.main.getElementsByTagName("iframe")[0];
+            this.cpanelIframe.src = "config.php";
 
             this.cpanel.toggler = $("#settings_cpanelToggler");
             this.ppanel.toggler = $("#settings_problemToggler");
 
             this.problems.init();
             this.problems.getlist();
+
             this.cpanel.ref.onClick(e => {
-                var iframe = this.cpanel.main.getElementsByTagName("iframe")[0];
-                iframe.contentWindow.location.reload();
+                this.cpanelIframe.contentWindow.location.reload();
                 clog("okay", "Reloaded CPanel IFrame.");
             })
+
             this.ppanel.ref.onClick(e => {
                 this.problems.getlist();
                 this.problems.resetform();

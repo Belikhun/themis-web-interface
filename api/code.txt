@@ -36,3 +36,4 @@
 102 modified nothing
 103 contest not started
 104 contest ended
+105 disconnected
