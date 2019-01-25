@@ -246,6 +246,12 @@
 
                     </div>
 
+                    <div class="group tools">
+                        <t class="title">Cài Đặt</t>
+
+                        
+                    </div>
+
                     <div id="usett_adminConfig" class="group config">
                         <t class="title">Cài Đặt Hệ Thống</t>
 

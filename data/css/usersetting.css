@@ -448,6 +448,11 @@
     content: "\f621";
 }
 
+#user_settings .main .container .group.tools::after {
+    content: "\f7d9";
+}
+
+
 
 
 /* Element and Stuff */

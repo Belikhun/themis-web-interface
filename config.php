@@ -146,8 +146,8 @@
     </div>
 
     <script>
-        const API_TOKEN = "<?php print isset($_SESSION["api_token"]) ? $_SESSION["api_token"] : null; ?>";
-        const USERNAME = "<?php print $_SESSION["username"]; ?>";
+        const API_TOKEN = `<?php print isset($_SESSION["api_token"]) ? $_SESSION["api_token"] : null; ?>`;
+        const USERNAME = `<?php print $_SESSION["username"]; ?>`;
     </script>
     <script src="data/js/belibrary.js"></script>
     <script src="data/js/statusbar.js"></script>

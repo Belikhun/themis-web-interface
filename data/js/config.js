@@ -81,8 +81,16 @@ function update() {
 }
 
 const sbar = new statusbar(document.body);
-sbar.additem(API_TOKEN, "key", {space: false});
-sbar.additem(USERNAME, "account", {space: false, aligin: "right"});
+sbar.additem(USERNAME, "account", {space: false, aligin: "left"});
+
+document.__onclog = (type, ts, msg) => {
+    type = type.toLowerCase();
+    const typelist = ["okay", "warn", "errr", "crit", "lcnt"]
+    if (typelist.indexOf(type) == -1)
+        return false;
+
+    sbar.msg(type, msg, {time: ts, lock: (type == "crit" || type == "lcnt") ? true : false});
+}
 
 $("body").onload = update();
 
@@ -112,7 +120,7 @@ $("#form-container").addEventListener("submit", e => {
             "token": API_TOKEN
         }
     }, data => {
-        sbar.msg("okay", "Thay đổi cài đặt thành công.");
+        clog("okay", "Thay đổi cài đặt thành công.");
         update();
     })
 }, false)
