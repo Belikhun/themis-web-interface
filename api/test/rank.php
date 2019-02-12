@@ -2,7 +2,7 @@
     //? |-----------------------------------------------------------------------------------------------|
     //? |  /api/test/rank.php                                                                           |
     //? |                                                                                               |
-    //? |  Copyright (c) 2019 Belikhun. All right reserved                                              |
+    //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
@@ -39,15 +39,15 @@
 
         $point = 0;
         preg_match("/[0-9]{1,},[0-9]{1,}/", $out, $t);
-        if (count($t) != 0 && isset($t[count($t) - 1]))
+        if (count($t) !== 0 && isset($t[count($t) - 1]))
             $point = (float)str_replace(",", ".", $t[count($t) - 1]);
 
-        if ($config["publish"] == true) {
+        if ($config["publish"] === true) {
             $namelist[$i] = $data["filename"];
             $res[$user]["list"][$data["filename"]] = $point;
         }
 
-        $res[$user]["log"][$data["filename"]] = ($config["viewlog"] == true) ? "/api/test/viewlog?f=" . basename($log) : null;
+        $res[$user]["log"][$data["filename"]] = ($config["viewlog"] === true) ? "/api/test/viewlog?f=" . basename($log) : null;
 
         $res[$user]["username"] = $user;
         $res[$user]["name"] = getuserdata($user)["name"];
@@ -57,7 +57,7 @@
         $res[$user]["total"] += $point;
     }
 
-    if ($config["publish"] == true) {
+    if ($config["publish"] === true) {
         $nlr = arrayremdub($namelist);
         $namelist = ((count($nlr) > 0) ? $nlr : Array());
     }
@@ -66,7 +66,7 @@
         $a = $a["total"];
         $b = $b["total"];
     
-        if ($a == $b)
+        if ($a === $b)
             return 0;
 
         return ($a > $b) ? -1 : 1;

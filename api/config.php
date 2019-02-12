@@ -2,7 +2,7 @@
     //? |-----------------------------------------------------------------------------------------------|
     //? |  /api/config.php                                                                              |
     //? |                                                                                               |
-    //? |  Copyright (c) 2019 Belikhun. All right reserved                                              |
+    //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
@@ -12,7 +12,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
 
-    if ($_SERVER["REQUEST_METHOD"] == "GET")
+    if ($_SERVER["REQUEST_METHOD"] === "GET")
         stop(0, "Thành công!", 200, $config);
 
     if (!islogedin())
@@ -21,14 +21,14 @@
     checktoken();
 
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
-    if (getuserdata($_SESSION["username"])["id"] != "admin")
+    if (getuserdata($_SESSION["username"])["id"] !== "admin")
         stop(31, "Access Denied!", 403);
 
     $TYPE_ARRAY = Array(
         "string" => "Array",
         "check" => function($d) {
             json_decode($d);
-            return (json_last_error() == JSON_ERROR_NONE);
+            return (json_last_error() === JSON_ERROR_NONE);
         },
         "handler" => function($d) {
             return json_decode($d, true);
@@ -59,11 +59,11 @@
         "string" => "Boolean",
         "check" => function($d) {
             $d = strtolower($d);
-            return ($d == "true" || $d == "false" || $d == "0" || $d == "1");
+            return ($d === "true" || $d === "false" || $d === "0" || $d === "1");
         },
         "handler" => function($d) {
             $d = strtolower($d);
-            return ($d == "true" || $d == "1");
+            return ($d === "true" || $d === "1");
         }
     );
 
@@ -96,7 +96,7 @@
     setting("editinfo", $config["editinfo"], $TYPE_BOOL);
     setting("viewlog", $config["viewlog"], $TYPE_BOOL);
 
-    if ($changed == false)
+    if ($changed === false)
         stop(102, "Woah nothing happened.", 200);
 
     save_config($config);

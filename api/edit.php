@@ -2,7 +2,7 @@
     //? |-----------------------------------------------------------------------------------------------|
     //? |  /api/edit.php                                                                                |
     //? |                                                                                               |
-    //? |  Copyright (c) 2019 Belikhun. All right reserved                                              |
+    //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
@@ -18,7 +18,7 @@
 
     checktoken();
 
-    if ($config["editinfo"] == false)
+    if ($config["editinfo"] === false)
         stop(21, "Thay đổi thông tin đã bị tắt!", 403);
 
     $change = Array();
@@ -31,13 +31,13 @@
 
     if (isset($_POST["p"])) {
         $oldpass = $_POST["p"];
-        if ($oldpass != $userdata["password"] && md5($oldpass) != $userdata["password"])
+        if ($oldpass !== $userdata["password"] && md5($oldpass) !== $userdata["password"])
             stop(14, "Sai mật khẩu!", 403);
 
         $newpass = reqform("np");
         $renewpass = reqform("rnp");
 
-        if ($newpass != $renewpass)
+        if ($newpass !== $renewpass)
             stop(15, "Mật khẩu mới không khớp!", 400);
 
         $change["password"] = md5($newpass);
@@ -47,7 +47,7 @@
     if (!isset($change["name"]) && !isset($change["password"]))
         stop(102, "No action taken.", 200);
 
-    if (edituser($username, $change) == USER_EDIT_SUCCESS)
+    if (edituser($username, $change) === USER_EDIT_SUCCESS)
         stop(0, "Thay đổi thông tin thành công!", 200, $change);
     else
         stop(6, "Thay đổi thông tin thất bại.", 500);

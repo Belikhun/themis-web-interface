@@ -2,7 +2,7 @@
 ? |-----------------------------------------------------------------------------------------------|
 ? |  /data/css/userprofile.css                                                                    |
 ? |                                                                                               |
-? |  Copyright (c) 2019 Belikhun. All right reserved                                              |
+? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
 ? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 ? |-----------------------------------------------------------------------------------------------|
 */
@@ -114,6 +114,7 @@
     font-size: 13px;
     text-transform: unset;
     font-weight: unset;
+    margin-top: 4px;
 }
 
 #user_settings .main .container .group .title.center {
@@ -140,6 +141,7 @@
     width: 100%;
     text-align: right;
     text-decoration: none;
+    font-family: "Calibri";
     font-size: 13px;
     cursor: pointer;
     color: rgb(58, 58, 58);
@@ -174,6 +176,7 @@
     width: 100%;
     text-align: right;
     text-decoration: none;
+    font-family: "Calibri";
     font-size: 13px;
     cursor: pointer;
     color: rgb(58, 58, 58);
@@ -219,6 +222,10 @@
 
 #user_settings .main .container .group .item.lr .right {
     flex-grow: 0;
+}
+
+#user_settings .main .container .group .item.text {
+    display: block;
 }
 
 #user_settings .main .container .group t {
@@ -451,8 +458,6 @@
 #user_settings .main .container .group.tools::after {
     content: "\f7d9";
 }
-
-
 
 
 /* Element and Stuff */

@@ -3,9 +3,10 @@
 </p>
 
 <p align="center">
-	<a href="https://github.com/belivipro9x99/themis-webinterface/releases/"><img src="https://img.shields.io/badge/release-v0.3.7-brightgreen.svg?longCache=true&style=popout-square"></a>
+	<a href="https://github.com/belivipro9x99/themis-webinterface/releases/"><img src="https://img.shields.io/badge/release-v0.4.0-brightgreen.svg?longCache=true&style=popout-square"></a>
 	<img src="https://img.shields.io/badge/license-MIT-orange.svg?longCache=true&style=popout-square">
 	<img src="https://img.shields.io/badge/status-not tested-blue.svg?longCache=true&style=popout-square">
+  <a href="https://www.codefactor.io/repository/github/belivipro9x99/themis-web-interface"><img src="https://www.codefactor.io/repository/github/belivipro9x99/themis-web-interface/badge"/></a>
 </p>
 
 ---
@@ -16,7 +17,7 @@
 
 **Themis Web Interface** được viết bằng các ngôn ngữ **HTML, CSS, PHP và JavaScript**. Dự án không sử dụng các library khác như **jQuery, Bootstrap, React, ...**
 
-> Phiên bản hiện tại là 0.3.7-release
+> Phiên bản hiện tại là 0.4.0-beta
 
 - [Demo](#demo)
 - [Yêu cầu](#yêu-cầu)

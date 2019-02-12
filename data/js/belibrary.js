@@ -1,7 +1,7 @@
 //? |-----------------------------------------------------------------------------------------------|
 //? |  /data/js/belibrary.js                                                                        |
 //? |                                                                                               |
-//? |  Copyright (c) 2019 Belikhun. All right reserved                                              |
+//? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
@@ -14,10 +14,10 @@ function myajax({
     type = "json",
     onupload = e => {},
     ondownload = e => {},
-    puredata = false,
+    rawdata = false,
 }, callout = () => {}, error = () => {}) {
     return new Promise((resolve, reject) => {
-        if (__connection__.onlineState == false) {
+        if (__connection__.onlineState === false) {
             const t = {code: 105, description: "Disconnected to Server"};
             reject(t);
             error(t);
@@ -38,7 +38,7 @@ function myajax({
         }
 
         for (var i = 0; i < query.length; i++) {
-            if (i == 0)
+            if (i === 0)
                 url += "?";
             var kn = Object.keys(query)[i];
             url += kn + "=" + query[kn];
@@ -57,14 +57,14 @@ function myajax({
         xhr.addEventListener("readystatechange", function() {
             if (this.readyState === this.DONE) {
 
-                if (this.status == 0) {
+                if (this.status === 0) {
                     __connection__.stateChange(false);
 
                     const t = {code: 105, description: "Disconnected to Server"};
                     reject(t);
                     error(t);
                     return false;
-                } else if ((this.responseText == "" || !this.responseText) && this.status != 200) {
+                } else if ((this.responseText === "" || !this.responseText) && this.status !== 200) {
                     clog("errr", {
                         color: flatc("red"),
                         text: "HTTP" + this.status
@@ -81,7 +81,7 @@ function myajax({
                     return false;
                 }
 
-                if (type == "json") {
+                if (type === "json") {
                     try {
                         var res = JSON.parse(this.responseText);
                     } catch (e) {
@@ -92,7 +92,7 @@ function myajax({
                         return false;
                     }
 
-                    if (this.status != 200 || (res.code != 0 && res.code < 100)) {
+                    if (this.status !== 200 || (res.code !== 0 && res.code < 100)) {
                         clog("errr", {
                             color: flatc("magenta"),
                             text: method
@@ -109,10 +109,10 @@ function myajax({
                         return false;
                     }
 
-                    data = puredata ? res : res.data;
+                    data = rawdata ? res : res.data;
                     rawdata = res;
                 } else {
-                    if (this.status != 200) {
+                    if (this.status !== 200) {
                         clog("errr", {
                             color: flatc("red"),
                             text: "HTTP" + this.status
@@ -132,7 +132,7 @@ function myajax({
                     rawdata = null;
                 }
 
-                if (document.lostconnect == true) {
+                if (document.lostconnect === true) {
                     document.lostconnect = false;
                     clog("okay", "Connected to server");
                 }
@@ -155,7 +155,7 @@ function delayAsync(time) {
 }
 
 function comparearray(arr1, arr2) {
-    if (JSON.stringify(arr1) == JSON.stringify(arr2))
+    if (JSON.stringify(arr1) === JSON.stringify(arr2))
         return true;
     return false;
 }
@@ -190,8 +190,8 @@ function checkServer(ip, callback = () => {}) {
         var pon = {};
         
         xhr.addEventListener("readystatechange", function() {
-            if (this.readyState == this.DONE) {
-                if (this.status == 0) {
+            if (this.readyState === this.DONE) {
+                if (this.status === 0) {
                     pon = {
                         code: -1,
                         description: "Server Offline"
@@ -322,10 +322,51 @@ function $(selector) {
     return document.querySelector(selector);
 }
 
+cookie = {
+    cookie: null,
+
+    getAll() {
+        const mycookie = document.cookie.split("; ");
+        var dacookie = {};
+
+        for (var i = 0; i < mycookie.length; i++) {
+            var t = mycookie[i].split("=");
+            dacookie[t[0]] = t[1];
+        }
+        
+        this.cookie = dacookie;
+        return dacookie;
+    },
+
+    get(key, def = null) {
+        if (!this.cookie)
+            this.cookie = this.getAll();
+
+        if (def !== null && typeof this.cookie[key] === "undefined")
+            this.set(key, def, 9999);
+
+        return this.cookie[key] || def;
+    },
+
+    set(key, value = "", days = 0, path = "/") {
+        var exp = "";
+        if (days !== 0 && typeof days === "number") {
+            var date = new Date();
+            date.setTime(date.getTime() + (days*24*60*60*1000));
+            exp = `; expires=${date.toUTCString()}`;
+        }
+        
+        document.cookie = `${key}=${value}${exp}; path=${path}`;
+
+        this.cookie = this.getAll();
+        return true;
+    },
+}
+
 //? |-----------------------------------------------------------------------------------------------|
 //? |  from web-clog.js                                                                             |
 //? |                                                                                               |
-//? |  Copyright (c) 2019 Belikhun. All right reserved                                              |
+    //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
@@ -402,7 +443,7 @@ function clog(level, ...args) {
     console.log.apply(this, out);
 }
 
-if (typeof document.__onclog == "undefined")
+if (typeof document.__onclog === "undefined")
     document.__onclog = (lv, t, m) => {};
 
 // Init
@@ -439,7 +480,7 @@ __connection__ = {
         clog("INFO", `We just went ${isOnline ? "online" : "offline"}!`);
         this.onlineState = isOnline;
 
-        if (isOnline == true) {
+        if (isOnline === true) {
             clog("okay", "Đã kết nối tới máy chủ.");
             if (this.__sbarItem)
                 this.__sbarItem.remove();

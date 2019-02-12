@@ -2,7 +2,7 @@
     //? |-----------------------------------------------------------------------------------------------|
     //? |  /api/test/problems/edit.php                                                                  |
     //? |                                                                                               |
-    //? |  Copyright (c) 2019 Belikhun. All right reserved                                              |
+    //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
@@ -17,7 +17,7 @@
     checktoken();
 
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
-    if (getuserdata($_SESSION["username"])["id"] != "admin")
+    if (getuserdata($_SESSION["username"])["id"] !== "admin")
         stop(31, "Access Denied!", 403);
 
     $id = reqform("id");

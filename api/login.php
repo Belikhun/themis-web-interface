@@ -2,7 +2,7 @@
     //? |-----------------------------------------------------------------------------------------------|
     //? |  /api/login.php                                                                               |
     //? |                                                                                               |
-    //? |  Copyright (c) 2019 Belikhun. All right reserved                                              |
+    //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
@@ -19,7 +19,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
 
     $res = simplelogin($username, $password);
-    if ($res == LOGIN_SUCCESS) {
+    if ($res === LOGIN_SUCCESS) {
         $udata = getuserdata($username);
         $_SESSION["username"] = $username;
         $_SESSION["id"] = $udata["id"];
@@ -32,9 +32,9 @@
             "redirect" => "/"
         ));
     }
-    else if ($res == LOGIN_WRONGPASSWORD)
+    else if ($res === LOGIN_WRONGPASSWORD)
         stop(14, "Sai mật khẩu!", 403);
-    else if ($res == LOGIN_USERNAMENOTFOUND)
+    else if ($res === LOGIN_USERNAMENOTFOUND)
         stop(13, "Sai tên đăng nhập!", 403);
     else
         stop(-1, "Lỗi không rõ.", 500);

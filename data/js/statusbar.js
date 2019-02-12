@@ -1,7 +1,7 @@
 //? |-----------------------------------------------------------------------------------------------|
 //? |  /data/js/statusbar.js                                                                        |
 //? |                                                                                               |
-//? |  Copyright (c) 2019 Belikhun. All right reserved                                              |
+//? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
@@ -51,7 +51,7 @@ class statusbar {
     __icon(elem, icon) {
         const iconlist = ["globe", "circle", "hub", "cloud", "block", "key", "desktop", "account", "server", "warning", "error", "info", "spinner"];
         
-        if (iconlist.indexOf(icon) != -1)
+        if (iconlist.indexOf(icon) !== -1)
             elem.classList.add(`icon-${icon}`);
     }
 
@@ -72,7 +72,7 @@ class statusbar {
         if (!space)
             item.classList.add("no-space");
         
-        if (aliginlist.indexOf(aligin) != -1)
+        if (aliginlist.indexOf(aligin) !== -1)
             this[aligin].appendChild(item);
 
         return {
@@ -102,7 +102,7 @@ class statusbar {
         clearTimeout(this.__hidetimeout);
         this.bar.classList.remove(this.__lasttype);
         
-        if (type == false) {
+        if (type === false) {
             this.__checksize();
             this.bar.classList.remove("msg");
             return true;
@@ -117,7 +117,7 @@ class statusbar {
                 this.msg(false);
             }, 6000);
 
-        if (typelist.indexOf(type) != -1) {
+        if (typelist.indexOf(type) !== -1) {
             this.__lasttype = type;
             this.bar.classList.add(type);
         }

@@ -2,7 +2,7 @@
 ? |-----------------------------------------------------------------------------------------------|
 ? |  /data/css/core.css                                                                           |
 ? |                                                                                               |
-? |  Copyright (c) 2019 Belikhun. All right reserved                                              |
+? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
 ? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 ? |-----------------------------------------------------------------------------------------------|
 */
@@ -1260,6 +1260,72 @@ footer {
     padding: 20px;
     display: block;
     float: left;
+}
+
+footer .header {
+    position: relative;
+    display: block;
+    padding-top: 10px;
+    padding-bottom: 30px;
+}
+
+footer .header .logo {
+    position: relative;
+    display: block;
+    margin: auto;
+    margin-bottom: 12px;
+    background-image: url("/data/img/icon.webp");
+    background-position: center;
+    background-size: cover;
+    border-radius: 50%;
+    width: 82px;
+    height: 82px;
+}
+
+footer .header .button {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+}
+
+footer .header .button * {
+    flex-grow: 1;
+    margin: 0 5px;
+}
+
+footer .header .button *.sq-btn:nth-child(1)::before {
+    animation-delay: 0.4s;
+}
+
+footer .header .button *.sq-btn:nth-child(1)::after {
+    animation-delay: 1.2s;
+}
+
+footer .header t {
+    position: relative;
+    display: block;
+    text-align: center;
+    font-family: "Calibri";
+    font-weight: normal;
+    font-size: 13px;
+    padding-top: 2px;
+}
+
+footer .header t.title {
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #4d6783;
+}
+
+footer .header t.version {
+    font-weight: bold;
+    color: #3a5068;
+}
+
+footer .header t.subtitle {
+    color: rgb(90, 90, 90);
 }
 
 footer .badge {

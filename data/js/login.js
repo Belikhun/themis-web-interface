@@ -1,7 +1,7 @@
 //? |-----------------------------------------------------------------------------------------------|
 //? |  /data/js/login.js                                                                            |
 //? |                                                                                               |
-//? |  Copyright (c) 2019 Belikhun. All right reserved                                              |
+//? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
@@ -27,7 +27,7 @@ login = {
     init: function () {
         this.form.username.submit.addEventListener("click", e => {this.checkusername()}, false);
         this.form.username.input.addEventListener("keyup", event => {
-            if (event.keyCode == 13 || event.keyCode == 9) {
+            if (event.keyCode === 13 || event.keyCode === 9) {
                 login.checkusername();
             }
         });
@@ -52,7 +52,7 @@ login = {
             }, data => {
                 window.location.href = data.redirect;
             }, data => {
-                if (data.code == 14)
+                if (data.code === 14)
                     this.reset(true);
                 else
                     this.reset(false);
@@ -63,7 +63,7 @@ login = {
 
     checkusername() {
         var val = this.form.username.input.value;
-        if (val == "" || val == null) {
+        if (val === "" || val === null) {
             login.form.username.input.focus();
             return false;
         }

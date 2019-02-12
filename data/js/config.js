@@ -1,7 +1,7 @@
 //? |-----------------------------------------------------------------------------------------------|
 //? |  /data/js/config.js                                                                           |
 //? |                                                                                               |
-//? |  Copyright (c) 2019 Belikhun. All right reserved                                              |
+//? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
@@ -86,13 +86,16 @@ sbar.additem(USERNAME, "account", {space: false, aligin: "left"});
 document.__onclog = (type, ts, msg) => {
     type = type.toLowerCase();
     const typelist = ["okay", "warn", "errr", "crit", "lcnt"]
-    if (typelist.indexOf(type) == -1)
+    if (typelist.indexOf(type) === -1)
         return false;
 
-    sbar.msg(type, msg, {time: ts, lock: (type == "crit" || type == "lcnt") ? true : false});
+    sbar.msg(type, msg, {time: ts, lock: (type === "crit" || type === "lcnt") ? true : false});
 }
 
-$("body").onload = update();
+$("body").onload = e => {
+    sound.init();
+    update();
+}
 
 $("#form-container").addEventListener("submit", e => {
     var bd = prdate(time.begindate.value);
@@ -124,3 +127,159 @@ $("#form-container").addEventListener("submit", e => {
         update();
     })
 }, false)
+
+
+sound = {
+    sounds: {
+        checkOff: null,
+        checkOn: null,
+        hover: null,
+        hoverSoft: null,
+        select: null,
+        selectSoft: null,
+        overlayPopIn: null,
+        overlayPopOut: null,
+        confirm: null,
+        notification: null,
+    },
+    
+    enable: {
+        master: false,
+        mouseOver: true,
+        btnClick: true,
+        panelToggle: true,
+        others: true,
+        notification: true,
+    },
+
+    async init() {
+        this.enable.master = cookie.get("__s_m", false) == "true";
+        this.enable.mouseOver = cookie.get("__s_mo", true) == "true";
+        this.enable.btnClick = cookie.get("__s_bc", true) == "true";
+        this.enable.panelToggle = cookie.get("__s_pt", true) == "true";
+        this.enable.others = cookie.get("__s_ot", true) == "true";
+        this.enable.notification = cookie.get("__s_nf", true) == "true";
+
+        await this.loadSound();
+        this.scan();
+
+        clog("okay", "Initialised:", {
+            color: flatc("red"),
+            text: "sound"
+        });
+    },
+
+    async loadSound() {
+        this.sounds.checkOff = await this.__loadSoundAsync(`/data/sounds/check-off.mp3`);
+        this.sounds.checkOn = await this.__loadSoundAsync(`/data/sounds/check-on.mp3`);
+        this.sounds.hover = await this.__loadSoundAsync(`/data/sounds/generic-hover.mp3`);
+        this.sounds.hoverSoft = await this.__loadSoundAsync(`/data/sounds/generic-hover-soft.mp3`);
+        this.sounds.select = await this.__loadSoundAsync(`/data/sounds/generic-select.mp3`);
+        this.sounds.selectSoft = await this.__loadSoundAsync(`/data/sounds/generic-select-soft.mp3`);
+        this.sounds.overlayPopIn = await this.__loadSoundAsync(`/data/sounds/overlay-pop-in.mp3`);
+        this.sounds.overlayPopOut = await this.__loadSoundAsync(`/data/sounds/overlay-pop-out.mp3`);
+        this.sounds.confirm = await this.__loadSoundAsync(`/data/sounds/generic-confirm.mp3`);
+        this.sounds.notification = await this.__loadSoundAsync(`/data/sounds/notification.mp3`);
+    },
+
+    async __loadSoundAsync(url, volume = 0.1) {
+        sound = new Audio(url);
+        clog("DEBG", `Loading sound: ${url}`);
+
+        return new Promise((resolve, reject) => {
+            sound.addEventListener("canplaythrough", handler = e => {
+                sound.removeEventListener("canplaythrough", handler);
+                sound.volume = volume;
+                clog("DEBG", `Sound loaded: ${url}`);
+                resolve(sound);
+            });
+
+            sound.addEventListener("error", e => {
+                clog("ERRR", `Error loading sound: ${url}`);
+                console.log(e);
+                reject(e);
+            })
+        })
+    },
+
+    __soundToggle(sound) {
+        if (sound.readyState < 3)
+            return false;
+
+        if (!sound.paused)
+            sound.pause();
+        sound.currentTime = 0;
+        sound.play().catch(e => {
+            clog("errr", "Play prevented by Chrome Autoplay Policy.");
+        });
+    },
+
+    select() {
+        if (this.enable.master && this.enable.btnClick)
+            this.__soundToggle(this.sounds.select);
+    },
+
+    confirm() {
+        if (this.enable.master && this.enable.others)
+            this.__soundToggle(this.sounds.confirm);
+    },
+
+    notification() {
+        if (this.enable.master && this.enable.notification)
+            this.__soundToggle(this.sounds.notification);
+    },
+
+    scan() {
+        const list = document.getElementsByClassName("sound");
+
+        for (var item of list) {
+            if (typeof item.dataset === "undefined") {
+                clog("DEBG", `Unknown element: ${e} in core.userSettings.sound.scan`);
+                continue;
+            }
+
+            if (typeof item.dataset.soundhover !== "undefined")
+                item.addEventListener("mouseenter", e => {
+                    if (this.enable.master && this.enable.mouseOver)
+                        this.__soundToggle(this.sounds.hover);
+                })
+
+            if (typeof item.dataset.soundhoversoft !== "undefined")
+                item.addEventListener("mouseenter", e => {
+                    if (this.enable.master && this.enable.mouseOver)
+                        this.__soundToggle(this.sounds.hoverSoft);
+                })
+
+            if (typeof item.dataset.soundselect !== "undefined")
+                item.addEventListener("mousedown", e => {
+                    if (this.enable.master && this.enable.btnClick)
+                        this.__soundToggle(this.sounds.select);
+                })
+
+            if (typeof item.dataset.soundselectsoft !== "undefined")
+                item.addEventListener("mousedown", e => {
+                    if (this.enable.master && this.enable.btnClick)
+                        this.__soundToggle(this.sounds.selectSoft);
+                })
+
+            if (typeof item.dataset.soundcheck !== "undefined")
+                item.addEventListener("change", e => {
+                    if (this.enable.master && this.enable.btnClick)
+                        if (e.target.checked === true)
+                            this.__soundToggle(this.sounds.checkOn);
+                        else
+                            this.__soundToggle(this.sounds.checkOff);
+                })
+
+            if (typeof item.dataset.soundtoggle === "string")
+                new ClassWatcher(item, item.dataset.soundtoggle, () => {
+                    if (this.enable.master && this.enable.panelToggle)
+                        this.__soundToggle(this.sounds.overlayPopIn);
+                }, () => {
+                    if (this.enable.master && this.enable.panelToggle)
+                        this.__soundToggle(this.sounds.overlayPopOut);
+                });
+            
+        }
+    }
+}
