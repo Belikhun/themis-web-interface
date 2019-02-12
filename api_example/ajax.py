@@ -14,12 +14,12 @@ sess = requests.Session()
 def ajax(url: str, method: str, type: str, query = {}, form = {}):
 	method = method.upper()
 
-	if (len(query) > 0):
+	if (query):
 		log("DEBG", "Creating " + method + " request with query:")
 		for item in query:
 			log("DEBG", " {:<12}: {}".format(str(item), str(query[item])))
 
-	if (len(form) > 0):
+	if (form):
 		log("DEBG", "Creating " + method + " request with form:")
 		for item in form:
 			log("DEBG", " {:<12}: {}".format(str(item), str(form[item])))

@@ -42,8 +42,8 @@ t {
 .wrapper #form-container::before {
     content: "";
     position: absolute;
-    top: 0px;
-    right: 0px;
+    top: 0;
+    right: 0;
     height: 100%;
     width: 50px;
     background-color: #F5F5F6;
@@ -63,8 +63,8 @@ t {
     position: absolute;
     width: 50px;
     height: 100%;
-    right: 0px;
-    top: 0px;
+    right: 0;
+    top: 0;
     color: #a5a5a5;
     line-height: 50px;
     font-family: "Font Awesome 5 Free";

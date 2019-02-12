@@ -17,8 +17,8 @@ body {
 
 .background {
     position: fixed;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     background-image: url("/data/img/error-bg.webp");
@@ -31,15 +31,15 @@ body {
 
 .main-container {
     position: fixed;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     width: 100%;
     height: calc(100% - 50px);
     word-wrap: break-word;
     overflow: auto;
 }
 
-.main-container p.code {
+.main-container .code {
     position: relative;
     font-family: "Segoe UI";
     font-size: 70px;
@@ -49,14 +49,14 @@ body {
     margin: 60px 0 0 0;
 }
 
-.main-container p.code font.protocol {
+.main-container .code .protocol {
     font-family: Calibri;
     font-size: 18px;
     font-weight: 100;
     color: rgb(30, 202, 233);
 }
 
-.main-container p.name {
+.main-container .name {
     font-family: "Segoe UI";
     font-size: 32px;
     font-weight: 600;
@@ -68,7 +68,7 @@ body {
     margin: 0 0 20px 0;
 }
 
-.main-container p.desc {
+.main-container .desc {
     font-family: "Segoe UI";
     font-size: 16px;
     font-weight: normal;
@@ -81,7 +81,7 @@ body {
     padding: unset;
 }
 
-.main-container p.info {
+.main-container .info {
     font-family: Calibri;
     font-size: 14px;
     font-weight: lighter;
@@ -95,7 +95,7 @@ body {
     padding-bottom: 30px;
 }
 
-.main-container button.sq-btn {
+.main-container .sq-btn {
     position: relative;
     margin: auto;
     margin-top: 10px;
@@ -104,7 +104,7 @@ body {
 
 .footer {
     position: absolute;
-    bottom: 0px;
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%);
     height: 50px;
@@ -115,7 +115,7 @@ body {
     justify-content: center;
 }
 
-.footer img.icon {
+.footer .icon {
     position: relative;
     border-radius: 50%;
     height: 80%;
@@ -140,7 +140,7 @@ body {
     }
 
     .footer {
-        left: 0px;
+        left: 0;
         transform: translateX(0);
         width: 100%;
         padding: unset;

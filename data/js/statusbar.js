@@ -36,7 +36,7 @@ class statusbar {
         this.__hidetimeout = null;
     }
 
-    __checksize(e) {
+    __checksize() {
         const bw = this.bar.offsetWidth;
         const lw = this.left.offsetWidth;
         const cw = this.center.offsetWidth;
@@ -113,7 +113,7 @@ class statusbar {
         const typelist = ["info", "okay", "warn", "errr", "crit", "lcnt"]
 
         if (!lock)
-            this.__hidetimeout = setTimeout(e => {
+            this.__hidetimeout = setTimeout(() => {
                 this.msg(false);
             }, 6000);
 

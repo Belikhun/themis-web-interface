@@ -43,7 +43,7 @@ t {
 .left-panel {
     position: absolute;
     display: block;
-    left: 0px;
+    left: 0;
     width: calc(100% - 400px);
     height: 100%;
     opacity: 1;
@@ -89,7 +89,7 @@ t {
 
 .right-panel {
     position: absolute;
-    right: 0px;
+    right: 0;
     width: 400px;
     height: 100%;
     padding: 20px;
@@ -101,7 +101,7 @@ t {
 
 .right-panel .header {
     position: relative;
-    top: 0px;
+    top: 0;
     width: 100%;
     display: flex;
     align-items: center;
@@ -148,7 +148,7 @@ t {
     top: 50%;
     transform: translateY(-50%);
     box-sizing: border-box;
-    padding: 0px 20px;
+    padding: 0 20px;
     width: calc(100% - 40px);
     overflow: hidden auto;
 }

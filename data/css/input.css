@@ -61,7 +61,7 @@
 }
 
 .formgroup .formfield:disabled {
-    color: rgb(172, 172, 172)!important;
+    color: rgb(172, 172, 172);
     cursor: not-allowed;
 }
 

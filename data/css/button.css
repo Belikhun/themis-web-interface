@@ -14,20 +14,20 @@
     font-family: "Segoe UI", sans-serif;
     font-weight: 600;
     letter-spacing: 0.5px;
-    padding-left: 18px;
-    padding-right: 18px;
-    padding-top: 7.2px;
-    padding-bottom: 7.2px;
-    border-width: 0px;
+    padding: 7.2px 18px;
+    border-width: 0;
     border-style: solid;
     border-color: rgb(0, 0, 0);
     border-image: initial;
     border-radius: 5px;
-    outline: none;
     box-sizing: border-box;
     text-decoration: none;
     cursor: pointer;
     transition: all 1s cubic-bezier(0.06, 0.81, 0, 0.98);
+}
+
+.btn:focus {
+    outline: none;
 }
 
 .btn:hover {
@@ -98,15 +98,11 @@
     font-size: 12px;
     font-family: "Segoe UI", sans-serif;
     font-weight: normal;
-    padding-left: 6px;
-    padding-right: 6px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 10px 6px;
     border-width: 2px;
     border-style: solid;
     border-image: initial;
     border-color: transparent;
-    outline: none;
     text-decoration: none;
     cursor: pointer;
     transition: all 1s cubic-bezier(0.06, 0.81, 0, 0.98);
@@ -124,6 +120,10 @@
     margin-right: 12px;
     width: 24px;
     height: 24px;
+}
+
+.ms-btn:focus {
+    outline: none;
 }
 
 .ms-btn:hover {
@@ -146,12 +146,11 @@
     font-weight: 600;
     letter-spacing: 0.5px;
     padding: 7px 18px;
-    border-width: 0px;
+    border-width: 0;
     border-style: solid;
     border-color: rgb(0, 0, 0);
     border-image: initial;
-    border-radius: 0px;
-    outline: none;
+    border-radius: 0;
     box-sizing: border-box;
     text-decoration: none;
     cursor: pointer;
@@ -170,7 +169,7 @@
     display: block;
     width: 0;
     height: 0;
-    right: 0px;
+    right: 0;
     top: 100%;
     border-style: solid;
     border-width: 0 50px 100px 50px;
@@ -201,6 +200,10 @@
     }
 }
 
+.sq-btn:focus {
+    outline: none;
+}
+
 .sq-btn:hover {
     filter: brightness(1.15);
 }
@@ -210,7 +213,7 @@
 }
 
 .sq-btn:disabled {
-    filter: brightness(0.6)!important;
+    filter: brightness(0.6);
     cursor: default;
 }
 

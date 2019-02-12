@@ -30,7 +30,7 @@
         http_response_code($errcode);
         
         if ($customerr) {
-            echo "<iframe src=\"/lib/error.php\" style=\"position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: unset; overflow: hidden;\"></iframe>";
+            echo "<iframe src=\"/lib/error.php\" style=\"position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: unset; overflow: hidden;\"></iframe>";
         } else {
             require $_SERVER["DOCUMENT_ROOT"]."/lib/error.php";
         }

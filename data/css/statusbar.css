@@ -20,7 +20,7 @@
     align-items: center;
     width: 100%;
     height: 20px;
-    bottom: 0px;
+    bottom: 0;
     background-color: #21252B;
     color: rgb(157, 165, 180);
     font-family: "Segoe UI";
@@ -66,7 +66,7 @@
 
 .statusbar .left {
     margin-left: 6px;
-    left: 0px;
+    left: 0;
 }
 
 .statusbar .center {
@@ -80,7 +80,7 @@
 .statusbar .right {
     flex-direction: row-reverse;
     margin-right: 6px;
-    right: 0px;
+    right: 0;
 }
 
 .statusbar .center .spinner {
@@ -192,7 +192,7 @@
 .statusbar span .item text {
     position: relative;
     display: inline-block;
-    line-height: 0px;
+    line-height: 0;
 }
 
 .statusbar span.left .item.no-space,

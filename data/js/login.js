@@ -25,14 +25,14 @@ login = {
     },
 
     init: function () {
-        this.form.username.submit.addEventListener("click", e => {this.checkusername()}, false);
+        this.form.username.submit.addEventListener("click", () => {this.checkusername()}, false);
         this.form.username.input.addEventListener("keyup", event => {
             if (event.keyCode === 13 || event.keyCode === 9) {
                 login.checkusername();
             }
         });
-        this.form.container.addEventListener("submit", e => {this.submit()}, false);
-        this.form.profile.addEventListener("click", e => {this.reset(false)}, false);
+        this.form.container.addEventListener("submit", () => {this.submit()}, false);
+        this.form.profile.addEventListener("click", () => {this.reset(false)}, false);
         this.form.username.input.disabled = false;
         this.form.username.submit.disabled = false;
         this.form.username.input.focus();
@@ -69,7 +69,7 @@ login = {
         }
         this.form.username.input.disabled = true;
         this.form.username.submit.disabled = true;
-        this.form.password.avatar.onload = e => {
+        this.form.password.avatar.onload = () => {
             this.showpassinp(val);
         };
         this.form.password.avatar.src = "/api/avt/get?u=" + val;

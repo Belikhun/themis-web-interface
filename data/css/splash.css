@@ -9,8 +9,8 @@
 
 #splash_screen {
     position: fixed;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     background-color: #ecf0f1;
     width: 100%;
     height: 100%;
@@ -43,8 +43,8 @@
 #splash_screen .mid .logo::before {
     content: "";
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     background-color: #3498db;
