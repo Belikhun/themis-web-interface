@@ -23,6 +23,11 @@
     if (!file_exists($lf))
         stop(44, "Không tìm thấy tệp nhật kí ". $file, 404);
 
+    $username = $_SESSION["username"];
+
+    if (!(strpos($file, "[". $username ."]") > 0) && $config["viewlogother"] == false)
+        stop(31, "Không cho phép xem tệp nhật kí của người khác!", 403);
+
     $line = Array();
     $logf = fopen($lf, "r");
     while (($l = fgets($logf)) !== false)

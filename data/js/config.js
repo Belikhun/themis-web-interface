@@ -5,22 +5,23 @@
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
-contest = {
+var contest = {
     name: $("#contest-name"),
     desc: $("#contest-description")
 }
-uploaddir = $("#uploaddir");
-time = {
+var uploaddir = $("#uploaddir");
+var time = {
     zone: $("#time-zone"),
     begindate: $("#time-begindate"),
     begintime: $("#time-begintime"),
     during: $("#time-during"),
     offset: $("#time-offset")
 }
-publish = $("#publish");
-submit = $("#submit");
-editinfo = $("#editinfo");
-viewlog = $("#viewlog");
+var publish = $("#publish");
+var submit = $("#submit");
+var editinfo = $("#editinfo");
+var viewlog = $("#viewlog");
+var viewlogother = $("#viewlog-other");
 
 function cvtime(h, m, s) {
     return [h, m, s]
@@ -77,6 +78,7 @@ function update() {
         submit.checked = data.submit;
         editinfo.checked = data.editinfo;
         viewlog.checked = data.viewlog;
+        viewlogother.checked = data.viewlogother
     });
 }
 
@@ -120,6 +122,7 @@ $("#form-container").addEventListener("submit", e => {
             "submit": submit.checked,
             "editinfo": editinfo.checked,
             "viewlog": viewlog.checked,
+            "viewlogother": viewlogother.checked,
             "token": API_TOKEN
         }
     }, data => {

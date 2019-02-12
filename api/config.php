@@ -95,6 +95,7 @@
     setting("submit", $config["submit"], $TYPE_BOOL);
     setting("editinfo", $config["editinfo"], $TYPE_BOOL);
     setting("viewlog", $config["viewlog"], $TYPE_BOOL);
+    setting("viewlogother", $config["viewlogother"], $TYPE_BOOL);
 
     if ($changed === false)
         stop(102, "Woah nothing happened.", 200);

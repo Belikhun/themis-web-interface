@@ -20,5 +20,6 @@
     "publish": true,
     "submit": true,
     "editinfo": true,
-    "viewlog": true
+    "viewlog": true,
+    "viewlogother": true
 }
