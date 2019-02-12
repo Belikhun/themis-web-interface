@@ -108,7 +108,7 @@ t {
     font-family: Calibri;
 }
 
-.right-panel .header img.icon {
+.right-panel .header .icon {
     position: relative;
     display: inline-block;
     height: 44px;

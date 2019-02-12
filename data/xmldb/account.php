@@ -68,7 +68,7 @@
             foreach ($cell as $j => $celldata)
                 if ($j === array_search("username", $acchead) && $celldata -> textContent === $username) {
                     foreach ($replace as $k => $val)
-                        if ($cellindex = array_search($k, $acchead))
+                        if (($cellindex = array_search($k, $acchead)) !== false)
                             $cell -> item($cellindex) -> textContent = $val;
 
                     if($dom -> save($_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/acctmp.xml") === false)

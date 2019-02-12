@@ -12,8 +12,8 @@ function myajax({
     form = Array(),
     file = null,
     type = "json",
-    onupload = e => {},
-    ondownload = e => {},
+    onupload = () => {},
+    ondownload = () => {},
     rawdata = false,
 }, callout = () => {}, error = () => {}) {
     return new Promise((resolve, reject) => {
@@ -172,7 +172,7 @@ function escape_html(str) {
         "<": "&lt;",
         ">": "&gt;",
         "\"": "&quot;",
-        "\'": "&#039;"
+        "'": "&#039;"
     };
 
     return str.replace(/[&<>"']/g, function (m) {

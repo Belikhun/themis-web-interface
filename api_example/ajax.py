@@ -11,7 +11,7 @@ from log import log
 
 sess = requests.Session()
 
-def ajax(url: str, method: str, type: str, query = {}, form = {}):
+def ajax(url: str, method: str, restype: str, query = {}, form = {}):
 	method = method.upper()
 
 	if (query):
@@ -25,13 +25,14 @@ def ajax(url: str, method: str, type: str, query = {}, form = {}):
 			log("DEBG", " {:<12}: {}".format(str(item), str(form[item])))
 
 	log("INFO", "Starting request: " + url)
+
 	if method == "GET":
 		r = sess.get(url, params = query)
 	elif method == "POST":
 		r = sess.post(url, data = form)
 	else:
 		log("ERRR", "Unknown method: " + method)
-		exit
+		return
 
 	if (r.status_code == 200):
 		s = "OKAY"
@@ -40,7 +41,7 @@ def ajax(url: str, method: str, type: str, query = {}, form = {}):
 
 	log(s, method + " " + url + " " + str(r.status_code))
 
-	if (type == "json"):
+	if (restype == "json"):
 		json = r.json()
 		json["status"] = r.status_code
 		return json
