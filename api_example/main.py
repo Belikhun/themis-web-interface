@@ -15,10 +15,10 @@ import json
 log("OKAY", "Initialised: json")
 
 # Lấy địa chỉ của máy chủ
-host = input("Enter host address: ")
+host = raw_input("Enter host address: ")
 # Lấy tên người dùng và mật khẩu
-username = input("Username: ")
-password = input("Password: ")
+username = raw_input("Username: ")
+password = raw_input("Password: ")
 
 logindata = ajax("http://" + host + "/api/login", "POST", "json", form = {
 	"u": username,
