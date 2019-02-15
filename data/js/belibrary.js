@@ -474,7 +474,7 @@ __connection__ = {
     __sbarItem: null,
 
     stateChange(isOnline = true) {
-        if (!typeof isOnline === "boolean" && isOnline === this.onlineState)
+        if (!typeof isOnline === "boolean" || isOnline === this.onlineState)
             return false;
 
         clog("INFO", `We just went ${isOnline ? "online" : "offline"}!`);

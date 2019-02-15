@@ -144,7 +144,6 @@
     border-image: initial;
     border-radius: 0;
     box-sizing: border-box;
-    text-decoration: none;
     cursor: pointer;
     overflow: hidden;
     z-index: 1;
@@ -198,6 +197,11 @@
 
 .sq-btn:active {
     transform: scale(0.9);
+}
+
+.sq-btn:focus {
+    outline: none;
+    text-decoration: underline;
 }
 
 .sq-btn:disabled {
