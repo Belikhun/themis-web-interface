@@ -200,7 +200,7 @@ function buildElementTree(type = "div", __class = [], data = new Array()) {
             tree.appendChild(t.tree);
             objtree[d.name] = new Array();
             objtree[d.name].this = t.tree;
-            objtree[d.name] = {...objtree[d.name], ...t.obj};
+            Object.assign(objtree[d.name], t.obj);
         } else {
             var t = document.createElement(d.type);
             if (typeof d.class == "string")
