@@ -528,7 +528,7 @@ __connection__ = {
             this.checkCount = 0;
             this.__sbarItem = (sbar) ? sbar.additem("Đang thử kết nối lại...", "spinner", {aligin: "right"}) : null;
 
-            this.checkInterval = setInterval(async () => {
+            this.checkInterval = setInterval(() => {
                 this.checkCount++;
                 if (this.__sbarItem)
                     this.__sbarItem.change(`Đang thử kết nối lại... [Lần ${this.checkCount}]`);
