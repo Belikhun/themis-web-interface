@@ -1,17 +1,17 @@
 # Change Logs
 
 - [Thay đổi trong v0.3.7](#thay-đổi-trong-v037)
-  - [Thay đổi trong v0.3.6](#thay-đổi-trong-v036)
-  - [Thay đổi trong v0.3.5](#thay-đổi-trong-v035)
-  - [Thay đổi trong v0.3.4](#thay-đổi-trong-v034)
-  - [Thay đổi trong v0.3.3](#thay-đổi-trong-v033)
-  - [Thay đổi trong v0.3.2](#thay-đổi-trong-v032)
-  - [Thay đổi trong v0.3.1](#thay-đổi-trong-v031)
-  - [Thay đổi trong v0.3.0](#thay-đổi-trong-v030)
-  - [Thay đổi trong v0.2.3](#thay-đổi-trong-v023)
-  - [Thay đổi trong v0.2.2](#thay-đổi-trong-v022)
-  - [Thay đổi trong v0.2.1](#thay-đổi-trong-v021)
-  - [Thay đổi trong v0.2.0](#thay-đổi-trong-v020)
+	- [Thay đổi trong v0.3.6](#thay-đổi-trong-v036)
+	- [Thay đổi trong v0.3.5](#thay-đổi-trong-v035)
+	- [Thay đổi trong v0.3.4](#thay-đổi-trong-v034)
+	- [Thay đổi trong v0.3.3](#thay-đổi-trong-v033)
+	- [Thay đổi trong v0.3.2](#thay-đổi-trong-v032)
+	- [Thay đổi trong v0.3.1](#thay-đổi-trong-v031)
+	- [Thay đổi trong v0.3.0](#thay-đổi-trong-v030)
+	- [Thay đổi trong v0.2.3](#thay-đổi-trong-v023)
+	- [Thay đổi trong v0.2.2](#thay-đổi-trong-v022)
+	- [Thay đổi trong v0.2.1](#thay-đổi-trong-v021)
+	- [Thay đổi trong v0.2.0](#thay-đổi-trong-v020)
 
 ---
 
@@ -79,7 +79,7 @@
 
 * API now require a token
 * Vá các lỗ hổng bảo mật:
-  * CSRF
+* CSRF
 
 ### Thay đổi trong v0.2.0
 
@@ -87,6 +87,6 @@
 * Hiển thị tình trạng hiện tại của bài đã nộp
 * Xem tệp nhật kí trực tiếp trên trang mà không cần tải về
 * Vá các lỗ hổng bảo mật:
-  * XSS
-  * LFI/RFI
-  * Slowloris DoS
+* XSS
+* LFI/RFI
+* Slowloris DoS
