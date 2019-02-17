@@ -90,49 +90,66 @@ core = {
     fLogInt: null,
     fRankInt: null,
 
-    async init() {
-        console.log("%cSTOP!", "font-size: 72px; font-weight: 900;");
-        console.log(
-            "%cThis feature is intended for developers. Pasting something here could give strangers access to your account.",
-            "font-size: 18px; font-weight: 700;"
-        );
-
-        clog("info", "Initialising...");
+    async init(set) {
+        clog("info", "Initializing...");
         var initTime = new stopclock();
 
         this.rankPanel.ref.onClick(() => {
             this.fetchRank(true);
         });
-        this.fetchRank();
+
+        set(5, "Fetching Rank...");
+        await this.fetchRank();
         this.fRankInt = setInterval(e => {this.fetchRank()}, 2000);
-        this.timer.init();
+        set(10, "Initializing: core.timer");
+        await this.timer.init();
+        set(15, "Initializing: core.wrapper");
         this.wrapper.init();
         
         if (LOGGED_IN) {
+            set(20, "Initializing: core.file");
             this.file.init();
-            this.problems.init();
-            await this.userSettings.init();
-            this.fetchLog();
+            set(25, "Initializing: core.problems");
+            await this.problems.init();
+            set(30, "Initializing: core.userSettings");
+            this.userSettings.init();
+            set(35, "Fetching Logs...");
+            await this.fetchLog();
             this.logPanel.ref.onClick(() => {
                 this.fetchLog(true);
             });
-            this.file.onUploadSuccess = e => (this.fetchLog());
-            this.fLogInt = setInterval(e => {this.fetchLog()}, 1000);
-            await this.sound.init();
+            this.file.onUploadSuccess = () => {this.fetchLog()};
+            this.fLogInt = setInterval(() => {this.fetchLog()}, 1000);
+            
+            set(40, "Initializing: core.sounds");
+            await this.sound.init((p, t) => {
+                set(40 + p*0.5, `Initializing: core.sounds (${t})`);
+            });
+
             if (IS_ADMIN) {
                 clog("info", "Logged in as Admin.");
-                this.settings.init();
+                set(90, "Initializing: core.settings");
+                await this.settings.init();
             }
         } else
             clog("warn", "You are not logged in. Some feature will be disabled.");
 
+        set(95, "Getting Server Status...");
         await this.getServerStatusAsync();
 
         clog("debg", "Initialisation took:", {
             color: flatc("blue"),
             text: initTime.stop + "s"
         })
-        clog("okay", "Core.js Initialised.");
+
+        set(100, "Initialized");
+        clog("okay", "core.js Initialized.");
+
+        console.log("%cSTOP!", "font-size: 72px; font-weight: 900;");
+        console.log(
+            "%cThis feature is intended for developers. Pasting something here could give strangers access to your account.",
+            "font-size: 18px; font-weight: 700;"
+        );
     },
 
     async getServerStatusAsync() {
@@ -170,162 +187,162 @@ core = {
         }
     },
 
-    fetchLog(bypass = false) {
-        myajax({
+    async fetchLog(bypass = false) {
+        var data = await myajax({
             url: "/api/test/logs",
             method: "GET",
-        }, data => {
-            if (comparearray(data, this.pLogData) && !bypass)
-                return false;
+        });
 
-            clog("debg", "Updating Log");
-            var updatelog = new stopclock();
+        if (comparearray(data, this.pLogData) && !bypass)
+            return false;
 
-            var list = this.logPanel.main.getElementsByClassName("log-item-container")[0];
-            
-            if (data.judging.length === 0 && data.logs.length === 0 && data.queues.length === 0) {
-                this.logPanel.main.classList.add("blank");
-                this.pLogData = data;
-                list.innerHTML = "";
+        clog("debg", "Updating Log");
+        var updatelog = new stopclock();
 
-                clog("debg", "Log Is Blank. Took", {
-                    color: flatc("blue"),
-                    text: updatelog.stop + "s"
-                });
-
-                return false;
-            } else
-                this.logPanel.main.classList.remove("blank");
-
-            var out = "";
-            
-            for (var i = 0; i < data.judging.length; i++)
-                out += [
-                    `<li class="log-item judging">`,
-                        `<div class="h">`,
-                            `<ul class="l">`,
-                                `<li class="t">${data.judging[i].lastmodify}</li>`,
-                                `<li class="n">${data.judging[i].name}</li>`,
-                            `</ul>`,
-                            `<t class="r">Đang chấm</t>`,
-                        `</div>`,
-                        `<a class="d"></a>`,
-                    `</li>`
-                ].join("\n");
-
-            for (var i = 0; i < data.queues.length; i++)
-                out += [
-                    `<li class="log-item queue">`,
-                        `<div class="h">`,
-                            `<ul class="l">`,
-                                `<li class="t">${data.queues[i].lastmodify}</li>`,
-                                `<li class="n">${data.queues[i].name}</li>`,
-                            `</ul>`,
-                            `<t class="r">Đang chờ</t>`,
-                        `</div>`,
-                        `<a class="d"></a>`,
-                    `</li>`
-                ].join("\n");
-
-            for (var i = 0; i < data.logs.length; i++)
-                out += [
-                    `<li class="log-item">`,
-                        `<div class="h">`,
-                            `<ul class="l">`,
-                                `<li class="t">${data.logs[i].lastmodify}</li>`,
-                                `<li class="n">${data.logs[i].name}</li>`,
-                            `</ul>`,
-                            `<t class="r">${data.logs[i].out}</t>`,
-                        `</div>`,
-                        `<a class="d" onClick="core.viewlog('${data.logs[i].url}')"></a>`,
-                    `</li>`
-                ].join("\n");
-
-            list.innerHTML = out;
+        var list = this.logPanel.main.getElementsByClassName("log-item-container")[0];
+        
+        if (data.judging.length === 0 && data.logs.length === 0 && data.queues.length === 0) {
+            this.logPanel.main.classList.add("blank");
             this.pLogData = data;
+            list.innerHTML = "";
 
-            clog("debg", "Log Updated. Took", {
+            clog("debg", "Log Is Blank. Took", {
                 color: flatc("blue"),
                 text: updatelog.stop + "s"
             });
-        })
-    },
 
-    fetchRank(bypass = false) {
-        myajax({
-            url: "/api/test/rank",
-            method: "GET",
-        }, data => {
-            if (comparearray(data, this.pRankData) && !bypass)
-                return false;
+            return false;
+        } else
+            this.logPanel.main.classList.remove("blank");
 
-            clog("debg", "Updating Rank");
-            var updaterank = new stopclock();
-
-            if (data.list.length === 0 && data.rank.length === 0) {
-                this.rankPanel.main.classList.add("blank");
-                this.pRankData = data;
-                this.rankPanel.main.innerHTML = "";
-                
-                clog("debg", "Rank Is Blank. Took", {
-                    color: flatc("blue"),
-                    text: updaterank.stop + "s"
-                });
-
-                return false;
-            } else
-                this.rankPanel.main.classList.remove("blank");
-    
-
-            var list = data.list;
-            var out = [
-                "<table>",
-                    "<tr>",
-                        "<th>#</th>",
-                        "<th>Thí sinh</th>",
-                        "<th>Tổng</th>",
+        var out = "";
+        
+        for (var i = 0; i < data.judging.length; i++)
+            out += [
+                `<li class="log-item judging">`,
+                    `<div class="h">`,
+                        `<ul class="l">`,
+                            `<li class="t">${data.judging[i].lastmodify}</li>`,
+                            `<li class="n">${data.judging[i].name}</li>`,
+                        `</ul>`,
+                        `<t class="r">Đang chấm</t>`,
+                    `</div>`,
+                    `<a class="d"></a>`,
+                `</li>`
             ].join("\n");
 
-            for (var i = 0; i < list.length; i++)
-                out += "<th>" + list[i] + "</th>\n";
-            out += "</tr>\n";
+        for (var i = 0; i < data.queues.length; i++)
+            out += [
+                `<li class="log-item queue">`,
+                    `<div class="h">`,
+                        `<ul class="l">`,
+                            `<li class="t">${data.queues[i].lastmodify}</li>`,
+                            `<li class="n">${data.queues[i].name}</li>`,
+                        `</ul>`,
+                        `<t class="r">Đang chờ</t>`,
+                    `</div>`,
+                    `<a class="d"></a>`,
+                `</li>`
+            ].join("\n");
 
-            var ptotal = 0;
-            var rank = 0;
+        for (var i = 0; i < data.logs.length; i++)
+            out += [
+                `<li class="log-item">`,
+                    `<div class="h">`,
+                        `<ul class="l">`,
+                            `<li class="t">${data.logs[i].lastmodify}</li>`,
+                            `<li class="n">${data.logs[i].name}</li>`,
+                        `</ul>`,
+                        `<t class="r">${data.logs[i].out}</t>`,
+                    `</div>`,
+                    `<a class="d" onClick="core.viewlog('${data.logs[i].url}')"></a>`,
+                `</li>`
+            ].join("\n");
 
-            for (var i = 0; i < data.rank.length; i++) {
-                if (ptotal !== data.rank[i].total) {
-                    ptotal = data.rank[i].total;
-                    rank++;
-                }
+        list.innerHTML = out;
+        this.pLogData = data;
 
-                out += [
-                    "<tr>",
-                        "<td>" + rank + "</td>",
-                        "<td>",
-                            "<img class=\"avt\" src=\"/api/avt/get?u=" + data.rank[i].username + "\">",
-                            "<t class=\"name\">" + escape_html(data.rank[i].name) + "</t>",
-                        "</td>",
-                        "<td class=\"number\">" + parseFloat(data.rank[i].total).toFixed(2) + "</td>"
-                ].join("\n");
-
-                for (var j = 0; j < list.length; j++)
-                    out += `<td class="number${(data.rank[i].log[list[j]]) ? ` link" onClick="core.viewlog('${data.rank[i].log[list[j]]}')` : ""}" >${parseFloat(data.rank[i].list[list[j]]).toFixed(2)}</td>\n`;
-                
-                out += "</tr>";
-            }
-            out += "</table>";
-            this.rankPanel.main.innerHTML = out;
-            this.pRankData = data;
-
-            clog("debg", "Rank Updated. Took", {
-                color: flatc("blue"),
-                text: updaterank.stop + "s"
-            });
+        clog("debg", "Log Updated. Took", {
+            color: flatc("blue"),
+            text: updatelog.stop + "s"
         });
     },
 
-    viewlog(url) {
+    async fetchRank(bypass = false) {
+        var data = await myajax({
+            url: "/api/test/rank",
+            method: "GET",
+        });
+
+        if (comparearray(data, this.pRankData) && !bypass)
+            return false;
+
+        clog("debg", "Updating Rank");
+        var updaterank = new stopclock();
+
+        if (data.list.length === 0 && data.rank.length === 0) {
+            this.rankPanel.main.classList.add("blank");
+            this.pRankData = data;
+            this.rankPanel.main.innerHTML = "";
+            
+            clog("debg", "Rank Is Blank. Took", {
+                color: flatc("blue"),
+                text: updaterank.stop + "s"
+            });
+
+            return false;
+        } else
+            this.rankPanel.main.classList.remove("blank");
+
+
+        var list = data.list;
+        var out = [
+            "<table>",
+                "<tr>",
+                    "<th>#</th>",
+                    "<th>Thí sinh</th>",
+                    "<th>Tổng</th>",
+        ].join("\n");
+
+        for (var i = 0; i < list.length; i++)
+            out += "<th>" + list[i] + "</th>\n";
+        out += "</tr>\n";
+
+        var ptotal = 0;
+        var rank = 0;
+
+        for (var i = 0; i < data.rank.length; i++) {
+            if (ptotal !== data.rank[i].total) {
+                ptotal = data.rank[i].total;
+                rank++;
+            }
+
+            out += [
+                "<tr>",
+                    "<td>" + rank + "</td>",
+                    "<td>",
+                        "<img class=\"avt\" src=\"/api/avt/get?u=" + data.rank[i].username + "\">",
+                        "<t class=\"name\">" + escape_html(data.rank[i].name) + "</t>",
+                    "</td>",
+                    "<td class=\"number\">" + parseFloat(data.rank[i].total).toFixed(2) + "</td>"
+            ].join("\n");
+
+            for (var j = 0; j < list.length; j++)
+                out += `<td class="number${(data.rank[i].log[list[j]]) ? ` link" onClick="core.viewlog('${data.rank[i].log[list[j]]}')` : ""}" >${parseFloat(data.rank[i].list[list[j]]).toFixed(2)}</td>\n`;
+            
+            out += "</tr>";
+        }
+        out += "</table>";
+        this.rankPanel.main.innerHTML = out;
+        this.pRankData = data;
+
+        clog("debg", "Rank Updated. Took", {
+            color: flatc("blue"),
+            text: updaterank.stop + "s"
+        });
+    },
+
+    async viewlog(url) {
         clog("info", "Opening log file", {
             color: flatc("yellow"),
             text: url
@@ -333,21 +350,23 @@ core = {
 
         core.sound.select();
         file = url.split("/").pop().replace("viewlog?f=", "");
-        myajax({
+
+        var data = await myajax({
             url: "/api/test/viewlog",
             method: "GET",
             query: {
                 "f": file
             }
-        }, data => {
-            core.wrapper.show(file);
-            var out = "<ul class=\"viewlog-container\">\n";
-            for (var i = 0; i < data.length; i++) {
-                out += "<li>" + escape_html(data[i]) + "</li>\n";
-            }
-            out += "</ul>";
-            core.wrapper.panel.main.innerHTML = out;
         });
+
+        this.wrapper.show(file);
+        var out = [`<ul class="viewlog-container">`];
+
+        for (var i = 0; i < data.length; i++)
+            out.push(`<li>${escape_html(data[i])}</li>`);
+        
+        out.push("</ul>");
+        this.wrapper.panel.main.innerHTML = out.join("\n");
     },
 
     file: {
@@ -366,8 +385,12 @@ core = {
             this.dropzone.addEventListener("dragleave", this.dragleave, false);
             this.dropzone.addEventListener("dragover", this.dragover, false);
             this.dropzone.addEventListener("drop", this.filesel, false);
-            this.panel.ref.onClick(this.reset);
+            this.panel.ref.onClick(() => {
+                this.reset();
+            });
+
             this.panel.title = "Nộp bài";
+
             clog("okay", "Initialised:", {
                 color: flatc("red"),
                 text: "core.file"
@@ -375,14 +398,14 @@ core = {
         },
 
         reset() {
-            core.file.dropzone.classList.remove("hide");
-            core.file.panel.title = "Nộp bài";
-            core.file.name.innerText = "null";
-            core.file.state.innerText = "null";
-            core.file.size.innerText = "00/00";
-            core.file.percent.innerText = "0%";
-            core.file.bar.style.width = "0%";
-            core.file.bar.className = "";
+            this.dropzone.classList.remove("hide");
+            this.panel.title = "Nộp bài";
+            this.name.innerText = "null";
+            this.state.innerText = "null";
+            this.size.innerText = "00/00";
+            this.percent.innerText = "0%";
+            this.bar.style.width = "0%";
+            this.bar.className = "";
         },
 
         filesel(e) {
@@ -438,6 +461,7 @@ core = {
                 color: flatc("yellow"),
                 text: files[i].name
             });
+
             this.name.innerText = files[i].name;
             this.state.innerText = "Đang tải lên...";
             this.panel.title = "Nộp bài - Đang tải lên " + (i + 1) + "/" + files.length +"...";
@@ -509,7 +533,7 @@ core = {
         description: $("#problem_description"),
         test: $("#problem_test"),
 
-        init() {
+        async init() {
             this.panel.bak.hide();
             this.panel.bak.onClick(() => {
                 this.list.classList.remove("hide");
@@ -517,10 +541,11 @@ core = {
                 this.panel.bak.hide();
             })
 
-            this.panel.ref.onClick(f => {
+            this.panel.ref.onClick(() => {
                 this.getlist();
             });
-            this.getlist();
+
+            await this.getlist();
 
             clog("okay", "Initialised:", {
                 color: flatc("red"),
@@ -528,79 +553,80 @@ core = {
             });
         },
 
-        getlist() {
-            myajax({
+        async getlist() {
+            var data = await myajax({
                 url: "/api/test/problems/list",
                 method: "GET"
-            }, data => {
-                if (data.length === 0) {
-                    this.panel.main.classList.add("blank");
-                    this.list.innerHTML = "";
-                    return false;
-                } else
-                    this.panel.main.classList.remove("blank");
+            });
 
-                var html = "";
-                data.forEach(item => {
-                    html += [
-                        `<li class="item" onClick="core.problems.getproblem('${item.id}');">`,
-                            `<img class="icon" src="${item.image}">`,
-                            `<ul class="title">`,
-                                `<li class="name">${item.name}</li>`,
-                                `<li class="point">${item.point} điểm</li>`,
-                            "</ul>",
-                        "</li>",
-                    ].join("\n");
-                })
-                this.list.innerHTML = html;
+            if (data.length === 0) {
+                this.panel.main.classList.add("blank");
+                this.list.innerHTML = "";
+                return false;
+            } else
+                this.panel.main.classList.remove("blank");
+
+            var html = "";
+            data.forEach(item => {
+                html += [
+                    `<li class="item" onClick="core.problems.getproblem('${item.id}');">`,
+                        `<img class="icon" src="${item.image}">`,
+                        `<ul class="title">`,
+                            `<li class="name">${item.name}</li>`,
+                            `<li class="point">${item.point} điểm</li>`,
+                        "</ul>",
+                    "</li>",
+                ].join("\n");
             })
+            this.list.innerHTML = html;
         },
 
-        getproblem(id) {
+        async getproblem(id) {
             clog("info", "Opening problem", {
                 color: flatc("yellow"),
                 text: id
             });
+
             this.list.classList.add("hide");
             this.panel.bak.hide(false);
 
-            myajax({
+            var data = await myajax({
                 url: "/api/test/problems/get",
                 method: "GET",
                 query: {
                     id: id
                 }
-            }, data => {
-                this.name.innerText = data.name;
-                this.panel.title = "Đề bài - " + data.name;
-                this.point.innerText = data.point + " điểm";
-                this.type.filename.innerText = data.id;
-                this.type.ext.innerText = data.accept.join(", ");
-                this.type.time.innerText = data.time + " giây";
-                this.type.inp.innerText = data.type.inp;
-                this.type.out.innerText = data.type.out;
-                if (data.image) {
-                    this.image.style.display = "block";
-                    this.image.src = data.image;
-                } else
-                    this.image.style.display = "none";
-                this.description.innerText = data.description;
-                testhtml = "";
-                data.test.forEach(item => {
-                    testhtml += [
-                        "<tr>",
-                            "<td>" + item.inp + "</td>",
-                            "<td>" + item.out + "</td>",
-                        "</tr>"
-                    ].join("\n");
-                })
-                this.test.innerHTML = [
+            });
+
+            this.name.innerText = data.name;
+            this.panel.title = "Đề bài - " + data.name;
+            this.point.innerText = data.point + " điểm";
+            this.type.filename.innerText = data.id;
+            this.type.ext.innerText = data.accept.join(", ");
+            this.type.time.innerText = data.time + " giây";
+            this.type.inp.innerText = data.type.inp;
+            this.type.out.innerText = data.type.out;
+            if (data.image) {
+                this.image.style.display = "block";
+                this.image.src = data.image;
+            } else
+                this.image.style.display = "none";
+            this.description.innerText = data.description;
+            testhtml = "";
+            data.test.forEach(item => {
+                testhtml += [
                     "<tr>",
-                        "<th>Input</th>",
-                        "<th>Output</th>",
+                        "<td>" + item.inp + "</td>",
+                        "<td>" + item.out + "</td>",
                     "</tr>"
-                ].join("\n") + testhtml;
+                ].join("\n");
             })
+            this.test.innerHTML = [
+                "<tr>",
+                    "<th>Input</th>",
+                    "<th>Output</th>",
+                "</tr>"
+            ].join("\n") + testhtml;
         },
     },
 
@@ -615,7 +641,7 @@ core = {
         interval: null,
         last: 0,
 
-        init() {
+        async init() {
             this.timepanel.ref.onClick(() => {
                 this.fetchtime(true);
             });
@@ -627,7 +653,7 @@ core = {
             if (LOGGED_IN)
                 this.timepanel.clo.hide();
 
-            this.fetchtime(true);
+            await this.fetchtime(true);
 
             clog("okay", "Initialised:", {
                 color: flatc("red"),
@@ -640,25 +666,26 @@ core = {
             this.timepanel.panel.classList.remove("show");
         },
 
-        fetchtime(init = false) {
-            myajax({
+        async fetchtime(init = false) {
+            var data = await myajax({
                 url: "/api/test/timer",
                 method: "GET",
-            }, data => {
-                this.timedata = data;
-                if (data.during <= 0) {
-                    $("#timep").classList.remove("show");
-                    clearInterval(this.interval);
-                    clog("info", "Timer Disabled: not in contest mode");
-                    return;
-                }
-                if (init) {
-                    $("#timep").classList.add("show");
-                    this.last = 0;
-                    clearInterval(this.interval);
-                    this.startinterval();
-                }
             });
+
+            this.timedata = data;
+            if (data.during <= 0) {
+                $("#timep").classList.remove("show");
+                clearInterval(this.interval);
+                clog("info", "Timer Disabled: not in contest mode");
+                return;
+            }
+
+            if (init) {
+                $("#timep").classList.add("show");
+                this.last = 0;
+                clearInterval(this.interval);
+                this.startinterval();
+            }
         },
 
         startinterval() {
@@ -853,7 +880,7 @@ core = {
             }
         },
 
-        async init() {
+        init() {
             this.avtw.addEventListener("dragenter",  e => {this.dragenter(e)}, false);
             this.avtw.addEventListener("dragleave", e => {this.dragleave(e)}, false);
             this.avtw.addEventListener("dragover", e => {this.dragover(e)}, false);
@@ -890,7 +917,7 @@ core = {
                 form: {
                     "token": API_TOKEN
                 }
-            }, function() {
+            }, () => {
                 location.reload();
             })
         },
@@ -922,8 +949,8 @@ core = {
                 this.uname.innerText = this.name.innerText = data;
         },
         
-        changename(name) {
-            myajax({
+        async changename(name) {
+            await myajax({
                 url: "/api/edit",
                 method: "POST",
                 form: {
@@ -937,13 +964,13 @@ core = {
                     color: flatc("pink"),
                     text: name
                 })
-            }, data => {
+            }, () => {
                 this.reset();
             });
         },
 
-        changepass(pass, nPass, renPass) {
-            myajax({
+        async changepass(pass, nPass, renPass) {
+            await myajax({
                 url: "/api/edit",
                 method: "POST",
                 form: {
@@ -952,10 +979,10 @@ core = {
                     "rnp": renPass,
                     "token": API_TOKEN
                 }
-            }, data => {
+            }, () => {
                 clog("okay", "Thay đổi mật khẩu thành công!");
                 this.reset();
-            }, data => {
+            }, () => {
                 this.reset();
             });
         },
@@ -973,8 +1000,8 @@ core = {
             }, 1000);
         },
 
-        avtupload(file) {
-            myajax({
+        async avtupload(file) {
+            await myajax({
                 url: "/api/avt/change",
                 method: "POST",
                 form: {
@@ -985,7 +1012,7 @@ core = {
                 this.reset();
                 this.reload(data);
                 clog("okay", "Avatar changed.");
-            }, data => {
+            }, () => {
                 this.reset();
             });
         },
@@ -1019,7 +1046,7 @@ core = {
         ppanel: null,
         adminConfig: $("#usett_adminConfig"),
 
-        init() {
+        async init() {
             this.adminConfig.style.display = "block";
             this.cpanel = new core.userSettings.panel($("#settings_controlPanel"));
             this.ppanel = new core.userSettings.panel($("#settings_problem"));
@@ -1029,15 +1056,14 @@ core = {
             this.cpanel.toggler = $("#settings_cpanelToggler");
             this.ppanel.toggler = $("#settings_problemToggler");
 
-            this.problems.init();
-            this.problems.getlist();
+            await this.problems.init();
 
-            this.cpanel.ref.onClick(e => {
+            this.cpanel.ref.onClick(() => {
                 this.cpanelIframe.contentWindow.location.reload();
                 clog("okay", "Reloaded CPanel IFrame.");
             })
 
-            this.ppanel.ref.onClick(e => {
+            this.ppanel.ref.onClick(() => {
                 this.problems.getlist();
                 this.problems.resetform();
                 this.problems.showlist();
@@ -1100,7 +1126,7 @@ core = {
                 elem.style.display = "inline-block";
             },
 
-            init() {
+            async init() {
                 this.hide(this.headbtn.back);
                 this.hide(this.headbtn.check);
                 this.headbtn.check.addEventListener("click", e => {
@@ -1127,6 +1153,8 @@ core = {
                     this.form.testlist.insertAdjacentHTML("beforeend", html);
                 });
 
+                await this.getlist();
+
                 clog("okay", "Initialised:", {
                     color: flatc("red"),
                     text: "core.settings.problems"
@@ -1152,28 +1180,28 @@ core = {
                 this.title.innerText = "Danh sách";
             },
 
-            getlist() {
-                myajax({
+            async getlist() {
+                var data = await myajax({
                     url: "/api/test/problems/list",
                     method: "GET"
-                }, data => {
-                    this.list.innerHTML = "";
-                    data.forEach(item => {
-                        html = [
-                            `<li class="item">`,
-                                `<img class="icon" src="${item.image}">`,
-                                `<ul class="title">`,
-                                    `<li class="id">${item.id}</li>`,
-                                    `<li class="name">${item.name}</li>`,
-                                `</ul>`,
-                                `<div class="action">`,
-                                    `<span class="delete" onClick="core.settings.problems.remproblem('${item.id}')"></span>`,
-                                    `<span class="edit" onClick="core.settings.problems.editproblem('${item.id}')"></span>`,
-                                `</div>`,
-                            `</li>`,
-                        ].join("\n");
-                        this.list.innerHTML += html;
-                    })
+                });
+
+                this.list.innerHTML = "";
+                data.forEach(item => {
+                    html = [
+                        `<li class="item">`,
+                            `<img class="icon" src="${item.image}">`,
+                            `<ul class="title">`,
+                                `<li class="id">${item.id}</li>`,
+                                `<li class="name">${item.name}</li>`,
+                            `</ul>`,
+                            `<div class="action">`,
+                                `<span class="delete" onClick="core.settings.problems.remproblem('${item.id}')"></span>`,
+                                `<span class="edit" onClick="core.settings.problems.editproblem('${item.id}')"></span>`,
+                            `</div>`,
+                        `</li>`,
+                    ].join("\n");
+                    this.list.innerHTML += html;
                 })
             },
 
@@ -1202,53 +1230,54 @@ core = {
                 }, 300);
             },
 
-            editproblem(id) {
-                myajax({
+            async editproblem(id) {
+                var data = await myajax({
                     url: "/api/test/problems/get",
                     method: "GET",
                     query: {
                         id: id
                     }
-                }, data => {
-                    clog("info", "Editing problem", {
-                        color: flatc("yellow"),
-                        text: id
-                    });
-                    this.resetform();
-                    this.title.innerText = data.id;
-                    this.action = "edit";
+                });
 
-                    this.form.id.value = data.id;
-                    this.form.id.disabled = true;
-                    this.form.name.value = data.name;
-                    this.form.point.value = data.point;
-                    this.form.time.value = data.time;
-                    this.form.inptype.value = data.type.inp;
-                    this.form.outtype.value = data.type.out;
-                    this.form.accept.value = data.accept.join("|");
-                    this.form.image.value = null;
-                    this.form.desc.value = data.description;
+                clog("info", "Editing problem", {
+                    color: flatc("yellow"),
+                    text: id
+                });
 
-                    var html = "";
-                    data.test.forEach(item => {
-                        html += [
-                            `<div class="cell">`,
-                                `<textarea placeholder="Input" required>${item.inp}</textarea>`,
-                                `<textarea placeholder="Output" required>${item.out}</textarea>`,
-                                `<span class="delete" onClick="core.settings.problems.remtest(this)"></span>`,
-                            `</div>`
-                        ].join("\n");
-                    })
-                    this.form.testlist.innerHTML = html;
-                    
-                    this.hidelist();
-                    setTimeout(e => {
-                        this.form.name.focus();
-                    }, 300);
+                this.resetform();
+                this.title.innerText = data.id;
+                this.action = "edit";
+
+                this.form.id.value = data.id;
+                this.form.id.disabled = true;
+                this.form.name.value = data.name;
+                this.form.point.value = data.point;
+                this.form.time.value = data.time;
+                this.form.inptype.value = data.type.inp;
+                this.form.outtype.value = data.type.out;
+                this.form.accept.value = data.accept.join("|");
+                this.form.image.value = null;
+                this.form.desc.value = data.description;
+
+                var html = "";
+                data.test.forEach(item => {
+                    html += [
+                        `<div class="cell">`,
+                            `<textarea placeholder="Input" required>${item.inp}</textarea>`,
+                            `<textarea placeholder="Output" required>${item.out}</textarea>`,
+                            `<span class="delete" onClick="core.settings.problems.remtest(this)"></span>`,
+                        `</div>`
+                    ].join("\n");
                 })
+                this.form.testlist.innerHTML = html;
+                
+                this.hidelist();
+                setTimeout(e => {
+                    this.form.name.focus();
+                }, 300);
             },
 
-            remproblem(id) {
+            async remproblem(id) {
                 clog("warn", "Deleting Problem", {
                     color: flatc("yellow"),
                     text: id + "."
@@ -1257,25 +1286,26 @@ core = {
                 if (!confirm("Bạn có chắc muốn xóa " + id + " không?"))
                     return false;
 
-                myajax({
+                await myajax({
                     url: "/api/test/problems/remove",
                     method: "POST",
                     form: {
                         id: id,
                         token: API_TOKEN
                     }
-                }, data => {
-                    clog("okay", "Deleted Problem", {
-                        color: flatc("yellow"),
-                        text: id
-                    });
-                    this.getlist();
-                    this.showlist();
-                    core.problems.getlist();
-                })
+                });
+
+                clog("okay", "Deleted Problem", {
+                    color: flatc("yellow"),
+                    text: id
+                });
+
+                this.getlist();
+                this.showlist();
+                core.problems.getlist();
             },
 
-            postsubmit() {
+            async postsubmit() {
                 var data = new Array();
                 data.id = this.form.id.value;
                 data.name = this.form.name.value;
@@ -1303,14 +1333,14 @@ core = {
                 }
                 data.test = test;
 
-                this.submit(this.action, data, data => {
-                    this.getlist();
-                    this.showlist();
-                    core.problems.getlist();
-                })
+                await this.submit(this.action, data);
+
+                this.getlist();
+                this.showlist();
+                core.problems.getlist();
             },
 
-            submit(action, data, success = () => {}) {
+            async submit(action, data) {
                 if (["edit", "add"].indexOf(action) === -1)
                     return false;
 
@@ -1322,7 +1352,7 @@ core = {
                     text: data.id
                 });
 
-                myajax({
+                await myajax({
                     url: "/api/test/problems/" + action,
                     method: "POST",
                     form: {
@@ -1338,7 +1368,7 @@ core = {
                         test: JSON.stringify(data.test),
                         token: API_TOKEN
                     }
-                }, success);
+                });
             }
         }
     },
@@ -1398,7 +1428,8 @@ core = {
             notification: true,
         },
 
-        async init() {
+        async init(set = () => {}) {
+            set(0, "Getting Cookies 🍪");
             this.enable.master = cookie.get("__s_m", false) == "true";
             this.enable.mouseOver = cookie.get("__s_mo", true) == "true";
             this.enable.btnClick = cookie.get("__s_bc", true) == "true";
@@ -1406,6 +1437,7 @@ core = {
             this.enable.others = cookie.get("__s_ot", true) == "true";
             this.enable.notification = cookie.get("__s_nf", true) == "true";
 
+            set(5, "Setting Events");
             this.__btnApplyEvent([{
                     e: this.btn.soundToggle,
                     k: "master"
@@ -1427,9 +1459,16 @@ core = {
                 }]
             );
             this.updateSettings(true);
-            await this.loadSound();
+
+            set(10, "Loading Sounds");
+            await this.loadSound((p, t) => {
+                set(10 + p*0.85, `Loading: ${t}`);
+            });
+
+            set(95, "Scanning");
             this.scan();
 
+            set(100, "Done");
             clog("okay", "Initialised:", {
                 color: flatc("red"),
                 text: "core.usersettings.sound"
@@ -1479,17 +1518,44 @@ core = {
             cookie.set("__s_nf", this.enable.notification, 9999);
         },
 
-        async loadSound() {
-            this.sounds.checkOff = await this.__loadSoundAsync(`/data/sounds/check-off.mp3`);
-            this.sounds.checkOn = await this.__loadSoundAsync(`/data/sounds/check-on.mp3`);
-            this.sounds.hover = await this.__loadSoundAsync(`/data/sounds/generic-hover.mp3`);
-            this.sounds.hoverSoft = await this.__loadSoundAsync(`/data/sounds/generic-hover-soft.mp3`);
-            this.sounds.select = await this.__loadSoundAsync(`/data/sounds/generic-select.mp3`);
-            this.sounds.selectSoft = await this.__loadSoundAsync(`/data/sounds/generic-select-soft.mp3`);
-            this.sounds.overlayPopIn = await this.__loadSoundAsync(`/data/sounds/overlay-pop-in.mp3`);
-            this.sounds.overlayPopOut = await this.__loadSoundAsync(`/data/sounds/overlay-pop-out.mp3`);
-            this.sounds.confirm = await this.__loadSoundAsync(`/data/sounds/generic-confirm.mp3`);
-            this.sounds.notification = await this.__loadSoundAsync(`/data/sounds/notification.mp3`);
+        async loadSound(set = () => {}) {
+            const soundList = [{
+                key: "checkOff",
+                name: "check-off.mp3"
+            }, {
+                key: "checkOn",
+                name: "check-on.mp3"
+            }, {
+                key: "hover",
+                name: "generic-hover.mp3"
+            }, {
+                key: "hoverSoft",
+                name: "generic-hover-soft.mp3"
+            }, {
+                key: "select",
+                name: "generic-select.mp3"
+            }, {
+                key: "selectSoft",
+                name: "generic-select-soft.mp3"
+            }, {
+                key: "overlayPopIn",
+                name: "overlay-pop-in.mp3"
+            }, {
+                key: "overlayPopOut",
+                name: "overlay-pop-out.mp3"
+            }, {
+                key: "confirm",
+                name: "generic-confirm.mp3"
+            }, {
+                key: "notification",
+                name: "notification.mp3"
+            }]
+
+            for (var i = 0; i < soundList.length; i++) {
+                const o = soundList[i];
+                set((i/(soundList.length - 1))*100, o.name);
+                this.sounds[o.key] = await this.__loadSoundAsync(`/data/sounds/${o.name}`);
+            }
         },
 
         async __loadSoundAsync(url, volume = 0.1) {

@@ -66,67 +66,30 @@
     </head>
 
     <body class="<?php print ($loggedin ? ($id === "admin" ? "admin" : "user") : "guest"); ?>">
-        <div id="splash_screen">
-            <div class="mid">
-                <div class="logo"></div>
-                <div class="appname">Themis Web Interface v<?php print VERSION; ?></div>
-                <div class="progress">
-                    <div id="splash_bar" class="inner"></div>
-                </div>
-            </div>
-            <div class="foot">
-                <div class="icon">
-                    <img src="data/img/chrome-icon.webp">
-                    <img src="data/img/coccoc-icon.webp">
-                </div>
-                <t class="text">
-                    Trang web hoạt động tốt nhất trên trình duyệt chrome và coccoc.
-                </t>
-            </div>
-        </div>
 
+        <!-- Init Library and Splash First -->
+        <script src="/data/js/belibrary.js" type="text/javascript"></script>
+        <script type="text/javascript" src="/data/js/splash.js"></script>
         <script type="text/javascript">
+            var mainSplash = new splash(document.body, "Themis Web Interface v<?php print VERSION; ?>", "/data/img/icon.webp");
 
-            splash = {
-                container: document.getElementById("splash_screen"),
-                bar: document.getElementById("splash_bar"),
-                onload: fullloaded => {},
-
-                init() {
-                    this.bar.dataset.slow = true;
-                    setTimeout(e => {
-                        this.bar.style.width = "90%";
-                    }, 600);
-                    document.body.onload = e => {
-                        this.loaded();
-                    };
-                },
-
-                loaded() {
-                    this.bar.dataset.slow = false;
-                    this.bar.style.width = "95%";
-                    this.onload(() => {
-                        this.bar.style.width = "100%";
-                        setTimeout(e => {
-                            this.container.classList.add("done");
-                        }, 600);
-                    });
-                }
+            mainSplash.init = async (set) => {
+                set(0, "Initializing core.js");
+                await core.init(set);
             }
 
-            splash.onload = async fullloaded => {
-                await core.init();
-                fullloaded();
-
+            mainSplash.postInit = async (set) => {
+                set(50, "Đang kiểm tra phiên bản mới...");
                 await core.checkUpdateAsync();
 
+                set(95, "Sending Analytics Data...");
                 gtag("event", "pageView", {
                     "version": window.serverStatus.version
                 });
             }
-
-            splash.init();
         </script>
+
+        <!-- Main Content -->
 
         <div class="nav">
             <span class="lnav">
@@ -615,8 +578,6 @@
             const SESSION = JSON.parse(`<?php print json_encode($sessdata); ?>`);
         </script>
 
-        <!-- Library First -->
-        <script src="/data/js/belibrary.js" type="text/javascript"></script>
         <script src="/data/js/statusbar.js" type="text/javascript"></script>
         <script type="text/javascript">
             const sbar = new statusbar(document.body);

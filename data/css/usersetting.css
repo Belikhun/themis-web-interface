@@ -318,9 +318,9 @@
     z-index: 1;
     
     transition:
-    width 0.2s cubic-bezier(0.23, 1, 0.32, 1),
+        width 0.2s cubic-bezier(0.23, 1, 0.32, 1),
         background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
-    }
+}
     
 #user_settings .sub .panel .container .btn-group:hover {
     width: 40px;
@@ -335,7 +335,8 @@
     cursor: pointer;
 
     transition:
-        background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+        background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1),
+        transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 #user_settings .sub .panel .container .btn-group span::before {
@@ -358,6 +359,10 @@
 
 #user_settings .sub .panel .container .btn-group span:hover {
     background-color: rgba(41, 127, 185, 0.1);
+}
+
+#user_settings .sub .panel .container .btn-group span:active {
+    transform: scale(0.8);
 }
 
 #user_settings .sub .panel .container .btn-group span:hover::before {
@@ -390,6 +395,15 @@
     right: 20px;
     width: calc(100% - 20px);
     height: 100%;
+
+    transition:
+        width 0.2s cubic-bezier(0.23, 1, 0.32, 1),
+        right 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+#user_settings .sub .panel .container .btn-group:hover + .main {
+    right: 40px;
+    width: calc(100% - 40px);
 }
 
 /* Group Icon */

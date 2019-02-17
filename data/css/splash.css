@@ -7,7 +7,7 @@
 ? |-----------------------------------------------------------------------------------------------|
 */
 
-#splash_screen {
+.splash {
     position: fixed;
     top: 0;
     left: 0;
@@ -18,29 +18,30 @@
     z-index: 100;
 }
 
-#splash_screen.done {
+.splash.done {
     animation: disapear 1s ease 0.5s 1 alternate forwards;
 }
 
-#splash_screen .mid {
+.splash .middle {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 240px;
+    width: calc(100% - 60px);
 }
 
-#splash_screen .mid .logo {
+.splash .middle .logo {
     position: relative;
-    width: 80px;
-    height: 80px;
-    border-radius: 40px;
     display: block;
     margin: auto;
     margin-bottom: 28px;
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+    background-color: #3498db;
 }
 
-#splash_screen .mid .logo::before {
+.splash .middle .logo::before {
     content: "";
     position: absolute;
     top: 0;
@@ -52,20 +53,18 @@
     animation: sk-scaleout 1.6s infinite ease-in-out;
 }
 
-#splash_screen .mid .logo::after {
-    content: "";
+.splash .middle .logo .inner {
     position: relative;
     display: block;
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background-color: #3498db;
-    background-image: url("/data/img/icon.webp");
+    background-image: unset;
     background-position: center;
     background-size: contain;
 }
 
-#splash_screen .mid .appname {
+.splash .middle .appname {
     position: relative;
     display: block;
     margin: auto;
@@ -76,14 +75,16 @@
     text-transform: uppercase;
 }
 
-#splash_screen .mid .progress {
+.splash .middle .progress {
     position: relative;
     height: 2px;
-    width: 100%;
+    width: 260px;
+    margin: auto;
+    margin-bottom: 8px;
     background-color: #95a5a6;
 }
 
-#splash_screen .mid .progress .inner {
+.splash .middle .progress .inner {
     position: absolute;
     background-color: #3498db;
     width: 0;
@@ -91,17 +92,41 @@
     transition: width 0.4s ease; 
 }
 
-#splash_screen .mid .progress .inner[data-slow = true] {
+.splash .middle .progress .inner[data-slow = true] {
     transition: width 25s ease-out; 
 }
 
-#splash_screen .foot {
+.splash .middle .phase {
+    position: relative;
+    display: block;
+    margin: auto;
+    min-height: 14px;
+    text-align: center;
+    font-family: "Calibri";
+    font-weight: bold;
+    font-size: 11px;
+    color: rgb(98, 98, 98);
+    text-transform: uppercase;
+}
+
+.splash .middle .status {
+    position: relative;
+    display: block;
+    margin: auto;
+    min-height: 18px;
+    text-align: center;
+    font-family: "Calibri";
+    font-size: 14px;
+    color: rgb(58, 58, 58);
+}
+
+.splash .footer {
     position: absolute;
     bottom: 36px;
     width: 100%;
 }
 
-#splash_screen .foot .icon {
+.splash .footer .icon {
     position: relative;
     width: 100%;
     display: flex;
@@ -109,14 +134,14 @@
     padding-bottom: 10px;
 }
 
-#splash_screen .foot .icon img {
+.splash .footer .icon img {
     position: relative;
     width: 40px;
     height: 40px;
     padding: 0 6px;
 }
 
-#splash_screen .foot .text {
+.splash .footer .text {
     position: relative;
     display: block;
     box-sizing: border-box;
@@ -129,19 +154,19 @@
 
 /* Dark */
 
-#splash_screen.dark {
+.splash.dark {
     background-color: #282829;
 }
 
-#splash_screen.dark .mid .appname {
+.splash.dark .middle .appname {
     color: #ecf0f1;
 }
 
-#splash_screen.dark .mid .progress {
+.splash.dark .middle .progress {
     background-color: #4f4f51;
 }
 
-#splash_screen.dark .foot .text {
+.splash.dark .footer .text {
     color: #dbdbdb;
 }
 

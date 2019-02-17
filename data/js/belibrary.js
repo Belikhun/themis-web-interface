@@ -184,6 +184,40 @@ function fcfn(nodes, classname) {
     return nodes.getElementsByClassName(classname)[0];
 }
 
+function buildElementTree(type = "div", __class = [], data = new Array()) {
+    var tree = document.createElement(type);
+    if (typeof __class == "string")
+        __class = new Array([__class]);
+    tree.classList.add.apply(tree.classList, __class);
+    var objtree = new Array();
+    objtree.this = tree;
+
+    for (var i = 0; i < data.length; i++) {
+        var d = data[i];
+        if (typeof d.list == "object") {
+            var t = buildElementTree(d.type, d.class, d.list);
+            t.tree.dataset.name = d.name;
+            tree.appendChild(t.tree);
+            objtree[d.name] = new Array();
+            objtree[d.name].this = t.tree;
+            objtree[d.name] = {...objtree[d.name], ...t.obj};
+        } else {
+            var t = document.createElement(d.type);
+            if (typeof d.class == "string")
+                d.class = new Array([d.class]);
+            t.classList.add.apply(t.classList, d.class);
+            t.dataset.name = d.name;
+            tree.appendChild(t);
+            objtree[d.name] = t;
+        }
+    }
+
+    return {
+        obj: objtree,
+        tree: tree
+    }
+}
+
 function checkServer(ip, callback = () => {}) {
     return new Promise((resolve, reject) => {
         var xhr = new XMLHttpRequest();
@@ -366,7 +400,7 @@ cookie = {
 //? |-----------------------------------------------------------------------------------------------|
 //? |  from web-clog.js                                                                             |
 //? |                                                                                               |
-    //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+//? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
@@ -453,18 +487,21 @@ clog("info", "Log started at:", {
     text: (new Date()).toString()
 })
 
-window.onerror = function(message, source, line, col) {
+// Error handling
+
+window.addEventListener("error", e => {
     clog("crit", {
         color: flatc("red"),
-        text: message
+        text: e.message
     }, "at", {
         color: flatc("aqua"),
-        text: `${source}:${line}`
-    }, {
-        color: flatc("yellow"),
-        text: `column ${col}.`
+        text: `${e.filename}:${e.lineno}:${e.colno}`
     })
-}
+})
+
+// window.addEventListener("unhandledrejection", (e) => {
+//     // promise: e.promise; reason: e.reason
+// })
 
 __connection__ = {
     onlineState: true,
@@ -491,7 +528,7 @@ __connection__ = {
             this.checkCount = 0;
             this.__sbarItem = (sbar) ? sbar.additem("Đang thử kết nối lại...", "spinner", {aligin: "right"}) : null;
 
-            this.checkInterval = setInterval(async e => {
+            this.checkInterval = setInterval(async () => {
                 this.checkCount++;
                 if (this.__sbarItem)
                     this.__sbarItem.change(`Đang thử kết nối lại... [Lần ${this.checkCount}]`);
@@ -503,7 +540,6 @@ __connection__ = {
 
     async __checkConnectionState() {
         data = await checkServer(window.location.origin);
-        console.log(data);
 
         if (data.code === 0)
             return this.stateChange(true);
