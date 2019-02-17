@@ -533,7 +533,7 @@ __connection__ = {
                 if (this.__sbarItem)
                     this.__sbarItem.change(`Đang thử kết nối lại... [Lần ${this.checkCount}]`);
                     
-                await this.__checkConnectionState();
+                this.__checkConnectionState();
             }, this.checkEvery);
         }
     },
