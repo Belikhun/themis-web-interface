@@ -1,20 +1,20 @@
 {
     "contest": {
         "name": "B\u00e0i t\u1eadp tin h\u1ecdc",
-        "description": "B\u00e0i l\u00e0m n\u1ed9p l\u00ean \u0111\u01b0\u1ee3c ch\u1ea5m b\u1eb1ng ph\u1ea7n m\u1ec1m <a href='http:\/\/dsapblog.wordpress.com\/'>Themis (L\u00ea Minh Ho\u00e0ng & \u0110\u1ed7 \u0110\u1ee9c \u0110\u00f4ng)<\/a>"
+        "description": "B\u00e0i l\u00e0m n\u1ed9p l\u00ean \u0111\u01b0\u1ee3c ch\u1ea5m b\u1eb1ng ph\u1ea7n m\u1ec1m <a href='http:\/\/dsapblog.wordpress.com\/' target=\"_blank\" rel=\"noopener\">Themis (L\u00ea Minh Ho\u00e0ng & \u0110\u1ed7 \u0110\u1ee9c \u0110\u00f4ng)<\/a>"
     },
     "uploaddir": "D:\\Themis\\data\\uploadDir",
     "time": {
         "zone": "Asia\/Ho_Chi_Minh",
         "begin": {
             "seconds": 0,
-            "minutes": 14,
-            "hours": 23,
-            "days": 6,
-            "months": 12,
-            "years": 2018
+            "minutes": 10,
+            "hours": 17,
+            "days": 18,
+            "months": 2,
+            "years": 2019
         },
-        "during": 0,
+        "during": 10,
         "offset": 10
     },
     "publish": true,

@@ -262,7 +262,7 @@
                         </div>
 
                         <t class="item text sound" data-soundhoversoft>
-                            Sounds by ppy Pty Ltd. Licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0/legalcode">CC-BY-NC 4.0</a>. See <a href="/data/sounds/LICENSE.md">LICENSE.md</a> for more information.
+                            Sounds by ppy Pty Ltd. Licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0/legalcode" target="_blank" rel="noopener">CC-BY-NC 4.0</a>. See <a href="/data/sounds/LICENSE.md">LICENSE.md</a> for more information.
                         </t>
 
                         <t class="title small">Hiển thị</t>
@@ -293,9 +293,9 @@
 
                     <div class="group link">
                         <t class="title">Liên Kết Ngoài</t>
-                        <a class="item sound" data-soundhover data-soundselect href="https://github.com/belivipro9x99/themis-web-interface/issues" target="_blank">Báo lỗi</a>
-                        <a class="item sound" data-soundhover data-soundselect href="https://github.com/belivipro9x99/themis-web-interface/wiki" target="_blank">Wiki</a>
-                        <a class="item sound" data-soundhover data-soundselect href="https://github.com/belivipro9x99/themis-web-interface" target="_blank">Github Repository</a>
+                        <a class="item sound" data-soundhover data-soundselect href="https://github.com/belivipro9x99/themis-web-interface/issues" target="_blank" rel="noopener">Báo lỗi</a>
+                        <a class="item sound" data-soundhover data-soundselect href="https://github.com/belivipro9x99/themis-web-interface/wiki" target="_blank" rel="noopener">Wiki</a>
+                        <a class="item sound" data-soundhover data-soundselect href="https://github.com/belivipro9x99/themis-web-interface" target="_blank" rel="noopener">Github Repository</a>
                     </div>
 
                     <div class="group info">
@@ -303,7 +303,7 @@
                         <div id="usett_aboutToggler" class="item arr sound" data-soundhover>Thông tin</div>
 
                         <div class="space"></div>
-                        <t class="title small">Copyright © 2018-2019 <a href="https://www.facebook.com/belivipro9x99">Belikhun</a>. This project is licensed under the MIT License</t>
+                        <t class="title small">Copyright © 2018-2019 <a href="https://www.facebook.com/belivipro9x99" target="_blank" rel="noopener">Belikhun</a>. This project is licensed under the MIT License</t>
                     </div>
 
                 </div>
@@ -416,7 +416,7 @@
                                 </div>
 
                                 <div class="badge">
-                                    <a href="https://github.com/belivipro9x99/themis-webinterface/releases/"><img src="/tool/badge?su=<?php print VERSION_STATE; ?>&st=v<?php print VERSION; ?>&c=brightgreen"></a>
+                                    <a href="https://github.com/belivipro9x99/themis-webinterface/releases/" target="_blank" rel="noopener"><img src="/tool/badge?su=<?php print VERSION_STATE; ?>&st=v<?php print VERSION; ?>&c=brightgreen"></a>
                                     <img src="/tool/badge?su=license&st=MIT&c=orange">
                                     <img src="/tool/badge?su=status&st=not tested&c=blue">
                                     <img src="/tool/badge?su=author&st=Đỗ Mạnh Hà&c=red">
@@ -429,10 +429,10 @@
                                     <li class="tel">03668275002</li>
                                     <li class="email">belivipro9x99@gmail.com</li>
                                     <li class="facebook">
-                                        <a href="https://www.facebook.com/belivipro9x99">Belikhun</a>
+                                        <a href="https://www.facebook.com/belivipro9x99" target="_blank" rel="noopener">Belikhun</a>
                                     </li>
                                     <li class="github">
-                                        <a href="https://github.com/belivipro9x99">Belikhun</a>
+                                        <a href="https://github.com/belivipro9x99" target="_blank" rel="noopener">Belikhun</a>
                                     </li>
                                 </ul>
                             </footer>
