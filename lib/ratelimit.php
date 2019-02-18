@@ -52,7 +52,7 @@
         global $now;
         $time = $_SESSION["unban"] - $now;
         stop(
-            17,
+            32,
             "NO SPAMMING IN THE HALL! ". $time ." seconds detention for you! You should know better.",
             429,
             Array(

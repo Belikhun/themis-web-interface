@@ -23,6 +23,7 @@
 
 // 3x: permission
 31  access denied
+32  rate limited
 
 // 4x: file
 41  no file selected

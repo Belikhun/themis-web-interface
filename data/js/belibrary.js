@@ -17,11 +17,21 @@ function myajax({
     rawdata = false,
 }, callout = () => {}, error = () => {}) {
     return new Promise((resolve, reject) => {
-        if (__connection__.onlineState === false) {
-            const t = {code: 105, description: "Disconnected to Server"};
+
+        if (__connection__.onlineState !== "online") {
+            var t = {};
+            switch (__connection__.onlineState) {
+                case "offline":
+                    t = {code: 105, description: "Disconnected to Server"}
+                    break;
+                case "ratelimited":
+                    t = {code: 32, description: "Rate Limited"}
+                    break;
+            }
+
             reject(t);
             error(t);
-            return false;
+            return;
         }
 
         query.length = Object.keys(query).length;
@@ -54,17 +64,18 @@ function myajax({
             ondownload(e);
         })
 
-        xhr.addEventListener("readystatechange", function() {
+        xhr.addEventListener("readystatechange", async function() {
             if (this.readyState === this.DONE) {
 
                 if (this.status === 0) {
-                    __connection__.stateChange(false);
-
-                    const t = {code: 105, description: "Disconnected to Server"};
+                    __connection__.stateChange("offline");
+                    let t = {code: 105, description: "Disconnected to Server"};
                     reject(t);
                     error(t);
-                    return false;
-                } else if ((this.responseText === "" || !this.responseText) && this.status !== 200) {
+                    return;
+                }
+                
+                if ((this.responseText === "" || !this.responseText) && this.status !== 200) {
                     clog("errr", {
                         color: flatc("red"),
                         text: "HTTP" + this.status
@@ -76,8 +87,9 @@ function myajax({
                         text: url
                     });
 
-                    error(null);
-                    reject({code: 1, description: `HTTP ${this.status}: ${this.statusText}`});
+                    let t = {code: 1, description: `HTTP ${this.status}: ${this.statusText}`}
+                    error(t);
+                    reject(t);
                     return false;
                 }
 
@@ -89,7 +101,7 @@ function myajax({
 
                         error(e);
                         reject({code: 2, description: `Error parsing JSON`, data: e});
-                        return false;
+                        return;
                     }
 
                     if (this.status !== 200 || (res.code !== 0 && res.code < 100)) {
@@ -104,9 +116,29 @@ function myajax({
                             text: "HTTP " + this.status
                         }, this.statusText, ` >>> ${res.description}`);
 
-                        error(res);
-                        reject({code: 3, description: `HTTP ${this.status}: ${this.statusText}`, data: res});
-                        return false;
+                        if (this.status === 429 && res.code === 32) {
+                            await __connection__.stateChange("ratelimited", res);
+                            console.log("resend");
+                            let r = await myajax({
+                                url: url,
+                                method: method,
+                                query: query,
+                                form: form,
+                                file: file,
+                                type: type,
+                                onupload: onupload,
+                                ondownload: ondownload,
+                                rawdata: rawdata,
+                            }, callout, error)
+                            console.log("back", r);
+                            resolve(r);
+
+                            return;
+                        } else {
+                            error(res);
+                            reject({code: 3, description: `HTTP ${this.status}: ${this.statusText}`, data: res});
+                            return;
+                        }
                     }
 
                     data = rawdata ? res : res.data;
@@ -128,14 +160,11 @@ function myajax({
                         reject({code: 3, description: `HTTP ${this.status}: ${this.statusText}`, data: res});
                         return false;
                     }
+
                     data = this.responseText;
                     rawdata = null;
                 }
 
-                if (document.lostconnect === true) {
-                    document.lostconnect = false;
-                    clog("okay", "Connected to server");
-                }
                 callout(data, rawdata);
                 resolve(data, rawdata);
             }
@@ -504,44 +533,75 @@ window.addEventListener("error", e => {
 // })
 
 __connection__ = {
-    onlineState: true,
+    onlineState: "online",
     checkEvery: 2000,
     checkInterval: null,
     checkCount: 0,
+    __checkTime: 0,
     __sbarItem: null,
 
-    stateChange(isOnline = true) {
-        if (!typeof isOnline === "boolean" || isOnline === this.onlineState)
-            return false;
+    async stateChange(state = "online", data = {}) {
+        return new Promise((resolve, reject) => {
+            const s = ["online", "offline", "ratelimited"];
+            if (!typeof state === "string" || state === this.onlineState || s.indexOf(state) === -1) {
+                let t = {code: -1, description: `Unknown state: ${state}`}
+                reject(t);
+                return;
+            }
 
-        clog("INFO", `We just went ${isOnline ? "online" : "offline"}!`);
-        this.onlineState = isOnline;
+            clog("INFO", `We just went`, {
+                text: state,
+                color: flatc("yellow")
+            });
 
-        if (isOnline === true) {
-            clog("okay", "Đã kết nối tới máy chủ.");
-            if (this.__sbarItem)
-                this.__sbarItem.remove();
-
+            this.onlineState = state;
             clearInterval(this.checkInterval);
-        } else {
-            clog("lcnt", "Mất kết nối tới máy chủ.");
-            this.checkCount = 0;
-            this.__sbarItem = (sbar) ? sbar.additem("Đang thử kết nối lại...", "spinner", {aligin: "right"}) : null;
 
-            this.checkInterval = setInterval(() => {
-                this.checkCount++;
-                if (this.__sbarItem)
-                    this.__sbarItem.change(`Đang thử kết nối lại... [Lần ${this.checkCount}]`);
-                    
-                this.__checkConnectionState();
-            }, this.checkEvery);
-        }
+            switch(state) {
+                case "online":
+                    clog("okay", "Đã kết nối tới máy chủ.");
+                    if (this.__sbarItem)
+                        this.__sbarItem.remove();
+                    resolve();
+                    break;
+
+                case "offline":
+                    clog("lcnt", "Mất kết nối tới máy chủ.");
+                    this.checkCount = 0;
+                    this.__sbarItem = (sbar) ? sbar.additem("Đang thử kết nối lại...", "spinner", {aligin: "right"}) : null;
+
+                    this.checkInterval = setInterval(() => {
+                        this.checkCount++;
+                        if (this.__sbarItem)
+                            this.__sbarItem.change(`Đang thử kết nối lại... [Lần ${this.checkCount}]`);
+                            
+                        checkServer(window.location.origin).then((data) => {
+                            if (data.code === 0) {
+                                this.stateChange("online");
+                                resolve();
+                            }
+                        });
+                    }, this.checkEvery);
+                    break;
+
+                case "ratelimited":
+                    clog("lcnt", data.description);
+                    this.__checkTime = parseInt(data.data.reset);
+                    this.__sbarItem = (sbar) ? sbar.additem(`Kết nối lại sau [${this.__checkTime}] giây`, "spinner", {aligin: "right"}) : null;
+
+                    this.checkInterval = setInterval(() => {
+                        this.__checkTime--;
+                        if (this.__sbarItem)
+                            this.__sbarItem.change(`Kết nối lại sau [${this.__checkTime}] giây`);
+
+                        if (this.__checkTime <= 0) {
+                            this.stateChange("online");
+                            resolve();
+                        }
+                    }, 1000);
+                break;
+            }
+        });
     },
 
-    async __checkConnectionState() {
-        data = await checkServer(window.location.origin);
-
-        if (data.code === 0)
-            return this.stateChange(true);
-    }
 }
