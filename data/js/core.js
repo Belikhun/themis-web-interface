@@ -181,7 +181,19 @@ core = {
             });
         });
 
-        if (data.tag_name.indexOf(window.serverStatus.version) === -1) {
+        var t = data.tag_name.split("-")[0].replace("v", "").split(".");
+        const githubVer = {
+            v: parseInt(t[0])*100 + parseInt(t[1])*10 + parseInt(t[2]),
+            s: data.tag_name.split("-")[1]
+        }
+
+        t = window.serverStatus.version.split(".");
+        const localVer = {
+            v: parseInt(t[0])*100 + parseInt(t[1])*10 + parseInt(t[2]),
+            s: window.serverStatus.version_state
+        }
+
+        if (githubVer.v > localVer.v && githubVer.s === "release") {
             clog("WARN", "Hiện đã có phiên bản mới:", data.tag_name);
             sbar.additem(`Có phiên bản mới: ${data.tag_name}`, "hub", {aligin: "right"});
         }

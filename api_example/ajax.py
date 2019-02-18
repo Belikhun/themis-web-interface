@@ -6,7 +6,6 @@
 #? |-----------------------------------------------------------------------------------------------|
 
 import requests
-from urllib.parse import urlparse
 from log import log
 
 sess = requests.Session()

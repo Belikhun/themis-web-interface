@@ -6,7 +6,7 @@
 #? |-----------------------------------------------------------------------------------------------|
 
 from colorama import init
-from colorama import Fore, Back, Style
+from colorama import Fore, Style
 from inspect import currentframe
 import atexit
 import time

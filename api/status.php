@@ -14,6 +14,7 @@
 
     stop(0, "Server Normal", 200, Array(
         "version" => VERSION,
+        "version_state" => VERSION_STATE,
         "username" => $_SESSION["username"] ?: false,
         "API_TOKEN" => isset($_SESSION["api_token"]) ? $_SESSION["api_token"] : null,
         "SERVER_SOFTWARE" => $_SERVER["SERVER_SOFTWARE"],
