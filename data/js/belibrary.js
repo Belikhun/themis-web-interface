@@ -117,8 +117,10 @@ function myajax({
                         }, this.statusText, ` >>> ${res.description}`);
 
                         if (this.status === 429 && res.code === 32) {
+                            // Waiting for :?unratelimited:?
                             await __connection__.stateChange("ratelimited", res);
-                            console.log("resend");
+
+                            // Resend previous ajax request
                             let r = await myajax({
                                 url: url,
                                 method: method,
@@ -130,7 +132,7 @@ function myajax({
                                 ondownload: ondownload,
                                 rawdata: rawdata,
                             }, callout, error)
-                            console.log("back", r);
+                            // Resolve promise
                             resolve(r);
 
                             return;
