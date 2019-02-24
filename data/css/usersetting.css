@@ -218,10 +218,39 @@
 
 #user_settings .main .container .group .item.lr .left {
     flex-grow: 3;
+    margin-right: 10px;
 }
 
 #user_settings .main .container .group .item.lr .right {
     flex-grow: 0;
+    margin-left: 10px;
+}
+
+#user_settings .main .container .group .item.warning {
+    background-color: rgba(255, 234, 126, 0.4);
+}
+
+#user_settings .main .container .group .item.warning:hover {
+    background-color: rgba(255, 227, 84, 0.4);
+}
+
+#user_settings .main .container .group .item.lr.warning .right::after {
+    content: "";
+    position: relative;
+    display: block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 9px 15.6px 9px;
+    border-color: transparent transparent #feffbb transparent;
+}
+
+#user_settings .main .container .group .item.info {
+    background-color: rgba(116, 184, 230, 0.4);
+}
+
+#user_settings .main .container .group .item.info:hover {
+    background-color: rgba(80, 185, 255, 0.4);
 }
 
 #user_settings .main .container .group .item.text {

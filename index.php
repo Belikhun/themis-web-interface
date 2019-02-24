@@ -261,9 +261,10 @@
                             </label>
                         </div>
 
-                        <t class="item text sound" data-soundhoversoft>
-                            Sounds by ppy Pty Ltd. Licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0/legalcode" target="_blank" rel="noopener">CC-BY-NC 4.0</a>. See <a href="/data/sounds/LICENSE.md">LICENSE.md</a> for more information.
-                        </t>
+                        <div class="item lr warning sound" data-soundhoversoft>
+                            <t class="left">Sounds by ppy Pty Ltd. Licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0/legalcode" target="_blank" rel="noopener">CC-BY-NC 4.0</a>. See <a href="/data/sounds/LICENSE.md" target="_blank" rel="noopener">LICENSE.md</a> for more information.</t>
+                            <div class="right"></div>
+                        </div>
 
                         <t class="title small">Hiển thị</t>
 
@@ -303,7 +304,7 @@
                         <div id="usett_aboutToggler" class="item arr sound" data-soundhover>Thông tin</div>
 
                         <div class="space"></div>
-                        <t class="title small">Copyright © 2018-2019 <a href="https://www.facebook.com/belivipro9x99" target="_blank" rel="noopener">Belikhun</a>. This project is licensed under the MIT License</t>
+                        <t class="title small">Copyright © 2018-2019 <a href="https://www.facebook.com/belivipro9x99" target="_blank" rel="noopener">Belikhun</a>. This project is licensed under the MIT License. See <a href="/LICENSE" target="_blank" rel="noopener">LICENSE</a> for more information.</t>
                     </div>
 
                 </div>
