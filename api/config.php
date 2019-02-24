@@ -96,6 +96,9 @@
     setting("editinfo", $config["editinfo"], $TYPE_BOOL);
     setting("viewlog", $config["viewlog"], $TYPE_BOOL);
     setting("viewlogother", $config["viewlogother"], $TYPE_BOOL);
+    setting("ratelimit_maxrequest", $config["ratelimit"]["maxrequest"], $TYPE_NUMBER);
+    setting("ratelimit_time", $config["ratelimit"]["time"], $TYPE_NUMBER);
+    setting("ratelimit_bantime", $config["ratelimit"]["bantime"], $TYPE_NUMBER);
 
     if ($changed === false)
         stop(102, "Woah nothing happened.", 200);

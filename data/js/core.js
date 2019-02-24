@@ -1690,7 +1690,7 @@ class ClassWatcher {
                     let currentClassState = mutation.target.classList.contains(this.classToWatch);
                     if (this.lastClassState !== currentClassState) {
                         this.lastClassState = currentClassState;
-                        if(currentClassState)
+                        if (currentClassState)
                             this.classAddedCallback();
                         else
                             this.classRemovedCallback();

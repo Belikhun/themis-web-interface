@@ -7,10 +7,11 @@
     //? |-----------------------------------------------------------------------------------------------|
 
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
 
-    $maxrequest = 60;
-    $perseconds = 10;
-    $bantime = 15;
+    $maxrequest = $config["ratelimit"]["maxrequest"] ?: 60;
+    $perseconds = $config["ratelimit"]["time"] ?: 8;
+    $bantime = $config["ratelimit"]["bantime"] ?: 15;
 
     if (!isset($_SESSION["firstrequest"]))
         $_SESSION["firstrequest"] = time();

@@ -94,13 +94,13 @@
                 <div class="item sound" data-soundhoversoft>
                     <div class="formgroup blue sound" data-soundselectsoft>
                         <input id="time-during" type="number" class="formfield" autocomplete="off" placeholder="Thời gian làm bài" required>
-                        <label for="time-during" class="formlabel">Thời gian làm bài</label>
+                        <label for="time-during" class="formlabel">Thời gian làm bài (phút)</label>
                     </div>
                 </div>
                 <div class="item sound" data-soundhoversoft>
                     <div class="formgroup blue sound" data-soundselectsoft>
                         <input id="time-offset" type="number" class="formfield" autocomplete="off" placeholder="Thời gian bù" required>
-                        <label for="time-offset" class="formlabel">Thời gian bù</label>
+                        <label for="time-offset" class="formlabel">Thời gian bù (giây)</label>
                     </div>
                 </div>
             </div>
@@ -143,6 +143,32 @@
                         <span class="checkmark"></span>
                     </label>
                 </div>
+            </div>
+
+            <div class="group clock">
+                <t class="title">RateLimit</t>
+
+                <div class="item sound" data-soundhoversoft>
+                    <div class="formgroup blue sound" data-soundselectsoft>
+                        <input id="ratelimit-maxrequest" type="number" class="formfield" autocomplete="off" placeholder="Số yêu cầu tối đa" required>
+                        <label for="ratelimit-maxrequest" class="formlabel">Số yêu cầu tối đa</label>
+                    </div>
+                </div>
+
+                <div class="item sound" data-soundhoversoft>
+                    <div class="formgroup blue sound" data-soundselectsoft>
+                        <input id="ratelimit-time" type="number" class="formfield" autocomplete="off" placeholder="Thời gian (giây)" required>
+                        <label for="ratelimit-time" class="formlabel">Thời gian tối đa thực hiện yêu cầu (giây)</label>
+                    </div>
+                </div>
+
+                <div class="item sound" data-soundhoversoft>
+                    <div class="formgroup blue sound" data-soundselectsoft>
+                        <input id="ratelimit-bantime" type="number" class="formfield" autocomplete="off" placeholder="Thời gian cấm yêu cầu (giây)" required>
+                        <label for="ratelimit-bantime" class="formlabel">Thời gian cấm yêu cầu (giây)</label>
+                    </div>
+                </div>
+
             </div>
 
             <div class="footer">

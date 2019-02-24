@@ -22,6 +22,11 @@ var submit = $("#submit");
 var editinfo = $("#editinfo");
 var viewlog = $("#viewlog");
 var viewlogother = $("#viewlog-other");
+var ratelimit = {
+    maxrequest: $("#ratelimit-maxrequest"),
+    time: $("#ratelimit-time"),
+    bantime: $("#ratelimit-bantime")
+}
 
 function cvtime(h, m, s) {
     return [h, m, s]
@@ -78,7 +83,10 @@ function update() {
         submit.checked = data.submit;
         editinfo.checked = data.editinfo;
         viewlog.checked = data.viewlog;
-        viewlogother.checked = data.viewlogother
+        viewlogother.checked = data.viewlogother;
+        ratelimit.maxrequest.value = data.ratelimit.maxrequest;
+        ratelimit.time.value = data.ratelimit.time;
+        ratelimit.bantime.value = data.ratelimit.bantime;
     });
 }
 
@@ -123,9 +131,12 @@ $("#form-container").addEventListener("submit", e => {
             "editinfo": editinfo.checked,
             "viewlog": viewlog.checked,
             "viewlogother": viewlogother.checked,
+            "ratelimit.maxrequest": parseInt(ratelimit.maxrequest.value),
+            "ratelimit.time": parseInt(ratelimit.time.value),
+            "ratelimit.bantime": parseInt(ratelimit.bantime.value),
             "token": API_TOKEN
         }
-    }, data => {
+    }, () => {
         clog("okay", "Thay đổi cài đặt thành công.");
         update();
     })

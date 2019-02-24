@@ -131,7 +131,9 @@ function myajax({
                                 onupload: onupload,
                                 ondownload: ondownload,
                                 rawdata: rawdata,
-                            }, callout, error)
+                            }, callout, error).catch(d => {
+                                reject(d);
+                            })
                             // Resolve promise
                             resolve(r);
 

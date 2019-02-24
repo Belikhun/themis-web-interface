@@ -45,6 +45,7 @@
 		if ($duringTime <= 0)
 			return false;
 
+		// Admin can bypass this check
 		if (getuserdata($_SESSION["username"])["id"] === "admin")
 			return true;
 

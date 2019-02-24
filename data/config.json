@@ -21,5 +21,10 @@
     "submit": true,
     "editinfo": true,
     "viewlog": true,
-    "viewlogother": true
+    "viewlogother": true,
+    "ratelimit": {
+        "maxrequest": 60,
+        "time": 10,
+        "bantime": 15
+    }
 }

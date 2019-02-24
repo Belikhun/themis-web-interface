@@ -49,7 +49,7 @@
         foreach ($accdata as $col)
             if ($col["username"] === $username)
                 return $col;
-        return false;
+        return Array();
     }
 
     define("USER_EDIT_SUCCESS", 0);
@@ -68,11 +68,12 @@
             foreach ($cell as $j => $celldata)
                 if ($j === array_search("username", $acchead) && $celldata -> textContent === $username) {
                     foreach ($replace as $k => $val)
-                        if (($cellindex = array_search($k, $acchead)) !== false)
+                        if (false !== $cellindex = array_search($k, $acchead))
                             $cell -> item($cellindex) -> textContent = $val;
 
                     if($dom -> save($_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/acctmp.xml") === false)
                         return USER_EDIT_ERROR;
+                        
                     //copy($_SERVER["DOCUMENT_ROOT"] ."/api/xmldb/acctmp.xml", $_SERVER["DOCUMENT_ROOT"] ."/api/xmldb/account.xml");
                     //unlink($_SERVER["DOCUMENT_ROOT"] ."/api/xmldb/acctmp.xml");
                     rename($_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/acctmp.xml", $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.xml");
