@@ -16,10 +16,12 @@
     height: 100%;
     opacity: 1;
     z-index: 100;
+
+    transition: background-color 0.2s ease;
 }
 
 .splash.done {
-    animation: disapear 1s ease 0.5s 1 alternate forwards;
+    animation: splash-disapear 1s ease 0.5s 1 alternate forwards;
 }
 
 .splash .middle {
@@ -154,18 +156,32 @@
 
 /* Dark */
 
+body.dark .splash,
 .splash.dark {
     background-color: #282829;
 }
 
+body.dark .splash .middle .appname,
 .splash.dark .middle .appname {
     color: #ecf0f1;
 }
 
+body.dark .splash .middle .progress,
 .splash.dark .middle .progress {
     background-color: #4f4f51;
 }
 
+body.dark .splash .middle .phase,
+.splash.dark .middle .phase {
+    color: rgb(148, 148, 148);
+}
+
+body.dark .splash .middle .status,
+.splash.dark .middle .status {
+    color: rgb(195, 195, 195);
+}
+
+body.dark .splash .footer .text,
 .splash.dark .footer .text {
     color: #dbdbdb;
 }
@@ -181,7 +197,7 @@
     }
 }
 
-@keyframes disapear {
+@keyframes splash-disapear {
     0% {
         opacity: 1;
         z-index: 10;
