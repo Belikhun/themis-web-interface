@@ -753,9 +753,9 @@ body.guest #timep.show ~ #rankp {
 
 .problem-settings .problem-container .problem .test-container .test {
     display: block;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 700;
-    color: #b1b3b8;
+    color: #8b8b8b;
     text-transform: uppercase;
     margin: 12px 0;
     transition: 0.3s;
@@ -966,7 +966,8 @@ body.guest #timep.show ~ #rankp {
     display: block;
     text-align: center;
     font-size: 12px;
-    font-weight: 200;
+    font-weight: bold;
+    font-style: italic;
     color: #287548;
     letter-spacing: 0.4px;
 }
@@ -1335,7 +1336,7 @@ footer .badge {
 
 footer .description {
     display: block;
-    font-weight: light;
+    font-weight: lighter;
     font-size: 14px;
     color: #333333;
     padding: 2px 10px;
@@ -1362,7 +1363,7 @@ footer ul.contact li {
     padding-left: 40px;
     padding-bottom: 2px;
     color: rgb(0, 0, 0);
-    font-weight: light;
+    font-weight: lighter;
     font-size: 14px;
 }
 

@@ -17,9 +17,9 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #d8d8d8;
+    background-color: #a3a3a3;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background-color: #959595;
+    background-color: #838383;
 }

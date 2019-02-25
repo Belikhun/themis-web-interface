@@ -305,3 +305,58 @@ t {
     margin: 30px 80px 0 0;
     padding-bottom: 20px;
 }
+
+/* Dark */
+
+body.dark a {
+    color: #19c8a5;
+}
+
+body.dark t {
+    color: rgb(212, 212, 212);
+}
+
+body.dark .formgroup.blue .formfield {
+    color: rgb(204, 204, 204);
+}
+
+body.dark .wrapper #form-container::before {
+    background-color: rgb(56, 56, 56);
+}
+
+body.dark .wrapper #form-container .group t {
+    color: rgb(178, 178, 178);
+}
+
+body.dark .wrapper #form-container .group .title {
+    color: #3498db;
+}
+
+body.dark .wrapper #form-container .group .title.big {
+    color: #e4e4e4;
+}
+
+body.dark .wrapper #form-container .group .title.small {
+    color: rgb(192, 192, 192);
+}
+
+body.dark .wrapper #form-container .group .item:hover {
+    background-color: rgba(26, 26, 26, 0.4);
+}
+
+body.dark .wrapper #form-container .group a.item,
+body.dark .wrapper #form-container .group .item.arr {
+    color: rgb(190, 190, 190);
+}
+
+body.dark .wrapper #form-container .group .item.arr:hover {
+    color: #f67fe6;
+}
+
+body.dark .wrapper #form-container .group a.item:hover {
+    color: #00b8b8;
+}
+
+body.dark .wrapper #form-container .group .item .info .right {
+    color: rgb(182, 182, 182);
+}

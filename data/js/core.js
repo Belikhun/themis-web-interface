@@ -701,10 +701,10 @@ core = {
         },
 
         startinterval() {
-            this.timeupdate();
+            this.timeUpdate();
             this.interval = setInterval(() => {
                 this.timedata.time--;
-                this.timeupdate();
+                this.timeUpdate();
             }, 1000);
         },
 
@@ -721,8 +721,8 @@ core = {
             this.timedata.phase = 0;
         },
 
-        timeupdate() {
-            if ((data = this.timedata).time === 0)
+        timeUpdate() {
+            if ((data = this.timedata).time <= 0 && data.phase !== 4)
                 switch (data.phase) {
                     case 1:
                         this.timedata.phase = 2;
@@ -783,7 +783,7 @@ core = {
                     this.state.innerText = "ĐÃ HẾT THỜI GIAN LÀM BÀI";
                     break;
                 default:
-                    clog("errr", "Lỗi không rõ.");
+                    clog("errr", "Unknown data.phase in core.timer.timeUpdate: " + data.phase);
                     break;
             }
         }
@@ -878,11 +878,13 @@ core = {
             renPass: $("#usett_edit_renpass"),
         },
         logoutBtn: $("#usett_logout"),
+        nightModeToggle: $("#usett_nightMode"),
         toggler: $("#usett_toggler"),
         container: $("#user_settings"),
         adminConfig: $("#usett_adminConfig"),
         panelContainer: $("#usett_panelContainer"),
         aboutPanel: null,
+        licensePanel: null,
 
         __hideAllPanel() {
             var l = this.panelContainer.getElementsByClassName("show");
@@ -902,6 +904,21 @@ core = {
 
             this.aboutPanel = new this.panel($("#usett_aboutPanel"));
             this.aboutPanel.toggler = $("#usett_aboutToggler");
+            this.licensePanel = new this.panel($("#usett_licensePanel"));
+            this.licensePanel.toggler = $("#usett_licenseToggler");
+
+            this.nightModeToggle.addEventListener("change", (e) => {
+                if (e.target.checked === true) {
+                    cookie.set("__darkMode", true);
+                    document.body.classList.add("dark");
+                } else {
+                    cookie.set("__darkMode", false);
+                    document.body.classList.remove("dark");
+                }
+            })
+
+            this.nightModeToggle.checked = cookie.get("__darkMode", false) == "true";
+            this.nightModeToggle.dispatchEvent(new Event("change"));
 
             this.sub.nameForm.addEventListener("submit", e => {
                 this.sub.nameForm.getElementsByTagName("button")[0].disabled = true;

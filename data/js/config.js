@@ -103,6 +103,9 @@ document.__onclog = (type, ts, msg) => {
 }
 
 $("body").onload = e => {
+    if (cookie.get("__darkMode") === "true")
+        document.body.classList.add("dark");
+
     sound.init();
     update();
 }

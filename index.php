@@ -56,8 +56,9 @@
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/spinner.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/statusbar.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/scrollbar.css" />
-        <!-- Page Style Core -->
+        <!-- Page Style -->
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/core.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/dark.css" />
         <!-- Fonts -->
         <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/calibri.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/material-font.css" />
@@ -271,7 +272,7 @@
                         <div class="item lr sound" data-soundhoversoft>
                             <t class="left">Chế độ ban đêm</t>
                             <label class="sq-checkbox pink right">
-                                <input type="checkbox" class="sound" data-soundcheck disabled>
+                                <input id="usett_nightMode" type="checkbox" class="sound" data-soundcheck>
                                 <span class="checkmark"></span>
                             </label>
                         </div>
@@ -296,12 +297,13 @@
                         <t class="title">Liên Kết Ngoài</t>
                         <a class="item sound" data-soundhover data-soundselect href="https://github.com/belivipro9x99/themis-web-interface/issues" target="_blank" rel="noopener">Báo lỗi</a>
                         <a class="item sound" data-soundhover data-soundselect href="https://github.com/belivipro9x99/themis-web-interface/wiki" target="_blank" rel="noopener">Wiki</a>
-                        <a class="item sound" data-soundhover data-soundselect href="https://github.com/belivipro9x99/themis-web-interface" target="_blank" rel="noopener">Github Repository</a>
+                        <a class="item sound" data-soundhover data-soundselect href="https://github.com/belivipro9x99/themis-web-interface" target="_blank" rel="noopener">Source Code</a>
                     </div>
 
                     <div class="group info">
                         <t class="title">Thông tin Dự án</t>
                         <div id="usett_aboutToggler" class="item arr sound" data-soundhover>Thông tin</div>
+                        <div id="usett_licenseToggler" class="item arr sound" data-soundhover>LICENSE</div>
 
                         <div class="space"></div>
                         <t class="title small">Copyright © 2018-2019 <a href="https://www.facebook.com/belivipro9x99" target="_blank" rel="noopener">Belikhun</a>. This project is licensed under the MIT License. See <a href="/LICENSE" target="_blank" rel="noopener">LICENSE</a> for more information.</t>
@@ -437,6 +439,19 @@
                                     </li>
                                 </ul>
                             </footer>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="usett_licensePanel" data-soundtoggle="show" class="panel large sound">
+                    <div class="container">
+                        <div class="btn-group">
+                            <span class="reload sound" data-soundhover data-soundselect></span>
+                            <span class="close sound" data-soundhover></span>
+                            <span class="sound" data-soundhover data-soundselect></span>
+                        </div>
+                        <div class="main">
+                            <iframe class="cpanel-container" src="/LICENSE"></iframe>
                         </div>
                     </div>
                 </div>
