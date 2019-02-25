@@ -105,26 +105,25 @@ core = {
         await this.timer.init();
         set(15, "Initializing: core.wrapper");
         this.wrapper.init();
+        set(20, "Initializing: core.userSettings");
+        this.userSettings.init(LOGGED_IN);
+        set(25, "Initializing: core.sounds");
+        await this.sound.init((p, t) => {
+            set(25 + p*0.5, `Initializing: core.sounds (${t})`);
+        });
         
         if (LOGGED_IN) {
-            set(20, "Initializing: core.file");
+            set(75, "Initializing: core.file");
             this.file.init();
-            set(25, "Initializing: core.problems");
+            set(80, "Initializing: core.problems");
             await this.problems.init();
-            set(30, "Initializing: core.userSettings");
-            this.userSettings.init();
-            set(35, "Fetching Logs...");
+            set(85, "Fetching Logs...");
             await this.fetchLog();
             this.logPanel.ref.onClick(() => {
                 this.fetchLog(true);
             });
             this.file.onUploadSuccess = () => {this.fetchLog()};
             this.fLogInt = setInterval(() => {this.fetchLog()}, 1000);
-            
-            set(40, "Initializing: core.sounds");
-            await this.sound.init((p, t) => {
-                set(40 + p*0.5, `Initializing: core.sounds (${t})`);
-            });
 
             if (IS_ADMIN) {
                 clog("info", "Logged in as Admin.");
@@ -893,19 +892,14 @@ core = {
                 l[i].classList.remove("show");
             }
         },
-
-        init() {
-            this.avtw.addEventListener("dragenter",  e => {this.dragenter(e)}, false);
-            this.avtw.addEventListener("dragleave", e => {this.dragleave(e)}, false);
-            this.avtw.addEventListener("dragover", e => {this.dragover(e)}, false);
-            this.avtw.addEventListener("drop", e => {this.filesel(e)}, false);
+        
+        init(loggedIn = true) {
             this.toggler.addEventListener("click", e => {this.toggle(e)}, false);
-            this.adminConfig.style.display = "none";
-
             this.aboutPanel = new this.panel($("#usett_aboutPanel"));
             this.aboutPanel.toggler = $("#usett_aboutToggler");
             this.licensePanel = new this.panel($("#usett_licensePanel"));
             this.licensePanel.toggler = $("#usett_licenseToggler");
+            this.adminConfig.style.display = "none";
 
             this.nightModeToggle.addEventListener("change", (e) => {
                 if (e.target.checked === true) {
@@ -916,9 +910,25 @@ core = {
                     document.body.classList.remove("dark");
                 }
             })
-
+            
             this.nightModeToggle.checked = cookie.get("__darkMode", false) == "true";
             this.nightModeToggle.dispatchEvent(new Event("change"));
+
+            // Stop Init
+            if (!loggedIn) {
+                $("#usett_userPanel").style.display = "none";
+
+                clog("okay", "Initialised:", {
+                    color: flatc("red"),
+                    text: "core.usersettings (notLoggedIn mode)"
+                });
+                return;
+            }
+
+            this.avtw.addEventListener("dragenter",  e => {this.dragenter(e)}, false);
+            this.avtw.addEventListener("dragleave", e => {this.dragleave(e)}, false);
+            this.avtw.addEventListener("dragover", e => {this.dragover(e)}, false);
+            this.avtw.addEventListener("drop", e => {this.filesel(e)}, false);
 
             this.sub.nameForm.addEventListener("submit", e => {
                 this.sub.nameForm.getElementsByTagName("button")[0].disabled = true;

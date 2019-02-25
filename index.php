@@ -115,14 +115,12 @@
                         </li>
                     </ul>
                     <img id="user_avt" class="avatar" src="/api/avt/get?u=<?php print $username; ?>" />
-                    <span class="icon-menu">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </span>
-                <?php } else { ?>
-                    <button class="login sq-btn yellow" onclick="window.location.href='/login.php'">Đăng nhập</button>
                 <?php } ?>
+                <span class="icon-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
             </span>
         </div>
 
@@ -138,7 +136,16 @@
                         <div class="space"></div>
                     </div>
 
-                    <div class="group user">
+                    <?php if (!$loggedin) { ?>
+                        <div class="group user">
+                            <t class="title">Đăng Nhập</t>
+                            <div class="item form">
+                                <button class="sq-btn yellow sound" style="width: 100%;" data-soundhover data-soundselect onclick="window.location.href='/login.php'">Đăng nhập</button>
+                            </div>
+                        </div>
+                    <?php } ?>
+
+                    <div id="usett_userPanel" class="group user">
                         <t class="title">Tài Khoản</t>
                         <t class="title small">Thông tin</t>
 
