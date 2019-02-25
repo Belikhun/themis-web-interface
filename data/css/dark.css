@@ -349,18 +349,18 @@ body.dark .problem-settings .problem-container .problem .test-container .test-ad
 
 /* Footer */
 
-body.dark footer .header t.title {
+body.dark footer .header .title {
     color: #3498db;
 }
 
-body.dark footer .header t.version {
+body.dark footer .header .version {
     color: rgb(204, 204, 204);
 }
 
-body.dark footer .header t.subtitle {
+body.dark footer .header .subtitle {
     color: rgb(170, 170, 170);
 }
 
-body.dark footer ul.contact li {
+body.dark footer .contact li {
     color: rgb(228, 228, 228);
 }
