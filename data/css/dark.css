@@ -226,6 +226,10 @@ body.dark .viewlog-container li::before {
     color: rgb(104, 104, 104);
 }
 
+body.dark .viewlog-container li:hover::before {
+    color: #2f93d6;
+}
+
 /* UserSettings */
 
 body.dark #user_settings .main .container {
