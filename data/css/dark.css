@@ -98,7 +98,7 @@ body.dark .fileupload-container .info .bar #file_size {
 /* Problems Panel */
 
 body.dark .problem-container .problem-list li.item {
-    border-bottom-color: rgb(100, 100, 100);
+    border-bottom-color: rgb(88, 88, 88);
 }
 
 body.dark .problem-container .problem-list li.item .title .name {
@@ -164,7 +164,7 @@ body.dark .time-container #time_time.red + .bar #time_bar {
 
 body.dark #rankp div.ranking-container table tr th {
     color: rgb(202, 202, 202);
-    border-bottom-color: rgb(134, 134, 134);
+    border-bottom-color: rgb(88, 88, 88);
 }
 
 body.dark #rankp div.ranking-container table tr th:nth-child(1),
@@ -195,7 +195,7 @@ body.dark #rankp div.ranking-container table tr:nth-child(3) td:nth-child(2) .na
 /* Log Panel */
 
 body.dark #logp div.main ul.log-item-container li.log-item .h {
-    border-bottom-color: rgb(112, 112, 112);
+    border-bottom-color: rgb(88, 88, 88);
 }
 
 body.dark #logp div.main ul.log-item-container li.log-item .h .l .t {
