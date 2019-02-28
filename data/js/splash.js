@@ -1,5 +1,5 @@
 class splash {
-    constructor(container, name, icon) {
+    constructor(container, name, subname, icon) {
         if (!container.classList)
             return false;
 
@@ -20,6 +20,10 @@ class splash {
                 type: "div",
                 class: "appname",
                 name: "appname"
+            }, {
+                type: "div",
+                class: "appsubname",
+                name: "appsubname"
             }, {
                 type: "div",
                 class: "progress",
@@ -78,6 +82,7 @@ class splash {
         // Middle
         this.tree.middle.logo.inner.style.backgroundImage = `url("${icon}")`;
         this.tree.middle.appname.innerText = name;
+        this.tree.middle.appsubname.innerText = subname;
 
         // Footer
         this.tree.footer.icon.chrome.src = "/data/img/chrome-icon.webp";

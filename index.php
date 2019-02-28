@@ -34,6 +34,7 @@
         $name = $userdata["name"];
         $id = $userdata["id"];
     }
+
 ?>
 
     <!DOCTYPE html>
@@ -45,7 +46,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>Themis Web Interface v<?php print VERSION; ?></title>
+        <title><?php print APPNAME ." v". VERSION; ?></title>
 
         <!-- Library First -->
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/splash.css" />
@@ -72,7 +73,7 @@
         <script src="/data/js/belibrary.js" type="text/javascript"></script>
         <script type="text/javascript" src="/data/js/splash.js"></script>
         <script type="text/javascript">
-            var mainSplash = new splash(document.body, "Themis Web Interface v<?php print VERSION; ?>", "/data/img/icon.webp");
+            var mainSplash = new splash(document.body, "<?php print APPNAME; ?>", "<?php print VERSION ."-". VERSION_STATE; ?>", "/data/img/icon.webp");
 
             mainSplash.init = async (set) => {
                 set(0, "Initializing core.js");
@@ -416,7 +417,7 @@
                             <footer>
                                 <div class="header">
                                     <div class="logo"></div>
-                                    <t class="title">Themis Web Interface</t>
+                                    <t class="title"><?php print APPNAME; ?></t>
                                     <t class="version">v<?php print VERSION."-".VERSION_STATE; ?></t>
                                     <t class="subtitle">Made from scratch, crafted with <font color="red">❤</font> by Belikhun</t>
                                     <div class="button">
@@ -430,10 +431,10 @@
                                     <img src="/tool/badge?su=license&st=MIT&c=orange">
                                     <img src="/tool/badge?su=status&st=not tested&c=blue">
                                     <img src="/tool/badge?su=author&st=Đỗ Mạnh Hà&c=red">
-                                    <a href="http://thptlaclongquan.hoabinh.edu.vn" target="_blank" rel="noopener"><img src="/tool/badge?su=trường&st=THPT Lạc Long Quân, Hòa Bình&c=yellow"></a>
+                                    <a href="http://thptlaclongquan.hoabinh.edu.vn" target="_blank" rel="noopener"><img src="/tool/badge?su=school&st=Lac Long Quan High School, Hoa Binh&c=yellow"></a>
                                 </div>
                                 
-                                <t class="description"><b>Themis Web Interface</b> là một dự án mã nguồn mở, phi lợi nhuận với mục đích chính nhằm biến việc quản lí và tổ chức các buổi học lập trình, ôn tập tin học và tổ chức kì thi trở nên dễ dàng hơn.</t>
+                                <t class="description"><b><?php print APPNAME; ?></b> là một dự án mã nguồn mở, phi lợi nhuận với mục đích chính nhằm biến việc quản lí và tổ chức các buổi học lập trình, ôn tập tin học và tổ chức kì thi trở nên dễ dàng hơn.</t>
                                 
                                 <t class="contact">Liên hệ:</t>
                                 <ul class="contact">

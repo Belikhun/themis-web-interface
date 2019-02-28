@@ -20,24 +20,24 @@
     $cl_ip = $_SERVER["REMOTE_ADDR"];
     $cl = $_SERVER["HTTP_USER_AGENT"];
     if (isset($_SERVER["REDIRECT_STATUS"]))
-        $errcode = $_SERVER["REDIRECT_STATUS"];
+        $errCode = $_SERVER["REDIRECT_STATUS"];
     elseif (isset($_GET["code"]))
-        $errcode = trim($_GET["code"]);
+        $errCode = trim($_GET["code"]);
     else
-        $errcode = null;
+        $errCode = null;
     
-    $errdesc2 = null;
+    $errDetail = null;
 
-    if (isset($_SESSION["errordata_array"])) {
-        $err = $_SESSION["errordata_array"];
-        $_SESSION["errordata_array"] = null;
+    if (isset($_SESSION["lastError"])) {
+        $err = $_SESSION["lastError"];
+        $_SESSION["lastError"] = null;
 
-        $errcode = $err["errcode"];
-        http_response_code($errcode);
-        $errdesc2 = "<b>Lỗi[".$err["num"]."]:</b> <i>" . $err["str"] . "</i> tại <i>" . $err["file"] . "</i> dòng " . $err["line"];
+        $errCode = $err["errcode"];
+        http_response_code($errCode);
+        $errDetail = "<b>Lỗi[".$err["num"]."]:</b> <i>" . $err["str"] . "</i> tại <i>" . $err["file"] . "</i> dòng " . $err["line"];
     }
 
-    switch ($errcode) {
+    switch ($errCode) {
         case 200:
             $name = "This is not a error";
             $desc = "Who take you here?";
@@ -52,7 +52,7 @@
             break;
         case 403:
             $name = "Forbidden";
-            $desc = "Bạn không có quyền để truy cập $sv_ip$uri";
+            $desc = "Hey, Thats illegal! You are not supposed to access $sv_ip$uri. Or iS iT ?";
             break;
         case 404:
             $name = "Not Found";
@@ -76,7 +76,7 @@
             break;
         case 500:
             $name = "Internal Server Error";
-            $desc = "The server encountered an unexpected condition that prevented it from fulfilling the request.";
+            $desc = "sth broken or just my code did an oopsie. send nuke!";
             break;
         case 502:
             $name = "Bad Gateway";
@@ -88,9 +88,6 @@
             break;
     }
 
-    if ($errdesc2 !== null)
-        $desc = $errdesc2;
-
 ?>
 
 <?php ?>
@@ -100,7 +97,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title><?php echo($sv_pr ." ". $errcode); ?></title>
+    <title><?php print $errCode ." ". $name; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/error.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/scrollbar.css" />
@@ -109,21 +106,21 @@
 </head>
 
 <body>
-
     <div class="background"></div>
 
     <div class="main-container">
 
         <p class="code">
-            <font class="protocol"><?php echo($sv_pr); ?></font>
-            <?php echo($errcode); ?>
+            <span class="protocol"><?php print $sv_pr; ?></span>
+            <?php print $errCode; ?>
         </p>
-        <p class="name"><?php echo($name); ?></p>
-        <p class="desc"><?php echo($desc); ?></p>
+        <p class="name"><?php print $name; ?></p>
+        <p class="desc"><?php print $desc; ?></p>
+        <p class="detail"><?php print $errDetail; ?></p>
         <p class="info">
-            Client: <?php echo($cl); ?><br>
-            Server: <?php echo($sv . " PHP/" . phpversion()); ?><br>
-            Your IP: <?php echo($cl_ip); ?><br>
+            Client: <?php print $cl; ?><br>
+            Server: <?php print $sv . " PHP/" . phpversion(); ?><br>
+            Your IP: <?php print $cl_ip; ?><br>
         </p>
 
         <button class="sq-btn" onclick="location.href = '/'">Về Trang Chủ</button>
@@ -132,7 +129,7 @@
 
     <div class="footer">
         <img src="/data/img/icon.webp" class="icon">
-        <p>Themis Web Interface. Copyright (c) 2018-2019 Belikhun. This project is licensed under the MIT License.</p>
+        <p><?php print APPNAME; ?>. Copyright (c) 2018-2019 Belikhun. This project is licensed under the MIT License.</p>
     </div>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->

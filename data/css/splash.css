@@ -71,9 +71,20 @@
     display: block;
     margin: auto;
     text-align: center;
-    margin-bottom: 20px;
     color: #2c3e50;
     font-weight: bold;
+    text-transform: uppercase;
+}
+
+.splash .middle .appsubname {
+    position: relative;
+    display: block;
+    margin: auto;
+    text-align: center;
+    margin-bottom: 15px;
+    color: #40566d;
+    font-weight: bold;
+    font-size: 11px;
     text-transform: uppercase;
 }
 
@@ -164,6 +175,11 @@ body.dark .splash,
 body.dark .splash .middle .appname,
 .splash.dark .middle .appname {
     color: #ecf0f1;
+}
+
+body.dark .splash .middle .appsubname,
+.splash.dark .middle .appname {
+    color: #acb8bb;
 }
 
 body.dark .splash .middle .progress,

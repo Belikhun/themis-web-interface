@@ -33,6 +33,7 @@
     height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
+    scroll-behavior: smooth;
 }
 
 #user_settings .main .container {
@@ -424,6 +425,8 @@
     right: 20px;
     width: calc(100% - 20px);
     height: 100%;
+    overflow: auto;
+    scroll-behavior: smooth;
 
     transition:
         width 0.2s cubic-bezier(0.23, 1, 0.32, 1),
