@@ -52,7 +52,7 @@
             break;
         case 403:
             $name = "Forbidden";
-            $desc = "Hey, Thats illegal! You are not supposed to access $sv_ip$uri. Or iS iT ?";
+            $desc = "Hey, Thats illegal! You are not allowed to access $sv_ip$uri. Or iS iT ?";
             break;
         case 404:
             $name = "Not Found";
@@ -60,7 +60,7 @@
             break;
         case 405:
             $name = "Method Not Allowed";
-            $desc = "A request method is not supported for the requested resource.";
+            $desc = "A request method is not supposed for the requested resource.";
             break;
         case 406:
             $name = "Not Acceptable";
@@ -76,7 +76,7 @@
             break;
         case 500:
             $name = "Internal Server Error";
-            $desc = "sth broken or just my code did an oopsie. send nuke!";
+            $desc = "the server did an oopsie";
             break;
         case 502:
             $name = "Bad Gateway";
@@ -90,7 +90,6 @@
 
 ?>
 
-<?php ?>
 <!DOCTYPE html>
 <html lang="vi-VN">
 

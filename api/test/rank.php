@@ -9,8 +9,15 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
+
+    if ($config["publish"] !== true)
+        stop(0, "Thành công!", 200, Array(
+            "list" => Array(),
+            "rank" => Array()
+        ));
+
+    require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
 
 	function parsename(string $path) {
 		$path = basename($path);
@@ -42,10 +49,8 @@
         if (count($t) !== 0 && isset($t[count($t) - 1]))
             $point = (float)str_replace(",", ".", $t[count($t) - 1]);
 
-        if ($config["publish"] === true) {
-            $namelist[$i] = $data["filename"];
-            $res[$user]["list"][$data["filename"]] = $point;
-        }
+        $namelist[$i] = $data["filename"];
+        $res[$user]["list"][$data["filename"]] = $point;
 
         $res[$user]["log"][$data["filename"]] = ($config["viewlog"] === true) ? "/api/test/viewlog?f=" . basename($log) : null;
 

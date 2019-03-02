@@ -87,8 +87,9 @@ core = {
     container: $("#container"),
     pLogData: new Array(),
     pRankData: new Array(),
-    fLogInt: null,
-    fRankInt: null,
+    fLogInternal: null,
+    fRankInternal: null,
+    initialized: false,
 
     async init(set) {
         clog("info", "Initializing...");
@@ -100,7 +101,7 @@ core = {
 
         set(5, "Fetching Rank...");
         await this.fetchRank();
-        this.fRankInt = setInterval(e => {this.fetchRank()}, 2000);
+        this.fRankInternal = setInterval(e => {this.initialized ? this.fetchRank() : null}, 2000);
         set(10, "Initializing: core.timer");
         await this.timer.init();
         set(15, "Initializing: core.wrapper");
@@ -123,7 +124,7 @@ core = {
                 this.fetchLog(true);
             });
             this.file.onUploadSuccess = () => {this.fetchLog()};
-            this.fLogInt = setInterval(() => {this.fetchLog()}, 1000);
+            this.fLogInternal = setInterval(() => {this.initialized ? this.fetchLog() : null}, 1000);
 
             if (IS_ADMIN) {
                 clog("info", "Logged in as Admin.");
@@ -143,6 +144,7 @@ core = {
 
         set(100, "Initialized");
         clog("okay", "core.js Initialized.");
+        this.initialized = true;
 
         console.log("%cSTOP!", "font-size: 72px; font-weight: 900;");
         console.log(
@@ -181,12 +183,20 @@ core = {
         });
 
         var t = data.tag_name.split("-")[0].replace("v", "").split(".");
+        clog("info", "Github latest release:", {
+            text: t.join("."),
+            color: flatc("blue")
+        })
         const githubVer = {
             v: parseInt(t[0])*100 + parseInt(t[1])*10 + parseInt(t[2]),
             s: data.tag_name.split("-")[1]
         }
 
         t = window.serverStatus.version.split(".");
+        clog("info", "Local version:", {
+            text: window.serverStatus.version,
+            color: flatc("blue")
+        })
         const localVer = {
             v: parseInt(t[0])*100 + parseInt(t[1])*10 + parseInt(t[2]),
             s: window.serverStatus.version_state
@@ -914,7 +924,7 @@ core = {
             this.nightModeToggle.checked = cookie.get("__darkMode", false) == "true";
             this.nightModeToggle.dispatchEvent(new Event("change"));
 
-            // Stop Init
+            // If not logged in, Stop here
             if (!loggedIn) {
                 $("#usett_userPanel").style.display = "none";
 

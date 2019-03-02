@@ -1030,7 +1030,7 @@ body.guest #timep.show ~ #rankp {
 }
 
 #rankp div.ranking-container.blank::after {
-    content: "There is nothing here, yet.";
+    content: "There is nothing here, or is it?";
 }
 
 #rankp div.ranking-container table {

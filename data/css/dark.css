@@ -368,3 +368,8 @@ body.dark footer .header .subtitle {
 body.dark footer .contact li {
     color: rgb(228, 228, 228);
 }
+
+body.dark footer ul.contact li.email::before,
+body.dark footer ul.contact li.github::before {
+    color: rgb(180, 180, 180);
+}

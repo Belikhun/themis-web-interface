@@ -36,7 +36,7 @@
     position: relative;
     display: block;
     margin: auto;
-    margin-bottom: 28px;
+    margin-bottom: 22px;
     width: 80px;
     height: 80px;
     border-radius: 40px;
@@ -81,7 +81,7 @@
     display: block;
     margin: auto;
     text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: 22px;
     color: #40566d;
     font-weight: bold;
     font-size: 11px;
