@@ -10,6 +10,9 @@
 
 ---
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/588881411d6c4592a4c86f8d81ce245c)](https://app.codacy.com/app/belivipro9x99/themis-web-interface?utm_source=github.com&utm_medium=referral&utm_content=belivipro9x99/themis-web-interface&utm_campaign=Badge_Grade_Settings)
+
+
 **Themis Web Interface** là một dự án mã nguồn mở, phi lợi nhuận với mục đích chính nhằm biến việc quản lí và tổ chức các buổi học lập trình, ôn tập và tổ chức kì thi trở nên dễ dàng hơn.
 
 **Themis Web Interface** giúp học sinh nộp bài tới phần mềm chấm điểm **[Themis](https://dsapblog.wordpress.com)** và theo dõi kết quả chấm điểm qua LAN hoặc WAN.
