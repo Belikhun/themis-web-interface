@@ -19,7 +19,7 @@
 }
 
 #user_settings.show {
-    width: 360px;
+    width: 380px;
 }
 
 #user_settings.show ~ #container {
@@ -38,7 +38,8 @@
 
 #user_settings .main .container {
     position: absolute;
-    width: 360px;
+    width: 100%;
+    min-width: 260px;
     min-height: 100%;
     right: 0;
     background-color: rgba(245, 245, 246, 0.8);
