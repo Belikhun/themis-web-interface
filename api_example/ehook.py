@@ -6,7 +6,7 @@
 #? |-----------------------------------------------------------------------------------------------|
 
 from log import log
-from colorama import Fore, Style
+from colorama import Fore
 from ntpath import basename
 import sys
 

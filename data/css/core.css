@@ -11,10 +11,7 @@ body {
     position: relative;
     background-color: #666666;
     font-family: "Segoe UI", Calibri, Geneva, Verdana, sans-serif;
-    margin-top: unset;
-    margin-left: unset;
-    margin-right: unset;
-    margin-bottom: 20px;
+    margin: 0 0 20px 0;
     box-sizing: border-box;
     overflow: hidden;
     width: 100vw;
@@ -42,7 +39,7 @@ t {
 
 /* Change Autocomplete styles in Chrome*/
 input:-webkit-autofill {
-    background-color: rgba(0, 0, 0, 0)!important;
+    background-color: rgba(0, 0, 0, 0);
 }
 
 body #container {

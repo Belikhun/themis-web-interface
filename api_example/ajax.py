@@ -10,7 +10,7 @@ from log import log
 
 sess = requests.Session()
 
-def ajax(url: str, method: str, restype: str, query = {}, form = {}):
+def ajax(url: str, method: str, restype: str, query: dict, form: dict):
 	method = method.upper()
 
 	if (query):

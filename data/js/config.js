@@ -43,25 +43,25 @@ function cvdate(d, m, y) {
 function prdate(inp) {
     var t = inp.split("-");
     return {
-        "y": parseInt(t[0]),
-        "m": parseInt(t[1]),
-        "d": parseInt(t[2])
+        y: parseInt(t[0]),
+        m: parseInt(t[1]),
+        d: parseInt(t[2])
     }
 }
 
 function prtime(inp) {
     var t = inp.split(":");
     return {
-        "h": parseInt(t[0] ? t[0] : 00),
-        "m": parseInt(t[1] ? t[1] : 00),
-        "s": parseInt(t[2] ? t[2] : 00)
+        h: parseInt(t[0] ? t[0] : 0),
+        m: parseInt(t[1] ? t[1] : 0),
+        s: parseInt(t[2] ? t[2] : 0)
     }
 }
 
 function update() {
     myajax({
-        "url": "/api/config",
-        "method": "GET",
+        url: "/api/config",
+        method: "GET",
     }, data => {
         contest.name.value = data.contest.name;
         contest.desc.value = data.contest.description;
@@ -114,9 +114,9 @@ $("#form-container").addEventListener("submit", e => {
     var bd = prdate(time.begindate.value);
     var bt = prtime(time.begintime.value);
     myajax({
-        "url": "/api/config",
-        "method": "POST",
-        "form": {
+        url: "/api/config",
+        method: "POST",
+        form: {
             "contest.name": contest.name.value,
             "contest.description": contest.desc.value,
             "uploaddir": uploaddir.value,
