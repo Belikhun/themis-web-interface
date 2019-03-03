@@ -1107,11 +1107,8 @@ core = {
 
             await this.problems.init();
 
-            this.cpanel.ref.onClick(async () => {
-                clog("info", "Reloading CPanel IFrame.");
-                await this.reloadCPanel().catch(() => {
-                    clog("errr", "An error occurred while reloading CPanel IFrame.");
-                });
+            this.cpanel.ref.onClick(() => {
+                this.cpanelIframe.contentWindow.location.reload();
                 clog("okay", "Reloaded CPanel IFrame.");
             })
 
@@ -1128,12 +1125,19 @@ core = {
             });
         },
 
-        async reloadCPanel() {
-            return new Promise((resolve, reject) => {
-                this.cpanelIframe.onload = () => { resolve(); }
-                this.cpanelIframe.onerror = () => { reject(); }
-                this.cpanelIframe.contentWindow.location.reload();
-            })
+        hidesett() {
+            this.main.classList.remove("showsett");
+            this.navhome.classList.add("active");
+            this.navsett.classList.remove("active");
+            clog("info", "Switched To Main Page");
+        },
+
+        showsett() {
+            this.main.classList.add("showsett");
+            this.navhome.classList.remove("active");
+            this.navsett.classList.add("active");
+            clog("info", "Switched To Setting Page");
+            this.problems.getlist();
         },
 
         problems: {

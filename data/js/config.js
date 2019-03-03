@@ -90,9 +90,6 @@ function update() {
     });
 }
 
-if (cookie.get("__darkMode") === "true")
-    document.body.classList.add("dark");
-
 const sbar = new statusbar(document.body);
 sbar.additem(USERNAME, "account", {space: false, aligin: "left"});
 
@@ -106,6 +103,9 @@ document.__onclog = (type, ts, msg) => {
 }
 
 $("body").onload = e => {
+    if (cookie.get("__darkMode") === "true")
+        document.body.classList.add("dark");
+
     sound.init();
     update();
 }
