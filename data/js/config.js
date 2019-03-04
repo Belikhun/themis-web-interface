@@ -171,6 +171,10 @@ sound = {
 
     async init() {
         this.enable.master = cookie.get("__s_m", false) == "true";
+
+        if (!this.enable.master)
+            return;
+
         this.enable.mouseOver = cookie.get("__s_mo", true) == "true";
         this.enable.btnClick = cookie.get("__s_bc", true) == "true";
         this.enable.panelToggle = cookie.get("__s_pt", true) == "true";
