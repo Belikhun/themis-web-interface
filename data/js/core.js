@@ -418,7 +418,7 @@ core = {
         percent: $("#file_perc"),
         size: $("#file_size"),
         panel: new regPanel($("#uploadp")),
-        uploadcooldown: 1000,
+        uploadCoolDown: 1000,
         onUploadSuccess() {},
 
         init() {
@@ -426,9 +426,7 @@ core = {
             this.dropzone.addEventListener("dragleave", this.dragleave, false);
             this.dropzone.addEventListener("dragover", this.dragover, false);
             this.dropzone.addEventListener("drop", this.filesel, false);
-            this.panel.ref.onClick(() => {
-                this.reset();
-            });
+            this.panel.ref.onClick(() => { this.reset(); });
 
             this.panel.title = "Nộp bài";
 
@@ -544,9 +542,10 @@ core = {
 
                     this.state.innerText = "Tải lên thành công! " + (i + 1) + "/" + files.length;
                     this.onUploadSuccess();
+                    
                     setTimeout(() => {
                         this.upload(files, i + 1);
-                    }, this.uploadcooldown / 2);
+                    }, this.uploadCoolDown / 2);
                 }, res => {
                     clog("info", "Upload Stopped.");
 
@@ -554,7 +553,7 @@ core = {
                     this.panel.title = "Nộp bài - Đã dừng.";
                     this.bar.classList.add("red");
                 })
-            }, this.uploadcooldown / 2);
+            }, this.uploadCoolDown / 2);
         },
     },
 
@@ -950,6 +949,11 @@ core = {
             // Update delay setting
             this.updateDelaySlider.addEventListener("input", (e) => {
                 this.updateDelayText.innerText = `${e.target.value / 1000} giây/yêu cầu`;
+
+                if (e.target.value < 2000)
+                    e.target.classList.add("pink") || e.target.classList.remove("blue");
+                else
+                    e.target.classList.remove("pink") || e.target.classList.add("blue");
             })
             
             this.updateDelaySlider.addEventListener("change", e => {

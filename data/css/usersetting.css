@@ -264,7 +264,7 @@
     height: 0;
     border-style: solid;
     border-width: 0 9px 15.6px 9px;
-    border-color: transparent transparent #feffbb transparent;
+    border-color: transparent transparent #fcff35 transparent;
 }
 
 #user_settings .main .container .group .item.info {
@@ -273,6 +273,15 @@
 
 #user_settings .main .container .group .item.info:hover {
     background-color: rgba(80, 185, 255, 0.4);
+}
+
+#user_settings .main .container .group .item.lr.info .right::after {
+    content: "";
+    position: relative;
+    display: block;
+    width: 16px;
+    height: 16px;
+    background-color: rgb(96, 179, 235);
 }
 
 #user_settings .main .container .group .item.text {
@@ -406,7 +415,6 @@
         color 0.2s cubic-bezier(0.23, 1, 0.32, 1),
         font-size 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 }
-
 
 #user_settings .sub .panel .container .btn-group span:hover {
     background-color: rgba(41, 127, 185, 0.1);

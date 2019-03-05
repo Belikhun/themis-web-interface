@@ -285,6 +285,18 @@ body.dark #user_settings .main .container .group .item.lr.warning .right::after 
     border-color: transparent transparent #e8eb68 transparent;
 }
 
+body.dark #user_settings .main .container .group .item.info {
+    background-color: rgba(61, 136, 187, 0.4);
+}
+
+body.dark #user_settings .main .container .group .item.info:hover {
+    background-color: rgba(84, 163, 216, 0.4);
+}
+
+body.dark #user_settings .main .container .group .item.lr.info .right::after {
+    background-color: rgb(116, 184, 230);
+}
+
 body.dark #user_settings .main .container .group .item .info .right {
     color: rgb(182, 182, 182);
 }
