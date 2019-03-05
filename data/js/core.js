@@ -87,27 +87,30 @@ core = {
     container: $("#container"),
     pLogData: new Array(),
     pRankData: new Array(),
-    fLogInternal: null,
-    fRankInternal: null,
+    updateDelay: 2000,
     initialized: false,
+    __logTimeout: null,
+    __rankTimeout: null,
 
     async init(set) {
         clog("info", "Initializing...");
         var initTime = new stopclock();
 
-        this.rankPanel.ref.onClick(() => {
-            this.fetchRank(true);
-        });
-
         set(5, "Fetching Rank...");
         await this.fetchRank();
-        this.fRankInternal = setInterval(e => {this.initialized ? this.fetchRank() : null}, 2000);
+        this.rankPanel.ref.onClick(() => { this.fetchRank(true) });
+        __connection__.onStateChange((s) => { s === "online" ? this.__fetchRank() : null });
+        this.__fetchRank();
+
         set(10, "Initializing: core.timer");
         await this.timer.init();
+
         set(15, "Initializing: core.wrapper");
         this.wrapper.init();
+
         set(20, "Initializing: core.userSettings");
         this.userSettings.init(LOGGED_IN);
+
         set(25, "Initializing: core.sounds");
         await this.sound.init((p, t) => {
             set(25 + p*0.5, `Initializing: core.sounds (${t})`);
@@ -116,15 +119,16 @@ core = {
         if (LOGGED_IN) {
             set(75, "Initializing: core.file");
             this.file.init();
+
             set(80, "Initializing: core.problems");
             await this.problems.init();
+
             set(85, "Fetching Logs...");
             await this.fetchLog();
-            this.logPanel.ref.onClick(() => {
-                this.fetchLog(true);
-            });
-            this.file.onUploadSuccess = () => {this.fetchLog()};
-            this.fLogInternal = setInterval(() => {this.initialized ? this.fetchLog() : null}, 1000);
+            this.logPanel.ref.onClick(() => { this.fetchLog(true) });
+            this.file.onUploadSuccess = () => { this.fetchLog() };
+            __connection__.onStateChange((s) => { s === "online" ? this.__fetchLog() : null });
+            this.__fetchLog();
 
             if (IS_ADMIN) {
                 clog("info", "Logged in as Admin.");
@@ -206,6 +210,22 @@ core = {
             clog("WARN", "Hiện đã có phiên bản mới:", data.tag_name);
             sbar.additem(`Có phiên bản mới: ${data.tag_name}`, "hub", {aligin: "right"});
         }
+    },
+
+    async __fetchLog() {
+        clearTimeout(this.__logTimeout);
+        var timer = new stopclock();
+        this.initialized ? await this.fetchLog() : null;
+        
+        this.__logTimeout = setTimeout(() => { this.__fetchLog() }, this.updateDelay - timer.stop*1000);
+    },
+
+    async __fetchRank() {
+        clearTimeout(this.__rankTimeout);
+        var timer = new stopclock();
+        this.initialized ? await this.fetchRank() : null;
+        
+        this.__rankTimeout = setTimeout(() => { this.__fetchRank() }, this.updateDelay - timer.stop*1000);
     },
 
     async fetchLog(bypass = false) {
@@ -888,6 +908,8 @@ core = {
         },
         logoutBtn: $("#usett_logout"),
         nightModeToggle: $("#usett_nightMode"),
+        updateDelaySlider: $("#usett_udelay_slider"),
+        updateDelayText: $("#usett_udelay_text"),
         toggler: $("#usett_toggler"),
         container: $("#user_settings"),
         adminConfig: $("#usett_adminConfig"),
@@ -911,6 +933,7 @@ core = {
             this.licensePanel.toggler = $("#usett_licenseToggler");
             this.adminConfig.style.display = "none";
 
+            // Night mode setting
             this.nightModeToggle.addEventListener("change", (e) => {
                 if (e.target.checked === true) {
                     cookie.set("__darkMode", true);
@@ -923,6 +946,22 @@ core = {
             
             this.nightModeToggle.checked = cookie.get("__darkMode", false) == "true";
             this.nightModeToggle.dispatchEvent(new Event("change"));
+
+            // Update delay setting
+            this.updateDelaySlider.addEventListener("input", (e) => {
+                this.updateDelayText.innerText = `${e.target.value / 1000} giây/yêu cầu`;
+            })
+            
+            this.updateDelaySlider.addEventListener("change", e => {
+                const v = e.target.value;
+                this.updateDelayText.innerText = `${v / 1000} giây/yêu cầu`;
+                clog("OKAY", "Set updateDelay to", `${v} ms/request`);
+                cookie.set("__updateDelay", v);
+                core.updateDelay = v;
+            })
+
+            this.updateDelaySlider.value = parseInt(cookie.get("__updateDelay", 2000));
+            this.updateDelaySlider.dispatchEvent(new Event("change"));
 
             // If not logged in, Stop here
             if (!loggedIn) {

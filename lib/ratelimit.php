@@ -57,6 +57,7 @@
             "NO SPAMMING IN THE HALL! ". $time ." seconds detention for you! You should know better.",
             429,
             Array(
+                "time" => $bantime,
                 "reset" => $time,
                 "start" => $_SESSION["unban"] - $bantime,
                 "end" => $_SESSION["unban"]

@@ -7,6 +7,51 @@
 ? |-----------------------------------------------------------------------------------------------|
 */
 
-.sq-slider {
-    
+input[type=range].sq-slider {
+    position: relative;
+    width: 40px;
+    height: 2px;
+    background-color: rgba(255, 102, 171, 0.6);
+    outline: none;
+    margin: 10px 0;
+    transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+input[type=range].sq-slider::-webkit-slider-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: rgb(255, 102, 170);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+input[type=range].sq-slider:hover {
+    background-color: rgba(255, 102, 171, 0.8);
+}
+
+input[type=range].sq-slider::-webkit-slider-thumb:hover {
+    background-color: rgb(255, 194, 214);
+}
+
+/* Blue */
+
+input[type=range].sq-slider.blue {
+    background-color: rgba(68, 170, 221, 0.6);
+}
+
+input[type=range].sq-slider.blue::-webkit-slider-thumb {
+    background-color: rgb(68, 170, 221);
+}
+
+input[type=range].sq-slider.blue:hover {
+    background-color: rgba(68, 170, 221, 0.8);
+}
+
+input[type=range].sq-slider.blue::-webkit-slider-thumb:hover {
+    background-color: rgb(160, 220, 250);
 }

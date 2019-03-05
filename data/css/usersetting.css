@@ -228,6 +228,26 @@
     margin-left: 10px;
 }
 
+#user_settings .main .container .group .item .lr {
+    position: relative;
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 0;
+}
+
+#user_settings .main .container .group .item .lr .left {
+    flex-grow: 3;
+    margin-right: 10px;
+}
+
+#user_settings .main .container .group .item .lr .right {
+    flex-grow: 0;
+    margin-left: 10px;
+}
+
 #user_settings .main .container .group .item.warning {
     background-color: rgba(255, 234, 126, 0.4);
 }
@@ -624,4 +644,10 @@
 #user_settings .main .container .group .item.logout .sq-btn {
     display: block;
     width: 100%;
+}
+
+#user_settings .main .container .group .item #usett_udelay_slider {
+    position: relative;
+    width: 100%;
+    margin-top: 16px;
 }

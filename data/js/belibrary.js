@@ -543,12 +543,13 @@ __connection__ = {
     checkCount: 0,
     __checkTime: 0,
     __sbarItem: null,
+    __listeners: [],
 
     async stateChange(state = "online", data = {}) {
         return new Promise((resolve, reject) => {
             const s = ["online", "offline", "ratelimited"];
             if (!typeof state === "string" || state === this.onlineState || s.indexOf(state) === -1) {
-                let t = {code: -1, description: `Unknown state: ${state}`}
+                let t = {code: -1, description: `Unknown state or rejected: ${state}`}
                 reject(t);
                 return;
             }
@@ -559,6 +560,7 @@ __connection__ = {
             });
 
             this.onlineState = state;
+            this.__triggerOnStateChange(state);
             clearInterval(this.checkInterval);
 
             switch(state) {
@@ -607,5 +609,15 @@ __connection__ = {
             }
         });
     },
+
+    onStateChange(f) {
+        if (typeof f === "function")
+            this.__listeners.push(f);
+    },
+
+    __triggerOnStateChange(state) {
+        for (var i of this.__listeners)
+            i(state);
+    }
 
 }

@@ -272,7 +272,7 @@
                             </label>
                         </div>
 
-                        <div class="item lr warning sound" data-soundhoversoft>
+                        <div class="item lr info sound" data-soundhoversoft>
                             <t class="left">Sounds by ppy Pty Ltd. Licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0/legalcode" target="_blank" rel="noopener">CC-BY-NC 4.0</a>. See <a href="/data/sounds/LICENSE.md" target="_blank" rel="noopener">LICENSE.md</a> for more information.</t>
                             <div class="right"></div>
                         </div>
@@ -293,6 +293,20 @@
                                 <span class="checkmark"></span>
                             </label>
                         </div>
+
+                        <t class="title small">Khác</t>
+
+                        <div class="item sound" data-soundhoversoft>
+                            <div class="lr">
+                                <t class="left">Thời gian làm mới</t>
+                                <t id="usett_udelay_text" class="right">0000 ms/request</t>
+                            </div>
+                            <input type="range" id="usett_udelay_slider" class="sq-slider blue sound" data-soundselectsoft min="500" max="10000" step="100">
+                        </div>
+                        <t class="item lr warning sound" data-soundhoversoft>
+                            <t class="left"><b>Lưu Ý: </b>Đặt thời gian làm mới quá nhỏ sẽ khiến bạn dễ dàng bị phạt <i>(cụ thể là bị ratelimited)</i> trong một khoảng thời gian nhất định.</t>
+                            <div class="right"></div>
+                        </t>
 
                     </div>
 
