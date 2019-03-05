@@ -14,8 +14,8 @@
 
     if (!islogedin())
         stop(11, "Bạn chưa đăng nhập!", 403);
-    $username = $_SESSION["username"];
 
+    $username = $_SESSION["username"];
     checktoken();
 
     if ($config["editinfo"] === false)
@@ -31,8 +31,11 @@
 
     if (isset($_POST["p"])) {
         $oldpass = $_POST["p"];
-        if ($oldpass !== $userdata["password"] && md5($oldpass) !== $userdata["password"])
+
+        if (($resp = simplelogin($username, $oldpass)) === LOGIN_WRONGPASSWORD)
             stop(14, "Sai mật khẩu!", 403);
+        elseif ($resp !== LOGIN_SUCCESS)
+            stop(-1, "Sth went soooo wrong.", 500);
 
         $newpass = reqform("np");
         $renewpass = reqform("rnp");
@@ -40,7 +43,7 @@
         if ($newpass !== $renewpass)
             stop(15, "Mật khẩu mới không khớp!", 400);
 
-        $change["password"] = md5($newpass);
+        $change["password"] = password_hash($newpass, PASSWORD_DEFAULT);
         $change["repass"] = $userdata["repass"] + 1;
     }
 

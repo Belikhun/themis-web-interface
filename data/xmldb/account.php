@@ -37,7 +37,7 @@
         global $accdata;
         foreach ($accdata as $col)
             if ($col["username"] === $username)
-                if ($col["password"] === $password || $col["password"] === md5($password))
+                if ($col["password"] === $password || password_verify($password, $col["password"]))
                     return LOGIN_SUCCESS;
                 else
                     return LOGIN_WRONGPASSWORD;
