@@ -1,16 +1,16 @@
- 1:18:51|     0.0202|      LOG|   INFO| Log started at Wed Feb 13 01:18:51 2019
- 1:18:51|     0.0282|     MAIN|   OKAY| Initialised: ehook
- 1:18:55|     3.3952|     MAIN|   OKAY| Initialised: ajax.ajax
- 1:18:55|     3.4029|     MAIN|   OKAY| Initialised: json
- 1:19: 2|    10.6233|     AJAX|   DEBG| Creating POST request with form:
- 1:19: 2|    10.6269|     AJAX|   DEBG|  u           : admin
- 1:19: 2|    10.6286|     AJAX|   DEBG|  p           : admin
- 1:19: 2|    10.6306|     AJAX|   INFO| Starting request: http://localhost/api/login
- 1:19: 2|    10.7099|     AJAX|   OKAY| POST http://localhost/api/login 200
- 1:19: 2|    10.7129|     MAIN|   OKAY| Logged in as admin
- 1:19: 2|    10.7154|     AJAX|   INFO| Starting request: http://localhost/api/test/logs
- 1:19: 2|    10.7334|     AJAX|   OKAY| GET http://localhost/api/test/logs 200
- 1:19: 2|    10.7373|     MAIN|   DEBG| 
+23:35:33|     0.0040|      LOG|   INFO| Log started at Tue Mar  5 23:35:33 2019
+23:35:33|     0.0090|     MAIN|   OKAY| Initialised: ehook
+23:35:34|     0.3994|     MAIN|   OKAY| Initialised: ajax.ajax
+23:35:34|     0.3994|     MAIN|   OKAY| Initialised: json
+23:35:44|    10.5462|     AJAX|   DEBG| Creating POST request with form:
+23:35:44|    10.5462|     AJAX|   DEBG|  u           : admin
+23:35:44|    10.5618|     AJAX|   DEBG|  p           : admin
+23:35:44|    10.5618|     AJAX|   INFO| Starting request: http://localhost/api/login
+23:35:44|    10.8055|     AJAX|   OKAY| POST http://localhost/api/login 200
+23:35:44|    10.8055|     MAIN|   OKAY| Logged in as admin
+23:35:44|    10.8211|     AJAX|   INFO| Starting request: http://localhost/api/test/logs
+23:35:44|    10.8368|     AJAX|   OKAY| GET http://localhost/api/test/logs 200
+23:35:44|    10.8368|     MAIN|   DEBG| 
 {
   "code": 0,
   "status": 200,
@@ -78,13 +78,13 @@
       }
     ]
   },
-  "runtime": 0.00634312629699707
+  "runtime": 0.006257057189941406
 }
- 1:19: 2|    10.7513|     AJAX|   DEBG| Creating GET request with query:
- 1:19: 2|    10.7553|     AJAX|   DEBG|  sessid      : 4701930f557ee829bf1d6369e7aba937
- 1:19: 2|    10.7603|     AJAX|   INFO| Starting request: http://localhost/api/test/logs
- 1:19: 2|    10.7813|     AJAX|   OKAY| GET http://localhost/api/test/logs 200
- 1:19: 2|    10.7853|     MAIN|   DEBG| 
+23:35:44|    10.8368|     AJAX|   DEBG| Creating GET request with query:
+23:35:44|    10.8524|     AJAX|   DEBG|  sessid      : 20a4acda6118f621b9a27ed4e856940b
+23:35:44|    10.8524|     AJAX|   INFO| Starting request: http://localhost/api/test/logs
+23:35:44|    10.8836|     AJAX|   OKAY| GET http://localhost/api/test/logs 200
+23:35:44|    10.8836|     MAIN|   DEBG| 
 {
   "code": 0,
   "status": 200,
@@ -152,6 +152,6 @@
       }
     ]
   },
-  "runtime": 0.006803035736083984
+  "runtime": 0.004964113235473633
 }
- 1:19: 2|    10.7943|      LOG|   INFO| Log ended.
+23:35:44|    10.8836|      LOG|   INFO| Log ended.
