@@ -209,7 +209,7 @@ core = {
         $("#about_localVersion").innerText = tls;
         
         // Check for new version
-        if (githubVer.v > localVer.v && githubVer.s === "release" && showMsgs === true) {
+        if (((githubVer.v > localVer.v && ["beta", "indev", "debug", "test"].indexOf(githubVer.s) === -1) || (githubVer.v === localVer.v && githubVer.s !== localVer.s)) && showMsgs === true) {
             clog("WARN", "Hiện đã có phiên bản mới:", tgs);
             sbar.additem(`Có phiên bản mới: ${tgs}`, "hub", {aligin: "right"});
 
