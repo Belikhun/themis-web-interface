@@ -381,7 +381,7 @@ body.dark footer .contact li {
     color: rgb(228, 228, 228);
 }
 
-body.dark footer ul.contact li.email::before,
-body.dark footer ul.contact li.github::before {
+body.dark footer ul.contact .email::before,
+body.dark footer ul.contact .github::before {
     color: rgb(180, 180, 180);
 }

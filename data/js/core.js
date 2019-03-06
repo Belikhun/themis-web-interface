@@ -171,7 +171,7 @@ core = {
         window.serverStatus = data;
     },
 
-    async checkUpdateAsync() {
+    async checkUpdateAsync(showMsgs = false) {
         if (!window.serverStatus)
             return false;
 
@@ -186,29 +186,45 @@ core = {
             });
         });
 
-        var t = data.tag_name.split("-")[0].replace("v", "").split(".");
-        clog("info", "Github latest release:", {
-            text: t.join("."),
-            color: flatc("blue")
-        })
+        // Parse lastest github release data
+        var tg = data.tag_name.split("-")[0].replace("v", "").split(".");
         const githubVer = {
-            v: parseInt(t[0])*100 + parseInt(t[1])*10 + parseInt(t[2]),
+            v: parseInt(tg[0])*100 + parseInt(tg[1])*10 + parseInt(tg[2]),
             s: data.tag_name.split("-")[1]
         }
 
-        t = window.serverStatus.version.split(".");
-        clog("info", "Local version:", {
-            text: window.serverStatus.version,
-            color: flatc("blue")
-        })
+        var tgs = `${tg.join(".")}-${githubVer.s}`;
+        clog("info", "Github latest release:", { text: tgs, color: flatc("blue") })
+        $("#about_githubVersion").innerText = tgs;
+
+        // Parse local version data
+        var tl = window.serverStatus.version.split(".");
         const localVer = {
-            v: parseInt(t[0])*100 + parseInt(t[1])*10 + parseInt(t[2]),
+            v: parseInt(tl[0])*100 + parseInt(tl[1])*10 + parseInt(tl[2]),
             s: window.serverStatus.version_state
         }
 
-        if (githubVer.v > localVer.v && githubVer.s === "release") {
-            clog("WARN", "Hiện đã có phiên bản mới:", data.tag_name);
-            sbar.additem(`Có phiên bản mới: ${data.tag_name}`, "hub", {aligin: "right"});
+        var tls = `${tl.join(".")}-${localVer.s}`;
+        clog("info", "Local version:", { text: tls, color: flatc("blue") })
+        $("#about_localVersion").innerText = tls;
+        
+        // Check for new version
+        if (githubVer.v > localVer.v && githubVer.s === "release" && showMsgs === true) {
+            clog("WARN", "Hiện đã có phiên bản mới:", tgs);
+            sbar.additem(`Có phiên bản mới: ${tgs}`, "hub", {aligin: "right"});
+
+            let e = document.createElement("div");
+            e.classList.add("item", "lr", "warning");
+            e.innerHTML = [
+                `<div class="left">`,
+                    `<t>Hiện đã có phiên bản mới: <b>${tgs}</b></t>`,
+                    `<t>Nhấn vào nút dưới đây để đi tới trang tải xuống:</t>`,
+                    `<a href="${data.html_url}" target="_blank" rel="noopener"><button class="sq-btn dark" style="margin-top: 10px; width: 100%;">${data.tag_name} : ${data.target_commitish}</button></a>`,
+                `</div>`,
+                `<div class="right"></div>`
+            ].join("\n");
+
+            this.settings.adminConfig.appendChild(e);
         }
     },
 
@@ -1678,7 +1694,7 @@ core = {
                 sound.pause();
             sound.currentTime = 0;
             sound.play().catch(e => {
-                clog("errr", "Play prevented by Chrome Autoplay Policy.");
+                clog("errr", "Error occurred while trying to play sounds.");
             });
         },
 

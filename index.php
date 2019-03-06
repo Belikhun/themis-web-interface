@@ -52,6 +52,7 @@
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/splash.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/input.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/table.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/switch.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/slider.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/navbar.css" />
@@ -69,7 +70,7 @@
         <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/fontawesome.css" />
     </head>
 
-    <body class="<?php print ($loggedin ? ($id === "admin" ? "admin" : "user") : "guest"); ?>">
+    <body class="<?php print ($loggedin ? ($id === 'admin' ? 'admin' : 'user') : 'guest'); ?>">
 
         <!-- Init Library and Splash First -->
         <script src="/data/js/belibrary.js" type="text/javascript"></script>
@@ -84,7 +85,7 @@
 
             mainSplash.postInit = async (set) => {
                 set(50, "Đang kiểm tra phiên bản mới...");
-                await core.checkUpdateAsync();
+                await core.checkUpdateAsync(IS_ADMIN);
 
                 set(95, "Sending Analytics Data...");
                 gtag("event", "pageView", {
@@ -436,11 +437,25 @@
                                     <t class="title"><?php print APPNAME; ?></t>
                                     <t class="version">v<?php print VERSION."-".VERSION_STATE; ?></t>
                                     <t class="subtitle">Made from scratch, crafted with <font color="red">❤</font> by Belikhun</t>
+
                                     <div class="button">
                                         <button class="sq-btn green sound" data-soundhover data-soundselect onclick="this.innerText = randBetween(1, 1000)">Click Me!</button>
                                         <button class="sq-btn pink sound" data-soundhover data-soundselect>(╯°□°）╯︵ ┻━┻</button>
                                     </div>
                                 </div>
+
+                                <table class="simple-table">
+                                    <tbody>
+                                        <tr>
+                                            <th>Local</th>
+                                            <th>Github</th>
+                                        </tr>
+                                        <tr>
+                                            <td id="about_localVersion">0.0.0</td>
+                                            <td id="about_githubVersion">0.0.0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
 
                                 <div class="badge">
                                     <a href="https://github.com/belivipro9x99/themis-webinterface/releases/" target="_blank" rel="noopener"><img src="/tool/badge?su=<?php print VERSION_STATE; ?>&st=v<?php print VERSION; ?>&c=brightgreen"></a>

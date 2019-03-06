@@ -30,6 +30,7 @@ a {
 
 t {
     position: relative;
+    display: block;
     font-size: 14px;
     font-weight: normal;
     font-style: normal;
@@ -1264,7 +1265,7 @@ footer .header {
     position: relative;
     display: block;
     padding-top: 10px;
-    padding-bottom: 30px;
+    padding-bottom: 16px;
 }
 
 footer .header .logo {
@@ -1324,6 +1325,13 @@ footer .header t.version {
 
 footer .header t.subtitle {
     color: rgb(90, 90, 90);
+}
+
+footer .simple-table {
+    width: 100%;
+    max-width: 220px;
+    margin: auto;
+    margin-bottom: 10px;
 }
 
 footer .badge {
