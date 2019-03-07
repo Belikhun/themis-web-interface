@@ -10,6 +10,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logs.php";
 
     $username = reqquery("u");
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
@@ -18,6 +19,7 @@
     unset($data["password"]);
     unset($data["repass"]);
 
+    writeLog("INFO", "Xem thông tin người dùng \"$username\"");
     stop(0, "Thành công!", 200, $data);
 
 ?>

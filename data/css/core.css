@@ -209,7 +209,7 @@ panel .main.blank::after {
 #wrapper {
     position: fixed;
     box-sizing: border-box;
-    padding-top: 60px;
+    padding: 60px 0 20px 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.6);
@@ -317,7 +317,7 @@ body.guest #timep.show ~ #rankp {
     #wrapp {
         width: 100%;
         height: 80%;
-        bottom: 0;
+        bottom: 20px;
         top: unset;
         left: unset;
         transform: unset;
@@ -1423,6 +1423,7 @@ footer ul.contact li.github::before {
     footer .left {
         max-width: 100%;
     }
+
     footer ul.contact {
         float: left;
         max-width: 100%;

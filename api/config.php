@@ -10,6 +10,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logs.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
 
     if ($_SERVER["REQUEST_METHOD"] === "GET")
@@ -104,4 +105,5 @@
         stop(102, "Woah nothing happened.", 200);
 
     save_config($config);
+    writeLog("OKAY", "Đã thay đổi cài đặt.");
     stop(0, "Thay đổi cài đặt thành công!", 200);

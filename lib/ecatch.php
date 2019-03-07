@@ -21,6 +21,8 @@
                 $errcode = 500;
             }
 
+            writeLog("ERRR", "[$errnum] $errstr tại ". basename($errfile) .":$errline");
+
             $err = array(
                 "num" => $errnum,
                 "str" => $errstr,
@@ -28,6 +30,7 @@
                 "line" => $errline,
                 "errcode" => $errcode
             );
+
             $_SESSION["lastError"] = $err;
             http_response_code($errcode);
             

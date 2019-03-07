@@ -15,10 +15,13 @@ function myajax({
     onupload = () => {},
     ondownload = () => {},
     rawdata = false,
+    force = false,
+    changeState = true,
+    reRequest = true,
 }, callout = () => {}, error = () => {}) {
     return new Promise((resolve, reject) => {
 
-        if (__connection__.onlineState !== "online") {
+        if (__connection__.onlineState !== "online" && force === false) {
             var t = {};
             switch (__connection__.onlineState) {
                 case "offline":
@@ -68,7 +71,9 @@ function myajax({
             if (this.readyState === this.DONE) {
 
                 if (this.status === 0) {
-                    __connection__.stateChange("offline");
+                    if (changeState === true)
+                        __connection__.stateChange("offline");
+                        
                     let t = {code: 105, description: "Disconnected to Server"};
                     reject(t);
                     error(t);
@@ -116,7 +121,7 @@ function myajax({
                             text: "HTTP " + this.status
                         }, this.statusText, ` >>> ${res.description}`);
 
-                        if (this.status === 429 && res.code === 32) {
+                        if (this.status === 429 && res.code === 32 && reRequest === true) {
                             // Waiting for :?unratelimited:?
                             await __connection__.stateChange("ratelimited", res);
 

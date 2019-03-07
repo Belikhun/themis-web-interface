@@ -10,6 +10,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logs.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
 
 	function parsename(string $path) {
@@ -65,5 +66,6 @@
         stop(-1, "Lỗi không rõ.", 500);
 
     move_uploaded_file($_FILES["file"]["tmp_name"], $config["uploaddir"] ."/". $userid ."[". $username ."][". $filename ."].". $extension);
+    writeLog("INFO", "Đã tải lên \"$file\"");
     stop(0, "Nộp bài thành công.", 200);
 ?>

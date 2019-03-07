@@ -7,6 +7,8 @@
     //? |-----------------------------------------------------------------------------------------------|
 
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logs.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
 
     if (isset($_GET["c"]) && is_numeric($_GET["c"])) {
         http_response_code($_GET["c"]);
@@ -88,6 +90,7 @@
             break;
     }
 
+    writeLog("WARN", "Got statuscode \"". $errCode ." ". $name ."\" when trying to access: ". $uri);
 ?>
 
 <!DOCTYPE html>

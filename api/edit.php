@@ -10,6 +10,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logs.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
 
     if (!islogedin())
@@ -50,7 +51,8 @@
     if (!isset($change["name"]) && !isset($change["password"]))
         stop(102, "No action taken.", 200);
 
-    if (edituser($username, $change) === USER_EDIT_SUCCESS)
+    if (edituser($username, $change) === USER_EDIT_SUCCESS) {
+        writeLog("INFO", "Đã thay đổi ". (isset($change["name"]) ? "tên thành \"". $change["name"] ."\"" : "") . ((isset($change["name"]) && isset($change["password"])) ? " và " : "") . (isset($change["password"]) ? "mật khẩu" : ""));
         stop(0, "Thay đổi thông tin thành công!", 200, $change);
-    else
+    } else
         stop(6, "Thay đổi thông tin thất bại.", 500);

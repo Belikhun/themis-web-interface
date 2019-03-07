@@ -38,6 +38,7 @@
                 //ban
                 $_SESSION["banned"] = true;
                 $_SESSION["unban"] = $now + $bantime;
+                writeLog("WARN", "Banned for $bantime seconds");
                 printbanmsg();
             }
         } else if($_SESSION["banned"]) {

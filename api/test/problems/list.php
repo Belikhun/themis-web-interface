@@ -10,6 +10,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
+    
     contest_timecheck([CONTEST_STARTED]);
 
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";

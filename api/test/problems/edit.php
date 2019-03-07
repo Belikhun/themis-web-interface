@@ -9,13 +9,14 @@
 	require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";
-
+    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logs.php";
+    
     if (!islogedin())
-        stop(11, "Bạn chưa đăng nhập.", 403);
-
+    stop(11, "Bạn chưa đăng nhập.", 403);
+    
     checktoken();
-
+    
+    require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
     if (getuserdata($_SESSION["username"])["id"] !== "admin")
         stop(31, "Access Denied!", 403);
@@ -40,13 +41,19 @@
 
     switch ($code) {
         case PROBLEM_OKAY:
+            writeLog("OKAY", "Đã chỉnh sửa đề \"$id\"");
             stop(0, "Success!", 200);
+            break;
         case PROBLEM_ERROR_IDREJECT:
             stop(45, "Không tìm thấy đề của id đã cho!", 404);
+            break;
         case PROBLEM_ERROR_FILEREJECT:
             stop(43, "Không chấp nhận loại tệp!", 400);
+            break;
         case PROBLEM_ERROR_FILETOOLARGE:
             stop(42, "Tệp quá lớn!", 400);
+            break;
         case PROBLEM_ERROR:
             stop(-1, "Lỗi không rõ.", 500);
+            break;
     }

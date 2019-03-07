@@ -175,16 +175,35 @@ core = {
         if (!window.serverStatus)
             return false;
 
-        const data = await myajax({
-            url: "https://api.github.com/repos/belivipro9x99/themis-web-interface/releases/latest",
-            method: "GET",
-            rawdata: true
-        }).catch(e => {
+        // Parse local version data
+        var tl = window.serverStatus.version.split(".");
+        let data = {};
+
+        const localVer = {
+            v: parseInt(tl[0])*100 + parseInt(tl[1])*10 + parseInt(tl[2]),
+            s: window.serverStatus.version_state
+        }
+
+        var tls = `${tl.join(".")}-${localVer.s}`;
+        clog("info", "Local version:", { text: tls, color: flatc("blue") })
+        $("#about_localVersion").innerText = tls;
+
+        try {
+            data = await myajax({
+                url: "https://api.github.com/repos/belivipro9x99/themis-web-interface/releases/latest",
+                method: "GET",
+                rawdata: true,
+                changeState: false,
+                reRequest: false
+            });
+        } catch (error) {
             clog("WARN", "Error Checking for update:", {
-                text: e.description,
+                text: error.description,
                 color: flatc("red"),
             });
-        });
+
+            return;
+        }
 
         // Parse lastest github release data
         var tg = data.tag_name.split("-")[0].replace("v", "").split(".");
@@ -196,17 +215,6 @@ core = {
         var tgs = `${tg.join(".")}-${githubVer.s}`;
         clog("info", "Github latest release:", { text: tgs, color: flatc("blue") })
         $("#about_githubVersion").innerText = tgs;
-
-        // Parse local version data
-        var tl = window.serverStatus.version.split(".");
-        const localVer = {
-            v: parseInt(tl[0])*100 + parseInt(tl[1])*10 + parseInt(tl[2]),
-            s: window.serverStatus.version_state
-        }
-
-        var tls = `${tl.join(".")}-${localVer.s}`;
-        clog("info", "Local version:", { text: tls, color: flatc("blue") })
-        $("#about_localVersion").innerText = tls;
         
         // Check for new version
         if (((githubVer.v > localVer.v && ["beta", "indev", "debug", "test"].indexOf(githubVer.s) === -1) || (githubVer.v === localVer.v && githubVer.s !== localVer.s)) && showMsgs === true) {
@@ -1537,7 +1545,7 @@ core = {
         },
 
         async init(set = () => {}) {
-            set(0, "Getting Cookies 🍪");
+            set(0, "Taking Cookies 🍪");
             this.enable.master = cookie.get("__s_m", false) == "true";
             this.enable.mouseOver = cookie.get("__s_mo", true) == "true";
             this.enable.btnClick = cookie.get("__s_bc", true) == "true";
