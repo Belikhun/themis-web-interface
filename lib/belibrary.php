@@ -5,7 +5,7 @@
     //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
-
+    
     if (session_status() === PHP_SESSION_NONE) {
         if (isset($_POST["sessid"]))
             session_id($_POST["sessid"]);

@@ -448,6 +448,10 @@
     content: "\f2f1";
 }
 
+#user_settings .sub .panel .container .btn-group .delete::before {
+    content: "\f2ed";
+}
+
 #user_settings .sub .panel .container .main {
     position: absolute;
     top: 0;

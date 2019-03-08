@@ -429,7 +429,7 @@
                         <div class="btn-group">
                             <span class="reload sound" data-soundhover data-soundselect></span>
                             <span class="close sound" data-soundhover></span>
-                            <span class="sound" data-soundhover data-soundselect></span>
+                            <span class="delete sound" data-soundhover data-soundselect></span>
                         </div>
                         <div class="main syslogs-settings">
                         </div>

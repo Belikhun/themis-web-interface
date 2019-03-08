@@ -199,7 +199,6 @@ function compareJSON(obj1, obj2) {
 }
 
 function escape_html(str) {
-
     if ((str === null) || (str === ""))
         return "";
     else
