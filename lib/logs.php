@@ -49,7 +49,6 @@
 
             default:
                 return false;
-                break;
         }
 
         return $output;
