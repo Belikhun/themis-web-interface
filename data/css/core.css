@@ -855,7 +855,6 @@ body.guest #timep.show ~ #rankp {
     display: flex;
     flex-direction: row;
     background-color: rgba(232, 232, 232, 0.8);
-    border-bottom: 2px solid rgb(165, 165, 165);
     counter-increment: log-item;
 }
 
@@ -878,7 +877,7 @@ body.guest #timep.show ~ #rankp {
     content: "#" counter(log-item);
     position: absolute;
     top: 50%;
-    transform: translateY(calc(-100% - 11px));
+    transform: translateY(calc(-100% - 14px));
     font-weight: bold;
     font-size: 10px;
 }
@@ -892,6 +891,7 @@ body.guest #timep.show ~ #rankp {
     padding: 10px 8px;
     box-sizing: border-box;
     flex-grow: 2;
+    border-left: 2px solid rgb(165, 165, 165);
 }
 
 .syslogs-settings .log .detail .top {
@@ -935,32 +935,32 @@ body.guest #timep.show ~ #rankp {
     color: rgb(56, 56, 56);
 }
 
-.syslogs-settings .log.okay {
-    border-bottom-color: rgb(124, 194, 129);
+.syslogs-settings .log.okay .detail {
+    border-left-color: rgb(124, 194, 129);
 }
 
 .syslogs-settings .log.okay .level {
     color: rgb(28, 172, 38);
 }
 
-.syslogs-settings .log.warn {
-    border-bottom-color: rgb(190, 184, 92);
+.syslogs-settings .log.warn .detail {
+    border-left-color: rgb(190, 184, 92);
 }
 
 .syslogs-settings .log.warn .level {
     color: rgb(163, 155, 46);
 }
 
-.syslogs-settings .log.errr {
-    border-bottom-color: rgb(223, 150, 150);
+.syslogs-settings .log.errr .detail {
+    border-left-color: rgb(223, 150, 150);
 }
 
 .syslogs-settings .log.errr .level {
     color: rgb(233, 67, 67);
 }
 
-.syslogs-settings .log.verb {
-    border-bottom-color: rgb(191, 149, 211);
+.syslogs-settings .log.verb .detail {
+    border-left-color: rgb(191, 149, 211);
 }
 
 .syslogs-settings .log.verb .level {

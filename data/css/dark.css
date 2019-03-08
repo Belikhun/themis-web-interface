@@ -367,12 +367,15 @@ body.dark .problem-settings .problem-container .problem .test-container .test-ad
 
 body.dark .syslogs-settings .log {
     background-color: transparent;
-    border-bottom: 2px solid rgb(104, 104, 104);
 }
 
 body.dark .syslogs-settings .log .level {
     background-color: rgba(65, 65, 65, 0.8);
     color: rgb(218, 218, 218);
+}
+
+body.dark .syslogs-settings .log .detail {
+    border-left: 2px solid rgb(104, 104, 104);
 }
 
 body.dark .syslogs-settings .log .detail .top t {
@@ -391,32 +394,32 @@ body.dark .syslogs-settings .log .detail .text {
     color: rgb(228, 228, 228);
 }
 
-body.dark .syslogs-settings .log.okay {
-    border-bottom-color: rgb(14, 104, 20);
+body.dark .syslogs-settings .log.okay .detail {
+    border-left-color: rgb(14, 104, 20);
 }
 
 body.dark .syslogs-settings .log.okay .level {
-    color: rgb(11, 243, 27);
+    color: rgb(15, 228, 30);
 }
 
-body.dark .syslogs-settings .log.warn {
-    border-bottom-color: rgb(110, 110, 10);
+body.dark .syslogs-settings .log.warn .detail {
+    border-left-color: rgb(110, 110, 10);
 }
 
 body.dark .syslogs-settings .log.warn .level {
-    color: rgb(234, 234, 13);
+    color: rgb(224, 224, 20);
 }
 
-body.dark .syslogs-settings .log.errr {
-    border-bottom-color: rgb(131, 19, 19);
+body.dark .syslogs-settings .log.errr .detail {
+    border-left-color: rgb(131, 19, 19);
 }
 
 body.dark .syslogs-settings .log.errr .level {
     color: rgb(248, 154, 154);
 }
 
-body.dark .syslogs-settings .log.verb {
-    border-bottom-color: rgb(124, 26, 170);
+body.dark .syslogs-settings .log.verb .detail {
+    border-left-color: rgb(110, 42, 141);
 }
 
 body.dark .syslogs-settings .log.verb .level {
