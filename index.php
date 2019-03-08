@@ -316,6 +316,7 @@
 
                         <div id="settings_cpanelToggler" class="item arr sound" data-soundhover>Admin Control Panel</div>
                         <div id="settings_problemToggler" class="item arr sound" data-soundhover>Chỉnh Sửa Test</div>
+                        <div id="settings_syslogsToggler" class="item arr sound" data-soundhover>Nhật Ký Hệ Thống</div>
                     </div>
 
                     <div class="group link">
@@ -419,6 +420,18 @@
                         </div>
                         <div class="main">
                             <iframe class="cpanel-container" src=""></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="settings_syslogs" data-soundtoggle="show" class="panel large sound">
+                    <div class="container">
+                        <div class="btn-group">
+                            <span class="reload sound" data-soundhover data-soundselect></span>
+                            <span class="close sound" data-soundhover></span>
+                            <span class="sound" data-soundhover data-soundselect></span>
+                        </div>
+                        <div class="main syslogs-settings">
                         </div>
                     </div>
                 </div>

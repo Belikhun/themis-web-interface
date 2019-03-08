@@ -192,8 +192,8 @@ function delayAsync(time) {
     });
 }
 
-function comparearray(arr1, arr2) {
-    if (JSON.stringify(arr1) === JSON.stringify(arr2))
+function compareJSON(obj1, obj2) {
+    if (JSON.stringify(obj1) === JSON.stringify(obj2))
         return true;
     return false;
 }

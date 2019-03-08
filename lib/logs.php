@@ -19,7 +19,7 @@
                 $output = "";
                 foreach ($logsdata as $key => $value) {
                     $s = join("| ", Array(
-                        date("d/m/Y H:i:s"),
+                        $value["time"],
                         sprintf("%'. 16s", $value["module"]),
                         sprintf("%'. 5s", $value["level"]),
                         sprintf("%'. 32s", $value["client"]["username"] ."@". $value["client"]["ip"]),
@@ -35,7 +35,7 @@
 
             case "formattedjson":
                 $output = Array();
-                foreach ($logsdata as $key => $value) {
+                foreach ($logsdata as $key => $value)
                     $s = join("| ", Array(
                         date("d/m/Y H:i:s"),
                         sprintf("%'. 16s", $value["module"]),
@@ -43,8 +43,7 @@
                         sprintf("%'. 32s", $value["client"]["username"] ."@". $value["client"]["ip"]),
                         $value["text"]
                     ));
-                    $output = $output.$s."\n";
-                }
+
                 array_push($output, $s);
                 break;
 
@@ -72,7 +71,8 @@
 
         $n = Array(
             "level" => $level,
-            "time" => $t,
+            "unixtime" => $t,
+            "time" => date("d/m/Y H:i:s", $t),
             "text" => $text,
             "module" => pathinfo($bt["file"], PATHINFO_BASENAME) .":". $bt["line"],
             "client" => Array(

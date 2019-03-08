@@ -258,7 +258,7 @@ core = {
             method: "GET",
         });
 
-        if (comparearray(data, this.pLogData) && !bypass)
+        if (compareJSON(data, this.pLogData) && !bypass)
             return false;
 
         clog("debg", "Updating Log");
@@ -339,7 +339,7 @@ core = {
             method: "GET",
         });
 
-        if (comparearray(data, this.pRankData) && !bypass)
+        if (compareJSON(data, this.pRankData) && !bypass)
             return false;
 
         clog("debg", "Updating Rank");
@@ -852,6 +852,8 @@ core = {
                 this.btn_group = fcfn(elem, "btn-group");
                 this.btn_reload = fcfn(this.btn_group, "reload");
                 this.btn_close = fcfn(this.btn_group, "close");
+                this.emain = fcfn(elem, "main");
+                this.funcOnToggle = () => {};
 
                 this.btn_close.addEventListener("click", () => {
                     this.hide();
@@ -862,6 +864,8 @@ core = {
                 this.elem.classList.remove("show");
                 if (this.eToggle)
                     this.eToggle.classList.remove("active");
+
+                this.funcOnToggle("hide");
             }
 
             show() {
@@ -870,6 +874,8 @@ core = {
                 this.elem.classList.add("show");
                 if (this.eToggle)
                     this.eToggle.classList.add("active");
+
+                this.funcOnToggle("show");
             }
 
             toggle() {
@@ -878,6 +884,8 @@ core = {
                 this.elem.classList.toggle("show");
                 if (this.eToggle)
                     this.eToggle.classList.toggle("active");
+
+                this.funcOnToggle(this.elem.classList.contains("show") ? "show" : "hide");                
             }
 
             __hideActive() {
@@ -895,8 +903,12 @@ core = {
                 })
             }
 
+            set onToggle(f) {
+                this.funcOnToggle = f;
+            }
+
             get main() {
-                return this.elem;
+                return this.emain;
             }
 
             get ref() {
@@ -1160,19 +1172,23 @@ core = {
         cpanel: null,
         cpanelIframe: null,
         ppanel: null,
+        lpanel: null,
         adminConfig: $("#usett_adminConfig"),
 
         async init() {
             this.adminConfig.style.display = "block";
             this.cpanel = new core.userSettings.panel($("#settings_controlPanel"));
             this.ppanel = new core.userSettings.panel($("#settings_problem"));
+            this.lpanel = new core.userSettings.panel($("#settings_syslogs"));
             this.cpanelIframe = this.cpanel.main.getElementsByTagName("iframe")[0];
             this.cpanelIframe.src = "config.php";
 
             this.cpanel.toggler = $("#settings_cpanelToggler");
             this.ppanel.toggler = $("#settings_problemToggler");
+            this.lpanel.toggler = $("#settings_syslogsToggler");
 
             await this.problems.init();
+            await this.syslogs.init(this.lpanel);
 
             this.cpanel.ref.onClick(() => {
                 this.cpanelIframe.contentWindow.location.reload();
@@ -1186,25 +1202,66 @@ core = {
                 clog("okay", "Reloaded Problems Panel.");
             })
 
+            this.lpanel.ref.onClick(() => {
+                this.syslogs.refresh();
+            })
+
+            this.lpanel.onToggle = s => {
+                if (s === "show")
+                    this.syslogs.refresh();
+            }
+
             clog("okay", "Initialised:", {
                 color: flatc("red"),
                 text: "core.settings"
             });
         },
 
-        hidesett() {
-            this.main.classList.remove("showsett");
-            this.navhome.classList.add("active");
-            this.navsett.classList.remove("active");
-            clog("info", "Switched To Main Page");
-        },
+        syslogs: {
+            container: null,
+            prevData: null,
 
-        showsett() {
-            this.main.classList.add("showsett");
-            this.navhome.classList.remove("active");
-            this.navsett.classList.add("active");
-            clog("info", "Switched To Setting Page");
-            this.problems.getlist();
+            async init(panel) {
+                this.container = panel.main;
+
+                await this.refresh();
+            },
+
+            async refresh() {
+                const data = await myajax({
+                    url: "/api/logs",
+                    method: "POST",
+                    form: {
+                        token: API_TOKEN
+                    }
+                });
+
+                if (compareJSON(data, this.prevData))
+                    return;
+
+                this.prevData = data;
+                this.container.innerHTML = "";
+                var html = [];
+
+                for (let i of data)
+                    html.push([
+                        `<div class="log ${i.level.toLowerCase()}">`,
+                            `<span class="level">${i.level}</span>`,
+                            `<span class="detail">`,
+                                `<div class="top">`,
+                                    `<t class="timestamp">${i.time}</t>`,
+                                    `<t class="module">${i.module}</t>`,
+                                    `<t class="client">${i.client.username}@${i.client.ip}</t>`,
+                                `</div>`,
+                                `<div class="text">${i.text}</div>`,
+                            `</span>`,
+                        `</div>`
+                    ].join("\n"));
+                
+                this.container.innerHTML = html.join("\n");
+                this.container.scrollTop = this.container.scrollHeight - this.container.clientHeight;
+                clog("okay", "Refreshed SysLogs.");
+            }
         },
 
         problems: {

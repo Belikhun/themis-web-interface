@@ -850,6 +850,123 @@ body.guest #timep.show ~ #rankp {
     display: none;
 }
 
+.syslogs-settings .log {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    background-color: rgba(232, 232, 232, 0.8);
+    border-bottom: 2px solid rgb(165, 165, 165);
+    counter-increment: log-item;
+}
+
+.syslogs-settings .log .level {
+    position: relative;
+    display: inline-flex;
+    min-width: 80px;
+    align-items: center;
+    justify-content: center;
+    color: rgb(82, 82, 82);
+    font-weight: bold;
+    font-size: 14px;
+    padding: 20px;
+    box-sizing: border-box;
+    flex-grow: 0;
+    background-color: rgb(242, 242, 242);
+}
+
+.syslogs-settings .log .level::before {
+    content: "#" counter(log-item);
+    position: absolute;
+    top: 50%;
+    transform: translateY(calc(-100% - 11px));
+    font-weight: bold;
+    font-size: 10px;
+}
+
+.syslogs-settings .log .detail {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 10px 8px;
+    box-sizing: border-box;
+    flex-grow: 2;
+}
+
+.syslogs-settings .log .detail .top {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+}
+
+.syslogs-settings .log .detail .top t {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+    flex-grow: 0;
+    padding: 4px 12px;
+    box-sizing: border-box;
+    font-family: "Calibri", "Segoe UI";
+    font-size: 13px;
+    color: rgb(116, 116, 116);
+}
+
+.syslogs-settings .log .detail .top .client {
+    flex-grow: 1;
+    text-align: right;
+    font-size: 14px;
+    color: rgb(82, 82, 82);
+}
+
+.syslogs-settings .log .detail .top .client::before {
+    content: "Người dùng: ";
+    font-size: 13px;
+    color: gray;
+}
+
+.syslogs-settings .log .detail .text {
+    position: relative;
+    display: block;
+    padding: 8px 12px;
+    font-family: "Consolas", "Calibri", "Segoe UI";
+    font-size: 14px;
+    font-weight: normal;
+    color: rgb(56, 56, 56);
+}
+
+.syslogs-settings .log.okay {
+    border-bottom-color: rgb(124, 194, 129);
+}
+
+.syslogs-settings .log.okay .level {
+    color: rgb(28, 172, 38);
+}
+
+.syslogs-settings .log.warn {
+    border-bottom-color: rgb(190, 184, 92);
+}
+
+.syslogs-settings .log.warn .level {
+    color: rgb(163, 155, 46);
+}
+
+.syslogs-settings .log.errr {
+    border-bottom-color: rgb(223, 150, 150);
+}
+
+.syslogs-settings .log.errr .level {
+    color: rgb(233, 67, 67);
+}
+
+.syslogs-settings .log.verb {
+    border-bottom-color: rgb(191, 149, 211);
+}
+
+.syslogs-settings .log.verb .level {
+    color: rgb(148, 15, 209);
+}
+
 .problem-container {
     overflow: hidden!important;
 }
