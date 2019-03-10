@@ -14,8 +14,25 @@
 
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";
     $id = reqquery("id");
+    $data = problem_get($id);
 
-    if (PROBLEM_ERROR_IDREJECT === $data = problem_get($id))
+    if (isset($data["image"]))
+        $data["image"] = "/api/test/problems/image?id=". $id;
+    else
+        $data["image"] = null;
+
+    if (isset($data["attachment"]))
+        $data["attachment"] = Array(
+            "file" => $data["attachment"],
+            "url" => "/api/test/problems/attachment?id=". $id,
+        );
+    else
+        $data["attachment"] = Array(
+            "file" => null,
+            "url" => null
+        );
+
+    if ($data === PROBLEM_ERROR_IDREJECT)
         stop(44, "Không tìm thấy để của id đã cho!", 404);
     else
         stop(0, "Success!", 200, $data);

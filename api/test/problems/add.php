@@ -39,6 +39,7 @@
     $outtype = getform("outtype", "Màn Hình");
     $accept = isset($_POST["acpt"]) ? json_decode($_POST["acpt"], true) : Array("pas", "cpp", "c", "pp", "exe", "class", "py", "java");
     $image = isset($_FILES["img"]) ? $_FILES["img"] : null;
+    $attachment = isset($_FILES["attm"]) ? $_FILES["attm"] : null;
     $description = reqform("desc");
     $test = isset($_POST["test"]) ? json_decode($_POST["test"], true) : Array();
 
@@ -53,7 +54,7 @@
         "accept" => $accept,
         "description" => $description,
         "test" => $test,
-    ), $image);
+    ), $image, $attachment);
 
     switch ($code) {
         case PROBLEM_OKAY:

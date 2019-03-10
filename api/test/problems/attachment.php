@@ -21,5 +21,5 @@
         die();
     }
 
-    if (problem_getImage($_GET["id"]) !== PROBLEM_OKAY)
+    if (problem_getAttachment($_GET["id"]) !== PROBLEM_OKAY)
         http_response_code(404);

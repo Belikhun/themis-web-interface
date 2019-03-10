@@ -1136,6 +1136,24 @@ body.guest #timep.show ~ #rankp {
     border: 1px solid #ccc;
 }
 
+.problem-container .problem .attachment {
+    margin-top: 10px;
+}
+
+.problem-container .problem .attachment .link {
+    font-size: 14px;
+}
+
+.problem-container .problem .attachment::before {
+    content: "Tệp đính kèm:";
+    position: relative;
+    display: inline-block;
+    font-family: "Calibri";
+    font-size: 13px;
+    font-weight: bold;
+    color: rgb(192, 192, 192);
+}
+
 #rankp div.ranking-container {
     overflow: auto;
 }

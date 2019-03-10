@@ -82,7 +82,7 @@
      * @return bool true nếu thành công.
      * 
      */
-    function contenttype(string $ext) {
+    function contentType(string $ext) {
         $mimet = Array(
             "txt" => "text/plain",
             "htm" => "text/html",

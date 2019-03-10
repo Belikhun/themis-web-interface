@@ -12,7 +12,7 @@
     header("Cache-Control: no-cache, no-store, must-revalidate", true);
     
     function showimg(string $path) {
-        contenttype(pathinfo($path, PATHINFO_EXTENSION));
+        contentType(pathinfo($path, PATHINFO_EXTENSION));
         header("Content-length: ". filesize($path));
         readfile($path);
         exit();

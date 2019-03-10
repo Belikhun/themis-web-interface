@@ -596,6 +596,11 @@ core = {
         image: $("#problem_image"),
         description: $("#problem_description"),
         test: $("#problem_test"),
+        attachment: {
+            me: $("#problem_attachment"),
+            link: $("#problem_attachment_link"),
+            size: $("#problem_attachment_size")
+        },
 
         async init() {
             this.panel.bak.hide();
@@ -670,11 +675,20 @@ core = {
             this.type.time.innerText = data.time + " giây";
             this.type.inp.innerText = data.type.inp;
             this.type.out.innerText = data.type.out;
+
             if (data.image) {
                 this.image.style.display = "block";
                 this.image.src = data.image;
             } else
                 this.image.style.display = "none";
+
+            if (data.attachment.url) {
+                this.attachment.me.style.display = "block";
+                this.attachment.link.href = data.attachment.url;
+                this.attachment.link.innerText = data.attachment.file;
+            } else
+                this.attachment.me.style.display = "none";
+
             this.description.innerText = data.description;
             testhtml = "";
             data.test.forEach(item => {
@@ -1282,6 +1296,7 @@ core = {
                 accept: $("#problem_edit_accept"),
                 image: $("#problem_edit_image"),
                 desc: $("#problem_edit_desc"),
+                attachment: $("#problem_edit_attachment"),
                 testlist: $("#problem_edit_test_list"),
                 testadd: $("#problem_edit_test_add"),
                 submit() {
@@ -1431,6 +1446,7 @@ core = {
                 this.form.accept.value = data.accept.join("|");
                 this.form.image.value = null;
                 this.form.desc.value = data.description;
+                this.form.attachment.value = null;
 
                 var html = "";
                 data.test.forEach(item => {
@@ -1489,6 +1505,7 @@ core = {
                 data.accept = this.form.accept.value.split("|");
                 data.image = (this.form.image.files.length !== 0) ? this.form.image.files[0] : null;
                 data.desc = this.form.desc.value;
+                data.attachment = (this.form.attachment.files.length !== 0) ? this.form.attachment.files[0] : null;
 
                 var test = new Array();
                 var testlist = this.form.testlist.getElementsByTagName("div");
@@ -1538,6 +1555,7 @@ core = {
                         acpt: JSON.stringify(data.accept),
                         img: data.image,
                         desc: data.desc,
+                        attm: data.attachment,
                         test: JSON.stringify(data.test),
                         token: API_TOKEN
                     }

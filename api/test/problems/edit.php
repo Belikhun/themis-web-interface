@@ -30,6 +30,7 @@
     $accept = json_decode(getform("acpt", Array()), true);
     $test = json_decode(getform("test", Array()), true);
     $image = isset($_FILES["img"]) ? $_FILES["img"] : null;
+    $attachment = isset($_FILES["attm"]) ? $_FILES["attm"] : null;
 
     $code = problem_edit($id, Array(
         "name" => $name,
@@ -37,7 +38,7 @@
         "point" => $point,
         "accept" => $accept,
         "test" => $test,
-    ), $image);
+    ), $image, $attachment);
 
     switch ($code) {
         case PROBLEM_OKAY:

@@ -9,10 +9,10 @@
 	require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
     
-    $problem_dir = $_SERVER["DOCUMENT_ROOT"]."/data/problems";
+    define("PROBLEM_DIR", $_SERVER["DOCUMENT_ROOT"]."/data/problems");
     $problem_list = Array();
 
-    foreach(glob($problem_dir."/*", GLOB_ONLYDIR) as $i => $path) {
+    foreach(glob(PROBLEM_DIR ."/*", GLOB_ONLYDIR) as $i => $path) {
         $data = json_decode((new fip($path."/data.json")) -> read(), true);
         $problem_list[basename($path)] = $data;
     }
@@ -46,14 +46,13 @@
 
         $data = $problem_list[$id];
         $data["id"] = $id;
-        if (isset($data["image"]))
-            $data["image"] = "/api/test/problems/image?id=". $id;
+
         return $data;
     }
 
-    function problem_edit(String $id, Array $set, Array $files = null) {
+    function problem_edit(String $id, Array $set, Array $files = null, Array $attachments = null) {
         global $problem_list;
-        global $problem_dir;
+
         if (!isset($problem_list[$id]))
             return PROBLEM_ERROR_IDREJECT;
 
@@ -75,10 +74,31 @@
             if ($files["error"] > 0)
                 return PROBLEM_ERROR;
 
-            if (isset($problem_list[$id]["image"]) && file_exists($problem_dir ."/". $id ."/". $problem_list[$id]["image"]))
-                unlink($problem_dir ."/". $id ."/". $problem_list[$id]["image"]);
-            move_uploaded_file($files["tmp_name"], $problem_dir ."/". $id ."/". $file);
+            if (isset($problem_list[$id]["image"]) && file_exists(PROBLEM_DIR ."/". $id ."/". $problem_list[$id]["image"]))
+                unlink(PROBLEM_DIR ."/". $id ."/". $problem_list[$id]["image"]);
+
+            move_uploaded_file($files["tmp_name"], PROBLEM_DIR ."/". $id ."/". $file);
+
             $new["image"] = $file;
+        }
+
+        if (isset($attachments)) {
+            $maxfilesize = 268435456;
+            $attachment = strtolower($attachments["name"]);
+            $extension = pathinfo($attachment, PATHINFO_EXTENSION);
+
+            if ($attachments["size"] > $maxfilesize)
+                return PROBLEM_ERROR_FILETOOLARGE;
+
+            if ($attachments["error"] > 0)
+                return PROBLEM_ERROR;
+
+            if (isset($problem_list[$id]["attachment"]) && file_exists(PROBLEM_DIR ."/". $id ."/". $problem_list[$id]["attachment"]))
+                unlink(PROBLEM_DIR ."/". $id ."/". $problem_list[$id]["attachment"]);
+
+            move_uploaded_file($attachments["tmp_name"], PROBLEM_DIR ."/". $id ."/". $attachment);
+
+            $new["attachment"] = $attachment;
         }
 
         $key = array_intersect_key($data, $set);
@@ -86,22 +106,23 @@
             $new[$i] = isset($set[$i]) ? $set[$i] : $new[$i];
 
         $problem_list[$id] = $new;
-        (new fip($problem_dir."/".$id."/data.json")) -> write(json_encode($new, JSON_PRETTY_PRINT));
+        (new fip(PROBLEM_DIR ."/". $id."/data.json")) -> write(json_encode($new, JSON_PRETTY_PRINT));
 
         return PROBLEM_OKAY;
     }
 
-    function problem_add(String $id, Array $add, Array $files = null) {
+    function problem_add(String $id, Array $add, Array $files = null, Array $attachments = null) {
         global $problem_list;
-        global $problem_dir;
-        $movefile = false;
+
+        $moveFile = false;
+        $moveAttachment = false;
         if (isset($problem_list[$id]))
             return PROBLEM_ERROR_IDREJECT;
 
         $problem_list[$id] = $add;
 
         if (isset($files)) {
-            $maxfilesize = 2097153;
+            $maxFileSize = 2097153;
             $file = strtolower($files["name"]);
             $acceptext = array("jpg", "png", "gif", "webp");
             $extension = pathinfo($file, PATHINFO_EXTENSION);
@@ -109,33 +130,52 @@
             if (!in_array($extension, $acceptext))
                 return PROBLEM_ERROR_FILEREJECT;
 
-            if ($files["size"] > $maxfilesize)
+            if ($files["size"] > $maxFileSize)
                 return PROBLEM_ERROR_FILETOOLARGE;
 
             if ($files["error"] > 0)
                 return PROBLEM_ERROR;
 
-            $movefile = true;
+            $moveFile = true;
             $problem_list[$id]["image"] = $file;
         }
 
-        mkdir($problem_dir."/".$id);
-        (new fip($problem_dir."/".$id."/data.json")) -> write(json_encode($problem_list[$id], JSON_PRETTY_PRINT));
-        if ($movefile)
-            move_uploaded_file($files["tmp_name"], $problem_dir."/".$id."/".$file);
+        if (isset($attachments)) {
+            $maxfilesize = 268435456;
+            $attachment = strtolower($attachments["name"]);
+            $extension = pathinfo($attachment, PATHINFO_EXTENSION);
+
+            if ($attachments["size"] > $maxfilesize)
+                return PROBLEM_ERROR_FILETOOLARGE;
+
+            if ($attachments["error"] > 0)
+                return PROBLEM_ERROR;
+
+            $moveAttachment = true;
+            $problem_list[$id]["attachment"] = $attachment;
+        }
+
+        mkdir(PROBLEM_DIR. "/" .$id);
+        (new fip(PROBLEM_DIR. "/" .$id. "/data.json")) -> write(json_encode($problem_list[$id], JSON_PRETTY_PRINT));
+
+        if ($moveFile)
+            move_uploaded_file($files["tmp_name"], PROBLEM_DIR ."/". $id ."/". $file);
+
+        if ($moveAttachment)
+            move_uploaded_file($attachments["tmp_name"], PROBLEM_DIR ."/". $id ."/". $attachment);
+
         return PROBLEM_OKAY;
     }
 
-    function problem_getimage(String $id) {
+    function problem_getImage(String $id) {
         global $problem_list;
-        global $problem_dir;
+
         if (!isset($problem_list[$id]))
             return PROBLEM_ERROR_IDREJECT;
 
-        apache_setenv("no-gzip", "1");
         if (isset($problem_list[$id]["image"])) {
             $i = $problem_list[$id]["image"];
-            $f = $problem_dir."/".$id."/".$i;
+            $f = PROBLEM_DIR."/".$id."/".$i;
 
             contenttype(pathinfo($i, PATHINFO_EXTENSION));
             header("Content-Length: ".filesize($f));
@@ -143,25 +183,44 @@
             return PROBLEM_OKAY;
         }
 
-        $f = $problem_dir ."/image.default";
+        $f = PROBLEM_DIR ."/image.default";
         contenttype("png");
         header("Content-Length: ".filesize($f));
         readfile($f);
         return PROBLEM_ERROR;
     }
 
-    function problem_remove(String $id) {
+    function problem_getAttachment(String $id) {
         global $problem_list;
-        global $problem_dir;
+
         if (!isset($problem_list[$id]))
             return PROBLEM_ERROR_IDREJECT;
 
-        $dir = $problem_dir."/".$id;
+        if (!isset($problem_list[$id]["attachment"]))
+            return PROBLEM_ERROR;
+        
+        $i = $problem_list[$id]["attachment"];
+        $f = PROBLEM_DIR."/".$id."/".$i;
 
-        if (!file_exists($problem_dir."/".$id))
+        contenttype(pathinfo($i, PATHINFO_EXTENSION));
+        header("Content-Length: ".filesize($f));
+        header("Content-disposition: attachment; filename=". pathinfo($i, PATHINFO_BASENAME)); 
+        readfile($f);
+        return PROBLEM_OKAY;
+    }
+
+    function problem_remove(String $id) {
+        global $problem_list;
+
+        if (!isset($problem_list[$id]))
+            return PROBLEM_ERROR_IDREJECT;
+
+        $dir = PROBLEM_DIR ."/". $id;
+
+        if (!file_exists(PROBLEM_DIR ."/". $id))
             return PROBLEM_ERROR;
 
-        rmrf($problem_dir."/".$id);
+        rmrf(PROBLEM_DIR ."/". $id);
         unset($problem_list[$id]);
         return PROBLEM_OKAY;
     }

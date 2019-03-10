@@ -399,6 +399,10 @@
                                         <textarea id="problem_edit_desc" class="formfield sound" placeholder="Nội dung" data-soundselectsoft required></textarea>
                                         <label for="problem_edit_desc" class="formlabel">Nội dung</label>
                                     </div>
+                                    <div class="formgroup blue">
+                                        <input id="problem_edit_attachment" type="file" class="formfield sound" placeholder="Tệp tin" data-soundselectsoft>
+                                        <label for="problem_edit_attachment" class="formlabel">Tệp đính kèm (không yêu cầu)</label>
+                                    </div>
                                     <div class="test-container sound" data-soundhoversoft data-soundselectsoft>
                                         <t class="test">Test ví dụ</t>
                                         <div class="test-list" id="problem_edit_test_list"></div>
@@ -588,6 +592,9 @@
                         </table>
                         <img class="image" id="problem_image" src="">
                         <t class="description" id="problem_description"></t>
+                        <div id="problem_attachment" class="attachment">
+                            <a id="problem_attachment_link" class="link" href=""></a>
+                        </div>
                         <table class="test" id="problem_test">
                         </table>
                     </div>

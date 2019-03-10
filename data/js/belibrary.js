@@ -83,7 +83,7 @@ function myajax({
                 if ((this.responseText === "" || !this.responseText) && this.status !== 200) {
                     clog("errr", {
                         color: flatc("red"),
-                        text: "HTTP" + this.status
+                        text: `HTTP ${this.status}:`
                     }, this.statusText, {
                         color: flatc("magenta"),
                         text: method

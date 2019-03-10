@@ -1,2 +1,167 @@
 [
+    {
+        "level": "OKAY",
+        "unixtime": 1552182987,
+        "time": "10\/03\/2019 08:56:27",
+        "text": "\u0110\u0103ng nh\u1eadp th\u00e0nh c\u00f4ng [6c9fca0099b05b81c5538e8f31ff1d3f]",
+        "module": "login.php:30",
+        "client": {
+            "username": "admin",
+            "ip": "::1"
+        }
+    },
+    {
+        "level": "OKAY",
+        "unixtime": 1552183106,
+        "time": "10\/03\/2019 08:58:26",
+        "text": "\u0110\u00e3 thay \u0111\u1ed5i c\u00e0i \u0111\u1eb7t.",
+        "module": "config.php:108",
+        "client": {
+            "username": "admin",
+            "ip": "::1"
+        }
+    },
+    {
+        "level": "OKAY",
+        "unixtime": 1552183672,
+        "time": "10\/03\/2019 09:07:52",
+        "text": "\u0110\u00e3 ch\u1ec9nh s\u1eeda \u0111\u1ec1 \"bai1\"",
+        "module": "edit.php:44",
+        "client": {
+            "username": "admin",
+            "ip": "::1"
+        }
+    },
+    {
+        "level": "ERRR",
+        "unixtime": 1552183896,
+        "time": "10\/03\/2019 09:11:36",
+        "text": "[2] filesize(): stat failed for C:\/Users\/Belikhun\/Desktop\/project\/themis-web-interface\/themis-web-interface\/themis-web-interface\/data\/problems\/bai1\/icon-ezreal.jpg t\u1ea1i problem.php:141",
+        "module": ":",
+        "client": {
+            "username": "admin",
+            "ip": "::1"
+        }
+    },
+    {
+        "level": "ERRR",
+        "unixtime": 1552183896,
+        "time": "10\/03\/2019 09:11:36",
+        "text": "[2] filesize(): stat failed for C:\/Users\/Belikhun\/Desktop\/project\/themis-web-interface\/themis-web-interface\/themis-web-interface\/data\/problems\/bai1\/icon-ezreal.jpg t\u1ea1i problem.php:141",
+        "module": ":",
+        "client": {
+            "username": "admin",
+            "ip": "::1"
+        }
+    },
+    {
+        "level": "ERRR",
+        "unixtime": 1552183956,
+        "time": "10\/03\/2019 09:12:36",
+        "text": "[2] readfile(C:\/Users\/Belikhun\/Desktop\/project\/themis-web-interface\/themis-web-interface\/themis-web-interface\/data\/problems\/bai1\/): failed to open stream: No such file or directory t\u1ea1i problem.php:142",
+        "module": ":",
+        "client": {
+            "username": "admin",
+            "ip": "::1"
+        }
+    },
+    {
+        "level": "ERRR",
+        "unixtime": 1552183958,
+        "time": "10\/03\/2019 09:12:38",
+        "text": "[2] readfile(C:\/Users\/Belikhun\/Desktop\/project\/themis-web-interface\/themis-web-interface\/themis-web-interface\/data\/problems\/bai1\/): failed to open stream: No such file or directory t\u1ea1i problem.php:142",
+        "module": ":",
+        "client": {
+            "username": "admin",
+            "ip": "::1"
+        }
+    },
+    {
+        "level": "ERRR",
+        "unixtime": 1552187253,
+        "time": "10\/03\/2019 10:07:33",
+        "text": "[8] Undefined variable: pathinfo t\u1ea1i problem.php:186",
+        "module": "problem.php:186",
+        "client": {
+            "username": "admin",
+            "ip": "::1"
+        }
+    },
+    {
+        "level": "OKAY",
+        "unixtime": 1552187782,
+        "time": "10\/03\/2019 10:16:22",
+        "text": "\u0110\u00e3 ch\u1ec9nh s\u1eeda \u0111\u1ec1 \"bai1\"",
+        "module": "edit.php:44",
+        "client": {
+            "username": "admin",
+            "ip": "::1"
+        }
+    },
+    {
+        "level": "OKAY",
+        "unixtime": 1552189652,
+        "time": "10\/03\/2019 10:47:32",
+        "text": "\u0110\u00e3 thay \u0111\u1ed5i c\u00e0i \u0111\u1eb7t.",
+        "module": "config.php:108",
+        "client": {
+            "username": "admin",
+            "ip": "::1"
+        }
+    },
+    {
+        "level": "OKAY",
+        "unixtime": 1552189973,
+        "time": "10\/03\/2019 10:52:53",
+        "text": "\u0110\u00e3 ch\u1ec9nh s\u1eeda \u0111\u1ec1 \"bai1\"",
+        "module": "edit.php:45",
+        "client": {
+            "username": "admin",
+            "ip": "::1"
+        }
+    },
+    {
+        "level": "OKAY",
+        "unixtime": 1552190328,
+        "time": "10\/03\/2019 10:58:48",
+        "text": "\u0110\u00e3 ch\u1ec9nh s\u1eeda \u0111\u1ec1 \"bai1\"",
+        "module": "edit.php:45",
+        "client": {
+            "username": "admin",
+            "ip": "::1"
+        }
+    },
+    {
+        "level": "OKAY",
+        "unixtime": 1552190406,
+        "time": "10\/03\/2019 11:00:06",
+        "text": "\u0110\u00e3 ch\u1ec9nh s\u1eeda \u0111\u1ec1 \"bai1\"",
+        "module": "edit.php:45",
+        "client": {
+            "username": "admin",
+            "ip": "::1"
+        }
+    },
+    {
+        "level": "OKAY",
+        "unixtime": 1552190827,
+        "time": "10\/03\/2019 11:07:07",
+        "text": "\u0110\u00e3 th\u00eam \u0111\u1ec1 \"sample\"",
+        "module": "add.php:61",
+        "client": {
+            "username": "admin",
+            "ip": "::1"
+        }
+    },
+    {
+        "level": "WARN",
+        "unixtime": 1552191067,
+        "time": "10\/03\/2019 11:11:07",
+        "text": "\u0110\u00e3 x\u00f3a \u0111\u1ec1 \"sample\"",
+        "module": "remove.php:33",
+        "client": {
+            "username": "admin",
+            "ip": "::1"
+        }
+    }
 ]
