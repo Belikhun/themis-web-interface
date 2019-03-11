@@ -395,7 +395,7 @@ body.dark .syslogs-settings .log .detail .text {
 }
 
 body.dark .syslogs-settings .log.okay .detail {
-    border-left-color: rgb(14, 104, 20);
+    border-left-color: rgb(14, 194, 26);
 }
 
 body.dark .syslogs-settings .log.okay .level {
@@ -403,7 +403,7 @@ body.dark .syslogs-settings .log.okay .level {
 }
 
 body.dark .syslogs-settings .log.warn .detail {
-    border-left-color: rgb(110, 110, 10);
+    border-left-color: rgb(194, 194, 16);
 }
 
 body.dark .syslogs-settings .log.warn .level {
@@ -411,7 +411,7 @@ body.dark .syslogs-settings .log.warn .level {
 }
 
 body.dark .syslogs-settings .log.errr .detail {
-    border-left-color: rgb(131, 19, 19);
+    border-left-color: rgb(241, 80, 80);
 }
 
 body.dark .syslogs-settings .log.errr .level {
@@ -419,7 +419,7 @@ body.dark .syslogs-settings .log.errr .level {
 }
 
 body.dark .syslogs-settings .log.verb .detail {
-    border-left-color: rgb(110, 42, 141);
+    border-left-color: rgb(196, 110, 236);
 }
 
 body.dark .syslogs-settings .log.verb .level {

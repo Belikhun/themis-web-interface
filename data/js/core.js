@@ -320,7 +320,7 @@ core = {
                         `</ul>`,
                         `<t class="r">${data.logs[i].out}</t>`,
                     `</div>`,
-                    `<a class="d" onClick="core.viewlog('${data.logs[i].url}')"></a>`,
+                    `<a class="d" onClick="core.viewLog('${data.logs[i].url}')"></a>`,
                 `</li>`
             ].join("\n");
 
@@ -393,7 +393,7 @@ core = {
             ].join("\n");
 
             for (var j = 0; j < list.length; j++)
-                out += `<td class="number${(data.rank[i].log[list[j]]) ? ` link" onClick="core.viewlog('${data.rank[i].log[list[j]]}')` : ""}" >${parseFloat(data.rank[i].list[list[j]]).toFixed(2)}</td>\n`;
+                out += `<td class="number${(data.rank[i].log[list[j]]) ? ` link" onClick="core.viewLog('${data.rank[i].log[list[j]]}')` : ""}" >${parseFloat(data.rank[i].list[list[j]]).toFixed(2)}</td>\n`;
             
             out += "</tr>";
         }
@@ -407,7 +407,7 @@ core = {
         });
     },
 
-    async viewlog(url) {
+    async viewLog(url) {
         clog("info", "Opening log file", {
             color: flatc("yellow"),
             text: url
