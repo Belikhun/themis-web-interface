@@ -202,28 +202,28 @@ body.dark #rankp div.ranking-container table tr:nth-child(3) td:nth-child(2) .na
 
 /* Log Panel */
 
-body.dark #logp div.main ul.log-item-container li.log-item .h {
+body.dark #logp div.main ul.log-item-container .log-item .h {
     border-bottom-color: rgb(88, 88, 88);
 }
 
-body.dark #logp div.main ul.log-item-container li.log-item .h .l .t {
+body.dark #logp div.main ul.log-item-container .log-item .h .l .t {
     color: rgba(216, 216, 216, 0.7);
 }
 
-body.dark #logp div.main ul.log-item-container li.log-item .h .r {
+body.dark #logp div.main ul.log-item-container .log-item .h .r {
     color: rgb(230, 230, 230);
 }
 
-body.dark #logp div.main ul.log-item-container li.log-item .d {
+body.dark #logp div.main ul.log-item-container .log-item .d {
     background-color: rgb(58, 58, 58);
     color: #aaaaaa;
 }
 
-body.dark #logp div.main ul.log-item-container li.log-item .d:hover {
+body.dark #logp div.main ul.log-item-container .log-item .d:hover {
     color: #d6d6d6;
 }
 
-body.dark #logp div.main ul.log-item-container li.log-item.queue .h .l .n {
+body.dark #logp div.main ul.log-item-container .log-item.queue .h .l .n {
     color: #bc74db;
 }
 

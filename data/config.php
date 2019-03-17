@@ -65,8 +65,14 @@
 						if ($justReturn === true)
 							return 103;
 
-						if ($useDie === true)
-							http_response_code($resCode) && die();
+						//* Got NOTICE on Codefactor:
+						//* if ($useDie === true)
+						//* 	(http_response_code($resCode) && die());
+
+						if ($useDie === true) {
+							http_response_code($resCode);
+							die();
+						}
 
 						stop(103, "Kì thi chưa bắt đầu.", 200);
 					}
@@ -77,8 +83,10 @@
 						if ($justReturn === true)
 							return 104;
 
-						if ($useDie === true)
-							http_response_code($resCode) && die();
+						if ($useDie === true) {
+							http_response_code($resCode);
+							die();
+						}
 
 						stop(104, "Kì thi đã kết thúc!", 200);
 					}
@@ -89,8 +97,10 @@
 						if ($justReturn === true)
 							return 105;
 
-						if ($useDie === true)
-							http_response_code($resCode) && die();
+						if ($useDie === true) {
+							http_response_code($resCode);
+							die();
+						}
 
 						stop(105, "Kì thi chưa kết thúc!", 200);
 					}
