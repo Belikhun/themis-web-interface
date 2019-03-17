@@ -16,12 +16,24 @@
 
 ---
 
-## Thay đổi trong v0.4.0
+## Thay đổi trong v0.4.0-prerelease
 
-* Add sounds
+* Added sounds
 * Better disconnected/ratelimited handling (ajax request will wait until we out of ratelimit and then send it again)
 * Separated `splash` into a submodule
-* Improve version checking
+* Improved version checking
+* Improved disconnection handling
+* Improved ratelimited handling
+* Improved splashscreed
+* Added Dark Mode
+* Added 3 Settings:
+	* Bài nộp lên phải có trong danh dách đề bài
+	* Cho phép xem tệp nhật ký của người khác
+	* Rate Limit
+* Added Logging user event
+* Public file browser/download
+* Added file attachment in problem
+* Fixed a `serious bug` where user can view problem directly
 
 ### Thay đổi trong v0.3.7
 
