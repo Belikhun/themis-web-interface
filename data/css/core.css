@@ -478,14 +478,14 @@ body.guest #timep.show ~ #rankp {
 }
 
 .fileupload-container #file_dropzone .title {
-    color: #ccc;
+    color: rgb(104, 104, 104);
     font-size: 16px;
     font-weight: bold;
     text-transform: uppercase;
 }
 
 .fileupload-container #file_dropzone .sub {
-    color: #ccc;
+    color: rgb(128, 128, 128);
     font-size: 12px;
     margin: 6px 0;
 }

@@ -162,7 +162,7 @@
 
                         <div class="item avatar sound" data-soundhoversoft>
                             <input id="usett_avtinp" type="file">
-                            <label for="usett_avtinp" class="avatar sound" data-soundhover title="Nhấn hoặc thả ảnh vào đây để thay đổi ảnh đại diện">
+                            <label for="usett_avtinp" class="avatar sound" data-soundhover data-soundselect title="Nhấn hoặc thả ảnh vào đây để thay đổi ảnh đại diện">
                                 <img id="usett_avt" class="avatar" src="<?php print $loggedin ? "/api/avt/get?u=".$username : ""; ?>" />
                                 <div id="usett_avtw" class="wrapper">
                                     <i class="pencil"></i>
@@ -571,7 +571,7 @@
                         <input type="file" id="file_input" multiple>
                         <t class="title">Thả tệp tại đây</t>
                         <t class="sub">hoặc</t>
-                        <label for="file_input" class="sq-btn dark">Chọn tệp</label>
+                        <label for="file_input" class="sq-btn dark sound" data-soundhover data-soundselect>Chọn tệp</label>
                     </div>
                     <div class="info">
                         <t id="file_upstate">null</t>

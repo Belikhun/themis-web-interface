@@ -70,6 +70,14 @@ body.dark .fileupload-container #file_dropzone.drag {
     color: rgb(156, 156, 156);
 }
 
+body.dark .fileupload-container #file_dropzone .title {
+    color: rgb(180, 180, 180);
+}
+
+body.dark .fileupload-container #file_dropzone .sub {
+    color: rgb(160, 160, 160);
+}
+
 body.dark .fileupload-container .info #file_upstate {
     color: rgb(214, 214, 214);
 }
