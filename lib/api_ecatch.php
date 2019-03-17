@@ -7,6 +7,7 @@
     //? |-----------------------------------------------------------------------------------------------|
 
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logs.php";
 
     if (session_status() === PHP_SESSION_NONE)
         session_start();

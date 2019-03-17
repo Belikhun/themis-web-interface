@@ -106,6 +106,9 @@ $("body").onload = e => {
     if (cookie.get("__darkMode") === "true")
         document.body.classList.add("dark");
 
+    if (window.frameElement)
+        document.body.classList.add("embeded");
+
     sound.init();
     update();
 }

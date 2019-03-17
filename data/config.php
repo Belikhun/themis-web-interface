@@ -39,11 +39,12 @@
 
 	define("CONTEST_STARTED", 1);
 	define("CONTEST_NOTENDED", 2);
+	define("CONTEST_ENDED", 3);
 
-	function contest_timecheck(array $req = Array(
+	function contest_timeRequire(array $req = Array(
 		CONTEST_STARTED,
 		CONTEST_NOTENDED
-	), bool $die = false) {
+	), $justReturn = true, $useDie = false) {
 		global $config;
 		$duringTime = $config["time"]["during"];
 		if ($duringTime <= 0)
@@ -60,19 +61,46 @@
 		foreach ($req as $key => $value) {
 			switch($value) {
 				case CONTEST_STARTED:
-					if ($t > $duringTime * 60)
-						if (!$die)
-							stop(103, "Kì thi chưa bắt đầu.", 200);
-						else
+					if ($t > $duringTime * 60) {
+						if ($justReturn === true)
+							return 103;
+
+						if ($useDie === true)
 							die();
+
+						stop(103, "Kì thi chưa bắt đầu.", 200);
+					}
 					break;
+
 				case CONTEST_NOTENDED:
-					if ($t < -$offsetTime && $duringTime !== 0)
-						if (!$die)
-							stop(104, "Kì thi đã kết thúc!", 200);
-						else
+					if ($t < -$offsetTime && $duringTime !== 0) {
+						if ($justReturn === true)
+							return 104;
+
+						if ($useDie === true)
 							die();
+
+						stop(104, "Kì thi đã kết thúc!", 200);
+					}
+					break;
+
+				case CONTEST_ENDED:
+					if ($t > -$offsetTime && $duringTime !== 0) {
+						if ($justReturn === true)
+							return 105;
+
+						if ($useDie === true)
+							die();
+
+						stop(105, "Kì thi chưa kết thúc!", 200);
+					}
+					break;
+
+				default:
+					trigger_error("Unknown case: ". $code, E_USER_ERROR);
 					break;
 			}
 		}
+
+		return true;
 	}

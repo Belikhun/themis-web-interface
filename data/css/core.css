@@ -1378,7 +1378,8 @@ td {
     color: #2984c0;
 }
 
-.cpanel-container {
+.cpanel-container,
+.publicFiles-container {
     position: relative;
     display: block;
     width: 100%;

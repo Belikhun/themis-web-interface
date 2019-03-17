@@ -963,6 +963,8 @@ core = {
         container: $("#user_settings"),
         adminConfig: $("#usett_adminConfig"),
         panelContainer: $("#usett_panelContainer"),
+        publicFilesPanel: null,
+        publicFilesIframe: null,
         aboutPanel: null,
         licensePanel: null,
 
@@ -976,10 +978,20 @@ core = {
         
         init(loggedIn = true) {
             this.toggler.addEventListener("click", e => {this.toggle(e)}, false);
+            
             this.aboutPanel = new this.panel($("#usett_aboutPanel"));
             this.aboutPanel.toggler = $("#usett_aboutToggler");
+
             this.licensePanel = new this.panel($("#usett_licensePanel"));
             this.licensePanel.toggler = $("#usett_licenseToggler");
+
+            this.publicFilesPanel = new this.panel($("#usett_publicFilesPanel"));
+            this.publicFilesPanel.toggler = $("#settings_publicFilesToggler");
+            this.publicFilesIframe = fcfn(this.publicFilesPanel.main, "publicFiles-container");
+            this.publicFilesPanel.ref.onClick(() => {
+                this.publicFilesIframe.contentWindow.location.reload();
+            })
+
             this.adminConfig.style.display = "none";
 
             // Night mode setting

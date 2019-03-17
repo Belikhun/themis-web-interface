@@ -10,7 +10,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
-    contest_timecheck([CONTEST_STARTED]);
+    contest_timeRequire([CONTEST_STARTED], false);
 
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";
     $id = reqquery("id");
@@ -21,14 +21,18 @@
     else
         $data["image"] = null;
 
-    if (isset($data["attachment"]))
+    if (isset($data["attachment"])) {
+        $f = PROBLEM_DIR ."/". $id ."/". $data["attachment"];
+
         $data["attachment"] = Array(
             "file" => $data["attachment"],
+            "size" => filesize($f),
             "url" => "/api/test/problems/attachment?id=". $id,
         );
-    else
+    } else
         $data["attachment"] = Array(
             "file" => null,
+            "size" => 0,
             "url" => null
         );
 

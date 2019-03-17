@@ -57,6 +57,7 @@
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/slider.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/navbar.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/usersetting.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/menu.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/spinner.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/statusbar.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/scrollbar.css" />
@@ -131,13 +132,19 @@
         <span id="user_settings" data-soundtoggle="show" class="sound">
 
             <div class="main">
-                <div class="container">
+                <div class="container menu">
 
                     <div class="group home">
                         <t class="title big center">Cài Đặt</t>
                         <t class="title small center">Thay đổi thiết đặt chung tại đây</t>
 
                         <div class="space"></div>
+                    </div>
+
+                    <div class="group file">
+                        <t class="title">Tải về</t>
+
+                        <div id="settings_publicFilesToggler" class="item arr sound" data-soundhover>Các tệp công khai</div>
                     </div>
 
                     <?php if (!$loggedin) { ?>
@@ -278,6 +285,8 @@
                             <div class="right"></div>
                         </div>
 
+                        <div class="space"></div>
+
                         <t class="title small">Hiển thị</t>
 
                         <div class="item lr sound" data-soundhoversoft>
@@ -295,6 +304,8 @@
                             </label>
                         </div>
 
+                        <div class="space"></div>
+                        
                         <t class="title small">Khác</t>
 
                         <div class="item sound" data-soundhoversoft>
@@ -309,6 +320,7 @@
                             <div class="right"></div>
                         </t>
 
+                        <div class="space"></div>
                     </div>
 
                     <div id="usett_adminConfig" class="group config">
@@ -341,6 +353,19 @@
             
             <div id="usett_panelContainer" class="sub">
             
+                <div id="usett_publicFilesPanel" data-soundtoggle="show" class="panel large sound">
+                    <div class="container">
+                        <div class="btn-group">
+                            <span class="reload sound" data-soundhover data-soundselect></span>
+                            <span class="close sound" data-soundhover></span>
+                            <span class="sound" data-soundhover data-soundselect></span>
+                        </div>
+                        <div class="main">
+                            <iframe class="publicFiles-container" src="/public"></iframe>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="settings_problem" data-soundtoggle="show" class="panel sound">
                     <div class="container">
                         <div class="btn-group">

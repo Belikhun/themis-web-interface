@@ -12,7 +12,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logs.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
 
-    contest_timecheck([CONTEST_STARTED], true);
+    contest_timeRequire([CONTEST_STARTED], false, true);
 
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";
     
@@ -21,5 +21,7 @@
         die();
     }
 
-    if (problem_getAttachment($_GET["id"]) !== PROBLEM_OKAY)
+    if (problem_getAttachment($_GET["id"]) === PROBLEM_OKAY)
+        writeLog("INFO", "Đã tải tệp đính kèm của bài \"". $_GET["id"] ."\"");
+    else
         http_response_code(404);

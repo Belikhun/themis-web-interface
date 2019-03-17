@@ -26,13 +26,14 @@
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/input.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/switch.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/menu.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/config.css" />
 </head>
 
 <body id="container">
 
     <div class="wrapper">
-        <form id="form-container" action="javascript:void(0);">
+        <form id="form-container" class="menu" action="javascript:void(0);">
             <div class="group home">
                 <t class="title big">Admin Control Panel</t>
                 <t class="title small">Thay đổi cài đặt hệ thống</t>

@@ -11,7 +11,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
     
-    contest_timecheck([CONTEST_STARTED]);
+    contest_timeRequire([CONTEST_STARTED], false);
 
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";
     stop(0, "Success!", 200, problem_list());

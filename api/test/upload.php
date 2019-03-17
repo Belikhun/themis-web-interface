@@ -37,7 +37,7 @@
     if (!isset($_FILES["file"]))
         stop(41, "Chưa chọn tệp!", 400);
 
-    contest_timecheck();
+    contest_timeRequire([CONTEST_STARTED, CONTEST_NOTENDED], false);
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";
 
     $maxfilesize = 10*1024*1024;
