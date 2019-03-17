@@ -223,6 +223,10 @@
 
 /* Element and Stuff */
 
+#user_settings .main .container .group .item #usett_avtinp {
+    display: none;
+}
+
 #user_settings .main .container .group .item .avatar {
     position: relative;
     display: block;
@@ -230,7 +234,6 @@
     height: 70px;
     margin-bottom: 10px;
     border-radius: 50%;
-    cursor: pointer;
     overflow: hidden;
 }
 
@@ -246,6 +249,7 @@
     height: 100%;
     top: 0;
     opacity: 0;
+    cursor: pointer;
     transition: opacity 0.2s ease;
     background-color: rgba(0, 0, 0, 0.4);
     display: flex;
@@ -253,11 +257,17 @@
     justify-content: center;
 }
 
+#user_settings .main .container .group .item .avatar .wrapper i {
+    position: absolute;
+    display: inline-block;
+}
+
 #user_settings .main .container .group .item .avatar .wrapper i::before {
+    position: relative;
     font-family: "Font Awesome 5 Free";
     font-style: normal;
     font-weight: 600;
-    display: none;
+    visibility: hidden;
     color: rgb(211, 211, 211);
 }
 
@@ -273,18 +283,19 @@
 
 #user_settings .main .container .group .item .avatar .wrapper .material-spinner {
     transform: scale(0.6);
-    display: none;
+    filter: brightness(1.4);
+    visibility: hidden;
 }
 
 #user_settings .main .container .group .item .avatar:hover .wrapper.drag .pencil::before,
 #user_settings .main .container .group .item .avatar:hover .wrapper.load .pencil::before {
-    display: none;
+    visibility: hidden;
 }
 
 #user_settings .main .container .group .item .avatar:hover .wrapper .pencil::before,
 #user_settings .main .container .group .item .avatar .wrapper.drag i.drag::before,
 #user_settings .main .container .group .item .avatar .wrapper.load .material-spinner {
-    display: block;
+    visibility: visible;
 }
 
 #user_settings .main .container .group .item .avatar:hover .wrapper,

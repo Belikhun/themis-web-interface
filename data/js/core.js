@@ -436,6 +436,7 @@ core = {
 
     file: {
         dropzone: $("#file_dropzone"),
+        input: $("#file_input"),
         state: $("#file_upstate"),
         name: $("#file_name"),
         bar: $("#file_bar"),
@@ -443,14 +444,16 @@ core = {
         size: $("#file_size"),
         panel: new regPanel($("#uploadp")),
         uploadCoolDown: 1000,
+        uploading: false,
         onUploadSuccess() {},
 
         init() {
             this.dropzone.addEventListener("dragenter", this.dragenter, false);
             this.dropzone.addEventListener("dragleave", this.dragleave, false);
             this.dropzone.addEventListener("dragover", this.dragover, false);
-            this.dropzone.addEventListener("drop", this.filesel, false);
-            this.panel.ref.onClick(() => { this.reset(); });
+            this.dropzone.addEventListener("drop", (e) => this.filesel(e), false);
+            this.input.addEventListener("change", (e) => this.filesel(e, "input"));
+            this.panel.ref.onClick(() => this.reset());
 
             this.panel.title = "Nộp bài";
 
@@ -461,6 +464,9 @@ core = {
         },
 
         reset() {
+            if (this.uploading)
+                return false;
+
             this.dropzone.classList.remove("hide");
             this.panel.title = "Nộp bài";
             this.name.innerText = "null";
@@ -471,14 +477,20 @@ core = {
             this.bar.className = "";
         },
 
-        filesel(e) {
-            e.stopPropagation();
-            e.preventDefault();
-            this.classList.remove("drag");
+        filesel(e, type = "drop") {
+            if (type === "drop") {
+                e.stopPropagation();
+                e.preventDefault();
+                e.target.classList.remove("drag");
+            }
 
-            var files = e.dataTransfer.files;
+            if (this.uploading)
+                return;
 
-            this.classList.add("hide");
+            var files = (type === "drop") ? e.dataTransfer.files : e.target.files;
+
+            this.dropzone.classList.add("hide");
+
             clog("info", "Started uploading", {
                 color: flatc("blue"),
                 text: files.length
@@ -486,12 +498,12 @@ core = {
 
             core.sound.confirm();
 
-            core.file.state.innerText = "Chuẩn bị tải lên " + files.length + " tệp...";
-            core.file.size.innerText = "00/00";
-            core.file.percent.innerText = "0%";
-            core.file.bar.style.width = "0%";
+            this.state.innerText = "Chuẩn bị tải lên " + files.length + " tệp...";
+            this.size.innerText = "00/00";
+            this.percent.innerText = "0%";
+            this.bar.style.width = "0%";
             setTimeout(() => {
-                core.file.upload(files);
+                this.upload(files);
             }, 1000);
         },
 
@@ -516,6 +528,7 @@ core = {
 
         upload(files, i = 0) {
             if (i > files.length - 1) {
+                this.uploading = false;
                 this.reset();
                 return;
             }
@@ -525,6 +538,7 @@ core = {
                 text: files[i].name
             });
 
+            this.uploading = true;
             this.name.innerText = files[i].name;
             this.state.innerText = "Đang tải lên...";
             this.panel.title = "Nộp bài - Đang tải lên " + (i + 1) + "/" + files.length +"...";
@@ -553,6 +567,7 @@ core = {
                             text: res.description
                         });
 
+                        this.uploading = false;
                         this.state.innerText = res.description;
                         this.panel.title = "Nộp bài - Đã dừng.";
                         this.bar.classList.add("red");
@@ -573,6 +588,7 @@ core = {
                 }, res => {
                     clog("info", "Upload Stopped.");
 
+                    this.uploading = false;
                     this.state.innerText = res.description;
                     this.panel.title = "Nộp bài - Đã dừng.";
                     this.bar.classList.add("red");
@@ -893,11 +909,14 @@ core = {
             }
 
             toggle() {
+                let c = this.elem.classList.contains("show");
                 this.__hideActive();
+ 
+                if (c === false)
+                    this.elem.classList.add("show");
 
-                this.elem.classList.toggle("show");
                 if (this.eToggle)
-                    this.eToggle.classList.toggle("active");
+                    this.eToggle.classList[c === false ? "add" : "remove"]("active");
 
                 this.funcOnToggle(this.elem.classList.contains("show") ? "show" : "hide");                
             }
@@ -905,9 +924,9 @@ core = {
             __hideActive() {
                 var l = this.elem.parentElement.getElementsByClassName("show");
 
-                for (var i = 0; i < l.length; i++) {
+                for (var i = 0; i < l.length; i++)
                     l[i].classList.remove("show");
-                }
+                
             }
 
             set toggler(e) {
@@ -946,6 +965,7 @@ core = {
         uavt: $("#user_avt"),
         avt: $("#usett_avt"),
         avtw: $("#usett_avtw"),
+        avtinp: $("#usett_avtinp"),
         name: $("#usett_name"),
         sub: {
             nameForm: $("#usett_edit_name_form"),
@@ -1044,10 +1064,12 @@ core = {
                 return;
             }
 
-            this.avtw.addEventListener("dragenter",  e => {this.dragenter(e)}, false);
-            this.avtw.addEventListener("dragleave", e => {this.dragleave(e)}, false);
-            this.avtw.addEventListener("dragover", e => {this.dragover(e)}, false);
-            this.avtw.addEventListener("drop", e => {this.filesel(e)}, false);
+            this.avtw.addEventListener("dragenter",  e => this.dragenter(e), false);
+            this.avtw.addEventListener("dragleave", e => this.dragleave(e), false);
+            this.avtw.addEventListener("dragover", e => this.dragover(e), false);
+            this.avtw.addEventListener("drop", e => this.filesel(e), false);
+
+            this.avtinp.addEventListener("change", e => this.filesel(e, "input"));
 
             this.sub.nameForm.addEventListener("submit", e => {
                 this.sub.nameForm.getElementsByTagName("button")[0].disabled = true;
@@ -1145,12 +1167,14 @@ core = {
             });
         },
 
-        filesel(e) {
-            e.stopPropagation();
-            e.preventDefault();
-            this.avtw.classList.remove("drag");
+        filesel(e, type = "drop") {
+            if (type === "drop") {
+                e.stopPropagation();
+                e.preventDefault();
+                this.avtw.classList.remove("drag");
+            }
 
-            var file = e.dataTransfer.files[0];
+            var file = (type === "drop") ? e.dataTransfer.files[0] : e.target.files[0];
 
             this.avtw.classList.add("load");
             setTimeout(() => {

@@ -268,6 +268,10 @@ body.dark #user_settings .sub .panel .container .btn-group .close:hover::before 
     color: #fb6c5c;
 }
 
+body.dark #user_settings .main .container .group .item .info .right {
+    color: rgb(168, 168, 168);
+}
+
 /* Problems Editor */
 
 body.dark .problem-settings .problem-header {

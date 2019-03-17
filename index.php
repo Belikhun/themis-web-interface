@@ -161,7 +161,8 @@
                         <t class="title small">Thông tin</t>
 
                         <div class="item avatar sound" data-soundhoversoft>
-                            <div class="avatar sound" data-soundhover title="Thả ảnh vào đây để thay đổi ảnh đại diện">
+                            <input id="usett_avtinp" type="file">
+                            <label for="usett_avtinp" class="avatar sound" data-soundhover title="Nhấn hoặc thả ảnh vào đây để thay đổi ảnh đại diện">
                                 <img id="usett_avt" class="avatar" src="<?php print $loggedin ? "/api/avt/get?u=".$username : ""; ?>" />
                                 <div id="usett_avtw" class="wrapper">
                                     <i class="pencil"></i>
@@ -170,7 +171,7 @@
                                         <svg><circle cx="50%" cy="50%" r="20" fill="none"/></svg>
                                     </div>
                                 </div>
-                            </div>
+                            </label>
 
                             <div class="info">
                                 <t class="left">Tên thí sinh</t>
@@ -566,7 +567,12 @@
                     </span>
                 </div>
                 <div class="main fileupload-container">
-                    <div id="file_dropzone">Thả tệp tại đây</div>
+                    <div id="file_dropzone">
+                        <input type="file" id="file_input" multiple>
+                        <t class="title">Thả tệp tại đây</t>
+                        <t class="sub">hoặc</t>
+                        <label for="file_input" class="sq-btn dark">Chọn tệp</label>
+                    </div>
                     <div class="info">
                         <t id="file_upstate">null</t>
                         <t id="file_name">null</t>

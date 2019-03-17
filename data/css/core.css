@@ -444,6 +444,7 @@ body.guest #timep.show ~ #rankp {
 .fileupload-container #file_dropzone {
     position: absolute;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     margin: 20px;
@@ -454,11 +455,6 @@ body.guest #timep.show ~ #rankp {
     height: calc(100% - 40px);
     border: 2px dotted #ccc;
     border-radius: 4px;
-    color: #ccc;
-    font-size: 16px;
-    font-weight: bold;
-    text-transform: uppercase;
-    text-align: center;
     z-index: 1;
     transition: all 0.4s ease;
     opacity: 1;
@@ -475,6 +471,23 @@ body.guest #timep.show ~ #rankp {
 
 .fileupload-container #file_dropzone.hide+.info {
     opacity: 1;
+}
+
+.fileupload-container #file_dropzone #file_input {
+    display: none;
+}
+
+.fileupload-container #file_dropzone .title {
+    color: #ccc;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.fileupload-container #file_dropzone .sub {
+    color: #ccc;
+    font-size: 12px;
+    margin: 6px 0;
 }
 
 .fileupload-container .info {
