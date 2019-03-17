@@ -106,7 +106,7 @@
         <div class="group file">
             <t class="title">Tệp đính kèm trong các đề bài</t>
 
-            <?php if ($contestStarted === false) { ?>
+            <?php if ($contestStarted !== true) { ?>
 
                 <div class="item lr warning">
                     <t class="left">Danh sách tệp đã bị ẩn vì khì thi chưa bắt đầu.</t>
@@ -148,7 +148,14 @@
             <t class="title"><?php print "Index of ". $clientPath ?></t>
             <t class="title small">Total size: <?php print $size ?></t>
 
-            <?php foreach ($list as $key => $value) { ?>
+            <?php if (sizeof($list) === 0) { ?>
+
+                <div class="item lr info">
+                    <t class="left">Không tìm thấy tệp nào.</t>
+                    <div class="right"></div>
+                </div>
+
+            <?php } else foreach ($list as $key => $value) { ?>
                 
                 <div class="item lr">
                     <div class="left">

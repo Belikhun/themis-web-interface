@@ -978,7 +978,7 @@ core = {
         
         init(loggedIn = true) {
             this.toggler.addEventListener("click", e => {this.toggle(e)}, false);
-            
+
             this.aboutPanel = new this.panel($("#usett_aboutPanel"));
             this.aboutPanel.toggler = $("#usett_aboutToggler");
 
@@ -1003,6 +1003,10 @@ core = {
                     cookie.set("__darkMode", false);
                     document.body.classList.remove("dark");
                 }
+
+                this.publicFilesIframe.contentWindow.location.reload();
+                if (core.settings.cpanelIframe)
+                    core.settings.cpanelIframe.contentWindow.location.reload();
             })
             
             this.nightModeToggle.checked = cookie.get("__darkMode", false) == "true";
@@ -1507,6 +1511,8 @@ core = {
             },
 
             async postsubmit() {
+                this.title.innerText = "Đang lưu...";
+
                 var data = new Array();
                 data.id = this.form.id.value;
                 data.name = this.form.name.value;

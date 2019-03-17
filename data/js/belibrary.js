@@ -25,7 +25,7 @@ function myajax({
             var t = {};
             switch (__connection__.onlineState) {
                 case "offline":
-                    t = {code: 105, description: "Disconnected to Server"}
+                    t = {code: 106, description: "Disconnected to Server"}
                     break;
                 case "ratelimited":
                     t = {code: 32, description: "Rate Limited"}
@@ -74,7 +74,7 @@ function myajax({
                     if (changeState === true)
                         __connection__.stateChange("offline");
                         
-                    let t = {code: 105, description: "Disconnected to Server"};
+                    let t = {code: 106, description: "Disconnected to Server"};
                     reject(t);
                     error(t);
                     return;

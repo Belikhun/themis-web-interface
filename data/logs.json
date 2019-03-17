@@ -1,1 +1,134 @@
-[]
+[
+    {
+        "level": "WARN",
+        "unixtime": 1552810553,
+        "time": "17\/03\/2019 15:15:53",
+        "text": "Got statuscode \"500 Internal Server Error\" when trying to access: \/public\/",
+        "module": "ecatch.php:40",
+        "client": {
+            "username": null,
+            "ip": "::1"
+        }
+    },
+    {
+        "level": "OKAY",
+        "unixtime": 1552810706,
+        "time": "17\/03\/2019 15:18:26",
+        "text": "\u0110\u0103ng nh\u1eadp th\u00e0nh c\u00f4ng [003e3b5288eb8e837cf9b611058bac99]",
+        "module": "login.php:30",
+        "client": {
+            "username": "hs1",
+            "ip": "::1"
+        }
+    },
+    {
+        "level": "WARN",
+        "unixtime": 1552810743,
+        "time": "17\/03\/2019 15:19:03",
+        "text": "Banned for 60 seconds",
+        "module": "rank.php:10",
+        "client": {
+            "username": "hs1",
+            "ip": "::1"
+        }
+    },
+    {
+        "level": "OKAY",
+        "unixtime": 1552810901,
+        "time": "17\/03\/2019 15:21:41",
+        "text": "\u0110\u0103ng nh\u1eadp th\u00e0nh c\u00f4ng [f054a27eab73bc1584cbef688e180fe5]",
+        "module": "login.php:30",
+        "client": {
+            "username": "admin",
+            "ip": "::1"
+        }
+    },
+    {
+        "level": "OKAY",
+        "unixtime": 1552810941,
+        "time": "17\/03\/2019 15:22:21",
+        "text": "\u0110\u00e3 ch\u1ec9nh s\u1eeda \u0111\u1ec1 \"bai1\"",
+        "module": "edit.php:45",
+        "client": {
+            "username": "admin",
+            "ip": "::1"
+        }
+    },
+    {
+        "level": "OKAY",
+        "unixtime": 1552811054,
+        "time": "17\/03\/2019 15:24:14",
+        "text": "\u0110\u00e3 ch\u1ec9nh s\u1eeda \u0111\u1ec1 \"bai1\"",
+        "module": "edit.php:45",
+        "client": {
+            "username": "admin",
+            "ip": "::1"
+        }
+    },
+    {
+        "level": "OKAY",
+        "unixtime": 1552811094,
+        "time": "17\/03\/2019 15:24:54",
+        "text": "\u0110\u00e3 thay \u0111\u1ed5i c\u00e0i \u0111\u1eb7t.",
+        "module": "config.php:108",
+        "client": {
+            "username": "admin",
+            "ip": "::1"
+        }
+    },
+    {
+        "level": "OKAY",
+        "unixtime": 1552811445,
+        "time": "17\/03\/2019 15:30:45",
+        "text": "\u0110\u00e3 thay \u0111\u1ed5i c\u00e0i \u0111\u1eb7t.",
+        "module": "config.php:108",
+        "client": {
+            "username": "admin",
+            "ip": "::1"
+        }
+    },
+    {
+        "level": "OKAY",
+        "unixtime": 1552811476,
+        "time": "17\/03\/2019 15:31:16",
+        "text": "\u0110\u00e3 thay \u0111\u1ed5i c\u00e0i \u0111\u1eb7t.",
+        "module": "config.php:108",
+        "client": {
+            "username": "admin",
+            "ip": "::1"
+        }
+    },
+    {
+        "level": "INFO",
+        "unixtime": 1552811481,
+        "time": "17\/03\/2019 15:31:21",
+        "text": "\u0110\u00e3 t\u1ea3i l\u00ean \"bai1.pas\"",
+        "module": "upload.php:69",
+        "client": {
+            "username": "hs1",
+            "ip": "::1"
+        }
+    },
+    {
+        "level": "OKAY",
+        "unixtime": 1552811493,
+        "time": "17\/03\/2019 15:31:33",
+        "text": "\u0110\u00e3 thay \u0111\u1ed5i c\u00e0i \u0111\u1eb7t.",
+        "module": "config.php:108",
+        "client": {
+            "username": "admin",
+            "ip": "::1"
+        }
+    },
+    {
+        "level": "OKAY",
+        "unixtime": 1552811502,
+        "time": "17\/03\/2019 15:31:42",
+        "text": "\u0110\u00e3 thay \u0111\u1ed5i c\u00e0i \u0111\u1eb7t.",
+        "module": "config.php:108",
+        "client": {
+            "username": "admin",
+            "ip": "::1"
+        }
+    }
+]
