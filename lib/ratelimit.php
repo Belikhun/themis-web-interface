@@ -2,15 +2,16 @@
     //? |-----------------------------------------------------------------------------------------------|
     //? |  /lib/ratelimit.php                                                                           |
     //? |                                                                                               |
-    //? |  Copyright (c) 2019 Belikhun. All right reserved                                              |
+    //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
 
-    $maxrequest = 60;
-    $perseconds = 10;
-    $bantime = 15;
+    $maxRequest = $config["ratelimit"]["maxrequest"] ?: 60;
+    $perSeconds = $config["ratelimit"]["time"] ?: 8;
+    $banTime = $config["ratelimit"]["bantime"] ?: 15;
 
     if (!isset($_SESSION["firstrequest"]))
         $_SESSION["firstrequest"] = time();
@@ -30,34 +31,36 @@
         $_SESSION["firstrequest"] = $now;
         $_SESSION["requestcount"] = 0;
     } else {
-        if (($now - $first) < $perseconds && !$_SESSION["banned"]) {
+        if (($now - $first) < $perSeconds && !$_SESSION["banned"]) {
             //count
             $_SESSION["requestcount"]++;
-            if ($_SESSION["requestcount"] > $maxrequest) {
+            if ($_SESSION["requestcount"] > $maxRequest) {
                 //ban
                 $_SESSION["banned"] = true;
-                $_SESSION["unban"] = $now + $bantime;
-                printbanmsg();
+                $_SESSION["unban"] = $now + $banTime;
+                writeLog("WARN", "Banned for $banTime seconds");
+                printBanMsg();
             }
-        } else if($_SESSION["banned"]) {
-            printbanmsg();
-        } else {
+        } elseif($_SESSION["banned"])
+            printBanMsg();
+        else {
             $_SESSION["requestcount"] = 0;
             $_SESSION["firstrequest"] = $now;
         }
     }
 
-    function printbanmsg() {
-        global $bantime;
+    function printBanMsg() {
+        global $banTime;
         global $now;
         $time = $_SESSION["unban"] - $now;
         stop(
-            17,
+            32,
             "NO SPAMMING IN THE HALL! ". $time ." seconds detention for you! You should know better.",
             429,
             Array(
+                "time" => $banTime,
                 "reset" => $time,
-                "start" => $_SESSION["unban"] - $bantime,
+                "start" => $_SESSION["unban"] - $banTime,
                 "end" => $_SESSION["unban"]
             )
         );

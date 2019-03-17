@@ -1,19 +1,39 @@
 # Change Logs
 
-- [Thay đổi trong v0.3.7](#thay-đổi-trong-v037)
-  - [Thay đổi trong v0.3.6](#thay-đổi-trong-v036)
-  - [Thay đổi trong v0.3.5](#thay-đổi-trong-v035)
-  - [Thay đổi trong v0.3.4](#thay-đổi-trong-v034)
-  - [Thay đổi trong v0.3.3](#thay-đổi-trong-v033)
-  - [Thay đổi trong v0.3.2](#thay-đổi-trong-v032)
-  - [Thay đổi trong v0.3.1](#thay-đổi-trong-v031)
-  - [Thay đổi trong v0.3.0](#thay-đổi-trong-v030)
-  - [Thay đổi trong v0.2.3](#thay-đổi-trong-v023)
-  - [Thay đổi trong v0.2.2](#thay-đổi-trong-v022)
-  - [Thay đổi trong v0.2.1](#thay-đổi-trong-v021)
-  - [Thay đổi trong v0.2.0](#thay-đổi-trong-v020)
+- [Thay đổi trong v0.4.0](#thay-đổi-trong-v040)
+	- [Thay đổi trong v0.3.7](#thay-đổi-trong-v037)
+	- [Thay đổi trong v0.3.6](#thay-đổi-trong-v036)
+	- [Thay đổi trong v0.3.5](#thay-đổi-trong-v035)
+	- [Thay đổi trong v0.3.4](#thay-đổi-trong-v034)
+	- [Thay đổi trong v0.3.3](#thay-đổi-trong-v033)
+	- [Thay đổi trong v0.3.2](#thay-đổi-trong-v032)
+	- [Thay đổi trong v0.3.1](#thay-đổi-trong-v031)
+	- [Thay đổi trong v0.3.0](#thay-đổi-trong-v030)
+	- [Thay đổi trong v0.2.3](#thay-đổi-trong-v023)
+	- [Thay đổi trong v0.2.2](#thay-đổi-trong-v022)
+	- [Thay đổi trong v0.2.1](#thay-đổi-trong-v021)
+	- [Thay đổi trong v0.2.0](#thay-đổi-trong-v020)
 
 ---
+
+## Thay đổi trong v0.4.0-prerelease
+
+* Added sounds
+* Better disconnected/ratelimited handling (ajax request will wait until we out of ratelimit and then send it again)
+* Separated `splash` into a submodule
+* Improved version checking
+* Improved disconnection handling
+* Improved ratelimited handling
+* Improved splashscreed
+* Added Dark Mode
+* Added 3 Settings:
+	* Bài nộp lên phải có trong danh dách đề bài
+	* Cho phép xem tệp nhật ký của người khác
+	* Rate Limit
+* Added Logging user event
+* Public file browser/download
+* Added file attachment in problem
+* Fixed a `serious bug` where user can view problem directly
 
 ### Thay đổi trong v0.3.7
 
@@ -21,6 +41,7 @@
 * Chuyển hai bảng cài đặt cho admin vào user_settings
 * Sửa lỗi không xem được nhật kí khi chưa đăng nhập
 * Xóa bỏ một số tệp không cần thiết
+* Thêm kiểm tra phiên bản
 
 ### Thay đổi trong v0.3.6
 
@@ -79,7 +100,7 @@
 
 * API now require a token
 * Vá các lỗ hổng bảo mật:
-  * CSRF
+* CSRF
 
 ### Thay đổi trong v0.2.0
 
@@ -87,6 +108,6 @@
 * Hiển thị tình trạng hiện tại của bài đã nộp
 * Xem tệp nhật kí trực tiếp trên trang mà không cần tải về
 * Vá các lỗ hổng bảo mật:
-  * XSS
-  * LFI/RFI
-  * Slowloris DoS
+* XSS
+* LFI/RFI
+* Slowloris DoS

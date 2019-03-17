@@ -2,7 +2,7 @@
 ? |-----------------------------------------------------------------------------------------------|
 ? |  /data/css/button.css                                                                         |
 ? |                                                                                               |
-? |  Copyright (c) 2019 Belikhun. All right reserved                                              |
+? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                              |
 ? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 ? |-----------------------------------------------------------------------------------------------|
 */
@@ -14,16 +14,12 @@
     font-family: "Segoe UI", sans-serif;
     font-weight: 600;
     letter-spacing: 0.5px;
-    padding-left: 18px;
-    padding-right: 18px;
-    padding-top: 7.2px;
-    padding-bottom: 7.2px;
-    border-width: 0px;
+    padding: 7.2px 18px;
+    border-width: 0;
     border-style: solid;
     border-color: rgb(0, 0, 0);
     border-image: initial;
     border-radius: 5px;
-    outline: none;
     box-sizing: border-box;
     text-decoration: none;
     cursor: pointer;
@@ -98,15 +94,11 @@
     font-size: 12px;
     font-family: "Segoe UI", sans-serif;
     font-weight: normal;
-    padding-left: 6px;
-    padding-right: 6px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 10px 6px;
     border-width: 2px;
     border-style: solid;
     border-image: initial;
     border-color: transparent;
-    outline: none;
     text-decoration: none;
     cursor: pointer;
     transition: all 1s cubic-bezier(0.06, 0.81, 0, 0.98);
@@ -146,14 +138,12 @@
     font-weight: 600;
     letter-spacing: 0.5px;
     padding: 7px 18px;
-    border-width: 0px;
+    border-width: 0;
     border-style: solid;
     border-color: rgb(0, 0, 0);
     border-image: initial;
-    border-radius: 0px;
-    outline: none;
+    border-radius: 0;
     box-sizing: border-box;
-    text-decoration: none;
     cursor: pointer;
     overflow: hidden;
     z-index: 1;
@@ -170,7 +160,7 @@
     display: block;
     width: 0;
     height: 0;
-    right: 0px;
+    right: 0;
     top: 100%;
     border-style: solid;
     border-width: 0 50px 100px 50px;
@@ -209,8 +199,13 @@
     transform: scale(0.9);
 }
 
+.sq-btn:focus {
+    outline: none;
+    text-decoration: underline;
+}
+
 .sq-btn:disabled {
-    filter: brightness(0.6)!important;
+    filter: brightness(0.6);
     cursor: default;
 }
 
@@ -220,10 +215,12 @@
 
 .sq-btn.pink::before {
     border-color: transparent transparent rgb(255, 152, 204) transparent;
+    animation-delay: 0.1s;
 }
 
 .sq-btn.pink::after {
     border-color: transparent transparent rgb(202, 96, 146) transparent;
+    animation-delay: 0.85s;
 }
 
 .sq-btn.green {
@@ -232,10 +229,12 @@
 
 .sq-btn.green::before {
     border-color: transparent transparent rgb(156, 204, 0) transparent;
+    animation-delay: 0.15s;
 }
 
 .sq-btn.green::after {
     border-color: transparent transparent rgb(124, 162, 0) transparent;
+    animation-delay: 0.75s;
 }
 
 .sq-btn.yellow {
@@ -244,74 +243,24 @@
 
 .sq-btn.yellow::before {
     border-color: transparent transparent rgb(254, 204, 34) transparent;
+    animation-delay: 0.08s;
 }
 
 .sq-btn.yellow::after {
     border-color: transparent transparent rgb(240, 178, 14) transparent;
+    animation-delay: 0.9s;
 }
 
-.sq-checkbox {
-    position: relative;
-    display: block;
-    width: 24px;
-    height: 12px;
-    cursor: pointer;
-    user-select: none;
-
-    transition: width 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+.sq-btn.dark {
+    background-color: #042430;
 }
 
-.sq-checkbox input {
-    position: absolute;
-    display: none;
-    cursor: pointer;
-    height: 0;
-    width: 0;
+.sq-btn.dark:before {
+    border-color: transparent transparent #133947 transparent;
+    animation-delay: 0.25s;
 }
 
-.sq-checkbox .checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    border: 3px solid rgb(68, 170, 221);
-    border-radius: 10px;
-    box-sizing: border-box;
-
-    transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
-}
-
-.sq-checkbox:hover {
-    width: 42px;
-}
-
-.sq-checkbox:hover input ~ .checkmark {
-    background-color: rgba(68, 170, 221, 0.4);
-    border-color: rgb(160, 220, 250);
-}
-
-.sq-checkbox input:checked ~ .checkmark {
-    background-color: rgb(68, 170, 221);
-}
-
-.sq-checkbox:hover input:checked ~ .checkmark {
-    background-color: rgb(160, 220, 250);
-}
-
-.sq-checkbox.pink .checkmark {
-    border-color: rgb(255, 102, 170);
-}
-
-.sq-checkbox.pink:hover input ~ .checkmark {
-    background-color: rgba(255, 102, 171, 0.4);
-    border-color: rgb(255, 194, 214);
-}
-
-.sq-checkbox.pink input:checked ~ .checkmark {
-    background-color: rgb(255, 102, 170);
-}
-
-.sq-checkbox.pink:hover input:checked ~ .checkmark {
-    background-color: rgb(255, 194, 214);
+.sq-btn.dark:after {
+    border-color: transparent transparent #0b2e3d transparent;
+    animation-delay: 0.76s;
 }

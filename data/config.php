@@ -2,13 +2,18 @@
     //? |-----------------------------------------------------------------------------------------------|
     //? |  /data/config.php                                                                             |
     //? |                                                                                               |
-    //? |  Copyright (c) 2019 Belikhun. All right reserved                                              |
+    //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
 	require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
-	define("VERSION", "0.3.7");
+
+	// Plz dont change these
+	define("APPNAME", "Themis Web Interface");
+	define("AUTHOR", "Belikhun");
+	define("VERSION", "0.4.0");
+	define("VERSION_STATE", "prerelease");
 
 	$config = (new fip($_SERVER["DOCUMENT_ROOT"] ."/data/config.json")) -> read();
 	$config = json_decode($config, true);
@@ -34,17 +39,19 @@
 
 	define("CONTEST_STARTED", 1);
 	define("CONTEST_NOTENDED", 2);
+	define("CONTEST_ENDED", 3);
 
-	function contest_timecheck(array $req = Array(
+	function contest_timeRequire(array $req = Array(
 		CONTEST_STARTED,
 		CONTEST_NOTENDED
-	), bool $die = false) {
+	), $justReturn = true, $useDie = false, $resCode = 403) {
 		global $config;
 		$duringTime = $config["time"]["during"];
 		if ($duringTime <= 0)
 			return false;
 
-		if (getuserdata($_SESSION["username"])["id"] == "admin")
+		// Admin can bypass this check
+		if ($_SESSION["username"] !== null && getuserdata($_SESSION["username"])["id"] === "admin")
 			return true;
 
 		$beginTime = $config["time"]["begin"]["times"];
@@ -54,19 +61,56 @@
 		foreach ($req as $key => $value) {
 			switch($value) {
 				case CONTEST_STARTED:
-					if ($t > $duringTime * 60)
-						if (!$die)
-							stop(103, "Kì thi chưa bắt đầu.", 200);
-						else
+					if ($t > $duringTime * 60) {
+						if ($justReturn === true)
+							return 103;
+
+						//* Got NOTICE on Codefactor:
+						//* if ($useDie === true)
+						//* 	(http_response_code($resCode) && die());
+
+						if ($useDie === true) {
+							http_response_code($resCode);
 							die();
+						}
+
+						stop(103, "Kì thi chưa bắt đầu.", 200);
+					}
 					break;
+
 				case CONTEST_NOTENDED:
-					if ($t < -$offsetTime && $duringTime != 0)
-						if (!$die)
-							stop(104, "Kì thi đã kết thúc!", 200);
-						else
+					if ($t < -$offsetTime && $duringTime !== 0) {
+						if ($justReturn === true)
+							return 104;
+
+						if ($useDie === true) {
+							http_response_code($resCode);
 							die();
+						}
+
+						stop(104, "Kì thi đã kết thúc!", 200);
+					}
+					break;
+
+				case CONTEST_ENDED:
+					if ($t > -$offsetTime && $duringTime !== 0) {
+						if ($justReturn === true)
+							return 105;
+
+						if ($useDie === true) {
+							http_response_code($resCode);
+							die();
+						}
+
+						stop(105, "Kì thi chưa kết thúc!", 200);
+					}
+					break;
+
+				default:
+					trigger_error("Unknown case: ". $code, E_USER_ERROR);
 					break;
 			}
 		}
+
+		return true;
 	}

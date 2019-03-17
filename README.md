@@ -1,11 +1,12 @@
 <p align="center">
-  <img src="https://lh3.googleusercontent.com/UJ9p8wcOqInslW4xWpJ6ZQ55Lx6DXN85MJvGoLl0G3WroDqQExDdovbLXuD1rg8C3mGxyyRkheWK4t2soF9HcWsxNXgO0lK_iq_iqvwvXz2Bu5JWmPHhbiesqYziSVitpkWSo7P51A=w2400">
+	<img src="https://lh3.googleusercontent.com/UJ9p8wcOqInslW4xWpJ6ZQ55Lx6DXN85MJvGoLl0G3WroDqQExDdovbLXuD1rg8C3mGxyyRkheWK4t2soF9HcWsxNXgO0lK_iq_iqvwvXz2Bu5JWmPHhbiesqYziSVitpkWSo7P51A=w2400">
 </p>
 
 <p align="center">
-	<a href="https://github.com/belivipro9x99/themis-webinterface/releases/"><img src="https://img.shields.io/badge/release-v0.3.7-brightgreen.svg?longCache=true&style=popout-square"></a>
+	<a href="https://github.com/belivipro9x99/themis-webinterface/releases/"><img src="https://img.shields.io/badge/prerelease-v0.4.0-brightgreen.svg?longCache=true&style=popout-square"></a>
 	<img src="https://img.shields.io/badge/license-MIT-orange.svg?longCache=true&style=popout-square">
 	<img src="https://img.shields.io/badge/status-not tested-blue.svg?longCache=true&style=popout-square">
+	<a href="https://www.codefactor.io/repository/github/belivipro9x99/themis-web-interface"><img src="https://www.codefactor.io/repository/github/belivipro9x99/themis-web-interface/badge?style=flat-square"/></a>
 </p>
 
 ---
@@ -16,7 +17,7 @@
 
 **Themis Web Interface** được viết bằng các ngôn ngữ **HTML, CSS, PHP và JavaScript**. Dự án không sử dụng các library khác như **jQuery, Bootstrap, React, ...**
 
-> Phiên bản hiện tại là 0.3.7-release
+> Phiên bản hiện tại là 0.4.0-prerelease
 
 - [Demo](#demo)
 - [Yêu cầu](#yêu-cầu)
@@ -38,8 +39,8 @@
 | 2     | user2    | 123456   |
 
 * Lưu ý:
-  - Chức năng thay đổi mật khẩu và thay đổi thư mục upload đã tắt.
-  - Bài nộp lên sẽ không được Themis chấm.
+	- Chức năng thay đổi mật khẩu và thay đổi thư mục upload đã tắt.
+	- Bài nộp lên sẽ không được Themis chấm.
 
 ## Tính năng
 * Nộp nhiều bài cùng lúc với 1 lần kéo thả tệp
@@ -67,8 +68,9 @@
 
 <p align="center"><img width="600px" src="https://lh3.googleusercontent.com/t55Oq4K9wOwT7WM_jPWlFoERbonMWNNGeXHHqq7sTh7Mkd6t4YLAvV9rODTsBIJvCC1n7e1Cf8IcBl6rodWvuq6pVteklGCLroxgCl7TPyjt0rXWIjHgkWeH6yGvQ_Fu90hrhk0zww=w2400"></p>
 
-* Người dùng có thể thay đổi ảnh đại diện, tên và mật khẩu
+<p align="center"><img width="600px" src="https://lh3.googleusercontent.com/t55Oq4K9wOwT7WM_jPWlFoERbonMWNNGeXHHqq7sTh7Mkd6t4YLAvV9rODTsBIJvCC1n7e1Cf8IcBl6rodWvuq6pVteklGCLroxgCl7TPyjt0rXWIjHgkWeH6yGvQ_Fu90hrhk0zww=w2400"></p>
 
+* Người dùng có thể thay đổi ảnh đại diện, tên và mật khẩu
 * Mobile Responsive
 
 <p align="center"><img width="400px" src="https://lh3.googleusercontent.com/pZl6Q-RuM9Z84OIAwSHj_LqBGOUK4nCgSFfZg4VakZuaX7rDxKRuWwsAvW_a2Mos5b6kYLJW_LLpNKSa7f-XoNwY2FNAuvlmjSlwFEkaSXfYHky4qoHp5h7o20AZ8Nir97N5PSawqw=w2400"></p>
@@ -98,6 +100,8 @@ Toàn bộ **Document** đều có ở trong [Wiki:API](https://github.com/beliv
 <p align="center"><img  src="https://lh3.googleusercontent.com/mkP4cd5RY7rlNZks9pESf93_pnbDmtkpXHTDXQ8TtYIc0SjZy-2-PRYM8vNdNSB4ArPS7TB3-U6LIScCEg6cuzlGGXDFPnV-yZ4ECSoEUzzYjr9zl-Ldmnzt9Sv9c3Um82ocV59KoA=w2400"></p>
 
 <p align="center"><img  src="https://lh3.googleusercontent.com/uz8FEL_1nHxlKR9SVRpGDt-dx1OhQgrkh5h5FfV-bo-DtCbHbPNq61E4AAKknBAMHVGGUGQhjffiPgNqspXGlTqjlMIovER5HMQSF-C7qIPGDTH3-SG4dE9sC2q70M04uWle2QOsOw=w2400"></p>
+
+<p align="center"><img  src="https://lh3.googleusercontent.com/e9BAF8x4psILmn652KnqITIA_XdcxqAZf7SpxVXHrLU5r-PIwK-nWVj-zv8FNQeyBLHbm4nYUVznBRNra0G-JCKdACZ0l8abcc2BcZbhzK0az7Z6ZjraCRpwd7zfPPdNMANBqxunAg=w2400"></p>
 
 <p align="center"><img  src="https://lh3.googleusercontent.com/t55Oq4K9wOwT7WM_jPWlFoERbonMWNNGeXHHqq7sTh7Mkd6t4YLAvV9rODTsBIJvCC1n7e1Cf8IcBl6rodWvuq6pVteklGCLroxgCl7TPyjt0rXWIjHgkWeH6yGvQ_Fu90hrhk0zww=w2400"></p>
 

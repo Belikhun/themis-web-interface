@@ -2,7 +2,7 @@
 ? |-----------------------------------------------------------------------------------------------|
 ? |  /data/css/input.css                                                                          |
 ? |                                                                                               |
-? |  Copyright (c) 2019 Belikhun. All right reserved                                              |
+? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
 ? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 ? |-----------------------------------------------------------------------------------------------|
 */
@@ -16,8 +16,8 @@
 .formgroup .formfield {
     width: 100%;
     border: 0;
-    border-bottom: 1px solid rgba(131, 131, 131, 0.4);
-    outline: 0;
+    border-bottom: 1px solid rgba(130, 130, 130, 0.4);
+    outline: none;
     font-family: "Calibri", "Segoe UI", sans-serif;
     font-size: 14px;
     color: #cecece;
@@ -61,7 +61,7 @@
 }
 
 .formgroup .formfield:disabled {
-    color: rgb(172, 172, 172)!important;
+    color: rgb(172, 172, 172);
     cursor: not-allowed;
 }
 
@@ -73,11 +73,11 @@
 }
 
 .formgroup.dark label,
-.formgroup.dark .formfield:focus~.formlabel {
+.formgroup.dark .formfield:focus ~ .formlabel {
     color: #b1b3b8;
 }
 
-.formgroup.dark .formfield:focus~.formlabel {
+.formgroup.dark .formfield:focus ~ .formlabel {
     color: #5f5f62;
 }
 
@@ -88,16 +88,16 @@
 /* Blue */
 
 .formgroup.blue .formfield {
-    border-bottom: 1px solid rgba(39, 39, 39, 0.4);
+    border-bottom: 1px solid rgba(130, 130, 130, 0.4);
     color: #424242;
 }
 
 .formgroup.blue label,
-.formgroup.blue .formfield:focus~.formlabel {
+.formgroup.blue .formfield:focus ~ .formlabel {
     color: #8b8b8b;
 }
 
-.formgroup.blue .formfield:focus~.formlabel {
+.formgroup.blue .formfield:focus ~ .formlabel {
     color: #4285f4;
 }
 
@@ -108,16 +108,16 @@
 /* Purple */
 
 .formgroup.purple .formfield {
-    border-bottom: 1px solid rgba(39, 39, 39, 0.4);
+    border-bottom: 1px solid rgba(130, 130, 130, 0.4);
     color: #424242;
 }
 
 .formgroup.purple label,
-.formgroup.purple .formfield:focus~.formlabel {
+.formgroup.purple .formfield:focus ~ .formlabel {
     color: #b1b3b8;
 }
 
-.formgroup.purple .formfield:focus~.formlabel {
+.formgroup.purple .formfield:focus ~ .formlabel {
     color: #512da8;
 }
 

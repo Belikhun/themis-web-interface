@@ -1,7 +1,7 @@
 //? |-----------------------------------------------------------------------------------------------|
 //? |  /data/js/login.js                                                                            |
 //? |                                                                                               |
-//? |  Copyright (c) 2019 Belikhun. All right reserved                                              |
+//? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
@@ -24,15 +24,17 @@ login = {
         profile: $("#form_profile")
     },
 
-    init: function () {
-        this.form.username.submit.addEventListener("click", e => {this.checkusername()}, false);
-        this.form.username.input.addEventListener("keyup", event => {
-            if (event.keyCode == 13 || event.keyCode == 9) {
-                login.checkusername();
+    init() {
+        this.form.username.submit.addEventListener("click", () => {this.checkUsername()}, false);
+        this.form.username.input.addEventListener("keyup", e => {
+            if (e.keyCode === 13 || e.keyCode === 9) {
+                e.preventDefault();
+                this.checkUsername();
             }
         });
-        this.form.container.addEventListener("submit", e => {this.submit()}, false);
-        this.form.profile.addEventListener("click", e => {this.reset(false)}, false);
+
+        this.form.container.addEventListener("submit", () => {this.submit()}, false);
+        this.form.profile.addEventListener("click", () => {this.reset(false)}, false);
         this.form.username.input.disabled = false;
         this.form.username.submit.disabled = false;
         this.form.username.input.focus();
@@ -52,7 +54,7 @@ login = {
             }, data => {
                 window.location.href = data.redirect;
             }, data => {
-                if (data.code == 14)
+                if (data.code === 14)
                     this.reset(true);
                 else
                     this.reset(false);
@@ -61,21 +63,22 @@ login = {
         }, 500);
     },
 
-    checkusername() {
+    checkUsername() {
         var val = this.form.username.input.value;
-        if (val == "" || val == null) {
+        if (val === "" || val === null) {
             login.form.username.input.focus();
             return false;
         }
+
         this.form.username.input.disabled = true;
         this.form.username.submit.disabled = true;
-        this.form.password.avatar.onload = e => {
-            this.showpassinp(val);
+        this.form.password.avatar.onload = () => {
+            this.showPassInp(val);
         };
         this.form.password.avatar.src = "/api/avt/get?u=" + val;
     },
 
-    showpassinp(username) {
+    showPassInp(username) {
         this.form.username.container.classList.add("hide");
         this.form.password.user.innerText = username;
         this.form.password.input.disabled = false;
@@ -85,12 +88,12 @@ login = {
         }, 400);
     },
 
-    reset(keepusername = false) {
+    reset(keepUsername = false) {
         this.form.username.message.innerText = "";
         this.form.username.input.disabled = false;
         this.form.username.submit.disabled = false;
         this.form.password.input.value = "";
-        if (!keepusername) {
+        if (!keepUsername) {
             this.form.username.input.value = "";
             this.form.username.container.classList.remove("hide");
             this.form.password.avatar.src = "";

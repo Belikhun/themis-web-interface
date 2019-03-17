@@ -1,0 +1,397 @@
+body.dark a {
+    color: #19c8a5;
+}
+
+body.dark t {
+    color: rgb(212, 212, 212);
+}
+
+body.dark .formgroup.blue .formfield {
+    color: rgb(204, 204, 204);
+}
+
+body.dark #container {
+    background-color: rgb(42, 42, 42);
+}
+
+/* Navigation Bar */
+
+body.dark .nav {
+    background-color: rgb(56, 56, 56);
+}
+
+body.dark .nav .rnav .info .name,
+body.dark .nav .lnav .title .main {
+    color: rgb(218, 218, 218);
+}
+
+body.dark .nav .rnav .info .tag,
+body.dark .nav .lnav .title .sub {
+    color: rgb(182, 182, 182);
+}
+
+body.dark .nav .rnav .icon-menu span {
+    background-color: rgb(216, 216, 216);
+}
+
+/* Panel */
+
+body.dark panel .head {
+    background-color: rgb(56, 56, 56);
+    border-bottom-color: rgb(78, 78, 78);
+}
+
+body.dark panel .head .le {
+    color: rgb(216, 216, 216);
+}
+
+body.dark panel .head .ri i {
+    color: rgba(218, 218, 218, 0.54);
+}
+
+body.dark panel .head .ri i:hover {
+    color: rgba(218, 218, 218, 0.82);
+}
+
+body.dark panel .main {
+    background-color: rgb(65, 65, 65);
+}
+
+/* File Upload Panel */
+
+body.dark .fileupload-container #file_dropzone {
+    border-color: rgb(124, 124, 124);
+    color: rgb(124, 124, 124);
+}
+
+body.dark .fileupload-container #file_dropzone.drag {
+    background-color: rgb(98, 98, 98);
+    border-color: rgb(156, 156, 156);
+    color: rgb(156, 156, 156);
+}
+
+body.dark .fileupload-container #file_dropzone .title {
+    color: rgb(180, 180, 180);
+}
+
+body.dark .fileupload-container #file_dropzone .sub {
+    color: rgb(160, 160, 160);
+}
+
+body.dark .fileupload-container .info #file_upstate {
+    color: rgb(214, 214, 214);
+}
+
+body.dark .fileupload-container .info #file_name {
+    color: rgb(160, 160, 160);
+}
+
+body.dark .fileupload-container .info .bar {
+    background-color: rgba(204, 204, 204, 0.2);
+}
+
+body.dark .fileupload-container .info .bar #file_bar {
+    background-color: #21c2a2;
+}
+
+body.dark .fileupload-container .info .bar #file_bar.red {
+    background-color: #df3725;
+}
+
+body.dark .fileupload-container .info .bar #file_perc,
+body.dark .fileupload-container .info .bar #file_size {
+    color: rgba(200, 200, 200, 0.7);
+}
+
+/* Problems Panel */
+
+body.dark .problem-container .problem-list li.item {
+    border-bottom-color: rgb(88, 88, 88);
+}
+
+body.dark .problem-container .problem-list li.item .title .name {
+    color: rgb(214, 214, 214);
+}
+
+body.dark .problem-container .problem-list li.item .title .point {
+    background-color: #269555;
+}
+
+body.dark .problem-container .problem .name {
+    color: rgb(216, 216, 216);
+}
+
+body.dark .problem-container .problem .point {
+    color: #29db73;
+}
+
+body.dark .problem-container .problem table {
+    color: rgb(200, 200, 200);
+}
+
+body.dark .problem-container .problem table tr td {
+    border-bottom-color: rgb(112, 112, 112);
+}
+
+/* Time Panel */
+
+body.dark .time-container #time_state {
+    color: rgb(195, 195, 195);
+}
+
+body.dark .time-container #time_time {
+    color: rgb(226, 226, 226);
+}
+
+body.dark .time-container .bar {
+    background-color: rgba(214, 214, 214, 0.2);
+}
+
+body.dark .time-container .bar #time_start,
+body.dark .time-container .bar #time_end {
+    color: rgba(206, 206, 206, 0.7);
+}
+
+body.dark .time-container .bar #time_bar {
+    background-color: #3186be;
+}
+
+body.dark .time-container #time_time.red {
+    color: #ff6f5f;
+}
+
+body.dark .time-container #time_time.green {
+    color: #42ff91;
+}
+
+body.dark .time-container #time_time.red + .bar #time_bar {
+    background-color: #e03e2c;
+}
+
+/* Rank Panel */
+
+body.dark #rankp div.ranking-container table tr th {
+    color: rgb(202, 202, 202);
+    border-bottom-color: rgb(88, 88, 88);
+}
+
+body.dark #rankp div.ranking-container table tr th:nth-child(1),
+body.dark #rankp div.ranking-container table tr td:nth-child(1) {
+    color: rgb(184, 184, 184);
+}
+
+body.dark #rankp div.ranking-container table tr td.number {
+    color: rgb(195, 195, 195);
+}
+
+body.dark #rankp div.ranking-container table tr td.number.link {
+    color: #23dab5;
+}
+
+body.dark #rankp div.ranking-container table tr td.number.link:hover {
+    background-color: rgba(204, 204, 204, 0.05);
+}
+
+body.dark #rankp div.ranking-container table tr td:nth-child(3) {
+    color: #6099fb;
+}
+
+body.dark #rankp div.ranking-container table tr:nth-child(3) td:nth-child(2) .name {
+    background-color: #2b9959;
+}
+
+/* Log Panel */
+
+body.dark #logp div.main ul.log-item-container .log-item .h {
+    border-bottom-color: rgb(88, 88, 88);
+}
+
+body.dark #logp div.main ul.log-item-container .log-item .h .l .t {
+    color: rgba(216, 216, 216, 0.7);
+}
+
+body.dark #logp div.main ul.log-item-container .log-item .h .r {
+    color: rgb(230, 230, 230);
+}
+
+body.dark #logp div.main ul.log-item-container .log-item .d {
+    background-color: rgb(58, 58, 58);
+    color: #aaaaaa;
+}
+
+body.dark #logp div.main ul.log-item-container .log-item .d:hover {
+    color: #d6d6d6;
+}
+
+body.dark #logp div.main ul.log-item-container .log-item.queue .h .l .n {
+    color: #bc74db;
+}
+
+/* ViewLog Panel */
+
+body.dark .viewlog-container li {
+    border-left-color: rgba(204, 204, 204, 0.3);
+    color: rgb(184, 184, 184);
+}
+
+body.dark .viewlog-container li::before {
+    color: rgb(104, 104, 104);
+}
+
+body.dark .viewlog-container li:hover::before {
+    color: #2f93d6;
+}
+
+/* UserSettings */
+
+body.dark #user_settings .sub .panel .container {
+    background-color: rgba(56, 56, 56, 0.8);
+}
+
+body.dark #user_settings .sub .panel .container .btn-group {
+    background-color: rgba(56, 56, 56, 0.8);
+}
+
+body.dark #user_settings .sub .panel .container .btn-group:hover {
+    background-color: rgb(56, 56, 56);
+}
+
+body.dark #user_settings .sub .panel .container .btn-group span::before {
+    color: rgb(192, 192, 192);
+}
+
+body.dark #user_settings .sub .panel .container .btn-group span:hover {
+    background-color: rgba(41, 140, 206, 0.2);
+}
+
+body.dark #user_settings .sub .panel .container .btn-group span:hover::before {
+    color: #2c95db;
+}
+
+body.dark #user_settings .sub .panel .container .btn-group .close:hover {
+    background-color: rgba(255, 84, 66, 0.2);
+}
+
+body.dark #user_settings .sub .panel .container .btn-group .close:hover::before {
+    color: #fb6c5c;
+}
+
+body.dark #user_settings .main .container .group .item .info .right {
+    color: rgb(168, 168, 168);
+}
+
+/* Problems Editor */
+
+body.dark .problem-settings .problem-header {
+    background-color: rgb(56, 56, 56);
+}
+
+body.dark .problem-settings .problem-header div span::before {
+    color: rgba(190, 190, 190, 0.54);
+}
+
+body.dark .problem-settings .problem-container .problem-list li.item:hover {
+    background-color: rgba(36, 36, 36, 0.4);
+}
+
+body.dark .problem-settings .problem-container .problem-list li.item .title .id {
+    color: rgb(160, 160, 160);
+}
+
+body.dark .problem-settings .problem-container .problem .test-container .test-list .cell textarea {
+    color: rgb(204, 204, 204);
+}
+
+body.dark .problem-settings .problem-container .problem .test-container .test-add:hover {
+    background-color: rgba(202, 202, 202, 0.1);
+}
+
+body.dark .problem-settings .problem-container .problem .test-container .test-add:hover::after {
+    color: rgb(204, 204, 204);
+}
+
+/* SysLogs */
+
+body.dark .syslogs-settings .log {
+    background-color: transparent;
+}
+
+body.dark .syslogs-settings .log .level {
+    background-color: rgba(65, 65, 65, 0.8);
+    color: rgb(218, 218, 218);
+}
+
+body.dark .syslogs-settings .log .detail {
+    border-left: 2px solid rgb(104, 104, 104);
+}
+
+body.dark .syslogs-settings .log .detail .top t {
+    color: rgb(155, 155, 155);
+}
+
+body.dark .syslogs-settings .log .detail .top .client {
+    color: rgb(184, 184, 184);
+}
+
+body.dark .syslogs-settings .log .detail .top .client::before {
+    color: rgb(155, 155, 155);
+}
+
+body.dark .syslogs-settings .log .detail .text {
+    color: rgb(228, 228, 228);
+}
+
+body.dark .syslogs-settings .log.okay .detail {
+    border-left-color: rgb(14, 194, 26);
+}
+
+body.dark .syslogs-settings .log.okay .level {
+    color: rgb(15, 228, 30);
+}
+
+body.dark .syslogs-settings .log.warn .detail {
+    border-left-color: rgb(194, 194, 16);
+}
+
+body.dark .syslogs-settings .log.warn .level {
+    color: rgb(224, 224, 20);
+}
+
+body.dark .syslogs-settings .log.errr .detail {
+    border-left-color: rgb(241, 80, 80);
+}
+
+body.dark .syslogs-settings .log.errr .level {
+    color: rgb(248, 154, 154);
+}
+
+body.dark .syslogs-settings .log.verb .detail {
+    border-left-color: rgb(196, 110, 236);
+}
+
+body.dark .syslogs-settings .log.verb .level {
+    color: rgb(217, 153, 246);
+}
+
+/* Footer */
+
+body.dark footer .header .title {
+    color: #3498db;
+}
+
+body.dark footer .header .version {
+    color: rgb(204, 204, 204);
+}
+
+body.dark footer .header .subtitle {
+    color: rgb(170, 170, 170);
+}
+
+body.dark footer .contact li {
+    color: rgb(228, 228, 228);
+}
+
+body.dark footer ul.contact .email::before,
+body.dark footer ul.contact .github::before {
+    color: rgb(180, 180, 180);
+}

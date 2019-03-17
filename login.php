@@ -2,7 +2,7 @@
     //? |-----------------------------------------------------------------------------------------------|
     //? |  login.php                                                                                    |
     //? |                                                                                               |
-    //? |  Copyright (c) 2019 Belikhun. All right reserved                                              |
+    //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
@@ -38,7 +38,7 @@
         <div class="left-panel">
             <div class="wallpaper"></div>
             <ul class="footer">
-                <li class="title text-overflow">Chương trình chấm điểm <a href="https://dsapblog.wordpress.com/">Themis</a></li>
+                <li class="title text-overflow">Chương trình chấm điểm <a href="https://dsapblog.wordpress.com/" target="_blank" rel="noopener">Themis</a></li>
                 <li class="sub text-overflow">Copyright © Lê Minh Hoàng & Đỗ Đức Đông</li>
                 <li class="sub2 text-overflow">background image by Belikhun.</li>
             </ul>
@@ -87,7 +87,7 @@
                 <t id="form_message"></t>
             </div>
             <div class="footer">
-                Copyright © 2019 Belikhun. This project is licensed under the MIT License
+                Copyright © 2018-2019 Belikhun. This project is licensed under the MIT License
             </div>
         </div>
 

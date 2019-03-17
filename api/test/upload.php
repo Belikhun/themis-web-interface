@@ -2,7 +2,7 @@
     //? |-----------------------------------------------------------------------------------------------|
     //? |  /api/test/upload.php                                                                         |
     //? |                                                                                               |
-    //? |  Copyright (c) 2019 Belikhun. All right reserved                                              |
+    //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
@@ -10,6 +10,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logs.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
 
 	function parsename(string $path) {
@@ -30,14 +31,13 @@
 
     checktoken();
 
-    if ($config["submit"] == false)
+    if ($config["submit"] === false)
         stop(22, "Nộp bài đã bị tắt!", 403);
 
     if (!isset($_FILES["file"]))
         stop(41, "Chưa chọn tệp!", 400);
 
-    contest_timecheck();
-    require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";
+    contest_timeRequire([CONTEST_STARTED, CONTEST_NOTENDED], false);
 
     $maxfilesize = 10*1024*1024;
     $username = $_SESSION["username"];
@@ -46,13 +46,19 @@
 
     $file = strtolower($_FILES["file"]["name"]);
     $filename = pathinfo($file, PATHINFO_FILENAME);
-    if (!problem_exist($filename))
-        stop(44, "Không có đề cho bài này!", 404, $filename);
-
     $acceptext = Array("pas", "cpp", "c", "pp", "exe", "class", "py", "java");
     $extension = pathinfo($file, PATHINFO_EXTENSION);
 
-    if (!in_array($extension, $acceptext) or !problem_checkext($filename, $extension))
+    if ($config["submitinproblems"] === true) {
+        require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";
+        if (!problem_exist($filename))
+            stop(44, "Không có đề cho bài này!", 404, $filename);
+
+        if (!problem_checkext($filename, $extension))
+            stop(43, "Không chấp nhận tệp!", 415);
+    }
+
+    if (!in_array($extension, $acceptext))
         stop(43, "Không chấp nhận tệp!", 415);
 
     if (($_FILES["file"]["size"] > $maxfilesize))
@@ -65,5 +71,6 @@
         stop(-1, "Lỗi không rõ.", 500);
 
     move_uploaded_file($_FILES["file"]["tmp_name"], $config["uploaddir"] ."/". $userid ."[". $username ."][". $filename ."].". $extension);
+    writeLog("INFO", "Đã tải lên \"$file\"");
     stop(0, "Nộp bài thành công.", 200);
 ?>

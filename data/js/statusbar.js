@@ -1,7 +1,7 @@
 //? |-----------------------------------------------------------------------------------------------|
 //? |  /data/js/statusbar.js                                                                        |
 //? |                                                                                               |
-//? |  Copyright (c) 2019 Belikhun. All right reserved                                              |
+//? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
@@ -36,7 +36,7 @@ class statusbar {
         this.__hidetimeout = null;
     }
 
-    __checksize(e) {
+    __checksize() {
         const bw = this.bar.offsetWidth;
         const lw = this.left.offsetWidth;
         const cw = this.center.offsetWidth;
@@ -49,9 +49,9 @@ class statusbar {
     }
 
     __icon(elem, icon) {
-        const iconlist = ["globe", "circle", "hub", "cloud", "block", "key", "desktop", "account", "server", "warning", "error", "info"];
+        const iconlist = ["globe", "circle", "hub", "cloud", "block", "key", "desktop", "account", "server", "warning", "error", "info", "spinner"];
         
-        if (iconlist.indexOf(icon) != -1)
+        if (iconlist.indexOf(icon) !== -1)
             elem.classList.add(`icon-${icon}`);
     }
 
@@ -72,11 +72,16 @@ class statusbar {
         if (!space)
             item.classList.add("no-space");
         
-        if (aliginlist.indexOf(aligin) != -1)
+        if (aliginlist.indexOf(aligin) !== -1)
             this[aligin].appendChild(item);
 
         return {
             __item: item,
+
+            remove() {
+                this.__item.parentElement.removeChild(this.__item);
+                return true;
+            },
 
             change(text) {
                 this.__item.title = text;
@@ -97,7 +102,7 @@ class statusbar {
         clearTimeout(this.__hidetimeout);
         this.bar.classList.remove(this.__lasttype);
         
-        if (type == false) {
+        if (type === false) {
             this.__checksize();
             this.bar.classList.remove("msg");
             return true;
@@ -105,13 +110,14 @@ class statusbar {
         
         this.center.innerHTML = "";
         type = type.toLowerCase();
-        const typelist = ["info", "okay", "warn", "errr", "crit"]
+        const typelist = ["info", "okay", "warn", "errr", "crit", "lcnt"]
+
         if (!lock)
-            this.__hidetimeout = setTimeout(e => {
+            this.__hidetimeout = setTimeout(() => {
                 this.msg(false);
             }, 6000);
 
-        if (typelist.indexOf(type) != -1) {
+        if (typelist.indexOf(type) !== -1) {
             this.__lasttype = type;
             this.bar.classList.add(type);
         }

@@ -1,16 +1,16 @@
-19:17:28|     0.0025|      LOG|   INFO| Log started at Sat Dec  1 19:17:28 2018
-19:17:28|     0.0066|     MAIN|   OKAY| Initialised: ehook
-19:17:28|     0.1945|     MAIN|   OKAY| Initialised: ajax.ajax
-19:17:28|     0.1965|     MAIN|   OKAY| Initialised: json
-19:17:41|    13.1795|     AJAX|   DEBG| Creating POST request with form:
-19:17:41|    13.1835|     AJAX|   DEBG|  u           : admin
-19:17:41|    13.1861|     AJAX|   DEBG|  p           : admin
-19:17:41|    13.1876|     AJAX|   INFO| Starting request: http://localhost/api/login
-19:17:41|    13.2084|     AJAX|   OKAY| POST http://localhost/api/login 200
-19:17:41|    13.2109|     MAIN|   OKAY| Logged in as admin
-19:17:41|    13.2134|     AJAX|   INFO| Starting request: http://localhost/api/test/logs
-19:17:41|    13.4833|     AJAX|   OKAY| GET http://localhost/api/test/logs 200
-19:17:41|    13.4866|     MAIN|   DEBG| 
+23:35:33|     0.0040|      LOG|   INFO| Log started at Tue Mar  5 23:35:33 2019
+23:35:33|     0.0090|     MAIN|   OKAY| Initialised: ehook
+23:35:34|     0.3994|     MAIN|   OKAY| Initialised: ajax.ajax
+23:35:34|     0.3994|     MAIN|   OKAY| Initialised: json
+23:35:44|    10.5462|     AJAX|   DEBG| Creating POST request with form:
+23:35:44|    10.5462|     AJAX|   DEBG|  u           : admin
+23:35:44|    10.5618|     AJAX|   DEBG|  p           : admin
+23:35:44|    10.5618|     AJAX|   INFO| Starting request: http://localhost/api/login
+23:35:44|    10.8055|     AJAX|   OKAY| POST http://localhost/api/login 200
+23:35:44|    10.8055|     MAIN|   OKAY| Logged in as admin
+23:35:44|    10.8211|     AJAX|   INFO| Starting request: http://localhost/api/test/logs
+23:35:44|    10.8368|     AJAX|   OKAY| GET http://localhost/api/test/logs 200
+23:35:44|    10.8368|     MAIN|   DEBG| 
 {
   "code": 0,
   "status": 200,
@@ -21,42 +21,70 @@
     "judging": [],
     "logs": [
       {
-        "name": "bai1.py",
-        "out": "0,00",
-        "lastmodify": "18/11/2018 22:30:42",
-        "lastmtime": 1542555042,
-        "url": "/api/test/viewlog?f=admin[admin][bai1].py.log"
+        "name": "aromatic.pas",
+        "out": "20,00",
+        "lastmodify": "03/12/2018 16:49:07",
+        "lastmtime": 1543830547,
+        "url": "/api/test/viewlog?f=admin[admin][aromatic].pas.log"
       },
       {
         "name": "bai2.pas",
-        "out": "\u2131 D\u1ecbch l\u1ed7i",
-        "lastmodify": "18/11/2018 22:41:37",
-        "lastmtime": 1542555697,
+        "out": "5,00",
+        "lastmodify": "23/01/2019 12:43:51",
+        "lastmtime": 1548222231,
         "url": "/api/test/viewlog?f=admin[admin][bai2].pas.log"
       },
       {
         "name": "bai3.pas",
-        "out": "\u2131 D\u1ecbch l\u1ed7i",
-        "lastmodify": "18/11/2018 22:41:39",
-        "lastmtime": 1542555699,
+        "out": "5,00",
+        "lastmodify": "23/01/2019 12:43:53",
+        "lastmtime": 1548222233,
         "url": "/api/test/viewlog?f=admin[admin][bai3].pas.log"
       },
       {
         "name": "bai4.pas",
-        "out": "\u2131 D\u1ecbch l\u1ed7i",
-        "lastmodify": "18/11/2018 22:41:40",
-        "lastmtime": 1542555700,
+        "out": "5,00",
+        "lastmodify": "23/01/2019 12:43:55",
+        "lastmtime": 1548222235,
         "url": "/api/test/viewlog?f=admin[admin][bai4].pas.log"
+      },
+      {
+        "name": "bridge.pas",
+        "out": "20,00",
+        "lastmodify": "03/12/2018 16:05:51",
+        "lastmtime": 1543827951,
+        "url": "/api/test/viewlog?f=admin[admin][bridge].pas.log"
+      },
+      {
+        "name": "bstone.pas",
+        "out": "20,00",
+        "lastmodify": "10/12/2018 15:43:45",
+        "lastmtime": 1544431425,
+        "url": "/api/test/viewlog?f=admin[admin][bstone].pas.log"
+      },
+      {
+        "name": "lecture.pas",
+        "out": "10,00",
+        "lastmodify": "12/12/2018 20:49:59",
+        "lastmtime": 1544622599,
+        "url": "/api/test/viewlog?f=admin[admin][lecture].pas.log"
+      },
+      {
+        "name": "sum.pas",
+        "out": "20,00",
+        "lastmodify": "03/12/2018 16:05:40",
+        "lastmtime": 1543827940,
+        "url": "/api/test/viewlog?f=admin[admin][sum].pas.log"
       }
     ]
   },
-  "runtime": 0.2583310604095459
+  "runtime": 0.006257057189941406
 }
-19:17:41|    13.4895|     AJAX|   DEBG| Creating GET request with query:
-19:17:41|    13.4910|     AJAX|   DEBG|  sessid      : eb200341481c3cc332545bcaa37123a0
-19:17:41|    13.4930|     AJAX|   INFO| Starting request: http://localhost/api/test/logs
-19:17:41|    13.5220|     AJAX|   OKAY| GET http://localhost/api/test/logs 200
-19:17:41|    13.5252|     MAIN|   DEBG| 
+23:35:44|    10.8368|     AJAX|   DEBG| Creating GET request with query:
+23:35:44|    10.8524|     AJAX|   DEBG|  sessid      : 20a4acda6118f621b9a27ed4e856940b
+23:35:44|    10.8524|     AJAX|   INFO| Starting request: http://localhost/api/test/logs
+23:35:44|    10.8836|     AJAX|   OKAY| GET http://localhost/api/test/logs 200
+23:35:44|    10.8836|     MAIN|   DEBG| 
 {
   "code": 0,
   "status": 200,
@@ -67,35 +95,63 @@
     "judging": [],
     "logs": [
       {
-        "name": "bai1.py",
-        "out": "0,00",
-        "lastmodify": "18/11/2018 22:30:42",
-        "lastmtime": 1542555042,
-        "url": "/api/test/viewlog?f=admin[admin][bai1].py.log"
+        "name": "aromatic.pas",
+        "out": "20,00",
+        "lastmodify": "03/12/2018 16:49:07",
+        "lastmtime": 1543830547,
+        "url": "/api/test/viewlog?f=admin[admin][aromatic].pas.log"
       },
       {
         "name": "bai2.pas",
-        "out": "\u2131 D\u1ecbch l\u1ed7i",
-        "lastmodify": "18/11/2018 22:41:37",
-        "lastmtime": 1542555697,
+        "out": "5,00",
+        "lastmodify": "23/01/2019 12:43:51",
+        "lastmtime": 1548222231,
         "url": "/api/test/viewlog?f=admin[admin][bai2].pas.log"
       },
       {
         "name": "bai3.pas",
-        "out": "\u2131 D\u1ecbch l\u1ed7i",
-        "lastmodify": "18/11/2018 22:41:39",
-        "lastmtime": 1542555699,
+        "out": "5,00",
+        "lastmodify": "23/01/2019 12:43:53",
+        "lastmtime": 1548222233,
         "url": "/api/test/viewlog?f=admin[admin][bai3].pas.log"
       },
       {
         "name": "bai4.pas",
-        "out": "\u2131 D\u1ecbch l\u1ed7i",
-        "lastmodify": "18/11/2018 22:41:40",
-        "lastmtime": 1542555700,
+        "out": "5,00",
+        "lastmodify": "23/01/2019 12:43:55",
+        "lastmtime": 1548222235,
         "url": "/api/test/viewlog?f=admin[admin][bai4].pas.log"
+      },
+      {
+        "name": "bridge.pas",
+        "out": "20,00",
+        "lastmodify": "03/12/2018 16:05:51",
+        "lastmtime": 1543827951,
+        "url": "/api/test/viewlog?f=admin[admin][bridge].pas.log"
+      },
+      {
+        "name": "bstone.pas",
+        "out": "20,00",
+        "lastmodify": "10/12/2018 15:43:45",
+        "lastmtime": 1544431425,
+        "url": "/api/test/viewlog?f=admin[admin][bstone].pas.log"
+      },
+      {
+        "name": "lecture.pas",
+        "out": "10,00",
+        "lastmodify": "12/12/2018 20:49:59",
+        "lastmtime": 1544622599,
+        "url": "/api/test/viewlog?f=admin[admin][lecture].pas.log"
+      },
+      {
+        "name": "sum.pas",
+        "out": "20,00",
+        "lastmodify": "03/12/2018 16:05:40",
+        "lastmtime": 1543827940,
+        "url": "/api/test/viewlog?f=admin[admin][sum].pas.log"
       }
     ]
   },
-  "runtime": 0.0036170482635498047
+  "runtime": 0.004964113235473633
 }
-19:17:41|    13.5288|      LOG|   INFO| Log ended.
+23:35:44|    10.8836|      LOG|   INFO| Log ended.

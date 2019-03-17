@@ -2,7 +2,7 @@
     //? |-----------------------------------------------------------------------------------------------|
     //? |  /api/test/logs.php                                                                           |
     //? |                                                                                               |
-    //? |  Copyright (c) 2019 Belikhun. All right reserved                                              |
+    //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
@@ -82,7 +82,7 @@
 
 		$url = null;
 
-		if ($config["viewlog"] == true)
+		if ($config["viewlog"] === true)
 			$url = "/api/test/viewlog?f=" . basename($log);
 
 		if (strpos(strtolower($log), ".log") > 0) {
@@ -95,11 +95,11 @@
 				if ($item["filename"] === $name["filename"] && file_exists($log) && (int)$item["lastmtime"] < (int)filemtime($log))
 					unset($judging[$i]);
 
-			if ($config["publish"] == true) {
+			if ($config["publish"] === true) {
 				$out = str_replace(PHP_EOL, "", fgets($flog));
 				$out = substr($out, strlen($username) + strlen($name["filename"]) + 8);
 				preg_match("/[0-9]{1,},[0-9]{1,}/", $out, $t);
-				if (count($t) != 0 && isset($t[count($t) - 1]))
+				if (count($t) !== 0 && isset($t[count($t) - 1]))
 					$out = $t[count($t) - 1];
 			}
 			fclose($flog);

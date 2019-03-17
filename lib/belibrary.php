@@ -2,11 +2,11 @@
     //? |-----------------------------------------------------------------------------------------------|
     //? |  /lib/belibrary.php                                                                           |
     //? |                                                                                               |
-    //? |  Copyright (c) 2019 Belikhun. All right reserved                                              |
+    //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
-
-    if (session_status() == PHP_SESSION_NONE) {
+    
+    if (session_status() === PHP_SESSION_NONE) {
         if (isset($_POST["sessid"]))
             session_id($_POST["sessid"]);
         elseif (isset($_GET["sessid"]))
@@ -19,7 +19,7 @@
         $_SESSION["username"] = null;
 
     function islogedin() {
-        if (session_status() != PHP_SESSION_NONE && (isset($_SESSION["username"]) || $_SESSION["username"] != null))
+        if (session_status() !== PHP_SESSION_NONE && (isset($_SESSION["username"]) || $_SESSION["username"] !== null))
             return true;
         else
             return false;
@@ -82,7 +82,7 @@
      * @return bool true nếu thành công.
      * 
      */
-    function contenttype(string $ext) {
+    function contentType(string $ext) {
         $mimet = Array(
             "txt" => "text/plain",
             "htm" => "text/html",
@@ -150,7 +150,7 @@
             return null;
     }
 
-    function stop($c = null, $d = null, $sc = 200, $b = array()) {
+    function stop($c = 0, string $d = "", $sc = 200, $b = Array()) {
         global $runtime;
 
         $out = Array(
@@ -159,13 +159,13 @@
             "description" => $d,
             "user" => $_SESSION["username"],
             "data" => $b,
-            "runtime" => $runtime->stop()
+            "runtime" => $runtime -> stop()
         );
 
         http_response_code($sc);
 
         header("Content-Type: application/json", true);
-        echo(json_encode($out));
+        print(json_encode($out));
 
         die();
     }
@@ -226,11 +226,12 @@
         public $stream;
         public $path;
 
-        public function __construct(string $path) {
+        public function __construct(string $path, string $defaultData = "") {
             $this -> path = $path;
+
             if (!file_exists($path)) {
                 $this -> fos($path, "x");
-                $this -> write();
+                $this -> write($defaultData);
             }
         }
 
@@ -252,9 +253,11 @@
 
         public function read() {
             $this -> fos($this -> path, "r");
+
             if (filesize($this -> path) > 0)
                 $data = fread($this -> stream, filesize($this -> path));
             else $data = null;
+
             $this -> fcs();
             return $data;
         }

@@ -2,7 +2,7 @@
 ? |-----------------------------------------------------------------------------------------------|
 ? |  /data/css/error.css                                                                          |
 ? |                                                                                               |
-? |  Copyright (c) 2019 Belikhun. All right reserved                                              |
+? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
 ? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 ? |-----------------------------------------------------------------------------------------------|
 */
@@ -17,8 +17,8 @@ body {
 
 .background {
     position: fixed;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     background-image: url("/data/img/error-bg.webp");
@@ -30,72 +30,73 @@ body {
 }
 
 .main-container {
-    position: fixed;
-    top: 0px;
-    left: 0px;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: calc(100% - 50px);
     word-wrap: break-word;
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
-.main-container p.code {
+.main-container p {
     position: relative;
     font-family: "Segoe UI";
+    text-align: center;
+    padding: unset;
+    margin: unset;
+}
+
+.main-container .code {
     font-size: 70px;
     font-weight: lighter;
     color: rgb(255, 255, 255);
-    text-align: center;
     margin: 60px 0 0 0;
 }
 
-.main-container p.code font.protocol {
+.main-container .code .protocol {
     font-family: Calibri;
     font-size: 18px;
     font-weight: 100;
     color: rgb(30, 202, 233);
 }
 
-.main-container p.name {
-    font-family: "Segoe UI";
+.main-container .name {
+    display: block;
     font-size: 32px;
     font-weight: 600;
     color: rgb(228, 228, 228);
-    text-align: center;
-    position: relative;
-    display: block;
-    margin: auto;
-    margin: 0 0 20px 0;
 }
 
-.main-container p.desc {
+.main-container .desc {
     font-family: "Segoe UI";
-    font-size: 16px;
+    font-size: 17px;
     font-weight: normal;
-    color: rgb(204, 204, 204);
-    text-align: center;
-    position: relative;
-    display: block;
-    margin: auto;
-    width: 80%;
-    padding: unset;
+    color: rgb(228, 228, 228);
+    margin-top: 10px;
+    padding: 0 10px;
 }
 
-.main-container p.info {
+.main-container .detail {
+    font-family: "Segoe UI";
+    font-size: 15px;
+    font-weight: normal;
+    text-decoration: underline;
+    color: rgb(204, 204, 204);
+    margin-top: 6px;
+    padding: 0 10px;
+}
+
+.main-container .info {
     font-family: Calibri;
     font-size: 14px;
     font-weight: lighter;
     color: rgb(182, 182, 182);
-    text-align: center;
-    position: relative;
-    display: block;
-    margin: auto;
-    width: 80%;
-    padding-top: 10px;
-    padding-bottom: 30px;
+    margin-top: 20px;
 }
 
-.main-container button.sq-btn {
+.main-container .sq-btn {
     position: relative;
     margin: auto;
     margin-top: 10px;
@@ -104,7 +105,7 @@ body {
 
 .footer {
     position: absolute;
-    bottom: 0px;
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%);
     height: 50px;
@@ -115,7 +116,7 @@ body {
     justify-content: center;
 }
 
-.footer img.icon {
+.footer .icon {
     position: relative;
     border-radius: 50%;
     height: 80%;
@@ -140,7 +141,7 @@ body {
     }
 
     .footer {
-        left: 0px;
+        left: 0;
         transform: translateX(0);
         width: 100%;
         padding: unset;
