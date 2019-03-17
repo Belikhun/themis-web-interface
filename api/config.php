@@ -94,6 +94,7 @@
     setting("time_offset", $config["time"]["offset"], $TYPE_NUMBER);
     setting("publish", $config["publish"], $TYPE_BOOL);
     setting("submit", $config["submit"], $TYPE_BOOL);
+    setting("submitinproblems", $config["submitinproblems"], $TYPE_BOOL);
     setting("editinfo", $config["editinfo"], $TYPE_BOOL);
     setting("viewlog", $config["viewlog"], $TYPE_BOOL);
     setting("viewlogother", $config["viewlogother"], $TYPE_BOOL);

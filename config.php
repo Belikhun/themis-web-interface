@@ -124,6 +124,13 @@
                     </label>
                 </div>
                 <div class="item lr sound" data-soundhoversoft>
+                    <t class="left">Các bài nộp lên phải có trong danh sách đề</t>
+                    <label class="sq-checkbox right">
+                        <input id="submitInProblems" type="checkbox" class="sound" data-soundcheck>
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="item lr sound" data-soundhoversoft>
                     <t class="left">Cho phép thay đổi thông tin</t>
                     <label class="sq-checkbox right">
                         <input id="editinfo" type="checkbox" class="sound" data-soundcheck>

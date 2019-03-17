@@ -38,7 +38,6 @@
         stop(41, "Chưa chọn tệp!", 400);
 
     contest_timeRequire([CONTEST_STARTED, CONTEST_NOTENDED], false);
-    require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";
 
     $maxfilesize = 10*1024*1024;
     $username = $_SESSION["username"];
@@ -47,13 +46,19 @@
 
     $file = strtolower($_FILES["file"]["name"]);
     $filename = pathinfo($file, PATHINFO_FILENAME);
-    if (!problem_exist($filename))
-        stop(44, "Không có đề cho bài này!", 404, $filename);
-
     $acceptext = Array("pas", "cpp", "c", "pp", "exe", "class", "py", "java");
     $extension = pathinfo($file, PATHINFO_EXTENSION);
 
-    if (!in_array($extension, $acceptext) or !problem_checkext($filename, $extension))
+    if ($config["submitinproblems"] === true) {
+        require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";
+        if (!problem_exist($filename))
+            stop(44, "Không có đề cho bài này!", 404, $filename);
+
+        if (!problem_checkext($filename, $extension))
+            stop(43, "Không chấp nhận tệp!", 415);
+    }
+
+    if (!in_array($extension, $acceptext))
         stop(43, "Không chấp nhận tệp!", 415);
 
     if (($_FILES["file"]["size"] > $maxfilesize))

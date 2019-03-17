@@ -19,6 +19,7 @@
     },
     "publish": true,
     "submit": true,
+    "submitinproblems": true,
     "editinfo": true,
     "viewlog": true,
     "viewlogother": true,

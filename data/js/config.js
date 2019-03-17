@@ -19,9 +19,10 @@ var time = {
 }
 var publish = $("#publish");
 var submit = $("#submit");
+var submitInProblems = $("#submitInProblems");
 var editinfo = $("#editinfo");
 var viewlog = $("#viewlog");
-var viewlogother = $("#viewlog-other");
+var viewLogOther = $("#viewlog-other");
 var ratelimit = {
     maxrequest: $("#ratelimit-maxrequest"),
     time: $("#ratelimit-time"),
@@ -81,9 +82,10 @@ function update() {
         time.offset.value = data.time.offset;
         publish.checked = data.publish;
         submit.checked = data.submit;
+        submitInProblems.checked = data.submitinproblems;
         editinfo.checked = data.editinfo;
         viewlog.checked = data.viewlog;
-        viewlogother.checked = data.viewlogother;
+        viewLogOther.checked = data.viewlogother;
         ratelimit.maxrequest.value = data.ratelimit.maxrequest;
         ratelimit.time.value = data.ratelimit.time;
         ratelimit.bantime.value = data.ratelimit.bantime;
@@ -134,9 +136,10 @@ $("#form-container").addEventListener("submit", e => {
             "time.offset": time.offset.value,
             "publish": publish.checked,
             "submit": submit.checked,
+            "submitinproblems": submitInProblems.checked,
             "editinfo": editinfo.checked,
             "viewlog": viewlog.checked,
-            "viewlogother": viewlogother.checked,
+            "viewLogOther": viewLogOther.checked,
             "ratelimit.maxrequest": parseInt(ratelimit.maxrequest.value),
             "ratelimit.time": parseInt(ratelimit.time.value),
             "ratelimit.bantime": parseInt(ratelimit.bantime.value),
