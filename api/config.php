@@ -101,6 +101,9 @@
     setting("ratelimit_time", $config["ratelimit"]["time"], $TYPE_NUMBER);
     setting("ratelimit_bantime", $config["ratelimit"]["bantime"], $TYPE_NUMBER);
 
+    if ($config["publish"] === false)
+        $config["viewlog"] = false;
+
     if ($changed === false)
         stop(102, "Woah nothing happened.", 200);
 

@@ -44,7 +44,7 @@
 	function contest_timeRequire(array $req = Array(
 		CONTEST_STARTED,
 		CONTEST_NOTENDED
-	), $justReturn = true, $useDie = false) {
+	), $justReturn = true, $useDie = false, $resCode = 403) {
 		global $config;
 		$duringTime = $config["time"]["during"];
 		if ($duringTime <= 0)
@@ -66,7 +66,7 @@
 							return 103;
 
 						if ($useDie === true)
-							die();
+							http_response_code($resCode) && die();
 
 						stop(103, "Kì thi chưa bắt đầu.", 200);
 					}
@@ -78,7 +78,7 @@
 							return 104;
 
 						if ($useDie === true)
-							die();
+							http_response_code($resCode) && die();
 
 						stop(104, "Kì thi đã kết thúc!", 200);
 					}
@@ -90,7 +90,7 @@
 							return 105;
 
 						if ($useDie === true)
-							die();
+							http_response_code($resCode) && die();
 
 						stop(105, "Kì thi chưa kết thúc!", 200);
 					}

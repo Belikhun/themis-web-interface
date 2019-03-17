@@ -12,7 +12,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logs.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
 
-    contest_timeRequire([CONTEST_STARTED], false, true);
+    contest_timeRequire([CONTEST_STARTED], false, true, 403);
 
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";
     

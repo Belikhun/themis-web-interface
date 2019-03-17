@@ -215,6 +215,10 @@ body.dark #logp div.main ul.log-item-container li.log-item .d:hover {
     color: #d6d6d6;
 }
 
+body.dark #logp div.main ul.log-item-container li.log-item.queue .h .l .n {
+    color: #bc74db;
+}
+
 /* ViewLog Panel */
 
 body.dark .viewlog-container li {
