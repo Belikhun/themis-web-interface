@@ -468,6 +468,7 @@ core = {
                 return false;
 
             this.dropzone.classList.remove("hide");
+            this.input.value = "";
             this.panel.title = "Nộp bài";
             this.name.innerText = "null";
             this.state.innerText = "null";
@@ -568,6 +569,7 @@ core = {
                         });
 
                         this.uploading = false;
+                        this.input.value = "";
                         this.state.innerText = res.description;
                         this.panel.title = "Nộp bài - Đã dừng.";
                         this.bar.classList.add("red");
@@ -589,6 +591,7 @@ core = {
                     clog("info", "Upload Stopped.");
 
                     this.uploading = false;
+                    this.input.value = "";
                     this.state.innerText = res.description;
                     this.panel.title = "Nộp bài - Đã dừng.";
                     this.bar.classList.add("red");
