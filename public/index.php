@@ -162,7 +162,7 @@
                         <t class="file-name"><?php print $value["file"]; ?></t>
                         <t class="file-info">
                             Ngày sửa đổi: <?php print $value["lastmodify"]; ?>
-                            <span class="dot"></span>    
+                            <span class="dot"></span>
                             Kích cỡ: <?php print $value["size"]; ?>
                         </t>
                     </div>
