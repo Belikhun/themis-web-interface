@@ -832,29 +832,36 @@ core = {
                 case 1:
                     if (this.last === 0)
                         this.last = t;
+
+                    let p1 = ((t) / this.last) * 100;
+
                     this.time.classList.remove("red");
                     this.time.classList.remove("green");
                     this.time.innerText = parsetime(t).str;
-                    this.bar.style.width = ((t)/this.last)*100 + "%";
-                    this.start.innerText = parsetime(t).str;
+                    this.bar.style.width = p1 + "%";
+                    this.start.innerText = p1.toFixed(2) + "%";
                     this.end.innerText = parsetime(this.last).str;
                     this.state.innerText = "Bắt đầu kì thi sau";
                     break;
                 case 2:
+                    let p2 = (t / data.during) * 100;
+
                     this.time.classList.remove("red");
                     this.time.classList.add("green");
                     this.time.innerText = parsetime(t).str;
-                    this.bar.style.width = (t/data.during)*100 + "%";
-                    this.start.innerText = parsetime(t).str;
+                    this.bar.style.width = p2 + "%";
+                    this.start.innerText = p2.toFixed(2) + "%";
                     this.end.innerText = parsetime(data.during).str;
                     this.state.innerText = "Thời gian làm bài";
                     break;
                 case 3:
+                    let p3 = (t / data.offset) * 100;
+
                     this.time.classList.remove("green");
                     this.time.classList.add("red");
                     this.time.innerText = parsetime(t).str;
-                    this.bar.style.width = (t/data.offset)*100 + "%";
-                    this.start.innerText = parsetime(t).str;
+                    this.bar.style.width = p3 + "%";
+                    this.start.innerText = p3.toFixed(2) + "%";
                     this.end.innerText = parsetime(data.offset).str;
                     this.state.innerText = "Thời gian bù";
                     break;
@@ -863,7 +870,7 @@ core = {
                     this.time.classList.remove("red");
                     this.time.innerText = parsetime(t).str;
                     this.bar.style.width = "0%";
-                    this.start.innerText = parsetime(t).str;
+                    this.start.innerText = "---%";
                     this.end.innerText = "--:--";
                     this.state.innerText = "ĐÃ HẾT THỜI GIAN LÀM BÀI";
                     break;
