@@ -107,4 +107,4 @@ Toàn bộ **Document** đều có ở trong [Wiki:API](https://github.com/beliv
 
 ## Contributor
 
-Many thank to ```namkojj```, aka [Nam](https://www.facebook.com/profile.php?id=100008107446343) for helping me translating, hunting bug and testing this project.
+Many thanks to ```namkojj```, aka [Nam](https://www.facebook.com/profile.php?id=100008107446343) for helping me translating, hunting bugs and testing out this project.

@@ -28,7 +28,7 @@
 
         array_push($list, Array(
             "file" => basename($file),
-            "size" => convertsize(sizeof($file)),
+            "size" => convertsize(filesize($file)),
             "url" => $clientPath ."/". basename($file),
             "lastmodify" => date("d/m/Y H:i:s", filemtime($file))
         ));

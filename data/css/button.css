@@ -160,7 +160,7 @@
     display: block;
     width: 0;
     height: 0;
-    right: 0;
+    right: 5%;
     top: 100%;
     border-style: solid;
     border-width: 0 50px 100px 50px;
@@ -174,7 +174,7 @@
 }
 
 .sq-btn::after {
-    left: -40px;
+    left: -10%;
     border-color: transparent transparent rgb(41, 154, 190) transparent;
     transform: scale(0.8);
     animation-duration: 4.5s;
