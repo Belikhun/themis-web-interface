@@ -54,6 +54,18 @@ body {
     margin: unset;
 }
 
+.container div p sy {
+    position: relative;
+    display: inline;
+    color: rgb(235, 235, 47);
+}
+
+.container div p sg {
+    position: relative;
+    display: inline;
+    color: rgb(116, 236, 75);
+}
+
 .container .left {
     position: relative;
     display: flex;

@@ -36,61 +36,63 @@
 
         $errCode = $err["errcode"];
         http_response_code($errCode);
-        $errDetail = "<b>Lỗi[".$err["num"]."]:</b> <i>" . $err["str"] . "</i> tại <i>" . $err["file"] . "</i> dòng " . $err["line"];
+        $errDetail = "<b>Lỗi [".$err["num"]."]:</b> <sg><i>" . $err["str"] . "</i></sg> tại <i>" . $err["file"] . "</i> dòng " . $err["line"];
     }
 
     switch ($errCode) {
         case 200:
-            $name = "This is not a error";
-            $desc = "Who take you here?";
+            $error = "This is not a error";
+            $description = "Who take you here?";
             break;
         case 400:
-            $name = "Bad Request";
-            $desc = "The request cannot be fulfilled due to bad syntax.";
+            $error = "Bad Request";
+            $description = "The request cannot be fulfilled due to bad syntax.";
             break;
         case 401:
-            $name = "Unauthorized";
-            $desc = "Authentication is required and has failed or has not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.";
+            $error = "Unauthorized";
+            $description = "Authentication is required and has failed or has not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.";
             break;
         case 403:
-            $name = "Forbidden";
-            $desc = "Hey, Thats illegal! You are not allowed to access $sv_ip$uri. Or iS iT ?";
+            $error = "Forbidden";
+            $description = "Hey, Thats illegal! You are not allowed to access <sy>$sv_ip$uri</sy>";
+            $errDetail = "Or iS iT ?";
             break;
         case 404:
-            $name = "Not Found";
-            $desc = "Không thể tìm thấy $sv_ip$uri trên máy chủ.";
+            $error = "Not Found";
+            $description = "Không thể tìm thấy <sy>$sv_ip$uri</sy> trên máy chủ.";
+            $errDetail = "Thit page was wiped out because <sg>thanos</sg> snapped his fingers";
             break;
         case 405:
-            $name = "Method Not Allowed";
-            $desc = "A request method is not supposed for the requested resource.";
+            $error = "Method Not Allowed";
+            $description = "A request method is not supposed for the requested resource.";
             break;
         case 406:
-            $name = "Not Acceptable";
-            $desc = "The requested resource is capable of generating only content not acceptable according to the Accept headers sent in the request.";
+            $error = "Not Acceptable";
+            $description = "The requested resource is capable of generating only content not acceptable according to the Accept headers sent in the request.";
             break;
         case 408:
-            $name = "Request Timeout";
-            $desc = "The client did not produce a request within the time that the server was prepared to wait. The client MAY repeat the request without modifications at any later time.";
+            $error = "Request Timeout";
+            $description = "The client did not produce a request within the time that the server was prepared to wait. The client MAY repeat the request without modifications at any later time.";
             break;
         case 414:
-            $name = "URI Too Long";
-            $desc = "The URI provided was too long for the server to process.";
+            $error = "URI Too Long";
+            $description = "The URI provided was too long for the server to process.";
             break;
         case 500:
-            $name = "Internal Server Error";
-            $desc = "the server did an oopsie";
+            $error = "Internal Server Error";
+            $description = "the server did an oopsie";
             break;
         case 502:
-            $name = "Bad Gateway";
-            $desc = "The server received an invalid response while trying to carry out the request.";
+            $error = "Bad Gateway";
+            $description = "The server received an invalid response while trying to carry out the request.";
             break;
         default:
-            $name = "Sample Text";
-            $desc = "Much strangery page, Such magically error, wow";
+            $error = "Sample Text";
+            $description = "Much strangery page, Such magically error, wow";
             break;
     }
 
-    writeLog("WARN", "Got statuscode \"". $errCode ." ". $name ."\" when trying to access: ". $uri);
+    writeLog("WARN", "Got statuscode \"". $errCode ." ". $error ."\" when trying to access: ". $uri);
 ?>
 
 <!DOCTYPE html>
@@ -99,7 +101,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title><?php print $errCode ." ". $name; ?></title>
+    <title><?php print $errCode ." ". $error; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/error.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/scrollbar.css" />
@@ -113,11 +115,11 @@
         <div class="left">
             <span class="protocol"><?php print $sv_pr; ?></span>
             <p class="code"><?php print $errCode; ?></p>
-            <p class="error"><?php print $name; ?></p>
+            <p class="error"><?php print $error; ?></p>
         </div>
 
         <div class="right">
-            <p class="description"><?php print $desc; ?></p>
+            <p class="description"><?php print $description; ?></p>
             <p class="detail"><?php print $errDetail; ?></p>
             <p class="info">
                 Client: <?php print $cl; ?><br>
