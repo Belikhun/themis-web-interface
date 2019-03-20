@@ -26,8 +26,6 @@
         "username" => null,
     );
 
-    print 1/0;
-
     if (islogedin()) {
         require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
         $loggedin = true;
