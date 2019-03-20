@@ -26,7 +26,7 @@
     elseif (isset($_GET["code"]))
         $errCode = trim($_GET["code"]);
     else
-        $errCode = null;
+        $errCode = 200;
     
     $errDetail = null;
 
@@ -109,23 +109,27 @@
 
 <body>
     <div class="background"></div>
-
-    <div class="main-container">
-
-        <p class="code">
+    <div class="container">
+        <div class="left">
             <span class="protocol"><?php print $sv_pr; ?></span>
-            <?php print $errCode; ?>
-        </p>
-        <p class="name"><?php print $name; ?></p>
-        <p class="desc"><?php print $desc; ?></p>
-        <p class="detail"><?php print $errDetail; ?></p>
-        <p class="info">
-            Client: <?php print $cl; ?><br>
-            Server: <?php print $sv . " PHP/" . phpversion(); ?><br>
-            Your IP: <?php print $cl_ip; ?><br>
-        </p>
+            <p class="code"><?php print $errCode; ?></p>
+            <p class="error"><?php print $name; ?></p>
+        </div>
 
-        <button class="sq-btn" onclick="location.href = '/'">Về Trang Chủ</button>
+        <div class="right">
+            <p class="description"><?php print $desc; ?></p>
+            <p class="detail"><?php print $errDetail; ?></p>
+            <p class="info">
+                Client: <?php print $cl; ?><br>
+                Server: <?php print $sv . " + PHP/" . phpversion(); ?><br>
+                Your IP: <?php print $cl_ip; ?><br>
+            </p>
+            <div class="button">
+                <a href="<?php print REPORT_ERROR; ?>" target="_blank" rel="noopener"><button class="sq-btn pink">Báo Lỗi</button></a>
+                <a href="/"><button class="sq-btn">Về Trang Chủ</button></a>
+            </div>
+        </div>
+
 
     </div>
 

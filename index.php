@@ -26,6 +26,8 @@
         "username" => null,
     );
 
+    print 1/0;
+
     if (islogedin()) {
         require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
         $loggedin = true;
@@ -334,7 +336,7 @@
 
                     <div class="group link">
                         <t class="title">Liên Kết Ngoài</t>
-                        <a class="item sound" data-soundhover data-soundselect href="https://github.com/belivipro9x99/themis-web-interface/issues" target="_blank" rel="noopener">Báo lỗi</a>
+                        <a class="item sound" data-soundhover data-soundselect href="<?php print REPORT_ERROR; ?>" target="_blank" rel="noopener">Báo lỗi</a>
                         <a class="item sound" data-soundhover data-soundselect href="https://github.com/belivipro9x99/themis-web-interface/wiki" target="_blank" rel="noopener">Wiki</a>
                         <a class="item sound" data-soundhover data-soundselect href="https://github.com/belivipro9x99/themis-web-interface" target="_blank" rel="noopener">Source Code</a>
                     </div>
