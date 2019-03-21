@@ -60,7 +60,7 @@
         case 404:
             $error = "Not Found";
             $description = "Không thể tìm thấy <sy>$sv_ip$uri</sy> trên máy chủ.";
-            $errDetail = "Thit page was wiped out because <sg>thanos</sg> snapped his fingers";
+            $errDetail = "This page was wiped out because <sg>thanos</sg> snapped his fingers";
             break;
         case 405:
             $error = "Method Not Allowed";

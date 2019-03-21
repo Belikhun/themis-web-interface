@@ -26,8 +26,6 @@
         "username" => null,
     );
 
-    trigger_error("Sample error", E_USER_DEPRECATED);
-
     if (islogedin()) {
         require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
         $loggedin = true;
