@@ -1792,6 +1792,9 @@ core = {
             }, {
                 key: "notification",
                 name: "notification.mp3"
+            }, {
+                key: "valueChange",
+                name: "generic-value-change.mp3"
             }]
 
             for (var i = 0; i < soundList.length; i++) {
@@ -1879,6 +1882,12 @@ core = {
                     item.addEventListener("mousedown", e => {
                         if (this.enable.master && this.enable.btnClick)
                             this.__soundToggle(this.sounds.selectSoft);
+                    })
+
+                if (typeof item.dataset.soundchange !== "undefined")
+                    item.addEventListener("change", e => {
+                        if (this.enable.master && this.enable.others)
+                            this.__soundToggle(this.sounds.valueChange);
                     })
 
                 if (typeof item.dataset.soundcheck !== "undefined")
