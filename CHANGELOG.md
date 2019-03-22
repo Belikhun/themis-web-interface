@@ -16,6 +16,12 @@
 
 ---
 
+## Thay đổi trong v0.4.0-release
+
+* Fixed a bug where file size does not show correctly
+* Fixed a bug where `viewlogother` setting does not updated correctly
+* Redesigned error page
+
 ## Thay đổi trong v0.4.0-prerelease
 
 * Added sounds
