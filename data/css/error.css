@@ -27,13 +27,15 @@ body {
     height: 100%;
     background: #42275a;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to bottom, #734b6d, #42275a);  /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-gradient(linear, left top, left bottom, from(#734b6d), to(#42275a));
+    background: -webkit-linear-gradient(top, #734b6d, #42275a);
+    background: -o-linear-gradient(top, #734b6d, #42275a);
     background: linear-gradient(to bottom, #734b6d, #42275a); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    /* background-image: url("/data/img/error-bg.webp");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover; */
-    filter: brightness(0.5);
-    transform: scale(1);
+    -webkit-filter: brightness(0.5);
+            filter: brightness(0.5);
+    -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+            transform: scale(1);
 }
 
 .container {
