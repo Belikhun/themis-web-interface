@@ -8,14 +8,10 @@
 */
 
 body {
-    position: relative;
     font-family: "Segoe UI", Calibri, Geneva, sans-serif;
     font-weight: normal;
     font-size: 20px;
-    color: rgb(202, 202, 202);
-    width: 100vw;
-    height: calc(100vh - 60px);
-    margin: 0 0 60px 0;
+    color: rgb(93, 93, 93);
     overflow: hidden;
 }
 
@@ -25,121 +21,99 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: #42275a;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to bottom, #734b6d, #42275a);  /* Chrome 10-25, Safari 5.1-6 */
-    background: -webkit-gradient(linear, left top, left bottom, from(#734b6d), to(#42275a));
-    background: -webkit-linear-gradient(top, #734b6d, #42275a);
-    background: -o-linear-gradient(top, #734b6d, #42275a);
-    background: linear-gradient(to bottom, #734b6d, #42275a); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    -webkit-filter: brightness(0.5);
-            filter: brightness(0.5);
-    -webkit-transform: scale(1);
-        -ms-transform: scale(1);
-            transform: scale(1);
+    background-image: url("/data/img/error-bg.webp");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    filter: brightness(0.5);
+    transform: scale(1);
 }
 
-.container {
+.main-container {
     position: absolute;
-    display: flex;
-    flex-direction: row;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 800px;
-    max-height: 100%;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: calc(100% - 50px);
+    word-wrap: break-word;
     overflow-x: hidden;
     overflow-y: auto;
 }
 
-.container p {
+.main-container p {
+    position: relative;
+    font-family: "Segoe UI";
+    text-align: center;
+    padding: unset;
     margin: unset;
 }
 
-.container div p sy {
-    position: relative;
-    display: inline;
-    color: rgb(235, 235, 47);
-}
-
-.container div p sg {
-    position: relative;
-    display: inline;
-    color: rgb(116, 236, 75);
-}
-
-.container .left {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    border-right: 2px solid rgb(182, 182, 182);
-    padding: 0 20px;
-}
-
-.container .left .protocol {
-    position: relative;
-    font-size: 16px;
-    font-weight: bold;
-    color: rgb(115, 191, 230);
-}
-
-.container .left .code {
-    position: relative;
-    font-family: "Calibri";
-    font-size: 128px;
+.main-container .code {
+    font-size: 70px;
     font-weight: lighter;
-    line-height: 100%;
-    color: rgb(224, 224, 224);
+    color: rgb(255, 255, 255);
+    margin: 60px 0 0 0;
 }
 
-.container .left .error {
-    position: relative;
-    font-family: "Calibri";
-    font-size: 21px;
-    font-weight: bold;
-    text-transform: uppercase;
-    text-align: right;
-    padding-top: 10px;
-    color: rgb(224, 224, 224);
+.main-container .code .protocol {
+    font-family: Calibri;
+    font-size: 18px;
+    font-weight: 100;
+    color: rgb(30, 202, 233);
 }
 
-.container .right {
-    position: relative;
-    padding: 0 20px;
+.main-container .name {
+    display: block;
+    font-size: 32px;
+    font-weight: 600;
+    color: rgb(228, 228, 228);
 }
 
-.container .right .description {
-    position: relative;
-    font-family: "Calibri";
-    font-size: 27px;
-    color: rgb(230, 230, 230);
+.main-container .desc {
+    font-family: "Segoe UI";
+    font-size: 17px;
+    font-weight: normal;
+    color: rgb(228, 228, 228);
+    margin-top: 10px;
+    padding: 0 10px;
 }
 
-.container .right .detail {
-    position: relative;
-    font-size: 16px;
+.main-container .detail {
+    font-family: "Segoe UI";
+    font-size: 15px;
+    font-weight: normal;
+    text-decoration: underline;
+    color: rgb(204, 204, 204);
+    margin-top: 6px;
+    padding: 0 10px;
 }
 
-.container .right .info {
+.main-container .info {
+    font-family: Calibri;
+    font-size: 14px;
+    font-weight: lighter;
+    color: rgb(182, 182, 182);
+    margin-top: 20px;
+}
+
+.main-container .sq-btn {
     position: relative;
-    margin: 20px 0;
-    font-size: 12px;
-    color: rgb(168, 168, 168);
+    margin: auto;
+    margin-top: 10px;
+    display: block;
 }
 
 .footer {
-    position: fixed;
-    bottom: 10px;
+    position: absolute;
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%);
     height: 50px;
-    max-width: 400px;
-    width: 100%;
-    padding: 0 20px;
-    box-sizing: border-box;
+    width: 80%;
+    padding: 0 20px 0 20px;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .footer .icon {
@@ -155,34 +129,29 @@ body {
     font-family: Calibri;
     font-size: 12px;
     text-align: left;
-    color: #cecece;
+    color: #fafafa;
     margin: 0 0 0 10px;
     float: left;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 450px) {
 
-    .container .left .protocol {
-        font-size: 13px;
-    }
-
-    .container .left .code {
-        font-size: 58px;
-    }
-    
-    .container .left .error {
-        font-size: 15px;
+    .footer img.icon {
+        display: none;
     }
 
-    .container .right .description {
-        font-size: 19px;
+    .footer {
+        left: 0;
+        transform: translateX(0);
+        width: 100%;
+        padding: unset;
+        justify-content: center;
     }
 
-    .container .right .detail {
-        font-size: 14px;
+    .footer p {
+        text-align: center;
+        margin: unset;
+        padding: 0 20px;
     }
 
-    .container .right .info {
-        font-size: 10px;
-    }
 }

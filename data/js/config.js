@@ -139,7 +139,7 @@ $("#form-container").addEventListener("submit", e => {
             "submitinproblems": submitInProblems.checked,
             "editinfo": editinfo.checked,
             "viewlog": viewlog.checked,
-            "viewlogother": viewLogOther.checked,
+            "viewLogOther": viewLogOther.checked,
             "ratelimit.maxrequest": parseInt(ratelimit.maxrequest.value),
             "ratelimit.time": parseInt(ratelimit.time.value),
             "ratelimit.bantime": parseInt(ratelimit.bantime.value),

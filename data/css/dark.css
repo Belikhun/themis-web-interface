@@ -59,112 +59,112 @@ body.dark panel .main {
 
 /* File Upload Panel */
 
-body.dark #uploadp .fileupload-container #file_dropzone {
+body.dark .fileupload-container #file_dropzone {
     border-color: rgb(124, 124, 124);
     color: rgb(124, 124, 124);
 }
 
-body.dark #uploadp .fileupload-container #file_dropzone.drag {
+body.dark .fileupload-container #file_dropzone.drag {
     background-color: rgb(98, 98, 98);
     border-color: rgb(156, 156, 156);
     color: rgb(156, 156, 156);
 }
 
-body.dark #uploadp .fileupload-container #file_dropzone .title {
+body.dark .fileupload-container #file_dropzone .title {
     color: rgb(180, 180, 180);
 }
 
-body.dark #uploadp .fileupload-container #file_dropzone .sub {
+body.dark .fileupload-container #file_dropzone .sub {
     color: rgb(160, 160, 160);
 }
 
-body.dark #uploadp .fileupload-container .info #file_upstate {
+body.dark .fileupload-container .info #file_upstate {
     color: rgb(214, 214, 214);
 }
 
-body.dark #uploadp .fileupload-container .info #file_name {
+body.dark .fileupload-container .info #file_name {
     color: rgb(160, 160, 160);
 }
 
-body.dark #uploadp .fileupload-container .info .bar {
+body.dark .fileupload-container .info .bar {
     background-color: rgba(204, 204, 204, 0.2);
 }
 
-body.dark #uploadp .fileupload-container .info .bar #file_bar {
+body.dark .fileupload-container .info .bar #file_bar {
     background-color: #21c2a2;
 }
 
-body.dark #uploadp .fileupload-container .info .bar #file_bar.red {
+body.dark .fileupload-container .info .bar #file_bar.red {
     background-color: #df3725;
 }
 
-body.dark #uploadp .fileupload-container .info .bar #file_perc,
-body.dark #uploadp .fileupload-container .info .bar #file_size {
+body.dark .fileupload-container .info .bar #file_perc,
+body.dark .fileupload-container .info .bar #file_size {
     color: rgba(200, 200, 200, 0.7);
 }
 
 /* Problems Panel */
 
-body.dark #problemp .problem-container .problem-list li.item {
+body.dark .problem-container .problem-list li.item {
     border-bottom-color: rgb(88, 88, 88);
 }
 
-body.dark #problemp .problem-container .problem-list li.item .title .name {
+body.dark .problem-container .problem-list li.item .title .name {
     color: rgb(214, 214, 214);
 }
 
-body.dark #problemp .problem-container .problem-list li.item .title .point {
+body.dark .problem-container .problem-list li.item .title .point {
     background-color: #269555;
 }
 
-body.dark #problemp .problem-container .problem .name {
+body.dark .problem-container .problem .name {
     color: rgb(216, 216, 216);
 }
 
-body.dark #problemp .problem-container .problem .point {
+body.dark .problem-container .problem .point {
     color: #29db73;
 }
 
-body.dark #problemp .problem-container .problem table {
+body.dark .problem-container .problem table {
     color: rgb(200, 200, 200);
 }
 
-body.dark #problemp .problem-container .problem table tr td {
+body.dark .problem-container .problem table tr td {
     border-bottom-color: rgb(112, 112, 112);
 }
 
 /* Time Panel */
 
-body.dark #timep .time-container #time_state {
+body.dark .time-container #time_state {
     color: rgb(195, 195, 195);
 }
 
-body.dark #timep .time-container #time_time {
+body.dark .time-container #time_time {
     color: rgb(226, 226, 226);
 }
 
-body.dark #timep .time-container .bar {
+body.dark .time-container .bar {
     background-color: rgba(214, 214, 214, 0.2);
 }
 
-body.dark #timep .time-container .bar #time_start,
-body.dark #timep .time-container .bar #time_end {
+body.dark .time-container .bar #time_start,
+body.dark .time-container .bar #time_end {
     color: rgba(206, 206, 206, 0.7);
 }
 
-body.dark #timep .time-container .bar #time_bar {
+body.dark .time-container .bar #time_bar {
     background-color: #3186be;
 }
 
-body.dark #timep .time-container #time_time.red {
+body.dark .time-container #time_time.red {
     color: #ff6f5f;
 }
 
-body.dark #timep .time-container #time_time.green {
+body.dark .time-container #time_time.green {
     color: #42ff91;
 }
 
-body.dark #timep .time-container #time_time.red + .bar #time_bar {
+body.dark .time-container #time_time.red + .bar #time_bar {
     background-color: #e03e2c;
 }
 
@@ -296,10 +296,6 @@ body.dark .problem-settings .problem-container .problem-list li.item:hover {
 
 body.dark .problem-settings .problem-container .problem-list li.item .title .id {
     color: rgb(160, 160, 160);
-}
-
-body.dark .problem-settings .problem-container .problem-list li.item .title .name {
-    color: rgb(214, 214, 214);
 }
 
 body.dark .problem-settings .problem-container .problem .test-container .test-list .cell textarea {

@@ -160,7 +160,7 @@
     display: block;
     width: 0;
     height: 0;
-    right: 5%;
+    right: 0;
     top: 100%;
     border-style: solid;
     border-width: 0 50px 100px 50px;
@@ -174,7 +174,7 @@
 }
 
 .sq-btn::after {
-    left: -10%;
+    left: -40px;
     border-color: transparent transparent rgb(41, 154, 190) transparent;
     transform: scale(0.8);
     animation-duration: 4.5s;
@@ -215,12 +215,12 @@
 
 .sq-btn.pink::before {
     border-color: transparent transparent rgb(255, 152, 204) transparent;
-    animation-duration: 7.6s;
+    animation-delay: 0.1s;
 }
 
 .sq-btn.pink::after {
     border-color: transparent transparent rgb(202, 96, 146) transparent;
-    animation-duration: 7.8s;
+    animation-delay: 0.85s;
 }
 
 .sq-btn.green {
@@ -229,12 +229,12 @@
 
 .sq-btn.green::before {
     border-color: transparent transparent rgb(156, 204, 0) transparent;
-    animation-duration: 8.2s;
+    animation-delay: 0.15s;
 }
 
 .sq-btn.green::after {
     border-color: transparent transparent rgb(124, 162, 0) transparent;
-    animation-duration: 7.7s;
+    animation-delay: 0.75s;
 }
 
 .sq-btn.yellow {
@@ -243,12 +243,12 @@
 
 .sq-btn.yellow::before {
     border-color: transparent transparent rgb(254, 204, 34) transparent;
-    animation-duration: 7.9s;
+    animation-delay: 0.08s;
 }
 
 .sq-btn.yellow::after {
     border-color: transparent transparent rgb(240, 178, 14) transparent;
-    animation-duration: 8.1s;
+    animation-delay: 0.9s;
 }
 
 .sq-btn.dark {
@@ -257,10 +257,10 @@
 
 .sq-btn.dark:before {
     border-color: transparent transparent #133947 transparent;
-    animation-duration: 7.6s;
+    animation-delay: 0.25s;
 }
 
 .sq-btn.dark:after {
     border-color: transparent transparent #0b2e3d transparent;
-    animation-duration: 7.8s;
+    animation-delay: 0.76s;
 }
