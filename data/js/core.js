@@ -468,6 +468,7 @@ core = {
                 return false;
 
             this.dropzone.classList.remove("hide");
+            this.input.value = "";
             this.panel.title = "Nộp bài";
             this.name.innerText = "null";
             this.state.innerText = "null";
@@ -568,6 +569,7 @@ core = {
                         });
 
                         this.uploading = false;
+                        this.input.value = "";
                         this.state.innerText = res.description;
                         this.panel.title = "Nộp bài - Đã dừng.";
                         this.bar.classList.add("red");
@@ -589,6 +591,7 @@ core = {
                     clog("info", "Upload Stopped.");
 
                     this.uploading = false;
+                    this.input.value = "";
                     this.state.innerText = res.description;
                     this.panel.title = "Nộp bài - Đã dừng.";
                     this.bar.classList.add("red");
@@ -829,29 +832,36 @@ core = {
                 case 1:
                     if (this.last === 0)
                         this.last = t;
+
+                    let p1 = ((t) / this.last) * 100;
+
                     this.time.classList.remove("red");
                     this.time.classList.remove("green");
                     this.time.innerText = parsetime(t).str;
-                    this.bar.style.width = ((t)/this.last)*100 + "%";
-                    this.start.innerText = parsetime(t).str;
+                    this.bar.style.width = p1 + "%";
+                    this.start.innerText = p1.toFixed(2) + "%";
                     this.end.innerText = parsetime(this.last).str;
                     this.state.innerText = "Bắt đầu kì thi sau";
                     break;
                 case 2:
+                    let p2 = (t / data.during) * 100;
+
                     this.time.classList.remove("red");
                     this.time.classList.add("green");
                     this.time.innerText = parsetime(t).str;
-                    this.bar.style.width = (t/data.during)*100 + "%";
-                    this.start.innerText = parsetime(t).str;
+                    this.bar.style.width = p2 + "%";
+                    this.start.innerText = p2.toFixed(2) + "%";
                     this.end.innerText = parsetime(data.during).str;
                     this.state.innerText = "Thời gian làm bài";
                     break;
                 case 3:
+                    let p3 = (t / data.offset) * 100;
+
                     this.time.classList.remove("green");
                     this.time.classList.add("red");
                     this.time.innerText = parsetime(t).str;
-                    this.bar.style.width = (t/data.offset)*100 + "%";
-                    this.start.innerText = parsetime(t).str;
+                    this.bar.style.width = p3 + "%";
+                    this.start.innerText = p3.toFixed(2) + "%";
                     this.end.innerText = parsetime(data.offset).str;
                     this.state.innerText = "Thời gian bù";
                     break;
@@ -860,7 +870,7 @@ core = {
                     this.time.classList.remove("red");
                     this.time.innerText = parsetime(t).str;
                     this.bar.style.width = "0%";
-                    this.start.innerText = parsetime(t).str;
+                    this.start.innerText = "---%";
                     this.end.innerText = "--:--";
                     this.state.innerText = "ĐÃ HẾT THỜI GIAN LÀM BÀI";
                     break;
@@ -1782,6 +1792,9 @@ core = {
             }, {
                 key: "notification",
                 name: "notification.mp3"
+            }, {
+                key: "valueChange",
+                name: "generic-value-change.mp3"
             }]
 
             for (var i = 0; i < soundList.length; i++) {
@@ -1791,7 +1804,7 @@ core = {
             }
         },
 
-        async __loadSoundAsync(url, volume = 0.1) {
+        async __loadSoundAsync(url, volume = 0.2) {
             sound = new Audio(url);
             clog("DEBG", `Loading sound: ${url}`);
 
@@ -1869,6 +1882,12 @@ core = {
                     item.addEventListener("mousedown", e => {
                         if (this.enable.master && this.enable.btnClick)
                             this.__soundToggle(this.sounds.selectSoft);
+                    })
+
+                if (typeof item.dataset.soundchange !== "undefined")
+                    item.addEventListener("change", e => {
+                        if (this.enable.master && this.enable.others)
+                            this.__soundToggle(this.sounds.valueChange);
                     })
 
                 if (typeof item.dataset.soundcheck !== "undefined")

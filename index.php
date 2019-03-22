@@ -314,7 +314,7 @@
                                 <t class="left">Thời gian làm mới</t>
                                 <t id="usett_udelay_text" class="right">0000 ms/request</t>
                             </div>
-                            <input type="range" id="usett_udelay_slider" class="sq-slider blue sound" data-soundselectsoft min="500" max="10000" step="100">
+                            <input type="range" id="usett_udelay_slider" class="sq-slider blue sound" data-soundselectsoft data-soundchange min="500" max="10000" step="100">
                         </div>
                         <t class="item lr warning sound" data-soundhoversoft>
                             <t class="left"><b>Lưu Ý: </b>Đặt thời gian làm mới quá nhỏ sẽ khiến bạn dễ dàng bị phạt <i>(cụ thể là bị ratelimited)</i> trong một khoảng thời gian nhất định.</t>
@@ -334,7 +334,7 @@
 
                     <div class="group link">
                         <t class="title">Liên Kết Ngoài</t>
-                        <a class="item sound" data-soundhover data-soundselect href="https://github.com/belivipro9x99/themis-web-interface/issues" target="_blank" rel="noopener">Báo lỗi</a>
+                        <a class="item sound" data-soundhover data-soundselect href="<?php print REPORT_ERROR; ?>" target="_blank" rel="noopener">Báo lỗi</a>
                         <a class="item sound" data-soundhover data-soundselect href="https://github.com/belivipro9x99/themis-web-interface/wiki" target="_blank" rel="noopener">Wiki</a>
                         <a class="item sound" data-soundhover data-soundselect href="https://github.com/belivipro9x99/themis-web-interface" target="_blank" rel="noopener">Source Code</a>
                     </div>
