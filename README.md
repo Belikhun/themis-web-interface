@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-	<a href="https://github.com/belivipro9x99/themis-webinterface/releases/"><img src="https://img.shields.io/badge/prerelease-v0.4.0-brightgreen.svg?longCache=true&style=popout-square"></a>
+	<a href="https://github.com/belivipro9x99/themis-webinterface/releases/"><img src="https://img.shields.io/badge/release-v0.4.0-brightgreen.svg?longCache=true&style=popout-square"></a>
 	<img src="https://img.shields.io/badge/license-MIT-orange.svg?longCache=true&style=popout-square">
 	<img src="https://img.shields.io/badge/status-not tested-blue.svg?longCache=true&style=popout-square">
 	<a href="https://www.codefactor.io/repository/github/belivipro9x99/themis-web-interface"><img src="https://www.codefactor.io/repository/github/belivipro9x99/themis-web-interface/badge?style=flat-square"/></a>
@@ -17,7 +17,7 @@
 
 **Themis Web Interface** được viết bằng các ngôn ngữ **HTML, CSS, PHP và JavaScript**. Dự án không sử dụng các library khác như **jQuery, Bootstrap, React, ...**
 
-> Phiên bản hiện tại là 0.4.0-prerelease
+> Phiên bản hiện tại là 0.4.0-release
 
 - [Demo](#demo)
 - [Yêu cầu](#yêu-cầu)
@@ -107,4 +107,4 @@ Toàn bộ **Document** đều có ở trong [Wiki:API](https://github.com/beliv
 
 ## Contributor
 
-Many thank to ```namkojj```, aka [Nam](https://www.facebook.com/profile.php?id=100008107446343) for helping me translating, hunting bug and testing this project.
+Many thanks to ```namkojj```, aka [Nam](https://www.facebook.com/profile.php?id=100008107446343) for helping me translating, hunting bugs and testing out this project.

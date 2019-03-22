@@ -1,6 +1,7 @@
 # Change Logs
 
-- [Thay đổi trong v0.4.0](#thay-đổi-trong-v040)
+- [Thay đổi trong v0.4.0](#thay-đổi-trong-v040-release)
+	- [Thay đổi trong v0.4.0-prerelease](#thay-đổi-trong-v040-prerelease)
 	- [Thay đổi trong v0.3.7](#thay-đổi-trong-v037)
 	- [Thay đổi trong v0.3.6](#thay-đổi-trong-v036)
 	- [Thay đổi trong v0.3.5](#thay-đổi-trong-v035)
@@ -16,7 +17,14 @@
 
 ---
 
-## Thay đổi trong v0.4.0-prerelease
+## Thay đổi trong v0.4.0-release 🎉🎉
+
+* Fixed a bug where public file size does not show correctly
+* Fixed a bug where `viewlogother` setting does not updated correctly
+* Redesigned error page
+* *và các thay đổi ở phiên bản `v0.4.0-prerelease`...*
+
+### Thay đổi trong v0.4.0-prerelease
 
 * Added sounds
 * Better disconnected/ratelimited handling (ajax request will wait until we out of ratelimit and then send it again)
