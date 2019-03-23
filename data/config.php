@@ -12,8 +12,8 @@
 	// Plz dont change these
 	define("APPNAME", "Themis Web Interface");
 	define("AUTHOR", "Belikhun");
-	define("VERSION", "0.4.0");
-	define("VERSION_STATE", "release");
+	define("VERSION", "0.4.1");
+	define("VERSION_STATE", "indev");
 	define("REPORT_ERROR", "https://github.com/belivipro9x99/themis-web-interface/issues");
 
 	$config = (new fip($_SERVER["DOCUMENT_ROOT"] ."/data/config.json")) -> read();
