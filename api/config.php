@@ -16,10 +16,10 @@
     if ($_SERVER["REQUEST_METHOD"] === "GET")
         stop(0, "Thành công!", 200, $config);
 
-    if (!islogedin())
+    if (!isLogedIn())
         stop(11, "Bạn chưa đăng nhập.", 403);
         
-    checktoken();
+    checkToken();
 
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
     if (getuserdata($_SESSION["username"])["id"] !== "admin")

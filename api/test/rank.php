@@ -63,7 +63,7 @@
     }
 
     if ($config["publish"] === true) {
-        $nlr = arrayremdub($namelist);
+        $nlr = arrayRemDub($namelist);
         $namelist = ((count($nlr) > 0) ? $nlr : Array());
     }
 

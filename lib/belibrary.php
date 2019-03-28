@@ -5,7 +5,7 @@
     //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
-    
+
     if (session_status() === PHP_SESSION_NONE) {
         if (isset($_POST["sessid"]))
             session_id($_POST["sessid"]);
@@ -18,7 +18,7 @@
     if (!isset($_SESSION["username"]))
         $_SESSION["username"] = null;
 
-    function islogedin() {
+    function isLogedIn() {
         if (session_status() !== PHP_SESSION_NONE && (isset($_SESSION["username"]) || $_SESSION["username"] !== null))
             return true;
         else
@@ -28,7 +28,7 @@
     /**
      * Kiểm tra token trong session với token được gửi trong form
      */
-    function checktoken() {
+    function checkToken() {
         if (!isset($_POST["token"]))
             stop(4, "Token please!", 400);
         if ($_POST["token"] !== $_SESSION["api_token"])
@@ -82,7 +82,7 @@
      * @return bool true nếu thành công.
      * 
      */
-    function contentType(string $ext) {
+    function contentType(String $ext, String $charset = "utf-8") {
         $mimet = Array(
             "txt" => "text/plain",
             "htm" => "text/html",
@@ -120,7 +120,12 @@
             "mp3" => "audio/mpeg",
             "qt" => "video/quicktime",
             "mov" => "video/quicktime",
-    
+            "flv" => "video/x-flv",
+            "mp4" => "video/mp4",
+            "3gp" => "video/3gpp",
+            "avi" => "video/x-msvideo",
+            "wmv" => "video/x-ms-wmv",
+
             // adobe
             "pdf" => "application/pdf",
             "psd" => "image/vnd.adobe.photoshop",
@@ -144,7 +149,7 @@
         );
 
         if (isset($mimet[$ext])) {
-            header("Content-Type: ". $mimet[$ext]);
+            header("Content-Type: ". $mimet[$ext] ."; charset=". $charset);
             return $mimet[$ext];
         } else
             return null;
@@ -164,28 +169,39 @@
 
         http_response_code($sc);
 
-        header("Content-Type: application/json", true);
-        print(json_encode($out));
+        if (!defined("STOP_OUTPUT"))
+            define("STOP_OUTPUT", "print");
+
+        switch (STOP_OUTPUT) {
+            case "header":
+                header("Stop-Data: ". json_encode($out), true);
+                break;
+            
+            default:
+                header("Content-Type: application/json", true);
+                print(json_encode($out, JSON_PRETTY_PRINT));
+                break;
+        }
 
         die();
     }
 
-    function convertsize($bytes) {
+    function convertSize($bytes) {
         $sizes = array("B", "KB", "MB", "GB", "TB");
-        for($i = 0; $bytes >= 1024 && $i < (count($sizes) -1); $bytes /= 1024, $i++);
+        for ($i = 0; $bytes >= 1024 && $i < (count($sizes) -1); $bytes /= 1024, $i++);
             return(round($bytes, 2 ) . " " . $sizes[$i]);
     }
 
-    function foldersize($dir) {
+    function folderSize($dir) {
         $size = 0;
         foreach (glob($dir ."/*", GLOB_NOSORT) as $i => $file) {
-            //$size += is_file($file) ? filesize($file) : foldersize($file);
+            //$size += is_file($file) ? filesize($file) : folderSize($file);
             $size += filesize($file);
         }
         return $size;
     }
 
-    function arrayremdub($inp) {
+    function arrayRemDub($inp) {
         $out = Array();
         $i = 0;
         sort($inp, SORT_NATURAL);
@@ -197,7 +213,7 @@
         return $out;
     }
 
-    function arrayremblk($inp) {
+    function arrayremBlk($inp) {
         $out = Array();
         foreach($inp as $i => $v)
             if (isset($v))
@@ -205,7 +221,7 @@
         return $out;
     }
 
-    function pathspace($path) {
+    function diskSpace($path) {
         $free = disk_free_space($path);
         $total = disk_total_space($path);
         $used = $total - $free;
@@ -213,12 +229,12 @@
         return Array(
             "path" => $path,
             "total" => $total,
-            "total_f" => convertsize($total),
+            "total_f" => convertSize($total),
             "used" => $used,
-            "used_f" => convertsize($used),
+            "used_f" => convertSize($used),
             "used_p" => $used_p,
             "free" => $free,
-            "free_f" => convertsize($free)
+            "free_f" => convertSize($free)
         );
     }
 
@@ -240,10 +256,10 @@
                 $this -> stream = fopen($path, $mode);
                 if (!$this -> stream) {
                     $e = error_get_last();
-                    stop(8, "Lỗi[". $e["type"] ."]: ". $e["message"] ." tại ". $e["file"] ." dòng ". $e["line"] , 500);
+                    stop(8, "Lỗi[". $e["type"] ."]: ". $e["message"] ." tại ". $e["file"] ." dòng ". $e["line"], 500, $e);
                 }
             } catch (Exception $e) {
-                stop(8, $e->getMessage() ." tại ". $e->getFile() ." dòng ". $e->getLine(), 500);
+                stop(8, $e -> getMessage() ." tại ". $e -> getFile() ." dòng ". $e -> getLine(), 500, $e);
             }
         }
 
@@ -256,7 +272,8 @@
 
             if (filesize($this -> path) > 0)
                 $data = fread($this -> stream, filesize($this -> path));
-            else $data = null;
+            else
+                $data = null;
 
             $this -> fcs();
             return $data;

@@ -11,10 +11,10 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
 
-    if (!islogedin())
+    if (!isLogedIn())
         stop(11, "Bạn chưa đăng nhập!", 403);
 
-    checktoken();
+    checkToken();
 
     if ($config["editinfo"] === false)
         stop(21, "Thay đổi thông tin đã bị tắt!", 403);

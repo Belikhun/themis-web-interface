@@ -11,7 +11,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
 	
-	if (!islogedin())
+	if (!isLogedIn())
 		stop(11, "Bạn chưa đăng nhập.", 403);
 
 	function parsename(string $path) {
@@ -69,7 +69,7 @@
 				));
 			}
 
-		$judging = arrayremblk($judging);
+		$judging = arrayremBlk($judging);
 		$_SESSION["logs-module"]["lastqueuesfiles"] = $queuefiles;
 	}
 

@@ -26,7 +26,7 @@
         "username" => null,
     );
 
-    if (islogedin()) {
+    if (isLogedIn()) {
         require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
         $loggedin = true;
         $sessdata["username"] = $username = $_SESSION["username"];

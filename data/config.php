@@ -49,7 +49,7 @@
 		global $config;
 		$duringTime = $config["time"]["during"];
 		if ($duringTime <= 0)
-			return false;
+			return true;
 
 		// Admin can bypass this check
 		if ($_SESSION["username"] !== null && getuserdata($_SESSION["username"])["id"] === "admin")

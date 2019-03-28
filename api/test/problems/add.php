@@ -11,10 +11,10 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logs.php";
     
-    if (!islogedin())
+    if (!isLogedIn())
     stop(11, "Bạn chưa đăng nhập.", 403);
     
-    checktoken();
+    checkToken();
     
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";

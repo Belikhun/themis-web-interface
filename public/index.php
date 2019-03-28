@@ -14,7 +14,7 @@
     $root = str_replace("\\", "/", $_SERVER["DOCUMENT_ROOT"]);
     $path = str_replace("\\", "/", getcwd());
     $clientPath = str_replace($_SERVER["DOCUMENT_ROOT"], "", $path);
-    $size = convertsize(foldersize($path));
+    $size = convertSize(folderSize($path));
 
     $contestStarted = contest_timeRequire([CONTEST_STARTED]);
     $attachment = ($contestStarted === true) ? problem_listAttachment() : Array();
@@ -28,7 +28,7 @@
 
         array_push($list, Array(
             "file" => basename($file),
-            "size" => convertsize(filesize($file)),
+            "size" => convertSize(filesize($file)),
             "url" => $clientPath ."/". basename($file),
             "lastmodify" => date("d/m/Y H:i:s", filemtime($file))
         ));
@@ -129,7 +129,7 @@
                         <t class="file-info">
                             Ngày sửa đổi: <?php print date("d/m/Y H:i:s", $value["lastmodify"]); ?>
                             <span class="dot"></span>
-                            Kích cỡ: <?php print convertsize($value["size"]); ?>
+                            Kích cỡ: <?php print convertSize($value["size"]); ?>
                         </t>
                     </div>
 
