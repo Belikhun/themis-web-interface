@@ -1,13 +1,14 @@
-<p align="center">
-	<img src="https://lh3.googleusercontent.com/UJ9p8wcOqInslW4xWpJ6ZQ55Lx6DXN85MJvGoLl0G3WroDqQExDdovbLXuD1rg8C3mGxyyRkheWK4t2soF9HcWsxNXgO0lK_iq_iqvwvXz2Bu5JWmPHhbiesqYziSVitpkWSo7P51A=w2400">
-</p>
+<div align="center">
 
-<p align="center">
-	<a href="https://github.com/belivipro9x99/themis-webinterface/releases/"><img src="https://img.shields.io/badge/indev-v0.4.1-brightgreen.svg?longCache=true&style=popout-square"></a>
-	<img src="https://img.shields.io/badge/license-MIT-orange.svg?longCache=true&style=popout-square">
-	<img src="https://img.shields.io/badge/status-not tested-blue.svg?longCache=true&style=popout-square">
-	<a href="https://www.codefactor.io/repository/github/belivipro9x99/themis-web-interface"><img src="https://www.codefactor.io/repository/github/belivipro9x99/themis-web-interface/badge/v0.4.1?style=flat-square"/></a>
-</p>
+# Themis Web Interface
+
+An beautiful and easy-to-use Web Interface for **[Themis](https://dsapblog.wordpress.com)**
+
+[![version](https://img.shields.io/badge/indev-v0.4.1-brightgreen.svg?longCache=true&style=for-the-badge)](https://github.com/belivipro9x99/themis-webinterface/releases/) [![license](https://img.shields.io/badge/license-MIT-orange.svg?longCache=true&style=for-the-badge)]() [![status](https://img.shields.io/badge/status-not_tested-blue.svg?longCache=true&style=for-the-badge)]() [![codefactor](https://www.codefactor.io/repository/github/belivipro9x99/themis-web-interface/badge/v0.4.1?style=for-the-badge)](https://www.codefactor.io/repository/github/belivipro9x99/themis-web-interface)
+
+![preview](https://lh3.googleusercontent.com/UJ9p8wcOqInslW4xWpJ6ZQ55Lx6DXN85MJvGoLl0G3WroDqQExDdovbLXuD1rg8C3mGxyyRkheWK4t2soF9HcWsxNXgO0lK_iq_iqvwvXz2Bu5JWmPHhbiesqYziSVitpkWSo7P51A=w2400)
+
+</div>
 
 ---
 
