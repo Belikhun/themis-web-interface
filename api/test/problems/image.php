@@ -8,7 +8,7 @@
 
 	require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php"; define("STOP_OUTPUT", "header");
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logs.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
 
@@ -16,10 +16,9 @@
 
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";
     
-    if (!isset($_GET["id"])) {
-        http_response_code(400);
-        die();
-    }
-
-    if (problem_getImage($_GET["id"]) !== PROBLEM_OKAY)
-        http_response_code(404);
+    $id = reqquery("id");
+    
+    if (problem_getImage($id) !== PROBLEM_OKAY)
+        stop(44, "Image not found", 404);
+    
+    stop(0, "Success", 200);

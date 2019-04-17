@@ -8,7 +8,7 @@
 
 	require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php"; define("STOP_OUTPUT", "header");
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logs.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
 
@@ -16,12 +16,9 @@
 
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";
     
-    if (!isset($_GET["id"])) {
-        http_response_code(400);
-        die();
-    }
+    $id = reqquery("id");
 
-    if (problem_getAttachment($_GET["id"]) === PROBLEM_OKAY)
+    if (problem_getAttachment($id) === PROBLEM_OKAY)
         writeLog("INFO", "Đã tải tệp đính kèm của bài \"". $_GET["id"] ."\"");
     else
-        http_response_code(404);
+        stop(44, "File not found", 404);
