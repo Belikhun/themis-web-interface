@@ -45,7 +45,7 @@
 	function contest_timeRequire(array $req = Array(
 		CONTEST_STARTED,
 		CONTEST_NOTENDED
-	), $justReturn = true, $useDie = false, $resCode = 403) {
+	), $justReturn = true, $instantDeath = false, $resCode = 403) {
 		global $config;
 		$duringTime = $config["time"]["during"];
 		if ($duringTime <= 0)
@@ -66,11 +66,11 @@
 						if ($justReturn === true)
 							return 103;
 
-						//* Got NOTICE on Codefactor:
+						//* Got NOTICE on Codefactor for no reason:
 						//* if ($useDie === true)
 						//* 	(http_response_code($resCode) && die());
 
-						if ($useDie === true) {
+						if ($instantDeath === true) {
 							http_response_code($resCode);
 							die();
 						}
@@ -84,7 +84,7 @@
 						if ($justReturn === true)
 							return 104;
 
-						if ($useDie === true) {
+						if ($instantDeath === true) {
 							http_response_code($resCode);
 							die();
 						}
@@ -98,7 +98,7 @@
 						if ($justReturn === true)
 							return 105;
 
-						if ($useDie === true) {
+						if ($instantDeath === true) {
 							http_response_code($resCode);
 							die();
 						}

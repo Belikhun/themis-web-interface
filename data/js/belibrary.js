@@ -226,8 +226,7 @@ function buildElementTree(type = "div", __class = [], data = new Array()) {
     if (typeof __class == "string")
         __class = new Array([__class]);
     tree.classList.add.apply(tree.classList, __class);
-    var objtree = new Array();
-    objtree.this = tree;
+    var objtree = tree;
 
     for (var i = 0; i < data.length; i++) {
         var d = data[i];
@@ -235,8 +234,7 @@ function buildElementTree(type = "div", __class = [], data = new Array()) {
             var t = buildElementTree(d.type, d.class, d.list);
             t.tree.dataset.name = d.name;
             tree.appendChild(t.tree);
-            objtree[d.name] = new Array();
-            objtree[d.name].this = t.tree;
+            objtree[d.name] = t.tree;
             Object.assign(objtree[d.name], t.obj);
         } else {
             var t = document.createElement(d.type);

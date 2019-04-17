@@ -7,7 +7,7 @@
     //? |-----------------------------------------------------------------------------------------------|
 
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
 
     $maxRequest = $config["ratelimit"]["maxrequest"] ?: 60;
     $perSeconds = $config["ratelimit"]["time"] ?: 8;
