@@ -1804,7 +1804,7 @@ core = {
             }
         },
 
-        async __loadSoundAsync(url, volume = 0.2) {
+        async __loadSoundAsync(url, volume = 0.5) {
             sound = new Audio(url);
             clog("DEBG", `Loading sound: ${url}`);
 
