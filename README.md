@@ -6,7 +6,7 @@ An beautiful and easy-to-use Web Interface for **[Themis](https://dsapblog.wordp
 
 [![version](https://img.shields.io/badge/indev-v0.4.1-brightgreen.svg?longCache=true&style=for-the-badge)](https://github.com/belivipro9x99/themis-webinterface/releases/) [![license](https://img.shields.io/badge/license-MIT-orange.svg?longCache=true&style=for-the-badge)]() [![status](https://img.shields.io/badge/status-not_tested-blue.svg?longCache=true&style=for-the-badge)]() [![codefactor](https://www.codefactor.io/repository/github/belivipro9x99/themis-web-interface/badge/v0.4.1?style=for-the-badge)](https://www.codefactor.io/repository/github/belivipro9x99/themis-web-interface)
 
-![preview](https://lh3.googleusercontent.com/UJ9p8wcOqInslW4xWpJ6ZQ55Lx6DXN85MJvGoLl0G3WroDqQExDdovbLXuD1rg8C3mGxyyRkheWK4t2soF9HcWsxNXgO0lK_iq_iqvwvXz2Bu5JWmPHhbiesqYziSVitpkWSo7P51A=w2400)
+<img src="https://lh3.googleusercontent.com/UdSV7TJBI2Te8fITAvrgRYnMGL6KTpycmsPOs26AJ5HIUWvYRq_TT9pAXy_ODXeLuwmwjQstJX0CY9F23cr3qCdY9cL9QShHJLibfJsEmMBfryBWkjJVEOax1XOZAp2Wl3OguPFfJQ=w2400" width="600px">
 
 </div>
 
