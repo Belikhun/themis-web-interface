@@ -77,7 +77,7 @@
         <script src="/data/js/belibrary.js" type="text/javascript"></script>
         <script type="text/javascript" src="/data/js/splash.js"></script>
         <script type="text/javascript">
-            var mainSplash = new splash(document.body, "<?php print APPNAME; ?>", "<?php print VERSION ."-". VERSION_STATE; ?>", "/data/img/icon.webp");
+            var mainSplash = new splash(document.body, "<?php print APPNAME; ?>", "<?php print VERSION ."-". VERSION_TAG; ?>", "/data/img/icon.webp");
 
             mainSplash.init = async (set) => {
                 set(0, "Initializing core.js");
@@ -90,7 +90,14 @@
 
                 set(95, "Sending Analytics Data...");
                 gtag("event", "pageView", {
-                    "version": window.serverStatus.version
+                    version: window.serverStatus.version,
+                    hostname: location.hostname,
+                    loadtime: ((new Date()).getTime() - window.performance.timing.navigationStart) / 1000,
+                    downlink: navigator.connection.downlink,
+                    versiontag: window.serverStatus.versionTag,
+                    contestname: window.serverStatus.contestName,
+                    platform: navigator.platform,
+                    darkmode: cookie.get("__darkMode")
                 });
             }
         </script>
@@ -478,7 +485,7 @@
                                 <div class="header">
                                     <div class="logo"></div>
                                     <t class="title"><?php print APPNAME; ?></t>
-                                    <t class="version">v<?php print VERSION."-".VERSION_STATE; ?></t>
+                                    <t class="version">v<?php print VERSION."-".VERSION_TAG; ?></t>
                                     <t class="subtitle">Made from scratch, crafted with <font color="red">❤</font> by Belikhun</t>
 
                                     <div class="button">
@@ -501,7 +508,7 @@
                                 </table>
 
                                 <div class="badge">
-                                    <a href="https://github.com/belivipro9x99/themis-webinterface/releases/" target="_blank" rel="noopener"><img src="/tool/badge?su=<?php print VERSION_STATE; ?>&st=v<?php print VERSION; ?>&c=brightgreen"></a>
+                                    <a href="https://github.com/belivipro9x99/themis-webinterface/releases/" target="_blank" rel="noopener"><img src="/tool/badge?su=<?php print VERSION_TAG; ?>&st=v<?php print VERSION; ?>&c=brightgreen"></a>
                                     <img src="/tool/badge?su=license&st=MIT&c=orange">
                                     <img src="/tool/badge?su=status&st=not tested&c=blue">
                                     <img src="/tool/badge?su=author&st=Đỗ Mạnh Hà&c=red">
@@ -724,7 +731,14 @@
 
             gtag("config", "UA-124598427-1", {
                 "custom_map": {
-                    "dimension1": "version"
+                    dimension1: "version",
+                    dimension2: "hostname",
+                    dimension3: "loadtime",
+                    dimension4: "downlink",
+                    dimension5: "versiontag",
+                    dimension6: "contestname",
+                    dimension7: "platform",
+                    dimension8: "darkmode"
                 }
             });
         </script>

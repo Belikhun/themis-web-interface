@@ -9,11 +9,11 @@
 	require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
 
-	// Plz dont change these
+	// dont claim it for your own. its not nice
 	define("APPNAME", "Themis Web Interface");
 	define("AUTHOR", "Belikhun");
 	define("VERSION", "0.4.1");
-	define("VERSION_STATE", "indev");
+	define("VERSION_TAG", "indev");
 	define("REPORT_ERROR", "https://github.com/belivipro9x99/themis-web-interface/issues");
 
 	$config = (new fip($_SERVER["DOCUMENT_ROOT"] ."/data/config.json")) -> read();

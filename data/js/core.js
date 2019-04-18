@@ -181,7 +181,7 @@ core = {
 
         const localVer = {
             v: parseInt(tl[0])*100 + parseInt(tl[1])*10 + parseInt(tl[2]),
-            s: window.serverStatus.version_state
+            s: window.serverStatus.versionTag
         }
 
         var tls = `${tl.join(".")}-${localVer.s}`;
