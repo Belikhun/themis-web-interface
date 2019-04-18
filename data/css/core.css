@@ -1168,6 +1168,7 @@ body.guest #timep.show ~ #rankp {
 }
 
 #rankp div.ranking-container {
+    position: relative;
     overflow: auto;
 }
 

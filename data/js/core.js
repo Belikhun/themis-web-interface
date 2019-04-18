@@ -363,18 +363,20 @@ core = {
         var list = data.list;
         var out = [
             "<table>",
-                "<tr>",
-                    "<th>#</th>",
-                    "<th>Thí sinh</th>",
-                    "<th>Tổng</th>",
+                "<thead>",
+                    "<tr>",
+                        "<th>#</th>",
+                        "<th>Thí sinh</th>",
+                        "<th>Tổng</th>",
         ].join("\n");
 
         for (var i = 0; i < list.length; i++)
             out += "<th>" + list[i] + "</th>\n";
-        out += "</tr>\n";
+        out += "</tr>\n</thead>\n";
 
         var ptotal = 0;
         var rank = 0;
+        out += "<tbody>\n"
 
         for (var i = 0; i < data.rank.length; i++) {
             if (ptotal !== data.rank[i].total) {
@@ -383,13 +385,13 @@ core = {
             }
 
             out += [
-                "<tr>",
-                    "<td>" + rank + "</td>",
-                    "<td>",
-                        "<img class=\"avt\" src=\"/api/avt/get?u=" + data.rank[i].username + "\">",
-                        "<t class=\"name\">" + escape_html(data.rank[i].name) + "</t>",
-                    "</td>",
-                    "<td class=\"number\">" + parseFloat(data.rank[i].total).toFixed(2) + "</td>"
+                `<tr>`,
+                    `<td>${rank}</td>`,
+                    `<td>`,
+                        `<img class="avt" src="/api/avt/get?u=${data.rank[i].username}">`,
+                        `<t class="name">${escape_html(data.rank[i].name)}</t>`,
+                    `</td>`,
+                    `<td class="number">${parseFloat(data.rank[i].total).toFixed(2)}</td>`
             ].join("\n");
 
             for (var j = 0; j < list.length; j++)
@@ -397,7 +399,8 @@ core = {
             
             out += "</tr>";
         }
-        out += "</table>";
+
+        out += "</tbody>\n</table>";
         this.rankPanel.main.innerHTML = out;
         this.pRankData = data;
 
