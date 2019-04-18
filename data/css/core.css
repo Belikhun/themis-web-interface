@@ -1222,7 +1222,7 @@ body.guest #timep.show ~ #rankp {
     font-weight: bold;
 }
 
-#rankp div.ranking-container table tr:nth-child(2) td:nth-child(2) .name {
+#rankp div.ranking-container table tbody tr:nth-child(1) td:nth-child(2) .name {
     color: white;
     font-weight: bold;
     background-color: #e74c3c;
@@ -1230,7 +1230,7 @@ body.guest #timep.show ~ #rankp {
     border-radius: 4px;
 }
 
-#rankp div.ranking-container table tr:nth-child(3) td:nth-child(2) .name {
+#rankp div.ranking-container table tbody tr:nth-child(2) td:nth-child(2) .name {
     color: white;
     font-weight: bold;
     background-color: #33b96b;
@@ -1238,7 +1238,7 @@ body.guest #timep.show ~ #rankp {
     border-radius: 4px;
 }
 
-#rankp div.ranking-container table tr:nth-child(4) td:nth-child(2) .name {
+#rankp div.ranking-container table tbody tr:nth-child(3) td:nth-child(2) .name {
     color: white;
     font-weight: bold;
     background-color: #8e44ad;
@@ -1252,7 +1252,7 @@ body.guest #timep.show ~ #rankp {
 }
 
 #rankp div.ranking-container table tr th,
-td {
+#rankp div.ranking-container table tr td {
     padding: 10px;
     font-size: 12px;
 }
