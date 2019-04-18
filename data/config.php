@@ -52,7 +52,7 @@
 			return true;
 
 		// Admin can bypass this check
-		if ($_SESSION["username"] !== null && getuserdata($_SESSION["username"])["id"] === "admin")
+		if ($_SESSION["username"] !== null && getUserData($_SESSION["username"])["id"] === "admin")
 			return true;
 
 		$beginTime = $config["time"]["begin"]["times"];
