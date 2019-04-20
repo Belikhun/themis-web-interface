@@ -645,10 +645,18 @@ core = {
         },
 
         async getlist() {
-            var data = await myajax({
-                url: "/api/test/problems/list",
-                method: "GET"
-            });
+            var data = Array();
+            try {
+                data = await myajax({
+                    url: "/api/test/problems/list",
+                    method: "GET"
+                });
+            } catch(e) {
+                clog("WARN", "Kì thi chưa bắt đầu");
+                this.panel.main.classList.add("blank");
+                this.list.innerHTML = "";
+                return false;
+            }
 
             if (data.length === 0) {
                 this.panel.main.classList.add("blank");
@@ -701,6 +709,9 @@ core = {
             if (data.image) {
                 this.image.style.display = "block";
                 this.image.src = data.image;
+                this.image.title = "Nhấn để phóng to ảnh";
+                core.wrapper.panel.main.innerHTML = `<img class="full" src="${data.image}">`;
+                this.image.onclick = () => core.wrapper.show(`Ảnh đính kèm: ${data.name}`);
             } else
                 this.image.style.display = "none";
 
@@ -1632,7 +1643,7 @@ core = {
             });
         },
 
-        show(title = "") {
+        show(title = "Title") {
             core.wrapper.wrapper.classList.add("show");
             core.wrapper.panel.title = title;
         },

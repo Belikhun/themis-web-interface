@@ -60,56 +60,50 @@
 		$t = $beginTime - time() + ($duringTime * 60);
 
 		foreach ($req as $key => $value) {
+			$returnCode = null;
+			$message = null;
+
 			switch($value) {
 				case CONTEST_STARTED:
 					if ($t > $duringTime * 60) {
-						if ($justReturn === true)
-							return 103;
-
-						//* Got NOTICE on Codefactor for no reason:
-						//* if ($useDie === true)
-						//* 	(http_response_code($resCode) && die());
-
-						if ($instantDeath === true) {
-							http_response_code($resCode);
-							die();
-						}
-
-						stop(103, "Kì thi chưa bắt đầu.", 200);
+						$returnCode = 103;
+						$message = "Kì thi chưa bắt đầu";
 					}
 					break;
 
 				case CONTEST_NOTENDED:
 					if ($t < -$offsetTime && $duringTime !== 0) {
-						if ($justReturn === true)
-							return 104;
-
-						if ($instantDeath === true) {
-							http_response_code($resCode);
-							die();
-						}
-
-						stop(104, "Kì thi đã kết thúc!", 200);
+						$returnCode = 104;
+						$message = "Kì thi đã kết thúc";
 					}
 					break;
 
 				case CONTEST_ENDED:
 					if ($t > -$offsetTime && $duringTime !== 0) {
-						if ($justReturn === true)
-							return 105;
-
-						if ($instantDeath === true) {
-							http_response_code($resCode);
-							die();
-						}
-
-						stop(105, "Kì thi chưa kết thúc!", 200);
+						$returnCode = 105;
+						$message = "Kì thi chưa kết thúc";
 					}
 					break;
 
 				default:
 					trigger_error("Unknown case: ". $code, E_USER_ERROR);
 					break;
+			}
+
+			if ($returnCode !== null && $message !== null) {
+				if ($justReturn === true)
+					return $returnCode;
+
+				//* Got NOTICE on Codefactor for no reason:
+				//* if ($useDie === true)
+				//* 	(http_response_code($resCode) && die());
+
+				if ($instantDeath === true) {
+					http_response_code($resCode);
+					die();
+				}
+
+				stop($returnCode, $message, $resCode);
 			}
 		}
 

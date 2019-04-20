@@ -36,7 +36,7 @@
 
         $errCode = $err["errcode"];
         http_response_code($errCode);
-        $errDetail = "<b>Lỗi [".$err["num"]."]:</b> <sg><i>" . $err["str"] . "</i></sg> tại <i>" . $err["file"] . "</i> dòng " . $err["line"];
+        $errDetail = "<b>Lỗi [" .$err["num"]. "]:</b> <sg><i>" . $err["str"] . "</i></sg>". (isset($err["file"]) ? " tại <i>" . $err["file"] . "</i> dòng " . $err["line"] : "");
     }
 
     switch ($errCode) {
@@ -55,12 +55,12 @@
         case 403:
             $error = "Forbidden";
             $description = "Hey, Thats illegal! You are not allowed to access <sy>$sv_ip$uri</sy>";
-            $errDetail = "Or iS iT ?";
+            $errDetailSub = "Or iS iT ?";
             break;
         case 404:
             $error = "Not Found";
             $description = "Không thể tìm thấy <sy>$sv_ip$uri</sy> trên máy chủ.";
-            $errDetail = "This page was wiped out because <sg>thanos</sg> snapped his fingers";
+            $errDetailSub = "This page was wiped out because <sg>thanos</sg> snapped his fingers";
             break;
         case 405:
             $error = "Method Not Allowed";
@@ -91,6 +91,8 @@
             $description = "Much strangery page, Such magically error, wow";
             break;
     }
+
+    $errDetail = ($errDetail === null) ? $errDetailSub : $errDetail;
 
     writeLog("WARN", "Got statuscode \"". $errCode ." ". $error ."\" when trying to access: ". $uri);
 ?>

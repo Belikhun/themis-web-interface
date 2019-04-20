@@ -173,8 +173,15 @@
             define("STOP_OUTPUT", "print");
 
         switch (STOP_OUTPUT) {
-            case "header":
-                header("Stop-Data: ". json_encode($out), true);
+            case "errorpage":
+                if ($sc !== 200 || $c !== 0)
+                    if (function_exists("printErrorPage"))
+                        printErrorPage(Array(
+                            "num" => $c,
+                            "str" => $d,
+                            "errcode" => $sc
+                        ), false);
+                    else print "<h1>Error $sc</h1><p>$d</p>";
                 break;
             
             default:

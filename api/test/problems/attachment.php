@@ -6,17 +6,16 @@
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
-	require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
+	require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ecatch.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php"; define("STOP_OUTPUT", "header");
+    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php"; define("STOP_OUTPUT", "errorpage");
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logs.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
 
-    contest_timeRequire([CONTEST_STARTED], false, true, 403);
+    $id = reqquery("id");
+    contest_timeRequire([CONTEST_STARTED], false, false);
 
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";
-    
-    $id = reqquery("id");
 
     if (problem_getAttachment($id) === PROBLEM_OKAY)
         writeLog("INFO", "Đã tải tệp đính kèm của bài \"". $_GET["id"] ."\"");
