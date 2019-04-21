@@ -10,32 +10,11 @@
 body {
     position: relative;
     background-color: #666666;
-    font-family: "Segoe UI", Calibri, Geneva, Verdana, sans-serif;
     margin: 0 0 20px 0;
     box-sizing: border-box;
     overflow: hidden;
     width: 100vw;
     height: calc(100vh - 20px);
-}
-
-a {
-    color: #16a085;
-}
-
-.text-overflow {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-}
-
-t {
-    position: relative;
-    display: block;
-    font-size: 14px;
-    font-weight: normal;
-    font-style: normal;
-    color: rgb(29, 29, 29);
-    word-wrap: break-word;
 }
 
 /* Change Autocomplete styles in Chrome*/

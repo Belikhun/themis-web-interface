@@ -9,7 +9,7 @@
 	require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
 
-	// dont claim it for your own. its not nice
+	// dont claim it for your own. thats not nice
 	define("APPNAME", "Themis Web Interface");
 	define("AUTHOR", "Belikhun");
 	define("VERSION", "0.4.1");
@@ -29,12 +29,31 @@
 		$config["time"]["begin"]["years"]
 	);
 	$config["logdir"] = $config["uploaddir"] ."/Logs";
-	$config["version"] = VERSION;
 
-	function save_config(Array $config) {
+	function applyCustomVar(&$string) {
+		global $config;
+		$s = $string;
+		$list = Array(
+			"name" => APPNAME,
+			"version" => VERSION,
+			"author" => AUTHOR,
+			"contestName" => $config["contest"]["name"]
+		);
+
+		foreach ($list as $key => $value)
+			if (!empty($value))
+				$s = str_replace("%". $key ."%", $value, $s);
+
+		$string = $s;
+	}
+
+	applyCustomVar($config["contest"]["name"]);
+	applyCustomVar($config["contest"]["description"]);
+	applyCustomVar($config["pagetitle"]);
+
+	function saveConfig(Array $config) {
 		unset($config["time"]["begin"]["times"]);
 		unset($config["logdir"]);
-		unset($config["version"]);
 		(new fip($_SERVER["DOCUMENT_ROOT"] ."/data/config.json")) -> write(json_encode($config, JSON_PRETTY_PRINT));
 	}
 

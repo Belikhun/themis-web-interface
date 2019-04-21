@@ -27,5 +27,6 @@
         "maxrequest": 30,
         "time": 10,
         "bantime": 60
-    }
+    },
+    "pagetitle": "Themis Web Interface v%version%"
 }

@@ -92,6 +92,7 @@
     setting("time_begin_years", $config["time"]["begin"]["years"], $TYPE_NUMBER);
     setting("time_during", $config["time"]["during"], $TYPE_NUMBER);
     setting("time_offset", $config["time"]["offset"], $TYPE_NUMBER);
+    setting("pagetitle", $config["pagetitle"], $TYPE_STRING);
     setting("publish", $config["publish"], $TYPE_BOOL);
     setting("submit", $config["submit"], $TYPE_BOOL);
     setting("submitinproblems", $config["submitinproblems"], $TYPE_BOOL);
@@ -108,6 +109,6 @@
     if ($changed === false)
         stop(102, "Woah nothing happened.", 200);
 
-    save_config($config);
+    saveConfig($config);
     writeLog("OKAY", "Đã thay đổi cài đặt.");
     stop(0, "Thay đổi cài đặt thành công!", 200);
