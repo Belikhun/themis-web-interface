@@ -41,19 +41,19 @@
 
                 <div class="space"></div>
 
-                <div class="item lr info">
+                <div class="item lr info sound" data-soundhoversoft>
                     <div class="left">
                         <t>Danh sách các biến có sẵn</t>
-                        <ul>
-                            <li class="text"><b>%name%</b>: Tên dự án</li>
-                            <li class="text"><b>%version%</b>: Phiên bản</li>
-                            <li class="text"><b>%author%</b>: Tên tác giả</li>
-                            <li class="text"><b>%contestName%</b>: Tên kì thi</li>
+                        <ul class="text" style="user-select: text">
+                            <li><b>%name%</b>: Tên dự án</li>
+                            <li><b>%version%</b>: Phiên bản</li>
+                            <li><b>%author%</b>: Tên tác giả</li>
+                            <li><b>%contestName%</b>: Tên kì thi</li>
                         </ul>
                     </div>
                     <div class="right"></div>
                 </div>
-                <div class="item lr warning">
+                <div class="item lr warning sound" data-soundhoversoft>
                     <t class="left"><b>Lưu ý:</b> Tên kì thi, Mô tả kì thi và Tiêu đề trang cho phép chèn mã HTML. Hãy cẩn thận khi chèn mã HTML vào những trường này.</t>
                     <div class="right"></div>
                 </div>
