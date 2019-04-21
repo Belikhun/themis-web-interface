@@ -356,7 +356,8 @@ body.dark .menu::before {
     background-color: rgb(56, 56, 56);
 }
 
-body.dark .menu .group t {
+body.dark .menu .group t,
+body.dark .menu .group .item .text {
     color: rgb(178, 178, 178);
 }
 

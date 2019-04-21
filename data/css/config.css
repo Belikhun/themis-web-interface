@@ -104,10 +104,6 @@ body.dark .wrapper #form-container .group .title.small {
     color: rgb(192, 192, 192);
 }
 
-body.dark .wrapper #form-container .group .item:hover {
-    background-color: rgba(26, 26, 26, 0.4);
-}
-
 body.dark .wrapper #form-container .group a.item,
 body.dark .wrapper #form-container .group .item.arr {
     color: rgb(190, 190, 190);
