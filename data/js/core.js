@@ -722,7 +722,7 @@ core = {
             } else
                 this.attachment.me.style.display = "none";
 
-            this.description.innerText = data.description;
+            this.description.innerHTML = data.description;
             testhtml = "";
             data.test.forEach(item => {
                 testhtml += [
