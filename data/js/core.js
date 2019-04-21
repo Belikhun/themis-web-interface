@@ -1043,14 +1043,18 @@ core = {
                 if (e.target.checked === true) {
                     cookie.set("__darkMode", true);
                     document.body.classList.add("dark");
+
+                    this.publicFilesIframe.contentWindow.document.body.classList.add("dark");
+                    if (core.settings.cpanelIframe)
+                        core.settings.cpanelIframe.contentWindow.document.body.classList.add("dark");
                 } else {
                     cookie.set("__darkMode", false);
                     document.body.classList.remove("dark");
-                }
 
-                this.publicFilesIframe.contentWindow.location.reload();
-                if (core.settings.cpanelIframe)
-                    core.settings.cpanelIframe.contentWindow.location.reload();
+                    this.publicFilesIframe.contentWindow.document.body.classList.remove("dark");
+                    if (core.settings.cpanelIframe)
+                        core.settings.cpanelIframe.contentWindow.document.body.classList.remove("dark");
+                }
             })
             
             this.nightModeToggle.checked = cookie.get("__darkMode", false) == "true";
