@@ -1090,6 +1090,16 @@ body.guest #timep.show ~ #rankp {
     white-space: pre-wrap;
 }
 
+#problemp .problem-container .problem .description * {
+    white-space: normal;
+}
+
+#problemp .problem-container .problem .description > a,
+#problemp .problem-container .problem .description > table,
+#problemp .problem-container .problem .description > ul {
+    display: block;
+}
+
 #problemp .problem-container .problem table {
     list-style: none;
     overflow: auto;
@@ -1103,7 +1113,7 @@ body.guest #timep.show ~ #rankp {
 #problemp .problem-container .problem table tr th {
     border-bottom: 2px solid rgba(100, 100, 100, 0.8);
     text-align: left;
-    padding: 10px 0;
+    padding: 10px 8px;
 }
 
 #problemp .problem-container .problem table tr:hover {
@@ -1113,7 +1123,7 @@ body.guest #timep.show ~ #rankp {
 #problemp .problem-container .problem table tr td {
     border-bottom: 1px solid #c0c0c0;
     max-width: 100%;
-    padding: 7px 0;
+    padding: 7px 8px;
     white-space: pre-wrap;
 }
 
@@ -1122,7 +1132,6 @@ body.guest #timep.show ~ #rankp {
     width: auto;
     min-width: 80px;
     text-align: left;
-    padding: 0 16px 0 8px;
 }
 
 #problemp .problem-container .problem table.test tr td {

@@ -726,10 +726,10 @@ core = {
             testhtml = "";
             data.test.forEach(item => {
                 testhtml += [
-                    "<tr>",
-                        "<td>" + item.inp + "</td>",
-                        "<td>" + item.out + "</td>",
-                    "</tr>"
+                    `<tr>`,
+                        `<td>${escape_html(item.inp)}</td>`,
+                        `<td>${escape_html(item.out)}</td>`,
+                    `</tr>`
                 ].join("\n");
             })
             this.test.innerHTML = [
