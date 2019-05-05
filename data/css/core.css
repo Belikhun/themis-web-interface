@@ -194,11 +194,15 @@ panel .main.blank::after {
     margin: unset;
 }
 
-body.guest #container {
-    flex-direction: column;
+body.guest #timep.show,
+body.guest #problemp {
+    flex-grow: 1;
 }
 
-body.guest #timep.show,
+body.guest #problemp.hide {
+    display: none;
+}
+
 body.guest #rankp {
     width: calc(100% - 20px);
 }
@@ -1521,7 +1525,6 @@ body.user span#user_profile div.body ul#usett_left_panel li.navlink {
 /* Element to hide when user is guest */
 
 body.guest #uploadp,
-body.guest #problemp,
 body.guest #logp,
 body.guest span#user_profile {
     display: none!important;

@@ -598,6 +598,7 @@
                     <span class="ri">
                         <i class="material-icons bak sound" data-soundhover>keyboard_arrow_left</i>
                         <i class="material-icons ref sound" data-soundhover data-soundselect>refresh</i>
+                        <i class="material-icons clo sound" data-soundhover="" data-soundselect="">close</i>
                     </span>
                 </div>
                 <div class="main problem-container">

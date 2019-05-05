@@ -115,13 +115,13 @@ core = {
         await this.sound.init((p, t) => {
             set(25 + p*0.5, `Initializing: core.sounds (${t})`);
         });
+
+        set(75, "Initializing: core.problems");
+        await this.problems.init();
         
         if (LOGGED_IN) {
-            set(75, "Initializing: core.file");
+            set(80, "Initializing: core.file");
             this.file.init();
-
-            set(80, "Initializing: core.problems");
-            await this.problems.init();
 
             set(85, "Fetching Logs...");
             await this.fetchLog();
@@ -621,15 +621,19 @@ core = {
             size: $("#problem_attachment_size")
         },
 
-        async init() {
+        async init(loggedIn = false) {
             this.panel.bak.hide();
             this.panel.bak.onClick(() => {
                 this.list.classList.remove("hide");
                 this.panel.title = "Đề bài"
                 this.panel.bak.hide();
             })
+            if (loggedIn)
+                this.panel.clo.hide();
 
             this.panel.ref.onClick(() => this.getlist());
+            this.panel.clo.onClick(() => this.panel.elem.classList.add("hide"));
+
             await this.getlist();
 
             clog("okay", "Initialised:", {
