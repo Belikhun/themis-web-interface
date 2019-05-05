@@ -54,7 +54,7 @@
                     <div class="right"></div>
                 </div>
                 <div class="item lr warning sound" data-soundhoversoft>
-                    <t class="left"><b>Lưu ý:</b> Tên kì thi, Mô tả kì thi và Tiêu đề trang cho phép chèn mã HTML. Hãy cẩn thận khi chèn mã HTML vào những trường này.</t>
+                    <t class="left"><b>Lưu ý:</b> Tên kì thi, Mô tả kì thi và Tiêu đề trang chấp nhận mã HTML. Hãy cẩn thận khi chèn mã HTML vào những trường này.</t>
                     <div class="right"></div>
                 </div>
             </div>

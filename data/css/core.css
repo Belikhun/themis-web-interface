@@ -674,7 +674,7 @@ body.guest #rankp {
 
 .problem-settings .problem-container .problem div #problem_edit_desc {
     resize: none;
-    height: 100px;
+    height: 160px;
 }
 
 .problem-settings .problem-container .problem .test-container {
