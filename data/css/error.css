@@ -45,7 +45,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    max-width: 800px;
+    max-width: 1000px;
     max-height: 100%;
     width: 100%;
     overflow-x: hidden;
@@ -71,6 +71,7 @@ body {
 .container .left {
     position: relative;
     display: flex;
+    flex-grow: 0;
     flex-direction: column;
     align-items: flex-end;
     border-right: 2px solid rgb(182, 182, 182);
@@ -107,6 +108,7 @@ body {
 .container .right {
     position: relative;
     padding: 0 20px;
+    flex-grow: 1;
 }
 
 .container .right .description {
@@ -119,6 +121,32 @@ body {
 .container .right .detail {
     position: relative;
     font-size: 16px;
+}
+
+.container .right .reportIns {
+    position: relative;
+    display: block;
+    font-family: "Calibri";
+    font-size: 15px;
+    color: rgb(204, 204, 204);
+    margin: 20px 0 0 0;
+}
+
+.container .right .report {
+    position: relative;
+    display: block;
+    resize: none;
+    width: 100%;
+    height: 200px;
+    background-color: transparent;
+    font-family: "Consolas";
+    font-size: 15px;
+    color: rgb(204, 204, 204);
+    margin: 6px 0 0 0;
+    white-space: pre;
+    overflow-wrap: normal;
+    overflow-x: scroll;
+    border: unset;
 }
 
 .container .right .info {
@@ -172,6 +200,14 @@ body {
     
     .container .left .error {
         font-size: 15px;
+    }
+
+    .container .right .reportIns {
+        font-size: 13px;
+    }
+    
+    .container .right .report {
+        font-size: 13px;
     }
 
     .container .right .description {

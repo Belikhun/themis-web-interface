@@ -12,71 +12,56 @@ function myajax({
     form = Array(),
     file = null,
     type = "json",
-    onupload = () => {},
-    ondownload = () => {},
-    rawdata = false,
+    onUpload = () => {},
+    onDownload = () => {},
+    rawData = false,
     force = false,
     changeState = true,
     reRequest = true,
 }, callout = () => {}, error = () => {}) {
     return new Promise((resolve, reject) => {
-
         if (__connection__.onlineState !== "online" && force === false) {
-            var t = {};
+            var e = {};
             switch (__connection__.onlineState) {
                 case "offline":
-                    t = {code: 106, description: "Disconnected to Server"}
+                    e = { code: 106, description: "Disconnected to Server" }
                     break;
                 case "ratelimited":
-                    t = {code: 32, description: "Rate Limited"}
+                    e = { code: 32, description: "Rate Limited" }
                     break;
             }
 
-            reject(t);
-            error(t);
+            reject(e);
+            error(e);
             return;
         }
 
-        query.length = Object.keys(query).length;
-        form.length = Object.keys(form).length;
-
         var xhr = new XMLHttpRequest();
-        var pd = new FormData();
+        let formData = new FormData();
         if (file)
-            pd.append("file", file);
+            formData.append("file", file);
 
-        for (var i = 0; i < form.length; i++) {
-            kn = Object.keys(form)[i];
-            pd.append(kn, form[kn]);
-        }
+        for (let key in form)
+            if (form.hasOwnProperty(key))
+                formData.append(key, form[key]);
 
-        for (var i = 0; i < query.length; i++) {
-            if (i === 0)
-                url += "?";
-            var kn = Object.keys(query)[i];
-            url += kn + "=" + query[kn];
-            if (i < query.length - 1)
-                url += "&";
-        }
+        let queryKey = Object.keys(query);
+        for (let key in query)
+            if (query.hasOwnProperty(key))
+                url += `${(queryKey[0] === key) ? "?" : ""}${key}=${query[key]}${(queryKey[queryKey.length - 1] !== key) ? "&" : ""}`;
 
-        xhr.upload.addEventListener("progress", e => {
-            onupload(e);
-        }, false);
-
-        xhr.addEventListener("progress", e => {
-            ondownload(e);
-        })
+        xhr.upload.addEventListener("progress", e => onUpload(e), false);
+        xhr.addEventListener("progress", e => onDownload(e), false);
 
         xhr.addEventListener("readystatechange", async function() {
             if (this.readyState === this.DONE) {
-
                 if (this.status === 0) {
                     if (changeState === true)
                         __connection__.stateChange("offline");
                         
-                    let t = {code: 106, description: "Disconnected to Server"};
-                    reject(t);
-                    error(t);
+                    let e = { code: 106, description: "Disconnected to Server" };
+                    reject(e);
+                    error(e);
                     return;
                 }
                 
@@ -92,20 +77,21 @@ function myajax({
                         text: url
                     });
 
-                    let t = {code: 1, description: `HTTP ${this.status}: ${this.statusText}`}
-                    error(t);
-                    reject(t);
+                    let e = { code: 1, description: `HTTP ${this.status}: ${this.statusText}` }
+                    error(e);
+                    reject(e);
                     return false;
                 }
 
                 if (type === "json") {
                     try {
                         var res = JSON.parse(this.responseText);
-                    } catch (e) {
+                    } catch (error) {
                         clog("errr", "Error parsing JSON.");
 
+                        let e = { code: 2, description: `Error parsing JSON`, data: error }
                         error(e);
-                        reject({code: 2, description: `Error parsing JSON`, data: e});
+                        reject(e);
                         return;
                     }
 
@@ -133,9 +119,9 @@ function myajax({
                                 form: form,
                                 file: file,
                                 type: type,
-                                onupload: onupload,
-                                ondownload: ondownload,
-                                rawdata: rawdata,
+                                onUpload: onUpload,
+                                onDownload: onDownload,
+                                rawData: rawData,
                             }, callout, error).catch(d => {
                                 reject(d);
                             })
@@ -144,14 +130,15 @@ function myajax({
 
                             return;
                         } else {
-                            error(res);
-                            reject({code: 3, description: `HTTP ${this.status}: ${this.statusText}`, data: res});
+                            let e = { code: 3, description: `HTTP ${this.status}: ${this.statusText}`, data: res }
+                            error(e);
+                            reject(e);
                             return;
                         }
                     }
 
-                    data = rawdata ? res : res.data;
-                    rawdata = res;
+                    data = rawData ? res : res.data;
+                    rawData = res;
                 } else {
                     if (this.status !== 200) {
                         clog("errr", {
@@ -165,22 +152,23 @@ function myajax({
                             text: url
                         });
 
-                        error(res);
-                        reject({code: 3, description: `HTTP ${this.status}: ${this.statusText}`, data: res});
+                        let e = { code: 3, description: `HTTP ${this.status}: ${this.statusText}`, data: res }
+                        error(e);
+                        reject(e);
                         return false;
                     }
 
                     data = this.responseText;
-                    rawdata = null;
+                    rawData = null;
                 }
 
-                callout(data, rawdata);
-                resolve(data, rawdata);
+                callout(data, rawData);
+                resolve(data, rawData);
             }
         })
         
         xhr.open(method, url);
-        xhr.send(pd);
+        xhr.send(formData);
     })
 }
 
@@ -198,7 +186,7 @@ function compareJSON(obj1, obj2) {
     return false;
 }
 
-function escape_html(str) {
+function escapeHTML(str) {
     if ((str === null) || (str === ""))
         return "";
     else
@@ -221,7 +209,7 @@ function fcfn(nodes, classname) {
     return nodes.getElementsByClassName(classname)[0];
 }
 
-function buildElementTree(type = "div", __class = [], data = new Array()) {
+function buildElementTree(type = "div", __class = [], data = new Array(), __keypath = "") {
     var tree = document.createElement(type);
     if (typeof __class == "string")
         __class = new Array([__class]);
@@ -231,17 +219,23 @@ function buildElementTree(type = "div", __class = [], data = new Array()) {
     for (var i = 0; i < data.length; i++) {
         var d = data[i];
         if (typeof d.list == "object") {
-            var t = buildElementTree(d.type, d.class, d.list);
+            let k = __keypath + (__keypath === "" ? "" : ".") + d.name;
+            var t = buildElementTree(d.type, d.class, d.list, k);
+
             t.tree.dataset.name = d.name;
+            t.tree.dataset.path = k;
             tree.appendChild(t.tree);
             objtree[d.name] = t.tree;
             Object.assign(objtree[d.name], t.obj);
         } else {
+            let k = __keypath + (__keypath === "" ? "" : ".") + d.name;
             var t = document.createElement(d.type);
             if (typeof d.class == "string")
                 d.class = new Array([d.class]);
+
             t.classList.add.apply(t.classList, d.class);
             t.dataset.name = d.name;
+            t.dataset.path = k;
             tree.appendChild(t);
             objtree[d.name] = t;
         }
@@ -282,7 +276,7 @@ function checkServer(ip, callback = () => {}) {
     })
 }
 
-function parsetime(t = 0) {
+function parseTime(t = 0) {
     var d = "";
     if (t < 0) {
         t = -t;
@@ -305,12 +299,20 @@ function parsetime(t = 0) {
     }
 }
 
+function convertSize(bytes) {
+    let sizes = ["B", "KB", "MB", "GB", "TB"];
+    for (var i = 0; bytes >= 1024 && i < (sizes.length -1 ); i++)
+        bytes /= 1024;
+
+    return `${round(bytes, 2)} ${sizes[i]}`;
+}
+
 function round(number, to = 2) {
     const d = Math.pow(10, to);
     return Math.round(number * d) / d;
 }
 
-class stopclock {
+class stopClock {
     __time(date = new Date()) {
         return date.getTime();
     }
@@ -324,7 +326,7 @@ class stopclock {
     }
 }
 
-function currentscript() {
+function currentScript() {
     var url = (document.currentScript) ? document.currentScript.src : "unknown";
     return url.substring(url.lastIndexOf("/") + 1);
 }
@@ -516,7 +518,7 @@ if (typeof document.__onclog === "undefined")
     document.__onclog = (lv, t, m) => {};
 
 // Init
-sc = new stopclock();
+sc = new stopClock();
 clog("info", "Log started at:", {
     color: flatc("green"),
     text: (new Date()).toString()

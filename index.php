@@ -689,7 +689,7 @@
             const IS_ADMIN = `<?php print ($id === "admin" ? "true" : "false"); ?>` === "true";
             const LOGGED_IN = `<?php print ($loggedin === true ? "true" : "false"); ?>` === "true";
             const API_TOKEN = `<?php print isset($_SESSION["api_token"]) ? $_SESSION["api_token"] : null; ?>`;
-            const SESSION = JSON.parse(`<?php print json_encode($sessdata); ?>`);
+            const SESSION = <?php print json_encode($sessdata); ?>
         </script>
 
         <script src="/data/js/statusbar.js" type="text/javascript"></script>

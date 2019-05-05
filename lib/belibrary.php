@@ -155,7 +155,7 @@
             return null;
     }
 
-    function stop($c = 0, string $d = "", $sc = 200, $b = Array()) {
+    function stop($c = 0, String $d = "", $sc = 200, $b = Array()) {
         global $runtime;
 
         $out = Array(
@@ -174,13 +174,9 @@
 
         switch (STOP_OUTPUT) {
             case "errorpage":
-                if ($sc !== 200 || $c !== 0)
+                if ($sc >= 300 || $c !== 0)
                     if (function_exists("printErrorPage"))
-                        printErrorPage(Array(
-                            "num" => $c,
-                            "str" => $d,
-                            "errcode" => $sc
-                        ), false);
+                        printErrorPage($out, !headers_sent());
                     else print "<h1>Error $sc</h1><p>$d</p>";
                 break;
             
@@ -196,7 +192,8 @@
     function convertSize($bytes) {
         $sizes = array("B", "KB", "MB", "GB", "TB");
         for ($i = 0; $bytes >= 1024 && $i < (count($sizes) -1); $bytes /= 1024, $i++);
-            return(round($bytes, 2 ) . " " . $sizes[$i]);
+        
+        return (round($bytes, 2 ) . " " . $sizes[$i]);
     }
 
     function folderSize($dir) {
@@ -294,7 +291,7 @@
         }
     }
 
-    class stopclock {
+    class stopClock {
         private $start;
 
         public function __construct() {
@@ -307,6 +304,6 @@
     }
 
     if (!isset($runtime))
-        $runtime = new stopclock();
+        $runtime = new stopClock();
 
 ?>

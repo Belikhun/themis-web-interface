@@ -94,11 +94,11 @@ core = {
 
     async init(set) {
         clog("info", "Initializing...");
-        var initTime = new stopclock();
+        var initTime = new stopClock();
 
         set(5, "Fetching Rank...");
         await this.fetchRank();
-        this.rankPanel.ref.onClick(() => { this.fetchRank(true) });
+        this.rankPanel.ref.onClick(() => this.fetchRank(true));
         __connection__.onStateChange((s) => { s === "online" ? this.__fetchRank() : null });
         this.__fetchRank();
 
@@ -125,8 +125,8 @@ core = {
 
             set(85, "Fetching Logs...");
             await this.fetchLog();
-            this.logPanel.ref.onClick(() => { this.fetchLog(true) });
-            this.file.onUploadSuccess = () => { this.fetchLog() };
+            this.logPanel.ref.onClick(() => this.fetchLog(true));
+            this.file.onUploadSuccess = () => this.fetchLog();
             __connection__.onStateChange((s) => { s === "online" ? this.__fetchLog() : null });
             this.__fetchLog();
 
@@ -192,7 +192,7 @@ core = {
             data = await myajax({
                 url: "https://api.github.com/repos/belivipro9x99/themis-web-interface/releases/latest",
                 method: "GET",
-                rawdata: true,
+                rawData: true,
                 changeState: false,
                 reRequest: false
             });
@@ -238,18 +238,18 @@ core = {
 
     async __fetchLog() {
         clearTimeout(this.__logTimeout);
-        var timer = new stopclock();
+        var timer = new stopClock();
         this.initialized ? await this.fetchLog() : null;
         
-        this.__logTimeout = setTimeout(() => { this.__fetchLog() }, this.updateDelay - timer.stop*1000);
+        this.__logTimeout = setTimeout(() => this.__fetchLog(), this.updateDelay - timer.stop*1000);
     },
 
     async __fetchRank() {
         clearTimeout(this.__rankTimeout);
-        var timer = new stopclock();
+        var timer = new stopClock();
         this.initialized ? await this.fetchRank() : null;
         
-        this.__rankTimeout = setTimeout(() => { this.__fetchRank() }, this.updateDelay - timer.stop*1000);
+        this.__rankTimeout = setTimeout(() => this.__fetchRank(), this.updateDelay - timer.stop*1000);
     },
 
     async fetchLog(bypass = false) {
@@ -262,7 +262,7 @@ core = {
             return false;
 
         clog("debg", "Updating Log");
-        var updatelog = new stopclock();
+        var updatelog = new stopClock();
 
         var list = this.logPanel.main.getElementsByClassName("log-item-container")[0];
         
@@ -343,7 +343,7 @@ core = {
             return false;
 
         clog("debg", "Updating Rank");
-        var updaterank = new stopclock();
+        var updaterank = new stopClock();
 
         if (data.list.length === 0 && data.rank.length === 0) {
             this.rankPanel.main.classList.add("blank");
@@ -389,7 +389,7 @@ core = {
                     `<td>${rank}</td>`,
                     `<td>`,
                         `<img class="avt" src="/api/avt/get?u=${data.rank[i].username}">`,
-                        `<t class="name">${escape_html(data.rank[i].name)}</t>`,
+                        `<t class="name">${escapeHTML(data.rank[i].name)}</t>`,
                     `</td>`,
                     `<td class="number">${parseFloat(data.rank[i].total).toFixed(2)}</td>`
             ].join("\n");
@@ -431,7 +431,7 @@ core = {
         var out = [`<ul class="viewlog-container">`];
 
         for (var i = 0; i < data.length; i++)
-            out.push(`<li>${escape_html(data[i])}</li>`);
+            out.push(`<li>${escapeHTML(data[i])}</li>`);
         
         out.push("</ul>");
         this.wrapper.panel.main.innerHTML = out.join("\n");
@@ -492,7 +492,6 @@ core = {
                 return;
 
             var files = (type === "drop") ? e.dataTransfer.files : e.target.files;
-
             this.dropzone.classList.add("hide");
 
             clog("info", "Started uploading", {
@@ -506,9 +505,7 @@ core = {
             this.size.innerText = "00/00";
             this.percent.innerText = "0%";
             this.bar.style.width = "0%";
-            setTimeout(() => {
-                this.upload(files);
-            }, 1000);
+            setTimeout(() => this.upload(files), 1000);
         },
 
         dragenter(e) {
@@ -590,12 +587,12 @@ core = {
                     setTimeout(() => {
                         this.upload(files, i + 1);
                     }, this.uploadCoolDown / 2);
-                }, res => {
+                }, e => {
                     clog("info", "Upload Stopped.");
 
                     this.uploading = false;
                     this.input.value = "";
-                    this.state.innerText = res.description;
+                    this.state.innerText = e.data.description;
                     this.panel.title = "Nộp bài - Đã dừng.";
                     this.bar.classList.add("red");
                 })
@@ -632,10 +629,7 @@ core = {
                 this.panel.bak.hide();
             })
 
-            this.panel.ref.onClick(() => {
-                this.getlist();
-            });
-
+            this.panel.ref.onClick(() => this.getlist());
             await this.getlist();
 
             clog("okay", "Initialised:", {
@@ -652,9 +646,13 @@ core = {
                     method: "GET"
                 });
             } catch(e) {
-                clog("WARN", "Kì thi chưa bắt đầu");
-                this.panel.main.classList.add("blank");
-                this.list.innerHTML = "";
+                if (e.data.code === 103) {
+                    clog("WARN", "Kì thi chưa bắt đầu");
+                    this.panel.main.classList.add("blank");
+                    this.list.innerHTML = "";
+                } else
+                    console.error(e);
+
                 return false;
             }
 
@@ -727,8 +725,8 @@ core = {
             data.test.forEach(item => {
                 testhtml += [
                     `<tr>`,
-                        `<td>${escape_html(item.inp)}</td>`,
-                        `<td>${escape_html(item.out)}</td>`,
+                        `<td>${escapeHTML(item.inp)}</td>`,
+                        `<td>${escapeHTML(item.out)}</td>`,
                     `</tr>`
                 ].join("\n");
             })
@@ -753,13 +751,8 @@ core = {
         last: 0,
 
         async init() {
-            this.timepanel.ref.onClick(() => {
-                this.fetchtime(true);
-            });
-
-            this.timepanel.clo.onClick(e => {
-                this.close();
-            })
+            this.timepanel.ref.onClick(() => this.fetchtime(true));
+            this.timepanel.clo.onClick(e => this.close());
 
             if (LOGGED_IN)
                 this.timepanel.clo.hide();
@@ -851,10 +844,10 @@ core = {
 
                     this.time.classList.remove("red");
                     this.time.classList.remove("green");
-                    this.time.innerText = parsetime(t).str;
+                    this.time.innerText = parseTime(t).str;
                     this.bar.style.width = p1 + "%";
                     this.start.innerText = p1.toFixed(2) + "%";
-                    this.end.innerText = parsetime(this.last).str;
+                    this.end.innerText = parseTime(this.last).str;
                     this.state.innerText = "Bắt đầu kì thi sau";
                     break;
                 case 2:
@@ -862,10 +855,10 @@ core = {
 
                     this.time.classList.remove("red");
                     this.time.classList.add("green");
-                    this.time.innerText = parsetime(t).str;
+                    this.time.innerText = parseTime(t).str;
                     this.bar.style.width = p2 + "%";
                     this.start.innerText = p2.toFixed(2) + "%";
-                    this.end.innerText = parsetime(data.during).str;
+                    this.end.innerText = parseTime(data.during).str;
                     this.state.innerText = "Thời gian làm bài";
                     break;
                 case 3:
@@ -873,16 +866,16 @@ core = {
 
                     this.time.classList.remove("green");
                     this.time.classList.add("red");
-                    this.time.innerText = parsetime(t).str;
+                    this.time.innerText = parseTime(t).str;
                     this.bar.style.width = p3 + "%";
                     this.start.innerText = p3.toFixed(2) + "%";
-                    this.end.innerText = parsetime(data.offset).str;
+                    this.end.innerText = parseTime(data.offset).str;
                     this.state.innerText = "Thời gian bù";
                     break;
                 case 4:
                     this.time.classList.remove("green");
                     this.time.classList.remove("red");
-                    this.time.innerText = parsetime(t).str;
+                    this.time.innerText = parseTime(t).str;
                     this.bar.style.width = "0%";
                     this.start.innerText = "---%";
                     this.end.innerText = "--:--";
@@ -909,9 +902,7 @@ core = {
                 this.emain = fcfn(elem, "main");
                 this.funcOnToggle = () => {};
 
-                this.btn_close.addEventListener("click", () => {
-                    this.hide();
-                })
+                this.btn_close.addEventListener("click", () => this.hide());
             }
         
             hide() {
@@ -955,9 +946,7 @@ core = {
 
             set toggler(e) {
                 this.eToggle = e;
-                e.addEventListener("click", e => {
-                    this.toggle(e);
-                })
+                e.addEventListener("click", e => this.toggle(e));
             }
 
             set onToggle(f) {
@@ -1015,13 +1004,12 @@ core = {
         __hideAllPanel() {
             var l = this.panelContainer.getElementsByClassName("show");
 
-            for (var i = 0; i < l.length; i++) {
+            for (var i = 0; i < l.length; i++)
                 l[i].classList.remove("show");
-            }
         },
         
         init(loggedIn = true) {
-            this.toggler.addEventListener("click", e => {this.toggle(e)}, false);
+            this.toggler.addEventListener("click", e => this.toggle(e), false);
 
             this.aboutPanel = new this.panel($("#usett_aboutPanel"));
             this.aboutPanel.toggler = $("#usett_aboutToggler");
@@ -1032,14 +1020,12 @@ core = {
             this.publicFilesPanel = new this.panel($("#usett_publicFilesPanel"));
             this.publicFilesPanel.toggler = $("#settings_publicFilesToggler");
             this.publicFilesIframe = fcfn(this.publicFilesPanel.main, "publicFiles-container");
-            this.publicFilesPanel.ref.onClick(() => {
-                this.publicFilesIframe.contentWindow.location.reload();
-            })
+            this.publicFilesPanel.ref.onClick(() => this.publicFilesIframe.contentWindow.location.reload());
 
             this.adminConfig.style.display = "none";
 
             // Night mode setting
-            this.nightModeToggle.addEventListener("change", (e) => {
+            this.nightModeToggle.addEventListener("change", e => {
                 if (e.target.checked === true) {
                     cookie.set("__darkMode", true);
                     document.body.classList.add("dark");
@@ -1061,7 +1047,7 @@ core = {
             this.nightModeToggle.dispatchEvent(new Event("change"));
 
             // Update delay setting
-            this.updateDelaySlider.addEventListener("input", (e) => {
+            this.updateDelaySlider.addEventListener("input", e => {
                 this.updateDelayText.innerText = `${e.target.value / 1000} giây/yêu cầu`;
 
                 if (e.target.value < 2000)
@@ -1109,7 +1095,7 @@ core = {
                 this.changepass(this.sub.pass.value, this.sub.nPass.value, this.sub.renPass.value);
             }, false)
 
-            this.logoutBtn.addEventListener("click", e => {this.logout(e)}, false);
+            this.logoutBtn.addEventListener("click", e => this.logout(e), false);
 
             clog("okay", "Initialised:", {
                 color: flatc("red"),
@@ -1168,13 +1154,11 @@ core = {
             }, data => {
                 this.reset();
                 this.reload(data.name, 1);
-                clog("okay", "Changed name to", {
+                clog("okay", "Đã đổi tên thành", {
                     color: flatc("pink"),
                     text: name
                 })
-            }, () => {
-                this.reset();
-            });
+            }, () => this.reset());
         },
 
         async changepass(pass, nPass, renPass) {
@@ -1190,9 +1174,7 @@ core = {
             }, () => {
                 clog("okay", "Thay đổi mật khẩu thành công!");
                 this.reset();
-            }, () => {
-                this.reset();
-            });
+            }, () => this.reset());
         },
 
         filesel(e, type = "drop") {
@@ -1205,9 +1187,7 @@ core = {
             var file = (type === "drop") ? e.dataTransfer.files[0] : e.target.files[0];
 
             this.avtw.classList.add("load");
-            setTimeout(() => {
-                this.avtupload(file);
-            }, 1000);
+            setTimeout(() => this.avtupload(file), 1000);
         },
 
         async avtupload(file) {
@@ -1222,9 +1202,7 @@ core = {
                 this.reset();
                 this.reload(data);
                 clog("okay", "Avatar changed.");
-            }, () => {
-                this.reset();
-            });
+            }, () => this.reset());
         },
 
         dragenter(e) {
@@ -1284,14 +1262,9 @@ core = {
                 clog("okay", "Reloaded Problems Panel.");
             })
 
-            this.lpanel.ref.onClick(() => {
-                this.syslogs.refresh();
-            })
+            this.lpanel.ref.onClick(() => this.syslogs.refresh());
 
-            this.lpanel.onToggle = s => {
-                if (s === "show")
-                    this.syslogs.refresh();
-            }
+            this.lpanel.onToggle = s => ((s === "show") ? this.syslogs.refresh() : null);
 
             clog("okay", "Initialised:", {
                 color: flatc("red"),
@@ -1385,18 +1358,10 @@ core = {
             async init() {
                 this.hide(this.headbtn.back);
                 this.hide(this.headbtn.check);
-                this.headbtn.check.addEventListener("click", e => {
-                    this.form.submit();
-                });
-                this.headbtn.back.addEventListener("click", e => {
-                    this.showlist();
-                });
-                this.headbtn.add.addEventListener("click", e => {
-                    this.newproblem();
-                });
-                this.form.form.addEventListener("submit", e => {
-                    this.postsubmit();
-                });
+                this.headbtn.check.addEventListener("click", e => this.form.submit());
+                this.headbtn.back.addEventListener("click", e => this.showlist());
+                this.headbtn.add.addEventListener("click", e => this.newproblem());
+                this.form.form.addEventListener("submit", e => this.postsubmit());
 
                 this.form.testadd.addEventListener("click", e => {
                     html = [
@@ -1849,9 +1814,7 @@ core = {
             if (!sound.paused)
                 sound.pause();
             sound.currentTime = 0;
-            sound.play().catch(e => {
-                clog("errr", "Error occurred while trying to play sounds.");
-            });
+            sound.play().catch(e => clog("errr", "Error occurred while trying to play sounds."));
         },
 
         select() {
