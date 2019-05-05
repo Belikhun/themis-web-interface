@@ -161,6 +161,7 @@ panel .main.blank::after {
 
 #rankp {
     height: calc(100% - 240px);
+    width: calc(100% - 390px);
     min-width: 50%;
     flex-grow: 1;
 }
