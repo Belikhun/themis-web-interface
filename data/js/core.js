@@ -163,7 +163,7 @@ core = {
             method: "GET",
         }).catch(e => {
             clog("WARN", "Error while getting server status:", {
-                text: e.description,
+                text: e.data.description,
                 color: flatc("red"),
             });
         });
@@ -198,7 +198,7 @@ core = {
             });
         } catch (error) {
             clog("WARN", "Error Checking for update:", {
-                text: error.description,
+                text: error.data.description,
                 color: flatc("red"),
             });
 
@@ -1115,9 +1115,7 @@ core = {
                 form: {
                     "token": API_TOKEN
                 }
-            }, () => {
-                location.reload();
-            })
+            }, () => location.reload());
         },
 
         toggle() {
