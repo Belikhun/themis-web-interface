@@ -45,6 +45,7 @@ panel {
     position: relative;
     display: flex;
     flex-direction: column;
+    flex-flow: row wrap;
     width: 350px;
     height: auto;
     background-color: white;
@@ -160,6 +161,7 @@ panel .main.blank::after {
 
 #rankp {
     height: calc(100% - 240px);
+    min-width: 50%;
     flex-grow: 1;
 }
 
@@ -208,22 +210,29 @@ body.guest #rankp {
 }
 
 @media only screen and (max-width: 1150px) {
+    #uploadp,
+    #timep,
+    #problemp,
+    #logp {
+        height: calc(50% - 20px);
+    }
+
     #timep {
         order: 2;
     }
 
     #problemp {
-        order: 4;
-        height: calc(100% - 240px);
+        order: 3;
     }
 
     #logp {
-        order: 3;
+        order: 4;
         flex-grow: 1;
     }
 
     #rankp {
         order: 5;
+        width: calc(100% - 20px);
         height: calc(100% - 20px);
     }
 }
