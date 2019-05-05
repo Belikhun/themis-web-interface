@@ -658,6 +658,17 @@
                 </div>
             </panel>
 
+            <panel id="rankp">
+                <div class="head">
+                    <t class="le">Xếp hạng</t>
+                    <span class="ri">
+                        <i class="material-icons ref sound" data-soundhover data-soundselect>refresh</i>
+                    </span>
+                </div>
+                <div class="main ranking-container">
+                </div>
+            </panel>
+
             <panel id="logp">
                 <div class="head">
                     <t class="le">Nhật ký</t>
@@ -668,17 +679,6 @@
                 <div class="main">
                     <ul class="log-item-container">
                     </ul>
-                </div>
-            </panel>
-
-            <panel id="rankp">
-                <div class="head">
-                    <t class="le">Xếp hạng</t>
-                    <span class="ri">
-                        <i class="material-icons ref sound" data-soundhover data-soundselect>refresh</i>
-                    </span>
-                </div>
-                <div class="main ranking-container">
                 </div>
             </panel>
 

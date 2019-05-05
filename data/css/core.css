@@ -24,12 +24,15 @@ input:-webkit-autofill {
 
 body #container {
     position: relative;
-    display: block;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     width: 100vw;
     height: calc(100vh - 78px);
     top: 58px;
     background-color: #ebebeb;
     box-sizing: border-box;
+    padding: 10px;
     overflow-x: hidden;
     overflow-y: auto;
     transition:
@@ -46,7 +49,7 @@ panel {
     height: auto;
     background-color: white;
     box-shadow: 0 0 5px rgba(98, 98, 98, 0.2);
-    margin: 20px;
+    margin: 10px;
     box-sizing: border-box;
 }
 
@@ -138,53 +141,30 @@ panel .main.blank::after {
 }
 
 #uploadp {
-    display: block;
-    float: left;
-    width: calc(100% - 780px);
     height: 200px;
-    min-height: 200px;
-    margin: 20px 10px 10px 20px;
+    flex-grow: 1;
 }
 
 #problemp {
-    display: block;
-    float: left;
     height: 200px;
-    margin: 20px 10px 10px 10px;
 }
 
 #timep {
-    display: none;
-    float: right;
     height: 200px;
-    margin: 20px 20px 10px 10px;
+    display: none;
 }
 
 #timep.show {
     display: block;
 }
 
-#logp {
-    display: block;
-    float: right;
-    height: calc(100% - 40px);
-    min-height: 460px;
-    margin: 20px 20px 20px 10px;
-}
-
-#timep.show + #logp {
-    height: calc(100% - 260px);
-    min-height: 240px;
-    margin: 10px 20px 20px 10px;
-}
-
 #rankp {
-    display: block;
-    float: left;
-    width: calc(100% - 410px);
-    height: calc(100% - 260px);
-    min-height: 240px;
-    margin: 10px 10px 20px 20px;
+    height: calc(100% - 240px);
+    flex-grow: 1;
+}
+
+#logp {
+    height: calc(100% - 240px);
 }
 
 #wrapper {
@@ -214,99 +194,48 @@ panel .main.blank::after {
     margin: unset;
 }
 
-body.guest #timep.show {
-    width: calc(100% - 40px);
-    margin: 20px 20px 10px 20px;
+body.guest #container {
+    flex-direction: column;
 }
 
-
+body.guest #timep.show,
 body.guest #rankp {
-    width: calc(100% - 40px);
-    height: calc(100% - 40px);
-    margin: 20px;
-}
-
-body.guest #timep.show ~ #rankp {
-    margin: 10px 20px 20px 20px;
-    height: calc(100% - 260px);
+    width: calc(100% - 20px);
 }
 
 @media only screen and (max-width: 1150px) {
-    #uploadp {
-        width: calc(100% - 410px);
+    #timep {
+        order: 2;
     }
 
     #problemp {
-        margin: 20px 10px 10px 10px;
+        order: 4;
+        height: calc(100% - 240px);
     }
 
     #logp {
-        margin: 10px 20px 20px 10px;
-        height: calc(100% - 260px);
-        min-height: 240px;
+        order: 3;
+        flex-grow: 1;
     }
 
     #rankp {
-        height: calc(100% - 260px);
-    }
-
-    #timep {
-        float: left;
-        width: calc(100% - 410px);
-        margin: 10px 10px 10px 20px;
-    }
-
-    #timep.show + #logp {
-        height: calc(100% - 40px);
-        min-height: 460px;
+        order: 5;
+        height: calc(100% - 20px);
     }
 }
 
 @media only screen and (max-width: 700px) {
-    #uploadp {
-        width: calc(100% - 40px);
-        margin: 20px 20px 10px 20px;
+    #timep {
+        flex-grow: 1;
     }
 
     #problemp {
-        width: calc(100% - 40px);
-        margin: 10px 20px;
-    }
-
-    #timep.show {
-        width: calc(100% - 40px);
-        margin: 10px 20px;
-        float: left;
+        order: 3;
+        flex-grow: 1;
     }
 
     #logp {
-        width: calc(100% - 40px);
-        height: calc(100% - 40px);
-        float: left;
-        margin: 10px 20px;
-    }
-
-    #timep.show+#logp {
-        height: calc(100% - 40px);
-        margin: 10px 20px;
-    }
-
-    #rankp {
-        width: calc(100% - 40px);
-        height: calc(100% - 40px);
-        margin: 10px 20px 20px 20px;
-    }
-
-    #wrapp {
-        position: absolute;
-        width: 100%;
-        min-width: unset;
-        max-width: unset;
-        min-height: unset;
-        max-height: unset;
-        height: 80%;
-        bottom: 20px;
-        transform: unset;
+        height: calc(100% - 20px);
     }
 }
 
