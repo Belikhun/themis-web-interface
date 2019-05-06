@@ -44,19 +44,24 @@ def __testLoginAPI():
             "p": "admin"
         })
 
-        json = data.json()
     except Exception as excp:
         return excp.__class__.__name__
+    else:
+        try:
+            json = data.json()
+        except Exception as excp:
+            return excp.__class__.__name__
+        else:
+            if (json["code"] != 0):
+                return "[{}] {}".format(json["code"], json["description"])
+            
+            if (json["status"] >= 300):
+                return "[{}] {}".format(json["status"], json["description"])
 
-    finally:
-        if (json["code"] != 0):
-            return "[{}] {}".format(json["code"], json["description"])
-        
-        if (json["status"] >= 300):
-            return "[{}] {}".format(json["status"], json["description"])
+            token = json["data"]["token"]
+            return True
 
-    token = json["data"]["token"]
-    return True
+    return "Unknown"
 
 apiTest.case("Should be logged in successful with account admin:admin", __testLoginAPI)
 
@@ -73,18 +78,20 @@ def __testLogoutAPI():
         json = data.json()
     except Exception as excp:
         return excp.__class__.__name__
+    else:
+        try:
+            json = data.json()
+        except Exception as excp:
+            return excp.__class__.__name__
+        else:
+            if (json["code"] != 0):
+                return "[{}] {}".format(json["code"], json["description"])
+            
+            if (json["status"] >= 300):
+                return "[{}] {}".format(json["status"], json["description"])
 
-    try:
-        json = data.json()
-    except Exception as excp:
-        return excp.__class__.__name__
+            return True
 
-    if (json["code"] != 0):
-        return "[{}] {}".format(json["code"], json["description"])
-    
-    if (json["status"] >= 300):
-        return "[{}] {}".format(json["status"], json["description"])
-
-    return True
+    return "Unknown"
 
 apiTest.case("Should be logged out successfully", __testLogoutAPI)
