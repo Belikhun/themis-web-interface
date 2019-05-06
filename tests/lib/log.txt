@@ -1,0 +1,6 @@
+13:40:33|     0.0156|      LOG|   INFO| Log started at Mon May  6 13:40:33 2019
+13:40:33|     0.0156|    EHOOK|   EXCP| File Traceback:
+13:40:33|     0.0156|    EHOOK|   DEBG|  File               testFramework.py, line   68, in <module>
+13:40:33|     0.0156|    EHOOK|   DEBG|  File               testFramework.py, line   32, in case
+13:40:33|     0.0312|    EHOOK|   EXCP| AttributeError: 'float' object has no attribute 'time'
+13:40:33|     0.0312|      LOG|   INFO| Log ended.

@@ -13,15 +13,16 @@ before_script:
     - sudo chown -R travis:travis /var/lib/apache2/fastcgi
     - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
     # configure apache virtual hosts
-    - sudo cp -f tests/config/apache.conf /etc/apache2/sites-available/000-default.conf
+    - sudo cp -f tests/.config/apache.conf /etc/apache2/sites-available/000-default.conf
     - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
     - sudo service apache2 restart
-    # test apache2 server
-    - curl http://localhost/api/status
     # execute custom beforeScript
-    - pwd
-    - sudo chmod ugo+x tests/beforeScript.sh
-    - ./tests/beforeScript.sh
+    - dos2unix tests/config.sh
+    - sudo chmod ugo+x tests/config.sh
+    - ./tests/config.sh --copy
 
 script:
-    - python3 tests/logParser/test.py
+    - python3 tests/apiTest.py
+
+after_script:
+    - ./tests/config.sh --restore
