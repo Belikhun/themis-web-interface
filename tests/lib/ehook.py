@@ -10,6 +10,8 @@ from colorama import Fore
 from ntpath import basename
 import sys
 
+init(autoreset=True)
+
 def myexcepthook(exctype, value, tb):
     log("EXCP", "File Traceback:")
     while tb:

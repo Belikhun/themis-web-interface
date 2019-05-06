@@ -10,7 +10,7 @@ from sys import exit
 import atexit
 import lib.ehook
 import time
-init(autoreset=True, strip=False)
+init(autoreset=True)
 
 class testFramework:
     def __init__(self, name):

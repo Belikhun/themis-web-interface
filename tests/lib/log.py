@@ -13,7 +13,7 @@ import time
 import re
 
 #init
-init(autoreset=True, strip=False)
+init(autoreset=True)
 sticks = time.time()
 
 def escape_ansi(line):
