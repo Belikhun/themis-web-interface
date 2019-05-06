@@ -10,17 +10,18 @@ from sys import exit
 import atexit
 import lib.ehook
 import time
-init(autoreset=True)
+init(autoreset=True, strip=False)
 
 class testFramework:
     def __init__(self, name):
+        self.doneHandled = False
         self.testNth = 0
         self.testPassed = 0
         self.testFailed = 0
         self.allSuccess = True
         self.totalTime = 0
         self.testName = name
-        atexit.register(self.__doneHandler__)
+        atexit.register(self.doneHandler)
 
         print("")
         print("Test {}\"{}\"{}:".format(Fore.LIGHTBLUE_EX, self.testName, Style.RESET_ALL))
@@ -54,7 +55,11 @@ class testFramework:
         if (result != True):
             print("   → Reason: {}".format(Fore.LIGHTBLACK_EX + result))
 
-    def __doneHandler__(self):
+    def doneHandler(self):
+        if (self.doneHandled == True):
+            return
+
+        self.doneHandled = True
         print("")
         print("Test {}\"{}\"{} completed:".format(Fore.LIGHTBLUE_EX, self.testName, Style.RESET_ALL))
         print("  Ran {:>2} tests in {}s".format(Fore.LIGHTCYAN_EX + str(self.testNth) + Style.RESET_ALL, Fore.LIGHTYELLOW_EX + str(round(self.totalTime))))

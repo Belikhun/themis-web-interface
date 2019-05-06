@@ -95,3 +95,4 @@ def __testLogoutAPI():
     return "Unknown"
 
 apiTest.case("Should be logged out successfully", __testLogoutAPI)
+apiTest.doneHandler()
