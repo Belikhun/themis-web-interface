@@ -1,0 +1,6 @@
+21:53:56|     0.0040|    LIB.LOG|  INFO| Log started at Mon May  6 21:53:56 2019
+21:53:56|     0.0130|       MAIN|  OKAY| Imported: lib.log.log
+21:53:56|     0.0270|       MAIN|  OKAY| Imported: lib.ehook
+21:53:56|     0.7126|       MAIN|  OKAY| Imported: requests
+21:53:56|     0.7326|       MAIN|  OKAY| Imported: lib.testFramework.testFramework
+21:53:57|     1.2133|    LIB.LOG|  INFO| Log ended.

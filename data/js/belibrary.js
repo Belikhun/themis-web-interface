@@ -362,22 +362,22 @@ function pleft(inp, length = 0) {
 }
 
 /**
- * Flat Color list from https://flatuicolors.com/palette/defo
+ * My color template
  * Return HEX string color code.
  * 
  * @param {string} color 
  */
 function flatc(color) {
     const clist = {
-        green: "#27ae60",
-        red: "#c0392b",
-        blue: "#2980b9",
-        aqua: "#16a085",
-        yellow: "#f39c12",
+        green: "#A8CC8C",
+        red: "#E88388",
+        blue: "#71BEF2",
+        aqua: "#66C2CD",
+        yellow: "#DBAB79",
         orange: "#e67e22",
-        gray: "#2c3e50",
-        magenta: "#8854d0",
-        black: "#2C3A47",
+        gray: "#6B737E",
+        magenta: "#D290E4",
+        black: "#282D35",
         pink: "#f368e0"
     }
 

@@ -12,7 +12,7 @@ before_script:
     - cd Python-3.7.3
     - ./configure --quiet
     - make --quiet
-    - sudo make --quiet install
+    - sudo make --quiet install >> /dev/null
     - cd ..
     - sudo rm -f Python-3.7.3.tgz
     - sudo rm -rf Python-3.7.3
@@ -32,8 +32,10 @@ before_script:
     - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
     - sudo service apache2 restart
     # install python dependencies
-    - python3 -V
     - sudo pip3 install --upgrade colorama requests
+    # get some information
+    - python3 -V
+    - pwd
     # execute custom script
     - sudo chmod ugo+x tests/config.sh
     - ./tests/config.sh --copy

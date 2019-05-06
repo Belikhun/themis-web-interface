@@ -1,5 +1,5 @@
 #? |-----------------------------------------------------------------------------------------------|
-#? |  /tests/.lib/testFramework.py                                                                 |
+#? |  /tests/lib/testFramework.py                                                                  |
 #? |                                                                                               |
 #? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
 #? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
@@ -24,7 +24,7 @@ class testFramework:
         atexit.register(self.doneHandler)
 
         print("")
-        print("Test {}\"{}\"{}:".format(Fore.LIGHTBLUE_EX, self.testName, Style.RESET_ALL))
+        print("Test {}\"{}\"{}:".format(Fore.BLUE, self.testName, Style.RESET_ALL))
 
     def case(self, description: str, func):
         global time
@@ -42,18 +42,18 @@ class testFramework:
             self.testFailed += 1
 
         print(" ● Case {}#{:<2} {}[{:>1}] {}{} {}({}s)".format(
-            Fore.LIGHTCYAN_EX,
+            Fore.CYAN,
             self.testNth,
-            Fore.LIGHTGREEN_EX if (result == True) else Fore.LIGHTRED_EX,
+            Fore.GREEN if (result == True) else Fore.RED,
             "✓" if (result == True) else "✗",
             Fore.LIGHTBLACK_EX,
             description,
-            Fore.LIGHTMAGENTA_EX,
+            Fore.MAGENTA,
             round(runTime, 2)
         ))
 
         if (result != True):
-            print("   → Reason: {}".format(Fore.LIGHTBLACK_EX + result))
+            print("   → Reason: {}".format(Fore.BLACK + result))
 
     def doneHandler(self):
         if (self.doneHandled == True):
@@ -61,10 +61,10 @@ class testFramework:
 
         self.doneHandled = True
         print("")
-        print("Test {}\"{}\"{} completed:".format(Fore.LIGHTBLUE_EX, self.testName, Style.RESET_ALL))
-        print("  Ran {:>2} tests in {}s".format(Fore.LIGHTCYAN_EX + str(self.testNth) + Style.RESET_ALL, Fore.LIGHTYELLOW_EX + str(round(self.totalTime))))
-        print("   {} {:>2} tests passed".format(Fore.LIGHTGREEN_EX + "✓", str(self.testPassed)))
-        print("   {} {:>2} tests failed".format(Fore.LIGHTRED_EX + "✗", str(self.testFailed)))
+        print("Test {}\"{}\"{} completed:".format(Fore.BLUE, self.testName, Style.RESET_ALL))
+        print("  Ran {:>2} tests in {}s".format(Fore.CYAN + str(self.testNth) + Style.RESET_ALL, Fore.YELLOW + str(round(self.totalTime))))
+        print("   {} {:>2} tests passed".format(Fore.GREEN + "✓", str(self.testPassed)))
+        print("   {} {:>2} tests failed".format(Fore.RED + "✗", str(self.testFailed)))
         print("")
 
         if (self.testFailed > 0):

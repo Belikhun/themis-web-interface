@@ -1,5 +1,5 @@
 #? |-----------------------------------------------------------------------------------------------|
-#? |  /api_example/log.py                                                                          |
+#? |  /tests/lib/log.py                                                                            |
 #? |                                                                                               |
 #? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
 #? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
@@ -13,7 +13,7 @@ import time
 import re
 
 #init
-init(autoreset=True)
+init(autoreset=True, strip=False)
 sticks = time.time()
 
 def escape_ansi(line):
@@ -27,21 +27,21 @@ def log(level, *args):
 
 	# thay đổi màu level
 	lvcolor = {
-		"DEBG": Fore.LIGHTWHITE_EX,
-		"OKAY": Fore.LIGHTGREEN_EX,
-		"INFO": Fore.LIGHTMAGENTA_EX,
-		"WARN": Fore.LIGHTYELLOW_EX,
-		"ERRR": Fore.LIGHTRED_EX,
+		"DEBG": Fore.WHITE,
+		"OKAY": Fore.GREEN,
+		"INFO": Fore.MAGENTA,
+		"WARN": Fore.YELLOW,
+		"ERRR": Fore.RED,
 		"EXCP": Fore.CYAN,
 	}.get(level, Fore.WHITE)
 
 	# khởi tạo output với format hh:mm:ss| ticks| module| level
 	out = "{}{:>8}| {}{:>6}| {}{:>10}| {}{:>5}".format(
-		Fore.LIGHTCYAN_EX,
+		Fore.WHITE,
 		"{0:>2}:{1:>2}:{2:>2}".format(ltime[3], ltime[4], ltime[5]),
-		Fore.LIGHTBLUE_EX,
+		Fore.BLUE,
 		"{:10.4f}".format(ticks - sticks),
-		Fore.GREEN,
+		Fore.CYAN,
 		currentframe().f_back.f_globals["__name__"].replace("_", "").upper(),
 		lvcolor,
 		level
