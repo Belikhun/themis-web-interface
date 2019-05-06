@@ -17,7 +17,7 @@ before_script:
     - sudo rm -f Python-3.7.3.tgz
     - sudo rm -rf Python-3.7.3
     - sudo apt-get install python3-pip
-    - pip3 install --upgrade pip
+    - sudo pip3 install --upgrade pip
     # install apache2 and fcgi
     - sudo apt-get install apache2 libapache2-mod-fastcgi
     # enable php-fpm
