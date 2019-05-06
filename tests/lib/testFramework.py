@@ -40,11 +40,11 @@ class testFramework:
         else:
             self.testFailed += 1
 
-        print(" - Case {}#{:<2} {}[{:>1}] {}{} {}({}s)".format(
+        print(" ● Case {}#{:<2} {}[{:>1}] {}{} {}({}s)".format(
             Fore.LIGHTCYAN_EX,
             self.testNth,
             Fore.LIGHTGREEN_EX if (result == True) else Fore.LIGHTRED_EX,
-            "✔" if (result == True) else "✖",
+            "✓" if (result == True) else "✗",
             Fore.LIGHTBLACK_EX,
             description,
             Fore.LIGHTMAGENTA_EX,
@@ -52,14 +52,14 @@ class testFramework:
         ))
 
         if (result != True):
-            print("   + Reason: {}".format(Fore.LIGHTBLACK_EX + result))
+            print("   → Reason: {}".format(Fore.LIGHTBLACK_EX + result))
 
     def __doneHandler__(self):
         print("")
         print("Test {}\"{}\"{} completed:".format(Fore.LIGHTBLUE_EX, self.testName, Style.RESET_ALL))
         print("  Ran {:>2} tests in {}s".format(Fore.LIGHTCYAN_EX + str(self.testNth) + Style.RESET_ALL, Fore.LIGHTYELLOW_EX + str(round(self.totalTime))))
-        print("   {} {:>2} tests passed".format(Fore.LIGHTGREEN_EX + "✔", str(self.testPassed)))
-        print("   {} {:>2} tests failed".format(Fore.LIGHTRED_EX + "✖", str(self.testFailed)))
+        print("   {} {:>2} tests passed".format(Fore.LIGHTGREEN_EX + "✓", str(self.testPassed)))
+        print("   {} {:>2} tests failed".format(Fore.LIGHTRED_EX + "✗", str(self.testFailed)))
         print("")
 
         if (self.testFailed > 0):
