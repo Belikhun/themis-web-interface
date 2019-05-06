@@ -16,6 +16,7 @@ printHelp() {
 
 case $1 in
     "--copy")
+        echo ""
         echo -e "\033[1;34mCopying Files..."
         # Backup
 
@@ -23,6 +24,7 @@ case $1 in
 
         ;;
     "--restore")
+        echo ""
         echo -e "\033[1;34mCleaning..."
         # Copy Backup
 
