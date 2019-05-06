@@ -16,14 +16,14 @@ printHelp() {
 
 case $1 in
     "--copy")
-        echo -e "\033[1;34m➕\033[0m Copying Files..."
+        echo -e "\033[1;34mCopying Files..."
         # Backup
 
         # Copy
 
         ;;
     "--restore")
-        echo -e "\033[1;34m➕\033[0m Cleaning..."
+        echo -e "\033[1;34mCleaning..."
         # Copy Backup
 
         # Clean Backup
