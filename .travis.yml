@@ -11,8 +11,8 @@ before_script:
     - tar -xf openssl-1.0.2r.tar.gz
     - cd openssl-1.0.2r
     - ./config --silent
-    - make -s
-    - sudo make -s install
+    - make
+    - sudo make install
     - cd ..
     - sudo rm -f openssl-1.0.2r.tar.gz
     - sudo rm -rf openssl-1.0.2r
