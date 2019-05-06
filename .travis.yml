@@ -20,7 +20,7 @@ before_script:
     - sudo apt-get install python3-pip
     - sudo pip3 install --upgrade pip
     # install apache2 and fcgi
-    - sudo apt-get install apache2 libapache2-mod-fastcgi php7.2-fpm php7.2
+    - sudo apt-get install apache2 libapache2-mod-fastcgi php7.2-fpm
     # enable php-fpm
     - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
     - sudo a2enmod rewrite actions fastcgi alias
@@ -31,7 +31,7 @@ before_script:
     # configure apache virtual hosts
     - sudo cp -f tests/.config/apache.conf /etc/apache2/sites-available/000-default.conf
     - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
-    - sudo systemctl restart apache2 || sudo systemctl status apache2 || sudo cat --show-all /var/log/apache2/error.log
+    - sudo systemctl restart apache2 || sudo systemctl status apache2 || sudo journalctl -xe
     # install python dependencies
     - sudo pip3 install --upgrade colorama requests
     # get some information
