@@ -5,9 +5,17 @@ php:
 
 before_script:
     - sudo apt-get update
+    # install python 3.7
     - sudo apt-get install build-essential libpq-dev libssl-dev openssl libffi-dev zlib1g-dev
     - sudo apt-get install python3-pip python3-dev
-    - sudo apt-get install python3.7
+    - wget https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tgz
+    - tar -xf Python-3.7.3.tgz
+    - cd Python-3.7.3
+    - ./configure
+    - make
+    - sudo make install
+    - cd ..
+    # install apache2 and fcgi
     - sudo apt-get install apache2 libapache2-mod-fastcgi
     # enable php-fpm
     - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
