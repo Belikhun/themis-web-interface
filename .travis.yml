@@ -16,8 +16,7 @@ before_script:
     - sudo cp -f tests/.config/apache.conf /etc/apache2/sites-available/000-default.conf
     - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
     - sudo service apache2 restart
-    # execute custom beforeScript
-    - dos2unix tests/config.sh
+    # execute custom script
     - sudo chmod ugo+x tests/config.sh
     - ./tests/config.sh --copy
 
