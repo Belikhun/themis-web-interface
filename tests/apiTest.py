@@ -74,12 +74,16 @@ def __testLogoutAPI():
     except Exception as excp:
         return excp.__class__.__name__
 
-    finally:
-        if (json["code"] != 0):
-            return "[{}] {}".format(json["code"], json["description"])
-        
-        if (json["status"] >= 300):
-            return "[{}] {}".format(json["status"], json["description"])
+    try:
+        json = data.json()
+    except Exception as excp:
+        return excp.__class__.__name__
+
+    if (json["code"] != 0):
+        return "[{}] {}".format(json["code"], json["description"])
+    
+    if (json["status"] >= 300):
+        return "[{}] {}".format(json["status"], json["description"])
 
     return True
 

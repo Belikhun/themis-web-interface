@@ -5,7 +5,10 @@ php:
 
 before_script:
     - sudo apt-get update
-    - sudo apt-get install apache2 libapache2-mod-fastcgi python3.7 python3-pip
+    - sudo apt-get install build-essential libpq-dev libssl-dev openssl libffi-dev zlib1g-dev
+    - sudo apt-get install python3-pip python3-dev
+    - sudo apt-get install python3.7
+    - sudo apt-get install apache2 libapache2-mod-fastcgi
     # enable php-fpm
     - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
     - sudo a2enmod rewrite actions fastcgi alias
