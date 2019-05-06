@@ -20,8 +20,8 @@ before_script:
     - curl http://localhost/api/status
     # execute custom beforeScript
     - pwd
-    - sudo chmod ugo+x tests/beforeScript
-    - ./tests/beforeScript
+    - sudo chmod ugo+x tests/beforeScript.sh
+    - ./tests/beforeScript.sh
 
 script:
     - python3 /tests/logParser/test.py
