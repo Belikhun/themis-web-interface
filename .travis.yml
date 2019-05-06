@@ -31,7 +31,7 @@ before_script:
     # configure apache virtual hosts
     - sudo cp -f tests/.config/apache.conf /etc/apache2/sites-available/000-default.conf
     - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
-    - sudo service apache2 restart
+    - sudo systemctl restart apache2 || sudo systemctl status apache2
     # install python dependencies
     - sudo pip3 install --upgrade colorama requests
     # get some information
