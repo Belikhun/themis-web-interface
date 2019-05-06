@@ -18,6 +18,12 @@ An beautiful and easy-to-use Web Interface for **[Themis](https://dsapblog.wordp
 
 **Themis Web Interface** được viết bằng các ngôn ngữ **HTML, CSS, PHP và JavaScript**. Dự án không sử dụng các library khác như **jQuery, Bootstrap, React, ...**
 
+### Travis CI Status
+
+[![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface.svg?label=master&style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface)
+[![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface/v0.4.1.svg?label=v0.4.1&style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface)
+
+
 > Version: 0.4.1-indev
 
 - [Demo](#demo)
