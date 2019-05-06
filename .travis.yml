@@ -18,6 +18,7 @@ before_script:
     - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
     - sudo service apache2 restart
     # install python dependencies
+    - python3 -V
     - sudo pip3 install --upgrade colorama requests
     # execute custom script
     - sudo chmod ugo+x tests/config.sh

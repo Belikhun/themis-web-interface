@@ -36,11 +36,11 @@ case $1 in
         ;;
 
     *)
-        echo -e "\033[1;31m✖\033[0m Unknown switch passed in arg 1: \"$1\""
+        echo -e "\033[1;31m✗\033[0m Unknown switch passed in arg 1: \"$1\""
         printHelp
         exit 1
         ;;
 esac
 
-echo -e "\033[1;32m✔\033[0m Done!"
+echo -e "\033[1;32m✓\033[0m Done!"
 exit 0

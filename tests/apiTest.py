@@ -36,7 +36,7 @@ apiTest.case("Server should be up and running", __testServerOnline)
 def __testLoginAPI():
     global sess
     global token
-    json = {}
+    json = None
 
     try:
         data = sess.post("http://localhost/api/login", data={
