@@ -19,6 +19,7 @@ before_script:
     # test apache2 server
     - curl http://localhost/api/status
     # execute custom beforeScript
+    - pwd
     - sudo chmod ugo+x tests/beforeScript
     - ./tests/beforeScript
 
