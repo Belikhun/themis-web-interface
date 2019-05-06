@@ -8,7 +8,7 @@ before_script:
     # install python 3.7
     - sudo apt-get install libreadline-gplv2-dev libncursesw5-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev
     - wget https://www.openssl.org/source/openssl-1.0.2r.tar.gz
-    - tar -xvzf openssl-1.0.2r.tar.gz
+    - tar -xf openssl-1.0.2r.tar.gz
     - cd openssl-1.0.2r
     - ./config --silent
     - make --silent
@@ -20,8 +20,8 @@ before_script:
     - tar -xf Python-3.7.3.tgz
     - cd Python-3.7.3
     - ./configure --quiet
-    - make --silent
-    - sudo make --silent install
+    - make --quiet
+    - sudo make --quiet install
     - cd ..
     - sudo rm -f Python-3.7.3.tgz
     - sudo rm -rf Python-3.7.3
