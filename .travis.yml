@@ -24,4 +24,4 @@ before_script:
     - ./tests/beforeScript.sh
 
 script:
-    - python3 /tests/logParser/test.py
+    - python3 tests/logParser/test.py
