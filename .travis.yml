@@ -10,7 +10,7 @@ before_script:
     - wget https://www.openssl.org/source/openssl-1.0.2r.tar.gz
     - tar -xvzf openssl-1.0.2r.tar.gz
     - cd openssl-1.0.2r
-    - ./config –prefix=/usr/local/openssl –openssldir=/usr/local/openssl
+    - ./config –openssldir=/usr/local/openssl
     - make --silent
     - sudo make --silent install
     - cd ..
