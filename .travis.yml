@@ -39,10 +39,13 @@ before_script:
     - pwd
     # execute custom script
     - sudo chmod ugo+x tests/config.sh
-    - ./tests/config.sh --copy
+    #? test script
+    - cd tests
+    - ./config.sh --copy
 
 script:
-    - python3 tests/apiTest.py
+    - python3 apiTest.py
 
 after_script:
-    - ./tests/config.sh --restore
+    - ./config.sh --restore
+    - cd ..

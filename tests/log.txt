@@ -1,7 +1,0 @@
-22:25:17|     0.0040|    LIB.LOG|  INFO| Log started at Tue May  7 22:25:17 2019
-22:25:17|     0.0220|       MAIN|  OKAY| Imported: lib.log.log
-22:25:17|     0.0430|       MAIN|  OKAY| Imported: lib.ehook
-22:25:17|     0.6027|       MAIN|  OKAY| Imported: requests
-22:25:17|     0.6127|       MAIN|  OKAY| Imported: filecmp
-22:25:17|     0.6266|       MAIN|  OKAY| Imported: lib.testFramework.testFramework
-22:25:20|     3.1674|    LIB.LOG|  INFO| Log ended.
