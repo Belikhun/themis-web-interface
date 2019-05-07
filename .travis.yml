@@ -50,4 +50,5 @@ after_script:
     - curl http://localhost/
     - sudo lsof -U | grep php
     - sudo lsof -i | grep php
+    - sudo cat /var/log/apache2/access.log
     - sudo cat /var/log/apache2/error.log
