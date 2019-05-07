@@ -14,14 +14,14 @@ init(autoreset=True)
 
 class testFramework:
     def __init__(self, name):
-        self.doneHandled = False
+        self.completed = False
         self.testNth = 0
         self.testPassed = 0
         self.testFailed = 0
         self.allSuccess = True
         self.totalTime = 0
         self.testName = name
-        atexit.register(self.doneHandler)
+        atexit.register(self.complete)
 
         print("")
         print("Test {}\"{}\"{}:".format(Fore.BLUE, self.testName, Style.RESET_ALL))
@@ -53,16 +53,16 @@ class testFramework:
         ))
 
         if (result != True):
-            print("   → Reason: {}".format(Fore.BLACK + result))
+            print("   → Reason: {}".format(Fore.LIGHTBLACK_EX + result))
 
-    def doneHandler(self):
-        if (self.doneHandled == True):
+    def complete(self):
+        if (self.completed == True):
             return
 
-        self.doneHandled = True
+        self.completed = True
         print("")
         print("Test {}\"{}\"{} completed:".format(Fore.BLUE, self.testName, Style.RESET_ALL))
-        print("  Ran {:>2} tests in {}s".format(Fore.CYAN + str(self.testNth) + Style.RESET_ALL, Fore.YELLOW + str(round(self.totalTime))))
+        print("  Ran {:>2} tests in {}s".format(Fore.CYAN + str(self.testNth) + Style.RESET_ALL, Fore.YELLOW + str(round(self.totalTime, 4))))
         print("   {} {:>2} tests passed".format(Fore.GREEN + "✓", str(self.testPassed)))
         print("   {} {:>2} tests failed".format(Fore.RED + "✗", str(self.testFailed)))
         print("")
