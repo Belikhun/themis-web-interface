@@ -46,3 +46,5 @@ script:
 
 after_script:
     - ./tests/config.sh --restore
+    # testing
+    - curl http://localhost/
