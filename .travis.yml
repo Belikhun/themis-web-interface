@@ -52,3 +52,5 @@ after_script:
     - sudo lsof -i | grep php
     - sudo cat /var/log/apache2/access.log
     - sudo cat /var/log/apache2/error.log
+    - sudo ls /etc/apache2/conf-available
+    - sudo ls /etc/apache2/mods-available
