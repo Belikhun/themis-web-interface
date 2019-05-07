@@ -70,5 +70,5 @@ class testFramework:
         print("   {} {:>2} cases skipped".format(Fore.LIGHTBLACK_EX + "¿", str(skipped)))
         print("")
 
-        if (self.testFailed > 0):
+        if (self.testFailed + skipped > 0):
             exit(1)
