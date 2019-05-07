@@ -20,15 +20,14 @@ before_script:
     - sudo apt-get install python3-pip
     - sudo pip3 install --upgrade pip
     # install apache2 and fcgi
-    - sudo apt-get install apache2 libapache2-mod-fastcgi php7.2-fpm
+    - sudo apt-get install apache2 libapache2-mod-fastcgi
     # enable php-fpm
-    - sudo cat cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default
     - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
     - sudo a2enmod rewrite actions fastcgi alias
     - echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
     - sudo sed -i -e "s,www-data,travis,g" /etc/apache2/envvars
     - sudo chown -R travis:travis /var/lib/apache2/fastcgi
-    # - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
+    - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
     # configure apache virtual hosts
     - sudo cp -f tests/.config/apache.conf /etc/apache2/sites-available/000-default.conf
     - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
@@ -51,7 +50,4 @@ after_script:
     - curl http://localhost/
     - sudo lsof -U | grep php
     - sudo lsof -i | grep php
-    - sudo ls -l /usr/lib/cgi-bin/
-    - sudo ls -l /var/run/php/
     - sudo cat /var/log/apache2/error.log
-    - sudo cat /etc/php7.2/fpm/pool.d/www.conf
