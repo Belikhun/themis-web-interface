@@ -60,11 +60,14 @@ class testFramework:
             return
 
         self.completed = True
+        skipped = self.testNth - (self.testPassed + self.testFailed)
+
         print("")
         print("Test {}\"{}\"{} completed:".format(Fore.BLUE, self.testName, Style.RESET_ALL))
-        print("  Ran {:>2} tests in {}s".format(Fore.CYAN + str(self.testNth) + Style.RESET_ALL, Fore.YELLOW + str(round(self.totalTime, 4))))
-        print("   {} {:>2} tests passed".format(Fore.GREEN + "✓", str(self.testPassed)))
-        print("   {} {:>2} tests failed".format(Fore.RED + "✗", str(self.testFailed)))
+        print("  Ran {:>2} cases in {}s".format(Fore.CYAN + str(self.testNth) + Style.RESET_ALL, Fore.YELLOW + str(round(self.totalTime, 4))))
+        print("   {} {:>2} cases passed".format(Fore.GREEN + "✓", str(self.testPassed)))
+        print("   {} {:>2} cases failed".format(Fore.RED + "✗", str(self.testFailed)))
+        print("   {} {:>2} cases skipped".format(Fore.LIGHTBLACK_EX + "¿", str(skipped)))
         print("")
 
         if (self.testFailed > 0):
