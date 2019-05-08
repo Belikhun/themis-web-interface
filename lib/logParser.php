@@ -53,13 +53,19 @@
         }
 
         private function __parseHeader($file) {
+            $logNameParsed = parseLogName(pathinfo($this -> logPath, PATHINFO_BASENAME));
             $data = Array(
                 "status" => null,
                 "user" => null,
                 "problem" => null,
-                "score" => 0,
+                "point" => 0,
                 "description" => null,
-                "error" => Array()
+                "error" => Array(),
+                "file" => Array(
+                    "base" => $logNameParsed["problem"],
+                    "name" => $logNameParsed["name"],
+                    "extension" => $logNameParsed["extension"]
+                )
             );
 
             $firstLine = $file[0];
@@ -80,8 +86,8 @@
             } else {
                 # test match pass template
                 preg_match_all("/(.+)‣(.+): (.+\w)/m", $firstLine, $l1matches, PREG_SET_ORDER, 0);
-                $data["score"] = $this -> __f($l1matches[0][3]);
-                $data["status"] = ($data["score"] === 0) ? "accepted" : "passed";
+                $data["point"] = $this -> __f($l1matches[0][3]);
+                $data["status"] = ($data["point"] === 0) ? "accepted" : "passed";
                 $data["description"] = $file[2];
             }
 
@@ -101,7 +107,7 @@
             $lineInitTemplate = Array(
                 "status" => "passed",
                 "test" => null,
-                "score" => 0,
+                "point" => 0,
                 "runtime" => 0,
                 "detail" => null,
                 "other" => Array(
@@ -123,8 +129,8 @@
 
                     $lineData = $lineInitTemplate;
                     $lineData["test"] = $lineParsed[0][1];
-                    $lineData["score"] = $this -> __f($lineParsed[0][2]);
-                    $lineData["status"] = ($lineData["score"] === 0) ? "failed" : "passed";
+                    $lineData["point"] = $this -> __f($lineParsed[0][2]);
+                    $lineData["status"] = ($lineData["point"] === 0) ? "failed" : "passed";
 
                 } else if (preg_match_all("/.+ ≈ (.+) .+/m", $line, $lineParsed, PREG_SET_ORDER, 0))
                     # line match runtime format
@@ -162,8 +168,8 @@
                 "id" => $parse[0][1],
                 "user" => $parse[0][2],
                 "problem" => $parse[0][3],
-                "ext" => $parse[0][4],
-                "filename" => $parse[0][3] .".". $parse[0][4]
+                "extension" => $parse[0][4],
+                "name" => $parse[0][3] .".". $parse[0][4]
             );
 
         return false;

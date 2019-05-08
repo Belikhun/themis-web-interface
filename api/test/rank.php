@@ -31,7 +31,7 @@
 
         $namelist[$i] = $data["problem"];
         $res[$user]["status"][$data["problem"]] = $data["status"];
-        $res[$user]["list"][$data["problem"]] = $data["score"];
+        $res[$user]["list"][$data["problem"]] = $data["point"];
         $res[$user]["log"][$data["problem"]] = ($config["viewlog"] === true) ? "/api/test/viewlog?f=" . $filename : null;
         $res[$user]["username"] = $user;
         $res[$user]["name"] = getUserData($user)["name"] ?: null;
@@ -39,7 +39,7 @@
         if (!isset($res[$user]["total"]))
             $res[$user]["total"] = 0;
             
-        $res[$user]["total"] += $data["score"];
+        $res[$user]["total"] += $data["point"];
     }
 
     if ($config["publish"] === true) {

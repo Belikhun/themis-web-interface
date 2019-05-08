@@ -92,6 +92,13 @@ core = {
     __logTimeout: null,
     __rankTimeout: null,
 
+    languages: {
+        "pas": "Pascal",
+        "cpp": "C++",
+        "py": "Python",
+        "java": "Java"
+    },
+
     async init(set) {
         clog("info", "Initializing...");
         var initTime = new stopClock();
@@ -286,11 +293,14 @@ core = {
             out += [
                 `<li class="log-item judging">`,
                     `<div class="h">`,
-                        `<ul class="l">`,
-                            `<li class="t">${data.judging[i].lastmodify}</li>`,
-                            `<li class="n">${data.judging[i].name}</li>`,
-                        `</ul>`,
-                        `<t class="r">Đang chấm</t>`,
+                        `<div class="l">`,
+                            `<t class="t">${data.judging[i].lastmodify}</t>`,
+                            `<t class="n">${data.judging[i].problem}</t>`,
+                        `</div>`,
+                        `<div class="r">`,
+                            `<t class="s">Đang chấm</t>`,
+                            `<t class="l">${this.languages[data.logs[i].extension] || data.logs[i].extension}</t>`,
+                        `</div>`,
                     `</div>`,
                     `<a class="d"></a>`,
                 `</li>`
@@ -300,11 +310,14 @@ core = {
             out += [
                 `<li class="log-item queue">`,
                     `<div class="h">`,
-                        `<ul class="l">`,
-                            `<li class="t">${data.queues[i].lastmodify}</li>`,
-                            `<li class="n">${data.queues[i].name}</li>`,
-                        `</ul>`,
-                        `<t class="r">Đang chờ</t>`,
+                        `<div class="l">`,
+                            `<t class="t">${data.queues[i].lastmodify}</t>`,
+                            `<t class="n">${data.queues[i].problem}</t>`,
+                        `</div>`,
+                        `<div class="r">`,
+                            `<t class="s">Đang chờ</t>`,
+                            `<t class="l">${this.languages[data.logs[i].extension] || data.logs[i].extension}</t>`,
+                        `</div>`,
                     `</div>`,
                     `<a class="d"></a>`,
                 `</li>`
@@ -314,13 +327,16 @@ core = {
             out += [
                 `<li class="log-item">`,
                     `<div class="h">`,
-                        `<ul class="l">`,
-                            `<li class="t">${data.logs[i].lastmodify}</li>`,
-                            `<li class="n">${data.logs[i].name}</li>`,
-                        `</ul>`,
-                        `<t class="r">${data.logs[i].out}</t>`,
+                        `<div class="l">`,
+                            `<t class="t">${data.logs[i].lastmodify}</t>`,
+                            `<t class="n">${data.logs[i].problem}</t>`,
+                        `</div>`,
+                        `<div class="r">`,
+                            `<t class="s">${data.logs[i].point} điểm</t>`,
+                            `<t class="l">${this.languages[data.logs[i].extension] || data.logs[i].extension}</t>`,
+                        `</div>`,
                     `</div>`,
-                    `<a class="d" onClick="core.viewLog('${data.logs[i].url}')"></a>`,
+                    `<a class="d" onClick="core.viewLog('${data.logs[i].logurl}')"></a>`,
                 `</li>`
             ].join("\n");
 
@@ -366,6 +382,7 @@ core = {
                 "<thead>",
                     "<tr>",
                         "<th>#</th>",
+                        "<th></th>",
                         "<th>Thí sinh</th>",
                         "<th>Tổng</th>",
         ].join("\n");
@@ -387,10 +404,8 @@ core = {
             out += [
                 `<tr>`,
                     `<td>${rank}</td>`,
-                    `<td>`,
-                        `<img class="avt" src="/api/avt/get?u=${data.rank[i].username}">`,
-                        `<t class="name">${escapeHTML(data.rank[i].name || "u:" + data.rank[i].username)}</t>`,
-                    `</td>`,
+                    `<td><img class="avt" src="/api/avt/get?u=${data.rank[i].username}"></td>`,
+                    `<td><t class="name">${escapeHTML(data.rank[i].name || "u:" + data.rank[i].username)}</t></td>`,
                     `<td class="number">${parseFloat(data.rank[i].total).toFixed(2)}</td>`
             ].join("\n");
 

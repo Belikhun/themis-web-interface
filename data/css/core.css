@@ -281,20 +281,19 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 
 #logp div.main ul.log-item-container li.log-item .h {
     position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     width: 100%;
     height: 100%;
     box-sizing: border-box;
     border-bottom: 1px solid #e6e6e6;
-    display: flex;
-    align-items: center;
 }
 
 #logp div.main ul.log-item-container li.log-item .h .l {
     position: relative;
-    list-style: none;
-    margin: unset;
-    padding: unset;
-    max-width: 90%;
+    display: inline-block;
+    flex-grow: 1;
     overflow: hidden;
 }
 
@@ -311,11 +310,24 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 }
 
 #logp div.main ul.log-item-container li.log-item .h .r {
-    position: absolute;
-    right: 6px;
+    position: relative;
+    display: flex;
+    flex-grow: 0;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+#logp div.main ul.log-item-container li.log-item .h .r t {
     color: rgba(98, 98, 98, 0.7);
     font-size: 11px;
     letter-spacing: 0.01em;
+}
+
+#logp div.main ul.log-item-container li.log-item .h .r .s {
+    font-weight: bold;
+    color: rgba(82, 82, 82, 0.7);
+    font-size: 11px;
 }
 
 #logp div.main ul.log-item-container li.log-item .d {
@@ -1126,6 +1138,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 
 #rankp div.ranking-container table {
     box-sizing: border-box;
+    border-spacing: 0;
     padding: 10px;
     min-width: 100%;
 }
@@ -1156,37 +1169,39 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     display: block;
 }
 
-#rankp div.ranking-container table tr td:nth-child(2) .name {
+#rankp div.ranking-container table tr td:nth-child(3) .name {
     position: relative;
-    margin-left: 12px;
+    display: inline-block;
+    padding: 3px 9px;
 }
 
-#rankp div.ranking-container table tr td:nth-child(3) {
+#rankp div.ranking-container table tr td.number:nth-child(4) {
     color: #3c7be7;
     font-weight: bold;
 }
 
-#rankp div.ranking-container table tbody tr:nth-child(1) td:nth-child(2) .name {
+#rankp div.ranking-container table thead tr th:nth-child(3) {
+    text-align: left;
+}
+
+#rankp div.ranking-container table tbody tr:nth-child(1) td:nth-child(3) .name {
     color: white;
     font-weight: bold;
     background-color: #e74c3c;
-    padding: 2px 8px;
     border-radius: 4px;
 }
 
-#rankp div.ranking-container table tbody tr:nth-child(2) td:nth-child(2) .name {
+#rankp div.ranking-container table tbody tr:nth-child(2) td:nth-child(3) .name {
     color: white;
     font-weight: bold;
     background-color: #33b96b;
-    padding: 2px 8px;
     border-radius: 4px;
 }
 
-#rankp div.ranking-container table tbody tr:nth-child(3) td:nth-child(2) .name {
+#rankp div.ranking-container table tbody tr:nth-child(3) td:nth-child(3) .name {
     color: white;
     font-weight: bold;
     background-color: #8e44ad;
-    padding: 2px 8px;
     border-radius: 4px;
 }
 
@@ -1197,19 +1212,19 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 
 #rankp div.ranking-container table tr th,
 #rankp div.ranking-container table tr td {
-    padding: 10px;
+    padding: 10px 12px;
     font-size: 12px;
 }
 
 #rankp div.ranking-container table tr td.number {
     font-size: 12px;
     text-align: right;
-    border-radius: 4px;
+    color: rgb(172, 172, 172);
 }
 
 #rankp div.ranking-container table tr td.number.link {
     text-decoration: underline;
-    color: rgb(80, 80, 80);
+    color: rgb(75, 75, 75);
     cursor: pointer;
 }
 
@@ -1218,7 +1233,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 }
 
 #rankp div.ranking-container table tr td.number.accepted {
-    background-color: rgba(226, 219, 5, 0.2);
+    background-color: rgba(226, 219, 5, 0.3);
 }
 
 #rankp div.ranking-container table tr td.number.failed {

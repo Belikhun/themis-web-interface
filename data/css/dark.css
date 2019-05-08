@@ -181,15 +181,23 @@ body.dark #rankp div.ranking-container table tr td:nth-child(1) {
 }
 
 body.dark #rankp div.ranking-container table tr td.number {
-    color: rgb(195, 195, 195);
+    color: rgb(124, 124, 124);
 }
 
 body.dark #rankp div.ranking-container table tr td.number.link {
-    color: #23dab5;
+    color: rgb(224, 224, 224);
 }
 
-body.dark #rankp div.ranking-container table tr td.number.link:hover {
-    background-color: rgba(204, 204, 204, 0.05);
+body.dark #rankp div.ranking-container table tr td.number.passed {
+    background-color: rgba(30, 219, 52, 0.3);
+}
+
+body.dark #rankp div.ranking-container table tr td.number.accepted {
+    background-color: rgba(226, 219, 5, 0.4);
+}
+
+body.dark #rankp div.ranking-container table tr td.number.failed {
+    background-color: rgba(221, 28, 28, 0.3);
 }
 
 body.dark #rankp div.ranking-container table tr td:nth-child(3) {

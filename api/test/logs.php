@@ -14,21 +14,8 @@
 	if (!isLogedIn())
 		stop(11, "Bạn chưa đăng nhập.", 403);
 
-	function parsename(string $path) {
-		$path = basename($path);
-		$path = str_replace("[", " ", str_replace(".", " ", str_replace("]", "", $path)));
-		list($id, $username, $filename, $ext) = sscanf($path, "%s %s %s %s");
-		return Array(
-			"id" => $id,
-			"username" => $username,
-			"filename" => $filename,
-			"ext" => $ext,
-			"name" => $filename.".".$ext
-		);
-	}
-
+	require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logParser.php";
 	$username = $_SESSION["username"];
-
 	$updir = glob($config["uploaddir"] ."/*.*");
 	$queues = Array();
 	$queuefiles = Array();
@@ -37,84 +24,82 @@
 		if (!strpos($file, "[". $username ."]") > 0)
 			continue;
 
-		$name = parsename($file);
+		$data = parseLogName(pathinfo($file .".log", PATHINFO_BASENAME));
 		$lastm = date("d/m/Y H:i:s", filemtime($file));
 		
 		array_push($queues, Array(
-			"name" => $name["name"],
+			"problem" => $data["problem"],
+			"extension" => $data["extension"],
 			"lastmodify" => $lastm
 		));
+
 		array_push($queuefiles, $file);
 	}
 
-	$judging = (isset($_SESSION["logs-module"]["judging"]) ? $_SESSION["logs-module"]["judging"] : Array());
+	$judging = (isset($_SESSION["logsData"]["judging"]) ? $_SESSION["logsData"]["judging"] : Array());
 
-	if (!isset($_SESSION["logs-module"]["lastqueuesfiles"])) {
-		$_SESSION["logs-module"]["lastqueuesfiles"] = $queuefiles;
-	} else {
-		$lqfs = $_SESSION["logs-module"]["lastqueuesfiles"];
+	if (!isset($_SESSION["logsData"]["lastqueuesfiles"]))
+		$_SESSION["logsData"]["lastqueuesfiles"] = $queuefiles;
+	else {
+		$lqfs = $_SESSION["logsData"]["lastqueuesfiles"];
 		foreach($lqfs as $i => $item)
 			if (!in_array($item, $queuefiles)) {
-				$p = parsename($item);
+				$p = parseLogName($item .".log");
 				$loglist = glob($config["logdir"] ."/*.*");
 				foreach ($loglist as $log)
-					if (strpos($log, $p["filename"]) > 0 && (strpos($log, $username) > 0))
+					if (strpos($log, $p["name"]) > 0 && (strpos($log, $username) > 0))
 						unlink($log);
 
 				array_push($judging, Array(
-					"filename" => $p["filename"],
+					"problem" => $p["problem"],
 					"name" => $p["name"],
+					"extension" => $p["extension"],
 					"lastmodify" => date("d/m/Y H:i:s"),
 					"lastmtime" => time(),
 				));
 			}
 
 		$judging = arrayremBlk($judging);
-		$_SESSION["logs-module"]["lastqueuesfiles"] = $queuefiles;
+		$_SESSION["logsData"]["lastqueuesfiles"] = $queuefiles;
 	}
 
 	$logdir = glob($config["logdir"] ."/*.log");
 	$logres = Array();
 
 	foreach($logdir as $log) {
-		if (!strpos($log, "[". $username ."]") > 0)
+		if (!strpos($log, "[". $username ."]") > 0 || strpos(strtolower($log), ".log") === -1)
 			continue;
 
+		$filename = pathinfo($log, PATHINFO_FILENAME);
 		$url = null;
 
 		if ($config["viewlog"] === true)
-			$url = "/api/test/viewlog?f=" . basename($log);
+		$url = "/api/test/viewlog?f=$filename";
 
-		if (strpos(strtolower($log), ".log") > 0) {
-			$out = "Đã chấm xong!";
-			$lastm = date("d/m/Y H:i:s", filemtime($log));
-			$name = parsename($log);
-			$flog = fopen($log, "r");
+		$lastmtime = filemtime($log);
+		$lastm = date("d/m/Y H:i:s", $lastmtime);
 
-			foreach ($judging as $i => $item)
-				if ($item["filename"] === $name["filename"] && file_exists($log) && (int)$item["lastmtime"] < (int)filemtime($log))
-					unset($judging[$i]);
+		$data = ((new logParser($log, LOGPARSER_MODE_MINIMAL)) -> parse())["header"];
+		$point = $data["description"];
 
-			if ($config["publish"] === true) {
-				$out = str_replace(PHP_EOL, "", fgets($flog));
-				$out = substr($out, strlen($username) + strlen($name["filename"]) + 8);
-				preg_match("/[0-9]{1,},[0-9]{1,}/", $out, $t);
-				if (count($t) !== 0 && isset($t[count($t) - 1]))
-					$out = $t[count($t) - 1];
-			}
-			fclose($flog);
-		}
+		foreach ($judging as $i => $item)
+			if ($item["name"] === $data["file"]["name"] && file_exists($log) && (int)$item["lastmtime"] < (int)filemtime($log))
+				unset($judging[$i]);
+
+		if ($config["publish"] === true)
+			$point = $data["point"];
 
 		array_push($logres, Array(
-			"name" => $name["name"],
-			"out" => $out,
+			"problem" => $data["problem"],
+			"point" => $point,
+			"extension" => $data["file"]["extension"],
 			"lastmodify" => $lastm,
-			"lastmtime" => filemtime($log),
-			"url" => $url
+			"lastmtime" => $lastmtime,
+			"logurl" => $url
 		));
 	}
 
-	$_SESSION["logs-module"]["judging"] = $judging;
+	$_SESSION["logsData"]["judging"] = $judging;
 
 	stop(0, "Thành công!", 200, Array(
 		"queues" => $queues,
