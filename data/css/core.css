@@ -210,6 +210,10 @@ body.guest #rankp {
     width: calc(100% - 20px);
 }
 
+body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
+    height: calc(100% - 20px);
+}
+
 @media only screen and (max-width: 1150px) {
     #uploadp,
     #timep,
@@ -1200,15 +1204,29 @@ body.guest #rankp {
 #rankp div.ranking-container table tr td.number {
     font-size: 12px;
     text-align: right;
+    border-radius: 4px;
 }
 
 #rankp div.ranking-container table tr td.number.link {
-    color: #16a085;
+    text-decoration: underline;
+    color: rgb(80, 80, 80);
     cursor: pointer;
 }
 
+#rankp div.ranking-container table tr td.number.passed {
+    background-color: rgba(37, 216, 58, 0.2);
+}
+
+#rankp div.ranking-container table tr td.number.accepted {
+    background-color: rgba(226, 219, 5, 0.2);
+}
+
+#rankp div.ranking-container table tr td.number.failed {
+    background-color: rgba(221, 28, 28, 0.2);
+}
+
 #rankp div.ranking-container table tr td.number.link:hover {
-    background-color: rgba(98, 98, 98, 0.05);
+    filter: brightness(1.2);
 }
 
 #timep .time-container {

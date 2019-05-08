@@ -18,7 +18,7 @@
     $file = str_replace("\"", "", $file);
     $file = str_replace("/", "", $file);
 
-    $lf = $config["logdir"] ."/". $file;
+    $lf = $config["logdir"] ."/". $file .".log";
 
     if (!file_exists($lf))
         stop(44, "Không tìm thấy tệp nhật kí ". $file, 404);

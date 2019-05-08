@@ -85,7 +85,8 @@
                 $data["description"] = $file[2];
             }
 
-            $data["user"] = $l1matches[0][1];
+            #? this is weird. soo weird
+            $data["user"] = trim(strtolower($l1matches[0][1]), "﻿");
             $data["problem"] = $l1matches[0][2];
 
             return $data;
@@ -152,4 +153,18 @@
         private function __f($str) {
             return (float) str_replace(",", ".", $str);
         }
+    }
+
+    function parseLogName(String $name) {
+        $parse = [];
+        if (preg_match_all("/(.+)\[(.+)\]\[(.+)\]\.(.+)\.log/m", $name, $parse, PREG_SET_ORDER, 0))
+            return Array(
+                "id" => $parse[0][1],
+                "user" => $parse[0][2],
+                "problem" => $parse[0][3],
+                "ext" => $parse[0][4],
+                "filename" => $parse[0][3] .".". $parse[0][4]
+            );
+
+        return false;
     }

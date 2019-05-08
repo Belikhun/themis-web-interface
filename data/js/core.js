@@ -389,13 +389,13 @@ core = {
                     `<td>${rank}</td>`,
                     `<td>`,
                         `<img class="avt" src="/api/avt/get?u=${data.rank[i].username}">`,
-                        `<t class="name">${escapeHTML(data.rank[i].name)}</t>`,
+                        `<t class="name">${escapeHTML(data.rank[i].name || "u:" + data.rank[i].username)}</t>`,
                     `</td>`,
                     `<td class="number">${parseFloat(data.rank[i].total).toFixed(2)}</td>`
             ].join("\n");
 
             for (var j = 0; j < list.length; j++)
-                out += `<td class="number${(data.rank[i].log[list[j]]) ? ` link" onClick="core.viewLog('${data.rank[i].log[list[j]]}')` : ""}" >${parseFloat(data.rank[i].list[list[j]]).toFixed(2)}</td>\n`;
+                out += `<td class="number${data.rank[i].status[list[j]] ? " " + data.rank[i].status[list[j]] : ""}${(data.rank[i].log[list[j]]) ? ` link" onClick="core.viewLog('${data.rank[i].log[list[j]]}')` : ""}" >${parseFloat(data.rank[i].list[list[j]]).toFixed(2)}</td>\n`;
             
             out += "</tr>";
         }

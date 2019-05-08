@@ -49,6 +49,7 @@
         foreach ($accdata as $col)
             if ($col["username"] === $username)
                 return $col;
+                
         return null;
     }
 
