@@ -12,6 +12,11 @@
         elseif (isset($_GET["sessid"]))
             session_id($_GET["sessid"]);
 
+        // keep session data for 1 day
+        $sessionLifeTime = 86400;
+        ini_set("session.gc_maxlifetime", $sessionLifeTime);
+        session_set_cookie_params($sessionLifeTime);
+
         session_start();
     }
 
