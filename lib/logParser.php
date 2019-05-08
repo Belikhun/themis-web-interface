@@ -59,7 +59,7 @@
                 "problem" => null,
                 "score" => 0,
                 "description" => null,
-                "errorDetail" => Array()
+                "error" => Array()
             );
 
             $firstLine = $file[0];
@@ -75,7 +75,7 @@
 
                 # error detail start from line 3
                 for ($i = 2; $i < count($file); $i++)
-                    array_push($data["errorDetail"], $file[$i]);
+                    array_push($data["error"], $file[$i]);
                 
             } else {
                 # test match pass template
