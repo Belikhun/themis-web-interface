@@ -10,6 +10,7 @@
 body {
     position: relative;
     background-color: #666666;
+    font-family: "Calibri", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     margin: 0 0 20px 0;
     box-sizing: border-box;
     overflow: hidden;
@@ -189,11 +190,10 @@ panel .main.blank::after {
 
 #wrapper #wrapp {
     position: relative;
-    width: unset;
-    min-width: 600px;
-    max-width: calc(100% - 100px);
-    min-height: 200px;
-    max-height: calc(100% - 20px);
+    width: calc(100% - 100px);
+    max-width: 1000px;
+    height: calc(100% - 20px);
+    max-height: 640px;
     margin: unset;
 }
 
@@ -254,6 +254,12 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 
     #logp {
         height: calc(100% - 20px);
+    }
+
+    #wrapper #wrapp {
+        width: 100%;
+        height: 100%;
+        max-height: unset;
     }
 }
 
@@ -1328,46 +1334,342 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 
 .viewlog-container {
     position: relative;
-    display: inline-block;
-    box-sizing: border-box;
-    min-width: 100%;
-    margin: unset;
-    padding: unset;
-    list-style: none;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
 }
 
-.viewlog-container li {
+.viewlog-container .header {
     position: relative;
-    display: block;
-    text-align: left;
-    counter-increment: viewlog-line;
-    margin: 0 10px 0 50px;
-    padding: 4px 10px;
-    min-height: 30px;
+    display: inline-flex;
+    flex-direction: column;
+    flex-grow: 1;
     box-sizing: border-box;
-    border-left: 1px solid rgba(82, 82, 82, 0.3);
-    color: rgb(95, 95, 95);
-    font-family: "Consolas";
+    padding-left: 10px;
+    height: 100%;
+}
+
+.viewlog-container .header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 100%;
+    background-color: #39aa56;
+}
+
+.viewlog-container .header .top {
+    position: relative;
+    display: flex;
+    padding: 20px 0 10px 0;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 0;
+}
+
+.viewlog-container .header .top .problemIcon {
+    position: relative;
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+}
+
+.viewlog-container .header .top .problemName {
+    position: relative;
+    font-family: "Calibri", "Segoe UI";
     font-weight: bold;
-    font-size: 17px;
+    color: rgb(70, 70, 70);
+    font-size: 24px;
+    margin-top: 10px;
+}
+
+.viewlog-container .header .top .point {
+    position: relative;
+    font-size: 12px;
+    color: #ecf0f1;
+    letter-spacing: 0.4px;
+    background-color: #27ae60;
+    padding: 2px 6px;
+    margin: 2px 0 0 0;
+    border-radius: 4px;
+}
+
+.viewlog-container .header .bottom {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.viewlog-container .header .bottom .line {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 0;
+    margin: 10px 0;
+}
+
+.viewlog-container .header .bottom .line .left {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    box-sizing: border-box;
+    padding: 0 0 0 20px;
+}
+
+.viewlog-container .header .bottom .line .left .row {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 1px 0;
+}
+
+.viewlog-container .header .bottom .line .left .row::before {
+    content: "\f111";
+    position: relative;
+    font-family: "Font Awesome 5 Free";
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+    color: rgba(46, 46, 46, 0.5);
+}
+
+.viewlog-container .header .bottom .line .left .problemInfo {
+    margin-bottom: 10px;
+}
+
+.viewlog-container .header .bottom .line .left .problemInfo .problemid {
+    position: relative;
+    font-family: "Calibri", "Segoe UI";
+    font-weight: bold;
+    font-size: 18px;
+    color: #39aa56;
+}
+
+.viewlog-container .header .bottom .line .left .problemInfo .language {
+    position: relative;
+    font-family: "Calibri", "Segoe UI";
+    font-size: 14px;
+    margin-left: 20px;
+    color: #39aa56;
+}
+
+.viewlog-container .header .bottom .line .left .problemInfo::before {
+    content: "\f00c";
+    color: #39aa56;
+    font-size: 21px;
+    margin-right: 20px;
+}
+
+.viewlog-container .header .bottom .line .left .submitTime,
+.viewlog-container .header .bottom .line .left .status,
+.viewlog-container .header .bottom .line .left .result,
+.viewlog-container .header .bottom .line .left .point {
+    position: relative;
+    font-family: "Calibri", "Segoe UI";
+    font-size: 15px;
+    color: rgb(56, 56, 56);
+}
+
+
+.viewlog-container .header .bottom .line .left .submitTime::before {
+    content: "\f783";
+}
+
+.viewlog-container .header .bottom .line .left .status::before {
+    content: "\f05a";
+}
+
+.viewlog-container .header .bottom .line .left .result::before {
+    content: "\f682";
+}
+
+.viewlog-container .header .bottom .line .left .point::before {
+    content: "\f044";
+}
+
+.viewlog-container .header .bottom .line .left .result b {
+    display: inline;
+    padding: 0 4px;
+}
+
+.viewlog-container .header .bottom .line .left .result b.green {
+    color: #39aa56;
+}
+
+.viewlog-container .header .bottom .line .left .result b.red {
+    color: #db4545;
+}
+
+.viewlog-container .header .bottom .line .left .point {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.viewlog-container .header .bottom .line .right {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    flex-grow: 0;
+    margin-right: 20px;
+}
+
+.viewlog-container .header .bottom .line .right > * {
+    width: 100%;
+}
+
+.viewlog-container .header .bottom .line .right .submitter {
+    position: relative;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.viewlog-container .header .bottom .line .right .submitter .avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.viewlog-container .header .bottom .line .right .submitter .info {
+    position: relative;
+    margin-right: 10px;
+}
+
+.viewlog-container .header .bottom .line .right .submitter .info .tag {
+    font-size: 11px;
+    letter-spacing: 0.4px;
+    color: #546e7a;
+    font-weight: bold;
+    text-align: right;
+}
+
+.viewlog-container .header .bottom .line .right .submitter .info .name {
+    font-size: 18px;
+    color: #425161;
+    font-weight: bold;
+    text-align: right;
+}
+
+.viewlog-container .header .bottom .line.log {
+    flex-direction: column;
+}
+
+.viewlog-container .testList {
+    position: relative;
+    display: inline-block;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 280px;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: rgb(238, 238, 238);
+}
+
+.viewlog-container .testList:empty::before {
+    content: "Không tìm thấy tests nào cả :(";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-family: "Calibri", "Segoe UI";
+    font-weight: bold;
+    font-size: 16px;
+    color: gray;
+}
+
+.viewlog-container .testList .item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 10px 10px 16px;
+    background-color: rgb(245, 245, 245);
+    counter-increment: testItem;
+}
+
+.viewlog-container .testList .item::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background-color: #39aa56;
+}
+
+.viewlog-container .testList .item .line {
+    position: relative;
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.viewlog-container .testList .item .line .left {
+    position: relative;
+    flex-grow: 1;
+}
+
+.viewlog-container .testList .item .line .left .testid {
+    position: relative;
+    font-size: 16px;
+    font-weight: bold;
+    color: #39aa56;
+}
+
+.viewlog-container .testList .item .line .left .testid::before {
+    content: "#"counter(testItem);
+    position: relative;
+    display: inline-block;
+    font-size: 13px;
+    width: 25px;
+}
+
+.viewlog-container .testList .item .line .left .status {
+    position: relative;
+    font-size: 13px;
+}
+
+.viewlog-container .testList .item .line.detail {
+    position: relative;
+    font-size: 13px;
+    margin-top: 10px;
+    color: rgb(80, 80, 80);
     white-space: pre-wrap;
 }
 
-.viewlog-container li:hover {
-    background-color: rgba(190, 190, 190, 0.2);
+.viewlog-container .testList .item .right {
+    position: relative;
+    flex-grow: 0;
 }
 
-.viewlog-container li::before {
-    position: absolute;
-    width: 40px;
-    left: -50px;
-    content: counter(viewlog-line);
+.viewlog-container .testList .item .right .point {
+    position: relative;
+    font-size: 13px;
+    font-weight: bold;
     text-align: right;
-    color: rgb(192, 192, 192);
+    color: rgb(78, 78, 78);
 }
 
-.viewlog-container li:hover::before {
-    color: #2984c0;
+.viewlog-container .testList .item .right .runtime {
+    position: relative;
+    font-size: 13px;
+    color: rgb(114, 114, 114);
 }
 
 .cpanel-container,
@@ -1508,10 +1810,10 @@ footer ul.contact li a {
 footer ul.contact li::before {
     content: "";
     position: absolute;
+    display: inline-block;
     top: 50%;
     transform: translate(calc(-100% - 10px), -50%);
     font-family: "Font Awesome 5 Free";
-    display: inline-block;
     font-size: 14px;
     font-weight: 600;
 }

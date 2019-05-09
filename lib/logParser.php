@@ -12,6 +12,7 @@
      */
 
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";
 
     /**
      * Parse all the log file
@@ -41,30 +42,47 @@
             $this -> logPath = $logPath;
             $this -> mode = $mode;
             $this -> logIsFailed = false;
+            $this -> passed = 0;
+            $this -> failed = 0;
         }
 
         public function parse() {
             $file = file($this -> logPath, FILE_IGNORE_NEW_LINES);
+            $header = $this -> __parseHeader($file);
+            if ($this -> mode === LOGPARSER_MODE_FULL) {
+                $testResult = $this -> __parseTestResult($file);
+                $header["testPassed"] = $this -> passed;
+                $header["testFailed"] = $this -> failed;
+            } else
+                $testResult = Array();
 
             return Array(
-                "header" => $this -> __parseHeader($file),
-                "test" => ($this -> mode === LOGPARSER_MODE_FULL) ? $this -> __parseTestResult($file) : Array()
+                "header" => $header,
+                "test" => $testResult
             );
         }
 
         private function __parseHeader($file) {
             $logNameParsed = parseLogName(pathinfo($this -> logPath, PATHINFO_BASENAME));
+
             $data = Array(
                 "status" => null,
                 "user" => null,
+                "name" => null,
                 "problem" => null,
+                "problemName" => null,
+                "problemPoint" => null,
                 "point" => 0,
+                "testPassed" => 0,
+                "testFailed" => 0,
                 "description" => null,
                 "error" => Array(),
                 "file" => Array(
                     "base" => $logNameParsed["problem"],
                     "name" => $logNameParsed["name"],
-                    "extension" => $logNameParsed["extension"]
+                    "filename" => pathinfo($this -> logPath, PATHINFO_FILENAME),
+                    "extension" => $logNameParsed["extension"],
+                    "lastModify" => filemtime($this -> logPath)
                 )
             );
 
@@ -75,7 +93,7 @@
             if (preg_match_all("/(.+)‣(.+): ℱ (.+\w)/m", $firstLine, $l1matches, PREG_SET_ORDER, 0)) {
                 # test match failed template
                 $data["status"] = "failed";
-                $data["score"] = 0;
+                $data["point"] = 0;
                 $data["description"] = $l1matches[0][3];
                 $this -> logIsFailed = true;
 
@@ -95,6 +113,12 @@
             $data["user"] = trim(strtolower($l1matches[0][1]), "﻿");
             $data["problem"] = $l1matches[0][2];
 
+            $problemData = problem_get($data["problem"]);
+            if ($problemData !== PROBLEM_ERROR_IDREJECT) {
+                $data["problemName"] = $problemData["name"];
+                $data["problemPoint"] = $this -> __f($problemData["point"]);
+            }
+
             return $data;
         }
 
@@ -102,6 +126,8 @@
             if ($this -> logIsFailed === true)
                 return Array();
 
+            $this -> passed = 0;
+            $this -> failed = 0;
             $data = Array();
             $lineData = null;
             $lineInitTemplate = Array(
@@ -128,9 +154,16 @@
                         array_push($data, $lineData);
 
                     $lineData = $lineInitTemplate;
-                    $lineData["test"] = $lineParsed[0][1];
+                    $lineData["test"] = strtolower($lineParsed[0][1]);
                     $lineData["point"] = $this -> __f($lineParsed[0][2]);
-                    $lineData["status"] = ($lineData["point"] === 0) ? "failed" : "passed";
+
+                    if ($lineData["point"] === 0) {
+                        $lineData["status"] = "failed";
+                        $this -> failed++;
+                    } else {
+                        $lineData["status"] = "passed";
+                        $this -> passed++;
+                    }
 
                 } else if (preg_match_all("/.+ ≈ (.+) .+/m", $line, $lineParsed, PREG_SET_ORDER, 0))
                     # line match runtime format
@@ -152,6 +185,9 @@
                     # else is detail, cuz detail have no specific format
                     $lineData["detail"] = $line;
             }
+
+            if (!empty($lineData))
+                array_push($data, $lineData);
 
             return $data;
         }

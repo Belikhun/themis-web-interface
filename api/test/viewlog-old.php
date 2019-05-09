@@ -18,20 +18,20 @@
     $file = str_replace("\"", "", $file);
     $file = str_replace("/", "", $file);
 
-    $logPath = $config["logdir"] ."/". $file .".log";
+    $lf = $config["logdir"] ."/". $file .".log";
 
-    if (!file_exists($logPath))
+    if (!file_exists($lf))
         stop(44, "Không tìm thấy tệp nhật kí ". $file, 404);
 
     $username = $_SESSION["username"];
+
     if (!(strpos($file, "[". $username ."]") > 0) && $config["viewlogother"] == false)
         stop(31, "Không cho phép xem tệp nhật kí của người khác!", 403);
 
-    require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logParser.php";
+    $line = Array();
+    $logf = fopen($lf, "r");
+    while (($l = fgets($logf)) !== false)
+        array_push($line, str_replace(PHP_EOL, "", $l));
 
-    $logParsed = (new logParser($logPath, LOGPARSER_MODE_FULL)) -> parse();
-    $logParsed["header"]["name"] = getUserData($logParsed["header"]["user"])["name"] ?: null;
-
-    stop(0, "Thành công!", 200, $logParsed);
+    stop(0, "Thành công!", 200, $line);
 ?>

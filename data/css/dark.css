@@ -1,3 +1,12 @@
+/* 
+? |-----------------------------------------------------------------------------------------------|
+? |  /data/css/dark.css                                                                           |
+? |                                                                                               |
+? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+? |-----------------------------------------------------------------------------------------------|
+*/
+
 body.dark a {
     color: #19c8a5;
 }
@@ -233,21 +242,6 @@ body.dark #logp div.main ul.log-item-container .log-item .d:hover {
 
 body.dark #logp div.main ul.log-item-container .log-item.queue .h .l .n {
     color: #bc74db;
-}
-
-/* ViewLog Panel */
-
-body.dark .viewlog-container li {
-    border-left-color: rgba(204, 204, 204, 0.3);
-    color: rgb(184, 184, 184);
-}
-
-body.dark .viewlog-container li::before {
-    color: rgb(104, 104, 104);
-}
-
-body.dark .viewlog-container li:hover::before {
-    color: #2f93d6;
 }
 
 /* UserSettings */

@@ -52,6 +52,7 @@
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/splash.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/input.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/textview.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/table.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/switch.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/slider.css" />

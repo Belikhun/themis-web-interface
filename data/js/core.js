@@ -442,14 +442,82 @@ core = {
             }
         });
 
-        this.wrapper.show(file);
-        var out = [`<ul class="viewlog-container">`];
+        let logLine = [];
+        if (data.header.error.length !== 0)
+            for (let line of data.header.error)
+                logLine.push(`<li>${line}</li>`);
+        else
+            logLine.push(`<li>${data.header.description}</li>`)
 
-        for (var i = 0; i < data.length; i++)
-            out.push(`<li>${escapeHTML(data[i])}</li>`);
+        let testList = [];
+        for (let item of data.test)
+            testList.push(`
+                <div class="item ${item.status}">
+                    <div class="line">
+                        <span class="left">
+                            <t class="testid">${item.test}</t>
+                            <t class="status">${item.detail}</t>
+                        </span>
+                        <span class="right">
+                            <t class="point">${item.point} điểm</t>
+                            <t class="runtime">${item.runtime.toFixed(3)}s</t>
+                        </span>
+                    </div>
+                    ${((item.other.output) && (item.other.answer)) || (item.other.error) ? `<div class="line detail">${
+                        (item.other.output) ? `Output: ${item.other.output}\n` : "" +
+                        (item.other.answer) ? `Answer: ${item.other.output}\n` : "" +
+                        (item.other.error) ? item.other.error : ""
+                    }</div>` : ""}
+                </div>
+            `);
+
+        let template = `
+            <div class="viewlog-container">
+                <div class="header">
+                    <span class="top">
+                        <img class="problemIcon" src="/api/test/problems/image?id=${data.header.problem}">
+                        <t class="problemName">${data.header.problemName || data.header.problem}</t>
+                        <t class="point">${data.header.problemPoint ? data.header.problemPoint + " điểm" : "Không rõ"}</t>
+                    </span>
+                    <span class="bottom">
+                        <div class="line ${data.header.status}">
+                            <span class="left">
+                                <div class="row problemInfo">
+                                    <t class="problemid">${data.header.problem}</t>
+                                    <t class="language">${this.languages[data.header.file.extension]}</t>
+                                </div>
+                                
+                                <t class="row point">${data.header.point} điểm</t>
+                                <t class="row submitTime">${(new Date(data.header.file.lastModify * 1000)).toLocaleString()}</t>
+                                <t class="row status">${{passed: "Chấm thành công", accepted: "Dịch thành công", failed: "Dịch thất bại"}[data.header.status]}</t>
+                                <t class="row result">
+                                    Đúng <b class="green">${data.header.testPassed}/${data.header.testPassed + data.header.testFailed}</b> tests, <b class="red">${data.header.testFailed}</b> tests sai
+                                </t>
+                            </span>
+                            <span class="right">
+                                <span class="submitter">
+                                    <img class="avatar" src="/api/avt/get?u=${data.header.user}">
+                                    <span class="info">
+                                        <t class="tag">Bài làm của:</t>
+                                        <t class="name">${data.header.name || "u:" + data.header.user}</t>
+                                    </span>
+                                </span>
+
+                                <a href="/api/test/viewlog?f=${data.header.file.filename}&t=raw" class="sq-btn blue" rel="noopener" target="_blank">Raw Log</a>
+                            </span>
+                        </div>
+
+                        <div class="line log">
+                            <ul class="textview">${logLine.join("\n")}</ul>
+                        </div>
+                    </span>
+                </div>
+                <div class="testList">${testList.join("\n")}</div>
+            </div>
+        `;
         
-        out.push("</ul>");
-        this.wrapper.panel.main.innerHTML = out.join("\n");
+        this.wrapper.panel.main.innerHTML = template;
+        this.wrapper.show(file);
     },
 
     file: {
