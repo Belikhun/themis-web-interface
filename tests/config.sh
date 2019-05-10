@@ -20,27 +20,27 @@ case $1 in
         echo -e "\033[1;34mCopying Files..."
 
         # Backup
-        mv "../data/xmldb/account.xml" ".backup/account.xml"
-        mv "../data/config.json" ".backup/config.json"
-        mv "../data/logs.json" ".backup/logs.json"
-        cp "../api/avt/" ".backup/avt/"
+        mv -f ../data/xmldb/account.xml .backup/account.xml
+        mv -f ../data/config.json .backup/config.json
+        mv -f ../data/logs.json .backup/logs.json
+        cp -rf ../api/avt/ .backup/avt/
 
         # Copy
-        cp ".config/account.xml" "../data/xmldb/account.xml"
-        cp "logParser/config.json" "../data/config.json"
+        cp -f .config/account.xml ../data/xmldb/account.xml
+        cp -f logParser/config.json ../data/config.json
 
         ;;
     "--restore")
         echo ""
         echo -e "\033[1;34mCleaning..."
         # Copy Backup
-        mv ".backup/account.xml" "../data/xmldb/account.xml"
-        mv ".backup/config.json" "../data/config.json"
-        mv ".backup/logs.json" "../data/logs.json"
-        cp ".backup/avt/" "../api/avt/"
+        mv -f .backup/account.xml ../data/xmldb/account.xml
+        mv -f .backup/config.json ../data/config.json
+        mv -f .backup/logs.json ../data/logs.json
+        cp -rf .backup/avt/ ../api/avt/
 
         # Clean Backup
-        rm -r ".backup/*"
+        rm -rf .backup/*
 
         ;;
     "--help")

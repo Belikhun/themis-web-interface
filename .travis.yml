@@ -41,11 +41,12 @@ before_script:
     - sudo chmod ugo+x tests/config.sh
     #? test script
     - cd tests
-    - ./config.sh --copy
+    - sudo ./config.sh --copy
 
 script:
     - python3 apiTest.py
+    - python3 logParserTest.py
 
 after_script:
-    - ./config.sh --restore
+    - sudo ./config.sh --restore
     - cd ..
