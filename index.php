@@ -593,6 +593,25 @@
                 </div>
             </panel>
 
+            <panel id="timep">
+                <div class="head">
+                    <t class="le">Thời gian</t>
+                    <span class="ri">
+                        <i class="material-icons ref sound" data-soundhover data-soundselect>refresh</i>
+                        <i class="material-icons clo sound" data-soundhover data-soundselect>close</i>
+                    </span>
+                </div>
+                <div class="main time-container">
+                    <t id="time_state">---</t>
+                    <t id="time_time">--:--</t>
+                    <div class="bar">
+                        <div id="time_bar"></div>
+                        <t id="time_start">--:--</t>
+                        <t id="time_end">--:--</t>
+                    </div>
+                </div>
+            </panel>
+
             <panel id="problemp">
                 <div class="head">
                     <t class="le">Đề bài</t>
@@ -637,25 +656,6 @@
                         </div>
                         <table class="test" id="problem_test">
                         </table>
-                    </div>
-                </div>
-            </panel>
-
-            <panel id="timep">
-                <div class="head">
-                    <t class="le">Thời gian</t>
-                    <span class="ri">
-                        <i class="material-icons ref sound" data-soundhover data-soundselect>refresh</i>
-                        <i class="material-icons clo sound" data-soundhover data-soundselect>close</i>
-                    </span>
-                </div>
-                <div class="main time-container">
-                    <t id="time_state">---</t>
-                    <t id="time_time">--:--</t>
-                    <div class="bar">
-                        <div id="time_bar"></div>
-                        <t id="time_start">--:--</t>
-                        <t id="time_end">--:--</t>
                     </div>
                 </div>
             </panel>

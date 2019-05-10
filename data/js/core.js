@@ -289,54 +289,54 @@ core = {
 
         var out = "";
         
-        for (var i = 0; i < data.judging.length; i++)
+        for (let item of data.judging)
             out += [
                 `<li class="log-item judging">`,
                     `<div class="h">`,
                         `<div class="l">`,
-                            `<t class="t">${data.judging[i].lastmodify}</t>`,
-                            `<t class="n">${data.judging[i].problem}</t>`,
+                            `<t class="t">${item.lastmodify}</t>`,
+                            `<t class="n">${item.problem}</t>`,
                         `</div>`,
                         `<div class="r">`,
                             `<t class="s">Đang chấm</t>`,
-                            `<t class="l">${this.languages[data.logs[i].extension] || data.logs[i].extension}</t>`,
+                            `<t class="l">${this.languages[item.extension] || item.extension}</t>`,
                         `</div>`,
                     `</div>`,
                     `<a class="d"></a>`,
                 `</li>`
             ].join("\n");
 
-        for (var i = 0; i < data.queues.length; i++)
+        for (let item of data.queues)
             out += [
                 `<li class="log-item queue">`,
                     `<div class="h">`,
                         `<div class="l">`,
-                            `<t class="t">${data.queues[i].lastmodify}</t>`,
-                            `<t class="n">${data.queues[i].problem}</t>`,
+                            `<t class="t">${item.lastmodify}</t>`,
+                            `<t class="n">${item.problem}</t>`,
                         `</div>`,
                         `<div class="r">`,
                             `<t class="s">Đang chờ</t>`,
-                            `<t class="l">${this.languages[data.logs[i].extension] || data.logs[i].extension}</t>`,
+                            `<t class="l">${this.languages[item.extension] || item.extension}</t>`,
                         `</div>`,
                     `</div>`,
                     `<a class="d"></a>`,
                 `</li>`
             ].join("\n");
 
-        for (var i = 0; i < data.logs.length; i++)
+        for (let item of data.logs)
             out += [
-                `<li class="log-item">`,
+                `<li class="log-item ${item.status}">`,
                     `<div class="h">`,
                         `<div class="l">`,
-                            `<t class="t">${data.logs[i].lastmodify}</t>`,
-                            `<t class="n">${data.logs[i].problem}</t>`,
+                            `<t class="t">${item.lastmodify}</t>`,
+                            `<t class="n">${item.problem}</t>`,
                         `</div>`,
                         `<div class="r">`,
-                            `<t class="s">${data.logs[i].point} điểm</t>`,
-                            `<t class="l">${this.languages[data.logs[i].extension] || data.logs[i].extension}</t>`,
+                            `<t class="s">${item.point} điểm</t>`,
+                            `<t class="l">${this.languages[item.extension] || item.extension}</t>`,
                         `</div>`,
                     `</div>`,
-                    `<a class="d" onClick="core.viewLog('${data.logs[i].logurl}')"></a>`,
+                    `<a class="d" onClick="core.viewLog('${item.logurl}')"></a>`,
                 `</li>`
             ].join("\n");
 
@@ -456,18 +456,18 @@ core = {
                     <div class="line">
                         <span class="left">
                             <t class="testid">${item.test}</t>
-                            <t class="status">${item.detail}</t>
+                            <t class="status">${item.detail || "Không rõ"}</t>
                         </span>
                         <span class="right">
                             <t class="point">${item.point} điểm</t>
                             <t class="runtime">${item.runtime.toFixed(3)}s</t>
                         </span>
                     </div>
-                    ${((item.other.output) && (item.other.answer)) || (item.other.error) ? `<div class="line detail">${
-                        (item.other.output) ? `Output: ${item.other.output}\n` : "" +
-                        (item.other.answer) ? `Answer: ${item.other.output}\n` : "" +
-                        (item.other.error) ? item.other.error : ""
-                    }</div>` : ""}
+                    ${((item.other.output) && (item.other.answer)) || (item.other.error) ? `<div class="line detail">
+                        ${(item.other.output) ? `<t>Output: ${item.other.output}</t>` : ""}
+                        ${(item.other.answer) ? `<t>Answer: ${item.other.output}</t>` : ""}
+                        ${(item.other.error) ? `<t>${item.other.error}</t>` : ""}
+                    </div>` : ""}
                 </div>
             `);
 
@@ -484,7 +484,7 @@ core = {
                             <span class="left">
                                 <div class="row problemInfo">
                                     <t class="problemid">${data.header.problem}</t>
-                                    <t class="language">${this.languages[data.header.file.extension]}</t>
+                                    <t class="language">${this.languages[data.header.file.extension] || "Không rõ ngôn ngữ"}</t>
                                 </div>
                                 
                                 <t class="row point">${data.header.point} điểm</t>
@@ -503,7 +503,7 @@ core = {
                                     </span>
                                 </span>
 
-                                <a href="/api/test/viewlog?f=${data.header.file.filename}&t=raw" class="sq-btn blue" rel="noopener" target="_blank">Raw Log</a>
+                                <a href="/api/test/viewlog?f=${data.header.file.logFilename}&t=raw" class="sq-btn blue" rel="noopener" target="_blank">Raw Log</a>
                             </span>
                         </div>
 

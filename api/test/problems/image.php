@@ -12,12 +12,25 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logs.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
 
+    function showimg(string $path) {
+        contentType(pathinfo($path, PATHINFO_EXTENSION));
+        header("Content-length: ". filesize($path));
+        readfile($path);
+        stop(0, "Success", 200);
+    }
+
     $id = reqquery("id");
     contest_timeRequire([CONTEST_STARTED], false, false);
 
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";
-    
-    if (problem_getImage($id) === PROBLEM_ERROR_IDREJECT)
-        stop(44, "Image not found", 404);
-    
-    stop(0, "Success", 200);
+
+    if (!isset($problemList[$id]))
+        showimg(PROBLEM_DIR ."/image.default");
+
+    if (isset($problemList[$id]["image"])) {
+        $i = $problemList[$id]["image"];
+        $f = PROBLEM_DIR."/".$id."/".$i;
+        showimg($f);
+    }
+
+    showimg(PROBLEM_DIR ."/image.default");

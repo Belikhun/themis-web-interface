@@ -90,9 +90,10 @@
 			$point = $data["point"];
 
 		array_push($logres, Array(
+			"status" => $data["status"],
 			"problem" => $data["problem"],
-			"point" => $point,
 			"extension" => $data["file"]["extension"],
+			"point" => $point,
 			"lastmodify" => $lastm,
 			"lastmtime" => $lastmtime,
 			"logurl" => $url

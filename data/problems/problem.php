@@ -188,34 +188,6 @@
         return PROBLEM_OKAY;
     }
 
-    function problem_getImage(String $id) {
-        global $problemList;
-
-        if (!isset($problemList[$id])) {
-            $f = PROBLEM_DIR ."/image.default";
-            contenttype("png");
-            header("Content-Length: ".filesize($f));
-            readfile($f);
-            return PROBLEM_ERROR_IDREJECT;
-        }
-
-        if (isset($problemList[$id]["image"])) {
-            $i = $problemList[$id]["image"];
-            $f = PROBLEM_DIR."/".$id."/".$i;
-
-            contenttype(pathinfo($i, PATHINFO_EXTENSION));
-            header("Content-Length: ".filesize($f));
-            readfile($f);
-            return PROBLEM_OKAY;
-        }
-
-        $f = PROBLEM_DIR ."/image.default";
-        contenttype("png");
-        header("Content-Length: ".filesize($f));
-        readfile($f);
-        return PROBLEM_ERROR;
-    }
-
     function problem_getAttachment(String $id) {
         global $problemList;
 

@@ -63,8 +63,6 @@
         }
 
         private function __parseHeader($file) {
-            $logNameParsed = parseLogName(pathinfo($this -> logPath, PATHINFO_BASENAME));
-
             $data = Array(
                 "status" => null,
                 "user" => null,
@@ -78,10 +76,10 @@
                 "description" => null,
                 "error" => Array(),
                 "file" => Array(
-                    "base" => $logNameParsed["problem"],
-                    "name" => $logNameParsed["name"],
-                    "filename" => pathinfo($this -> logPath, PATHINFO_FILENAME),
-                    "extension" => $logNameParsed["extension"],
+                    "base" => null,
+                    "name" => null,
+                    "extension" => null,
+                    "logFilename" => pathinfo($this -> logPath, PATHINFO_FILENAME),
                     "lastModify" => filemtime($this -> logPath)
                 )
             );
@@ -105,19 +103,24 @@
                 # test match pass template
                 preg_match_all("/(.+)‣(.+): (.+\w)/m", $firstLine, $l1matches, PREG_SET_ORDER, 0);
                 $data["point"] = $this -> __f($l1matches[0][3]);
-                $data["status"] = ($data["point"] === 0) ? "accepted" : "passed";
+                $data["status"] = ($data["point"] == 0) ? "accepted" : "passed";
                 $data["description"] = $file[2];
             }
 
             #? this is weird. soo weird
             $data["user"] = trim(strtolower($l1matches[0][1]), "﻿");
-            $data["problem"] = $l1matches[0][2];
+            $data["problem"] = strtolower($l1matches[0][2]);
 
             $problemData = problem_get($data["problem"]);
             if ($problemData !== PROBLEM_ERROR_IDREJECT) {
                 $data["problemName"] = $problemData["name"];
                 $data["problemPoint"] = $this -> __f($problemData["point"]);
             }
+
+            $problemFileName = pathinfo(strtolower($file[1]));
+            $data["file"]["base"] = $problemFileName["basename"];
+            $data["file"]["name"] = $problemFileName["filename"];
+            $data["file"]["extension"] = $problemFileName["extension"];
 
             return $data;
         }
@@ -157,8 +160,8 @@
                     $lineData["test"] = strtolower($lineParsed[0][1]);
                     $lineData["point"] = $this -> __f($lineParsed[0][2]);
 
-                    if ($lineData["point"] === 0) {
-                        $lineData["status"] = "failed";
+                    if ($lineData["point"] == 0) {
+                        $lineData["status"] = "accepted";
                         $this -> failed++;
                     } else {
                         $lineData["status"] = "passed";
@@ -177,9 +180,11 @@
                     # line match answer data format
                     $lineData["other"]["answer"] = $lineParsed[0][1];
 
-                else if (preg_match_all("/(Command: .+)/m", $line, $lineParsed, PREG_SET_ORDER, 0))
+                else if (preg_match_all("/(Command: .+)/m", $line, $lineParsed, PREG_SET_ORDER, 0)) {
                     # line match error detail format
                     $lineData["other"]["error"] = $lineParsed[0][1];
+                    $lineData["status"] = "failed";
+                }
 
                 else
                     # else is detail, cuz detail have no specific format

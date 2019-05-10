@@ -10,7 +10,7 @@
 body {
     position: relative;
     background-color: #666666;
-    font-family: "Calibri", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Segoe UI", "Calibri", Tahoma, Geneva, Verdana, sans-serif;
     margin: 0 0 20px 0;
     box-sizing: border-box;
     overflow: hidden;
@@ -145,15 +145,18 @@ panel .main.blank::after {
 #uploadp {
     height: 200px;
     flex-grow: 1;
+    order: 1;
 }
 
 #problemp {
     height: 200px;
+    order: 2;
 }
 
 #timep {
     height: 200px;
     display: none;
+    order: 3;
 }
 
 #timep.show {
@@ -165,10 +168,12 @@ panel .main.blank::after {
     width: calc(100% - 390px);
     min-width: 50%;
     flex-grow: 1;
+    order: 4;
 }
 
 #logp {
     height: calc(100% - 240px);
+    order: 5;
 }
 
 #wrapper {
@@ -215,11 +220,13 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 }
 
 @media only screen and (max-width: 1150px) {
-    #uploadp,
-    #timep,
     #problemp,
     #logp {
-        height: calc(50% - 20px);
+        height: calc(100% - 240px);
+    }
+
+    #timep:not(.show) + #problemp {
+        height: 200px;
     }
 
     #timep {
@@ -254,12 +261,6 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 
     #logp {
         height: calc(100% - 20px);
-    }
-
-    #wrapper #wrapp {
-        width: 100%;
-        height: 100%;
-        max-height: unset;
     }
 }
 
@@ -315,6 +316,18 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     color: #48b0f7;
 }
 
+#logp div.main ul.log-item-container li.log-item.passed .h .l .n {
+    color: #39aa56;
+}
+
+#logp div.main ul.log-item-container li.log-item.accepted .h .l .n {
+    color: #cfc337;
+}
+
+#logp div.main ul.log-item-container li.log-item.failed .h .l .n {
+    color: #db4545;
+}
+
 #logp div.main ul.log-item-container li.log-item .h .r {
     position: relative;
     display: flex;
@@ -322,6 +335,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     flex-direction: column;
     align-items: flex-end;
     justify-content: center;
+    margin-right: 10px;
 }
 
 #logp div.main ul.log-item-container li.log-item .h .r t {
@@ -1229,7 +1243,6 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 }
 
 #rankp div.ranking-container table tr td.number.link {
-    text-decoration: underline;
     color: rgb(75, 75, 75);
     cursor: pointer;
 }
@@ -1335,6 +1348,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 .viewlog-container {
     position: relative;
     display: flex;
+    font-family: "Calibri", "Segoe UI";
     flex-direction: row;
     width: 100%;
     height: 100%;
@@ -1644,7 +1658,14 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     box-sizing: border-box;
     padding: 10px 10px 10px 16px;
     background-color: rgb(245, 245, 245);
+    cursor: pointer;
     counter-increment: testItem;
+
+    transition: background-color 0.2s ease;
+}
+
+.viewlog-container .testList .item:hover {
+    background-color: rgb(255, 255, 255);
 }
 
 .viewlog-container .testList .item::before {
@@ -1654,7 +1675,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     left: 0;
     width: 6px;
     height: 100%;
-    background-color: #39aa56;
+    background-color: #b9b9b9
 }
 
 .viewlog-container .testList .item .line {
@@ -1675,7 +1696,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     position: relative;
     font-size: 16px;
     font-weight: bold;
-    color: #39aa56;
+    color: #464646;
 }
 
 .viewlog-container .testList .item .line .left .testid::before {
@@ -1693,10 +1714,17 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 
 .viewlog-container .testList .item .line.detail {
     position: relative;
-    font-size: 13px;
+    flex-direction: column;
+    align-items: flex-start;
     margin-top: 10px;
-    color: rgb(80, 80, 80);
+}
+
+.viewlog-container .testList .item .line.detail > t {
+    display: block;
+    width: 100%;
+    font-size: 13px;
     white-space: pre-wrap;
+    color: rgb(80, 80, 80);
 }
 
 .viewlog-container .testList .item .right {
@@ -1716,6 +1744,62 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     position: relative;
     font-size: 13px;
     color: rgb(114, 114, 114);
+}
+
+.viewlog-container .testList .item.passed::before {
+    background-color: #39aa56;
+}
+
+.viewlog-container .testList .item.passed .line .left .testid {
+    color: #39aa56;
+}
+
+.viewlog-container .testList .item.accepted::before {
+    background-color: #edde3f;
+}
+
+.viewlog-container .testList .item.accepted .line .left .testid {
+    color: #cfc337;
+}
+
+.viewlog-container .testList .item.failed::before {
+    background-color: #c0392b;
+}
+
+.viewlog-container .testList .item.failed .line .left .testid {
+    color: #c0392b;
+}
+
+
+/* Mobile Responsive */
+
+@media only screen and (max-width: 800px) {
+    #wrapper #wrapp {
+        width: 100%;
+        height: 100%;
+        max-height: unset;
+    }
+
+    .viewlog-container {
+        flex-direction: column;
+    }
+
+    .viewlog-container .header {
+        height: unset;
+    }
+
+    .viewlog-container .testList {
+        width: 100%;
+        height: unset;
+    }
+
+    .viewlog-container .testList .item {
+        padding-left: 20px;
+    }
+
+    .viewlog-container .testList .item::before {
+        width: 10px;
+    }
 }
 
 .cpanel-container,
