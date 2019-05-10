@@ -19,10 +19,12 @@ case $1 in
         echo ""
         echo -e "\033[1;34mCopying Files..."
 
+        mkdir -p ".backup"
+
         # Backup
         mv -f ../data/xmldb/account.xml .backup/account.xml
         mv -f ../data/config.json .backup/config.json
-        mv -f ../data/logs.json .backup/logs.json
+        [ -f ../data/logs.json ] && mv -f ../data/logs.json .backup/logs.json
         cp -rf ../api/avt/ .backup/avt/
 
         # Copy
@@ -36,8 +38,9 @@ case $1 in
         # Copy Backup
         mv -f .backup/account.xml ../data/xmldb/account.xml
         mv -f .backup/config.json ../data/config.json
-        mv -f .backup/logs.json ../data/logs.json
-        cp -rf .backup/avt/ ../api/avt/
+        mv -f .backup/logs.json ../data/logs.json 2>/dev/null; true
+        rm -rf ../api/avt/
+        mv -f .backup/avt/ ../api/avt/
 
         # Clean Backup
         rm -rf .backup/*
