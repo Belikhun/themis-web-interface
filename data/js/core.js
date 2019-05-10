@@ -473,14 +473,14 @@ core = {
 
         let template = `
             <div class="viewlog-container">
-                <div class="header">
+                <div class="header ${data.header.status}">
                     <span class="top">
                         <img class="problemIcon" src="/api/test/problems/image?id=${data.header.problem}">
                         <t class="problemName">${data.header.problemName || data.header.problem}</t>
                         <t class="point">${data.header.problemPoint ? data.header.problemPoint + " điểm" : "Không rõ"}</t>
                     </span>
                     <span class="bottom">
-                        <div class="line ${data.header.status}">
+                        <div class="line">
                             <span class="left">
                                 <div class="row problemInfo">
                                     <t class="problemid">${data.header.problem}</t>

@@ -1357,7 +1357,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     left: 0;
     width: 10px;
     height: 100%;
-    background-color: #39aa56;
+    background-color: #b9b9b9;
 }
 
 .viewlog-container .header .top {
@@ -1446,27 +1446,73 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     margin-bottom: 10px;
 }
 
-.viewlog-container .header .bottom .line .left .problemInfo .problemid {
+.viewlog-container .header .bottom .line .left .problemInfo::before {
+    content: "\f128";
+    color: #464646;
+    font-size: 21px;
+    margin-right: 20px;
+}
+
+.viewlog-container .header .bottom .line .left .problemInfo .problemid,
+.viewlog-container .header .bottom .line .left .problemInfo .language {
     position: relative;
     font-family: "Calibri", "Segoe UI";
     font-weight: bold;
     font-size: 18px;
-    color: #39aa56;
+    color: #464646;
 }
 
 .viewlog-container .header .bottom .line .left .problemInfo .language {
-    position: relative;
-    font-family: "Calibri", "Segoe UI";
     font-size: 14px;
     margin-left: 20px;
+}
+
+/*? Passed */
+
+.viewlog-container .header.passed .bottom .line .left .problemInfo .problemid,
+.viewlog-container .header.passed .bottom .line .left .problemInfo .language,
+.viewlog-container .header.passed .bottom .line .left .problemInfo::before {
     color: #39aa56;
 }
 
-.viewlog-container .header .bottom .line .left .problemInfo::before {
+.viewlog-container .header.passed::before {
+    background-color: #39aa56;
+}
+
+.viewlog-container .header.passed .bottom .line .left .problemInfo::before {
     content: "\f00c";
-    color: #39aa56;
-    font-size: 21px;
-    margin-right: 20px;
+}
+
+/*? Accepted */
+
+.viewlog-container .header.accepted .bottom .line .left .problemInfo .problemid,
+.viewlog-container .header.accepted .bottom .line .left .problemInfo .language,
+.viewlog-container .header.accepted .bottom .line .left .problemInfo::before {
+    color: #cfc337;
+}
+
+.viewlog-container .header.accepted::before {
+    background-color: #edde3f;
+}
+
+.viewlog-container .header.accepted .bottom .line .left .problemInfo::before {
+    content: "\f12a";
+}
+
+/*? Failed */
+
+.viewlog-container .header.failed .bottom .line .left .problemInfo .problemid,
+.viewlog-container .header.failed .bottom .line .left .problemInfo .language,
+.viewlog-container .header.failed .bottom .line .left .problemInfo::before {
+    color: #db4545;
+}
+
+.viewlog-container .header.failed::before {
+    background-color: #db4545;
+}
+
+.viewlog-container .header.failed .bottom .line .left .problemInfo::before {
+    content: "\f00d";
 }
 
 .viewlog-container .header .bottom .line .left .submitTime,
