@@ -28,5 +28,5 @@
         "time": 10,
         "bantime": 60
     },
-    "pagetitle": "%name% v%version%"
+    "pagetitle": "Themis Web Interface v0.4.1"
 }

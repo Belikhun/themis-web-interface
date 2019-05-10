@@ -34,7 +34,7 @@ def __testServerOnline():
 
 apiTest.case("Server should be up and running", __testServerOnline)
 
-def testApi(url = "", method = "GET", json = True, data = {}, files = {}):
+def testAPI(url = "", method = "GET", json = True, data = {}, files = {}):
     global sess
     global token
 
@@ -45,7 +45,7 @@ def testApi(url = "", method = "GET", json = True, data = {}, files = {}):
             data = sess.post("http://localhost/" + url, data = data, files = files)
 
     except Exception as excp:
-        return excp.__class__.__name__
+        return str(excp)
     else:
         if (not json):
             return True
@@ -53,7 +53,7 @@ def testApi(url = "", method = "GET", json = True, data = {}, files = {}):
         try:
             json = data.json()
         except Exception as excp:
-            return excp.__class__.__name__
+            return str(excp)
         else:
             if (json["code"] != 0):
                 return "[{}] {}".format(json["code"], json["description"])
@@ -78,7 +78,7 @@ def testApi(url = "", method = "GET", json = True, data = {}, files = {}):
 # Login API Test
 apiTest.case (
     "Should be logged in successful with account admin:admin",
-    lambda: testApi("api/login", "POST", data = { "u": "admin", "p": "admin" })
+    lambda: testAPI("api/login", "POST", data = { "u": "admin", "p": "admin" })
 )
 
 # All GET api test
@@ -86,7 +86,7 @@ GETApiList = ["api/config", "api/info?u=admin", "api/status", "api/test/logs", "
 for item in GETApiList:
     apiTest.case (
         "API \"{}\" should return a good status code".format(item),
-        lambda: testApi(item, "GET")
+        lambda: testAPI(item, "GET")
     )
 
 # All GET api with token required test
@@ -94,14 +94,14 @@ GETApiWithTokenList = ["api/logs", "api/test/logs"]
 for item in GETApiWithTokenList:
     apiTest.case (
         "API t\"{}\" should return a good status code".format(item),
-        lambda: testApi(item, "POST", data = { "token": token })
+        lambda: testAPI(item, "POST", data = { "token": token })
     )
 
 # Avatar change API Test
 def __avatarAPITest():
     global token
 
-    result = testApi("api/avt/change", "POST", data = { "token": token }, files = { "file": open("api/admin.jpg", "rb") })
+    result = testAPI("api/avt/change", "POST", data = { "token": token }, files = { "file": open("api/admin.jpg", "rb") })
     if (result != True):
         return result
 
@@ -118,7 +118,7 @@ apiTest.case (
 # Logout API Test
 apiTest.case (
     "Should be logged out successfully",
-    lambda: testApi("api/logout", "POST", data = { "token": token })
+    lambda: testAPI("api/logout", "POST", data = { "token": token })
 )
 
 # Complete Test

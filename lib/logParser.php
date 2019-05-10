@@ -118,8 +118,8 @@
             }
 
             $problemFileName = pathinfo(strtolower($file[1]));
-            $data["file"]["base"] = $problemFileName["basename"];
-            $data["file"]["name"] = $problemFileName["filename"];
+            $data["file"]["base"] = $problemFileName["filename"];
+            $data["file"]["name"] = $problemFileName["basename"];
             $data["file"]["extension"] = $problemFileName["extension"];
 
             return $data;
@@ -149,8 +149,10 @@
             # test result start from line 5
             for ($i = 4; $i < count($file); $i++) {
                 $line = $file[$i];
-                $lineParsed = [];
+                if (empty($line))
+                    continue;
 
+                $lineParsed = [];
                 if (preg_match_all("/.+‣.+‣(.+): (.+\w)/m", $line, $lineParsed, PREG_SET_ORDER, 0)) {
                     # line match begin of test data format
                     if (!empty($lineData))

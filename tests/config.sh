@@ -18,17 +18,29 @@ case $1 in
     "--copy")
         echo ""
         echo -e "\033[1;34mCopying Files..."
+
         # Backup
+        mv "../data/xmldb/account.xml" ".backup/account.xml"
+        mv "../data/config.json" ".backup/config.json"
+        mv "../data/logs.json" ".backup/logs.json"
+        cp "../api/avt/" ".backup/avt/"
 
         # Copy
+        cp ".config/account.xml" "../data/xmldb/account.xml"
+        cp "logParser/config.json" "../data/config.json"
 
         ;;
     "--restore")
         echo ""
         echo -e "\033[1;34mCleaning..."
         # Copy Backup
+        mv ".backup/account.xml" "../data/xmldb/account.xml"
+        mv ".backup/config.json" "../data/config.json"
+        mv ".backup/logs.json" "../data/logs.json"
+        cp ".backup/avt/" "../api/avt/"
 
         # Clean Backup
+        rm -r ".backup/*"
 
         ;;
     "--help")

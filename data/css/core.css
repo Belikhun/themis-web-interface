@@ -391,7 +391,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 }
 
 #logp div.main ul.log-item-container li.log-item.judging .h .l .n {
-    color: #2ecc71;
+    color: #24bdc5;
 }
 
 #logp div.main ul.log-item-container li.log-item.judging .d::before {

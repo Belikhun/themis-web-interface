@@ -13,6 +13,14 @@
             "cwd": "${workspaceFolder}/tests"
         },
         {
+            "name": "Run logParser Tests",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/tests/logParserTest.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/tests"
+        },
+        {
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",

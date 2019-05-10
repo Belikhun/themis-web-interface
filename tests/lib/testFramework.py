@@ -46,14 +46,14 @@ class testFramework:
             self.testNth,
             Fore.GREEN if (result == True) else Fore.RED,
             "✓" if (result == True) else "✗",
-            Fore.LIGHTBLACK_EX,
+            Fore.LIGHTWHITE_EX,
             description,
             Fore.MAGENTA,
             round(runTime, 2)
         ))
 
         if (result != True):
-            print("   → Reason: {}".format(Fore.LIGHTBLACK_EX + result))
+            print("   → Reason: {}".format(Fore.LIGHTBLACK_EX + str(result)))
 
     def complete(self):
         if (self.completed == True):
