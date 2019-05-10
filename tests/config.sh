@@ -38,7 +38,7 @@ case $1 in
         # Copy Backup
         mv -f .backup/account.xml ../data/xmldb/account.xml
         mv -f .backup/config.json ../data/config.json
-        [ -f ../data/logs.json ] && mv -f .backup/logs.json ../data/logs.json
+        [ -f .backup/logs.json ] && mv -f .backup/logs.json ../data/logs.json
         rm -rf ../api/avt/
         mv -f .backup/avt/ ../api/avt/
 
