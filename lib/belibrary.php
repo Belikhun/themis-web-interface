@@ -183,7 +183,7 @@
             case "errorpage":
                 if ($sc >= 300 || $c !== 0)
                     if (function_exists("printErrorPage"))
-                        printErrorPage($out, !headers_sent());
+                        printErrorPage($out, headers_sent());
                     else print "<h1>Error $sc</h1><p>$d</p>";
                 break;
             

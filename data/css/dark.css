@@ -316,6 +316,150 @@ body.dark .problem-settings .problem-container .problem .test-container .test-ad
     color: rgb(204, 204, 204);
 }
 
+/* Log Viewer */
+
+body.dark .viewlog-container .header .top .problemName {
+    color: rgb(228, 228, 228);
+}
+
+body.dark .viewlog-container .header .bottom .line .left .row::before {
+    color: rgb(180, 180, 180);
+}
+
+body.dark .viewlog-container .header .bottom .line .left .problemInfo .problemid,
+body.dark .viewlog-container .header .bottom .line .left .problemInfo .language {
+    color: rgb(224, 224, 224);
+}
+
+/*? Passed */
+
+body.dark .viewlog-container .header.passed .bottom .line .left .problemInfo .problemid,
+body.dark .viewlog-container .header.passed .bottom .line .left .problemInfo .language,
+body.dark .viewlog-container .header.passed .bottom .line .left .problemInfo::before {
+    color: #38ce5d;
+}
+
+body.dark .viewlog-container .header.passed::before {
+    background-color: #38ce5d;
+}
+
+body.dark .viewlog-container .header.passed .bottom .line .left .problemInfo::before {
+    content: "\f00c";
+}
+
+/*? Accepted */
+
+body.dark .viewlog-container .header.accepted .bottom .line .left .problemInfo .problemid,
+body.dark .viewlog-container .header.accepted .bottom .line .left .problemInfo .language,
+body.dark .viewlog-container .header.accepted .bottom .line .left .problemInfo::before {
+    color: #e4d429;
+}
+
+body.dark .viewlog-container .header.accepted::before {
+    background-color: #e4d429;
+}
+
+body.dark .viewlog-container .header.accepted .bottom .line .left .problemInfo::before {
+    content: "\f12a";
+}
+
+/*? Failed */
+
+body.dark .viewlog-container .header.failed .bottom .line .left .problemInfo .problemid,
+body.dark .viewlog-container .header.failed .bottom .line .left .problemInfo .language,
+body.dark .viewlog-container .header.failed .bottom .line .left .problemInfo::before {
+    color: #f56a6a;
+}
+
+body.dark .viewlog-container .header.failed::before {
+    background-color: #ee4c4c;
+}
+
+body.dark .viewlog-container .header.failed .bottom .line .left .problemInfo::before {
+    content: "\f00d";
+}
+
+body.dark .viewlog-container .header .bottom .line .left .submitTime,
+body.dark .viewlog-container .header .bottom .line .left .status,
+body.dark .viewlog-container .header .bottom .line .left .result,
+body.dark .viewlog-container .header .bottom .line .left .point {
+    color: rgb(224, 224, 224);
+}
+
+
+body.dark .viewlog-container .header .bottom .line .left .result b.green {
+    color: #38ce5d;
+}
+
+body.dark .viewlog-container .header .bottom .line .left .result b.red {
+    color: #f56a6a;
+}
+
+body.dark .viewlog-container .header .bottom .line .right .submitter .info .tag {
+    color: rgb(185, 185, 185);
+}
+
+body.dark .viewlog-container .header .bottom .line .right .submitter .info .name {
+    color: rgb(228, 228, 228);
+}
+
+body.dark .viewlog-container .header .bottom .line .right > * {
+    color: rgb(250, 250, 250);
+}
+
+
+body.dark .viewlog-container .testList .item .line .left .testid {
+    color: rgb(214, 214, 214);
+}
+
+body.dark .viewlog-container .testList .item.passed::before {
+    background-color: #38ce5d;
+}
+
+body.dark .viewlog-container .testList .item.passed .line .left .testid {
+    color: #38ce5d;
+}
+
+body.dark .viewlog-container .testList .item.accepted::before {
+    background-color: #e4d429;
+}
+
+body.dark .viewlog-container .testList .item.accepted .line .left .testid {
+    color: #e4d429;
+}
+
+body.dark .viewlog-container .testList .item.failed::before {
+    background-color: #ee4c4c;
+}
+
+body.dark .viewlog-container .testList .item.failed .line .left .testid {
+    color: #f56a6a;
+}
+
+body.dark .viewlog-container .testList .item .right .point {
+    color: rgb(204, 204, 204);
+}
+
+body.dark .viewlog-container .testList .item .right .runtime {
+    color: rgb(180, 180, 180);
+}
+
+body.dark .viewlog-container .testList {
+    background-color: rgb(54, 54, 54);
+}
+
+body.dark .viewlog-container .testList .item {
+    background-color: rgb(60, 60, 60);
+}
+
+body.dark .viewlog-container .testList .item:hover {
+    background-color: rgb(68, 68, 68);
+}
+
+body.dark .viewlog-container .testList .item .line.detail > t {
+    color: rgb(172, 172, 172);
+}
+
 /* SysLogs */
 
 body.dark .syslogs-settings .log {

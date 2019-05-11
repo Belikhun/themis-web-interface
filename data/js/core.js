@@ -503,7 +503,7 @@ core = {
                                     </span>
                                 </span>
 
-                                <a href="/api/test/viewlog?f=${data.header.file.logFilename}&t=raw" class="sq-btn blue" rel="noopener" target="_blank">Raw Log</a>
+                                <a href="/api/test/rawlog?f=${data.header.file.logFilename}" target="popup" class="sq-btn blue" rel="noopener" target="_blank">📄 Raw Log</a>
                             </span>
                         </div>
 

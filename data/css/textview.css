@@ -35,7 +35,7 @@
 }
 
 .textview li:hover {
-    background-color: rgba(190, 190, 190, 0.2);
+    background-color: rgba(212, 212, 212, 0.2);
 }
 
 .textview li::before {
@@ -54,7 +54,11 @@
 
 body.dark .textview li {
     border-left-color: rgba(204, 204, 204, 0.3);
-    color: rgb(184, 184, 184);
+    color: rgb(204, 204, 204);
+}
+
+body.dark .textview li:hover {
+    background-color: rgba(10, 10, 10, 0.2);
 }
 
 body.dark .textview li::before {
@@ -62,5 +66,5 @@ body.dark .textview li::before {
 }
 
 body.dark .textview li:hover::before {
-    color: #2f93d6;
+    color: #31a0eb;
 }
