@@ -22,6 +22,7 @@
 
         <title>Đăng nhập</title>
 
+        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/default.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/input.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/scrollbar.css" />
@@ -58,10 +59,11 @@
             </div>
             <div class="center">
                 <t class="title">Đăng nhập</t>
+                <t id="form_message"></t>
 
                 <form id="form_container" action="javascript:void(0);">
                     <div id="form_username">
-                        <div class="formgroup dark">
+                        <div class="formgroup blue">
                             <input id="form_username_input" type="text" class="formfield" autocomplete="off" placeholder="Tên tài khoản" required disabled>
                             <label for="form_username_input" class="formlabel">Tên tài khoản</label>
                         </div>
@@ -75,7 +77,7 @@
                             <t id="form_user"></t>
                         </div>
 
-                        <div class="formgroup dark">
+                        <div class="formgroup blue">
                             <input id="form_password_input" type="password" class="formfield" autocomplete="off" placeholder="Mật khẩu" required disabled>
                             <label for="form_password_input" class="formlabel">Mật khẩu</label>
                         </div>
@@ -83,11 +85,9 @@
                         <button id="form_password_submit" type="submit" class="sq-btn pink" disabled>Đăng nhập</button>
                     </div>
                 </form>
-                
-                <t id="form_message"></t>
             </div>
             <div class="footer">
-                Copyright © 2018-2019 Belikhun. This project is licensed under the MIT License
+                Copyright © 2018-2019 <a href="https://www.facebook.com/belivipro9x99" target="_blank" rel="noopener">Belikhun</a>. This project is licensed under the MIT License. See <a href="/LICENSE" target="_blank" rel="noopener">LICENSE</a> for more information.
             </div>
         </div>
 

@@ -40,3 +40,9 @@ ul {
     margin: 10px 0;
     padding: 0 0 0 20px;
 }
+
+/* Dark */
+
+body.dark t {
+    color: rgb(214, 214, 214);
+}

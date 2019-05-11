@@ -5,6 +5,9 @@
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
+if (cookie.get("__darkMode") === "true")
+    document.body.classList.add("dark");
+
 login = {
     form: {
         container: $("#form_container"),
