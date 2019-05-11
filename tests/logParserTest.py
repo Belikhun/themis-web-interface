@@ -18,7 +18,7 @@ log("OKAY", "Imported: lib.testFramework.testFramework")
 
 # Start a new session
 sess = requests.Session()
-token = ""
+sauce = ""
 apiTest = testFramework("API")
 
 # Server Online Test
