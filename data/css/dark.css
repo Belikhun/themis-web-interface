@@ -7,14 +7,6 @@
 ? |-----------------------------------------------------------------------------------------------|
 */
 
-body.dark a {
-    color: #19c8a5;
-}
-
-body.dark t {
-    color: rgb(212, 212, 212);
-}
-
 body.dark .formgroup.blue .formfield {
     color: rgb(204, 204, 204);
 }
@@ -193,19 +185,19 @@ body.dark #rankp div.ranking-container table tr td.number {
     color: rgb(124, 124, 124);
 }
 
-body.dark #rankp div.ranking-container table tr td.number.link {
+body.dark #rankp div.ranking-container table tr .number.link {
     color: rgb(224, 224, 224);
 }
 
-body.dark #rankp div.ranking-container table tr td.number.passed {
+body.dark #rankp div.ranking-container table tr .number.passed {
     background-color: rgba(30, 219, 52, 0.3);
 }
 
-body.dark #rankp div.ranking-container table tr td.number.accepted {
+body.dark #rankp div.ranking-container table tr .number.accepted {
     background-color: rgba(226, 219, 5, 0.4);
 }
 
-body.dark #rankp div.ranking-container table tr td.number.failed {
+body.dark #rankp div.ranking-container table tr .number.failed {
     background-color: rgba(221, 28, 28, 0.3);
 }
 
@@ -403,7 +395,7 @@ body.dark .viewlog-container .header .bottom .line .right .submitter .info .name
     color: rgb(228, 228, 228);
 }
 
-body.dark .viewlog-container .header .bottom .line .right > * {
+body.dark .viewlog-container .header .bottom .line .right > t {
     color: rgb(250, 250, 250);
 }
 

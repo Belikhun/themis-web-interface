@@ -234,7 +234,7 @@ core = {
                 `<div class="left">`,
                     `<t>Hiện đã có phiên bản mới: <b>${tgs}</b></t>`,
                     `<t>Nhấn vào nút dưới đây để đi tới trang tải xuống:</t>`,
-                    `<a href="${data.html_url}" target="_blank" rel="noopener"><button class="sq-btn dark" style="margin-top: 10px; width: 100%;">${data.tag_name} : ${data.target_commitish}</button></a>`,
+                    `<a href="${data.html_url}" target="_blank" rel="noopener" class="sq-btn dark" style="margin-top: 10px; width: 100%;">${data.tag_name} : ${data.target_commitish}</a>`,
                 `</div>`,
                 `<div class="right"></div>`
             ].join("\n");

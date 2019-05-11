@@ -18,7 +18,7 @@ log("OKAY", "Imported: lib.testFramework.testFramework")
 
 # Start a new session
 sess = requests.Session()
-token = ""
+sauce = ""
 apiTest = testFramework("API")
 
 # Server Online Test
@@ -36,7 +36,7 @@ apiTest.case("Server should be up and running", __testServerOnline)
 
 def testAPI(url = "", method = "GET", json = True, data = {}, files = {}):
     global sess
-    global token
+    global sauce
 
     try:
         if (method == "GET"):
@@ -66,10 +66,10 @@ def testAPI(url = "", method = "GET", json = True, data = {}, files = {}):
 
             try:
                 json["data"]["token"]
-            except Exception:
+            except (KeyError, TypeError):
                 pass
             else:
-                token = json["data"]["token"]
+                sauce = json["data"]["token"]
 
             return True
 
@@ -94,14 +94,14 @@ GETApiWithTokenList = ["api/logs", "api/test/logs"]
 for item in GETApiWithTokenList:
     apiTest.case (
         "API t\"{}\" should return a good status code".format(item),
-        lambda: testAPI(item, "POST", data = { "token": token })
+        lambda: testAPI(item, "POST", data = { "token": sauce })
     )
 
 # Avatar change API Test
 def __avatarAPITest():
-    global token
+    global sauce
 
-    result = testAPI("api/avt/change", "POST", data = { "token": token }, files = { "file": open("api/admin.jpg", "rb") })
+    result = testAPI("api/avt/change", "POST", data = { "token": sauce }, files = { "file": open("api/admin.jpg", "rb") })
     if (result != True):
         return result
 
@@ -118,7 +118,7 @@ apiTest.case (
 # Logout API Test
 apiTest.case (
     "Should be logged out successfully",
-    lambda: testAPI("api/logout", "POST", data = { "token": token })
+    lambda: testAPI("api/logout", "POST", data = { "token": sauce })
 )
 
 # Complete Test

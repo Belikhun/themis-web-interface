@@ -16,7 +16,17 @@ body {
 }
 
 a {
+    position: relative;
     color: #16a085;
+}
+
+a.sq-btn {
+    color: white;
+    text-decoration: none;
+}
+
+a.sq-btn:focus {
+    text-decoration: none;
 }
 
 .text-overflow {
@@ -42,6 +52,18 @@ ul {
 }
 
 /* Dark */
+
+body.dark a {
+    color: #19c8a5;
+}
+
+body.dark a.sq-btn {
+    color: white;
+}
+
+body.dark t {
+    color: rgb(212, 212, 212);
+}
 
 body.dark t {
     color: rgb(214, 214, 214);
