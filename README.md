@@ -23,11 +23,11 @@ An beautiful and easy-to-use Web Interface for **[Themis](https://dsapblog.wordp
 **Themis Web Interface** được viết bằng **PHP và JavaScript**. Dự án không sử dụng các library khác như **jQuery, Bootstrap, React, ...**
 
 
-| 🌿     | Travis CI Status                                                                                                                                                                                    |
-|:--------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| master | [![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface.svg?label=master&style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface)        |
+| 🌿     |                                                                                          Travis CI Status                                                                                           |
+|:-------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| master |    [![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface.svg?label=master&style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface)     |
 | v0.4.1 | [![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface/v0.4.1.svg?label=v0.4.1&style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface) |
-
+| v0.4.2 | [![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface/v0.4.2.svg?label=v0.4.2&style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface) |
 
 
 - [Demo](#demo)
