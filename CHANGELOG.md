@@ -1,6 +1,7 @@
 # Change Logs
 
-- [Thay đổi trong v0.4.0](#thay-đổi-trong-v040-release)
+- [Thay đổi trong v0.4.1](#thay-đổi-trong-v041-release)
+	- [Thay đổi trong v0.4.0](#thay-đổi-trong-v040-release)
 	- [Thay đổi trong v0.4.0-prerelease](#thay-đổi-trong-v040-prerelease)
 	- [Thay đổi trong v0.3.7](#thay-đổi-trong-v037)
 	- [Thay đổi trong v0.3.6](#thay-đổi-trong-v036)
@@ -16,6 +17,16 @@
 	- [Thay đổi trong v0.2.0](#thay-đổi-trong-v020)
 
 ---
+
+## Thay đổi trong v0.4.1-release
+
+* **Thêm:** Add dark color scheme in login page
+* **Thêm:** Now parse the log file to get data instead of showing the raw log file
+* **Thêm:** Nhấn vào ảnh đính kèm trong đề bài để xem ảnh với kích cỡ to hơn
+* **Thêm cài đặt:** Tiêu đề trang
+* **Bug:** Danh sách file public của các đề không hiển thị khi giới hạn thời gian bị tắt
+* **Chỉnh sửa:** Viết lại một số đoạn code cũ
+* Sửa một số bug khác và thêm một số chức năng nhỏ
 
 ## Thay đổi trong v0.4.0-release 🎉🎉
 
