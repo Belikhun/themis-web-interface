@@ -16,7 +16,7 @@
         define("ERROR_HANDLING", "API");
 
     if (ERROR_HANDLING === "API") {
-        function api_ethrow($errnum, $errstr, $errfile, $errline) {
+        function api_ethrow(Int $errnum, String $errstr, String $errfile, Int $errline) {
 
             writeLog("ERRR", "[$errnum] $errstr tại ". basename($errfile) .":$errline");
 

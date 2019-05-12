@@ -1,0 +1,14 @@
+acceptedtest‣accepted: 0.00.
+accepted.pas
+Dịch thành công
+
+acceptedtest‣accepted‣Test0001: 0.00
+Chạy quá thời gian!
+acceptedtest‣accepted‣Test0002: 0.00
+Thời gian ≈ 0.033979277 giây
+Output: 5.
+Answer: 69.
+Kết quả KHÁC đáp án
+acceptedtest‣accepted‣Test0003: 0.00
+Chạy sinh lỗi
+Command: "C:\ProgramData\ThemisWorkSpace\ContestRoom\VO17BACH.exe" terminated with exit code: 3221225477 (Hexadecimal: C0000005)

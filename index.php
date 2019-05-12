@@ -26,11 +26,11 @@
         "username" => null,
     );
 
-    if (islogedin()) {
+    if (isLogedIn()) {
         require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
         $loggedin = true;
         $sessdata["username"] = $username = $_SESSION["username"];
-        $userdata = getuserdata($username);
+        $userdata = getUserData($username);
         $name = $userdata["name"];
         $id = $userdata["id"];
     }
@@ -41,17 +41,18 @@
     <html lang="vi-VN">
 
     <head>
-
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title><?php print APPNAME ." v". VERSION; ?></title>
+        <title><?php print $config["pagetitle"]; ?></title>
 
         <!-- Library First -->
+        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/default.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/splash.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/input.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/textview.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/table.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/switch.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/slider.css" />
@@ -77,7 +78,7 @@
         <script src="/data/js/belibrary.js" type="text/javascript"></script>
         <script type="text/javascript" src="/data/js/splash.js"></script>
         <script type="text/javascript">
-            var mainSplash = new splash(document.body, "<?php print APPNAME; ?>", "<?php print VERSION ."-". VERSION_STATE; ?>", "/data/img/icon.webp");
+            var mainSplash = new splash(document.body, "<?php print APPNAME; ?>", "<?php print VERSION ."-". VERSION_TAG; ?>", "/data/img/icon.webp");
 
             mainSplash.init = async (set) => {
                 set(0, "Initializing core.js");
@@ -90,7 +91,14 @@
 
                 set(95, "Sending Analytics Data...");
                 gtag("event", "pageView", {
-                    "version": window.serverStatus.version
+                    version: window.serverStatus.version,
+                    hostname: location.hostname,
+                    loadtime: ((new Date()).getTime() - window.performance.timing.navigationStart) / 1000,
+                    downlink: navigator.connection.downlink,
+                    versiontag: window.serverStatus.versionTag,
+                    contestname: window.serverStatus.contestName,
+                    platform: navigator.platform,
+                    darkmode: cookie.get("__darkMode")
                 });
             }
         </script>
@@ -446,7 +454,7 @@
                         <div class="btn-group">
                             <span class="reload sound" data-soundhover data-soundselect></span>
                             <span class="close sound" data-soundhover></span>
-                            <span class="sound" data-soundhover data-soundselect></span>
+                            <span class="custom sound" data-soundhover data-soundselect></span>
                         </div>
                         <div class="main">
                             <iframe class="cpanel-container" src=""></iframe>
@@ -459,7 +467,7 @@
                         <div class="btn-group">
                             <span class="reload sound" data-soundhover data-soundselect></span>
                             <span class="close sound" data-soundhover></span>
-                            <span class="delete sound" data-soundhover data-soundselect></span>
+                            <span class="custom delete sound" data-soundhover data-soundselect></span>
                         </div>
                         <div class="main syslogs-settings">
                         </div>
@@ -471,14 +479,14 @@
                         <div class="btn-group">
                             <span class="reload sound" data-soundhover data-soundselect></span>
                             <span class="close sound" data-soundhover></span>
-                            <span class="sound" data-soundhover data-soundselect></span>
+                            <span class="custom sound" data-soundhover data-soundselect></span>
                         </div>
                         <div class="main">
                             <footer>
                                 <div class="header">
                                     <div class="logo"></div>
                                     <t class="title"><?php print APPNAME; ?></t>
-                                    <t class="version">v<?php print VERSION."-".VERSION_STATE; ?></t>
+                                    <t class="version">v<?php print VERSION."-".VERSION_TAG; ?></t>
                                     <t class="subtitle">Made from scratch, crafted with <font color="red">❤</font> by Belikhun</t>
 
                                     <div class="button">
@@ -501,7 +509,7 @@
                                 </table>
 
                                 <div class="badge">
-                                    <a href="https://github.com/belivipro9x99/themis-webinterface/releases/" target="_blank" rel="noopener"><img src="/tool/badge?su=<?php print VERSION_STATE; ?>&st=v<?php print VERSION; ?>&c=brightgreen"></a>
+                                    <a href="https://github.com/belivipro9x99/themis-webinterface/releases/" target="_blank" rel="noopener"><img src="/tool/badge?su=<?php print VERSION_TAG; ?>&st=v<?php print VERSION; ?>&c=brightgreen"></a>
                                     <img src="/tool/badge?su=license&st=MIT&c=orange">
                                     <img src="/tool/badge?su=status&st=not tested&c=blue">
                                     <img src="/tool/badge?su=author&st=Đỗ Mạnh Hà&c=red">
@@ -512,7 +520,7 @@
                                 
                                 <t class="contact">Liên hệ:</t>
                                 <ul class="contact">
-                                    <li class="tel">03668275002</li>
+                                    <li class="tel">0368275002</li>
                                     <li class="email">belivipro9x99@gmail.com</li>
                                     <li class="facebook">
                                         <a href="https://www.facebook.com/belivipro9x99" target="_blank" rel="noopener">Belikhun</a>
@@ -531,7 +539,7 @@
                         <div class="btn-group">
                             <span class="reload sound" data-soundhover data-soundselect></span>
                             <span class="close sound" data-soundhover></span>
-                            <span class="sound" data-soundhover data-soundselect></span>
+                            <span class="custom sound" data-soundhover data-soundselect></span>
                         </div>
                         <div class="main">
                             <iframe class="cpanel-container" src="/LICENSE"></iframe>
@@ -548,8 +556,8 @@
                 <div class="head">
                     <t class="le"></t>
                     <span class="ri">
-                        <i class="material-icons ref sound" data-soundhover data-soundselect>refresh</i>
-                        <i class="material-icons clo sound" data-soundhover data-soundselect>close</i>
+                        <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
+                        <i class="material-icons clo sound" title="Đóng" data-soundhover data-soundselect>close</i>
                     </span>
                 </div>
                 <div class="main">
@@ -563,7 +571,7 @@
                 <div class="head">
                     <t class="le">Nộp bài</t>
                     <span class="ri">
-                        <i class="material-icons ref sound" data-soundhover data-soundselect>refresh</i>
+                        <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
                     </span>
                 </div>
                 <div class="main fileupload-container">
@@ -585,12 +593,32 @@
                 </div>
             </panel>
 
+            <panel id="timep">
+                <div class="head">
+                    <t class="le">Thời gian</t>
+                    <span class="ri">
+                        <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
+                        <i class="material-icons clo sound" title="Đóng" data-soundhover data-soundselect>close</i>
+                    </span>
+                </div>
+                <div class="main time-container">
+                    <t id="time_state">---</t>
+                    <t id="time_time">--:--</t>
+                    <div class="bar">
+                        <div id="time_bar"></div>
+                        <t id="time_start">--:--</t>
+                        <t id="time_end">--:--</t>
+                    </div>
+                </div>
+            </panel>
+
             <panel id="problemp">
                 <div class="head">
                     <t class="le">Đề bài</t>
                     <span class="ri">
-                        <i class="material-icons bak sound" data-soundhover>keyboard_arrow_left</i>
-                        <i class="material-icons ref sound" data-soundhover data-soundselect>refresh</i>
+                        <i class="material-icons bak sound" title="Quay lại" data-soundhover>keyboard_arrow_left</i>
+                        <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
+                        <i class="material-icons clo sound" title="Đóng" data-soundhover data-soundselect>close</i>
                     </span>
                 </div>
                 <div class="main problem-container">
@@ -632,22 +660,14 @@
                 </div>
             </panel>
 
-            <panel id="timep">
+            <panel id="rankp">
                 <div class="head">
-                    <t class="le">Thời gian</t>
+                    <t class="le">Xếp hạng</t>
                     <span class="ri">
-                        <i class="material-icons ref sound" data-soundhover data-soundselect>refresh</i>
-                        <i class="material-icons clo sound" data-soundhover data-soundselect>close</i>
+                        <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
                     </span>
                 </div>
-                <div class="main time-container">
-                    <t id="time_state">---</t>
-                    <t id="time_time">--:--</t>
-                    <div class="bar">
-                        <div id="time_bar"></div>
-                        <t id="time_start">--:--</t>
-                        <t id="time_end">--:--</t>
-                    </div>
+                <div class="main ranking-container">
                 </div>
             </panel>
 
@@ -655,23 +675,13 @@
                 <div class="head">
                     <t class="le">Nhật ký</t>
                     <span class="ri">
-                        <i class="material-icons ref sound" data-soundhover data-soundselect>refresh</i>
+                        <i class="material-icons cus sound" title="Xóa danh sách đang chấm" data-soundhover data-soundselect>gavel</i>
+                        <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
                     </span>
                 </div>
                 <div class="main">
                     <ul class="log-item-container">
                     </ul>
-                </div>
-            </panel>
-
-            <panel id="rankp">
-                <div class="head">
-                    <t class="le">Xếp hạng</t>
-                    <span class="ri">
-                        <i class="material-icons ref sound" data-soundhover data-soundselect>refresh</i>
-                    </span>
-                </div>
-                <div class="main ranking-container">
                 </div>
             </panel>
 
@@ -682,7 +692,7 @@
             const IS_ADMIN = `<?php print ($id === "admin" ? "true" : "false"); ?>` === "true";
             const LOGGED_IN = `<?php print ($loggedin === true ? "true" : "false"); ?>` === "true";
             const API_TOKEN = `<?php print isset($_SESSION["api_token"]) ? $_SESSION["api_token"] : null; ?>`;
-            const SESSION = JSON.parse(`<?php print json_encode($sessdata); ?>`);
+            const SESSION = <?php print json_encode($sessdata); ?>
         </script>
 
         <script src="/data/js/statusbar.js" type="text/javascript"></script>
@@ -724,7 +734,14 @@
 
             gtag("config", "UA-124598427-1", {
                 "custom_map": {
-                    "dimension1": "version"
+                    dimension1: "version",
+                    dimension2: "hostname",
+                    dimension3: "loadtime",
+                    dimension4: "downlink",
+                    dimension5: "versiontag",
+                    dimension6: "contestname",
+                    dimension7: "platform",
+                    dimension8: "darkmode"
                 }
             });
         </script>

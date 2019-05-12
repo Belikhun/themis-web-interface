@@ -268,7 +268,8 @@ body.embeded .menu {
     display: block;
 }
 
-.menu .group t {
+.menu .group t,
+.menu .group .item .text {
     color: rgb(90, 90, 90);
     font-family: "Calibri";
     font-size: 13px;
@@ -355,7 +356,8 @@ body.dark .menu::before {
     background-color: rgb(56, 56, 56);
 }
 
-body.dark .menu .group t {
+body.dark .menu .group t,
+body.dark .menu .group .item .text {
     color: rgb(178, 178, 178);
 }
 

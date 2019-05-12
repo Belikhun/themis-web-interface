@@ -1,0 +1,70 @@
+/* 
+? |-----------------------------------------------------------------------------------------------|
+? |  /data/css/default.css                                                                        |
+? |                                                                                               |
+? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+? |-----------------------------------------------------------------------------------------------|
+*/
+
+body {
+    position: relative;
+    font-family: "Segoe UI", Calibri, Geneva, Verdana, sans-serif;
+    font-size: 15px;
+    color: rgb(42, 42, 42);
+    overflow: auto;
+}
+
+a {
+    position: relative;
+    color: #16a085;
+}
+
+a.sq-btn {
+    color: white;
+    text-decoration: none;
+}
+
+a.sq-btn:focus {
+    text-decoration: none;
+}
+
+.text-overflow {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+t {
+    position: relative;
+    display: block;
+    font-size: 14px;
+    font-weight: normal;
+    color: rgb(28, 28, 28);
+    word-wrap: break-word;
+}
+
+ul {
+    position: relative;
+    display: block;
+    margin: 10px 0;
+    padding: 0 0 0 20px;
+}
+
+/* Dark */
+
+body.dark a {
+    color: #19c8a5;
+}
+
+body.dark a.sq-btn {
+    color: white;
+}
+
+body.dark t {
+    color: rgb(212, 212, 212);
+}
+
+body.dark t {
+    color: rgb(214, 214, 214);
+}

@@ -33,7 +33,7 @@
     define("LOGIN_USERNAMENOTFOUND", 1);
     define("LOGIN_WRONGPASSWORD", 2);
 
-    function simplelogin($username, $password) {
+    function simpleLogin($username, $password) {
         global $accdata;
         foreach ($accdata as $col)
             if ($col["username"] === $username)
@@ -44,19 +44,20 @@
         return LOGIN_USERNAMENOTFOUND;
     }
 
-    function getuserdata($username) {
+    function getUserData($username) {
         global $accdata;
         foreach ($accdata as $col)
             if ($col["username"] === $username)
                 return $col;
-        return Array();
+                
+        return null;
     }
 
     define("USER_EDIT_SUCCESS", 0);
     define("USER_EDIT_WRONGUSERNAME", 1);
     define("USER_EDIT_ERROR", 2);
 
-    function edituser($username, $replace = Array()) {
+    function editUser($username, $replace = Array()) {
         global $dom;
         global $row;
         global $acchead;

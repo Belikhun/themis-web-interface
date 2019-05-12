@@ -15,11 +15,12 @@
         $_SERVER["REDIRECT_STATUS"] = $_GET["c"];
     }
 
-    $sv = $_SERVER["SERVER_SOFTWARE"];
-    $sv_ip = $_SERVER["SERVER_ADDR"];
+    $sv = $_SERVER["SERVER_SOFTWARE"] . " + PHP/" . phpversion();
+    $sv_ar = $_SERVER["SERVER_ADDR"];
+    $sv_hs = $_SERVER["HTTP_HOST"];
     $sv_pr = $_SERVER["SERVER_PROTOCOL"];
     $uri = $_SERVER["REQUEST_URI"];
-    $cl_ip = $_SERVER["REMOTE_ADDR"];
+    $cl_ar = $_SERVER["REMOTE_ADDR"];
     $cl = $_SERVER["HTTP_USER_AGENT"];
     if (isset($_SERVER["REDIRECT_STATUS"]))
         $errCode = $_SERVER["REDIRECT_STATUS"];
@@ -32,11 +33,12 @@
 
     if (isset($_SESSION["lastError"])) {
         $err = $_SESSION["lastError"];
+        $errData = $err["data"];
         $_SESSION["lastError"] = null;
 
-        $errCode = $err["errcode"];
+        $errCode = $err["status"];
         http_response_code($errCode);
-        $errDetail = "<b>Lỗi [".$err["num"]."]:</b> <sg><i>" . $err["str"] . "</i></sg> tại <i>" . $err["file"] . "</i> dòng " . $err["line"];
+        $errDetail = "<b>Lỗi [" .$err["code"]. "]:</b> <sg><i>" . $err["description"] . "</i></sg>". (isset($errData["file"]) ? " tại <i>" . $errData["file"] . "</i> dòng " . $errData["line"] : "");
     }
 
     switch ($errCode) {
@@ -54,13 +56,13 @@
             break;
         case 403:
             $error = "Forbidden";
-            $description = "Hey, Thats illegal! You are not allowed to access <sy>$sv_ip$uri</sy>";
-            $errDetail = "Or iS iT ?";
+            $description = "Hey, Thats illegal! You are not allowed to access <sy>$sv_hs$uri</sy>";
+            $errDetailSub = "Or iS iT ?";
             break;
         case 404:
             $error = "Not Found";
-            $description = "Không thể tìm thấy <sy>$sv_ip$uri</sy> trên máy chủ.";
-            $errDetail = "This page was wiped out because <sg>thanos</sg> snapped his fingers";
+            $description = "Không thể tìm thấy <sy>$sv_hs$uri</sy> trên máy chủ.";
+            $errDetailSub = "The resources you are trying to access was wiped out because <sg>thanos</sg> snapped his fingers";
             break;
         case 405:
             $error = "Method Not Allowed";
@@ -92,6 +94,23 @@
             break;
     }
 
+    $errDetail = empty($errDetail) ? $errDetailSub : $errDetail;
+
+    $reportData = join("\n", Array(
+        "----------------BEGIN ERROR REPORT DATA----------------",
+        "Protocol       : " . $sv_pr,
+        "HTTP Code      : " . $errCode,
+        "Error Code     : " . (isset($err["code"]) ? $err["code"] : "null"),
+        "Error String   : " . $error,
+        "Error Detail   : " . (isset($err["description"]) ? $err["description"] : strip_tags($description)),
+        "URI            : " . (isset($errData["uri"]) ? $errData["uri"] : $uri),
+        "",
+        "Server         : " . $sv,
+        "Client         : " . $cl,
+        "",
+        "ERROR DATA     : " . (isset($err) ? "\n" . json_encode($err, JSON_PRETTY_PRINT) : "null"),
+        "-----------------END ERROR REPORT DATA-----------------"
+    ));
     writeLog("WARN", "Got statuscode \"". $errCode ." ". $error ."\" when trying to access: ". $uri);
 ?>
 
@@ -121,11 +140,16 @@
         <div class="right">
             <p class="description"><?php print $description; ?></p>
             <p class="detail"><?php print $errDetail; ?></p>
+
+            <t class="reportIns">Sử dụng thông tin dưới đây để báo cáo lỗi:</t>
+            <textarea class="report" onclick="this.select()" readonly><?php print $reportData; ?></textarea>
+
             <p class="info">
                 Client: <?php print $cl; ?><br>
-                Server: <?php print $sv . " + PHP/" . phpversion(); ?><br>
-                Your IP: <?php print $cl_ip; ?><br>
+                Server: <?php print $sv; ?><br>
+                Your IP: <?php print $cl_ar; ?><br>
             </p>
+
             <div class="button">
                 <a href="<?php print REPORT_ERROR; ?>" target="_blank" rel="noopener"><button class="sq-btn pink">Báo Lỗi</button></a>
                 <a href="/"><button class="sq-btn">Về Trang Chủ</button></a>

@@ -11,6 +11,7 @@
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -18,23 +19,27 @@
 
 @keyframes simple-colors {
   0% {
-    border-color: #4285F4;
+    border-color: #2196f3;
     border-right-color: transparent;
   }
+
   25% {
-    border-color: #DE3E35;
+    border-color: #f44336;
     border-right-color: transparent;
   }
+
   50% {
-    border-color: #F7C223;
+    border-color: #ffeb3b;
     border-right-color: transparent;
   }
+
   75% {
-    border-color: #1B9A59;
+    border-color: #4caf50;
     border-right-color: transparent;
   }
+
   100% {
-    border-color: #4285F4;
+    border-color: #03a9f4;
     border-right-color: transparent;
   }
 }
@@ -84,10 +89,12 @@
     stroke-dasharray: 1, 200;
     stroke-dashoffset: 0;
   }
+
   50% {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -35;
   }
+
   100% {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -124;
@@ -95,18 +102,22 @@
 }
 
 @keyframes color {
+
   100%,
   0% {
-    stroke: #d62d20;
+    stroke: #f44336;
   }
+
   40% {
-    stroke: #0057e7;
+    stroke: #03a9f4;
   }
+
   66% {
-    stroke: #008744;
+    stroke: #4caf50;
   }
+
   80%,
   90% {
-    stroke: #ffa700;
+    stroke: #ffeb3b;
   }
 }

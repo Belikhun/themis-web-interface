@@ -12,16 +12,16 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logs.php";
 
-    if (islogedin())
+    if (isLogedIn())
         stop(12, "Đã đăng nhập bằng username: ". $_SESSION["username"], 403);
     
     $username = reqform("u");
     $password = reqform("p");
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
 
-    $res = simplelogin($username, $password);
+    $res = simpleLogin($username, $password);
     if ($res === LOGIN_SUCCESS) {
-        $udata = getuserdata($username);
+        $udata = getUserData($username);
         $_SESSION["username"] = $username;
         $_SESSION["id"] = $udata["id"];
         $_SESSION["name"] = $udata["name"];

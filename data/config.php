@@ -9,11 +9,11 @@
 	require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
 
-	// Plz dont change these
+	// dont claim it for your own. thats not nice
 	define("APPNAME", "Themis Web Interface");
 	define("AUTHOR", "Belikhun");
-	define("VERSION", "0.4.0");
-	define("VERSION_STATE", "release");
+	define("VERSION", "0.4.1");
+	define("VERSION_TAG", "release");
 	define("REPORT_ERROR", "https://github.com/belivipro9x99/themis-web-interface/issues");
 
 	$config = (new fip($_SERVER["DOCUMENT_ROOT"] ."/data/config.json")) -> read();
@@ -29,12 +29,31 @@
 		$config["time"]["begin"]["years"]
 	);
 	$config["logdir"] = $config["uploaddir"] ."/Logs";
-	$config["version"] = VERSION;
 
-	function save_config(Array $config) {
+	function applyCustomVar(&$string) {
+		global $config;
+		$s = $string;
+		$list = Array(
+			"name" => APPNAME,
+			"version" => VERSION,
+			"author" => AUTHOR,
+			"contestName" => $config["contest"]["name"]
+		);
+
+		foreach ($list as $key => $value)
+			if (!empty($value))
+				$s = str_replace("%". $key ."%", $value, $s);
+
+		$string = $s;
+	}
+
+	applyCustomVar($config["contest"]["name"]);
+	applyCustomVar($config["contest"]["description"]);
+	applyCustomVar($config["pagetitle"]);
+
+	function saveConfig(Array $config) {
 		unset($config["time"]["begin"]["times"]);
 		unset($config["logdir"]);
-		unset($config["version"]);
 		(new fip($_SERVER["DOCUMENT_ROOT"] ."/data/config.json")) -> write(json_encode($config, JSON_PRETTY_PRINT));
 	}
 
@@ -45,14 +64,14 @@
 	function contest_timeRequire(array $req = Array(
 		CONTEST_STARTED,
 		CONTEST_NOTENDED
-	), $justReturn = true, $useDie = false, $resCode = 403) {
+	), $justReturn = true, $instantDeath = false, $resCode = 403) {
 		global $config;
 		$duringTime = $config["time"]["during"];
 		if ($duringTime <= 0)
-			return false;
+			return true;
 
 		// Admin can bypass this check
-		if ($_SESSION["username"] !== null && getuserdata($_SESSION["username"])["id"] === "admin")
+		if ($_SESSION["username"] !== null && getUserData($_SESSION["username"])["id"] === "admin")
 			return true;
 
 		$beginTime = $config["time"]["begin"]["times"];
@@ -60,56 +79,50 @@
 		$t = $beginTime - time() + ($duringTime * 60);
 
 		foreach ($req as $key => $value) {
+			$returnCode = null;
+			$message = null;
+
 			switch($value) {
 				case CONTEST_STARTED:
 					if ($t > $duringTime * 60) {
-						if ($justReturn === true)
-							return 103;
-
-						//* Got NOTICE on Codefactor:
-						//* if ($useDie === true)
-						//* 	(http_response_code($resCode) && die());
-
-						if ($useDie === true) {
-							http_response_code($resCode);
-							die();
-						}
-
-						stop(103, "Kì thi chưa bắt đầu.", 200);
+						$returnCode = 103;
+						$message = "Kì thi chưa bắt đầu";
 					}
 					break;
 
 				case CONTEST_NOTENDED:
 					if ($t < -$offsetTime && $duringTime !== 0) {
-						if ($justReturn === true)
-							return 104;
-
-						if ($useDie === true) {
-							http_response_code($resCode);
-							die();
-						}
-
-						stop(104, "Kì thi đã kết thúc!", 200);
+						$returnCode = 104;
+						$message = "Kì thi đã kết thúc";
 					}
 					break;
 
 				case CONTEST_ENDED:
 					if ($t > -$offsetTime && $duringTime !== 0) {
-						if ($justReturn === true)
-							return 105;
-
-						if ($useDie === true) {
-							http_response_code($resCode);
-							die();
-						}
-
-						stop(105, "Kì thi chưa kết thúc!", 200);
+						$returnCode = 105;
+						$message = "Kì thi chưa kết thúc";
 					}
 					break;
 
 				default:
 					trigger_error("Unknown case: ". $code, E_USER_ERROR);
 					break;
+			}
+
+			if ($returnCode !== null && $message !== null) {
+				if ($justReturn === true)
+					return $returnCode;
+
+				//* Got NOTICE on Codefactor for no reason:
+				//* if ($useDie === true)
+				//* 	(http_response_code($resCode) && die());
+
+				if ($instantDeath === true) {
+					http_response_code($resCode);
+					die();
+				}
+
+				stop($returnCode, $message, $resCode);
 			}
 		}
 

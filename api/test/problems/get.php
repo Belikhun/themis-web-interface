@@ -12,7 +12,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
     contest_timeRequire([CONTEST_STARTED], false);
 
-    require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
     $id = reqquery("id");
     $data = problem_get($id);
 

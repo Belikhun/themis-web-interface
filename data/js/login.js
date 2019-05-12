@@ -5,6 +5,9 @@
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
+if (cookie.get("__darkMode") === "true")
+    document.body.classList.add("dark");
+
 login = {
     form: {
         container: $("#form_container"),
@@ -25,7 +28,7 @@ login = {
     },
 
     init() {
-        this.form.username.submit.addEventListener("click", () => {this.checkUsername()}, false);
+        this.form.username.submit.addEventListener("click", () => this.checkUsername(), false);
         this.form.username.input.addEventListener("keyup", e => {
             if (e.keyCode === 13 || e.keyCode === 9) {
                 e.preventDefault();
@@ -33,34 +36,40 @@ login = {
             }
         });
 
-        this.form.container.addEventListener("submit", () => {this.submit()}, false);
-        this.form.profile.addEventListener("click", () => {this.reset(false)}, false);
+        this.form.container.addEventListener("submit", () => this.submit(), false);
+        this.form.profile.addEventListener("click", () => this.reset(false), false);
         this.form.username.input.disabled = false;
         this.form.username.submit.disabled = false;
         this.form.username.input.focus();
     },
 
-    submit() {
+    async submit() {
         this.form.password.input.disabled = true;
         this.form.password.submit.disabled = true;
-        setTimeout(() => {
-            myajax({
+
+        // Cool down a little bit
+        await delayAsync(500);
+        
+        try {
+            var res = await myajax({
                 "url": "/api/login",
                 "method": "POST",
                 "form": {
                     "u": this.form.username.input.value,
                     "p": this.form.password.input.value
                 }
-            }, data => {
-                window.location.href = data.redirect;
-            }, data => {
-                if (data.code === 14)
-                    this.reset(true);
-                else
-                    this.reset(false);
-                this.form.username.message.innerText = data.description;
-            }, true)
-        }, 500);
+            })
+        } catch(e) {
+            if (e.data.code === 14)
+                this.reset(true);
+            else
+                this.reset(false);
+            this.form.username.message.innerText = e.data.description;
+
+            return false;
+        }
+
+        window.location.href = res.redirect;
     },
 
     checkUsername() {
@@ -72,20 +81,20 @@ login = {
 
         this.form.username.input.disabled = true;
         this.form.username.submit.disabled = true;
-        this.form.password.avatar.onload = () => {
-            this.showPassInp(val);
-        };
+        this.form.password.avatar.onload = () => this.showPassInp(val);
         this.form.password.avatar.src = "/api/avt/get?u=" + val;
     },
 
-    showPassInp(username) {
+    async showPassInp(username) {
         this.form.username.container.classList.add("hide");
         this.form.password.user.innerText = username;
         this.form.password.input.disabled = false;
         this.form.password.submit.disabled = false;
-        setTimeout(() => {
-            this.form.password.input.focus();
-        }, 400);
+
+        // Wait for animation
+        await delayAsync(400);
+
+        this.form.password.input.focus();
     },
 
     reset(keepUsername = false) {

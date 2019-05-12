@@ -17,6 +17,7 @@ var time = {
     during: $("#time-during"),
     offset: $("#time-offset")
 }
+var pagetitle = $("#page-title");
 var publish = $("#publish");
 var submit = $("#submit");
 var submitInProblems = $("#submitInProblems");
@@ -80,6 +81,7 @@ function update() {
         );
         time.during.value = data.time.during;
         time.offset.value = data.time.offset;
+        pagetitle.value = data.pagetitle;
         publish.checked = data.publish;
         submit.checked = data.submit;
         submitInProblems.checked = data.submitinproblems;
@@ -134,6 +136,7 @@ $("#form-container").addEventListener("submit", e => {
             "time.begin.years": bd.y,
             "time.during": time.during.value,
             "time.offset": time.offset.value,
+            "pagetitle": pagetitle.value,
             "publish": publish.checked,
             "submit": submit.checked,
             "submitinproblems": submitInProblems.checked,

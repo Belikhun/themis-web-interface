@@ -2,7 +2,7 @@
 ? |-----------------------------------------------------------------------------------------------|
 ? |  /data/css/button.css                                                                         |
 ? |                                                                                               |
-? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                              |
+? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
 ? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 ? |-----------------------------------------------------------------------------------------------|
 */
@@ -89,6 +89,8 @@
 }
 
 .ms-btn {
+    position: relative;
+    display: flex;
     color: white;
     background-color: transparent;
     font-size: 12px;
@@ -102,7 +104,6 @@
     text-decoration: none;
     cursor: pointer;
     transition: all 1s cubic-bezier(0.06, 0.81, 0, 0.98);
-    display: flex;
     align-items: center;
     justify-content: center;
 }
@@ -131,11 +132,13 @@
 
 .sq-btn {
     position: relative;
+    display: inline-block;
     color: rgb(250, 250, 250);
     background-color: rgb(68, 170, 221);
     font-size: 12px;
     font-family: "Segoe UI", sans-serif;
     font-weight: 600;
+    text-align: center;
     letter-spacing: 0.5px;
     padding: 7px 18px;
     border-width: 0;

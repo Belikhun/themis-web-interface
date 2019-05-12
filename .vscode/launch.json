@@ -5,11 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Terminal (integrated)",
+            "name": "Run API Tests",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal"
+            "program": "${workspaceFolder}/tests/apiTest.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/tests"
+        },
+        {
+            "name": "Run logParser Tests",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/tests/logParserTest.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/tests"
         },
         {
             "type": "chrome",

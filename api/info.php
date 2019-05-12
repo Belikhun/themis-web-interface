@@ -15,7 +15,7 @@
     $username = reqquery("u");
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
 
-    $data = getuserdata($username);
+    $data = getUserData($username);
     unset($data["password"]);
     unset($data["repass"]);
 

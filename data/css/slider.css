@@ -34,8 +34,16 @@ input[type=range].sq-slider:hover {
     background-color: rgba(255, 102, 171, 0.8);
 }
 
-input[type=range].sq-slider::-webkit-slider-thumb:hover {
+input[type=range].sq-slider:hover::-webkit-slider-thumb {
     background-color: rgb(255, 194, 214);
+}
+
+input[type=range].sq-slider:active {
+    background-color: rgba(235, 91, 156, 0.8);
+}
+
+input[type=range].sq-slider:active::-webkit-slider-thumb {
+    background-color: rgb(233, 139, 170);
 }
 
 /* Blue */
@@ -52,6 +60,14 @@ input[type=range].sq-slider.blue:hover {
     background-color: rgba(68, 170, 221, 0.8);
 }
 
-input[type=range].sq-slider.blue::-webkit-slider-thumb:hover {
+input[type=range].sq-slider.blue:hover::-webkit-slider-thumb {
     background-color: rgb(160, 220, 250);
+}
+
+input[type=range].sq-slider.blue:active {
+    background-color: rgba(50, 145, 192, 0.8);
+}
+
+input[type=range].sq-slider.blue:active::-webkit-slider-thumb {
+    background-color: rgb(65, 167, 218);
 }

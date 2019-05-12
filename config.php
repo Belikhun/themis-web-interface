@@ -18,6 +18,7 @@
     <title>Cài đặt</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/default.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/statusbar.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/scrollbar.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/material-font.css" />
@@ -39,6 +40,23 @@
                 <t class="title small">Thay đổi cài đặt hệ thống</t>
 
                 <div class="space"></div>
+
+                <div class="item lr info sound" data-soundhoversoft>
+                    <div class="left">
+                        <t>Danh sách các biến có sẵn</t>
+                        <ul class="text" style="user-select: text">
+                            <li><b>%name%</b>: Tên dự án</li>
+                            <li><b>%version%</b>: Phiên bản</li>
+                            <li><b>%author%</b>: Tên tác giả</li>
+                            <li><b>%contestName%</b>: Tên kì thi</li>
+                        </ul>
+                    </div>
+                    <div class="right"></div>
+                </div>
+                <div class="item lr warning sound" data-soundhoversoft>
+                    <t class="left"><b>Lưu ý:</b> Tên kì thi, Mô tả kì thi và Tiêu đề trang chấp nhận mã HTML. Hãy cẩn thận khi chèn mã HTML vào những trường này.</t>
+                    <div class="right"></div>
+                </div>
             </div>
 
             <div class="group file">
@@ -108,6 +126,13 @@
 
             <div class="group star">
                 <t class="title">Khác</t>
+
+                <div class="item sound" data-soundhoversoft>
+                    <div class="formgroup blue sound" data-soundselectsoft>
+                        <input id="page-title" type="text" class="formfield" autocomplete="off" placeholder="Tiêu đề trang" required>
+                        <label for="page-title" class="formlabel">Tiêu đề trang</label>
+                    </div>
+                </div>
 
                 <div class="item lr sound" data-soundhoversoft>
                     <t class="left">Công bố kết quả</t>

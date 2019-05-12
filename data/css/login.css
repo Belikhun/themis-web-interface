@@ -8,49 +8,31 @@
 */
 
 body {
+    display: flex;
+    flex-direction: row;
     background-color: #ffffff;
     font-family: "Segoe UI", Calibri, Geneva, Verdana, sans-serif;
     margin: unset;
     font-size: 13px;
     color: #7c7c7c;
-}
-
-a {
-    color: #3a8fc8;
-    transition:
-        color 0.1s linear 0s;
-}
-
-a:hover {
-    color: #48b0f7;
-}
-
-.text-overflow {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-}
-
-t {
-    position: relative;
-    font-size: 14px;
-    font-weight: normal;
-    font-style: normal;
-    word-wrap: break-word;
-    color: rgb(63, 63, 63);
+    width: 100vw;
+    height: 100vh;
 }
 
 .left-panel {
-    position: absolute;
+    position: relative;
     display: block;
+    flex-grow: 1;
     left: 0;
     width: calc(100% - 400px);
     height: 100%;
     opacity: 1;
+
+    transition: all 0.2s ease;
 }
 
 .left-panel .wallpaper {
-    position: absolute;
+    position: relative;
     width: 100%;
     height: 100%;
     filter: brightness(0.8);
@@ -88,22 +70,28 @@ t {
 }
 
 .right-panel {
-    position: absolute;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 0;
     right: 0;
     width: 400px;
     height: 100%;
-    padding: 20px;
+
+    padding: 20px 20px 0 20px;
     box-sizing: border-box;
-    transition: width 0.2s ease;
     background-color: #f0f0f0;
     overflow: hidden;
+    transition: width 0.2s ease;
 }
 
 .right-panel .header {
     position: relative;
+    display: flex;
+    flex-grow: 0;
     top: 0;
     width: 100%;
-    display: flex;
     align-items: center;
     font-family: Calibri;
 }
@@ -124,37 +112,47 @@ t {
     list-style: none;
     text-align: left;
     font-weight: bold;
-    text-transform: uppercase;
     margin: unset;
     padding: unset;
 }
 
 .right-panel .header .info .name {
     position: relative;
-    font-size: 18px;
-    color: #494949;
+    font-size: 17px;
+    color: #425161;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .right-panel .header .info .description {
     position: relative;
-    font-size: 11px;
-    color: rgba(73, 73, 73, 0.6);
+    font-size: 12px;
+    color: #546e7a;
     letter-spacing: 0.4px;
+    font-weight: lighter;
+    white-space: nowrap;
 }
 
 .right-panel .center {
-    position: absolute;
-    max-height: calc(100% - 140px);
-    top: 50%;
-    transform: translateY(-50%);
+    position: relative;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
     box-sizing: border-box;
     padding: 0 20px;
-    width: calc(100% - 40px);
-    overflow: hidden auto;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .right-panel .center .title {
     position: relative;
+    display: block;
+    width: 100%;
+    text-align: left;
     font-size: 18px;
     font-weight: 300;
     color: #494949;
@@ -178,14 +176,14 @@ t {
 }
 
 .right-panel .center #form_message {
+    position: relative;
     display: block;
+    width: 100%;
+    height: 24px;
     text-align: left;
-    max-width: 100%;
-    min-height: 18px;
-    padding-top: 10px;
-    padding-left: 8px;
-    font-size: 13px;
+    font-size: 12px;
     color: #933432;
+    padding-top: 10px;
     letter-spacing: 0.01em;
 }
 
@@ -232,15 +230,50 @@ t {
 }
 
 .right-panel .footer {
-    position: absolute;
+    position: relative;
+    flex-grow: 0;
     bottom: 20px;
-    width: calc(100% - 40px);
+    width: 100%;
     font-size: 11px;
     border-top: 1px solid rgba(47, 47, 47, 0.4);
     padding-top: 16px;
 }
 
+body.dark .right-panel {
+    background-color: rgb(30, 30, 30);
+}
+
+body.dark .right-panel .header .info .name {
+    color: rgb(218, 218, 218);
+}
+
+body.dark .right-panel .header .info .description {
+    color: rgb(182, 182, 182);
+}
+
+body.dark .right-panel .center .title {
+    color: rgb(204, 204, 204);
+}
+
+body.dark .formgroup.blue .formfield {
+    color: rgb(235, 235, 235);
+}
+
+body.dark .right-panel .center #form_message {
+    color: #ee6462;
+}
+
+body.dark .right-panel .footer {
+    border-top-color: rgba(204, 204, 204, 0.4);
+    color: rgb(206, 206, 206);
+}
+
 @media only screen and (max-width: 600px) {
+    .left-panel {
+        flex-grow: 0;
+        width: 0;
+    }
+
     .right-panel {
         width: 100%;
     }

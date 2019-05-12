@@ -1,13 +1,18 @@
-<p align="center">
-	<img src="https://lh3.googleusercontent.com/UJ9p8wcOqInslW4xWpJ6ZQ55Lx6DXN85MJvGoLl0G3WroDqQExDdovbLXuD1rg8C3mGxyyRkheWK4t2soF9HcWsxNXgO0lK_iq_iqvwvXz2Bu5JWmPHhbiesqYziSVitpkWSo7P51A=w2400">
-</p>
+<div align="center">
 
-<p align="center">
-	<a href="https://github.com/belivipro9x99/themis-webinterface/releases/"><img src="https://img.shields.io/badge/release-v0.4.0-brightgreen.svg?longCache=true&style=popout-square"></a>
-	<img src="https://img.shields.io/badge/license-MIT-orange.svg?longCache=true&style=popout-square">
-	<img src="https://img.shields.io/badge/status-not tested-blue.svg?longCache=true&style=popout-square">
-	<a href="https://www.codefactor.io/repository/github/belivipro9x99/themis-web-interface"><img src="https://www.codefactor.io/repository/github/belivipro9x99/themis-web-interface/badge?style=flat-square"/></a>
-</p>
+# Themis Web Interface
+
+An beautiful and easy-to-use Web Interface for **[Themis](https://dsapblog.wordpress.com)**
+
+[![version](https://img.shields.io/badge/release-v0.4.1-brightgreen.svg?longCache=true&style=for-the-badge)](https://github.com/belivipro9x99/themis-webinterface/releases/)
+[![license](https://img.shields.io/badge/license-MIT-orange.svg?longCache=true&style=for-the-badge)]()
+[![status](https://img.shields.io/badge/status-not_tested-blue.svg?longCache=true&style=for-the-badge)]()
+[![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface.svg?label=master&style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface)
+[![codefactor](https://www.codefactor.io/repository/github/belivipro9x99/themis-web-interface/badge/v0.4.1?style=for-the-badge)](https://www.codefactor.io/repository/github/belivipro9x99/themis-web-interface)
+
+<img src="https://lh3.googleusercontent.com/UdSV7TJBI2Te8fITAvrgRYnMGL6KTpycmsPOs26AJ5HIUWvYRq_TT9pAXy_ODXeLuwmwjQstJX0CY9F23cr3qCdY9cL9QShHJLibfJsEmMBfryBWkjJVEOax1XOZAp2Wl3OguPFfJQ=w2400" width="600px">
+
+</div>
 
 ---
 
@@ -15,9 +20,15 @@
 
 **Themis Web Interface** giúp học sinh nộp bài tới phần mềm chấm điểm **[Themis](https://dsapblog.wordpress.com)** và theo dõi kết quả chấm điểm qua LAN hoặc WAN.
 
-**Themis Web Interface** được viết bằng các ngôn ngữ **HTML, CSS, PHP và JavaScript**. Dự án không sử dụng các library khác như **jQuery, Bootstrap, React, ...**
+**Themis Web Interface** được viết bằng **PHP và JavaScript**. Dự án không sử dụng các library khác như **jQuery, Bootstrap, React, ...**
 
-> Phiên bản hiện tại là 0.4.0-release
+
+| 🌿     | Travis CI Status                                                                                                                                                                                    |
+|:--------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| master | [![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface.svg?label=master&style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface)        |
+| v0.4.1 | [![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface/v0.4.1.svg?label=v0.4.1&style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface) |
+
+
 
 - [Demo](#demo)
 - [Yêu cầu](#yêu-cầu)
@@ -66,9 +77,7 @@
 
 * Xem trực tiếp tệp nhật kí
 
-<p align="center"><img width="600px" src="https://lh3.googleusercontent.com/t55Oq4K9wOwT7WM_jPWlFoERbonMWNNGeXHHqq7sTh7Mkd6t4YLAvV9rODTsBIJvCC1n7e1Cf8IcBl6rodWvuq6pVteklGCLroxgCl7TPyjt0rXWIjHgkWeH6yGvQ_Fu90hrhk0zww=w2400"></p>
-
-<p align="center"><img width="600px" src="https://lh3.googleusercontent.com/t55Oq4K9wOwT7WM_jPWlFoERbonMWNNGeXHHqq7sTh7Mkd6t4YLAvV9rODTsBIJvCC1n7e1Cf8IcBl6rodWvuq6pVteklGCLroxgCl7TPyjt0rXWIjHgkWeH6yGvQ_Fu90hrhk0zww=w2400"></p>
+<p align="center"><img width="600px" src="https://lh3.googleusercontent.com/q9IilX2tgKRanvKxM_gmIYEtA_Zw9AfQyuf1oHJCIzh9zL_mfJbd11DyMrV3UrTBrNHsHbduKxvcTCOEYdMdtcBEF-zqZhhIbVrLxQLLpvVJiv4V4BTKjv2OFdxRR9FvGAVxePD9lQ=w2400"></p>
 
 * Người dùng có thể thay đổi ảnh đại diện, tên và mật khẩu
 * Mobile Responsive
@@ -103,7 +112,7 @@ Toàn bộ **Document** đều có ở trong [Wiki:API](https://github.com/beliv
 
 <p align="center"><img  src="https://lh3.googleusercontent.com/e9BAF8x4psILmn652KnqITIA_XdcxqAZf7SpxVXHrLU5r-PIwK-nWVj-zv8FNQeyBLHbm4nYUVznBRNra0G-JCKdACZ0l8abcc2BcZbhzK0az7Z6ZjraCRpwd7zfPPdNMANBqxunAg=w2400"></p>
 
-<p align="center"><img  src="https://lh3.googleusercontent.com/t55Oq4K9wOwT7WM_jPWlFoERbonMWNNGeXHHqq7sTh7Mkd6t4YLAvV9rODTsBIJvCC1n7e1Cf8IcBl6rodWvuq6pVteklGCLroxgCl7TPyjt0rXWIjHgkWeH6yGvQ_Fu90hrhk0zww=w2400"></p>
+<p align="center"><img  src="https://lh3.googleusercontent.com/RLZyPc2nO5aXcP2-YVzA960DQVbgY7jOE_HkI4xy6edJRHK43YXsVbU7q6Xwt6179ic9gdkQidRr56r4V_yc6LvPZcqME831d2-8IFlgfBaKblEe8Uu-NoKAiSTx1p75qW_RsMR93w=w2400"></p>
 
 ## Contributor
 

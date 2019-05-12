@@ -18,52 +18,32 @@
         ));
 
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
-
-	function parsename(string $path) {
-		$path = basename($path);
-		$path = str_replace("[", " ", str_replace(".", " ", str_replace("]", "", $path)));
-		list($id, $username, $filename, $ext) = sscanf($path, "%s %s %s %s");
-		return Array(
-			"id" => $id,
-			"username" => $username,
-			"filename" => $filename,
-			"ext" => $ext,
-			"name" => $filename.".".$ext
-		);
-	}
+    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logParser.php";
 
     $logdir = glob($config["logdir"] ."/*.log");
     $res = Array();
     $namelist = Array();
 
     foreach ($logdir as $i => $log) {
-        $data = parsename($log);
-        $user = $data["username"];
-        $flog = fopen($log, "r");
-        $line = str_replace(PHP_EOL, "", fgets($flog));
-        fclose($flog);
-        $out = substr($line, strlen($user) + strlen(pathinfo($data["filename"], PATHINFO_FILENAME)) + 8);
+        $data = ((new logParser($log, LOGPARSER_MODE_MINIMAL)) -> parse())["header"];
+        $filename = pathinfo($log, PATHINFO_FILENAME);
+        $user = $data["user"];
 
-        $point = 0;
-        preg_match("/[0-9]{1,},[0-9]{1,}/", $out, $t);
-        if (count($t) !== 0 && isset($t[count($t) - 1]))
-            $point = (float)str_replace(",", ".", $t[count($t) - 1]);
-
-        $namelist[$i] = $data["filename"];
-        $res[$user]["list"][$data["filename"]] = $point;
-
-        $res[$user]["log"][$data["filename"]] = ($config["viewlog"] === true) ? "/api/test/viewlog?f=" . basename($log) : null;
-
+        $namelist[$i] = $data["problem"];
+        $res[$user]["status"][$data["problem"]] = $data["status"];
+        $res[$user]["list"][$data["problem"]] = $data["point"];
+        $res[$user]["log"][$data["problem"]] = ($config["viewlog"] === true) ? "/api/test/viewlog?f=" . $filename : null;
         $res[$user]["username"] = $user;
-        $res[$user]["name"] = getuserdata($user)["name"];
+        $res[$user]["name"] = getUserData($user)["name"] ?: null;
 
         if (!isset($res[$user]["total"]))
             $res[$user]["total"] = 0;
-        $res[$user]["total"] += $point;
+            
+        $res[$user]["total"] += $data["point"];
     }
 
     if ($config["publish"] === true) {
-        $nlr = arrayremdub($namelist);
+        $nlr = arrayRemDub($namelist);
         $namelist = ((count($nlr) > 0) ? $nlr : Array());
     }
 

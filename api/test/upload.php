@@ -26,10 +26,10 @@
 		);
 	}
 
-    if (!islogedin())
+    if (!isLogedIn())
         stop(11, "Bạn chưa đăng nhập.", 403);
 
-    checktoken();
+    checkToken();
 
     if ($config["submit"] === false)
         stop(22, "Nộp bài đã bị tắt!", 403);

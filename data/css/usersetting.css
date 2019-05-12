@@ -221,6 +221,31 @@
     width: calc(100% - 40px);
 }
 
+#user_settings .sub .panel .container .main:empty::before {
+    content: "\f51b";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, calc(-50% - 22px));
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 72px;
+    color: rgb(180, 180, 180);
+}
+
+#user_settings .sub .panel .container .main:empty::after {
+    content: "Không có dữ liệu";
+    position: absolute;
+    display: block;
+    width: 100%;
+    top: 50%;
+    transform: translateY(calc(-50% + 38px));
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    color: rgb(124, 124, 124);
+}
+
 /* Element and Stuff */
 
 #user_settings .main .container .group .item #usett_avtinp {

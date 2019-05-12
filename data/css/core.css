@@ -10,32 +10,12 @@
 body {
     position: relative;
     background-color: #666666;
-    font-family: "Segoe UI", Calibri, Geneva, Verdana, sans-serif;
+    font-family: "Segoe UI", "Calibri", Tahoma, Geneva, Verdana, sans-serif;
     margin: 0 0 20px 0;
     box-sizing: border-box;
     overflow: hidden;
     width: 100vw;
     height: calc(100vh - 20px);
-}
-
-a {
-    color: #16a085;
-}
-
-.text-overflow {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-}
-
-t {
-    position: relative;
-    display: block;
-    font-size: 14px;
-    font-weight: normal;
-    font-style: normal;
-    color: rgb(29, 29, 29);
-    word-wrap: break-word;
 }
 
 /* Change Autocomplete styles in Chrome*/
@@ -45,12 +25,15 @@ input:-webkit-autofill {
 
 body #container {
     position: relative;
-    display: block;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     width: 100vw;
     height: calc(100vh - 78px);
     top: 58px;
     background-color: #ebebeb;
     box-sizing: border-box;
+    padding: 10px;
     overflow-x: hidden;
     overflow-y: auto;
     transition:
@@ -61,24 +44,27 @@ body #container {
 
 panel {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-flow: row wrap;
     width: 350px;
+    height: auto;
     background-color: white;
     box-shadow: 0 0 5px rgba(98, 98, 98, 0.2);
-    margin: 20px;
+    margin: 10px;
     box-sizing: border-box;
-    display: block;
 }
 
 panel .head {
     position: relative;
+    display: flex;
+    align-items: center;
     width: 100%;
     height: 40px;
     padding: 10px 10px 10px 20px;
     box-sizing: border-box;
     background-color: rgb(238, 240, 243);
     border-bottom: 1px solid #e6e6e6;
-    display: flex;
-    align-items: center;
 }
 
 panel .head .le {
@@ -90,53 +76,49 @@ panel .head .le {
 
 panel .head .ri {
     position: absolute;
-    /*float: right;*/
-    right: 10px;
     display: flex;
     align-items: center;
+    /*float: right;*/
+    right: 10px;
 }
 
-panel .head .ri i.clo,
-panel .head .ri i.ref,
-panel .head .ri i.bak {
+panel .head .ri i {
     position: relative;
+    display: inline;
     color: rgba(98, 98, 98, 0.54);
     font-size: 18px;
-    display: inline;
     font-weight: bold;
-    cursor: pointer;
     transition: color 0.2s ease;
     padding: 0 2px;
+    cursor: pointer;
 }
 
 panel .head .ri i.bak {
     font-size: 20px;
 }
 
-panel .head .ri i.clo:hover,
-panel .head .ri i.ref:hover,
-panel .head .ri i.bak:hover {
+panel .head .ri i:hover {
     color: rgba(98, 98, 98, 0.82);
 }
 
 panel .main {
     position: relative;
+    display: inline-block;
     width: 100%;
     height: calc(100% - 40px);
     margin: unset;
     padding: unset;
-    display: inline-block;
     overflow: auto;
     box-sizing: border-box;
     background-color: #fafafa;
 }
 
 panel .main.blank::before {
+    content: "\f51b";
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, calc(-50% - 22px));
-    content: "\f51b";
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     font-size: 72px;
@@ -157,170 +139,124 @@ panel .main.blank::after {
 }
 
 #uploadp {
-    display: block;
-    float: left;
-    width: calc(100% - 780px);
     height: 200px;
-    min-height: 200px;
-    margin: 20px 10px 10px 20px;
+    flex-grow: 1;
+    order: 1;
 }
 
 #problemp {
-    display: block;
-    float: left;
     height: 200px;
-    margin: 20px 10px 10px 10px;
+    order: 2;
 }
 
 #timep {
-    display: none;
-    float: right;
     height: 200px;
-    margin: 20px 20px 10px 10px;
+    display: none;
+    order: 3;
 }
 
 #timep.show {
     display: block;
 }
 
-#logp {
-    display: block;
-    float: right;
-    height: calc(100% - 40px);
-    min-height: 460px;
-    margin: 20px 20px 20px 10px;
-}
-
-#timep.show + #logp {
-    height: calc(100% - 260px);
-    min-height: 240px;
-    margin: 10px 20px 20px 10px;
-}
-
 #rankp {
-    display: block;
-    float: left;
-    width: calc(100% - 410px);
-    height: calc(100% - 260px);
-    min-height: 240px;
-    margin: 10px 10px 20px 20px;
+    height: calc(100% - 240px);
+    width: calc(100% - 390px);
+    min-width: 50%;
+    flex-grow: 1;
+    order: 4;
+}
+
+#logp {
+    height: calc(100% - 240px);
+    order: 5;
 }
 
 #wrapper {
     position: fixed;
+    display: none;
+    align-items: center;
+    justify-content: center;
     box-sizing: border-box;
     padding: 60px 0 20px 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.6);
     z-index: 2;
-    display: none;
 }
 
 #wrapper.show {
-    display: block;
+    display: flex;
 }
 
-#wrapp {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, calc(-50% + 20px));
-    width: 600px;
-    height: calc(100% - 100px);
+#wrapper #wrapp {
+    position: relative;
+    width: calc(100% - 100px);
+    max-width: 1000px;
+    height: calc(100% - 20px);
+    max-height: 640px;
     margin: unset;
 }
 
-body.guest #timep.show {
-    width: calc(100% - 40px);
-    margin: 20px 20px 10px 20px;
+body.guest #timep.show,
+body.guest #problemp {
+    flex-grow: 1;
 }
 
+body.guest #problemp.hide {
+    display: none;
+}
 
 body.guest #rankp {
-    width: calc(100% - 40px);
-    height: calc(100% - 40px);
-    margin: 20px;
+    width: calc(100% - 20px);
 }
 
-body.guest #timep.show ~ #rankp {
-    margin: 10px 20px 20px 20px;
-    height: calc(100% - 260px);
+body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
+    height: calc(100% - 20px);
 }
 
 @media only screen and (max-width: 1150px) {
-    #uploadp {
-        width: calc(100% - 410px);
-    }
-
-    #problemp {
-        margin: 20px 10px 10px 10px;
-    }
-
+    #problemp,
     #logp {
-        margin: 10px 20px 20px 10px;
-        height: calc(100% - 260px);
-        min-height: 240px;
+        height: calc(100% - 240px);
     }
 
-    #rankp {
-        height: calc(100% - 260px);
+    #timep:not(.show) + #problemp {
+        height: 200px;
     }
 
     #timep {
-        float: left;
-        width: calc(100% - 410px);
-        margin: 10px 10px 10px 20px;
+        order: 2;
     }
 
-    #timep.show + #logp {
-        height: calc(100% - 40px);
-        min-height: 460px;
+    #problemp {
+        order: 3;
+    }
+
+    #logp {
+        order: 4;
+        flex-grow: 1;
+    }
+
+    #rankp {
+        order: 5;
+        width: calc(100% - 20px);
+        height: calc(100% - 20px);
     }
 }
 
 @media only screen and (max-width: 700px) {
-    #uploadp {
-        width: calc(100% - 40px);
-        margin: 20px 20px 10px 20px;
+    #timep {
+        flex-grow: 1;
     }
 
     #problemp {
-        width: calc(100% - 40px);
-        margin: 10px 20px;
-    }
-
-    #timep.show {
-        width: calc(100% - 40px);
-        margin: 10px 20px;
-        float: left;
+        order: 3;
+        flex-grow: 1;
     }
 
     #logp {
-        width: calc(100% - 40px);
-        height: calc(100% - 40px);
-        float: left;
-        margin: 10px 20px;
-    }
-
-    #timep.show+#logp {
-        height: calc(100% - 40px);
-        margin: 10px 20px;
-    }
-
-    #rankp {
-        width: calc(100% - 40px);
-        height: calc(100% - 40px);
-        margin: 10px 20px 20px 20px;
-    }
-
-    #wrapp {
-        width: 100%;
-        height: 80%;
-        bottom: 20px;
-        top: unset;
-        left: unset;
-        transform: unset;
+        height: calc(100% - 20px);
     }
 }
 
@@ -348,20 +284,19 @@ body.guest #timep.show ~ #rankp {
 
 #logp div.main ul.log-item-container li.log-item .h {
     position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     width: 100%;
     height: 100%;
     box-sizing: border-box;
     border-bottom: 1px solid #e6e6e6;
-    display: flex;
-    align-items: center;
 }
 
 #logp div.main ul.log-item-container li.log-item .h .l {
     position: relative;
-    list-style: none;
-    margin: unset;
-    padding: unset;
-    max-width: 90%;
+    display: inline-block;
+    flex-grow: 1;
     overflow: hidden;
 }
 
@@ -377,12 +312,38 @@ body.guest #timep.show ~ #rankp {
     color: #48b0f7;
 }
 
+#logp div.main ul.log-item-container li.log-item.passed .h .l .n {
+    color: #39aa56;
+}
+
+#logp div.main ul.log-item-container li.log-item.accepted .h .l .n {
+    color: #cfc337;
+}
+
+#logp div.main ul.log-item-container li.log-item.failed .h .l .n {
+    color: #db4545;
+}
+
 #logp div.main ul.log-item-container li.log-item .h .r {
-    position: absolute;
-    right: 6px;
+    position: relative;
+    display: flex;
+    flex-grow: 0;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    margin-right: 10px;
+}
+
+#logp div.main ul.log-item-container li.log-item .h .r t {
     color: rgba(98, 98, 98, 0.7);
     font-size: 11px;
     letter-spacing: 0.01em;
+}
+
+#logp div.main ul.log-item-container li.log-item .h .r .s {
+    font-weight: bold;
+    color: rgba(82, 82, 82, 0.7);
+    font-size: 11px;
 }
 
 #logp div.main ul.log-item-container li.log-item .d {
@@ -426,7 +387,7 @@ body.guest #timep.show ~ #rankp {
 }
 
 #logp div.main ul.log-item-container li.log-item.judging .h .l .n {
-    color: #2ecc71;
+    color: #24bdc5;
 }
 
 #logp div.main ul.log-item-container li.log-item.judging .d::before {
@@ -746,7 +707,7 @@ body.guest #timep.show ~ #rankp {
 
 .problem-settings .problem-container .problem div #problem_edit_desc {
     resize: none;
-    height: 100px;
+    height: 160px;
 }
 
 .problem-settings .problem-container .problem .test-container {
@@ -1104,6 +1065,16 @@ body.guest #timep.show ~ #rankp {
     white-space: pre-wrap;
 }
 
+#problemp .problem-container .problem .description * {
+    white-space: normal;
+}
+
+#problemp .problem-container .problem .description > a,
+#problemp .problem-container .problem .description > table,
+#problemp .problem-container .problem .description > ul {
+    display: block;
+}
+
 #problemp .problem-container .problem table {
     list-style: none;
     overflow: auto;
@@ -1117,7 +1088,7 @@ body.guest #timep.show ~ #rankp {
 #problemp .problem-container .problem table tr th {
     border-bottom: 2px solid rgba(100, 100, 100, 0.8);
     text-align: left;
-    padding: 10px 0;
+    padding: 10px 8px;
 }
 
 #problemp .problem-container .problem table tr:hover {
@@ -1127,7 +1098,7 @@ body.guest #timep.show ~ #rankp {
 #problemp .problem-container .problem table tr td {
     border-bottom: 1px solid #c0c0c0;
     max-width: 100%;
-    padding: 7px 0;
+    padding: 7px 8px;
     white-space: pre-wrap;
 }
 
@@ -1136,7 +1107,6 @@ body.guest #timep.show ~ #rankp {
     width: auto;
     min-width: 80px;
     text-align: left;
-    padding: 0 16px 0 8px;
 }
 
 #problemp .problem-container .problem table.test tr td {
@@ -1144,9 +1114,11 @@ body.guest #timep.show ~ #rankp {
 }
 
 #problemp .problem-container .problem .image {
+    position: relative;
     width: 100%;
     margin: 20px 0 10px 0;
     border: 1px solid #ccc;
+    cursor: pointer;
 }
 
 #problemp .problem-container .problem .attachment {
@@ -1168,6 +1140,7 @@ body.guest #timep.show ~ #rankp {
 }
 
 #rankp div.ranking-container {
+    position: relative;
     overflow: auto;
 }
 
@@ -1181,6 +1154,7 @@ body.guest #timep.show ~ #rankp {
 
 #rankp div.ranking-container table {
     box-sizing: border-box;
+    border-spacing: 0;
     padding: 10px;
     min-width: 100%;
 }
@@ -1211,37 +1185,39 @@ body.guest #timep.show ~ #rankp {
     display: block;
 }
 
-#rankp div.ranking-container table tr td:nth-child(2) .name {
+#rankp div.ranking-container table tr td:nth-child(3) .name {
     position: relative;
-    margin-left: 12px;
+    display: inline-block;
+    padding: 3px 9px;
 }
 
-#rankp div.ranking-container table tr td:nth-child(3) {
+#rankp div.ranking-container table tr td.number:nth-child(4) {
     color: #3c7be7;
     font-weight: bold;
 }
 
-#rankp div.ranking-container table tr:nth-child(2) td:nth-child(2) .name {
+#rankp div.ranking-container table thead tr th:nth-child(3) {
+    text-align: left;
+}
+
+#rankp div.ranking-container table tbody tr:nth-child(1) td:nth-child(3) .name {
     color: white;
     font-weight: bold;
     background-color: #e74c3c;
-    padding: 2px 8px;
     border-radius: 4px;
 }
 
-#rankp div.ranking-container table tr:nth-child(3) td:nth-child(2) .name {
+#rankp div.ranking-container table tbody tr:nth-child(2) td:nth-child(3) .name {
     color: white;
     font-weight: bold;
     background-color: #33b96b;
-    padding: 2px 8px;
     border-radius: 4px;
 }
 
-#rankp div.ranking-container table tr:nth-child(4) td:nth-child(2) .name {
+#rankp div.ranking-container table tbody tr:nth-child(3) td:nth-child(3) .name {
     color: white;
     font-weight: bold;
     background-color: #8e44ad;
-    padding: 2px 8px;
     border-radius: 4px;
 }
 
@@ -1251,23 +1227,36 @@ body.guest #timep.show ~ #rankp {
 }
 
 #rankp div.ranking-container table tr th,
-td {
-    padding: 10px;
+#rankp div.ranking-container table tr td {
+    padding: 10px 12px;
     font-size: 12px;
 }
 
 #rankp div.ranking-container table tr td.number {
     font-size: 12px;
     text-align: right;
+    color: rgb(172, 172, 172);
 }
 
 #rankp div.ranking-container table tr td.number.link {
-    color: #16a085;
+    color: rgb(75, 75, 75);
     cursor: pointer;
 }
 
+#rankp div.ranking-container table tr td.number.passed {
+    background-color: rgba(37, 216, 58, 0.2);
+}
+
+#rankp div.ranking-container table tr td.number.accepted {
+    background-color: rgba(226, 219, 5, 0.3);
+}
+
+#rankp div.ranking-container table tr td.number.failed {
+    background-color: rgba(221, 28, 28, 0.2);
+}
+
 #rankp div.ranking-container table tr td.number.link:hover {
-    background-color: rgba(98, 98, 98, 0.05);
+    filter: brightness(1.2);
 }
 
 #timep .time-container {
@@ -1347,48 +1336,466 @@ td {
     color: rgba(116, 116, 116, 0.7);
 }
 
+#wrapper #wrapp .main .full {
+    display: block;
+    margin: auto;
+}
+
 .viewlog-container {
-    width: 100%;
-    max-height: 100%;
-    top: 0;
-    box-sizing: border-box;
-    padding: 20px 0;
-    margin: unset;
-    list-style: none;
-}
-
-.viewlog-container li {
     position: relative;
-    text-align: left;
-    max-width: 100%;
-    counter-increment: viewlog-line;
-    margin: 0 10px 0 50px;
-    padding: 4px 10px;
-    min-height: 30px;
+    display: flex;
+    font-family: "Calibri", "Segoe UI";
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+}
+
+.viewlog-container .header {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    flex-grow: 1;
     box-sizing: border-box;
-    border-left: 1px solid rgba(82, 82, 82, 0.3);
-    color: rgb(95, 95, 95);
-    font-family: "Consolas";
-    font-weight: bold;
-    font-size: 17px;
-    white-space: pre-wrap;
+    padding-left: 10px;
+    height: 100%;
 }
 
-.viewlog-container li:hover {
-    background-color: rgba(190, 190, 190, 0.2);
-}
-
-.viewlog-container li::before {
+.viewlog-container .header::before {
+    content: "";
     position: absolute;
-    width: 40px;
-    left: -50px;
-    content: counter(viewlog-line);
-    text-align: right;
-    color: rgb(192, 192, 192);
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 100%;
+    background-color: #b9b9b9;
 }
 
-.viewlog-container li:hover::before {
-    color: #2984c0;
+.viewlog-container .header .top {
+    position: relative;
+    display: flex;
+    padding: 20px 0 10px 0;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 0;
+}
+
+.viewlog-container .header .top .problemIcon {
+    position: relative;
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+}
+
+.viewlog-container .header .top .problemName {
+    position: relative;
+    font-family: "Calibri", "Segoe UI";
+    font-weight: bold;
+    color: rgb(70, 70, 70);
+    font-size: 24px;
+    margin-top: 10px;
+}
+
+.viewlog-container .header .top .point {
+    position: relative;
+    font-size: 12px;
+    color: #ecf0f1;
+    letter-spacing: 0.4px;
+    background-color: #27ae60;
+    padding: 2px 6px;
+    margin: 2px 0 0 0;
+    border-radius: 4px;
+}
+
+.viewlog-container .header .bottom {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.viewlog-container .header .bottom .line {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 0;
+    margin: 10px 0;
+}
+
+.viewlog-container .header .bottom .line .left {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    box-sizing: border-box;
+    padding: 0 0 0 20px;
+}
+
+.viewlog-container .header .bottom .line .left .row {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 1px 0;
+}
+
+.viewlog-container .header .bottom .line .left .row::before {
+    content: "\f111";
+    position: relative;
+    font-family: "Font Awesome 5 Free";
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+    color: rgba(46, 46, 46, 0.5);
+}
+
+.viewlog-container .header .bottom .line .left .problemInfo {
+    margin-bottom: 10px;
+}
+
+.viewlog-container .header .bottom .line .left .problemInfo::before {
+    content: "\f128";
+    color: #464646;
+    font-size: 21px;
+    margin-right: 20px;
+}
+
+.viewlog-container .header .bottom .line .left .problemInfo .problemid,
+.viewlog-container .header .bottom .line .left .problemInfo .language {
+    position: relative;
+    font-family: "Calibri", "Segoe UI";
+    font-weight: bold;
+    font-size: 18px;
+    color: #464646;
+}
+
+.viewlog-container .header .bottom .line .left .problemInfo .language {
+    font-size: 14px;
+    margin-left: 20px;
+}
+
+/*? Passed */
+
+.viewlog-container .header.passed .bottom .line .left .problemInfo .problemid,
+.viewlog-container .header.passed .bottom .line .left .problemInfo .language,
+.viewlog-container .header.passed .bottom .line .left .problemInfo::before {
+    color: #39aa56;
+}
+
+.viewlog-container .header.passed::before {
+    background-color: #39aa56;
+}
+
+.viewlog-container .header.passed .bottom .line .left .problemInfo::before {
+    content: "\f00c";
+}
+
+/*? Accepted */
+
+.viewlog-container .header.accepted .bottom .line .left .problemInfo .problemid,
+.viewlog-container .header.accepted .bottom .line .left .problemInfo .language,
+.viewlog-container .header.accepted .bottom .line .left .problemInfo::before {
+    color: #cfc337;
+}
+
+.viewlog-container .header.accepted::before {
+    background-color: #edde3f;
+}
+
+.viewlog-container .header.accepted .bottom .line .left .problemInfo::before {
+    content: "\f12a";
+}
+
+/*? Failed */
+
+.viewlog-container .header.failed .bottom .line .left .problemInfo .problemid,
+.viewlog-container .header.failed .bottom .line .left .problemInfo .language,
+.viewlog-container .header.failed .bottom .line .left .problemInfo::before {
+    color: #db4545;
+}
+
+.viewlog-container .header.failed::before {
+    background-color: #db4545;
+}
+
+.viewlog-container .header.failed .bottom .line .left .problemInfo::before {
+    content: "\f00d";
+}
+
+.viewlog-container .header .bottom .line .left .submitTime,
+.viewlog-container .header .bottom .line .left .status,
+.viewlog-container .header .bottom .line .left .result,
+.viewlog-container .header .bottom .line .left .point {
+    position: relative;
+    font-family: "Calibri", "Segoe UI";
+    font-size: 15px;
+    color: rgb(56, 56, 56);
+}
+
+
+.viewlog-container .header .bottom .line .left .submitTime::before {
+    content: "\f783";
+}
+
+.viewlog-container .header .bottom .line .left .status::before {
+    content: "\f05a";
+}
+
+.viewlog-container .header .bottom .line .left .result::before {
+    content: "\f682";
+}
+
+.viewlog-container .header .bottom .line .left .point::before {
+    content: "\f044";
+}
+
+.viewlog-container .header .bottom .line .left .result b {
+    display: inline;
+    padding: 0 4px;
+}
+
+.viewlog-container .header .bottom .line .left .result b.green {
+    color: #39aa56;
+}
+
+.viewlog-container .header .bottom .line .left .result b.red {
+    color: #db4545;
+}
+
+.viewlog-container .header .bottom .line .left .point {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.viewlog-container .header .bottom .line .right {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    flex-grow: 0;
+    margin-right: 20px;
+}
+
+.viewlog-container .header .bottom .line .right > * {
+    width: 100%;
+}
+
+.viewlog-container .header .bottom .line .right .submitter {
+    position: relative;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.viewlog-container .header .bottom .line .right .submitter .avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.viewlog-container .header .bottom .line .right .submitter .info {
+    position: relative;
+    margin-right: 10px;
+}
+
+.viewlog-container .header .bottom .line .right .submitter .info .tag {
+    font-size: 11px;
+    letter-spacing: 0.4px;
+    color: #546e7a;
+    font-weight: bold;
+    text-align: right;
+}
+
+.viewlog-container .header .bottom .line .right .submitter .info .name {
+    font-size: 18px;
+    color: #425161;
+    font-weight: bold;
+    text-align: right;
+}
+
+.viewlog-container .header .bottom .line.log {
+    flex-direction: column;
+}
+
+.viewlog-container .testList {
+    position: relative;
+    display: inline-block;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 280px;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: rgb(238, 238, 238);
+}
+
+.viewlog-container .testList:empty::before {
+    content: "Không tìm thấy tests nào cả :(";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-family: "Calibri", "Segoe UI";
+    font-weight: bold;
+    font-size: 16px;
+    color: gray;
+}
+
+.viewlog-container .testList .item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 10px 10px 16px;
+    background-color: rgb(245, 245, 245);
+    cursor: pointer;
+    counter-increment: testItem;
+
+    transition: background-color 0.2s ease;
+}
+
+.viewlog-container .testList .item:hover {
+    background-color: rgb(255, 255, 255);
+}
+
+.viewlog-container .testList .item::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background-color: #b9b9b9
+}
+
+.viewlog-container .testList .item .line {
+    position: relative;
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.viewlog-container .testList .item .line .left {
+    position: relative;
+    flex-grow: 1;
+}
+
+.viewlog-container .testList .item .line .left .testid {
+    position: relative;
+    font-size: 16px;
+    font-weight: bold;
+    color: #464646;
+}
+
+.viewlog-container .testList .item .line .left .testid::before {
+    content: "#"counter(testItem);
+    position: relative;
+    display: inline-block;
+    font-size: 13px;
+    width: 25px;
+}
+
+.viewlog-container .testList .item .line .left .status {
+    position: relative;
+    font-size: 13px;
+}
+
+.viewlog-container .testList .item .line.detail {
+    position: relative;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 10px;
+}
+
+.viewlog-container .testList .item .line.detail > t {
+    display: block;
+    width: 100%;
+    font-size: 13px;
+    white-space: pre-wrap;
+    color: rgb(80, 80, 80);
+}
+
+.viewlog-container .testList .item .right {
+    position: relative;
+    flex-grow: 0;
+}
+
+.viewlog-container .testList .item .right .point {
+    position: relative;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: right;
+    color: rgb(78, 78, 78);
+}
+
+.viewlog-container .testList .item .right .runtime {
+    position: relative;
+    font-size: 13px;
+    color: rgb(114, 114, 114);
+}
+
+.viewlog-container .testList .item.passed::before {
+    background-color: #39aa56;
+}
+
+.viewlog-container .testList .item.passed .line .left .testid {
+    color: #39aa56;
+}
+
+.viewlog-container .testList .item.accepted::before {
+    background-color: #edde3f;
+}
+
+.viewlog-container .testList .item.accepted .line .left .testid {
+    color: #cfc337;
+}
+
+.viewlog-container .testList .item.failed::before {
+    background-color: #c0392b;
+}
+
+.viewlog-container .testList .item.failed .line .left .testid {
+    color: #c0392b;
+}
+
+
+/* Mobile Responsive */
+
+@media only screen and (max-width: 800px) {
+    #wrapper #wrapp {
+        width: 100%;
+        height: 100%;
+        max-height: unset;
+    }
+
+    .viewlog-container {
+        flex-direction: column;
+    }
+
+    .viewlog-container .header {
+        height: unset;
+    }
+
+    .viewlog-container .testList {
+        width: 100%;
+        height: unset;
+    }
+
+    .viewlog-container .testList .item {
+        padding-left: 20px;
+    }
+
+    .viewlog-container .testList .item::before {
+        width: 10px;
+    }
 }
 
 .cpanel-container,
@@ -1529,10 +1936,10 @@ footer ul.contact li a {
 footer ul.contact li::before {
     content: "";
     position: absolute;
+    display: inline-block;
     top: 50%;
     transform: translate(calc(-100% - 10px), -50%);
     font-family: "Font Awesome 5 Free";
-    display: inline-block;
     font-size: 14px;
     font-weight: 600;
 }
@@ -1589,7 +1996,6 @@ body.user span#user_profile div.body ul#usett_left_panel li.navlink {
 /* Element to hide when user is guest */
 
 body.guest #uploadp,
-body.guest #problemp,
 body.guest #logp,
 body.guest span#user_profile {
     display: none!important;

@@ -11,14 +11,14 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logs.php";
     
-    if (!islogedin())
+    if (!isLogedIn())
     stop(11, "Bạn chưa đăng nhập.", 403);
     
-    checktoken();
+    checkToken();
     
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
-    if (getuserdata($_SESSION["username"])["id"] !== "admin")
+    if (getUserData($_SESSION["username"])["id"] !== "admin")
         stop(31, "Access Denied!", 403);
 
     $id = reqform("id");
