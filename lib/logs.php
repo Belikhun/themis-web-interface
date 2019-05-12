@@ -88,3 +88,8 @@
 
         return true;
     }
+
+    function clearLog() {
+        $logs = new fip(LOG_FILE, "[]");
+        $logs -> write("[]");
+    }

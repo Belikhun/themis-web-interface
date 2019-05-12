@@ -18,4 +18,9 @@
     if (getUserData($_SESSION["username"])["id"] !== "admin")
         stop(31, "Access Denied!", 403);
 
+    if (getform("clear", "false") === "true") {
+        clearLog();
+        stop(0, "Success", 200);
+    }
+
     stop(0, "Success", 200, readLog("json"));

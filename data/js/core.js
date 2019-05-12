@@ -14,6 +14,7 @@ class regPanel {
         var ehead = fcfn(elem, "head");
         this.etitle = fcfn(ehead, "le");
         var ri = fcfn(ehead, "ri");
+        this.ecus = fcfn(ri, "cus");
         this.eref = fcfn(ri, "ref");
         this.ebak = fcfn(ri, "bak");
         this.eclo = fcfn(ri, "clo");
@@ -76,6 +77,22 @@ class regPanel {
         }
     }
 
+    get cus() {
+        var t = this;
+        return {
+            onClick(f = () => {}) {
+                t.ecus.addEventListener("click", f, true);
+            },
+
+            hide(h = true) {
+                if (h)
+                    t.ecus.style.display = "none";
+                else
+                    t.ecus.style.display = "inline";
+            }
+        }
+    }
+
     set title(str = "") {
         this.etitle.innerText = str;
     }
@@ -127,13 +144,16 @@ core = {
         await this.problems.init();
         
         if (LOGGED_IN) {
+            this.problems.panel.clo.hide();
+
             set(80, "Initializing: core.file");
             this.file.init();
 
             set(85, "Fetching Logs...");
             await this.fetchLog();
-            this.logPanel.ref.onClick(() => this.fetchLog(true));
-            this.file.onUploadSuccess = () => this.fetchLog();
+            this.logPanel.ref.onClick(() => this.__fetchLog(true, false));
+            this.logPanel.cus.onClick(() => this.__fetchLog(false, true));
+            this.file.onUploadSuccess = () => this.__fetchLog();
             __connection__.onStateChange((s) => { s === "online" ? this.__fetchLog() : null });
             this.__fetchLog();
 
@@ -243,10 +263,10 @@ core = {
         }
     },
 
-    async __fetchLog() {
+    async __fetchLog(bypass = false, clearJudging = false) {
         clearTimeout(this.__logTimeout);
         var timer = new stopClock();
-        this.initialized ? await this.fetchLog() : null;
+        this.initialized ? await this.fetchLog(bypass, clearJudging) : null;
         
         this.__logTimeout = setTimeout(() => this.__fetchLog(), this.updateDelay - timer.stop*1000);
     },
@@ -259,10 +279,10 @@ core = {
         this.__rankTimeout = setTimeout(() => this.__fetchRank(), this.updateDelay - timer.stop*1000);
     },
 
-    async fetchLog(bypass = false) {
+    async fetchLog(bypass = false, clearJudging = false) {
         var data = await myajax({
             url: "/api/test/logs",
-            method: "GET",
+            method: clearJudging ? "DELETE" : "GET",
         });
 
         if (compareJSON(data, this.pLogData) && !bypass)
@@ -986,6 +1006,7 @@ core = {
                 this.btn_group = fcfn(elem, "btn-group");
                 this.btn_reload = fcfn(this.btn_group, "reload");
                 this.btn_close = fcfn(this.btn_group, "close");
+                this.btn_custom = fcfn(this.btn_group, "custom")
                 this.emain = fcfn(elem, "main");
                 this.funcOnToggle = () => {};
 
@@ -1056,6 +1077,22 @@ core = {
                             t.btn_reload.style.display = "none";
                         else
                             t.btn_reload.style.display = "block";
+                    }
+                }
+            }
+
+            get cus() {
+                var t = this;
+                return {
+                    onClick(f = () => {}) {
+                        t.btn_custom.addEventListener("click", f, true);
+                    },
+        
+                    hide(h = true) {
+                        if (h)
+                            t.btn_custom.style.display = "none";
+                        else
+                            t.btn_custom.style.display = "block";
                     }
                 }
             }
@@ -1358,21 +1395,25 @@ core = {
         },
 
         syslogs: {
+            panel: null,
             container: null,
             prevData: null,
 
             async init(panel) {
+                this.panel = panel;
                 this.container = panel.main;
+                panel.cus.onClick(() => this.refresh(true))
 
                 await this.refresh();
             },
 
-            async refresh() {
+            async refresh(clearLogs = false) {
                 const data = await myajax({
                     url: "/api/logs",
                     method: "POST",
                     form: {
-                        token: API_TOKEN
+                        token: API_TOKEN,
+                        clear: clearLogs
                     }
                 });
 

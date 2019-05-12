@@ -146,8 +146,8 @@
                 )
             );
 
-            # test result start from line 5
-            for ($i = 4; $i < count($file); $i++) {
+            # test result start from line 4
+            for ($i = 3; $i < count($file); $i++) {
                 $line = $file[$i];
                 if (empty($line))
                     continue;

@@ -82,9 +82,7 @@ panel .head .ri {
     right: 10px;
 }
 
-panel .head .ri i.clo,
-panel .head .ri i.ref,
-panel .head .ri i.bak {
+panel .head .ri i {
     position: relative;
     display: inline;
     color: rgba(98, 98, 98, 0.54);
@@ -99,9 +97,7 @@ panel .head .ri i.bak {
     font-size: 20px;
 }
 
-panel .head .ri i.clo:hover,
-panel .head .ri i.ref:hover,
-panel .head .ri i.bak:hover {
+panel .head .ri i:hover {
     color: rgba(98, 98, 98, 0.82);
 }
 

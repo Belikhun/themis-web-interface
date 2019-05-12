@@ -36,7 +36,10 @@
 		array_push($queuefiles, $file);
 	}
 
-	$judging = (isset($_SESSION["logsData"]["judging"]) ? $_SESSION["logsData"]["judging"] : Array());
+	if ($_SERVER["REQUEST_METHOD"] === "DELETE")
+		$_SESSION["logsData"]["judging"] = Array();
+	
+	$judging = isset($_SESSION["logsData"]["judging"]) ? $_SESSION["logsData"]["judging"] : Array();
 
 	if (!isset($_SESSION["logsData"]["lastqueuesfiles"]))
 		$_SESSION["logsData"]["lastqueuesfiles"] = $queuefiles;
@@ -59,7 +62,6 @@
 				));
 			}
 
-		$judging = arrayremBlk($judging);
 		$_SESSION["logsData"]["lastqueuesfiles"] = $queuefiles;
 	}
 
@@ -84,7 +86,7 @@
 
 		foreach ($judging as $i => $item)
 			if ($item["name"] === $data["file"]["name"] && file_exists($log) && (int)$item["lastmtime"] < (int)filemtime($log))
-				unset($judging[$i]);
+				array_splice($judging, $i, 1);
 
 		if ($config["publish"] === true)
 			$point = $data["point"];

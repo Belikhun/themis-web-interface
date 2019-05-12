@@ -6,7 +6,7 @@
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
-    setlocale(LC_ALL, "vi_VN.UTF-8");
+    setlocale(LC_TIME, "vi_VN.UTF-8");
 
     if (session_status() === PHP_SESSION_NONE) {
         if (isset($_POST["sessid"]))

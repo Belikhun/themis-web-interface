@@ -454,7 +454,7 @@
                         <div class="btn-group">
                             <span class="reload sound" data-soundhover data-soundselect></span>
                             <span class="close sound" data-soundhover></span>
-                            <span class="sound" data-soundhover data-soundselect></span>
+                            <span class="custom sound" data-soundhover data-soundselect></span>
                         </div>
                         <div class="main">
                             <iframe class="cpanel-container" src=""></iframe>
@@ -467,7 +467,7 @@
                         <div class="btn-group">
                             <span class="reload sound" data-soundhover data-soundselect></span>
                             <span class="close sound" data-soundhover></span>
-                            <span class="delete sound" data-soundhover data-soundselect></span>
+                            <span class="custom delete sound" data-soundhover data-soundselect></span>
                         </div>
                         <div class="main syslogs-settings">
                         </div>
@@ -479,7 +479,7 @@
                         <div class="btn-group">
                             <span class="reload sound" data-soundhover data-soundselect></span>
                             <span class="close sound" data-soundhover></span>
-                            <span class="sound" data-soundhover data-soundselect></span>
+                            <span class="custom sound" data-soundhover data-soundselect></span>
                         </div>
                         <div class="main">
                             <footer>
@@ -539,7 +539,7 @@
                         <div class="btn-group">
                             <span class="reload sound" data-soundhover data-soundselect></span>
                             <span class="close sound" data-soundhover></span>
-                            <span class="sound" data-soundhover data-soundselect></span>
+                            <span class="custom sound" data-soundhover data-soundselect></span>
                         </div>
                         <div class="main">
                             <iframe class="cpanel-container" src="/LICENSE"></iframe>
@@ -556,8 +556,8 @@
                 <div class="head">
                     <t class="le"></t>
                     <span class="ri">
-                        <i class="material-icons ref sound" data-soundhover data-soundselect>refresh</i>
-                        <i class="material-icons clo sound" data-soundhover data-soundselect>close</i>
+                        <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
+                        <i class="material-icons clo sound" title="Đóng" data-soundhover data-soundselect>close</i>
                     </span>
                 </div>
                 <div class="main">
@@ -571,7 +571,7 @@
                 <div class="head">
                     <t class="le">Nộp bài</t>
                     <span class="ri">
-                        <i class="material-icons ref sound" data-soundhover data-soundselect>refresh</i>
+                        <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
                     </span>
                 </div>
                 <div class="main fileupload-container">
@@ -597,8 +597,8 @@
                 <div class="head">
                     <t class="le">Thời gian</t>
                     <span class="ri">
-                        <i class="material-icons ref sound" data-soundhover data-soundselect>refresh</i>
-                        <i class="material-icons clo sound" data-soundhover data-soundselect>close</i>
+                        <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
+                        <i class="material-icons clo sound" title="Đóng" data-soundhover data-soundselect>close</i>
                     </span>
                 </div>
                 <div class="main time-container">
@@ -616,9 +616,9 @@
                 <div class="head">
                     <t class="le">Đề bài</t>
                     <span class="ri">
-                        <i class="material-icons bak sound" data-soundhover>keyboard_arrow_left</i>
-                        <i class="material-icons ref sound" data-soundhover data-soundselect>refresh</i>
-                        <i class="material-icons clo sound" data-soundhover="" data-soundselect="">close</i>
+                        <i class="material-icons bak sound" title="Quay lại" data-soundhover>keyboard_arrow_left</i>
+                        <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
+                        <i class="material-icons clo sound" title="Đóng" data-soundhover data-soundselect>close</i>
                     </span>
                 </div>
                 <div class="main problem-container">
@@ -664,7 +664,7 @@
                 <div class="head">
                     <t class="le">Xếp hạng</t>
                     <span class="ri">
-                        <i class="material-icons ref sound" data-soundhover data-soundselect>refresh</i>
+                        <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
                     </span>
                 </div>
                 <div class="main ranking-container">
@@ -675,7 +675,8 @@
                 <div class="head">
                     <t class="le">Nhật ký</t>
                     <span class="ri">
-                        <i class="material-icons ref sound" data-soundhover data-soundselect>refresh</i>
+                        <i class="material-icons cus sound" title="Xóa danh sách đang chấm" data-soundhover data-soundselect>gavel</i>
+                        <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
                     </span>
                 </div>
                 <div class="main">

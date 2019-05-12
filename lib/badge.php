@@ -26,12 +26,12 @@
 
         $boxpadding = 18;
         $ccode = isset($clist[$data["color"]]) ? $clist[$data["color"]] : "#000";
-        $sulen = mb_strlen($data["subject"]) * 6.8;
-        $stlen = mb_strlen($data["status"]) * 6.8;
-        $box1 = $sulen + $boxpadding;
-        $box2 = $stlen + $boxpadding;
-        $suanchor = ($box1/2)*10;
-        $stanchor = ($box1 + $box2/2)*10;
+        $sulen = (float) mb_strlen($data["subject"]) * 6.8;
+        $stlen = (float) mb_strlen($data["status"]) * 6.8;
+        $box1 = (float) $sulen + $boxpadding;
+        $box2 = (float) $stlen + $boxpadding;
+        $suanchor = (float) ($box1/2)*10;
+        $stanchor = (float) ($box1 + $box2/2)*10;
         $svg = "";
         header("Content-Type: image/svg+xml;charset=utf-8");
 
