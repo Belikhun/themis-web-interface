@@ -16,8 +16,9 @@
 	define("VERSION_TAG", "release");
 	define("REPORT_ERROR", "https://github.com/belivipro9x99/themis-web-interface/issues");
 
-	$config = (new fip($_SERVER["DOCUMENT_ROOT"] ."/data/config.json")) -> read();
-	$config = json_decode($config, true);
+	// get and parse config data from config file
+	$config = json_decode((new fip($_SERVER["DOCUMENT_ROOT"] ."/data/config.json")) -> read(), true);
+	$rawConfig = $config;
 
 	date_default_timezone_set($config["time"]["zone"]);
 	$config["time"]["begin"]["times"] = mktime(

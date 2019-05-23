@@ -19,7 +19,7 @@
     },
     "publish": true,
     "submit": true,
-    "submitinproblems": false,
+    "submitinproblems": true,
     "editinfo": true,
     "viewlog": true,
     "viewlogother": true,
@@ -28,5 +28,5 @@
         "time": 10,
         "bantime": 60
     },
-    "pagetitle": "Themis Web Interface v0.4.1"
+    "pagetitle": "%name% v%version%"
 }

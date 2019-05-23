@@ -14,7 +14,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
 
     if ($_SERVER["REQUEST_METHOD"] === "GET")
-        stop(0, "Thành công!", 200, $config);
+        stop(0, "Thành công!", 200, $rawConfig);
 
     if (!isLogedIn())
         stop(11, "Bạn chưa đăng nhập.", 403);
@@ -80,35 +80,35 @@
                 stop(3, "Loại biến không khớp! Yêu cầu form ". $key ." là ". $type["string"], 400);
     }
 
-    setting("contest_name", $config["contest"]["name"], $TYPE_STRING);
-    setting("contest_description", $config["contest"]["description"], $TYPE_STRING);
-    setting("uploaddir", $config["uploaddir"], $TYPE_STRING);
-    setting("time_zone", $config["time"]["zone"], $TYPE_STRING);
-    setting("time_begin_seconds", $config["time"]["begin"]["seconds"], $TYPE_NUMBER);
-    setting("time_begin_minutes", $config["time"]["begin"]["minutes"], $TYPE_NUMBER);
-    setting("time_begin_hours", $config["time"]["begin"]["hours"], $TYPE_NUMBER);
-    setting("time_begin_days", $config["time"]["begin"]["days"], $TYPE_NUMBER);
-    setting("time_begin_months", $config["time"]["begin"]["months"], $TYPE_NUMBER);
-    setting("time_begin_years", $config["time"]["begin"]["years"], $TYPE_NUMBER);
-    setting("time_during", $config["time"]["during"], $TYPE_NUMBER);
-    setting("time_offset", $config["time"]["offset"], $TYPE_NUMBER);
-    setting("pagetitle", $config["pagetitle"], $TYPE_STRING);
-    setting("publish", $config["publish"], $TYPE_BOOL);
-    setting("submit", $config["submit"], $TYPE_BOOL);
-    setting("submitinproblems", $config["submitinproblems"], $TYPE_BOOL);
-    setting("editinfo", $config["editinfo"], $TYPE_BOOL);
-    setting("viewlog", $config["viewlog"], $TYPE_BOOL);
-    setting("viewlogother", $config["viewlogother"], $TYPE_BOOL);
-    setting("ratelimit_maxrequest", $config["ratelimit"]["maxrequest"], $TYPE_NUMBER);
-    setting("ratelimit_time", $config["ratelimit"]["time"], $TYPE_NUMBER);
-    setting("ratelimit_bantime", $config["ratelimit"]["bantime"], $TYPE_NUMBER);
+    setting("contest_name", $rawConfig["contest"]["name"], $TYPE_STRING);
+    setting("contest_description", $rawConfig["contest"]["description"], $TYPE_STRING);
+    setting("uploaddir", $rawConfig["uploaddir"], $TYPE_STRING);
+    setting("time_zone", $rawConfig["time"]["zone"], $TYPE_STRING);
+    setting("time_begin_seconds", $rawConfig["time"]["begin"]["seconds"], $TYPE_NUMBER);
+    setting("time_begin_minutes", $rawConfig["time"]["begin"]["minutes"], $TYPE_NUMBER);
+    setting("time_begin_hours", $rawConfig["time"]["begin"]["hours"], $TYPE_NUMBER);
+    setting("time_begin_days", $rawConfig["time"]["begin"]["days"], $TYPE_NUMBER);
+    setting("time_begin_months", $rawConfig["time"]["begin"]["months"], $TYPE_NUMBER);
+    setting("time_begin_years", $rawConfig["time"]["begin"]["years"], $TYPE_NUMBER);
+    setting("time_during", $rawConfig["time"]["during"], $TYPE_NUMBER);
+    setting("time_offset", $rawConfig["time"]["offset"], $TYPE_NUMBER);
+    setting("pagetitle", $rawConfig["pagetitle"], $TYPE_STRING);
+    setting("publish", $rawConfig["publish"], $TYPE_BOOL);
+    setting("submit", $rawConfig["submit"], $TYPE_BOOL);
+    setting("submitinproblems", $rawConfig["submitinproblems"], $TYPE_BOOL);
+    setting("editinfo", $rawConfig["editinfo"], $TYPE_BOOL);
+    setting("viewlog", $rawConfig["viewlog"], $TYPE_BOOL);
+    setting("viewlogother", $rawConfig["viewlogother"], $TYPE_BOOL);
+    setting("ratelimit_maxrequest", $rawConfig["ratelimit"]["maxrequest"], $TYPE_NUMBER);
+    setting("ratelimit_time", $rawConfig["ratelimit"]["time"], $TYPE_NUMBER);
+    setting("ratelimit_bantime", $rawConfig["ratelimit"]["bantime"], $TYPE_NUMBER);
 
-    if ($config["publish"] === false)
-        $config["viewlog"] = false;
+    if ($rawConfig["publish"] === false)
+        $rawConfig["viewlog"] = false;
 
     if ($changed === false)
         stop(102, "Woah nothing happened.", 200);
 
-    saveConfig($config);
+    saveConfig($rawConfig);
     writeLog("OKAY", "Đã thay đổi cài đặt.");
     stop(0, "Thay đổi cài đặt thành công!", 200);
