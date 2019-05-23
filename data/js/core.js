@@ -225,7 +225,7 @@ core = {
             });
         } catch (error) {
             clog("WARN", "Error Checking for update:", {
-                text: error.data.description,
+                text: typeof error.data === "undefined" ? error.description : error.data.description,
                 color: flatc("red"),
             });
 
