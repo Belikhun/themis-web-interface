@@ -12,6 +12,14 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
     header("Cache-Control: max-age=0, must-revalidate", true);
 
+    //? Try to get server WAN address
+    set_error_handler(null, E_ALL);
+    $wArr = file_get_contents("http://bot.whatismyipaddress.com", false, null, 0, 36);
+    restore_error_handler();
+
+    define("LAN_ADDR", getHostByName(getHostName()));
+    define("WAN_ADDR", $wArr);
+
     $loggedin = false;
     $username = null;
     $userdata = null;
@@ -45,6 +53,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+        <!-- Thay đổi tiêu đề trang hiện đã có trong phần Admin Control Panel -->
         <title><?php print $config["pagetitle"]; ?></title>
 
         <!-- Library First -->
@@ -333,8 +342,19 @@
                     </div>
 
                     <div id="usett_adminConfig" class="group config">
-                        <t class="title">Cài Đặt Hệ Thống</t>
+                        <t class="title">Admin</t>
 
+                        <t class="title small">Địa chỉ máy chủ</t>
+                        <div class="item lr">
+                            <t class="left">Mạng cục bộ (LAN):</t>
+                            <t class="right" style="user-select: text;"><?php print LAN_ADDR; ?></t>
+                        </div>
+                        <div class="item lr">
+                            <t class="left">Mạng diện rộng (WAN):</t>
+                            <t class="right" style="user-select: text;"><?php print WAN_ADDR ?: "Không rõ"; ?></t>
+                        </div>
+
+                        <t class="title small">Cài đặt</t>
                         <div id="settings_cpanelToggler" class="item arr sound" data-soundhover>Admin Control Panel</div>
                         <div id="settings_problemToggler" class="item arr sound" data-soundhover>Chỉnh Sửa Test</div>
                         <div id="settings_syslogsToggler" class="item arr sound" data-soundhover>Nhật Ký Hệ Thống</div>
@@ -343,8 +363,8 @@
                     <div class="group link">
                         <t class="title">Liên Kết Ngoài</t>
                         <a class="item sound" data-soundhover data-soundselect href="<?php print REPORT_ERROR; ?>" target="_blank" rel="noopener">Báo lỗi</a>
-                        <a class="item sound" data-soundhover data-soundselect href="https://github.com/belivipro9x99/themis-web-interface/wiki" target="_blank" rel="noopener">Wiki</a>
-                        <a class="item sound" data-soundhover data-soundselect href="https://github.com/belivipro9x99/themis-web-interface" target="_blank" rel="noopener">Source Code</a>
+                        <a class="item sound" data-soundhover data-soundselect href="<?php print REPO_ADDRESS; ?>/wiki" target="_blank" rel="noopener">Wiki</a>
+                        <a class="item sound" data-soundhover data-soundselect href="<?php print REPO_ADDRESS; ?>" target="_blank" rel="noopener">Source Code</a>
                     </div>
 
                     <div class="group info">
@@ -353,7 +373,7 @@
                         <div id="usett_licenseToggler" class="item arr sound" data-soundhover>LICENSE</div>
 
                         <div class="space"></div>
-                        <t class="title small">Copyright © 2018-2019 <a href="https://www.facebook.com/belivipro9x99" target="_blank" rel="noopener">Belikhun</a>. This project is licensed under the MIT License. See <a href="/LICENSE" target="_blank" rel="noopener">LICENSE</a> for more information.</t>
+                        <t class="title small">Copyright © 2018-2019 <a href="https://github.com/belivipro9x99" target="_blank" rel="noopener">Belikhun</a>. This project is licensed under the MIT License. See <a href="/LICENSE" target="_blank" rel="noopener">LICENSE</a> for more information.</t>
                     </div>
 
                 </div>
@@ -509,7 +529,7 @@
                                 </table>
 
                                 <div class="badge">
-                                    <a href="https://github.com/belivipro9x99/themis-webinterface/releases/" target="_blank" rel="noopener"><img src="/tool/badge?su=<?php print VERSION_TAG; ?>&st=v<?php print VERSION; ?>&c=brightgreen"></a>
+                                    <a href="<?php print REPO_ADDRESS; ?>/releases/" target="_blank" rel="noopener"><img src="/tool/badge?su=<?php print VERSION_TAG; ?>&st=v<?php print VERSION; ?>&c=brightgreen"></a>
                                     <img src="/tool/badge?su=license&st=MIT&c=orange">
                                     <img src="/tool/badge?su=status&st=not tested&c=blue">
                                     <img src="/tool/badge?su=author&st=Đỗ Mạnh Hà&c=red">
@@ -736,12 +756,12 @@
                 "custom_map": {
                     dimension1: "version",
                     dimension2: "hostname",
-                    dimension3: "loadtime",
-                    dimension4: "downlink",
-                    dimension5: "versiontag",
-                    dimension6: "contestname",
-                    dimension7: "platform",
-                    dimension8: "darkmode"
+                    dimension3: "versiontag",
+                    dimension4: "contestname",
+                    dimension5: "platform",
+                    dimension6: "darkmode",
+                    metric1: "loadtime",
+                    metric2: "downlink"
                 }
             });
         </script>

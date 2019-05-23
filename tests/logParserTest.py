@@ -19,7 +19,7 @@ log("OKAY", "Imported: lib.testFramework.testFramework")
 # Start a new session
 sess = requests.Session()
 sauce = ""
-apiTest = testFramework("API")
+apiTest = testFramework("logParser")
 
 # Server Online Test
 def __testServerOnline():
@@ -79,7 +79,7 @@ apiTest.case("[log:{:<9}] Got 30.00 points in total".format(target), lambda: Tru
 apiTest.case("[log:{:<9}] Got 15.00 points in Test0001".format(target), lambda: True if (logData["test"][0]["point"] == 15) else "Test0001 point is {}".format(logData["test"][0]["point"]))
 apiTest.case("[log:{:<9}] Got  5.00 points in Test0003".format(target), lambda: True if (logData["test"][2]["point"] == 5) else "Test0003 point is {}".format(logData["test"][2]["point"]))
 apiTest.case("[log:{:<9}] Got a runtime of 0.12345 seconds in Test0001".format(target), lambda: True if (logData["test"][0]["runtime"] == 0.12345) else "Test0001 runtime is {}".format(logData["test"][0]["runtime"]))
-apiTest.case("[log:{:<9}] Got an output of 6 in Test0002".format(target), lambda: True if (logData["test"][0]["other"]["output"] == "6") else "Test0002 output is {}".format(logData["test"][0]["other"]["output"]))
+apiTest.case("[log:{:<9}] Got an output of 5 in Test0002".format(target), lambda: True if (logData["test"][1]["other"]["output"] == "5") else "Test0002 output is {}".format(logData["test"][1]["other"]["output"]))
 
 #! Test for accepted log
 target = "accepted"
@@ -104,7 +104,7 @@ apiTest.case("[log:{:<9}] Extension must be \"cpp\"".format(target), lambda: Tru
 apiTest.case("[log:{:<9}] Have 0 passed tests".format(target), lambda: True if (logData["header"]["testPassed"] == 0) else "There are {} passed tests".format(logData["header"]["testPassed"]))
 apiTest.case("[log:{:<9}] Have 0 accepted/failed tests".format(target), lambda: True if (logData["header"]["testFailed"] == 0) else "There are {} failed tests".format(logData["header"]["testFailed"]))
 apiTest.case("[log:{:<9}] Got 0.00 points in total".format(target), lambda: True if (logData["header"]["point"] == 0) else "Point is {}".format(logData["header"]["point"]))
-apiTest.case("[log:{:<9}] Got no test result".format(target), lambda: True if (len(logData["test"]) == 0) else "Test count is {}".format(len(logData["test"])))
-apiTest.case("[log:{:<9}] Got a valid error detail".format(target), lambda: True if (len(logData["header"]["error"]) != 0) else "Error detail have {} line".format(len(logData["header"]["error"])))
+apiTest.case("[log:{:<9}] Got no test result".format(target), lambda: True if not (logData["test"]) else "Test count is {}".format(len(logData["test"])))
+apiTest.case("[log:{:<9}] Got a valid error detail".format(target), lambda: True if (logData["header"]["error"]) else "Error detail have {} line".format(len(logData["header"]["error"])))
 
 apiTest.complete()

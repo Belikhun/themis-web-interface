@@ -102,10 +102,10 @@ def __avatarAPITest():
     global sauce
 
     result = testAPI("api/avt/change", "POST", data = { "token": sauce }, files = { "file": open("api/admin.jpg", "rb") })
-    if (result != True):
+    if (result is not True):
         return result
 
-    if (filecmp.cmp("../api/avt/admin.jpg", "api/admin.jpg")):
+    if (filecmp.cmp("../api/avt/admin.jpg", "api/admin.jpg") is True):
         return True
     else:
         return "FileNotMatch"

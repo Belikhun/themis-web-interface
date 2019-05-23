@@ -219,8 +219,12 @@ body.dark #logp div.main ul.log-item-container .log-item .h .l .t {
     color: rgba(216, 216, 216, 0.7);
 }
 
-body.dark #logp div.main ul.log-item-container .log-item .h .r {
-    color: rgb(230, 230, 230);
+body.dark #logp div.main ul.log-item-container .log-item .h .r .s {
+    color: rgb(218, 218, 218);
+}
+
+body.dark #logp div.main ul.log-item-container .log-item .h .r .l {
+    color: rgb(200, 200, 200);
 }
 
 body.dark #logp div.main ul.log-item-container .log-item .d {

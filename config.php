@@ -53,14 +53,15 @@
                     </div>
                     <div class="right"></div>
                 </div>
-                <div class="item lr warning sound" data-soundhoversoft>
-                    <t class="left"><b>Lưu ý:</b> Tên kì thi, Mô tả kì thi và Tiêu đề trang chấp nhận mã HTML. Hãy cẩn thận khi chèn mã HTML vào những trường này.</t>
-                    <div class="right"></div>
-                </div>
             </div>
 
             <div class="group file">
                 <t class="title">Kì thi</t>
+                
+                <div class="item lr warning sound" data-soundhoversoft>
+                    <t class="left"><b>Lưu ý:</b> Tên kì thi, Mô tả kì thi chấp nhận mã HTML. Hãy cẩn thận khi chèn mã HTML vào những trường này.</t>
+                    <div class="right"></div>
+                </div>
 
                 <div class="item sound" data-soundhoversoft>
                     <div class="formgroup blue sound" data-soundselectsoft>

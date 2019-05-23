@@ -12,12 +12,14 @@
 	// dont claim it for your own. thats not nice
 	define("APPNAME", "Themis Web Interface");
 	define("AUTHOR", "Belikhun");
-	define("VERSION", "0.4.1");
+	define("VERSION", "0.4.2");
 	define("VERSION_TAG", "release");
-	define("REPORT_ERROR", "https://github.com/belivipro9x99/themis-web-interface/issues");
+	define("REPO_ADDRESS", "https://github.com/belivipro9x99/themis-web-interface");
+	define("REPORT_ERROR", REPO_ADDRESS . "/issues");
 
-	$config = (new fip($_SERVER["DOCUMENT_ROOT"] ."/data/config.json")) -> read();
-	$config = json_decode($config, true);
+	// get and parse config data from config file
+	$config = json_decode((new fip($_SERVER["DOCUMENT_ROOT"] ."/data/config.json")) -> read(), true);
+	$rawConfig = $config;
 
 	date_default_timezone_set($config["time"]["zone"]);
 	$config["time"]["begin"]["times"] = mktime(

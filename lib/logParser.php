@@ -174,11 +174,11 @@
                     # line match runtime format
                     $lineData["runtime"] = $this -> __f($lineParsed[0][1]);
 
-                else if (preg_match_all("/Output: (.+)./m", $line, $lineParsed, PREG_SET_ORDER, 0))
+                else if (preg_match_all("/.*Output.*: ((.+)(?=\.)|(.+))/m", $line, $lineParsed, PREG_SET_ORDER, 0))
                     # line match output data format
                     $lineData["other"]["output"] = $lineParsed[0][1];
 
-                else if (preg_match_all("/Answer: (.+)./m", $line, $lineParsed, PREG_SET_ORDER, 0))
+                else if (preg_match_all("/.*Answer.*: ((.+)(?=\.)|(.+))/m", $line, $lineParsed, PREG_SET_ORDER, 0))
                     # line match answer data format
                     $lineData["other"]["answer"] = $lineParsed[0][1];
 
