@@ -12,6 +12,14 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
     header("Cache-Control: max-age=0, must-revalidate", true);
 
+    //? Try to get server WAN address
+    set_error_handler(null, E_ALL);
+    $wArr = file_get_contents("http://bot.whatismyipaddress.com", false, null, 0, 36);
+    restore_error_handler();
+
+    define("LAN_ADDR", getHostByName(getHostName()));
+    define("WAN_ADDR", $wArr);
+
     $loggedin = false;
     $username = null;
     $userdata = null;
@@ -334,8 +342,19 @@
                     </div>
 
                     <div id="usett_adminConfig" class="group config">
-                        <t class="title">Cài Đặt Hệ Thống</t>
+                        <t class="title">Admin</t>
 
+                        <t class="title small">Địa chỉ máy chủ</t>
+                        <div class="item lr">
+                            <t class="left">Mạng cục bộ (LAN):</t>
+                            <t class="right" style="user-select: text;"><?php print LAN_ADDR; ?></t>
+                        </div>
+                        <div class="item lr">
+                            <t class="left">Mạng diện rộng (WAN):</t>
+                            <t class="right" style="user-select: text;"><?php print WAN_ADDR ?: "Không rõ"; ?></t>
+                        </div>
+
+                        <t class="title small">Cài đặt</t>
                         <div id="settings_cpanelToggler" class="item arr sound" data-soundhover>Admin Control Panel</div>
                         <div id="settings_problemToggler" class="item arr sound" data-soundhover>Chỉnh Sửa Test</div>
                         <div id="settings_syslogsToggler" class="item arr sound" data-soundhover>Nhật Ký Hệ Thống</div>
