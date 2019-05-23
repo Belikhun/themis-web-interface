@@ -44,19 +44,19 @@ class testFramework:
         print(" ● Case {}#{:<2} {}[{:>1}] {}{} {}({}s)".format(
             Fore.CYAN,
             self.testNth,
-            Fore.GREEN if (result == True) else Fore.RED,
-            "✓" if (result == True) else "✗",
+            Fore.GREEN if (result is True) else Fore.RED,
+            "✓" if (result is True) else "✗",
             Fore.LIGHTWHITE_EX,
             description,
             Fore.MAGENTA,
             round(runTime, 2)
         ))
 
-        if (result != True):
+        if (result is not True):
             print("   → Reason: {}".format(Fore.LIGHTBLACK_EX + str(result)))
 
     def complete(self):
-        if (self.completed == True):
+        if (self.completed is True):
             return
 
         self.completed = True
