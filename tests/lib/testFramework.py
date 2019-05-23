@@ -36,7 +36,7 @@ class testFramework:
         runTime = self.timeEnd - self.timeStart
         self.totalTime += runTime
 
-        if (result == True):
+        if (result is True):
             self.testPassed += 1
         else:
             self.testFailed += 1
