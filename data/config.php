@@ -14,7 +14,8 @@
 	define("AUTHOR", "Belikhun");
 	define("VERSION", "0.4.2");
 	define("VERSION_TAG", "indev");
-	define("REPORT_ERROR", "https://github.com/belivipro9x99/themis-web-interface/issues");
+	define("REPO_ADDRESS", "https://github.com/belivipro9x99/themis-web-interface");
+	define("REPORT_ERROR", REPO_ADDRESS . "/issues");
 
 	// get and parse config data from config file
 	$config = json_decode((new fip($_SERVER["DOCUMENT_ROOT"] ."/data/config.json")) -> read(), true);
