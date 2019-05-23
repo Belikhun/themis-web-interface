@@ -485,7 +485,7 @@ core = {
                     </div>
                     ${((item.other.output) && (item.other.answer)) || (item.other.error) ? `<div class="line detail">
                         ${(item.other.output) ? `<t>Output: ${item.other.output}</t>` : ""}
-                        ${(item.other.answer) ? `<t>Answer: ${item.other.output}</t>` : ""}
+                        ${(item.other.answer) ? `<t>Answer: ${item.other.answer}</t>` : ""}
                         ${(item.other.error) ? `<t>${item.other.error}</t>` : ""}
                     </div>` : ""}
                 </div>
