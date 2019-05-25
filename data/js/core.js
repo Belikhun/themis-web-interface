@@ -1108,6 +1108,38 @@ core = {
             }
         },
 
+        toggleSwitch: class {
+            constructor(inputElement, cookieKey, onCheck = () => {}, onUncheck = () => {}, defValue = false) {
+                this.input = inputElement;
+                this.onCheckHandler = onCheck;
+                this.onUnCheckHandler = onUncheck;
+
+                this.input.addEventListener("change", e => {
+                    cookie.set(cookieKey, e.target.checked);
+
+                    if (e.target.checked === true)
+                        this.onCheckHandler(e);
+                    else
+                        this.onUnCheckHandler(e);
+                })
+                
+                this.change(cookie.get(cookieKey, defValue) === "true");
+            }
+
+            change(value) {
+                this.input.checked = value;
+                this.input.dispatchEvent(new Event("change"));
+            }
+
+            set onCheck(handler) {
+                this.onCheckHandler = handler;
+            }
+
+            set onUnCheck(handler) {
+                this.onUnCheckHandler = handler;
+            }
+        },
+
         uname: $("#user_name"),
         uavt: $("#user_avt"),
         avt: $("#usett_avt"),
@@ -1123,7 +1155,8 @@ core = {
             renPass: $("#usett_edit_renpass"),
         },
         logoutBtn: $("#usett_logout"),
-        nightModeToggle: $("#usett_nightMode"),
+        nightModeToggler: $("#usett_nightMode"),
+        transitionToggler: $("#usett_transition"),
         updateDelaySlider: $("#usett_udelay_slider"),
         updateDelayText: $("#usett_udelay_text"),
         toggler: $("#usett_toggler"),
@@ -1159,26 +1192,26 @@ core = {
             this.adminConfig.style.display = "none";
 
             // Night mode setting
-            this.nightModeToggle.addEventListener("change", e => {
-                if (e.target.checked === true) {
-                    cookie.set("__darkMode", true);
-                    document.body.classList.add("dark");
+            let nightMode = new this.toggleSwitch(this.nightModeToggler, "__darkMode", e => {
+                document.body.classList.add("dark");
 
-                    this.publicFilesIframe.contentWindow.document.body.classList.add("dark");
-                    if (core.settings.cpanelIframe)
-                        core.settings.cpanelIframe.contentWindow.document.body.classList.add("dark");
-                } else {
-                    cookie.set("__darkMode", false);
-                    document.body.classList.remove("dark");
+                this.publicFilesIframe.contentWindow.document.body.classList.add("dark");
+                if (core.settings.cpanelIframe)
+                    core.settings.cpanelIframe.contentWindow.document.body.classList.add("dark");
+            }, e => {
+                document.body.classList.remove("dark");
 
-                    this.publicFilesIframe.contentWindow.document.body.classList.remove("dark");
-                    if (core.settings.cpanelIframe)
-                        core.settings.cpanelIframe.contentWindow.document.body.classList.remove("dark");
-                }
-            })
-            
-            this.nightModeToggle.checked = cookie.get("__darkMode", false) == "true";
-            this.nightModeToggle.dispatchEvent(new Event("change"));
+                this.publicFilesIframe.contentWindow.document.body.classList.remove("dark");
+                if (core.settings.cpanelIframe)
+                    core.settings.cpanelIframe.contentWindow.document.body.classList.remove("dark");
+            }, false);
+
+            // Transition setting
+            let transition = new this.toggleSwitch(this.transitionToggler, "__transition",
+                e => document.body.classList.remove("disableTransition"),
+                e => document.body.classList.add("disableTransition"),
+                true
+            )
 
             // Update delay setting
             this.updateDelaySlider.addEventListener("input", e => {

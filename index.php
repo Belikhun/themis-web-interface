@@ -249,6 +249,32 @@
                     <div class="group tools">
                         <t class="title">Cài Đặt</t>
 
+                        <t class="title small">Hiển thị</t>
+
+                        <div class="item lr sound" data-soundhoversoft>
+                            <t class="left">Chế độ ban đêm</t>
+                            <label class="sq-checkbox pink right">
+                                <input id="usett_nightMode" type="checkbox" class="sound" data-soundcheck>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <div class="item lr sound" data-soundhoversoft>
+                            <t class="left">Hoạt ảnh</t>
+                            <label class="sq-checkbox blue right">
+                                <input id="usett_transition" type="checkbox" class="sound" data-soundcheck>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <div class="item lr sound" data-soundhoversoft>
+                            <t class="left">Thông báo</t>
+                            <label class="sq-checkbox pink right">
+                                <input type="checkbox" class="sound" data-soundcheck disabled>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+
+                        <div class="space"></div>
+
                         <t class="title small">Âm Thanh</t>
                         <div class="item lr sound" data-soundhoversoft>
                             <t class="left">Bật âm thanh</t>
@@ -301,25 +327,6 @@
                         <div class="item lr info sound" data-soundhoversoft>
                             <t class="left">Sounds by ppy Pty Ltd. Licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0/legalcode" target="_blank" rel="noopener">CC-BY-NC 4.0</a>. See <a href="/data/sounds/LICENSE.md" target="_blank" rel="noopener">LICENSE.md</a> for more information.</t>
                             <div class="right"></div>
-                        </div>
-
-                        <div class="space"></div>
-
-                        <t class="title small">Hiển thị</t>
-
-                        <div class="item lr sound" data-soundhoversoft>
-                            <t class="left">Chế độ ban đêm</t>
-                            <label class="sq-checkbox pink right">
-                                <input id="usett_nightMode" type="checkbox" class="sound" data-soundcheck>
-                                <span class="checkmark"></span>
-                            </label>
-                        </div>
-                        <div class="item lr sound" data-soundhoversoft>
-                            <t class="left">Thông báo</t>
-                            <label class="sq-checkbox pink right">
-                                <input type="checkbox" class="sound" data-soundcheck disabled>
-                                <span class="checkmark"></span>
-                            </label>
                         </div>
 
                         <div class="space"></div>

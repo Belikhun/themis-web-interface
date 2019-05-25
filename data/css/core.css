@@ -1990,6 +1990,11 @@ footer ul.contact li.github::before {
     }
 }
 
+/* Unset all Transition */
+body.disableTransition * {
+    transition: unset!important;
+}
+
 /* Element to hide when user is not admin */
 
 body.user span#user_profile div.body ul#usett_left_panel li.navlink {
