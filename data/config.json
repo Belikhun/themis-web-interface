@@ -21,7 +21,7 @@
     "submit": true,
     "submitinproblems": true,
     "editinfo": true,
-    "viewlog": false,
+    "viewlog": true,
     "viewlogother": true,
     "ratelimit": {
         "maxrequest": 30,

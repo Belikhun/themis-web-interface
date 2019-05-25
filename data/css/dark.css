@@ -261,7 +261,8 @@ body.dark #user_settings .sub .panel .container .btn-group:hover {
     background-color: rgb(56, 56, 56);
 }
 
-body.dark #user_settings .sub .panel .container .btn-group span::before {
+body.dark #user_settings .sub .panel .container .btn-group span::before,
+body.dark #user_settings .sub .panel .container .btn-group span::after {
     color: rgb(192, 192, 192);
 }
 
@@ -269,16 +270,18 @@ body.dark #user_settings .sub .panel .container .btn-group span:hover {
     background-color: rgba(41, 140, 206, 0.2);
 }
 
-body.dark #user_settings .sub .panel .container .btn-group span:hover::before {
-    color: #2c95db;
+body.dark #user_settings .sub .panel .container .btn-group span:hover::before,
+body.dark #user_settings .sub .panel .container .btn-group span:hover::after {
+    color: #47abee;
 }
 
 body.dark #user_settings .sub .panel .container .btn-group .close:hover {
     background-color: rgba(255, 84, 66, 0.2);
 }
 
-body.dark #user_settings .sub .panel .container .btn-group .close:hover::before {
-    color: #fb6c5c;
+body.dark #user_settings .sub .panel .container .btn-group .close:hover::before,
+body.dark #user_settings .sub .panel .container .btn-group .close:hover::after {
+    color: #f68376;
 }
 
 body.dark #user_settings .main .container .group .item .info .right {
