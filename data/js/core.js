@@ -430,7 +430,7 @@ core = {
             ].join("\n");
 
             for (var j = 0; j < list.length; j++)
-                out += `<td class="number${data.rank[i].status[list[j]] ? " " + data.rank[i].status[list[j]] : ""}${(data.rank[i].log[list[j]]) ? ` link" onClick="core.viewLog('${data.rank[i].log[list[j]]}')` : ""}" >${parseFloat(data.rank[i].list[list[j]]).toFixed(2)}</td>\n`;
+                out += `<td class="number ${data.rank[i].status[list[j]] || ""}${(data.rank[i].log[list[j]]) ? ` link" onClick="core.viewLog('${data.rank[i].log[list[j]]}')` : ""}" >${parseFloat(data.rank[i].list[list[j]]).toFixed(2)}</td>\n`;
             
             out += "</tr>";
         }

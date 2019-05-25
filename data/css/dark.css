@@ -185,7 +185,14 @@ body.dark #rankp div.ranking-container table tr td.number {
     color: rgb(124, 124, 124);
 }
 
-body.dark #rankp div.ranking-container table tr .number.link {
+body.dark #rankp div.ranking-container table tr td.number:nth-child(4) {
+    color: rgb(98, 202, 246);
+}
+
+body.dark #rankp div.ranking-container table tr .number.link,
+body.dark #rankp div.ranking-container table tr .number.passed,
+body.dark #rankp div.ranking-container table tr .number.accepted,
+body.dark #rankp div.ranking-container table tr .number.failed {
     color: rgb(224, 224, 224);
 }
 

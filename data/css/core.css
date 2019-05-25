@@ -1240,8 +1240,14 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 }
 
 #rankp div.ranking-container table tr td.number.link {
-    color: rgb(75, 75, 75);
     cursor: pointer;
+}
+
+#rankp div.ranking-container table tr .number.link,
+#rankp div.ranking-container table tr .number.passed,
+#rankp div.ranking-container table tr .number.accepted,
+#rankp div.ranking-container table tr .number.failed {
+    color: rgb(75, 75, 75);
 }
 
 #rankp div.ranking-container table tr td.number.passed {
