@@ -200,6 +200,7 @@ panel .main.blank::after {
 
 body.guest #timep.show,
 body.guest #problemp {
+    height: 200px;
     flex-grow: 1;
 }
 
@@ -215,7 +216,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     height: calc(100% - 20px);
 }
 
-@media only screen and (max-width: 1150px) {
+@media only screen and (max-width: 1130px) {
     #problemp,
     #logp {
         height: calc(100% - 240px);
@@ -245,7 +246,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     }
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 765px) {
     #timep {
         flex-grow: 1;
     }
