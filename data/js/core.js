@@ -885,13 +885,15 @@ core = {
                 method: "GET",
             });
 
-            this.timedata = data;
             if (data.during <= 0) {
                 $("#timep").classList.remove("show");
                 clearInterval(this.interval);
                 clog("info", "Timer Disabled: not in contest mode");
                 return;
             }
+            
+            this.timedata = data;
+            this.start.innerText = `${(new Date(data.start * 1000)).toLocaleTimeString()}`;
 
             if (init) {
                 $("#timep").classList.add("show");
@@ -915,7 +917,7 @@ core = {
             this.time.classList.remove("green");
             this.time.innerText = "--:--";
             this.bar.style.width = "0%";
-            this.start.innerText = "--:--";
+            this.start.innerText = "--:--:-- - --:--:--";
             this.end.innerText = "--:--";
             this.state.innerText = "---";
             this.last = 0;
@@ -955,7 +957,6 @@ core = {
                     this.time.classList.remove("green");
                     this.time.innerText = parseTime(t).str;
                     this.bar.style.width = p1 + "%";
-                    this.start.innerText = p1.toFixed(2) + "%";
                     this.end.innerText = parseTime(this.last).str;
                     this.state.innerText = "Bắt đầu kì thi sau";
                     break;
@@ -966,7 +967,6 @@ core = {
                     this.time.classList.add("green");
                     this.time.innerText = parseTime(t).str;
                     this.bar.style.width = p2 + "%";
-                    this.start.innerText = p2.toFixed(2) + "%";
                     this.end.innerText = parseTime(data.during).str;
                     this.state.innerText = "Thời gian làm bài";
                     break;
@@ -977,7 +977,6 @@ core = {
                     this.time.classList.add("red");
                     this.time.innerText = parseTime(t).str;
                     this.bar.style.width = p3 + "%";
-                    this.start.innerText = p3.toFixed(2) + "%";
                     this.end.innerText = parseTime(data.offset).str;
                     this.state.innerText = "Thời gian bù";
                     break;
@@ -986,7 +985,6 @@ core = {
                     this.time.classList.remove("red");
                     this.time.innerText = parseTime(t).str;
                     this.bar.style.width = "0%";
-                    this.start.innerText = "---%";
                     this.end.innerText = "--:--";
                     this.state.innerText = "ĐÃ HẾT THỜI GIAN LÀM BÀI";
                     break;
