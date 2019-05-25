@@ -642,13 +642,15 @@ core = {
                 text: files[i].name
             });
 
+            let p = (i / files.length) * 100;
+
             this.uploading = true;
             this.name.innerText = files[i].name;
             this.state.innerText = "Đang tải lên...";
             this.panel.title = "Nộp bài - Đang tải lên " + (i + 1) + "/" + files.length +"...";
             this.size.innerText = "00/00";
-            this.percent.innerText = "0%";
-            this.bar.style.width = "0%";
+            this.percent.innerText = `${p.toFixed(0)}%`;
+            this.bar.style.width = `${p}%`;
             this.bar.classList.remove("red");
 
             setTimeout(() => {
@@ -659,10 +661,12 @@ core = {
                         "token": API_TOKEN,
                     },
                     file: files[i],
-                    onupload: e => {
+                    onUpload: e => {
+                        let p = (100 * ((e.loaded / e.total) + i)) / files.length;
+
                         this.size.innerText = e.loaded + "/" + e.total;
-                        this.percent.innerText = ((e.loaded / e.total) * 100).toFixed(0) + "%";
-                        this.bar.style.width = (e.loaded / e.total) * 100 + "%";
+                        this.percent.innerText = `${p.toFixed(0)}%`;
+                        this.bar.style.width = `${p}%`;
                     }
                 }, (data, res) => {
                     if ([103, 104].includes(res.code)) {
@@ -684,7 +688,7 @@ core = {
                         text: files[i].name
                     });
 
-                    this.state.innerText = "Tải lên thành công! " + (i + 1) + "/" + files.length;
+                    this.state.innerText = `Tải lên thành công! ${(i + 1)}/${files.length}`;
                     this.onUploadSuccess();
                     
                     setTimeout(() => {
