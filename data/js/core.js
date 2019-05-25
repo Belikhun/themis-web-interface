@@ -1001,6 +1001,8 @@ core = {
                 if (!elem.classList.contains("panel"))
                     return false;
         
+                this.container = $("#user_settings");
+
                 this.elem = elem;
                 this.eToggle = null;
                 this.btn_group = fcfn(elem, "btn-group");
@@ -1015,6 +1017,8 @@ core = {
         
             hide() {
                 this.elem.classList.remove("show");
+                this.container.classList.remove("subPanel");
+
                 if (this.eToggle)
                     this.eToggle.classList.remove("active");
 
@@ -1023,8 +1027,9 @@ core = {
 
             show() {
                 this.__hideActive();
-
                 this.elem.classList.add("show");
+                this.container.classList.add("subPanel");
+
                 if (this.eToggle)
                     this.eToggle.classList.add("active");
 
@@ -1034,6 +1039,7 @@ core = {
             toggle() {
                 let c = this.elem.classList.contains("show");
                 this.__hideActive();
+                this.container.classList[c === false ? "add" : "remove"]("subPanel");
  
                 if (c === false)
                     this.elem.classList.add("show");
@@ -1041,7 +1047,7 @@ core = {
                 if (this.eToggle)
                     this.eToggle.classList[c === false ? "add" : "remove"]("active");
 
-                this.funcOnToggle(this.elem.classList.contains("show") ? "show" : "hide");                
+                this.funcOnToggle(c ? "show" : "hide");                
             }
 
             __hideActive() {
@@ -1239,9 +1245,12 @@ core = {
         },
 
         toggle() {
-            if (this.container.classList.contains("show"))
+            let c = this.container.classList.contains("show");
+
+            if (c)
                 this.__hideAllPanel();
 
+            this.container.classList.remove("subPanel");
             this.toggler.classList.toggle("active");
             this.container.classList.toggle("show");
         },

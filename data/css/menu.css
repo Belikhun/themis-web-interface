@@ -103,6 +103,7 @@ body.embeded .menu {
     align-items: center;
     box-sizing: border-box;
     padding: 10px 20px;
+    overflow: hidden;
 
     transition: background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 }
