@@ -815,8 +815,10 @@ core = {
                 this.image.style.display = "block";
                 this.image.src = data.image;
                 this.image.title = "Nhấn để phóng to ảnh";
-                core.wrapper.panel.main.innerHTML = `<img class="full" src="${data.image}">`;
-                this.image.onclick = () => core.wrapper.show(`Ảnh đính kèm: ${data.name}`);
+                this.image.onclick = () => {
+                    core.wrapper.panel.main.innerHTML = `<img class="full" src="${data.image}">`;
+                    core.wrapper.show(`Ảnh đính kèm: ${data.name}`);
+                }
             } else
                 this.image.style.display = "none";
 
