@@ -33,7 +33,12 @@
     height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
+    direction: rtl;
     scroll-behavior: smooth;
+}
+
+#user_settings .main::-webkit-scrollbar { 
+    display: none; 
 }
 
 #user_settings .main .container {
@@ -41,6 +46,7 @@
     width: 100%;
     min-width: 260px;
     min-height: 100%;
+    direction: ltr;
     right: 0;
 }
 
