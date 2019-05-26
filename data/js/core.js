@@ -897,7 +897,7 @@ core = {
             }
             
             this.timedata = data;
-            this.start.innerText = `${(new Date(data.start * 1000)).toLocaleTimeString()}`;
+            this.start.innerText = `${(new Date(data.start * 1000)).toLocaleTimeString()} -> ${(new Date((data.start + data.during) * 1000)).toLocaleTimeString()}`;
 
             if (init) {
                 $("#timep").classList.add("show");
