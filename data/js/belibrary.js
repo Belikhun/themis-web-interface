@@ -86,12 +86,12 @@ function myajax({
                 if (type === "json") {
                     try {
                         var res = JSON.parse(this.responseText);
-                    } catch (error) {
+                    } catch (data) {
                         clog("errr", "Error parsing JSON.");
 
-                        let e = { code: 2, description: `Error parsing JSON`, data: error }
-                        error(e);
-                        reject(e);
+                        let e = { code: 2, description: `Error parsing JSON`, data: data }
+                        error(data);
+                        reject(data);
                         return;
                     }
 

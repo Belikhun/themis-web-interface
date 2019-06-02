@@ -654,7 +654,9 @@
                     <div class="problem">
                         <t class="name" id="problem_name"></t>
                         <t class="point" id="problem_point"></t>
-                        <table class="type">
+                        <span class="enlarge" id="problem_enlarge" title="Phóng to"></span>
+
+                        <table class="simple-table type">
                             <tr class="filename">
                                 <td>Tên tệp</td>
                                 <td id="problem_type_filename"></td>
@@ -664,7 +666,7 @@
                                 <td id="problem_type_ext"></td>
                             </tr>
                             <tr class="time">
-                                <td>Thời gian</td>
+                                <td>Thời gian chạy</td>
                                 <td id="problem_type_time"></td>
                             </tr>
                             <tr class="inp">
@@ -676,12 +678,15 @@
                                 <td id="problem_type_out"></td>
                             </tr>
                         </table>
-                        <img class="image" id="problem_image" src="">
+
                         <t class="description" id="problem_description"></t>
+                        <img class="image" id="problem_image" src="">
+
                         <div id="problem_attachment" class="attachment">
                             <a id="problem_attachment_link" class="link" href=""></a>
                         </div>
-                        <table class="test" id="problem_test">
+
+                        <table class="simple-table test" id="problem_test">
                         </table>
                     </div>
                 </div>

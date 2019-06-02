@@ -126,12 +126,20 @@ body.dark #problemp .problem-container .problem .point {
     color: #29db73;
 }
 
-body.dark #problemp .problem-container .problem table {
-    color: rgb(200, 200, 200);
+body.dark #problemp .problem-container .problem .enlarge::before {
+    color: rgb(202, 202, 202);
 }
 
-body.dark #problemp .problem-container .problem table tr td {
-    border-bottom-color: rgb(112, 112, 112);
+body.dark .problemEnlarged .left .name {
+    color: rgb(216, 216, 216);
+}
+
+body.dark .problemEnlarged .right {
+    background-color: rgb(54, 54, 54);
+}
+
+body.dark .problemEnlarged .right .description::before {
+    color: rgb(216, 216, 216);
 }
 
 /* Time Panel */

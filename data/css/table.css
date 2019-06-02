@@ -15,7 +15,6 @@
 
 .simple-table tbody tr th,
 .simple-table tbody tr td {
-    text-align: center;
     padding: 6px 8px;
     font-family: "Segoe UI", "Calibri";
 }
@@ -42,7 +41,7 @@
 }
 
 .simple-table tbody tr:not(:last-child) td {
-    border-bottom: 1px solid rgb(110, 110, 110);
+    border-bottom: 1px solid rgba(110, 110, 110, 0.6);
 }
 
 /* Dark */
@@ -55,7 +54,7 @@ body.dark .simple-table tbody tr th,
 
 body.dark .simple-table tbody tr td,
 .simple-table.dark tbody tr td {
-    color: rgb(175, 175, 175);
+    color: rgb(206, 206, 206);
 }
 
 body.dark .simple-table tbody tr:hover,
