@@ -26,7 +26,7 @@ An beautiful and easy-to-use Web Interface for **[Themis](https://dsapblog.wordp
 | 🌿     |                                                                                          Travis CI Status                                                                                           |
 |:-------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
 | master |    [![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface.svg?label=master&style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface)     |
-| v0.4.3 | [![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface/v0.4.3.svg?label=v0.4.3&style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface) |
+| v0.4.4 | [![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface/v0.4.4.svg?label=v0.4.4&style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface) |
 
 - [Demo](#demo)
 - [Yêu cầu](#yêu-cầu)
