@@ -9,12 +9,12 @@
         "begin": {
             "seconds": 0,
             "minutes": 0,
-            "hours": 22,
-            "days": 20,
-            "months": 4,
+            "hours": 10,
+            "days": 26,
+            "months": 5,
             "years": 2019
         },
-        "during": 10,
+        "during": 60,
         "offset": 10
     },
     "publish": true,

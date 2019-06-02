@@ -16,7 +16,7 @@
 
     if (ERROR_HANDLING === "NORMAL") {
         function errorthrow(Int $errnum, String $errstr, String $errfile, Int $errline, $errcode = 500) {
-            $iframe = !headers_sent();
+            $iframe = headers_sent();
 
             if (!is_numeric($errcode))
                 $errcode = 500;

@@ -250,14 +250,14 @@ core = {
 
             let e = document.createElement("div");
             e.classList.add("item", "lr", "warning");
-            e.innerHTML = [
-                `<div class="left">`,
-                    `<t>Hiện đã có phiên bản mới: <b>${tgs}</b></t>`,
-                    `<t>Nhấn vào nút dưới đây để đi tới trang tải xuống:</t>`,
-                    `<a href="${data.html_url}" target="_blank" rel="noopener" class="sq-btn dark" style="margin-top: 10px; width: 100%;">${data.tag_name} : ${data.target_commitish}</a>`,
-                `</div>`,
-                `<div class="right"></div>`
-            ].join("\n");
+            e.innerHTML = `
+                <div class="left">
+                    <t>Hiện đã có phiên bản mới: <b>${tgs}</b></t>
+                    <t>Nhấn vào nút dưới đây để đi tới trang tải xuống:</t>
+                    <a href="${data.html_url}" target="_blank" rel="noopener" class="sq-btn dark" style="margin-top: 10px; width: 100%;">${data.tag_name} : ${data.target_commitish}</a>
+                </div>
+                <div class="right"></div>
+            `
 
             this.settings.adminConfig.appendChild(e);
         }
@@ -310,55 +310,55 @@ core = {
         var out = "";
         
         for (let item of data.judging)
-            out += [
-                `<li class="log-item judging">`,
-                    `<div class="h">`,
-                        `<div class="l">`,
-                            `<t class="t">${item.lastmodify}</t>`,
-                            `<t class="n">${item.problem}</t>`,
-                        `</div>`,
-                        `<div class="r">`,
-                            `<t class="s">Đang chấm</t>`,
-                            `<t class="l">${this.languages[item.extension] || item.extension}</t>`,
-                        `</div>`,
-                    `</div>`,
-                    `<a class="d"></a>`,
-                `</li>`
-            ].join("\n");
+            out += `
+                <li class="log-item judging">
+                    <div class="h">
+                        <div class="l">
+                            <t class="t">${item.lastmodify}</t>
+                            <t class="n">${item.problem}</t>
+                        </div>
+                        <div class="r">
+                            <t class="s">Đang chấm</t>
+                            <t class="l">${this.languages[item.extension] || item.extension}</t>
+                        </div>
+                    </div>
+                    <a class="d"></a>
+                </li>
+            `
 
         for (let item of data.queues)
-            out += [
-                `<li class="log-item queue">`,
-                    `<div class="h">`,
-                        `<div class="l">`,
-                            `<t class="t">${item.lastmodify}</t>`,
-                            `<t class="n">${item.problem}</t>`,
-                        `</div>`,
-                        `<div class="r">`,
-                            `<t class="s">Đang chờ</t>`,
-                            `<t class="l">${this.languages[item.extension] || item.extension}</t>`,
-                        `</div>`,
-                    `</div>`,
-                    `<a class="d"></a>`,
-                `</li>`
-            ].join("\n");
+            out += `
+                <li class="log-item queue">
+                    <div class="h">
+                        <div class="l">
+                            <t class="t">${item.lastmodify}</t>
+                            <t class="n">${item.problem}</t>
+                        </div>
+                        <div class="r">
+                            <t class="s">Đang chờ</t>
+                            <t class="l">${this.languages[item.extension] || item.extension}</t>
+                        </div>
+                    </div>
+                    <a class="d"></a>
+                </li>
+            `
 
         for (let item of data.logs)
-            out += [
-                `<li class="log-item ${item.status}">`,
-                    `<div class="h">`,
-                        `<div class="l">`,
-                            `<t class="t">${item.lastmodify}</t>`,
-                            `<t class="n">${item.problem}</t>`,
-                        `</div>`,
-                        `<div class="r">`,
-                            `<t class="s">${item.point} điểm</t>`,
-                            `<t class="l">${this.languages[item.extension] || item.extension}</t>`,
-                        `</div>`,
-                    `</div>`,
-                    `<a class="d" onClick="core.viewLog('${item.logurl}')"></a>`,
-                `</li>`
-            ].join("\n");
+            out += `
+                <li class="log-item ${item.status}">
+                    <div class="h">
+                        <div class="l">
+                            <t class="t">${item.lastmodify}</t>
+                            <t class="n">${item.problem}</t>
+                        </div>
+                        <div class="r">
+                            <t class="s">${item.point} điểm</t>
+                            <t class="l">${this.languages[item.extension] || item.extension}</t>
+                        </div>
+                    </div>
+                    <a class="d" onClick="core.viewLog('${item.logFile}')"></a>
+                </li>
+            `
 
         list.innerHTML = out;
         this.pLogData = data;
@@ -397,23 +397,23 @@ core = {
 
 
         var list = data.list;
-        var out = [
-            "<table>",
-                "<thead>",
-                    "<tr>",
-                        "<th>#</th>",
-                        "<th></th>",
-                        "<th>Thí sinh</th>",
-                        "<th>Tổng</th>",
-        ].join("\n");
+        var out = `
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th></th>
+                        <th>Thí sinh</th>
+                        <th>Tổng</th>
+        `
 
         for (var i = 0; i < list.length; i++)
-            out += "<th>" + list[i] + "</th>\n";
-        out += "</tr>\n</thead>\n";
+            out += `<th>${list[i]}</th>`;
+        out += "</tr></thead>";
 
         var ptotal = 0;
         var rank = 0;
-        out += "<tbody>\n"
+        out += "<tbody>"
 
         for (var i = 0; i < data.rank.length; i++) {
             if (ptotal !== data.rank[i].total) {
@@ -421,21 +421,21 @@ core = {
                 rank++;
             }
 
-            out += [
-                `<tr>`,
-                    `<td>${rank}</td>`,
-                    `<td><img class="avt" src="/api/avt/get?u=${data.rank[i].username}"></td>`,
-                    `<td><t class="name">${escapeHTML(data.rank[i].name || "u:" + data.rank[i].username)}</t></td>`,
-                    `<td class="number">${parseFloat(data.rank[i].total).toFixed(2)}</td>`
-            ].join("\n");
+            out += `
+                <tr>
+                    <td>${rank}</td>
+                    <td><img class="avt" src="/api/avt/get?u=${data.rank[i].username}"></td>
+                    <td><t class="name">${escapeHTML(data.rank[i].name || "u:" + data.rank[i].username)}</t></td>
+                    <td class="number">${parseFloat(data.rank[i].total).toFixed(2)}</td>
+            `
 
             for (var j = 0; j < list.length; j++)
-                out += `<td class="number${data.rank[i].status[list[j]] ? " " + data.rank[i].status[list[j]] : ""}${(data.rank[i].log[list[j]]) ? ` link" onClick="core.viewLog('${data.rank[i].log[list[j]]}')` : ""}" >${parseFloat(data.rank[i].list[list[j]]).toFixed(2)}</td>\n`;
+                out += `<td class="number ${data.rank[i].status[list[j]] || ""}${(data.rank[i].logFile[list[j]]) ? ` link" onClick="core.viewLog('${data.rank[i].logFile[list[j]]}')` : ""}" >${parseFloat(data.rank[i].point[list[j]]).toFixed(2)}</td>`;
             
             out += "</tr>";
         }
 
-        out += "</tbody>\n</table>";
+        out += "</tbody></table>";
         this.rankPanel.main.innerHTML = out;
         this.pRankData = data;
 
@@ -445,14 +445,13 @@ core = {
         });
     },
 
-    async viewLog(url) {
+    async viewLog(file) {
         clog("info", "Opening log file", {
             color: flatc("yellow"),
-            text: url
+            text: file
         });
 
         core.sound.select();
-        file = url.split("/").pop().replace("viewlog?f=", "");
 
         var data = await myajax({
             url: "/api/test/viewlog",
@@ -461,6 +460,13 @@ core = {
                 "f": file
             }
         });
+
+        let status = {
+            correct: "CHÍNH XÁC",
+            passed: "Chấm thành công",
+            accepted: "Dịch thành công",
+            failed: "Dịch thất bại"
+        }
 
         let logLine = [];
         if (data.header.error.length !== 0)
@@ -509,7 +515,7 @@ core = {
                                 
                                 <t class="row point">${data.header.point} điểm</t>
                                 <t class="row submitTime">${(new Date(data.header.file.lastModify * 1000)).toLocaleString()}</t>
-                                <t class="row status">${{passed: "Chấm thành công", accepted: "Dịch thành công", failed: "Dịch thất bại"}[data.header.status]}</t>
+                                <t class="row status">${status[data.header.status]}</t>
                                 <t class="row result">
                                     Đúng <b class="green">${data.header.testPassed}/${data.header.testPassed + data.header.testFailed}</b> tests, <b class="red">${data.header.testFailed}</b> tests sai
                                 </t>
@@ -642,13 +648,15 @@ core = {
                 text: files[i].name
             });
 
+            let p = (i / files.length) * 100;
+
             this.uploading = true;
             this.name.innerText = files[i].name;
             this.state.innerText = "Đang tải lên...";
             this.panel.title = "Nộp bài - Đang tải lên " + (i + 1) + "/" + files.length +"...";
             this.size.innerText = "00/00";
-            this.percent.innerText = "0%";
-            this.bar.style.width = "0%";
+            this.percent.innerText = `${p.toFixed(0)}%`;
+            this.bar.style.width = `${p}%`;
             this.bar.classList.remove("red");
 
             setTimeout(() => {
@@ -659,10 +667,12 @@ core = {
                         "token": API_TOKEN,
                     },
                     file: files[i],
-                    onupload: e => {
+                    onUpload: e => {
+                        let p = (100 * ((e.loaded / e.total) + i)) / files.length;
+
                         this.size.innerText = e.loaded + "/" + e.total;
-                        this.percent.innerText = ((e.loaded / e.total) * 100).toFixed(0) + "%";
-                        this.bar.style.width = (e.loaded / e.total) * 100 + "%";
+                        this.percent.innerText = `${p.toFixed(0)}%`;
+                        this.bar.style.width = `${p}%`;
                     }
                 }, (data, res) => {
                     if ([103, 104].includes(res.code)) {
@@ -684,7 +694,7 @@ core = {
                         text: files[i].name
                     });
 
-                    this.state.innerText = "Tải lên thành công! " + (i + 1) + "/" + files.length;
+                    this.state.innerText = `Tải lên thành công! ${(i + 1)}/${files.length}`;
                     this.onUploadSuccess();
                     
                     setTimeout(() => {
@@ -708,6 +718,7 @@ core = {
         list: $("#problem_list"),
         name: $("#problem_name"),
         point: $("#problem_point"),
+        enlargeBtn: $("#problem_enlarge"),
         type: {
             filename: $("#problem_type_filename"),
             ext: $("#problem_type_ext"),
@@ -723,17 +734,20 @@ core = {
             link: $("#problem_attachment_link"),
             size: $("#problem_attachment_size")
         },
+        data: null,
 
         async init(loggedIn = false) {
             this.panel.bak.hide();
             this.panel.bak.onClick(() => {
                 this.list.classList.remove("hide");
-                this.panel.title = "Đề bài"
+                this.panel.title = "Đề bài";
                 this.panel.bak.hide();
             })
+
             if (loggedIn)
                 this.panel.clo.hide();
 
+            this.enlargeBtn.addEventListener("click", () => this.enlargeProblem(this.data));
             this.panel.ref.onClick(() => this.getlist());
             this.panel.clo.onClick(() => this.panel.elem.classList.add("hide"));
 
@@ -772,20 +786,20 @@ core = {
 
             var html = "";
             data.forEach(item => {
-                html += [
-                    `<li class="item" onClick="core.problems.getproblem('${item.id}');">`,
-                        `<img class="icon" src="${item.image}">`,
-                        `<ul class="title">`,
-                            `<li class="name">${item.name}</li>`,
-                            `<li class="point">${item.point} điểm</li>`,
-                        "</ul>",
-                    "</li>",
-                ].join("\n");
+                html += `
+                    <li class="item" onClick="core.problems.viewProblem('${item.id}');">
+                        <img class="icon" src="${item.image}">
+                        <ul class="title">
+                            <li class="name">${item.name}</li>
+                            <li class="point">${item.point} điểm</li>
+                        </ul>
+                    </li>
+                `
             })
             this.list.innerHTML = html;
         },
 
-        async getproblem(id) {
+        async viewProblem(id) {
             clog("info", "Opening problem", {
                 color: flatc("yellow"),
                 text: id
@@ -801,6 +815,7 @@ core = {
                     id: id
                 }
             });
+            this.data = data;
 
             this.name.innerText = data.name;
             this.panel.title = "Đề bài - " + data.name;
@@ -814,16 +829,13 @@ core = {
             if (data.image) {
                 this.image.style.display = "block";
                 this.image.src = data.image;
-                this.image.title = "Nhấn để phóng to ảnh";
-                core.wrapper.panel.main.innerHTML = `<img class="full" src="${data.image}">`;
-                this.image.onclick = () => core.wrapper.show(`Ảnh đính kèm: ${data.name}`);
             } else
                 this.image.style.display = "none";
 
             if (data.attachment.url) {
                 this.attachment.me.style.display = "block";
                 this.attachment.link.href = data.attachment.url;
-                this.attachment.link.innerText = data.attachment.file;
+                this.attachment.link.innerText = `${data.attachment.file} (${convertSize(data.attachment.size)})`;
             } else
                 this.attachment.me.style.display = "none";
 
@@ -837,6 +849,7 @@ core = {
                     `</tr>`
                 ].join("\n");
             })
+
             this.test.innerHTML = [
                 "<tr>",
                     "<th>Input</th>",
@@ -844,6 +857,87 @@ core = {
                 "</tr>"
             ].join("\n") + testhtml;
         },
+
+        enlargeProblem(data) {
+            if (!data)
+                return;
+
+            core.sound.select();
+
+            let testHtml = "";
+            data.test.forEach(item => {
+                testHtml += `
+                    <tr>
+                        <td>${escapeHTML(item.inp)}</td>
+                        <td>${escapeHTML(item.out)}</td>
+                    </tr>
+                `
+            })
+
+            let html = `
+                <div class="problemEnlarged">
+                    <span class="left">
+                        <t class="name">${data.name}</t>
+                        <t class="point">${data.point} điểm</t>
+                        <table class="simple-table type">
+                            <tbody>
+                                <tr class="filename">
+                                    <td>Tên tệp</td>
+                                    <td>${data.id}</td>
+                                </tr>
+                                <tr class="ext">
+                                    <td>Đuôi tệp</td>
+                                    <td>${data.accept.join(", ")}</td>
+                                </tr>
+                                <tr class="time">
+                                    <td>Thời gian chạy</td>
+                                    <td>${data.time} giây</td>
+                                </tr>
+                                <tr class="inp">
+                                    <td>Dữ liệu vào</td>
+                                    <td>${data.type.inp}</td>
+                                    </tr>
+                                <tr class="out">
+                                    <td>Dữ liệu ra</td>
+                                    <td>${data.type.out}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        ${(data.attachment.url)
+                            ?   `<div class="attachment" style="display: block;">
+                                    <a class="link" href="${data.attachment.url}">${data.attachment.file} (${convertSize(data.attachment.size)})</a>
+                                </div>`
+                            :   ""
+                        }
+
+                        ${(data.test.length !== 0)
+                            ?   `<table class="simple-table test">
+                                    <tbody>
+                                        <tr>
+                                            <th>Input</th>
+                                            <th>Output</th>
+                                        </tr>
+                                        ${testHtml}
+                                    </tbody>
+                                </table>`
+                            :   ""
+                        }
+                    </span>
+
+                    <span class="right">
+                        <t class="description">${data.description}</t>
+                        ${(data.image)
+                            ?   `<img class="image" src="${data.image}">`
+                            :   ""
+                        }
+                    </span>
+                </div>
+            `;
+
+            core.wrapper.panel.main.innerHTML = html;
+            core.wrapper.show("Đề bài - " + data.name);
+        }
     },
 
     timer: {
@@ -883,13 +977,15 @@ core = {
                 method: "GET",
             });
 
-            this.timedata = data;
             if (data.during <= 0) {
                 $("#timep").classList.remove("show");
                 clearInterval(this.interval);
                 clog("info", "Timer Disabled: not in contest mode");
                 return;
             }
+            
+            this.timedata = data;
+            this.start.innerText = `${(new Date(data.start * 1000)).toLocaleTimeString()} tới ${(new Date((data.start + data.during) * 1000)).toLocaleTimeString()}`;
 
             if (init) {
                 $("#timep").classList.add("show");
@@ -913,7 +1009,7 @@ core = {
             this.time.classList.remove("green");
             this.time.innerText = "--:--";
             this.bar.style.width = "0%";
-            this.start.innerText = "--:--";
+            this.start.innerText = "--:--:-- - --:--:--";
             this.end.innerText = "--:--";
             this.state.innerText = "---";
             this.last = 0;
@@ -953,7 +1049,6 @@ core = {
                     this.time.classList.remove("green");
                     this.time.innerText = parseTime(t).str;
                     this.bar.style.width = p1 + "%";
-                    this.start.innerText = p1.toFixed(2) + "%";
                     this.end.innerText = parseTime(this.last).str;
                     this.state.innerText = "Bắt đầu kì thi sau";
                     break;
@@ -964,7 +1059,6 @@ core = {
                     this.time.classList.add("green");
                     this.time.innerText = parseTime(t).str;
                     this.bar.style.width = p2 + "%";
-                    this.start.innerText = p2.toFixed(2) + "%";
                     this.end.innerText = parseTime(data.during).str;
                     this.state.innerText = "Thời gian làm bài";
                     break;
@@ -975,7 +1069,6 @@ core = {
                     this.time.classList.add("red");
                     this.time.innerText = parseTime(t).str;
                     this.bar.style.width = p3 + "%";
-                    this.start.innerText = p3.toFixed(2) + "%";
                     this.end.innerText = parseTime(data.offset).str;
                     this.state.innerText = "Thời gian bù";
                     break;
@@ -984,7 +1077,6 @@ core = {
                     this.time.classList.remove("red");
                     this.time.innerText = parseTime(t).str;
                     this.bar.style.width = "0%";
-                    this.start.innerText = "---%";
                     this.end.innerText = "--:--";
                     this.state.innerText = "ĐÃ HẾT THỜI GIAN LÀM BÀI";
                     break;
@@ -1001,6 +1093,8 @@ core = {
                 if (!elem.classList.contains("panel"))
                     return false;
         
+                this.container = $("#user_settings");
+
                 this.elem = elem;
                 this.eToggle = null;
                 this.btn_group = fcfn(elem, "btn-group");
@@ -1015,6 +1109,8 @@ core = {
         
             hide() {
                 this.elem.classList.remove("show");
+                this.container.classList.remove("subPanel");
+
                 if (this.eToggle)
                     this.eToggle.classList.remove("active");
 
@@ -1023,8 +1119,9 @@ core = {
 
             show() {
                 this.__hideActive();
-
                 this.elem.classList.add("show");
+                this.container.classList.add("subPanel");
+
                 if (this.eToggle)
                     this.eToggle.classList.add("active");
 
@@ -1034,6 +1131,7 @@ core = {
             toggle() {
                 let c = this.elem.classList.contains("show");
                 this.__hideActive();
+                this.container.classList[c === false ? "add" : "remove"]("subPanel");
  
                 if (c === false)
                     this.elem.classList.add("show");
@@ -1041,7 +1139,7 @@ core = {
                 if (this.eToggle)
                     this.eToggle.classList[c === false ? "add" : "remove"]("active");
 
-                this.funcOnToggle(this.elem.classList.contains("show") ? "show" : "hide");                
+                this.funcOnToggle(c ? "show" : "hide");                
             }
 
             __hideActive() {
@@ -1098,6 +1196,38 @@ core = {
             }
         },
 
+        toggleSwitch: class {
+            constructor(inputElement, cookieKey, onCheck = () => {}, onUncheck = () => {}, defValue = false) {
+                this.input = inputElement;
+                this.onCheckHandler = onCheck;
+                this.onUnCheckHandler = onUncheck;
+
+                this.input.addEventListener("change", e => {
+                    cookie.set(cookieKey, e.target.checked);
+
+                    if (e.target.checked === true)
+                        this.onCheckHandler(e);
+                    else
+                        this.onUnCheckHandler(e);
+                })
+                
+                this.change(cookie.get(cookieKey, defValue) === "true");
+            }
+
+            change(value) {
+                this.input.checked = value;
+                this.input.dispatchEvent(new Event("change"));
+            }
+
+            set onCheck(handler) {
+                this.onCheckHandler = handler;
+            }
+
+            set onUnCheck(handler) {
+                this.onUnCheckHandler = handler;
+            }
+        },
+
         uname: $("#user_name"),
         uavt: $("#user_avt"),
         avt: $("#usett_avt"),
@@ -1113,7 +1243,8 @@ core = {
             renPass: $("#usett_edit_renpass"),
         },
         logoutBtn: $("#usett_logout"),
-        nightModeToggle: $("#usett_nightMode"),
+        nightModeToggler: $("#usett_nightMode"),
+        transitionToggler: $("#usett_transition"),
         updateDelaySlider: $("#usett_udelay_slider"),
         updateDelayText: $("#usett_udelay_text"),
         toggler: $("#usett_toggler"),
@@ -1149,26 +1280,26 @@ core = {
             this.adminConfig.style.display = "none";
 
             // Night mode setting
-            this.nightModeToggle.addEventListener("change", e => {
-                if (e.target.checked === true) {
-                    cookie.set("__darkMode", true);
-                    document.body.classList.add("dark");
+            let nightMode = new this.toggleSwitch(this.nightModeToggler, "__darkMode", e => {
+                document.body.classList.add("dark");
 
-                    this.publicFilesIframe.contentWindow.document.body.classList.add("dark");
-                    if (core.settings.cpanelIframe)
-                        core.settings.cpanelIframe.contentWindow.document.body.classList.add("dark");
-                } else {
-                    cookie.set("__darkMode", false);
-                    document.body.classList.remove("dark");
+                this.publicFilesIframe.contentWindow.document.body.classList.add("dark");
+                if (core.settings.cpanelIframe)
+                    core.settings.cpanelIframe.contentWindow.document.body.classList.add("dark");
+            }, e => {
+                document.body.classList.remove("dark");
 
-                    this.publicFilesIframe.contentWindow.document.body.classList.remove("dark");
-                    if (core.settings.cpanelIframe)
-                        core.settings.cpanelIframe.contentWindow.document.body.classList.remove("dark");
-                }
-            })
-            
-            this.nightModeToggle.checked = cookie.get("__darkMode", false) == "true";
-            this.nightModeToggle.dispatchEvent(new Event("change"));
+                this.publicFilesIframe.contentWindow.document.body.classList.remove("dark");
+                if (core.settings.cpanelIframe)
+                    core.settings.cpanelIframe.contentWindow.document.body.classList.remove("dark");
+            }, false);
+
+            // Transition setting
+            let transition = new this.toggleSwitch(this.transitionToggler, "__transition",
+                e => document.body.classList.remove("disableTransition"),
+                e => document.body.classList.add("disableTransition"),
+                true
+            )
 
             // Update delay setting
             this.updateDelaySlider.addEventListener("input", e => {
@@ -1239,9 +1370,12 @@ core = {
         },
 
         toggle() {
-            if (this.container.classList.contains("show"))
+            let c = this.container.classList.contains("show");
+
+            if (c)
                 this.__hideAllPanel();
 
+            this.container.classList.remove("subPanel");
             this.toggler.classList.toggle("active");
             this.container.classList.toggle("show");
         },

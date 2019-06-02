@@ -14,12 +14,16 @@
     right: 0;
     bottom: 20px;
     transition:
-    width 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+    width 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86);
     z-index: 2;
 }
 
 #user_settings.show {
     width: 380px;
+}
+
+#user_settings.subPanel {
+    width: 50px;
 }
 
 #user_settings.show ~ #container {
@@ -33,14 +37,20 @@
     height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
+    direction: rtl;
     scroll-behavior: smooth;
+}
+
+#user_settings .main::-webkit-scrollbar { 
+    display: none;
 }
 
 #user_settings .main .container {
     position: absolute;
     width: 100%;
-    min-width: 260px;
+    min-width: 320px;
     min-height: 100%;
+    direction: ltr;
     right: 0;
 }
 
@@ -67,30 +77,28 @@
     height: 100%;
     overflow: hidden;
 
-    transition: width 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+    transition: width 0.5s cubic-bezier(0.785, 0.135, 0.15, 0.86);
 }
 
 #user_settings .sub .panel.show {
-    width: 380px;
+    width: 420px;
 }
 
 #user_settings .sub .panel .container {
     position: absolute;
-    width: 380px;
+    display: flex;
+    flex-direction: row-reverse;
+    width: 420px;
     height: 100%;
     right: 0;
     background-color: rgba(245, 245, 246, 0.8);
     overflow: hidden;
 }
 
-#user_settings .sub .panel.large {
-    transition: width 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
-}
-
 #user_settings .sub .panel.large.show,
 #user_settings .sub .panel.large .container {
-    width: calc(100vw - 380px);
-    max-width: 840px;
+    width: 840px;
+    max-width: calc(100vw - 100px);
 }
 
 @media only screen and (max-width: 740px) {
@@ -98,12 +106,16 @@
         width: 100vw;
     }
 
+    #user_settings.subPanel {
+        width: 50px;
+    }
+
     #user_settings .main .container {
         width: 100vw;
     }
 
     #user_settings .sub {
-        right: 54px;
+        right: 50px;
         width: 0;
     }
 
@@ -111,19 +123,17 @@
     #user_settings .sub .panel .container,
     #user_settings .sub .panel.large.show,
     #user_settings .sub .panel.large .container {
-        width: calc(100vw - 55px);
+        width: calc(100vw - 50px);
         max-width: unset;
     }
 }
 
 #user_settings .sub .panel .container .btn-group {
-    position: absolute;
+    position: relative;
     display: flex;
     flex-direction: column;
-    width: 20px;
+    width: 50px;
     height: 100%;
-    right: 0;
-    top: 0;
     background-color: rgba(245, 245, 246, 0.6);
     z-index: 1;
     
@@ -133,13 +143,15 @@
 }
     
 #user_settings .sub .panel .container .btn-group:hover {
-    width: 40px;
+    width: 80px;
     background-color: rgba(245, 245, 246, 1);
 }
 
 #user_settings .sub .panel .container .btn-group span {
     position: relative;
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     flex-grow: 1;
     cursor: pointer;
@@ -151,11 +163,8 @@
 
 #user_settings .sub .panel .container .btn-group span::before {
     content: "\f111";
-    position: absolute;
+    position: relative;
     display: block;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
     font-family: "Font Awesome 5 Free";
     font-size: 12px;
     font-weight: 600;
@@ -202,23 +211,72 @@
     content: "\f2ed";
 }
 
-#user_settings .sub .panel .container .main {
+#user_settings .sub .panel .container .btn-group span::after {
     position: absolute;
-    top: 0;
-    right: 20px;
-    width: calc(100% - 20px);
-    height: 100%;
-    overflow: auto;
-    scroll-behavior: smooth;
+    display: block;
+    left: 50%;
+    top: calc(50% + 30px);
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+    font-family: "Calibri";
+    font-size: 12px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: rgb(98, 98, 98);
+    opacity: 0;
 
     transition:
-        width 0.2s cubic-bezier(0.23, 1, 0.32, 1),
-        right 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+        opacity 0.2s cubic-bezier(0.23, 1, 0.32, 1),
+        color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-#user_settings .sub .panel .container .btn-group:hover + .main {
-    right: 40px;
-    width: calc(100% - 40px);
+#user_settings .sub .panel .container .btn-group:hover span::after {
+    opacity: 1;
+}
+
+#user_settings .sub .panel .container .btn-group span:hover::after {
+    color: #2980b9;
+}
+
+#user_settings .sub .panel .container .btn-group .reload::after {
+    content: "Làm mới";
+}
+
+#user_settings .sub .panel .container .btn-group .close::after {
+    content: "Đóng";
+}
+
+#user_settings .sub .panel .container .btn-group .close:hover::after {
+    color: #e74c3c;
+}
+
+#user_settings .sub .panel .container .btn-group .delete::after {
+    content: "Xóa nhật ký";
+}
+
+#user_settings .sub .panel .container .main {
+    position: relative;
+    flex-grow: 1;
+    height: 100%;
+    overflow: auto;
+    direction: ltr;
+    scroll-behavior: smooth;
+}
+
+#user_settings .sub .panel .container .main::after {
+    content: "";
+    position: absolute;
+    display: none;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+#user_settings .sub .panel .container .btn-group:hover + .main::after {
+    display: block;
 }
 
 #user_settings .sub .panel .container .main:empty::before {
@@ -236,10 +294,13 @@
 #user_settings .sub .panel .container .main:empty::after {
     content: "Không có dữ liệu";
     position: absolute;
-    display: block;
-    width: 100%;
+    display: inline-block;
+    left: 50%;
     top: 50%;
-    transform: translateY(calc(-50% + 38px));
+    transform: translate(-50%, calc(-50% + 36px));
+    width: unset;
+    height: unset;
+    background-color: unset;
     font-weight: 600;
     font-size: 14px;
     text-align: center;

@@ -37,8 +37,9 @@
 
 
 	stop(0, "Thành công!", 200, Array(
-		"time" => $t,
+		"start" => $beginTime,
 		"during" => $duringTime * 60,
+		"time" => $t,
 		"offset" => $offsetTime,
 		"phase" => $phase
 	));

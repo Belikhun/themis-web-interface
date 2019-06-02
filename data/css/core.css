@@ -200,6 +200,7 @@ panel .main.blank::after {
 
 body.guest #timep.show,
 body.guest #problemp {
+    height: 200px;
     flex-grow: 1;
 }
 
@@ -215,7 +216,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     height: calc(100% - 20px);
 }
 
-@media only screen and (max-width: 1150px) {
+@media only screen and (max-width: 1130px) {
     #problemp,
     #logp {
         height: calc(100% - 240px);
@@ -245,7 +246,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     }
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 765px) {
     #timep {
         flex-grow: 1;
     }
@@ -309,11 +310,15 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 #logp div.main ul.log-item-container li.log-item .h .l .n {
     font-size: 13px;
     font-weight: bold;
-    color: #48b0f7;
+    color: #585858;
+}
+
+#logp div.main ul.log-item-container li.log-item.correct .h .l .n {
+    color: #39aa56;
 }
 
 #logp div.main ul.log-item-container li.log-item.passed .h .l .n {
-    color: #39aa56;
+    color: #3999aa;
 }
 
 #logp div.main ul.log-item-container li.log-item.accepted .h .l .n {
@@ -1061,6 +1066,23 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     letter-spacing: 0.4px;
 }
 
+#problemp .problem-container .problem .enlarge {
+    position: absolute;
+    display: block;
+    top: 10px;
+    right: 10px;
+}
+
+#problemp .problem-container .problem .enlarge::before {
+    content: "\f360";
+    position: relative;
+    font-family: "Font Awesome 5 Free";
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    color: rgb(92, 92, 92);
+}
+
 #problemp .problem-container .problem .description {
     white-space: pre-wrap;
 }
@@ -1076,37 +1098,13 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 }
 
 #problemp .problem-container .problem table {
-    list-style: none;
     overflow: auto;
     width: 100%;
     margin: 10px 0;
-    font-size: 13px;
-    border-spacing: 0;
-    color: rgb(92, 92, 92);
-}
-
-#problemp .problem-container .problem table tr th {
-    border-bottom: 2px solid rgba(100, 100, 100, 0.8);
-    text-align: left;
-    padding: 10px 8px;
 }
 
 #problemp .problem-container .problem table tr:hover {
-    background-color: rgba(192, 192, 192, 0.1);
-}
-
-#problemp .problem-container .problem table tr td {
-    border-bottom: 1px solid #c0c0c0;
-    max-width: 100%;
-    padding: 7px 8px;
-    white-space: pre-wrap;
-}
-
-#problemp .problem-container .problem table tr th:nth-child(1),
-#problemp .problem-container .problem table tr td:nth-child(1) {
-    width: auto;
-    min-width: 80px;
-    text-align: left;
+    background-color: rgba(126, 126, 126, 0.1);
 }
 
 #problemp .problem-container .problem table.test tr td {
@@ -1116,9 +1114,8 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 #problemp .problem-container .problem .image {
     position: relative;
     width: 100%;
-    margin: 20px 0 10px 0;
+    margin: 10px 0;
     border: 1px solid #ccc;
-    cursor: pointer;
 }
 
 #problemp .problem-container .problem .attachment {
@@ -1136,8 +1133,10 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     font-family: "Calibri";
     font-size: 13px;
     font-weight: bold;
-    color: rgb(192, 192, 192);
+    color: rgb(124, 124, 124);
 }
+
+/* *ranking-container */
 
 #rankp div.ranking-container {
     position: relative;
@@ -1210,7 +1209,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 #rankp div.ranking-container table tbody tr:nth-child(2) td:nth-child(3) .name {
     color: white;
     font-weight: bold;
-    background-color: #33b96b;
+    background-color: #36aa66;
     border-radius: 4px;
 }
 
@@ -1239,12 +1238,22 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 }
 
 #rankp div.ranking-container table tr td.number.link {
-    color: rgb(75, 75, 75);
     cursor: pointer;
 }
 
-#rankp div.ranking-container table tr td.number.passed {
+#rankp div.ranking-container table tr .number.link,
+#rankp div.ranking-container table tr .number.passed,
+#rankp div.ranking-container table tr .number.accepted,
+#rankp div.ranking-container table tr .number.failed {
+    color: rgb(75, 75, 75);
+}
+
+#rankp div.ranking-container table tr td.number.correct {
     background-color: rgba(37, 216, 58, 0.2);
+}
+
+#rankp div.ranking-container table tr td.number.passed {
+    background-color: rgba(17, 214, 221, 0.2);
 }
 
 #rankp div.ranking-container table tr td.number.accepted {
@@ -1339,6 +1348,136 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 #wrapper #wrapp .main .full {
     display: block;
     margin: auto;
+}
+
+.problemEnlarged {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+}
+
+.problemEnlarged .left {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 340px;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.problemEnlarged .left .name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #34495e;
+}
+
+.problemEnlarged .left .point {
+    font-size: 12px;
+    color: #ecf0f1;
+    letter-spacing: 0.4px;
+    background-color: #27ae60;
+    padding: 2px 6px;
+    margin: 2px 0 10px 0;
+    border-radius: 4px;
+}
+
+.problemEnlarged .left .attachment::before {
+    content: "Tệp đính kèm:";
+    position: relative;
+    display: inline-block;
+    font-family: "Calibri";
+    font-size: 13px;
+    font-weight: bold;
+    color: rgb(124, 124, 124);
+}
+
+.problemEnlarged .left .attachment .link {
+    font-size: 14px;
+}
+
+.problemEnlarged .left table {
+    overflow: auto;
+    width: 100%;
+    margin: 10px 0;
+}
+
+.problemEnlarged .left table.test tr td {
+    font-family: "Consolas";
+}
+
+.problemEnlarged .right {
+    position: relative;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    height: 100%;
+    box-sizing: border-box;
+    background-color: rgb(238, 238, 238);
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.problemEnlarged .right .description {
+    width: 100%;
+    padding-left: 10px;
+    box-sizing: border-box;
+    white-space: pre-wrap;
+}
+
+.problemEnlarged .right .description::before {
+    content: "Đề bài:";
+    position: relative;
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    transform: translateX(-10px);
+    padding-bottom: 4px;
+    color: rgb(54, 54, 54);
+}
+
+.problemEnlarged .right .description * {
+    white-space: normal;
+}
+
+.problemEnlarged .right .description > a,
+.problemEnlarged .right .description > table,
+.problemEnlarged .right .description > ul {
+    display: block;
+}
+
+.problemEnlarged .right .image {
+    position: relative;
+    position: relative;
+    max-width: 80%;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+}
+
+@media only screen and (max-width: 800px) {
+    .problemEnlarged {
+        flex-direction: column;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .problemEnlarged .left {
+        width: 100%;
+        height: auto;
+        overflow: unset;
+    }
+
+    .problemEnlarged .right {
+        height: auto;
+        overflow: unset;
+    }
 }
 
 .viewlog-container {
@@ -1477,20 +1616,36 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     margin-left: 20px;
 }
 
+/*? Correct */
+
+.viewlog-container .header.correct .bottom .line .left .problemInfo .problemid,
+.viewlog-container .header.correct .bottom .line .left .problemInfo .language,
+.viewlog-container .header.correct .bottom .line .left .problemInfo::before {
+    color: #39aa56;
+}
+
+.viewlog-container .header.correct::before {
+    background-color: #39aa56;
+}
+
+.viewlog-container .header.correct .bottom .line .left .problemInfo::before {
+    content: "\f00c";
+}
+
 /*? Passed */
 
 .viewlog-container .header.passed .bottom .line .left .problemInfo .problemid,
 .viewlog-container .header.passed .bottom .line .left .problemInfo .language,
 .viewlog-container .header.passed .bottom .line .left .problemInfo::before {
-    color: #39aa56;
+    color: #39aaa1;
 }
 
 .viewlog-container .header.passed::before {
-    background-color: #39aa56;
+    background-color: #39aaa1;
 }
 
 .viewlog-container .header.passed .bottom .line .left .problemInfo::before {
-    content: "\f00c";
+    content: "\f129";
 }
 
 /*? Accepted */
@@ -1725,6 +1880,9 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 
 .viewlog-container .testList .item .right {
     position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-end;
     flex-grow: 0;
 }
 
@@ -1984,6 +2142,11 @@ footer ul.contact li.github::before {
         float: left;
         max-width: 100%;
     }
+}
+
+/* Unset all Transition */
+body.disableTransition * {
+    transition: unset!important;
 }
 
 /* Element to hide when user is not admin */

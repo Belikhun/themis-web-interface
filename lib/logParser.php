@@ -115,6 +115,9 @@
             if ($problemData !== PROBLEM_ERROR_IDREJECT) {
                 $data["problemName"] = $problemData["name"];
                 $data["problemPoint"] = $this -> __f($problemData["point"]);
+                
+                if ($data["problemPoint"] <= $data["point"])
+                    $data["status"] = "correct";
             }
 
             $problemFileName = pathinfo(strtolower($file[1]));

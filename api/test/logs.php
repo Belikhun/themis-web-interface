@@ -76,7 +76,6 @@
 		$url = null;
 
 		if ($config["viewlog"] === true)
-		$url = "/api/test/viewlog?f=$filename";
 
 		$lastmtime = filemtime($log);
 		$lastm = date("d/m/Y H:i:s", $lastmtime);
@@ -98,7 +97,7 @@
 			"point" => $point,
 			"lastmodify" => $lastm,
 			"lastmtime" => $lastmtime,
-			"logurl" => $url
+			"logFile" => $filename
 		));
 	}
 

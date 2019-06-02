@@ -1,6 +1,8 @@
 # Change Logs
 
-- [Thay đổi trong v0.4.1](#thay-đổi-trong-v041-release)
+- [Thay đổi trong v0.4.3](#thay-đổi-trong-v043-release)
+	- [Thay đổi trong v0.4.2](#thay-đổi-trong-v040-release)
+	- [Thay đổi trong v0.4.1](#thay-đổi-trong-v040-release)
 	- [Thay đổi trong v0.4.0](#thay-đổi-trong-v040-release)
 	- [Thay đổi trong v0.4.0-prerelease](#thay-đổi-trong-v040-prerelease)
 	- [Thay đổi trong v0.3.7](#thay-đổi-trong-v037)
@@ -18,7 +20,30 @@
 
 ---
 
-## Thay đổi trong v0.4.1-release
+## Thay đổi trong v0.4.3
+
+* **Bug:** Một số lỗi hiển thị ở cửa sổ *xem nhật ký*
+* **Bug:** Loại bỏ khoảng trống không mong muốn khi thay đổi kích thước của trình duyệt
+* **Thêm:** Mở rộng ô xem đề bài thay vì chỉ mở rộng ảnh đính kèm
+* **Thêm:** Cài đặt **Hiệu ứng**, dùng để bật/tắt hiệu ứng trong trang
+* **Chỉnh sửa API:** Thay đổi một số biến của test/rank và test/viewlog
+* **Chỉnh sửa:** Bảng tải lên sẽ hiển thị tiến trình tải lên của toàn bộ tệp thay vì hiển thị của từng tệp một
+* **Chỉnh sửa:** Thay thế tiến trình theo % ở bảng thời gian thành `(thời gian bắt đầu) tới (thời gian kết thúc)`
+* **Chỉnh sửa:** Thay đổi màu của một số phần tử
+* **Chỉnh sửa:** Thay đổi hiệu ứng của bảng cài đặt
+* **Chỉnh sửa:** Loại bỏ scrollbar trong bảng cài đặt
+* **Chỉnh sửa:** Viết lại một số đoạn code cũ
+* Sửa một số bug, lỗi hiển thị và thêm một số chức năng nhỏ
+
+### Thay đổi trong v0.4.2
+
+* **Bug:** Sửa các lỗi #6 #7 #8 
+* **Bug:** Kiểm tra phiên bản mới lỗi khiến code dừng chạy
+* **Thêm:** Thông tin địa chỉ máy chủ ở mục Admin
+* **Chỉnh sửa:** Viết lại một số đoạn code cũ
+* Sửa một số bug khác và thêm một số chức năng nhỏ
+
+### Thay đổi trong v0.4.1
 
 * **Thêm:** Add dark color scheme in login page
 * **Thêm:** Now parse the log file to get data instead of showing the raw log file
@@ -28,7 +53,7 @@
 * **Chỉnh sửa:** Viết lại một số đoạn code cũ
 * Sửa một số bug khác và thêm một số chức năng nhỏ
 
-## Thay đổi trong v0.4.0-release 🎉🎉
+## Thay đổi trong v0.4.0 🎉🎉
 
 * Fixed a bug where public file size does not show correctly
 * Fixed a bug where `viewlogother` setting does not updated correctly
