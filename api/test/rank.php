@@ -31,7 +31,7 @@
 
         $namelist[$i] = $data["problem"];
         $res[$user]["status"][$data["problem"]] = $data["status"];
-        $res[$user]["list"][$data["problem"]] = $data["point"];
+        $res[$user]["point"][$data["problem"]] = $data["point"];
         $res[$user]["logFile"][$data["problem"]] = ($config["viewlog"] === true) ? $filename : null;
         $res[$user]["username"] = $user;
         $res[$user]["name"] = getUserData($user)["name"] ?: null;

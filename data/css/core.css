@@ -310,11 +310,15 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 #logp div.main ul.log-item-container li.log-item .h .l .n {
     font-size: 13px;
     font-weight: bold;
-    color: #48b0f7;
+    color: #585858;
+}
+
+#logp div.main ul.log-item-container li.log-item.correct .h .l .n {
+    color: #39aa56;
 }
 
 #logp div.main ul.log-item-container li.log-item.passed .h .l .n {
-    color: #39aa56;
+    color: #3999aa;
 }
 
 #logp div.main ul.log-item-container li.log-item.accepted .h .l .n {
@@ -1205,7 +1209,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 #rankp div.ranking-container table tbody tr:nth-child(2) td:nth-child(3) .name {
     color: white;
     font-weight: bold;
-    background-color: #33b96b;
+    background-color: #36aa66;
     border-radius: 4px;
 }
 
@@ -1244,8 +1248,12 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     color: rgb(75, 75, 75);
 }
 
-#rankp div.ranking-container table tr td.number.passed {
+#rankp div.ranking-container table tr td.number.correct {
     background-color: rgba(37, 216, 58, 0.2);
+}
+
+#rankp div.ranking-container table tr td.number.passed {
+    background-color: rgba(17, 214, 221, 0.2);
 }
 
 #rankp div.ranking-container table tr td.number.accepted {
@@ -1608,20 +1616,36 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     margin-left: 20px;
 }
 
+/*? Correct */
+
+.viewlog-container .header.correct .bottom .line .left .problemInfo .problemid,
+.viewlog-container .header.correct .bottom .line .left .problemInfo .language,
+.viewlog-container .header.correct .bottom .line .left .problemInfo::before {
+    color: #39aa56;
+}
+
+.viewlog-container .header.correct::before {
+    background-color: #39aa56;
+}
+
+.viewlog-container .header.correct .bottom .line .left .problemInfo::before {
+    content: "\f00c";
+}
+
 /*? Passed */
 
 .viewlog-container .header.passed .bottom .line .left .problemInfo .problemid,
 .viewlog-container .header.passed .bottom .line .left .problemInfo .language,
 .viewlog-container .header.passed .bottom .line .left .problemInfo::before {
-    color: #39aa56;
+    color: #39aaa1;
 }
 
 .viewlog-container .header.passed::before {
-    background-color: #39aa56;
+    background-color: #39aaa1;
 }
 
 .viewlog-container .header.passed .bottom .line .left .problemInfo::before {
-    content: "\f00c";
+    content: "\f129";
 }
 
 /*? Accepted */

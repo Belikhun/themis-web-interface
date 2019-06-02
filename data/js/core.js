@@ -344,7 +344,7 @@ core = {
             `
 
         for (let item of data.logs)
-            out `
+            out += `
                 <li class="log-item ${item.status}">
                     <div class="h">
                         <div class="l">
@@ -430,7 +430,7 @@ core = {
             `
 
             for (var j = 0; j < list.length; j++)
-                out += `<td class="number ${data.rank[i].status[list[j]] || ""}${(data.rank[i].logFile[list[j]]) ? ` link" onClick="core.viewLog('${data.rank[i].logFile[list[j]]}')` : ""}" >${parseFloat(data.rank[i].list[list[j]]).toFixed(2)}</td>`;
+                out += `<td class="number ${data.rank[i].status[list[j]] || ""}${(data.rank[i].logFile[list[j]]) ? ` link" onClick="core.viewLog('${data.rank[i].logFile[list[j]]}')` : ""}" >${parseFloat(data.rank[i].point[list[j]]).toFixed(2)}</td>`;
             
             out += "</tr>";
         }
@@ -460,6 +460,13 @@ core = {
                 "f": file
             }
         });
+
+        let status = {
+            correct: "CHÍNH XÁC",
+            passed: "Chấm thành công",
+            accepted: "Dịch thành công",
+            failed: "Dịch thất bại"
+        }
 
         let logLine = [];
         if (data.header.error.length !== 0)
@@ -508,7 +515,7 @@ core = {
                                 
                                 <t class="row point">${data.header.point} điểm</t>
                                 <t class="row submitTime">${(new Date(data.header.file.lastModify * 1000)).toLocaleString()}</t>
-                                <t class="row status">${{passed: "Chấm thành công", accepted: "Dịch thành công", failed: "Dịch thất bại"}[data.header.status]}</t>
+                                <t class="row status">${status[data.header.status]}</t>
                                 <t class="row result">
                                     Đúng <b class="green">${data.header.testPassed}/${data.header.testPassed + data.header.testFailed}</b> tests, <b class="red">${data.header.testFailed}</b> tests sai
                                 </t>
@@ -733,7 +740,7 @@ core = {
             this.panel.bak.hide();
             this.panel.bak.onClick(() => {
                 this.list.classList.remove("hide");
-                this.panel.title = "Đề bài"
+                this.panel.title = "Đề bài";
                 this.panel.bak.hide();
             })
 
