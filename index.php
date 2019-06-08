@@ -103,10 +103,10 @@
                     version: window.serverStatus.version,
                     hostname: location.hostname,
                     loadtime: ((new Date()).getTime() - window.performance.timing.navigationStart) / 1000,
-                    downlink: navigator.connection.downlink,
+                    downlink: (navigator) ? navigator.connection.downlink : 0,
                     versiontag: window.serverStatus.versionTag,
                     contestname: window.serverStatus.contestName,
-                    platform: navigator.platform,
+                    platform: (navigator) ? navigator.platform : null,
                     darkmode: cookie.get("__darkMode")
                 });
             }
