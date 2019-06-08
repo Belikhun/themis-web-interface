@@ -267,3 +267,17 @@
     border-color: transparent transparent #0b2e3d transparent;
     animation-duration: 7.8s;
 }
+
+.sq-btn.brown {
+    background-color: #231B22;
+}
+
+.sq-btn.brown:before {
+    border-color: transparent transparent rgb(47, 35, 46) transparent;
+    animation-duration: 8.3s;
+}
+
+.sq-btn.brown:after {
+    border-color: transparent transparent rgb(20, 16, 20) transparent;
+    animation-duration: 8.1s;
+}
