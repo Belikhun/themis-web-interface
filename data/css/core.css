@@ -407,7 +407,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     overflow: hidden;
 }
 
-#uploadp .fileupload-container #file_dropzone {
+#uploadp .fileupload-container #submit_dropzone {
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -426,31 +426,31 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     opacity: 1;
 }
 
-#uploadp .fileupload-container #file_dropzone.drag {
+#uploadp .fileupload-container #submit_dropzone.drag {
     background-color: #ccc;
     color: white;
 }
 
-#uploadp .fileupload-container #file_dropzone.hide {
+#uploadp .fileupload-container #submit_dropzone.hide {
     opacity: 0;
 }
 
-#uploadp .fileupload-container #file_dropzone.hide+.info {
+#uploadp .fileupload-container #submit_dropzone.hide+.info {
     opacity: 1;
 }
 
-#uploadp .fileupload-container #file_dropzone #file_input {
+#uploadp .fileupload-container #submit_dropzone #submit_input {
     display: none;
 }
 
-#uploadp .fileupload-container #file_dropzone .title {
+#uploadp .fileupload-container #submit_dropzone .title {
     color: rgb(104, 104, 104);
     font-size: 16px;
     font-weight: bold;
     text-transform: uppercase;
 }
 
-#uploadp .fileupload-container #file_dropzone .sub {
+#uploadp .fileupload-container #submit_dropzone .sub {
     color: rgb(128, 128, 128);
     font-size: 12px;
     margin: 6px 0;
@@ -466,7 +466,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     opacity: 0;
 }
 
-#uploadp .fileupload-container .info #file_upstate {
+#uploadp .fileupload-container .info #submit_upstate {
     position: relative;
     display: block;
     padding: 0 0 2px 0;
@@ -479,7 +479,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     color: rgb(136, 136, 136);
 }
 
-#uploadp .fileupload-container .info #file_name {
+#uploadp .fileupload-container .info #submit_name {
     position: relative;
     display: block;
     width: 100%;
@@ -500,7 +500,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     background-color: rgba(90, 90, 90, 0.2);
 }
 
-#uploadp .fileupload-container .info .bar #file_bar {
+#uploadp .fileupload-container .info .bar #submit_bar {
     position: absolute;
     top: 0;
     left: 0;
@@ -510,11 +510,11 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     transition: width 0.2s ease;
 }
 
-#uploadp .fileupload-container .info .bar #file_bar.red {
+#uploadp .fileupload-container .info .bar #submit_bar.red {
     background-color: #c0392b;
 }
 
-#uploadp .fileupload-container .info .bar #file_perc {
+#uploadp .fileupload-container .info .bar #submit_perc {
     position: absolute;
     top: 0;
     left: 0;
@@ -524,7 +524,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     color: rgba(116, 116, 116, 0.7);
 }
 
-#uploadp .fileupload-container .info .bar #file_size {
+#uploadp .fileupload-container .info .bar #submit_size {
     position: absolute;
     top: 0;
     right: 0;

@@ -60,30 +60,30 @@ body.dark panel .main {
 
 /* File Upload Panel */
 
-body.dark #uploadp .fileupload-container #file_dropzone {
+body.dark #uploadp .fileupload-container #submit_dropzone {
     border-color: rgb(124, 124, 124);
     color: rgb(124, 124, 124);
 }
 
-body.dark #uploadp .fileupload-container #file_dropzone.drag {
+body.dark #uploadp .fileupload-container #submit_dropzone.drag {
     background-color: rgb(98, 98, 98);
     border-color: rgb(156, 156, 156);
     color: rgb(156, 156, 156);
 }
 
-body.dark #uploadp .fileupload-container #file_dropzone .title {
+body.dark #uploadp .fileupload-container #submit_dropzone .title {
     color: rgb(180, 180, 180);
 }
 
-body.dark #uploadp .fileupload-container #file_dropzone .sub {
+body.dark #uploadp .fileupload-container #submit_dropzone .sub {
     color: rgb(160, 160, 160);
 }
 
-body.dark #uploadp .fileupload-container .info #file_upstate {
+body.dark #uploadp .fileupload-container .info #submit_upstate {
     color: rgb(214, 214, 214);
 }
 
-body.dark #uploadp .fileupload-container .info #file_name {
+body.dark #uploadp .fileupload-container .info #submit_name {
     color: rgb(160, 160, 160);
 }
 
@@ -91,16 +91,16 @@ body.dark #uploadp .fileupload-container .info .bar {
     background-color: rgba(204, 204, 204, 0.2);
 }
 
-body.dark #uploadp .fileupload-container .info .bar #file_bar {
+body.dark #uploadp .fileupload-container .info .bar #submit_bar {
     background-color: #21c2a2;
 }
 
-body.dark #uploadp .fileupload-container .info .bar #file_bar.red {
+body.dark #uploadp .fileupload-container .info .bar #submit_bar.red {
     background-color: #df3725;
 }
 
-body.dark #uploadp .fileupload-container .info .bar #file_perc,
-body.dark #uploadp .fileupload-container .info .bar #file_size {
+body.dark #uploadp .fileupload-container .info .bar #submit_perc,
+body.dark #uploadp .fileupload-container .info .bar #submit_size {
     color: rgba(200, 200, 200, 0.7);
 }
 

@@ -146,14 +146,14 @@ core = {
         if (LOGGED_IN) {
             this.problems.panel.clo.hide();
 
-            set(80, "Initializing: core.file");
-            this.file.init();
+            set(80, "Initializing: core.submit");
+            this.submit.init();
 
             set(85, "Fetching Logs...");
             await this.fetchLog();
             this.logPanel.ref.onClick(() => this.__fetchLog(true, false));
             this.logPanel.cus.onClick(() => this.__fetchLog(false, true));
-            this.file.onUploadSuccess = () => this.__fetchLog();
+            this.submit.onUploadSuccess = () => this.__fetchLog();
             __connection__.onStateChange((s) => { s === "online" ? this.__fetchLog() : null });
             this.__fetchLog();
 
@@ -546,14 +546,14 @@ core = {
         this.wrapper.show(file);
     },
 
-    file: {
-        dropzone: $("#file_dropzone"),
-        input: $("#file_input"),
-        state: $("#file_upstate"),
-        name: $("#file_name"),
-        bar: $("#file_bar"),
-        percent: $("#file_perc"),
-        size: $("#file_size"),
+    submit: {
+        dropzone: $("#submit_dropzone"),
+        input: $("#submit_input"),
+        state: $("#submit_upstate"),
+        name: $("#submit_name"),
+        bar: $("#submit_bar"),
+        percent: $("#submit_perc"),
+        size: $("#submit_size"),
         panel: new regPanel($("#uploadp")),
         uploadCoolDown: 1000,
         uploading: false,
@@ -571,7 +571,7 @@ core = {
 
             clog("okay", "Initialised:", {
                 color: flatc("red"),
-                text: "core.file"
+                text: "core.submit"
             });
         },
 

@@ -602,19 +602,19 @@
                     </span>
                 </div>
                 <div class="main fileupload-container">
-                    <div id="file_dropzone">
-                        <input type="file" id="file_input" multiple>
+                    <div id="submit_dropzone">
+                        <input type="file" id="submit_input" multiple>
                         <t class="title">Thả tệp tại đây</t>
                         <t class="sub">hoặc</t>
-                        <label for="file_input" class="sq-btn dark sound" data-soundhover data-soundselect>Chọn tệp</label>
+                        <label for="submit_input" class="sq-btn dark sound" data-soundhover data-soundselect>Chọn tệp</label>
                     </div>
                     <div class="info">
-                        <t id="file_upstate">null</t>
-                        <t id="file_name">null</t>
+                        <t id="submit_upstate">null</t>
+                        <t id="submit_name">null</t>
                         <div class="bar">
-                            <div id="file_bar"></div>
-                            <t id="file_perc">0%</t>
-                            <t id="file_size">00/00</t>
+                            <div id="submit_bar"></div>
+                            <t id="submit_perc">0%</t>
+                            <t id="submit_size">00/00</t>
                         </div>
                     </div>
                 </div>
