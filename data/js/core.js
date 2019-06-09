@@ -112,8 +112,12 @@ core = {
     languages: {
         "pas": "Pascal",
         "cpp": "C++",
+        "c": "C",
         "py": "Python",
-        "java": "Java"
+        "java": "Java",
+        "class": "Compiled Java",
+        "pp": "Pascal",
+        "exe": "Windows Executable"
     },
 
     async init(set) {
