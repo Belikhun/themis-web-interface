@@ -4,7 +4,7 @@
 
 An beautiful and easy-to-use Web Interface for **[Themis](https://dsapblog.wordpress.com)**
 
-[![version](https://img.shields.io/badge/release-v0.4.3-brightgreen.svg?longCache=true&style=for-the-badge)](https://github.com/belivipro9x99/themis-webinterface/releases/)
+[![version](https://img.shields.io/badge/indev-v0.4.4-brightgreen.svg?longCache=true&style=for-the-badge)](https://github.com/belivipro9x99/themis-webinterface/releases/)
 [![license](https://img.shields.io/badge/license-MIT-orange.svg?longCache=true&style=for-the-badge)](https://github.com/belivipro9x99/themis-web-interface/blob/master/LICENSE)
 [![status](https://img.shields.io/badge/status-May_contain_bugs-blue.svg?longCache=true&style=for-the-badge)]()
 [![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface.svg?label=master&style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface)
@@ -17,11 +17,6 @@ An beautiful and easy-to-use Web Interface for **[Themis](https://dsapblog.wordp
 ---
 
 **Themis Web Interface** là một dự án mã nguồn mở, phi lợi nhuận với mục đích chính nhằm biến việc quản lí và tổ chức các buổi học lập trình, ôn tập và tổ chức kì thi trở nên dễ dàng hơn.
-
-**Themis Web Interface** giúp học sinh nộp bài tới phần mềm chấm điểm **[Themis](https://dsapblog.wordpress.com)** và theo dõi kết quả chấm điểm qua LAN hoặc WAN.
-
-**Themis Web Interface** được viết bằng **PHP và JavaScript**. Dự án không sử dụng các library khác như **jQuery, Bootstrap, React, ...**
-
 
 | 🌿     |                                                                                          Travis CI Status                                                                                           |
 |:-------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
