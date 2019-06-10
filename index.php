@@ -138,7 +138,7 @@
                     </ul>
                     <img id="user_avt" class="avatar" src="/api/avt/get?u=<?php print $username; ?>" />
                 <?php } ?>
-                <span class="icon-menu">
+                <span class="hamburger">
                     <span></span>
                     <span></span>
                     <span></span>
