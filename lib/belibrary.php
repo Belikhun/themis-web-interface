@@ -42,9 +42,9 @@
             stop(5, "Wrong token!", 403);
     }
 
-    function getStringBetween($str, $from, $to) {
-        $sub = substr($str, strpos($str, $from) + strlen($from), strlen($str));
-        return substr($sub, 0, strpos($sub, $to));
+    function getStringBetween($str, $left, $right) {
+        $sub = substr($str, strpos($str, $left) + strlen($left), strlen($str));
+        return substr($sub, 0, strpos($sub, $right));
     }
 
     function reqform(string $key) {

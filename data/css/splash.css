@@ -137,9 +137,8 @@
 }
 
 .splash .middle .errormsg {
-    min-height: 18px;
-    padding-bottom: 2px;
-    font-size: 15px;
+    min-height: 24px;
+    font-size: 17px;
     font-weight: bold;
     color: rgb(204, 28, 28);
 }

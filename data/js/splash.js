@@ -153,11 +153,16 @@ class splash {
     }
 
     __panic(error, stop = true) {
-        this.status.innerText = "Lỗi đã xảy ra";
-        this.tree.middle.errorMsg.innerText = `${error.name}: ${error.message}`;
-        this.bar.classList.add("red");
+        let e = error.name || `${error.data.data.file}:${error.data.data.line}`;
+        let d = error.message || error.data.description;
 
+        this.status.innerText = "Lỗi đã xảy ra";
+        this.tree.middle.errorMsg.innerText = `${e}: ${d}`;
+        this.bar.classList.add("red");
+        
         if (stop)
-            throw new Error(error);
+            throw error;
+        else
+            console.error(error);
     }
 }
