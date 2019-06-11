@@ -14,4 +14,4 @@
     contest_timeRequire([CONTEST_STARTED], false);
 
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";
-    stop(0, "Success!", 200, problem_list());
+    stop(0, "Success!", 200, problemList());

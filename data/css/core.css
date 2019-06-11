@@ -1362,6 +1362,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     position: relative;
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
     align-items: center;
     width: 340px;
     height: 100%;
@@ -1421,8 +1422,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     height: 100%;
     box-sizing: border-box;
     background-color: rgb(238, 238, 238);
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: auto;
 }
 
 .problemEnlarged .right .description {
@@ -1455,7 +1455,8 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 
 .problemEnlarged .right .image {
     position: relative;
-    position: relative;
+    display: block;
+    width: 100%;
     max-width: 80%;
     margin-top: 20px;
     border: 1px solid #ccc;

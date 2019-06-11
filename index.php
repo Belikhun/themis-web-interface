@@ -649,7 +649,7 @@
                     </span>
                 </div>
                 <div class="main problem-container">
-                    <ul class="problem-list sound" data-soundtoggle="hide" id="problem_list">
+                    <ul class="problem-list sound" data-soundtoggle="hide" id="problemList">
                     </ul>
                     <div class="problem">
                         <t class="name" id="problem_name"></t>

@@ -537,7 +537,7 @@ window.addEventListener("error", e => {
 })
 
 // window.addEventListener("unhandledrejection", (e) => {
-//     // promise: e.promise; reason: e.reason
+//      promise: e.promise; reason: e.reason
 // })
 
 __connection__ = {

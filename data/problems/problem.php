@@ -23,7 +23,7 @@
     define("PROBLEM_ERROR_FILETOOLARGE", 3);
     define("PROBLEM_ERROR_FILEREJECT", 4);
     
-    function problem_list() {
+    function problemList() {
         global $problemList;
         $list = Array();
         
@@ -39,7 +39,7 @@
         return $list;
     }
 
-    function problem_listAttachment() {
+    function problemListAttachment() {
         global $problemList;
         $list = Array();
         

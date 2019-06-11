@@ -81,14 +81,14 @@
 }
 
 #user_settings .sub .panel.show {
-    width: 420px;
+    width: 400px;
 }
 
 #user_settings .sub .panel .container {
     position: absolute;
     display: flex;
     flex-direction: row-reverse;
-    width: 420px;
+    width: 400px;
     height: 100%;
     right: 0;
     background-color: rgba(245, 245, 246, 0.8);

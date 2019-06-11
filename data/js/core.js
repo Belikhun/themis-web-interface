@@ -719,7 +719,7 @@ core = {
 
     problems: {
         panel: new regPanel($("#problemp")),
-        list: $("#problem_list"),
+        list: $("#problemList"),
         name: $("#problem_name"),
         point: $("#problem_point"),
         enlargeBtn: $("#problem_enlarge"),

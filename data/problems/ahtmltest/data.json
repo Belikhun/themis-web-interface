@@ -18,5 +18,6 @@
             "inp": "<b>No HTML<\/b>",
             "out": "here"
         }
-    ]
+    ],
+    "image": "test.png"
 }
