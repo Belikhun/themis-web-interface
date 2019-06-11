@@ -629,9 +629,11 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 }
 
 .problem-settings .problem-container .problem-list li.item .icon {
+    position: relative;
     width: 30px;
     height: 30px;
     border-radius: 15px;
+    object-fit: cover;
 }
 
 .problem-settings .problem-container .problem-list li.item .title {
@@ -996,10 +998,12 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     right: 20px;
 }
 
-#problemp .problem-container .problem-list li.item img.icon {
+#problemp .problem-container .problem-list li.item .icon {
+    position: relative;
     width: 50px;
     height: 50px;
     border-radius: 25px;
+    object-fit: cover;
 }
 
 #problemp .problem-container .problem-list li.item .title {
