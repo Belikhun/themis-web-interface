@@ -31,7 +31,12 @@ class testFramework:
 
         self.testNth += 1
         self.timeStart = time.time()
-        result = func()
+
+        try:
+            result = func()
+        except Exception as excp:
+            result = repr(excp)
+
         self.timeEnd = time.time()
         runTime = self.timeEnd - self.timeStart
         self.totalTime += runTime
