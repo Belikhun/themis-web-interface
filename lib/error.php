@@ -30,6 +30,7 @@
         $errCode = 200;
     
     $errDetail = null;
+    $errDetailSub = null;
 
     if (isset($_SESSION["lastError"])) {
         $err = $_SESSION["lastError"];
@@ -62,7 +63,7 @@
         case 404:
             $error = "Not Found";
             $description = "Không thể tìm thấy <sy>$sv_hs$uri</sy> trên máy chủ.";
-            $errDetailSub = "The resources you are trying to access was wiped out because <sg>thanos</sg> snapped his fingers";
+            $errDetailSub = "thanos: <sg>*snap fingers*</sg><br>this page:";
             break;
         case 405:
             $error = "Method Not Allowed";
