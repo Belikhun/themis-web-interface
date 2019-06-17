@@ -3,6 +3,8 @@ Order allow,deny
 Allow from all
 Require all granted
 
+Header set Access-Control-Allow-Origin "*"
+
 # Rewrite url
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
