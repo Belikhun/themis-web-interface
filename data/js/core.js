@@ -930,9 +930,9 @@ core = {
                     </span>
 
                     <span class="right">
-                        <t class="description">${data.description}</t>
+                        <div class="description">${data.description}</div>
                         ${(data.image)
-                            ?   `<img class="image" src="${data.image}">`
+                            ?   `<img class="image" src="${data.image}"/>`
                             :   ""
                         }
                     </span>
