@@ -53,6 +53,7 @@ def testAPI(url = "", method = "GET", json = True, data = {}, files = {}):
         try:
             json = data.json()
         except Exception as excp:
+            print(data.text)
             return repr(excp)
         else:
             if (json["code"] != 0):
