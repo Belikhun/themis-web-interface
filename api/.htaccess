@@ -3,7 +3,9 @@ Order allow,deny
 Allow from all
 Require all granted
 
-Header set Access-Control-Allow-Origin "*"
+<IfModule headers_module>
+    Header set Access-Control-Allow-Origin "*"
+</IfModule>
 
 # Rewrite url
 RewriteEngine on
