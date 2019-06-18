@@ -50,4 +50,4 @@ script:
 after_script:
     - sudo ./config.sh --restore
     - cd ..
-    - cat /var/log/apache2/error.log
+    - sudo cat /var/log/apache2/error.log
