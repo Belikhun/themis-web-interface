@@ -50,7 +50,7 @@ for i in "${@:2}"
 
 echo -e "\033[0m"
 
-$COMMAND $ARGS ${@:2}
+$COMMAND ${@:2} $ARGS
 EXIT_CODE=$?
 
 echo ""
