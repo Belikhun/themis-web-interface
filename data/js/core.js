@@ -997,7 +997,7 @@ core = {
                 $("#timep").classList.add("show");
                 this.last = 0;
                 clearInterval(this.interval);
-                this.startInterval();
+                this.startInterval(this.showMs);
             }
         },
 
