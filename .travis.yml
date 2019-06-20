@@ -37,8 +37,9 @@ before_script:
     # get some information
     - python3 -V
     - pwd
-    # change cwd to tests
+    # change cwd to tests add copy necessary files
     - cd tests
+    - sudo ./config.sh --copy
     # add executeable flag
     - sudo chmod ugo+x config.sh
     - sudo chmod ugo+x run.sh
