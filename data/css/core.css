@@ -1286,9 +1286,19 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     color: rgb(136, 136, 136);
 }
 
-#timep .time-container #time_time {
+#timep .time-container .time {
     position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
     top: 38px;
+}
+
+#timep .time-container .time #time_time,
+#timep .time-container .time #time_ms {
+    position: relative;
+    display: inline-block;
+    flex-grow: 1;
     font-size: 48px;
     font-weight: bold;
     letter-spacing: 1px;
@@ -1297,11 +1307,28 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     color: #34495e;
 }
 
-#timep .time-container #time_time.green {
+#timep .time-container .time #time_ms {
+    display: none;
+    flex-grow: 0;
+    font-size: 24px;
+    margin-bottom: 6px;
+}
+
+#timep .time-container.ms .time #time_ms {
+    display: inline-block;
+}
+
+#timep .time-container .time #time_ms::before {
+    content: "."
+}
+
+#timep .time-container[color="green"] .time #time_time,
+#timep .time-container[color="green"] .time #time_ms {
     color: #27ae60;
 }
 
-#timep .time-container #time_time.red {
+#timep .time-container[color="red"] .time #time_time,
+#timep .time-container[color="red"] .time #time_ms {
     color: #c0392b;
 }
 
@@ -1324,7 +1351,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     transition: width 0.2s ease;
 }
 
-#timep .time-container #time_time.red+.bar #time_bar {
+#timep .time-container[color="red"] .bar #time_bar {
     background-color: #c0392b;
 }
 

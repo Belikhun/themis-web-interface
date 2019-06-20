@@ -266,6 +266,13 @@
                             </label>
                         </div>
                         <div class="item lr sound" data-soundhoversoft>
+                            <t class="left">Hiện millisecond</t>
+                            <label class="sq-checkbox blue right">
+                                <input id="usett_millisecond" type="checkbox" class="sound" data-soundcheck>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <div class="item lr sound" data-soundhoversoft>
                             <t class="left">Thông báo</t>
                             <label class="sq-checkbox pink right">
                                 <input type="checkbox" class="sound" data-soundcheck disabled>
@@ -630,7 +637,12 @@
                 </div>
                 <div class="main time-container">
                     <t id="time_state">---</t>
-                    <t id="time_time">--:--</t>
+
+                    <div class="time">
+                        <t id="time_time">--:--</t>
+                        <t id="time_ms">--</t>
+                    </div>
+                    
                     <div class="bar">
                         <div id="time_bar"></div>
                         <t id="time_start">--:--</t>
