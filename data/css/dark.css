@@ -138,6 +138,10 @@ body.dark .problemEnlarged .right {
     background-color: rgb(54, 54, 54);
 }
 
+body.dark .problemEnlarged .right .description {
+    color: rgb(214, 214, 214);
+}
+
 body.dark .problemEnlarged .right .description::before {
     color: rgb(216, 216, 216);
 }
