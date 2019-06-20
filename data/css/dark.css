@@ -152,7 +152,8 @@ body.dark #timep .time-container #time_state {
     color: rgb(195, 195, 195);
 }
 
-body.dark #timep .time-container #time_time {
+body.dark #timep .time-container .time #time_time,
+body.dark #timep .time-container .time #time_ms {
     color: rgb(226, 226, 226);
 }
 
@@ -169,15 +170,17 @@ body.dark #timep .time-container .bar #time_bar {
     background-color: #3186be;
 }
 
-body.dark #timep .time-container #time_time.red {
-    color: #ff6f5f;
+body.dark #timep .time-container[data-color="red"] .time #time_time,
+body.dark #timep .time-container[data-color="red"] .time #time_ms {
+    color: #f17466;
 }
 
-body.dark #timep .time-container #time_time.green {
+body.dark #timep .time-container[data-color="green"] .time #time_time,
+body.dark #timep .time-container[data-color="green"] .time #time_ms {
     color: #42ff91;
 }
 
-body.dark #timep .time-container #time_time.red + .bar #time_bar {
+body.dark #timep .time-container[data-color="red"] #time_bar {
     background-color: #e03e2c;
 }
 

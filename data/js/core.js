@@ -953,6 +953,7 @@ core = {
         start: $("#time_start"),
         end: $("#time_end"),
         timedata: Array(),
+        enabled: true,
         interval: null,
         showMs: false,
         last: 0,
@@ -987,9 +988,12 @@ core = {
                 $("#timep").classList.remove("show");
                 clearInterval(this.interval);
                 clog("info", "Timer Disabled: not in contest mode");
+
+                this.enabled = false;
                 return;
             }
             
+            this.enabled = true;
             this.timedata = data;
             this.start.innerText = `${(new Date(data.start * 1000)).toLocaleTimeString()} tới ${(new Date((data.start + data.during) * 1000)).toLocaleTimeString()}`;
 
@@ -1002,6 +1006,9 @@ core = {
         },
 
         startInterval(time = 1000) {
+            if (!this.enabled)
+                return;
+
             this.timeUpdate();
             this.interval = setInterval(() => this.timeUpdate(), time);
         },

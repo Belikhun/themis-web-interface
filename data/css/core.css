@@ -1322,13 +1322,13 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     content: "."
 }
 
-#timep .time-container[color="green"] .time #time_time,
-#timep .time-container[color="green"] .time #time_ms {
+#timep .time-container[data-color="green"] .time #time_time,
+#timep .time-container[data-color="green"] .time #time_ms {
     color: #27ae60;
 }
 
-#timep .time-container[color="red"] .time #time_time,
-#timep .time-container[color="red"] .time #time_ms {
+#timep .time-container[data-color="red"] .time #time_time,
+#timep .time-container[data-color="red"] .time #time_ms {
     color: #c0392b;
 }
 
@@ -1351,7 +1351,11 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     transition: width 0.2s ease;
 }
 
-#timep .time-container[color="red"] .bar #time_bar {
+#timep .time-container.ms .bar #time_bar {
+    transition: unset;
+}
+
+#timep .time-container[data-color="red"] .bar #time_bar {
     background-color: #c0392b;
 }
 
