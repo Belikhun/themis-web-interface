@@ -8,13 +8,13 @@
         "zone": "Asia\/Ho_Chi_Minh",
         "begin": {
             "seconds": 0,
-            "minutes": 40,
-            "hours": 21,
-            "days": 9,
+            "minutes": 28,
+            "hours": 20,
+            "days": 20,
             "months": 6,
             "years": 2019
         },
-        "during": 60,
+        "during": 1,
         "offset": 10
     },
     "publish": true,

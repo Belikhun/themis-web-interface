@@ -18,12 +18,12 @@
 		));
 
 	$beginTime = $config["time"]["begin"]["times"];
-	$duringTime = $config["time"]["during"];
+	$duringTime = $config["time"]["during"] * 60;
 	$offsetTime = $config["time"]["offset"];
-	$t = $beginTime - time() + ($duringTime * 60);
+	$t = $beginTime - time() + $duringTime;
 
-	if ($t > $duringTime * 60) {
-		$t -= $duringTime * 60;
+	if ($t > $duringTime) {
+		$t -= $duringTime;
 		$phase = 1;
 	} else if ($t > 0) {
 		$phase = 2;
@@ -37,10 +37,10 @@
 
 
 	stop(0, "Thành công!", 200, Array(
+		"phase" => $phase,
 		"start" => $beginTime,
-		"during" => $duringTime * 60,
+		"during" => $duringTime,
 		"time" => $t,
-		"offset" => $offsetTime,
-		"phase" => $phase
+		"offset" => $offsetTime
 	));
 ?>

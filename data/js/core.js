@@ -956,13 +956,13 @@ core = {
         last: 0,
 
         async init() {
-            this.timepanel.ref.onClick(() => this.fetchtime(true));
+            this.timepanel.ref.onClick(() => this.fetchTime(true));
             this.timepanel.clo.onClick(e => this.close());
 
             if (LOGGED_IN)
                 this.timepanel.clo.hide();
 
-            await this.fetchtime(true);
+            await this.fetchTime(true);
 
             clog("okay", "Initialised:", {
                 color: flatc("red"),
@@ -975,7 +975,7 @@ core = {
             this.timepanel.panel.classList.remove("show");
         },
 
-        async fetchtime(init = false) {
+        async fetchTime(init = false) {
             var data = await myajax({
                 url: "/api/test/timer",
                 method: "GET",
@@ -995,16 +995,13 @@ core = {
                 $("#timep").classList.add("show");
                 this.last = 0;
                 clearInterval(this.interval);
-                this.startinterval();
+                this.startInterval();
             }
         },
 
-        startinterval() {
+        startInterval() {
             this.timeUpdate();
-            this.interval = setInterval(() => {
-                this.timedata.time--;
-                this.timeUpdate();
-            }, 1000);
+            this.interval = setInterval(() => this.timeUpdate(), 1000);
         },
 
         reset() {
@@ -1021,72 +1018,53 @@ core = {
         },
 
         timeUpdate() {
-            if ((data = this.timedata).time <= 0 && data.phase !== 4)
-                switch (data.phase) {
-                    case 1:
-                        this.timedata.phase = 2;
-                        this.timedata.time = data.during;
-                        core.problems.getlist();
-                        break;
-                    case 2:
-                        this.timedata.phase = 3;
-                        this.timedata.time = data.offset;
-                        break;
-                    case 3:
-                        this.timedata.phase = 4;
-                        break;
-                    default:
-                        this.reset();
-                        break;
-                }
-            data = this.timedata;
-            t = data.time;
+            let beginTime = this.timedata.start;
+            let duringTime = this.timedata.during;
+            let offsetTime = this.timedata.offset;
+            let t = beginTime - parseInt(time()) + duringTime;
 
-            switch(data.phase) {
-                case 1:
-                    if (this.last === 0)
-                        this.last = t;
+            if (t > duringTime) {
+                t -= duringTime;
+                
+                if (this.last === 0)
+                    this.last = t;
 
-                    let p1 = ((t) / this.last) * 100;
+                let p1 = ((t) / this.last) * 100;
 
-                    this.time.classList.remove("red");
-                    this.time.classList.remove("green");
-                    this.time.innerText = parseTime(t).str;
-                    this.bar.style.width = p1 + "%";
-                    this.end.innerText = parseTime(this.last).str;
-                    this.state.innerText = "Bắt đầu kì thi sau";
-                    break;
-                case 2:
-                    let p2 = (t / data.during) * 100;
+                this.time.classList.remove("red");
+                this.time.classList.remove("green");
+                this.time.innerText = parseTime(t).str;
+                this.bar.style.width = p1 + "%";
+                this.end.innerText = parseTime(this.last).str;
+                this.state.innerText = "Bắt đầu kì thi sau";
+            } else if (t > 0) {
+                let p2 = (t / duringTime) * 100;
 
-                    this.time.classList.remove("red");
-                    this.time.classList.add("green");
-                    this.time.innerText = parseTime(t).str;
-                    this.bar.style.width = p2 + "%";
-                    this.end.innerText = parseTime(data.during).str;
-                    this.state.innerText = "Thời gian làm bài";
-                    break;
-                case 3:
-                    let p3 = (t / data.offset) * 100;
+                this.time.classList.remove("red");
+                this.time.classList.add("green");
+                this.time.innerText = parseTime(t).str;
+                this.bar.style.width = p2 + "%";
+                this.end.innerText = parseTime(duringTime).str;
+                this.state.innerText = "Thời gian làm bài";
+            } else if (t > -offsetTime) {
+                t += offsetTime;
+                let p3 = (t / offsetTime) * 100;
 
-                    this.time.classList.remove("green");
-                    this.time.classList.add("red");
-                    this.time.innerText = parseTime(t).str;
-                    this.bar.style.width = p3 + "%";
-                    this.end.innerText = parseTime(data.offset).str;
-                    this.state.innerText = "Thời gian bù";
-                    break;
-                case 4:
-                    this.time.classList.remove("green");
-                    this.time.classList.remove("red");
-                    this.time.innerText = parseTime(t).str;
-                    this.bar.style.width = "0%";
-                    this.end.innerText = "--:--";
-                    this.state.innerText = "ĐÃ HẾT THỜI GIAN LÀM BÀI";
-                    break;
-                default:
-                    clog("errr", "Unknown data.phase in core.timer.timeUpdate: " + data.phase);
-                    break;
+                this.time.classList.remove("green");
+                this.time.classList.add("red");
+                this.time.innerText = parseTime(t).str;
+                this.bar.style.width = p3 + "%";
+                this.end.innerText = parseTime(offsetTime).str;
+                this.state.innerText = "Thời gian bù";
+            } else {
+                t += offsetTime;
+
+                this.time.classList.remove("green");
+                this.time.classList.remove("red");
+                this.time.innerText = parseTime(t).str;
+                this.bar.style.width = "0%";
+                this.end.innerText = "--:--";
+                this.state.innerText = "ĐÃ HẾT THỜI GIAN LÀM BÀI";
             }
         }
     },

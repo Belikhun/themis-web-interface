@@ -276,6 +276,10 @@ function checkServer(ip, callback = () => {}) {
     })
 }
 
+function time(date = new Date()) {
+    return date.getTime() / 1000;
+}
+
 function parseTime(t = 0) {
     var d = "";
     if (t < 0) {
