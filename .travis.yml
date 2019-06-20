@@ -37,12 +37,13 @@ before_script:
     # get some information
     - python3 -V
     - pwd
-    # change cwd to tests add copy necessary files
+    # change cwd to tests
     - cd tests
-    - sudo ./config.sh --copy
     # add executeable flag
     - sudo chmod ugo+x config.sh
     - sudo chmod ugo+x run.sh
+    # test files init
+    - sudo ./config.sh --init
 
 matrix:
     include:
