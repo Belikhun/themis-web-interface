@@ -41,11 +41,16 @@ before_script:
     - sudo chmod ugo+x tests/config.sh
     #? test script
     - cd tests
-    - sudo ./config.sh --copy
 
-script:
-    - python3 apiTest.py
-    - python3 logParserTest.py
+matrix:
+    include:
+        - name: "API Test"
+          env: TEST_SUITE=API
+        - name: "logParser Test"
+          env: TEST_SUITE=logParser
+        
+
+script: ./run.sh $TEST_SUITE
 
 after_script:
     - sudo ./config.sh --restore
