@@ -37,10 +37,11 @@ before_script:
     # get some information
     - python3 -V
     - pwd
-    # execute custom script
-    - sudo chmod ugo+x tests/config.sh
-    #? test script
+    # change cwd to tests
     - cd tests
+    # add executeable flag
+    - sudo chmod ugo+x config.sh
+    - sudo chmod ugo+x run.sh
 
 matrix:
     include:
@@ -50,7 +51,7 @@ matrix:
           env: TEST_SUITE=logParser
         
 
-script: ./run.sh $TEST_SUITE
+script: ./run.sh $TEST_SUITE -q
 
 after_script:
     - sudo ./config.sh --restore

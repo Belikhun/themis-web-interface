@@ -43,14 +43,14 @@ esac
 echo ""
 echo -e "\033[1;34mStarting test suite \"$1\" with args:"
 
-for i in "$@"
+for i in "${@:2}"
     do
         echo -e "    \033[1;30m+ \033[1;36m$i"
     done
 
 echo -e "\033[0m"
 
-$COMMAND ${@:2} $ARGS
+$COMMAND $ARGS ${@:2}
 EXIT_CODE=$?
 
 echo ""
