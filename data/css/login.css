@@ -223,10 +223,13 @@ body {
 }
 
 .right-panel .center #form_container #form_password #form_profile #form_avatar {
+    position: relative;
+    display: inline-block;
     width: 44px;
     height: 44px;
     border-radius: 50%;
     margin-right: 10px;
+    object-fit: cover;
 }
 
 .right-panel .footer {
