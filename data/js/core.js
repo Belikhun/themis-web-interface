@@ -738,6 +738,7 @@ core = {
             link: $("#problem_attachment_link"),
             size: $("#problem_attachment_size")
         },
+        loaded: false,
         data: null,
 
         async init(loggedIn = false) {
@@ -778,6 +779,7 @@ core = {
                 } else
                     console.error(e);
 
+                this.loaded = false;
                 return false;
             }
 
@@ -788,7 +790,8 @@ core = {
             } else
                 this.panel.main.classList.remove("blank");
 
-            var html = "";
+            this.loaded = true;
+            let html = "";
             data.forEach(item => {
                 html += `
                     <li class="item" onClick="core.problems.viewProblem('${item.id}');">
@@ -1060,8 +1063,11 @@ core = {
                 end = parseTime(this.last).str;
                 state = "Bắt đầu kì thi sau";
             } else if (t > 0) {
-                if (t === duringTime || (t - 1) === duringTime)
+                if (!core.problems.loaded) {
+                    clog("INFO", "Reloading problems list and public files list");
                     core.problems.getList();
+                    core.userSettings.publicFilesIframe.contentWindow.location.reload();
+                }
 
                 color = "green";
                 proc = (t / duringTime) * 100;
