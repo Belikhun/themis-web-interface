@@ -1580,19 +1580,19 @@ core = {
                 var html = [];
 
                 for (let i of data)
-                    html.push([
-                        `<div class="log ${i.level.toLowerCase()}">`,
-                            `<span class="level">${i.level}</span>`,
-                            `<span class="detail">`,
-                                `<div class="top">`,
-                                    `<t class="timestamp">${i.time}</t>`,
-                                    `<t class="module">${i.module}</t>`,
-                                    `<t class="client">${i.client.username}@${i.client.ip}</t>`,
-                                `</div>`,
-                                `<div class="text">${i.text}</div>`,
-                            `</span>`,
-                        `</div>`
-                    ].join("\n"));
+                    html.push(`
+                        <div class="log ${i.level.toLowerCase()}" onclick="this.classList.toggle('enlarge')">
+                            <span class="level">${i.level}</span>
+                            <span class="detail">
+                                <div class="text">${i.text}</div>
+                                <div class="info">
+                                    <t class="client">${i.client.username}@${i.client.ip}</t>
+                                    <t class="timestamp">${i.time}</t>
+                                    <t class="module">${i.module}</t>
+                                </div>
+                            </span>
+                        </div>
+                    `);
                 
                 this.container.innerHTML = html.join("\n");
                 this.container.scrollTop = this.container.scrollHeight - this.container.clientHeight;
