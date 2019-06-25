@@ -1143,15 +1143,15 @@ core = {
             }
 
             toggle() {
-                let c = this.elem.classList.contains("show");
+                let c = !this.elem.classList.contains("show");
                 this.__hideActive();
-                this.container.classList[c === false ? "add" : "remove"]("subPanel");
+                this.container.classList[c ? "add" : "remove"]("subPanel");
  
-                if (c === false)
+                if (c)
                     this.elem.classList.add("show");
 
                 if (this.eToggle)
-                    this.eToggle.classList[c === false ? "add" : "remove"]("active");
+                    this.eToggle.classList[c ? "add" : "remove"]("active");
 
                 this.funcOnToggle(c ? "show" : "hide");                
             }
