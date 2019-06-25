@@ -515,6 +515,10 @@ body.dark .syslogs-settings .log {
     background-color: transparent;
 }
 
+body.dark .syslogs-settings .log:hover {
+    background-color: rgba(42, 42, 42, 0.8);
+}
+
 body.dark .syslogs-settings .log .level {
     background-color: rgba(65, 65, 65, 0.8);
     color: rgb(218, 218, 218);
@@ -524,15 +528,7 @@ body.dark .syslogs-settings .log .detail {
     border-left: 2px solid rgb(104, 104, 104);
 }
 
-body.dark .syslogs-settings .log .detail .top t {
-    color: rgb(155, 155, 155);
-}
-
-body.dark .syslogs-settings .log .detail .top .client {
-    color: rgb(184, 184, 184);
-}
-
-body.dark .syslogs-settings .log .detail .top .client::before {
+body.dark .syslogs-settings .log .detail .info t {
     color: rgb(155, 155, 155);
 }
 
