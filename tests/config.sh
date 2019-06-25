@@ -10,12 +10,12 @@ set -e
 printHelp() {
     echo -e "Usage: config.sh <switch>"
     echo -e ""
-    echo -e "  \033[1;33m--copy\033[0m       Copy all test files to determined location and make a backup of original"
+    echo -e "  \033[1;33m--init\033[0m       Copy all test files to determined location and make a backup of original"
     echo -e "  \033[1;33m--restore\033[0m    Clean all test files and restore backed up files"
 }
 
 case $1 in
-    "--copy")
+    "--init")
         echo ""
         echo -e "\033[1;34mCopying Files..."
 

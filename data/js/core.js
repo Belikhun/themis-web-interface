@@ -112,8 +112,12 @@ core = {
     languages: {
         "pas": "Pascal",
         "cpp": "C++",
+        "c": "C",
         "py": "Python",
-        "java": "Java"
+        "java": "Java",
+        "class": "Compiled Java",
+        "pp": "Pascal",
+        "exe": "Windows Executable"
     },
 
     async init(set) {
@@ -146,14 +150,14 @@ core = {
         if (LOGGED_IN) {
             this.problems.panel.clo.hide();
 
-            set(80, "Initializing: core.file");
-            this.file.init();
+            set(80, "Initializing: core.submit");
+            this.submit.init();
 
             set(85, "Fetching Logs...");
             await this.fetchLog();
             this.logPanel.ref.onClick(() => this.__fetchLog(true, false));
             this.logPanel.cus.onClick(() => this.__fetchLog(false, true));
-            this.file.onUploadSuccess = () => this.__fetchLog();
+            this.submit.onUploadSuccess = () => this.__fetchLog();
             __connection__.onStateChange((s) => { s === "online" ? this.__fetchLog() : null });
             this.__fetchLog();
 
@@ -546,14 +550,14 @@ core = {
         this.wrapper.show(file);
     },
 
-    file: {
-        dropzone: $("#file_dropzone"),
-        input: $("#file_input"),
-        state: $("#file_upstate"),
-        name: $("#file_name"),
-        bar: $("#file_bar"),
-        percent: $("#file_perc"),
-        size: $("#file_size"),
+    submit: {
+        dropzone: $("#submit_dropzone"),
+        input: $("#submit_input"),
+        state: $("#submit_upstate"),
+        name: $("#submit_name"),
+        bar: $("#submit_bar"),
+        percent: $("#submit_perc"),
+        size: $("#submit_size"),
         panel: new regPanel($("#uploadp")),
         uploadCoolDown: 1000,
         uploading: false,
@@ -571,7 +575,7 @@ core = {
 
             clog("okay", "Initialised:", {
                 color: flatc("red"),
-                text: "core.file"
+                text: "core.submit"
             });
         },
 
@@ -715,7 +719,7 @@ core = {
 
     problems: {
         panel: new regPanel($("#problemp")),
-        list: $("#problem_list"),
+        list: $("#problemList"),
         name: $("#problem_name"),
         point: $("#problem_point"),
         enlargeBtn: $("#problem_enlarge"),
@@ -734,6 +738,7 @@ core = {
             link: $("#problem_attachment_link"),
             size: $("#problem_attachment_size")
         },
+        loaded: false,
         data: null,
 
         async init(loggedIn = false) {
@@ -748,10 +753,10 @@ core = {
                 this.panel.clo.hide();
 
             this.enlargeBtn.addEventListener("click", () => this.enlargeProblem(this.data));
-            this.panel.ref.onClick(() => this.getlist());
+            this.panel.ref.onClick(() => this.getList());
             this.panel.clo.onClick(() => this.panel.elem.classList.add("hide"));
 
-            await this.getlist();
+            await this.getList();
 
             clog("okay", "Initialised:", {
                 color: flatc("red"),
@@ -759,7 +764,7 @@ core = {
             });
         },
 
-        async getlist() {
+        async getList() {
             var data = Array();
             try {
                 data = await myajax({
@@ -774,6 +779,7 @@ core = {
                 } else
                     console.error(e);
 
+                this.loaded = false;
                 return false;
             }
 
@@ -784,7 +790,8 @@ core = {
             } else
                 this.panel.main.classList.remove("blank");
 
-            var html = "";
+            this.loaded = true;
+            let html = "";
             data.forEach(item => {
                 html += `
                     <li class="item" onClick="core.problems.viewProblem('${item.id}');">
@@ -926,9 +933,9 @@ core = {
                     </span>
 
                     <span class="right">
-                        <t class="description">${data.description}</t>
+                        <div class="description">${data.description}</div>
                         ${(data.image)
-                            ?   `<img class="image" src="${data.image}">`
+                            ?   `<img class="image" src="${data.image}"/>`
                             :   ""
                         }
                     </span>
@@ -944,21 +951,24 @@ core = {
         timepanel: new regPanel($("#timep")),
         state: $("#time_state"),
         time: $("#time_time"),
+        timeMs: $("#time_ms"),
         bar: $("#time_bar"),
         start: $("#time_start"),
         end: $("#time_end"),
         timedata: Array(),
+        enabled: true,
         interval: null,
+        showMs: false,
         last: 0,
 
         async init() {
-            this.timepanel.ref.onClick(() => this.fetchtime(true));
+            this.timepanel.ref.onClick(() => this.fetchTime(true));
             this.timepanel.clo.onClick(e => this.close());
 
             if (LOGGED_IN)
                 this.timepanel.clo.hide();
 
-            await this.fetchtime(true);
+            await this.fetchTime(true);
 
             clog("okay", "Initialised:", {
                 color: flatc("red"),
@@ -971,7 +981,7 @@ core = {
             this.timepanel.panel.classList.remove("show");
         },
 
-        async fetchtime(init = false) {
+        async fetchTime(init = false) {
             var data = await myajax({
                 url: "/api/test/timer",
                 method: "GET",
@@ -981,9 +991,12 @@ core = {
                 $("#timep").classList.remove("show");
                 clearInterval(this.interval);
                 clog("info", "Timer Disabled: not in contest mode");
+
+                this.enabled = false;
                 return;
             }
             
+            this.enabled = true;
             this.timedata = data;
             this.start.innerText = `${(new Date(data.start * 1000)).toLocaleTimeString()} tới ${(new Date((data.start + data.during) * 1000)).toLocaleTimeString()}`;
 
@@ -991,22 +1004,35 @@ core = {
                 $("#timep").classList.add("show");
                 this.last = 0;
                 clearInterval(this.interval);
-                this.startinterval();
+                this.startInterval(this.showMs);
             }
         },
 
-        startinterval() {
+        startInterval(time = 1000) {
+            if (!this.enabled)
+                return;
+
             this.timeUpdate();
-            this.interval = setInterval(() => {
-                this.timedata.time--;
-                this.timeUpdate();
-            }, 1000);
+            this.interval = setInterval(() => this.timeUpdate(), time);
+        },
+
+        toggleMs(show = true) {
+            if (show) {
+                clearInterval(this.interval);
+                this.startInterval(65);
+                this.showMs = true;
+                this.timepanel.main.classList.add("ms");
+            } else {
+                clearInterval(this.interval);
+                this.startInterval(1000);
+                this.showMs = false;
+                this.timepanel.main.classList.remove("ms");
+            }
         },
 
         reset() {
             clearInterval(this.interval);
-            this.time.classList.remove("red");
-            this.time.classList.remove("green");
+            this.timepanel.main.dataset.color = "red";
             this.time.innerText = "--:--";
             this.bar.style.width = "0%";
             this.start.innerText = "--:--:-- - --:--:--";
@@ -1017,73 +1043,61 @@ core = {
         },
 
         timeUpdate() {
-            if ((data = this.timedata).time <= 0 && data.phase !== 4)
-                switch (data.phase) {
-                    case 1:
-                        this.timedata.phase = 2;
-                        this.timedata.time = data.during;
-                        core.problems.getlist();
-                        break;
-                    case 2:
-                        this.timedata.phase = 3;
-                        this.timedata.time = data.offset;
-                        break;
-                    case 3:
-                        this.timedata.phase = 4;
-                        break;
-                    default:
-                        this.reset();
-                        break;
+            let beginTime = this.timedata.start;
+            let duringTime = this.timedata.during;
+            let offsetTime = this.timedata.offset;
+            let t = beginTime - time() + duringTime;
+
+            let color = "";
+            let proc = 0;
+            let end = "";
+            let state = "";
+
+            if (t > duringTime) {
+                t -= duringTime;
+                if (this.last === 0)
+                    this.last = t;
+
+                color = "";
+                proc = ((t) / this.last) * 100;
+                end = parseTime(this.last).str;
+                state = "Bắt đầu kì thi sau";
+            } else if (t > 0) {
+                if (!core.problems.loaded) {
+                    clog("INFO", "Reloading problems list and public files list");
+                    core.problems.getList();
+                    core.userSettings.publicFilesIframe.contentWindow.location.reload();
                 }
-            data = this.timedata;
-            t = data.time;
 
-            switch(data.phase) {
-                case 1:
-                    if (this.last === 0)
-                        this.last = t;
+                color = "green";
+                proc = (t / duringTime) * 100;
+                end = parseTime(duringTime).str;
+                state = "Thời gian làm bài";
+            } else if (t > -offsetTime) {
+                t += offsetTime;
+                
+                color = "red";
+                proc = (t / offsetTime) * 100;
+                end = parseTime(offsetTime).str;
+                state = "Thời gian bù";
+            } else {
+                t += offsetTime;
 
-                    let p1 = ((t) / this.last) * 100;
-
-                    this.time.classList.remove("red");
-                    this.time.classList.remove("green");
-                    this.time.innerText = parseTime(t).str;
-                    this.bar.style.width = p1 + "%";
-                    this.end.innerText = parseTime(this.last).str;
-                    this.state.innerText = "Bắt đầu kì thi sau";
-                    break;
-                case 2:
-                    let p2 = (t / data.during) * 100;
-
-                    this.time.classList.remove("red");
-                    this.time.classList.add("green");
-                    this.time.innerText = parseTime(t).str;
-                    this.bar.style.width = p2 + "%";
-                    this.end.innerText = parseTime(data.during).str;
-                    this.state.innerText = "Thời gian làm bài";
-                    break;
-                case 3:
-                    let p3 = (t / data.offset) * 100;
-
-                    this.time.classList.remove("green");
-                    this.time.classList.add("red");
-                    this.time.innerText = parseTime(t).str;
-                    this.bar.style.width = p3 + "%";
-                    this.end.innerText = parseTime(data.offset).str;
-                    this.state.innerText = "Thời gian bù";
-                    break;
-                case 4:
-                    this.time.classList.remove("green");
-                    this.time.classList.remove("red");
-                    this.time.innerText = parseTime(t).str;
-                    this.bar.style.width = "0%";
-                    this.end.innerText = "--:--";
-                    this.state.innerText = "ĐÃ HẾT THỜI GIAN LÀM BÀI";
-                    break;
-                default:
-                    clog("errr", "Unknown data.phase in core.timer.timeUpdate: " + data.phase);
-                    break;
+                color = "";
+                proc = 0;
+                end = "--:--";
+                state = "ĐÃ HẾT THỜI GIAN LÀM BÀI";
             }
+
+            let tp = parseTime(t);
+            if (this.showMs)
+                this.timeMs.innerText = tp.ms;
+
+            this.timepanel.main.dataset.color = color;
+            this.time.innerText = tp.str;
+            this.bar.style.width = proc + "%";
+            this.end.innerText = end;
+            this.state.innerText = state;
         }
     },
 
@@ -1129,15 +1143,15 @@ core = {
             }
 
             toggle() {
-                let c = this.elem.classList.contains("show");
+                let c = !this.elem.classList.contains("show");
                 this.__hideActive();
-                this.container.classList[c === false ? "add" : "remove"]("subPanel");
+                this.container.classList[c ? "add" : "remove"]("subPanel");
  
-                if (c === false)
+                if (c)
                     this.elem.classList.add("show");
 
                 if (this.eToggle)
-                    this.eToggle.classList[c === false ? "add" : "remove"]("active");
+                    this.eToggle.classList[c ? "add" : "remove"]("active");
 
                 this.funcOnToggle(c ? "show" : "hide");                
             }
@@ -1245,6 +1259,7 @@ core = {
         logoutBtn: $("#usett_logout"),
         nightModeToggler: $("#usett_nightMode"),
         transitionToggler: $("#usett_transition"),
+        millisecondToggler: $("#usett_millisecond"),
         updateDelaySlider: $("#usett_udelay_slider"),
         updateDelayText: $("#usett_udelay_text"),
         toggler: $("#usett_toggler"),
@@ -1295,7 +1310,13 @@ core = {
             }, false);
 
             // Transition setting
-            let transition = new this.toggleSwitch(this.transitionToggler, "__transition",
+            let transition = new this.toggleSwitch(this.millisecondToggler, "__showms",
+                e => core.timer.toggleMs(true),
+                e => core.timer.toggleMs(false)
+            , false);
+
+            // Millisecond setting
+            let millisecond = new this.toggleSwitch(this.transitionToggler, "__transition",
                 e => document.body.classList.remove("disableTransition"),
                 e => document.body.classList.add("disableTransition"),
                 true
@@ -1512,7 +1533,7 @@ core = {
             })
 
             this.ppanel.ref.onClick(() => {
-                this.problems.getlist();
+                this.problems.getList();
                 this.problems.resetform();
                 this.problems.showlist();
                 clog("okay", "Reloaded Problems Panel.");
@@ -1559,19 +1580,19 @@ core = {
                 var html = [];
 
                 for (let i of data)
-                    html.push([
-                        `<div class="log ${i.level.toLowerCase()}">`,
-                            `<span class="level">${i.level}</span>`,
-                            `<span class="detail">`,
-                                `<div class="top">`,
-                                    `<t class="timestamp">${i.time}</t>`,
-                                    `<t class="module">${i.module}</t>`,
-                                    `<t class="client">${i.client.username}@${i.client.ip}</t>`,
-                                `</div>`,
-                                `<div class="text">${i.text}</div>`,
-                            `</span>`,
-                        `</div>`
-                    ].join("\n"));
+                    html.push(`
+                        <div class="log ${i.level.toLowerCase()}" onclick="this.classList.toggle('enlarge')">
+                            <span class="level">${i.level}</span>
+                            <span class="detail">
+                                <div class="text">${i.text}</div>
+                                <div class="info">
+                                    <t class="client">${i.client.username}@${i.client.ip}</t>
+                                    <t class="timestamp">${i.time}</t>
+                                    <t class="module">${i.module}</t>
+                                </div>
+                            </span>
+                        </div>
+                    `);
                 
                 this.container.innerHTML = html.join("\n");
                 this.container.scrollTop = this.container.scrollHeight - this.container.clientHeight;
@@ -1634,7 +1655,7 @@ core = {
                     this.form.testlist.insertAdjacentHTML("beforeend", html);
                 });
 
-                await this.getlist();
+                await this.getList();
 
                 clog("okay", "Initialised:", {
                     color: flatc("red"),
@@ -1661,7 +1682,7 @@ core = {
                 this.title.innerText = "Danh sách";
             },
 
-            async getlist() {
+            async getList() {
                 var data = await myajax({
                     url: "/api/test/problems/list",
                     method: "GET"
@@ -1782,9 +1803,9 @@ core = {
                     text: id
                 });
 
-                this.getlist();
+                this.getList();
                 this.showlist();
-                core.problems.getlist();
+                core.problems.getList();
             },
 
             async postsubmit() {
@@ -1820,9 +1841,9 @@ core = {
 
                 await this.submit(this.action, data);
 
-                this.getlist();
+                this.getList();
                 this.showlist();
-                core.problems.getlist();
+                core.problems.getList();
             },
 
             async submit(action, data) {

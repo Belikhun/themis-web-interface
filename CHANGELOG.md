@@ -1,6 +1,7 @@
 # Change Logs
 
-- [Thay đổi trong v0.4.3](#thay-đổi-trong-v043-release)
+- [Thay đổi trong v0.4.4](#thay-đổi-trong-v044-release)
+	- [Thay đổi trong v0.4.3](#thay-đổi-trong-v043-release)
 	- [Thay đổi trong v0.4.2](#thay-đổi-trong-v040-release)
 	- [Thay đổi trong v0.4.1](#thay-đổi-trong-v040-release)
 	- [Thay đổi trong v0.4.0](#thay-đổi-trong-v040-release)
@@ -20,7 +21,20 @@
 
 ---
 
-## Thay đổi trong v0.4.3
+## Thay đổi trong v0.4.4
+
+* **Bug:** Web dừng tải ở một số trình duyệt khác
+* **Bug:** Avatar sẽ không bị kéo dãn khi sử dụng hình không phải hình vuông
+* **Thêm:** Bật tắt hiển thị `mili giây` trong bảng thời gian
+* **Thêm:** Thêm tên cho một số ngôn ngữ
+* **Chỉnh sửa:** Thiết kế lại `hamburger icon`
+* **Chỉnh sửa:** Thiết kế lại `syslogs viewer`
+* **Chỉnh sửa:** Thời gian thay đổi theo thời gian hệ thống thay vì sử dụng `interval`
+* **Chỉnh sửa:** `main-panel` giờ không còn thay đổi kích cỡ cùng với `btn-group`
+* **Chỉnh sửa API:** API is now `Cross-Origin Resource Sharing`
+* **Thêm:** Hiển thị tips và thông tin lỗi khi đang tải
+
+### Thay đổi trong v0.4.3
 
 * **Bug:** Một số lỗi hiển thị ở cửa sổ *xem nhật ký*
 * **Bug:** Loại bỏ khoảng trống không mong muốn khi thay đổi kích thước của trình duyệt

@@ -81,7 +81,7 @@ body.embeded .menu {
 
 .menu .group .title.big {
     color: #3a5068;
-    font-size: 22px;
+    font-size: 21px;
 }
 
 .menu .group .title.small {
@@ -205,6 +205,7 @@ body.embeded .menu {
 }
 
 .menu .group .item.lr .right {
+    text-align: right;
     flex-grow: 0;
     margin-left: 10px;
 }

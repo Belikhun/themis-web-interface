@@ -276,7 +276,11 @@ function checkServer(ip, callback = () => {}) {
     })
 }
 
-function parseTime(t = 0) {
+function time(date = new Date()) {
+    return date.getTime() / 1000;
+}
+
+function parseTime(t = 0, padding = 3) {
     var d = "";
     if (t < 0) {
         t = -t;
@@ -285,7 +289,7 @@ function parseTime(t = 0) {
     var h = Math.floor(t / 3600);
     var m = Math.floor(t % 3600 / 60);
     var s = Math.floor(t % 3600 % 60);
-    var ms = pleft(parseInt(t.toString().split(".")[1]), 3);
+    var ms = pleft(parseInt(t.toFixed(padding).split(".")[1]), padding);
 
     return {
         h: h,
@@ -537,7 +541,7 @@ window.addEventListener("error", e => {
 })
 
 // window.addEventListener("unhandledrejection", (e) => {
-//     // promise: e.promise; reason: e.reason
+//      promise: e.promise; reason: e.reason
 // })
 
 __connection__ = {

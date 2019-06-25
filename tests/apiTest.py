@@ -45,7 +45,7 @@ def testAPI(url = "", method = "GET", json = True, data = {}, files = {}):
             data = sess.post("http://localhost/" + url, data = data, files = files)
 
     except Exception as excp:
-        return str(excp)
+        return repr(excp)
     else:
         if (not json):
             return True
@@ -53,7 +53,8 @@ def testAPI(url = "", method = "GET", json = True, data = {}, files = {}):
         try:
             json = data.json()
         except Exception as excp:
-            return str(excp)
+            print(data.text)
+            return repr(excp)
         else:
             if (json["code"] != 0):
                 return "[{}] {}".format(json["code"], json["description"])

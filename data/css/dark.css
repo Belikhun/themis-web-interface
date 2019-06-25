@@ -31,7 +31,7 @@ body.dark .nav .lnav .title .sub {
     color: rgb(182, 182, 182);
 }
 
-body.dark .nav .rnav .icon-menu span {
+body.dark .nav .rnav .hamburger span {
     background-color: rgb(216, 216, 216);
 }
 
@@ -60,30 +60,30 @@ body.dark panel .main {
 
 /* File Upload Panel */
 
-body.dark #uploadp .fileupload-container #file_dropzone {
+body.dark #uploadp .fileupload-container #submit_dropzone {
     border-color: rgb(124, 124, 124);
     color: rgb(124, 124, 124);
 }
 
-body.dark #uploadp .fileupload-container #file_dropzone.drag {
+body.dark #uploadp .fileupload-container #submit_dropzone.drag {
     background-color: rgb(98, 98, 98);
     border-color: rgb(156, 156, 156);
     color: rgb(156, 156, 156);
 }
 
-body.dark #uploadp .fileupload-container #file_dropzone .title {
+body.dark #uploadp .fileupload-container #submit_dropzone .title {
     color: rgb(180, 180, 180);
 }
 
-body.dark #uploadp .fileupload-container #file_dropzone .sub {
+body.dark #uploadp .fileupload-container #submit_dropzone .sub {
     color: rgb(160, 160, 160);
 }
 
-body.dark #uploadp .fileupload-container .info #file_upstate {
+body.dark #uploadp .fileupload-container .info #submit_upstate {
     color: rgb(214, 214, 214);
 }
 
-body.dark #uploadp .fileupload-container .info #file_name {
+body.dark #uploadp .fileupload-container .info #submit_name {
     color: rgb(160, 160, 160);
 }
 
@@ -91,16 +91,16 @@ body.dark #uploadp .fileupload-container .info .bar {
     background-color: rgba(204, 204, 204, 0.2);
 }
 
-body.dark #uploadp .fileupload-container .info .bar #file_bar {
+body.dark #uploadp .fileupload-container .info .bar #submit_bar {
     background-color: #21c2a2;
 }
 
-body.dark #uploadp .fileupload-container .info .bar #file_bar.red {
-    background-color: #df3725;
+body.dark #uploadp .fileupload-container .info .bar #submit_bar.red {
+    background-color: #f14d3b;
 }
 
-body.dark #uploadp .fileupload-container .info .bar #file_perc,
-body.dark #uploadp .fileupload-container .info .bar #file_size {
+body.dark #uploadp .fileupload-container .info .bar #submit_perc,
+body.dark #uploadp .fileupload-container .info .bar #submit_size {
     color: rgba(200, 200, 200, 0.7);
 }
 
@@ -138,6 +138,10 @@ body.dark .problemEnlarged .right {
     background-color: rgb(54, 54, 54);
 }
 
+body.dark .problemEnlarged .right .description {
+    color: rgb(214, 214, 214);
+}
+
 body.dark .problemEnlarged .right .description::before {
     color: rgb(216, 216, 216);
 }
@@ -148,7 +152,8 @@ body.dark #timep .time-container #time_state {
     color: rgb(195, 195, 195);
 }
 
-body.dark #timep .time-container #time_time {
+body.dark #timep .time-container .time #time_time,
+body.dark #timep .time-container .time #time_ms {
     color: rgb(226, 226, 226);
 }
 
@@ -165,15 +170,17 @@ body.dark #timep .time-container .bar #time_bar {
     background-color: #3186be;
 }
 
-body.dark #timep .time-container #time_time.red {
-    color: #ff6f5f;
+body.dark #timep .time-container[data-color="red"] .time #time_time,
+body.dark #timep .time-container[data-color="red"] .time #time_ms {
+    color: #f17466;
 }
 
-body.dark #timep .time-container #time_time.green {
+body.dark #timep .time-container[data-color="green"] .time #time_time,
+body.dark #timep .time-container[data-color="green"] .time #time_ms {
     color: #42ff91;
 }
 
-body.dark #timep .time-container #time_time.red + .bar #time_bar {
+body.dark #timep .time-container[data-color="red"] #time_bar {
     background-color: #e03e2c;
 }
 
@@ -508,6 +515,10 @@ body.dark .syslogs-settings .log {
     background-color: transparent;
 }
 
+body.dark .syslogs-settings .log:hover {
+    background-color: rgba(42, 42, 42, 0.8);
+}
+
 body.dark .syslogs-settings .log .level {
     background-color: rgba(65, 65, 65, 0.8);
     color: rgb(218, 218, 218);
@@ -517,15 +528,7 @@ body.dark .syslogs-settings .log .detail {
     border-left: 2px solid rgb(104, 104, 104);
 }
 
-body.dark .syslogs-settings .log .detail .top t {
-    color: rgb(155, 155, 155);
-}
-
-body.dark .syslogs-settings .log .detail .top .client {
-    color: rgb(184, 184, 184);
-}
-
-body.dark .syslogs-settings .log .detail .top .client::before {
+body.dark .syslogs-settings .log .detail .info t {
     color: rgb(155, 155, 155);
 }
 

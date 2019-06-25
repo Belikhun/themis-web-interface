@@ -41,6 +41,14 @@ class splash {
                 type: "t",
                 class: "status",
                 name: "status"
+            }, {
+                type: "t",
+                class: "errormsg",
+                name: "errorMsg"
+            }, {
+                type: "t",
+                class: "tips",
+                name: "tips"
             }]
         }, {
             type: "div",
@@ -113,6 +121,7 @@ class splash {
         this.loaded = false;
         this.phase.innerText = "Phase 2/3: Script Initialization";
         this.bar.style.width = `40%`;
+        this.tree.middle.tips.innerHTML = `Thử tải lại cứng bằng tổ hợp phím <b>Ctrl + Shift + R</b> hoặc <b>Ctrl + F5</b> nếu có lỗi xảy ra`;
 
         await this.init((progress = 0, text = "") => {
             if (!this.preLoaded)
@@ -120,13 +129,13 @@ class splash {
 
             this.status.innerText = `${text} [${progress.toFixed(2)}%]`;
             this.bar.style.width = `${40 + progress*0.5}%`;
-        })
+        }).catch(e => this.__panic(e));
 
         this.loaded = true;
         await this.__postInit();
 
         this.bar.style.width = `100%`;
-        this.status.innerText = "Đã tải.";
+        this.status.innerText = "Đã tải";
         this.splash.classList.add("done");
     }
 
@@ -140,6 +149,20 @@ class splash {
     
             this.status.innerText = `${text} [${progress}%]`;
             this.bar.style.width = `${90 + progress*0.1}%`;
-        });
+        }).catch(e => this.__panic(e, false));
+    }
+
+    __panic(error, stop = true) {
+        let e = error.name || `${error.data.data.file}:${error.data.data.line}`;
+        let d = error.message || error.data.description;
+
+        this.status.innerText = "Lỗi đã xảy ra";
+        this.tree.middle.errorMsg.innerText = `${e}: ${d}`;
+        this.bar.classList.add("red");
+        
+        if (stop)
+            throw error;
+        else
+            console.error(error);
     }
 }

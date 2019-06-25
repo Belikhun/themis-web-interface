@@ -140,7 +140,7 @@
     font-weight: 600;
     text-align: center;
     letter-spacing: 0.5px;
-    padding: 7px 18px;
+    padding: 8px 20px;
     border-width: 0;
     border-style: solid;
     border-color: rgb(0, 0, 0);
@@ -266,4 +266,18 @@
 .sq-btn.dark:after {
     border-color: transparent transparent #0b2e3d transparent;
     animation-duration: 7.8s;
+}
+
+.sq-btn.brown {
+    background-color: #231B22;
+}
+
+.sq-btn.brown:before {
+    border-color: transparent transparent rgb(58, 47, 57) transparent;
+    animation-duration: 8.3s;
+}
+
+.sq-btn.brown:after {
+    border-color: transparent transparent rgb(20, 16, 20) transparent;
+    animation-duration: 8.1s;
 }

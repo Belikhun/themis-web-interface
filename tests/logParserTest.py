@@ -28,7 +28,7 @@ def __testServerOnline():
     try:
         sess.get("http://localhost")
     except Exception as excp:
-        return excp.__class__.__name__
+        return repr(excp)
 
     return True
 
@@ -61,8 +61,8 @@ def __getLog():
 
     try:
         logData = getAPI("api/test/viewlog?f=" + target, "GET")
-    except Exception as e:
-        return str(e)
+    except Exception as excp:
+        return repr(excp)
 
     return True
 

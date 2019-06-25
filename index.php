@@ -103,10 +103,10 @@
                     version: window.serverStatus.version,
                     hostname: location.hostname,
                     loadtime: ((new Date()).getTime() - window.performance.timing.navigationStart) / 1000,
-                    downlink: navigator.connection.downlink,
+                    downlink: (navigator) ? navigator.connection.downlink : 0,
                     versiontag: window.serverStatus.versionTag,
                     contestname: window.serverStatus.contestName,
-                    platform: navigator.platform,
+                    platform: (navigator) ? navigator.platform : null,
                     darkmode: cookie.get("__darkMode")
                 });
             }
@@ -138,7 +138,7 @@
                     </ul>
                     <img id="user_avt" class="avatar" src="/api/avt/get?u=<?php print $username; ?>" />
                 <?php } ?>
-                <span class="icon-menu">
+                <span class="hamburger">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -262,6 +262,13 @@
                             <t class="left">Hoạt ảnh</t>
                             <label class="sq-checkbox blue right">
                                 <input id="usett_transition" type="checkbox" class="sound" data-soundcheck>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <div class="item lr sound" data-soundhoversoft>
+                            <t class="left">Hiện millisecond</t>
+                            <label class="sq-checkbox blue right">
+                                <input id="usett_millisecond" type="checkbox" class="sound" data-soundcheck>
                                 <span class="checkmark"></span>
                             </label>
                         </div>
@@ -538,7 +545,7 @@
                                 <div class="badge">
                                     <a href="<?php print REPO_ADDRESS; ?>/releases/" target="_blank" rel="noopener"><img src="/tool/badge?su=<?php print VERSION_TAG; ?>&st=v<?php print VERSION; ?>&c=brightgreen"></a>
                                     <img src="/tool/badge?su=license&st=MIT&c=orange">
-                                    <img src="/tool/badge?su=status&st=not tested&c=blue">
+                                    <img src="/tool/badge?su=status&st=may contain bugs&c=blue">
                                     <img src="/tool/badge?su=author&st=Đỗ Mạnh Hà&c=red">
                                     <a href="http://thptlaclongquan.hoabinh.edu.vn" target="_blank" rel="noopener"><img src="/tool/badge?su=school&st=Lac Long Quan High School, Hoa Binh&c=yellow"></a>
                                 </div>
@@ -602,19 +609,19 @@
                     </span>
                 </div>
                 <div class="main fileupload-container">
-                    <div id="file_dropzone">
-                        <input type="file" id="file_input" multiple>
+                    <div id="submit_dropzone">
+                        <input type="file" id="submit_input" multiple>
                         <t class="title">Thả tệp tại đây</t>
                         <t class="sub">hoặc</t>
-                        <label for="file_input" class="sq-btn dark sound" data-soundhover data-soundselect>Chọn tệp</label>
+                        <label for="submit_input" class="sq-btn dark sound" data-soundhover data-soundselect>Chọn tệp</label>
                     </div>
                     <div class="info">
-                        <t id="file_upstate">null</t>
-                        <t id="file_name">null</t>
+                        <t id="submit_upstate">null</t>
+                        <t id="submit_name">null</t>
                         <div class="bar">
-                            <div id="file_bar"></div>
-                            <t id="file_perc">0%</t>
-                            <t id="file_size">00/00</t>
+                            <div id="submit_bar"></div>
+                            <t id="submit_perc">0%</t>
+                            <t id="submit_size">00/00</t>
                         </div>
                     </div>
                 </div>
@@ -630,7 +637,12 @@
                 </div>
                 <div class="main time-container">
                     <t id="time_state">---</t>
-                    <t id="time_time">--:--</t>
+
+                    <div class="time">
+                        <t id="time_time">--:--</t>
+                        <t id="time_ms">--</t>
+                    </div>
+                    
                     <div class="bar">
                         <div id="time_bar"></div>
                         <t id="time_start">--:--</t>
@@ -649,7 +661,7 @@
                     </span>
                 </div>
                 <div class="main problem-container">
-                    <ul class="problem-list sound" data-soundtoggle="hide" id="problem_list">
+                    <ul class="problem-list sound" data-soundtoggle="hide" id="problemList">
                     </ul>
                     <div class="problem">
                         <t class="name" id="problem_name"></t>
