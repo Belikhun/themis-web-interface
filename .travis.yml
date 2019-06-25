@@ -50,8 +50,7 @@ matrix:
         - name: "API Test"
           env: TEST_SUITE=API
         - name: "logParser Test"
-          env: TEST_SUITE=logParser
-        
+          env: TEST_SUITE=logParser        
 
 script: ./run.sh $TEST_SUITE -q
 
