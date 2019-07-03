@@ -16,7 +16,7 @@
 
     if (ERROR_HANDLING === "NORMAL") {
         function errorthrow(Int $errnum, String $errstr, String $errfile, Int $errline, $errcode = 500) {
-            $iframe = headers_sent();
+            $iframe = (headers_sent() || ob_get_contents());
 
             if (!is_numeric($errcode))
                 $errcode = 500;
@@ -44,7 +44,7 @@
 
         function printErrorPage(Array $data, Bool $useIframe = false) {
             $_SESSION["lastError"] = $data;
-            print "\"><!-- Output Stopped here. Begin Error Page Element -->";
+            print (($useIframe) ? "\" />" : "") . "<!-- Output Stopped here. Begin Error Page Element -->";
             
             if ($useIframe)
                 print "<iframe src=\"/lib/error.php\" style=\"position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: unset; overflow: auto;\"></iframe>";
