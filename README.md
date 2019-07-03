@@ -7,7 +7,7 @@ An beautiful and easy-to-use Web Interface for **[Themis](https://dsapblog.wordp
 [![version](https://img.shields.io/badge/release-v0.4.4-brightgreen.svg?longCache=true&style=for-the-badge)](https://github.com/belivipro9x99/themis-webinterface/releases/)
 [![license](https://img.shields.io/badge/license-MIT-orange.svg?longCache=true&style=for-the-badge)](https://github.com/belivipro9x99/themis-web-interface/blob/master/LICENSE)
 [![status](https://img.shields.io/badge/status-May_contain_bugs-blue.svg?longCache=true&style=for-the-badge)]()
-[![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface.svg?label=master&style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface)
+[![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface.svg?style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface)
 [![codefactor](https://www.codefactor.io/repository/github/belivipro9x99/themis-web-interface/badge/v0.4.3?style=for-the-badge)](https://www.codefactor.io/repository/github/belivipro9x99/themis-web-interface)
 
 <img src="https://lh3.googleusercontent.com/UdSV7TJBI2Te8fITAvrgRYnMGL6KTpycmsPOs26AJ5HIUWvYRq_TT9pAXy_ODXeLuwmwjQstJX0CY9F23cr3qCdY9cL9QShHJLibfJsEmMBfryBWkjJVEOax1XOZAp2Wl3OguPFfJQ=w2400" width="600px">
@@ -20,8 +20,8 @@ An beautiful and easy-to-use Web Interface for **[Themis](https://dsapblog.wordp
 
 | 🌿     |                                                                                          Travis CI Status                                                                                           |
 |:-------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| master |    [![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface.svg?label=master&style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface)     |
-| v0.4.4 | [![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface/v0.4.4.svg?label=v0.4.4&style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface) |
+| master |    [![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface/master.svg?label=master&style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface)     |
+| v0.4.5 | [![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface/v0.4.5.svg?label=v0.4.4&style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface) |
 
 - [Demo](#demo)
 - [Yêu cầu](#yêu-cầu)
