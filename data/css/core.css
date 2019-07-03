@@ -1306,6 +1306,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 }
 
 #rankp div.ranking-container table tr .number.link,
+#rankp div.ranking-container table tr .number.correct,
 #rankp div.ranking-container table tr .number.passed,
 #rankp div.ranking-container table tr .number.accepted,
 #rankp div.ranking-container table tr .number.failed {
