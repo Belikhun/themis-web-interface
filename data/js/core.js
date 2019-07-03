@@ -360,7 +360,7 @@ core = {
                             <t class="l">${this.languages[item.extension] || item.extension}</t>
                         </div>
                     </div>
-                    <a class="d" onClick="core.viewLog('${item.logFile}')"></a>
+                    <a class="d${item.logFile ? ` link" onClick="core.viewLog('${item.logFile}')"` : `"`}></a>
                 </li>
             `
 

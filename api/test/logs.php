@@ -72,10 +72,9 @@
 		if (!strpos($log, "[". $username ."]") > 0 || strpos(strtolower($log), ".log") === -1)
 			continue;
 
-		$filename = pathinfo($log, PATHINFO_FILENAME);
-		$url = null;
-
+		$filename = null;
 		if ($config["viewlog"] === true)
+			$filename = pathinfo($log, PATHINFO_FILENAME);
 
 		$lastmtime = filemtime($log);
 		$lastm = date("d/m/Y H:i:s", $lastmtime);
