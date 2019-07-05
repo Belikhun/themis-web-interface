@@ -1,6 +1,7 @@
 # Change Logs
 
-- [Thay đổi trong v0.4.4](#thay-đổi-trong-v044-release)
+- [Thay đổi trong v0.4.5](#thay-đổi-trong-v045-release)
+	- [Thay đổi trong v0.4.4](#thay-đổi-trong-v044-release)
 	- [Thay đổi trong v0.4.3](#thay-đổi-trong-v043-release)
 	- [Thay đổi trong v0.4.2](#thay-đổi-trong-v040-release)
 	- [Thay đổi trong v0.4.1](#thay-đổi-trong-v040-release)
@@ -21,7 +22,15 @@
 
 ---
 
-## Thay đổi trong v0.4.4
+## Thay đổi trong v0.4.5
+
+* **Bug:** Trang lỗi hiển thị ở api thay vì hiển thị đoạn json chứa thông tin lỗi
+* **Bug:** Lỗi `Undefined Variable: lastmtime` tại `/api/test/logs` khi tắt cài đặt `Cho phép xem nhật ký`
+* **Chỉnh sửa:** Chỉnh sửa màu tại bảng rank cho các bài chính xác`
+* **Chỉnh sửa:** Chỉnh sửa nút xem nhật ký tại bảng nhật ký`
+* Sửa một số bug, lỗi hiển thị và thêm một số chức năng nhỏ
+
+### Thay đổi trong v0.4.4
 
 * **Bug:** Web dừng tải ở một số trình duyệt khác
 * **Bug:** Avatar sẽ không bị kéo dãn khi sử dụng hình không phải hình vuông
