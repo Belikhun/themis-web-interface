@@ -367,6 +367,10 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     text-decoration: none;
 }
 
+#logp div.main ul.log-item-container li.log-item .d:not(.link) {
+    cursor: not-allowed;
+}
+
 #logp div.main ul.log-item-container li.log-item .d::before {
     content: "open_in_browser";
     font-family: "Material Icons";
@@ -401,6 +405,11 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     animation: spin 1s linear 0s infinite forwards;
     font-weight: 600;
     font-size: 12px;
+}
+
+#logp div.main ul.log-item-container li.log-item.queue .d,
+#logp div.main ul.log-item-container li.log-item.judging .d {
+    cursor: default;
 }
 
 #uploadp .fileupload-container {
@@ -1306,6 +1315,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 }
 
 #rankp div.ranking-container table tr .number.link,
+#rankp div.ranking-container table tr .number.correct,
 #rankp div.ranking-container table tr .number.passed,
 #rankp div.ranking-container table tr .number.accepted,
 #rankp div.ranking-container table tr .number.failed {

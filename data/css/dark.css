@@ -205,6 +205,7 @@ body.dark #rankp div.ranking-container table tr td.number:nth-child(4) {
 }
 
 body.dark #rankp div.ranking-container table tr .number.link,
+body.dark #rankp div.ranking-container table tr .number.correct,
 body.dark #rankp div.ranking-container table tr .number.passed,
 body.dark #rankp div.ranking-container table tr .number.accepted,
 body.dark #rankp div.ranking-container table tr .number.failed {
