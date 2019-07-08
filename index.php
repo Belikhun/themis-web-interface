@@ -43,6 +43,7 @@
         $id = $userdata["id"];
     }
 
+    $stripedContestDescription = strip_tags($config["contest"]["description"]);
 ?>
 
     <!DOCTYPE html>
@@ -56,7 +57,23 @@
         <!-- Thay đổi tiêu đề trang hiện đã có trong phần Admin Control Panel -->
         <title><?php print $config["pagetitle"]; ?></title>
 
-        <!-- Library First -->
+        <!-- Primary Meta Tags -->
+        <meta name="title" content="<?php print $config["contest"]["name"]; ?>">
+        <meta name="description" content="<?php print $stripedContestDescription; ?>">
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="<?php print $config["contest"]["name"]; ?>">
+        <meta property="og:description" content="<?php print $stripedContestDescription; ?>">
+        <meta property="og:image" content="/data/img/banner.png">
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:title" content="<?php print $config["contest"]["name"]; ?>">
+        <meta property="twitter:description" content="<?php print $stripedContestDescription; ?>">
+        <meta property="twitter:image" content="/data/img/banner.png">
+
+        <!-- Load Library First -->
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/default.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/splash.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
