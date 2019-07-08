@@ -121,8 +121,25 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
     <title><?php print $errCode ." ". $error; ?></title>
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="<?php print $error; ?>">
+    <meta name="description" content="<?php print $description; ?>">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="<?php print $error; ?>">
+    <meta property="og:description" content="<?php print $description; ?>">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="<?php print $error; ?>">
+    <meta property="twitter:description" content="<?php print $description; ?>">
+
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/error.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/scrollbar.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
