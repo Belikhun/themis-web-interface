@@ -96,22 +96,25 @@
     }
 
     $errDetail = empty($errDetail) ? $errDetailSub : $errDetail;
+    $reportData = "";
 
-    $reportData = join("\n", Array(
-        "----------------BEGIN ERROR REPORT DATA----------------",
-        "Protocol       : " . $sv_pr,
-        "HTTP Code      : " . $errCode,
-        "Error Code     : " . (isset($err["code"]) ? $err["code"] : "null"),
-        "Error String   : " . $error,
-        "Error Detail   : " . (isset($err["description"]) ? $err["description"] : strip_tags($description)),
-        "URI            : " . (isset($errData["uri"]) ? $errData["uri"] : $uri),
-        "",
-        "Server         : " . $sv,
-        "Client         : " . $cl,
-        "",
-        "ERROR DATA     : " . (isset($err) ? "\n" . json_encode($err, JSON_PRETTY_PRINT) : "null"),
-        "-----------------END ERROR REPORT DATA-----------------"
-    ));
+    if (isset($err))
+        $reportData = join("\n", Array(
+            "----------------BEGIN ERROR REPORT DATA----------------",
+            "Protocol       : " . $sv_pr,
+            "HTTP Code      : " . $errCode,
+            "Error Code     : " . (isset($err["code"]) ? $err["code"] : "null"),
+            "Error String   : " . $error,
+            "Error Detail   : " . (isset($err["description"]) ? $err["description"] : strip_tags($description)),
+            "URI            : " . (isset($errData["uri"]) ? $errData["uri"] : $uri),
+            "",
+            "Server         : " . $sv,
+            "Client         : " . $cl,
+            "",
+            "ERROR DATA     : \n" . json_encode($err, JSON_PRETTY_PRINT),
+            "-----------------END ERROR REPORT DATA-----------------"
+        ));
+
     writeLog("WARN", "Got statuscode \"". $errCode ." ". $error ."\" when trying to access: ". $uri);
 ?>
 
@@ -159,9 +162,11 @@
             <p class="description"><?php print $description; ?></p>
             <p class="detail"><?php print $errDetail; ?></p>
 
-            <t class="reportIns">Sử dụng thông tin dưới đây để báo cáo lỗi:</t>
-            <textarea class="report" onclick="this.select()" readonly><?php print $reportData; ?></textarea>
-
+            <?php if (!empty($reportData)) { ?>
+                <t class="reportIns">Sử dụng thông tin dưới đây để báo cáo lỗi:</t>
+                <textarea class="report" onclick="this.select()" readonly><?php print $reportData; ?></textarea>
+            <?php } ?>
+            
             <p class="info">
                 Client: <?php print $cl; ?><br>
                 Server: <?php print $sv; ?><br>
