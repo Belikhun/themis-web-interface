@@ -212,7 +212,7 @@ body.guest #rankp {
     width: calc(100% - 20px);
 }
 
-body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
+body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     height: calc(100% - 20px);
 }
 
