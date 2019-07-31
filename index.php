@@ -102,14 +102,14 @@
         <script src="/data/js/belibrary.js" type="text/javascript"></script>
         <script type="text/javascript" src="/data/js/splash.js"></script>
         <script type="text/javascript">
-            var mainSplash = new splash(document.body, "<?php print APPNAME; ?>", "<?php print VERSION ."-". VERSION_TAG; ?>", "/data/img/icon.webp");
+            var mainSplash = new splash(document.body, "<?php print $config["contest"]["name"]; ?>", "<?php print $stripedContestDescription; ?>", "/data/img/icon.webp");
 
-            mainSplash.init = async (set) => {
+            mainSplash.init = async set => {
                 set(0, "Initializing core.js");
                 await core.init(set);
             }
 
-            mainSplash.postInit = async (set) => {
+            mainSplash.postInit = async set => {
                 set(50, "Đang kiểm tra phiên bản mới...");
                 await core.checkUpdateAsync(IS_ADMIN);
 
