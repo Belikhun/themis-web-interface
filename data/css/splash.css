@@ -81,10 +81,10 @@
     display: block;
     margin: auto;
     text-align: center;
-    margin-bottom: 22px;
+    margin: 4px 0 22px 0;
     color: #40566d;
     font-weight: bold;
-    font-size: 11px;
+    font-size: 10px;
     text-transform: uppercase;
 }
 
