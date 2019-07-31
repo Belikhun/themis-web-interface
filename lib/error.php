@@ -63,7 +63,7 @@
         case 404:
             $error = "Not Found";
             $description = "Không thể tìm thấy <sy>$sv_hs$uri</sy> trên máy chủ.";
-            $errDetailSub = "thanos: <sg>*snap fingers*</sg><br>this page:";
+            $errDetailSub = "thanos: <sg>*snap fingers*</sg><br>this page: <sg>*insert surprise pikachu face*<sg>";
             break;
         case 405:
             $error = "Method Not Allowed";
