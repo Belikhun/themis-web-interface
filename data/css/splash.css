@@ -79,9 +79,8 @@
 .splash .middle .appsubname {
     position: relative;
     display: block;
-    margin: auto;
     text-align: center;
-    margin: 4px 0 22px 0;
+    margin: 4px auto 22px auto;
     color: #40566d;
     font-weight: bold;
     font-size: 10px;
