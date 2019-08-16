@@ -46,6 +46,7 @@
         case 200:
             $error = "This is not a error";
             $description = "Who take you here?";
+            $errDetailSub = "Maybe... you?";
             break;
         case 400:
             $error = "Bad Request";
@@ -53,7 +54,7 @@
             break;
         case 401:
             $error = "Unauthorized";
-            $description = "Authentication is required and has failed or has not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.";
+            $description = "Authentication is required and has failed or has not yet been provided.";
             break;
         case 403:
             $error = "Forbidden";
@@ -63,7 +64,7 @@
         case 404:
             $error = "Not Found";
             $description = "Không thể tìm thấy <sy>$sv_hs$uri</sy> trên máy chủ.";
-            $errDetailSub = "thanos: <sg>*snap fingers*</sg><br>this page: <sg>*insert surprise pikachu face*<sg>";
+            $errDetailSub = "thanos: <sg>*snap fingers*</sg><br>this page:<br>you:<br><img src=\"/data/img/pikachu.jpg\" width=\"20%\" style=\"margin-top: 6px\">";
             break;
         case 405:
             $error = "Method Not Allowed";
@@ -75,7 +76,8 @@
             break;
         case 408:
             $error = "Request Timeout";
-            $description = "The client did not produce a request within the time that the server was prepared to wait. The client MAY repeat the request without modifications at any later time.";
+            $description = "The client did not produce a request within the time that the server was prepared to wait.";
+            $errDetailSub = "The client MAY repeat the request without modifications at any later time.";
             break;
         case 414:
             $error = "URI Too Long";
