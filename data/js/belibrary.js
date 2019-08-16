@@ -10,7 +10,7 @@ function myajax({
     method = "GET",
     query = Array(),
     form = Array(),
-    file = null,
+    header = Array(),
     type = "json",
     onUpload = () => {},
     onDownload = () => {},
@@ -21,34 +21,31 @@ function myajax({
 }, callout = () => {}, error = () => {}) {
     return new Promise((resolve, reject) => {
         if (__connection__.onlineState !== "online" && force === false) {
-            var e = {};
+            let errorObj = {}
             switch (__connection__.onlineState) {
                 case "offline":
-                    e = { code: 106, description: "Disconnected to Server" }
+                    errorObj = { code: 106, description: "Disconnected to Server" }
                     break;
                 case "ratelimited":
-                    e = { code: 32, description: "Rate Limited" }
+                    errorObj = { code: 32, description: "Rate Limited" }
                     break;
             }
 
-            reject(e);
-            error(e);
+            reject(errorObj);
+            error(errorObj);
+
             return;
         }
 
         var xhr = new XMLHttpRequest();
         let formData = new FormData();
-        if (file)
-            formData.append("file", file);
 
-        for (let key in form)
-            if (form.hasOwnProperty(key))
-                formData.append(key, form[key]);
+        for (let key of Object.keys(form))
+            formData.append(key, form[key]);
 
         let queryKey = Object.keys(query);
-        for (let key in query)
-            if (query.hasOwnProperty(key))
-                url += `${(queryKey[0] === key) ? "?" : ""}${key}=${query[key]}${(queryKey[queryKey.length - 1] !== key) ? "&" : ""}`;
+        for (let key of queryKey)
+            url += `${(queryKey[0] === key) ? "?" : ""}${key}=${query[key]}${(queryKey[queryKey.length - 1] !== key) ? "&" : ""}`;
 
         xhr.upload.addEventListener("progress", e => onUpload(e), false);
         xhr.addEventListener("progress", e => onDownload(e), false);
@@ -59,9 +56,10 @@ function myajax({
                     if (changeState === true)
                         __connection__.stateChange("offline");
                         
-                    let e = { code: 106, description: "Disconnected to Server" };
-                    reject(e);
-                    error(e);
+                    let errorObj = { code: 106, description: "Disconnected to Server" };
+                    reject(errorObj);
+                    error(errorObj);
+
                     return;
                 }
                 
@@ -77,10 +75,11 @@ function myajax({
                         text: url
                     });
 
-                    let e = { code: 1, description: `HTTP ${this.status}: ${this.statusText}` }
-                    error(e);
-                    reject(e);
-                    return false;
+                    let errorObj = { code: 1, description: `HTTP ${this.status}: ${this.statusText}` }
+                    error(errorObj);
+                    reject(errorObj);
+
+                    return;
                 }
 
                 if (type === "json") {
@@ -89,9 +88,10 @@ function myajax({
                     } catch (data) {
                         clog("errr", "Error parsing JSON.");
 
-                        let e = { code: 2, description: `Error parsing JSON`, data: data }
-                        error(data);
-                        reject(data);
+                        let errorObj = { code: 2, description: `Error parsing JSON`, data: data }
+                        error(errorObj);
+                        reject(errorObj);
+
                         return;
                     }
 
@@ -117,7 +117,6 @@ function myajax({
                                 method: method,
                                 query: query,
                                 form: form,
-                                file: file,
                                 type: type,
                                 onUpload: onUpload,
                                 onDownload: onDownload,
@@ -130,9 +129,10 @@ function myajax({
 
                             return;
                         } else {
-                            let e = { code: 3, description: `HTTP ${this.status}: ${this.statusText}`, data: res }
-                            error(e);
-                            reject(e);
+                            let errorObj = { code: 3, description: `HTTP ${this.status}: ${this.statusText}`, data: res }
+                            error(errorObj);
+                            reject(errorObj);
+
                             return;
                         }
                     }
@@ -152,10 +152,11 @@ function myajax({
                             text: url
                         });
 
-                        let e = { code: 3, description: `HTTP ${this.status}: ${this.statusText}`, data: res }
-                        error(e);
-                        reject(e);
-                        return false;
+                        let errorObj = { code: 3, description: `HTTP ${this.status}: ${this.statusText}`, data: res }
+                        error(errorObj);
+                        reject(errorObj);
+
+                        return;
                     }
 
                     data = this.responseText;
@@ -168,6 +169,10 @@ function myajax({
         })
         
         xhr.open(method, url);
+
+        for (let key of Object.keys(header))
+            xhr.setRequestHeader(key, header[key]);
+
         xhr.send(formData);
     })
 }
