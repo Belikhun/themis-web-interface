@@ -102,7 +102,7 @@
         <script src="/data/js/belibrary.js" type="text/javascript"></script>
         <script type="text/javascript" src="/data/js/splash.js"></script>
         <script type="text/javascript">
-            var mainSplash = new splash(document.body, "<?php print $config["contest"]["name"]; ?>", "<?php print $stripedContestDescription; ?>", "/data/img/icon.webp");
+            var mainSplash = new splash(document.body, `<?php print $config["contest"]["name"]; ?>`, `<?php print $stripedContestDescription; ?>`, "/data/img/icon.webp");
 
             mainSplash.init = async set => {
                 set(0, "Initializing core.js");

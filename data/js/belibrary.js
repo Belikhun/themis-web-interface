@@ -451,8 +451,8 @@ cookie = {
 //? |-----------------------------------------------------------------------------------------------|
 
 function clog(level, ...args) {
-    const font = "Segoe UI";
-    const size = "15";
+    const font = "Calibri";
+    const size = "12";
     var date = new Date();
     const rtime = round(sc.stop, 3).toFixed(3);
     var str = "";
@@ -505,6 +505,7 @@ function clog(level, ...args) {
             var t = pleft(item.text, ((item.padding) ? item.padding : 0));
             if (i > 4) str += t + " ";
             out[0] += `%c${t}`;
+            
             if (item.padding) {
                 out[0] += "%c| ";
                 out[n] = `font-size: ${size}px; color: ${item.color};`;
