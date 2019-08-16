@@ -284,7 +284,7 @@ core = {
     },
 
     async fetchLog(bypass = false, clearJudging = false) {
-        var data = await myajax({
+        let data = await myajax({
             url: "/api/test/logs",
             method: clearJudging ? "DELETE" : "GET",
         });
@@ -293,9 +293,9 @@ core = {
             return false;
 
         clog("debg", "Updating Log");
-        var updatelog = new stopClock();
+        let updateLogTimer = new stopClock();
 
-        var list = this.logPanel.main.getElementsByClassName("log-item-container")[0];
+        let list = this.logPanel.main.getElementsByClassName("log-item-container")[0];
         
         if (data.judging.length === 0 && data.logs.length === 0 && data.queues.length === 0) {
             this.logPanel.main.classList.add("blank");
@@ -304,14 +304,14 @@ core = {
 
             clog("debg", "Log Is Blank. Took", {
                 color: flatc("blue"),
-                text: updatelog.stop + "s"
+                text: updateLogTimer.stop + "s"
             });
 
             return false;
         } else
             this.logPanel.main.classList.remove("blank");
 
-        var out = "";
+        let out = "";
         
         for (let item of data.judging)
             out += `
@@ -369,12 +369,12 @@ core = {
 
         clog("debg", "Log Updated. Took", {
             color: flatc("blue"),
-            text: updatelog.stop + "s"
+            text: updateLogTimer.stop + "s"
         });
     },
 
     async fetchRank(bypass = false) {
-        var data = await myajax({
+        let data = await myajax({
             url: "/api/test/rank",
             method: "GET",
         });
@@ -383,7 +383,7 @@ core = {
             return false;
 
         clog("debg", "Updating Rank");
-        var updaterank = new stopClock();
+        let updateRankTimer = new stopClock();
 
         if (data.list.length === 0 && data.rank.length === 0) {
             this.rankPanel.main.classList.add("blank");
@@ -392,7 +392,7 @@ core = {
             
             clog("debg", "Rank Is Blank. Took", {
                 color: flatc("blue"),
-                text: updaterank.stop + "s"
+                text: updateRankTimer.stop + "s"
             });
 
             return false;
@@ -400,8 +400,8 @@ core = {
             this.rankPanel.main.classList.remove("blank");
 
 
-        var list = data.list;
-        var out = `
+        let list = data.list;
+        let out = `
             <table>
                 <thead>
                     <tr>
@@ -411,30 +411,29 @@ core = {
                         <th>Tổng</th>
         `
 
-        for (var i = 0; i < list.length; i++)
-            out += `<th>${list[i]}</th>`;
-        out += "</tr></thead>";
+        for (let i of data.list)
+            out += `<th>${i}</th>`;
 
-        var ptotal = 0;
-        var rank = 0;
-        out += "<tbody>"
+        out += "</tr></thead><tbody>";
+        let ptotal = 0;
+        let rank = 0;
 
-        for (var i = 0; i < data.rank.length; i++) {
-            if (ptotal !== data.rank[i].total) {
-                ptotal = data.rank[i].total;
+        for (let i of data.rank) {
+            if (ptotal !== i.total) {
+                ptotal = i.total;
                 rank++;
             }
 
             out += `
                 <tr>
                     <td>${rank}</td>
-                    <td><img class="avt" src="/api/avt/get?u=${data.rank[i].username}"></td>
-                    <td><t class="name">${escapeHTML(data.rank[i].name || "u:" + data.rank[i].username)}</t></td>
-                    <td class="number">${parseFloat(data.rank[i].total).toFixed(2)}</td>
+                    <td><img class="avt" src="/api/avt/get?u=${i.username}"></td>
+                    <td><t class="name">${escapeHTML(i.name || "u:" + i.username)}</t></td>
+                    <td class="number">${parseFloat(i.total).toFixed(2)}</td>
             `
 
-            for (var j = 0; j < list.length; j++)
-                out += `<td class="number ${data.rank[i].status[list[j]] || ""}${(data.rank[i].logFile[list[j]]) ? ` link" onClick="core.viewLog('${data.rank[i].logFile[list[j]]}')` : ""}" >${parseFloat(data.rank[i].point[list[j]]).toFixed(2)}</td>`;
+            for (let j of list)
+                out += `<td class="number ${i.status[j] || ""}${(i.logFile[j]) ? ` link" onClick="core.viewLog('${i.logFile[j]}')` : ""}" >${parseFloat(i.point[j]).toFixed(2)}</td>`;
             
             out += "</tr>";
         }
@@ -445,7 +444,7 @@ core = {
 
         clog("debg", "Rank Updated. Took", {
             color: flatc("blue"),
-            text: updaterank.stop + "s"
+            text: updateRankTimer.stop + "s"
         });
     },
 
@@ -564,11 +563,11 @@ core = {
         onUploadSuccess() {},
 
         init() {
-            this.dropzone.addEventListener("dragenter", this.dragenter, false);
-            this.dropzone.addEventListener("dragleave", this.dragleave, false);
-            this.dropzone.addEventListener("dragover", this.dragover, false);
-            this.dropzone.addEventListener("drop", (e) => this.filesel(e), false);
-            this.input.addEventListener("change", (e) => this.filesel(e, "input"));
+            this.dropzone.addEventListener("dragEnter", this.dragEnter, false);
+            this.dropzone.addEventListener("dragLeave", this.dragLeave, false);
+            this.dropzone.addEventListener("dragOver", this.dragOver, false);
+            this.dropzone.addEventListener("drop", (e) => this.fileSelect(e), false);
+            this.input.addEventListener("change", (e) => this.fileSelect(e, "input"));
             this.panel.ref.onClick(() => this.reset());
 
             this.panel.title = "Nộp bài";
@@ -594,7 +593,7 @@ core = {
             this.bar.className = "";
         },
 
-        filesel(e, type = "drop") {
+        fileSelect(e, type = "drop") {
             if (type === "drop") {
                 e.stopPropagation();
                 e.preventDefault();
@@ -621,19 +620,19 @@ core = {
             setTimeout(() => this.upload(files), 1000);
         },
 
-        dragenter(e) {
+        dragEnter(e) {
             e.stopPropagation();
             e.preventDefault();
             this.classList.add("drag");
         },
 
-        dragleave(e) {
+        dragLeave(e) {
             e.stopPropagation();
             e.preventDefault();
             this.classList.remove("drag");
         },
 
-        dragover(e) {
+        dragOver(e) {
             e.stopPropagation();
             e.preventDefault();
             e.dataTransfer.dropEffect = "copy";
@@ -669,8 +668,8 @@ core = {
                     method: "POST",
                     form: {
                         "token": API_TOKEN,
+                        file: files[i]
                     },
-                    file: files[i],
                     onUpload: e => {
                         let p = (100 * ((e.loaded / e.total) + i)) / files.length;
 
@@ -948,25 +947,25 @@ core = {
     },
 
     timer: {
-        timepanel: new regPanel($("#timep")),
+        timePanel: new regPanel($("#timep")),
         state: $("#time_state"),
         time: $("#time_time"),
         timeMs: $("#time_ms"),
         bar: $("#time_bar"),
         start: $("#time_start"),
         end: $("#time_end"),
-        timedata: Array(),
+        timeData: Array(),
         enabled: true,
         interval: null,
         showMs: false,
         last: 0,
 
         async init() {
-            this.timepanel.ref.onClick(() => this.fetchTime(true));
-            this.timepanel.clo.onClick(e => this.close());
+            this.timePanel.ref.onClick(() => this.fetchTime(true));
+            this.timePanel.clo.onClick(e => this.close());
 
             if (LOGGED_IN)
-                this.timepanel.clo.hide();
+                this.timePanel.clo.hide();
 
             await this.fetchTime(true);
 
@@ -978,7 +977,7 @@ core = {
 
         close() {
             this.reset();
-            this.timepanel.panel.classList.remove("show");
+            this.timePanel.panel.classList.remove("show");
         },
 
         async fetchTime(init = false) {
@@ -997,7 +996,7 @@ core = {
             }
             
             this.enabled = true;
-            this.timedata = data;
+            this.timeData = data;
             this.start.innerText = `${(new Date(data.start * 1000)).toLocaleTimeString()} tới ${(new Date((data.start + data.during) * 1000)).toLocaleTimeString()}`;
 
             if (init) {
@@ -1021,31 +1020,31 @@ core = {
                 clearInterval(this.interval);
                 this.startInterval(65);
                 this.showMs = true;
-                this.timepanel.main.classList.add("ms");
+                this.timePanel.main.classList.add("ms");
             } else {
                 clearInterval(this.interval);
                 this.startInterval(1000);
                 this.showMs = false;
-                this.timepanel.main.classList.remove("ms");
+                this.timePanel.main.classList.remove("ms");
             }
         },
 
         reset() {
             clearInterval(this.interval);
-            this.timepanel.main.dataset.color = "red";
+            this.timePanel.main.dataset.color = "red";
             this.time.innerText = "--:--";
             this.bar.style.width = "0%";
             this.start.innerText = "--:--:-- - --:--:--";
             this.end.innerText = "--:--";
             this.state.innerText = "---";
             this.last = 0;
-            this.timedata.phase = 0;
+            this.timeData.phase = 0;
         },
 
         timeUpdate() {
-            let beginTime = this.timedata.start;
-            let duringTime = this.timedata.during;
-            let offsetTime = this.timedata.offset;
+            let beginTime = this.timeData.start;
+            let duringTime = this.timeData.during;
+            let offsetTime = this.timeData.offset;
             let t = beginTime - time() + duringTime;
 
             let color = "";
@@ -1093,7 +1092,7 @@ core = {
             if (this.showMs)
                 this.timeMs.innerText = tp.ms;
 
-            this.timepanel.main.dataset.color = color;
+            this.timePanel.main.dataset.color = color;
             this.time.innerText = tp.str;
             this.bar.style.width = proc + "%";
             this.end.innerText = end;
@@ -1245,16 +1244,16 @@ core = {
         uname: $("#user_name"),
         uavt: $("#user_avt"),
         avt: $("#usett_avt"),
-        avtw: $("#usett_avtw"),
-        avtinp: $("#usett_avtinp"),
+        avtWrapper: $("#usett_avtw"),
+        avtInput: $("#usett_avtinp"),
         name: $("#usett_name"),
         sub: {
             nameForm: $("#usett_edit_name_form"),
             passForm: $("#usett_edit_pass_form"),
             name: $("#usett_edit_name"),
             pass: $("#usett_edit_pass"),
-            nPass: $("#usett_edit_npass"),
-            renPass: $("#usett_edit_renpass"),
+            newPass: $("#usett_edit_npass"),
+            reTypePass: $("#usett_edit_renpass"),
         },
         logoutBtn: $("#usett_logout"),
         nightModeToggler: $("#usett_nightMode"),
@@ -1299,14 +1298,14 @@ core = {
                 document.body.classList.add("dark");
 
                 this.publicFilesIframe.contentWindow.document.body.classList.add("dark");
-                if (core.settings.cpanelIframe)
-                    core.settings.cpanelIframe.contentWindow.document.body.classList.add("dark");
+                if (core.settings.cPanelIframe)
+                    core.settings.cPanelIframe.contentWindow.document.body.classList.add("dark");
             }, e => {
                 document.body.classList.remove("dark");
 
                 this.publicFilesIframe.contentWindow.document.body.classList.remove("dark");
-                if (core.settings.cpanelIframe)
-                    core.settings.cpanelIframe.contentWindow.document.body.classList.remove("dark");
+                if (core.settings.cPanelIframe)
+                    core.settings.cPanelIframe.contentWindow.document.body.classList.remove("dark");
             }, false);
 
             // Transition setting
@@ -1354,21 +1353,21 @@ core = {
                 return;
             }
 
-            this.avtw.addEventListener("dragenter",  e => this.dragenter(e), false);
-            this.avtw.addEventListener("dragleave", e => this.dragleave(e), false);
-            this.avtw.addEventListener("dragover", e => this.dragover(e), false);
-            this.avtw.addEventListener("drop", e => this.filesel(e), false);
+            this.avtWrapper.addEventListener("dragEnter",  e => this.dragEnter(e), false);
+            this.avtWrapper.addEventListener("dragLeave", e => this.dragLeave(e), false);
+            this.avtWrapper.addEventListener("dragOver", e => this.dragOver(e), false);
+            this.avtWrapper.addEventListener("drop", e => this.fileSelect(e), false);
 
-            this.avtinp.addEventListener("change", e => this.filesel(e, "input"));
+            this.avtInput.addEventListener("change", e => this.fileSelect(e, "input"));
 
             this.sub.nameForm.addEventListener("submit", e => {
                 this.sub.nameForm.getElementsByTagName("button")[0].disabled = true;
-                this.changename(this.sub.name.value);
+                this.changeName(this.sub.name.value);
             }, false)
 
             this.sub.passForm.addEventListener("submit", e => {
                 this.sub.passForm.getElementsByTagName("button")[0].disabled = true;
-                this.changepass(this.sub.pass.value, this.sub.nPass.value, this.sub.renPass.value);
+                this.changePassword(this.sub.pass.value, this.sub.newPass.value, this.sub.reTypePass.value);
             }, false)
 
             this.logoutBtn.addEventListener("click", e => this.logout(e), false);
@@ -1385,7 +1384,7 @@ core = {
                 url: "/api/logout",
                 method: "POST",
                 form: {
-                    "token": API_TOKEN
+                    token: API_TOKEN
                 }
             }, () => location.reload());
         },
@@ -1402,14 +1401,14 @@ core = {
         },
 
         reset() {
-            this.avtw.classList.remove("drop");
-            this.avtw.classList.remove("load");
+            this.avtWrapper.classList.remove("drop");
+            this.avtWrapper.classList.remove("load");
             this.sub.nameForm.getElementsByTagName("button")[0].disabled = false;
             this.sub.passForm.getElementsByTagName("button")[0].disabled = false;
             this.sub.name.value = null;
             this.sub.pass.value = null;
-            this.sub.nPass.value = null;
-            this.sub.renPass.value = null;
+            this.sub.newPass.value = null;
+            this.sub.reTypePass.value = null;
         },
 
         reload(data, m = 0) {
@@ -1420,13 +1419,13 @@ core = {
                 this.uname.innerText = this.name.innerText = data;
         },
         
-        async changename(name) {
+        async changeName(name) {
             await myajax({
                 url: "/api/edit",
                 method: "POST",
                 form: {
-                    "n": name,
-                    "token": API_TOKEN
+                    n: name,
+                    token: API_TOKEN
                 }
             }, data => {
                 this.reset();
@@ -1438,15 +1437,15 @@ core = {
             }, () => this.reset());
         },
 
-        async changepass(pass, nPass, renPass) {
+        async changePassword(pass, newPass, reTypePass) {
             await myajax({
                 url: "/api/edit",
                 method: "POST",
                 form: {
-                    "p": pass,
-                    "np": nPass,
-                    "rnp": renPass,
-                    "token": API_TOKEN
+                    p: pass,
+                    np: newPass,
+                    rnp: reTypePass,
+                    token: API_TOKEN
                 }
             }, () => {
                 clog("okay", "Thay đổi mật khẩu thành công!");
@@ -1454,27 +1453,27 @@ core = {
             }, () => this.reset());
         },
 
-        filesel(e, type = "drop") {
+        fileSelect(e, type = "drop") {
             if (type === "drop") {
                 e.stopPropagation();
                 e.preventDefault();
-                this.avtw.classList.remove("drag");
+                this.avtWrapper.classList.remove("drag");
             }
 
             var file = (type === "drop") ? e.dataTransfer.files[0] : e.target.files[0];
 
-            this.avtw.classList.add("load");
-            setTimeout(() => this.avtupload(file), 1000);
+            this.avtWrapper.classList.add("load");
+            setTimeout(() => this.avtUpload(file), 1000);
         },
 
-        async avtupload(file) {
+        async avtUpload(file) {
             await myajax({
                 url: "/api/avt/change",
                 method: "POST",
                 form: {
-                    "token": API_TOKEN,
-                },
-                file: file,
+                    token: API_TOKEN,
+                    file: file
+                }
             }, data => {
                 this.reset();
                 this.reload(data);
@@ -1482,23 +1481,23 @@ core = {
             }, () => this.reset());
         },
 
-        dragenter(e) {
+        dragEnter(e) {
             e.stopPropagation();
             e.preventDefault();
-            this.avtw.classList.add("drag");
+            this.avtWrapper.classList.add("drag");
         },
 
-        dragleave(e) {
+        dragLeave(e) {
             e.stopPropagation();
             e.preventDefault();
-            this.avtw.classList.remove("drag");
+            this.avtWrapper.classList.remove("drag");
         },
 
-        dragover(e) {
+        dragOver(e) {
             e.stopPropagation();
             e.preventDefault();
             e.dataTransfer.dropEffect = "copy";
-            this.avtw.classList.add("drag");
+            this.avtWrapper.classList.add("drag");
         }
 
     },
@@ -1506,42 +1505,41 @@ core = {
     settings: {
         main: $("#container"),
         navcont: $("#usett_left_panel"),
-        cpanel: null,
-        cpanelIframe: null,
-        ppanel: null,
-        lpanel: null,
+        cPanel: null,
+        cPanelIframe: null,
+        pPanel: null,
+        lPanel: null,
         adminConfig: $("#usett_adminConfig"),
 
         async init() {
             this.adminConfig.style.display = "block";
-            this.cpanel = new core.userSettings.panel($("#settings_controlPanel"));
-            this.ppanel = new core.userSettings.panel($("#settings_problem"));
-            this.lpanel = new core.userSettings.panel($("#settings_syslogs"));
-            this.cpanelIframe = this.cpanel.main.getElementsByTagName("iframe")[0];
-            this.cpanelIframe.src = "config.php";
+            this.cPanel = new core.userSettings.panel($("#settings_controlPanel"));
+            this.pPanel = new core.userSettings.panel($("#settings_problem"));
+            this.lPanel = new core.userSettings.panel($("#settings_syslogs"));
+            this.cPanelIframe = this.cPanel.main.getElementsByTagName("iframe")[0];
+            this.cPanelIframe.src = "config.php";
 
-            this.cpanel.toggler = $("#settings_cpanelToggler");
-            this.ppanel.toggler = $("#settings_problemToggler");
-            this.lpanel.toggler = $("#settings_syslogsToggler");
+            this.cPanel.toggler = $("#settings_cPanelToggler");
+            this.pPanel.toggler = $("#settings_problemToggler");
+            this.lPanel.toggler = $("#settings_syslogsToggler");
 
             await this.problems.init();
-            await this.syslogs.init(this.lpanel);
+            await this.syslogs.init(this.lPanel);
 
-            this.cpanel.ref.onClick(() => {
-                this.cpanelIframe.contentWindow.location.reload();
-                clog("okay", "Reloaded CPanel IFrame.");
+            this.cPanel.ref.onClick(() => {
+                this.cPanelIframe.contentWindow.location.reload();
+                clog("okay", "Reloaded cPanel IFrame.");
             })
 
-            this.ppanel.ref.onClick(() => {
+            this.pPanel.ref.onClick(() => {
                 this.problems.getList();
-                this.problems.resetform();
-                this.problems.showlist();
+                this.problems.resetForm();
+                this.problems.showList();
                 clog("okay", "Reloaded Problems Panel.");
             })
 
-            this.lpanel.ref.onClick(() => this.syslogs.refresh());
-
-            this.lpanel.onToggle = s => ((s === "show") ? this.syslogs.refresh() : null);
+            this.lPanel.ref.onClick(() => this.syslogs.refresh());
+            this.lPanel.onToggle = s => ((s === "show") ? this.syslogs.refresh() : null);
 
             clog("okay", "Initialised:", {
                 color: flatc("red"),
@@ -1602,7 +1600,7 @@ core = {
 
         problems: {
             title: $("#problem_edit_title"),
-            headbtn: {
+            headerBtn: {
                 back: $("#problem_edit_btn_back"),
                 add: $("#problem_edit_btn_add"),
                 check: $("#problem_edit_btn_check"),
@@ -1619,7 +1617,7 @@ core = {
                 image: $("#problem_edit_image"),
                 desc: $("#problem_edit_desc"),
                 attachment: $("#problem_edit_attachment"),
-                testlist: $("#problem_edit_test_list"),
+                testList: $("#problem_edit_test_list"),
                 testadd: $("#problem_edit_test_add"),
                 submit() {
                     $("#problem_edit_submit").click();
@@ -1637,22 +1635,22 @@ core = {
             },
 
             async init() {
-                this.hide(this.headbtn.back);
-                this.hide(this.headbtn.check);
-                this.headbtn.check.addEventListener("click", e => this.form.submit());
-                this.headbtn.back.addEventListener("click", e => this.showlist());
-                this.headbtn.add.addEventListener("click", e => this.newproblem());
-                this.form.form.addEventListener("submit", e => this.postsubmit());
+                this.hide(this.headerBtn.back);
+                this.hide(this.headerBtn.check);
+                this.headerBtn.check.addEventListener("click", e => this.form.submit());
+                this.headerBtn.back.addEventListener("click", e => this.showList());
+                this.headerBtn.add.addEventListener("click", e => this.newProblem());
+                this.form.form.addEventListener("submit", e => this.postSubmit());
 
                 this.form.testadd.addEventListener("click", e => {
                     html = [
                         `<div class="cell">`,
                             `<textarea placeholder="Input" required></textarea>`,
                             `<textarea placeholder="Output" required></textarea>`,
-                            `<span class="delete" onClick="core.settings.problems.remtest(this)"></span>`,
+                            `<span class="delete" onClick="core.settings.problems.rmTest(this)"></span>`,
                         `</div>`
                     ].join("\n");
-                    this.form.testlist.insertAdjacentHTML("beforeend", html);
+                    this.form.testList.insertAdjacentHTML("beforeend", html);
                 });
 
                 await this.getList();
@@ -1663,22 +1661,22 @@ core = {
                 });
             },
 
-            remtest(elem) {
-                this.form.testlist.removeChild(elem.parentNode);
+            rmTest(elem) {
+                this.form.testList.removeChild(elem.parentNode);
             },
 
-            hidelist() {
+            hideList() {
                 this.list.classList.add("hide");
-                this.hide(this.headbtn.add);
-                this.show(this.headbtn.back);
-                this.show(this.headbtn.check);
+                this.hide(this.headerBtn.add);
+                this.show(this.headerBtn.back);
+                this.show(this.headerBtn.check);
             },
 
-            showlist() {
+            showList() {
                 this.list.classList.remove("hide");
-                this.show(this.headbtn.add);
-                this.hide(this.headbtn.back);
-                this.hide(this.headbtn.check);
+                this.show(this.headerBtn.add);
+                this.hide(this.headerBtn.back);
+                this.hide(this.headerBtn.check);
                 this.title.innerText = "Danh sách";
             },
 
@@ -1698,8 +1696,8 @@ core = {
                                 `<li class="name">${item.name}</li>`,
                             `</ul>`,
                             `<div class="action">`,
-                                `<span class="delete" onClick="core.settings.problems.remproblem('${item.id}')"></span>`,
-                                `<span class="edit" onClick="core.settings.problems.editproblem('${item.id}')"></span>`,
+                                `<span class="delete" onClick="core.settings.problems.remProblem('${item.id}')"></span>`,
+                                `<span class="edit" onClick="core.settings.problems.editProblem('${item.id}')"></span>`,
                             `</div>`,
                         `</li>`,
                     ].join("\n");
@@ -1707,7 +1705,7 @@ core = {
                 })
             },
 
-            resetform() {
+            resetForm() {
                 this.form.id.value = "";
                 this.form.id.disabled = false;
                 this.form.name.value = "";
@@ -1718,21 +1716,21 @@ core = {
                 this.form.accept.value = "pas|py|cpp|java";
                 this.form.image.value = null;
                 this.form.desc.value = "";
-                this.form.testlist.innerHTML = "";
+                this.form.testList.innerHTML = "";
             },
 
-            newproblem() {
-                this.resetform();
+            newProblem() {
+                this.resetForm();
                 this.form.id.disabled = false;
                 this.title.innerText = "Thêm đề";
                 this.action = "add";
-                this.hidelist();
+                this.hideList();
                 setTimeout(e => {
                     this.form.id.focus();
                 }, 300);
             },
 
-            async editproblem(id) {
+            async editProblem(id) {
                 var data = await myajax({
                     url: "/api/test/problems/get",
                     method: "GET",
@@ -1746,7 +1744,7 @@ core = {
                     text: id
                 });
 
-                this.resetform();
+                this.resetForm();
                 this.title.innerText = data.id;
                 this.action = "edit";
 
@@ -1768,19 +1766,19 @@ core = {
                         `<div class="cell">`,
                             `<textarea placeholder="Input" required>${item.inp}</textarea>`,
                             `<textarea placeholder="Output" required>${item.out}</textarea>`,
-                            `<span class="delete" onClick="core.settings.problems.remtest(this)"></span>`,
+                            `<span class="delete" onClick="core.settings.problems.rmTest(this)"></span>`,
                         `</div>`
                     ].join("\n");
                 })
-                this.form.testlist.innerHTML = html;
+                this.form.testList.innerHTML = html;
                 
-                this.hidelist();
+                this.hideList();
                 setTimeout(e => {
                     this.form.name.focus();
                 }, 300);
             },
 
-            async remproblem(id) {
+            async remProblem(id) {
                 clog("warn", "Deleting Problem", {
                     color: flatc("yellow"),
                     text: id + "."
@@ -1804,11 +1802,11 @@ core = {
                 });
 
                 this.getList();
-                this.showlist();
+                this.showList();
                 core.problems.getList();
             },
 
-            async postsubmit() {
+            async postSubmit() {
                 this.title.innerText = "Đang lưu...";
 
                 var data = new Array();
@@ -1824,10 +1822,10 @@ core = {
                 data.attachment = (this.form.attachment.files.length !== 0) ? this.form.attachment.files[0] : null;
 
                 var test = new Array();
-                var testlist = this.form.testlist.getElementsByTagName("div");
+                var testList = this.form.testList.getElementsByTagName("div");
 
-                for (var i = 0; i < testlist.length; i++) {
-                    var e = testlist[i].getElementsByTagName("textarea");
+                for (var i = 0; i < testList.length; i++) {
+                    var e = testList[i].getElementsByTagName("textarea");
                     if (e[0].value === "" && e[1].value === "")
                         continue;
 
@@ -1842,7 +1840,7 @@ core = {
                 await this.submit(this.action, data);
 
                 this.getList();
-                this.showlist();
+                this.showList();
                 core.problems.getList();
             },
 
