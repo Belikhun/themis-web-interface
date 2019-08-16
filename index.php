@@ -229,7 +229,7 @@
                                     <input id="usett_edit_name" type="text" class="formfield" placeholder="Tên" required>
                                     <label for="usett_edit_name" class="formlabel">Tên</label>
                                 </div>
-                                <button type="submit" class="sq-btn sound" data-soundhover data-soundselect>Gửi</button>
+                                <button type="submit" class="sq-btn sound" data-soundhover data-soundselect>Thay đổi</button>
                             </form>
                         </div>
 
@@ -249,7 +249,7 @@
                                     <input id="usett_edit_renpass" type="password" class="formfield" placeholder="Nhập lại mật khẩu mới" required>
                                     <label for="usett_edit_renpass" class="formlabel">Nhập lại mật khẩu mới</label>
                                 </div>
-                                <button type="submit" class="sq-btn sound" data-soundhover data-soundselect>Gửi</button>
+                                <button type="submit" class="sq-btn sound" data-soundhover data-soundselect>Thay đổi</button>
                             </form>
                         </div>
 
