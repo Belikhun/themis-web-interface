@@ -10,12 +10,7 @@ class splash {
             list: [{
                 type: "div",
                 class: "logo",
-                name: "logo",
-                list: [{
-                    type: "div",
-                    class: "inner",
-                    name: "inner"
-                }]
+                name: "logo"
             }, {
                 type: "div",
                 class: "appname",
@@ -57,16 +52,7 @@ class splash {
             list: [{
                 type: "div",
                 class: "icon",
-                name: "icon",
-                list: [{
-                    type: "img",
-                    class: "chrome",
-                    name: "chrome"
-                }, {
-                    type: "img",
-                    class: "coccoc",
-                    name: "coccoc"
-                }]
+                name: "icon"
             }, {
                 type: "div",
                 class: "text",
@@ -88,13 +74,24 @@ class splash {
         this.phase = this.tree.middle.phase;
 
         // Middle
-        this.tree.middle.logo.inner.style.backgroundImage = `url("${icon}")`;
+        this.tree.middle.logo.innerHTML = `
+        <div class="lazyload noBackground light inner">
+            <img onload="this.parentNode.dataset.loaded = 1" src="${icon}"/>
+            <div class="simple-spinner"></div>
+        </div>`
         this.tree.middle.appname.innerText = name;
         this.tree.middle.appsubname.innerText = subname;
 
         // Footer
-        this.tree.footer.icon.chrome.src = "/data/img/chrome-icon.webp";
-        this.tree.footer.icon.coccoc.src = "/data/img/coccoc-icon.webp";
+        this.tree.footer.icon.innerHTML = `
+            <div class="lazyload chrome">
+                <img onload="this.parentNode.dataset.loaded = 1" src="/data/img/chrome-icon.webp"/>
+                <div class="simple-spinner"></div>
+            </div>
+            <div class="lazyload coccoc">
+                <img onload="this.parentNode.dataset.loaded = 1" src="/data/img/coccoc-icon.webp"/>
+                <div class="simple-spinner"></div>
+            </div>`
         this.tree.footer.text.innerText = "Trang web hoạt động tốt nhất trên trình duyệt chrome và coccoc.";
 
         this.__preLoadInit();

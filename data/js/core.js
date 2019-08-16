@@ -427,7 +427,12 @@ core = {
             out += `
                 <tr>
                     <td>${rank}</td>
-                    <td><img class="avt" src="/api/avt/get?u=${i.username}"></td>
+                    <td>
+                        <div class="lazyload avt">
+                            <img onload="this.parentNode.dataset.loaded = 1" src="/api/avt/get?u=${i.username}"/>
+                            <div class="simple-spinner"></div>
+                        </div>
+                    </td>
                     <td><t class="name">${escapeHTML(i.name || "u:" + i.username)}</t></td>
                     <td class="number">${parseFloat(i.total).toFixed(2)}</td>
             `
@@ -504,7 +509,10 @@ core = {
             <div class="viewlog-container">
                 <div class="header ${data.header.status}">
                     <span class="top">
-                        <img class="problemIcon" src="/api/test/problems/image?id=${data.header.problem}">
+                        <div class="lazyload problemIcon">
+                            <img onload="this.parentNode.dataset.loaded = 1" src="/api/test/problems/image?id=${data.header.problem}"/>
+                            <div class="simple-spinner"></div>
+                        </div>
                         <t class="problemName">${data.header.problemName || data.header.problem}</t>
                         <t class="point">${data.header.problemPoint ? data.header.problemPoint + " điểm" : "Không rõ"}</t>
                     </span>
@@ -525,7 +533,10 @@ core = {
                             </span>
                             <span class="right">
                                 <span class="submitter">
-                                    <img class="avatar" src="/api/avt/get?u=${data.header.user}">
+                                    <div class="lazyload avatar">
+                                        <img onload="this.parentNode.dataset.loaded = 1" src="/api/avt/get?u=${data.header.user}"/>
+                                        <div class="simple-spinner"></div>
+                                    </div>
                                     <span class="info">
                                         <t class="tag">Bài làm của:</t>
                                         <t class="name">${data.header.name || "u:" + data.header.user}</t>
@@ -794,7 +805,10 @@ core = {
             data.forEach(item => {
                 html += `
                     <li class="item" onClick="core.problems.viewProblem('${item.id}');">
-                        <img class="icon" src="${item.image}">
+                        <div class="lazyload icon">
+                            <img onload="this.parentNode.dataset.loaded = 1" src="${item.image}"/>
+                            <div class="simple-spinner"></div>
+                        </div>
                         <ul class="title">
                             <li class="name">${item.name}</li>
                             <li class="point">${item.point} điểm</li>
@@ -813,6 +827,7 @@ core = {
 
             this.list.classList.add("hide");
             this.panel.bak.hide(false);
+            this.panel.title = "Đang tải...";
 
             var data = await myajax({
                 url: "/api/test/problems/get",
@@ -834,7 +849,10 @@ core = {
 
             if (data.image) {
                 this.image.style.display = "block";
-                this.image.src = data.image;
+                delete this.image.dataset.loaded;
+                this.image.innerHTML = `
+                    <img onload="this.parentNode.dataset.loaded = 1" src="${data.image}"/>
+                    <div class="simple-spinner"></div>`
             } else
                 this.image.style.display = "none";
 
@@ -934,7 +952,10 @@ core = {
                     <span class="right">
                         <div class="description">${data.description}</div>
                         ${(data.image)
-                            ?   `<img class="image" src="${data.image}"/>`
+                            ?   `<div class="lazyload image">
+                                    <img onload="this.parentNode.dataset.loaded = 1" src="${data.image}"/>
+                                    <div class="simple-spinner"></div>
+                                </div>`
                             :   ""
                         }
                     </span>

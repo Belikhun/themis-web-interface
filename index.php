@@ -707,7 +707,7 @@
                         </table>
 
                         <t class="description" id="problem_description"></t>
-                        <img class="image" id="problem_image" src="">
+                        <div class="lazyload image" id="problem_image"></div>
 
                         <div id="problem_attachment" class="attachment">
                             <a id="problem_attachment_link" class="link" href=""></a>

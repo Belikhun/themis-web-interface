@@ -1323,19 +1323,19 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 }
 
 #rankp div.ranking-container table tr td.number.correct {
-    background-color: rgba(37, 216, 58, 0.2);
+    background-color: rgba(22, 233, 47, 0.4);
 }
 
 #rankp div.ranking-container table tr td.number.passed {
-    background-color: rgba(17, 214, 221, 0.2);
+    background-color: rgba(19, 218, 224, 0.4);
 }
 
 #rankp div.ranking-container table tr td.number.accepted {
-    background-color: rgba(226, 219, 5, 0.3);
+    background-color: rgba(235, 228, 22, 0.4);
 }
 
 #rankp div.ranking-container table tr td.number.failed {
-    background-color: rgba(221, 28, 28, 0.2);
+    background-color: rgba(230, 37, 37, 0.3);
 }
 
 #rankp div.ranking-container table tr td.number.link:hover {
@@ -1561,8 +1561,10 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 .problemEnlarged .right .image {
     position: relative;
     display: block;
-    width: 100%;
+    min-width: 30px;
+    min-height: 30px;
     max-width: 80%;
+    flex-shrink: 0;
     margin-top: 20px;
     border: 1px solid #ccc;
 }

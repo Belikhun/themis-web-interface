@@ -167,11 +167,13 @@
     padding-bottom: 10px;
 }
 
-.splash .footer .icon img {
+.splash .footer .icon > * {
     position: relative;
     width: 40px;
     height: 40px;
-    padding: 0 6px;
+    border-radius: 50%;
+    overflow: visible;
+    margin: 0 6px;
 }
 
 .splash .footer .text {
