@@ -878,6 +878,13 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     transform: translateY(calc(-50% + 22px));
     font-weight: bold;
     font-size: 10px;
+
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.syslogs-settings .log.enlarge .level::before {
+    opacity: 1;
 }
 
 .syslogs-settings .log .detail {
