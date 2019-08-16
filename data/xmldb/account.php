@@ -65,14 +65,15 @@
         foreach($row as $i => $cell) {
             if ($i === 0)
                 continue;
+                
             $cell = $cell -> getElementsByTagName("Data");
             foreach ($cell as $j => $celldata)
                 if ($j === array_search("username", $acchead) && $celldata -> textContent === $username) {
                     foreach ($replace as $k => $val)
-                        if (false !== $cellindex = array_search($k, $acchead))
+                        if (($cellindex = array_search($k, $acchead)) !== false)
                             $cell -> item($cellindex) -> textContent = $val;
 
-                    if($dom -> save($_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/acctmp.xml") === false)
+                    if ($dom -> save($_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/acctmp.xml") === false)
                         return USER_EDIT_ERROR;
                         
                     //copy($_SERVER["DOCUMENT_ROOT"] ."/api/xmldb/acctmp.xml", $_SERVER["DOCUMENT_ROOT"] ."/api/xmldb/account.xml");

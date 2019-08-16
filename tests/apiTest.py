@@ -106,7 +106,7 @@ def __avatarAPITest():
     if (result is not True):
         return result
 
-    if (filecmp.cmp("../api/avt/admin.jpg", "api/admin.jpg") is True):
+    if (filecmp.cmp("../api/avt/admin.jpg", "api/admin.jpg") == True):
         return True
     else:
         return "FileNotMatch"
