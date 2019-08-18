@@ -22,12 +22,8 @@
     if (!isset($_GET["u"]) || empty($_GET["u"]))
         showimg("avt.default");
 
-    $username = trim($_GET["u"]);
-    $username = str_replace("\"", "", $username);
-    $username = str_replace("/", "", $username);
-    $username = str_replace(".", "", $username);
-
-    $files = glob($username .".*");
+    $username = preg_replace("/[.\/\\\\]/m", "", trim($_GET["u"]));
+    $files = glob($username .".{jpg,png,gif,webp}", GLOB_BRACE);
 
     if (count($files) > 0)
         showimg($files[0]);
