@@ -351,11 +351,6 @@
                             </label>
                         </div>
 
-                        <div class="item lr info sound" data-soundhoversoft>
-                            <t class="left">Sounds by ppy Pty Ltd. Licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0/legalcode" target="_blank" rel="noopener">CC-BY-NC 4.0</a>. See <a href="/data/sounds/LICENSE.md" target="_blank" rel="noopener">LICENSE.md</a> for more information.</t>
-                            <div class="right"></div>
-                        </div>
-
                         <div class="space"></div>
                         
                         <t class="title small">Khác</t>
@@ -596,7 +591,7 @@
                             <span class="custom sound" data-soundhover data-soundselect></span>
                         </div>
                         <div class="main">
-                            <iframe class="cpanel-container" src="/LICENSE"></iframe>
+                            <iframe class="cpanel-container" src="/license.php"></iframe>
                         </div>
                     </div>
                 </div>

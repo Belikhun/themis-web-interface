@@ -1290,6 +1290,7 @@ core = {
         publicFilesIframe: null,
         aboutPanel: null,
         licensePanel: null,
+        licenseIframe: null,
 
         __hideAllPanel() {
             var l = this.panelContainer.getElementsByClassName("show");
@@ -1306,6 +1307,8 @@ core = {
 
             this.licensePanel = new this.panel($("#usett_licensePanel"));
             this.licensePanel.toggler = $("#usett_licenseToggler");
+            this.licenseIframe = fcfn(this.licensePanel.main, "cpanel-container");
+            this.licensePanel.ref.onClick(() => this.licenseIframe.contentWindow.location.reload());
 
             this.publicFilesPanel = new this.panel($("#usett_publicFilesPanel"));
             this.publicFilesPanel.toggler = $("#settings_publicFilesToggler");
@@ -1319,12 +1322,14 @@ core = {
                 document.body.classList.add("dark");
 
                 this.publicFilesIframe.contentWindow.document.body.classList.add("dark");
+                this.licenseIframe.contentWindow.document.body.classList.add("dark");
                 if (core.settings.cPanelIframe)
                     core.settings.cPanelIframe.contentWindow.document.body.classList.add("dark");
             }, e => {
                 document.body.classList.remove("dark");
 
                 this.publicFilesIframe.contentWindow.document.body.classList.remove("dark");
+                this.licenseIframe.contentWindow.document.body.classList.remove("dark");
                 if (core.settings.cPanelIframe)
                     core.settings.cPanelIframe.contentWindow.document.body.classList.remove("dark");
             }, false);
