@@ -435,63 +435,63 @@
                         <div class="main problem-settings">
                             <div class="problem-header">
                                 <div class="left">
-                                    <span id="problem_edit_btn_back" class="back sound" data-soundhover></span>
+                                    <span id="problemEdit_btn_back" class="back sound" data-soundhover></span>
                                 </div>
-                                <t id="problem_edit_title" class="title">Danh sách</t>
+                                <t id="problemEdit_title" class="title">Danh sách</t>
                                 <div class="right">
-                                    <span id="problem_edit_btn_add" class="add sound" data-soundhover></span>
-                                    <span id="problem_edit_btn_check" class="check sound" data-soundhover></span>
+                                    <span id="problemEdit_btn_add" class="add sound" data-soundhover></span>
+                                    <span id="problemEdit_btn_check" class="check sound" data-soundhover></span>
                                 </div>
                             </div>
                             <div class="problem-container">
-                                <ul id="problem_edit_list" class="problem-list sound" data-soundtoggle="hide"></ul>
-                                <form id="problem_edit_form" class="problem" action="javascript:void(0);" autocomplete="off">
+                                <ul id="problemEdit_list" class="problem-list sound" data-soundtoggle="hide"></ul>
+                                <form id="problemEdit_form" class="problem" action="javascript:void(0);" autocomplete="off">
                                     <div class="formgroup blue">
-                                        <input id="problem_edit_id" type="text" class="formfield sound" placeholder="Tên Tệp" data-soundselectsoft required>
-                                        <label for="problem_edit_id" class="formlabel">Tên Tệp</label>
+                                        <input id="problemEdit_id" type="text" class="formfield sound" placeholder="Tên Tệp" data-soundselectsoft required>
+                                        <label for="problemEdit_id" class="formlabel">Tên Tệp</label>
                                     </div>
                                     <div class="formgroup blue">
-                                        <input id="problem_edit_name" type="text" class="formfield sound" placeholder="Tên Bài" data-soundselectsoft required>
-                                        <label for="problem_edit_name" class="formlabel">Tên Bài</label>
+                                        <input id="problemEdit_name" type="text" class="formfield sound" placeholder="Tên Bài" data-soundselectsoft required>
+                                        <label for="problemEdit_name" class="formlabel">Tên Bài</label>
                                     </div>
                                     <div class="formgroup blue">
-                                        <input id="problem_edit_point" type="number" class="formfield sound" placeholder="Điểm" data-soundselectsoft required>
-                                        <label for="problem_edit_point" class="formlabel">Điểm</label>
+                                        <input id="problemEdit_point" type="number" class="formfield sound" placeholder="Điểm" data-soundselectsoft required>
+                                        <label for="problemEdit_point" class="formlabel">Điểm</label>
                                     </div>
                                     <div class="formgroup blue">
-                                        <input id="problem_edit_time" type="number" class="formfield sound" placeholder="Thời gian chạy" value="1" data-soundselectsoft required>
-                                        <label for="problem_edit_time" class="formlabel">Thời gian chạy</label>
+                                        <input id="problemEdit_time" type="number" class="formfield sound" placeholder="Thời gian chạy" value="1" data-soundselectsoft required>
+                                        <label for="problemEdit_time" class="formlabel">Thời gian chạy</label>
                                     </div>
                                     <div class="formgroup blue">
-                                        <input id="problem_edit_inptype" type="text" class="formfield sound" placeholder="Dữ liệu vào" value="Bàn Phím" data-soundselectsoft required>
-                                        <label for="problem_edit_inptype" class="formlabel">Dữ liệu vào</label>
+                                        <input id="problemEdit_inptype" type="text" class="formfield sound" placeholder="Dữ liệu vào" value="Bàn Phím" data-soundselectsoft required>
+                                        <label for="problemEdit_inptype" class="formlabel">Dữ liệu vào</label>
                                     </div>
                                     <div class="formgroup blue">
-                                        <input id="problem_edit_outtype" type="text" class="formfield sound" placeholder="Dữ liệu ra" value="Màn Hình" data-soundselectsoft required>
-                                        <label for="problem_edit_outtype" class="formlabel">Dữ liệu ra</label>
+                                        <input id="problemEdit_outtype" type="text" class="formfield sound" placeholder="Dữ liệu ra" value="Màn Hình" data-soundselectsoft required>
+                                        <label for="problemEdit_outtype" class="formlabel">Dữ liệu ra</label>
                                     </div>
                                     <div class="formgroup blue">
-                                        <input id="problem_edit_accept" type="text" class="formfield sound" placeholder="Đuôi tệp" value="pas|py|cpp|java" data-soundselectsoft required>
-                                        <label for="problem_edit_accept" class="formlabel">Đuôi tệp (dùng | để ngăn cách)</label>
+                                        <input id="problemEdit_accept" type="text" class="formfield sound" placeholder="Đuôi tệp" value="pas|py|cpp|java" data-soundselectsoft required>
+                                        <label for="problemEdit_accept" class="formlabel">Đuôi tệp (dùng | để ngăn cách)</label>
                                     </div>
                                     <div class="formgroup blue">
-                                        <input id="problem_edit_image" type="file" class="formfield sound" accept="image/*" placeholder="Ảnh" data-soundselectsoft>
-                                        <label for="problem_edit_image" class="formlabel">Ảnh (không yêu cầu)</label>
+                                        <input id="problemEdit_image" type="file" class="formfield sound" accept="image/*" placeholder="Ảnh" data-soundselectsoft>
+                                        <label for="problemEdit_image" class="formlabel">Ảnh (không yêu cầu)</label>
                                     </div>
                                     <div class="formgroup blue">
-                                        <textarea id="problem_edit_desc" class="formfield sound" placeholder="Nội dung" data-soundselectsoft required></textarea>
-                                        <label for="problem_edit_desc" class="formlabel">Nội dung</label>
+                                        <textarea id="problemEdit_desc" class="formfield sound" placeholder="Nội dung" data-soundselectsoft required></textarea>
+                                        <label for="problemEdit_desc" class="formlabel">Nội dung</label>
                                     </div>
                                     <div class="formgroup blue">
-                                        <input id="problem_edit_attachment" type="file" class="formfield sound" placeholder="Tệp tin" data-soundselectsoft>
-                                        <label for="problem_edit_attachment" class="formlabel">Tệp đính kèm (không yêu cầu)</label>
+                                        <input id="problemEdit_attachment" type="file" class="formfield sound" placeholder="Tệp tin" data-soundselectsoft>
+                                        <label for="problemEdit_attachment" class="formlabel">Tệp đính kèm (không yêu cầu)</label>
                                     </div>
                                     <div class="test-container sound" data-soundhoversoft data-soundselectsoft>
                                         <t class="test">Test ví dụ</t>
-                                        <div class="test-list" id="problem_edit_test_list"></div>
-                                        <span class="test-add" id="problem_edit_test_add"></span>
+                                        <div class="test-list" id="problemEdit_test_list"></div>
+                                        <span class="test-add" id="problemEdit_test_add"></span>
                                     </div>
-                                    <button id="problem_edit_submit" type="submit"></button>
+                                    <button id="problemEdit_submit" type="submit"></button>
                                 </form>
                             </div>
                         </div>

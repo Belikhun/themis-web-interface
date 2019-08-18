@@ -721,7 +721,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     transform: unset;
 }
 
-.problem-settings .problem-container .problem div #problem_edit_desc {
+.problem-settings .problem-container .problem div #problemEdit_desc {
     resize: none;
     height: 160px;
 }
@@ -741,7 +741,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 
 .problem-settings .problem-container .problem .test-container .test {
     display: block;
-    font-size: 9px;
+    font-size: 8px;
     font-weight: 700;
     color: #8b8b8b;
     text-transform: uppercase;

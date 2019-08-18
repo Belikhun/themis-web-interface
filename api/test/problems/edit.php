@@ -32,7 +32,7 @@
     $image = isset($_FILES["img"]) ? $_FILES["img"] : null;
     $attachment = isset($_FILES["attm"]) ? $_FILES["attm"] : null;
 
-    $code = problem_edit($id, Array(
+    $code = problemEdit($id, Array(
         "name" => $name,
         "description" => $description,
         "point" => $point,

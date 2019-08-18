@@ -14,7 +14,7 @@
 
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
     $id = reqquery("id");
-    $data = problem_get($id);
+    $data = problemGet($id);
 
     if (isset($data["image"]))
         $data["image"] = "/api/test/problems/image?id=". $id;

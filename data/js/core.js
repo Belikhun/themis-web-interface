@@ -1625,31 +1625,31 @@ core = {
         },
 
         problems: {
-            title: $("#problem_edit_title"),
+            title: $("#problemEdit_title"),
             headerBtn: {
-                back: $("#problem_edit_btn_back"),
-                add: $("#problem_edit_btn_add"),
-                check: $("#problem_edit_btn_check"),
+                back: $("#problemEdit_btn_back"),
+                add: $("#problemEdit_btn_add"),
+                check: $("#problemEdit_btn_check"),
             },
             form: {
-                form: $("#problem_edit_form"),
-                id: $("#problem_edit_id"),
-                name: $("#problem_edit_name"),
-                point: $("#problem_edit_point"),
-                time: $("#problem_edit_time"),
-                inptype: $("#problem_edit_inptype"),
-                outtype: $("#problem_edit_outtype"),
-                accept: $("#problem_edit_accept"),
-                image: $("#problem_edit_image"),
-                desc: $("#problem_edit_desc"),
-                attachment: $("#problem_edit_attachment"),
-                testList: $("#problem_edit_test_list"),
-                testadd: $("#problem_edit_test_add"),
+                form: $("#problemEdit_form"),
+                id: $("#problemEdit_id"),
+                name: $("#problemEdit_name"),
+                point: $("#problemEdit_point"),
+                time: $("#problemEdit_time"),
+                inptype: $("#problemEdit_inptype"),
+                outtype: $("#problemEdit_outtype"),
+                accept: $("#problemEdit_accept"),
+                image: $("#problemEdit_image"),
+                desc: $("#problemEdit_desc"),
+                attachment: $("#problemEdit_attachment"),
+                testList: $("#problemEdit_test_list"),
+                testadd: $("#problemEdit_test_add"),
                 submit() {
-                    $("#problem_edit_submit").click();
+                    $("#problemEdit_submit").click();
                 }
             },
-            list: $("#problem_edit_list"),
+            list: $("#problemEdit_list"),
             action: null,
 
             hide(elem) {

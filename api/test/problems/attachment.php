@@ -17,7 +17,7 @@
 
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";
 
-    if (problem_getAttachment($id) === PROBLEM_OKAY)
+    if (problemGetAttachment($id) === PROBLEM_OKAY)
         writeLog("INFO", "Đã tải tệp đính kèm của bài \"". $_GET["id"] ."\"");
     else
         stop(44, "File not found", 404);
