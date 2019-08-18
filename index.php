@@ -223,10 +223,15 @@
 
                         <t class="title small">Đổi tên</t>
 
+                        <div class="item lr info sound" data-soundhoversoft>
+                            <t class="left">Tên được phép sử dụng tất cả các kí tự và có độ dài không vượt quá <b>34 kí tự</b></t>
+                            <div class="right"></div>
+                        </div>
+
                         <div class="item form sound" data-soundhoversoft>
                             <form id="usett_edit_name_form" autocomplete="off" action="javascript:void(0);">
                                 <div class="formgroup blue sound" data-soundselectsoft>
-                                    <input id="usett_edit_name" type="text" class="formfield" placeholder="Tên" required>
+                                    <input id="usett_edit_name" type="text" class="formfield" placeholder="Tên" maxlength="34" required>
                                     <label for="usett_edit_name" class="formlabel">Tên</label>
                                 </div>
                                 <button type="submit" class="sq-btn sound" data-soundhover data-soundselect>Thay đổi</button>
