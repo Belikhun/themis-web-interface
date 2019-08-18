@@ -82,14 +82,16 @@ body.embeded .menu {
 .menu .group .title.big {
     color: #3a5068;
     font-size: 21px;
+    font-weight: bolder;
+    line-height: 22px;
+    margin-top: 4px;
 }
 
 .menu .group .title.small {
-    color: rgb(54, 54, 54);
+    color: rgb(74, 74, 74);
     font-size: 13px;
     text-transform: unset;
     font-weight: unset;
-    margin-top: 4px;
 }
 
 .menu .group .title.center {
