@@ -48,7 +48,7 @@
             unlink($imagePath .".". $ext);
         }
 
-    move_uploaded_file($_FILES["file"]["tmp_name"], $imagepath .".". $extension);
+    move_uploaded_file($_FILES["file"]["tmp_name"], $imagePath .".". $extension);
     stop(0, "Thay đổi ảnh đại diện thành công.", 200, Array(
         "src" => "/api/avt/get?u=". $_SESSION["username"] ."&t=". time()
     ));
