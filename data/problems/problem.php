@@ -198,7 +198,7 @@
             return PROBLEM_ERROR;
         
         $i = $problemList[$id]["attachment"];
-        $f = PROBLEM_DIR."/".$id."/".$i;
+        $f = PROBLEM_DIR ."/". $id ."/". $i;
 
         contenttype(pathinfo($i, PATHINFO_EXTENSION));
         header("Content-Length: ".filesize($f));

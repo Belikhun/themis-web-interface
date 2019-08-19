@@ -268,12 +268,14 @@ body.embeded .menu {
     background-color: rgb(96, 179, 235);
 }
 
-.menu .group .item.text {
+.menu .group .item.text,
+.menu .group .item .text {
     display: block;
 }
 
 .menu .group t,
-.menu .group .item.text {
+.menu .group .item.text,
+.menu .group .item .text {
     color: rgb(82, 82, 82);
     font-family: "Calibri";
     font-size: 13px;
