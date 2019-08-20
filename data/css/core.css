@@ -1229,7 +1229,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     content: "\f360";
     position: relative;
     font-family: "Font Awesome 5 Free";
-    font-size: 16px;
+    font-size: 22px;
     font-weight: 600;
     cursor: pointer;
     color: rgb(92, 92, 92);
