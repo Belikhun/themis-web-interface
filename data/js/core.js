@@ -136,10 +136,13 @@ core = {
         set(15, "Initializing: core.wrapper");
         this.wrapper.init();
 
+        set(17, "Initializing: core.dialog");
+        this.dialog.init();
+
         set(20, "Initializing: core.userSettings");
         this.userSettings.init(LOGGED_IN);
 
-        set(25, "Initializing: core.sounds");
+        set(25, "Initializing: core.sound");
         await this.sound.init((p, t) => {
             set(25 + p*0.5, `Initializing: core.sounds (${t})`);
         });
@@ -459,8 +462,6 @@ core = {
             text: file
         });
 
-        core.sound.select();
-
         var data = await myajax({
             url: "/api/test/viewlog",
             method: "GET",
@@ -543,7 +544,7 @@ core = {
                                     </span>
                                 </span>
 
-                                <a href="/api/test/rawlog?f=${data.header.file.logFilename}" target="popup" class="sq-btn blue" rel="noopener" target="_blank">📄 Raw Log</a>
+                                <a href="/api/test/rawlog?f=${data.header.file.logFilename}" target="dialog" class="sq-btn blue" rel="noopener" target="_blank">📄 Raw Log</a>
                             </span>
                         </div>
 
@@ -885,8 +886,6 @@ core = {
         enlargeProblem(data) {
             if (!data)
                 return;
-
-            core.sound.select();
 
             let testHtml = "";
             data.test.forEach(item => {
@@ -1810,8 +1809,26 @@ core = {
                     text: id + "."
                 }, "Waiting for confirmation");
 
-                if (!confirm("Bạn có chắc muốn xóa " + id + " không?"))
-                    return false;
+                let confirm = await core.dialog.show({
+                    panelTitle: "Xác nhận",
+                    title: `Xóa ${id}`,
+                    description: `Bạn có chắc muốn xóa <i>${id}</i> không? Hành động này <b>không thể hoàn tác</b> một khi đã thực hiện!`,
+                    level: "warning",
+                    buttonList: {
+                        yes: { text: "XÓA!!!", color: "pink" },
+                        no: { text:"Không", color: "blue" }
+                    }
+                })
+
+                if (confirm !== "yes") {
+                    clog("info", "Cancelled deletion of", {
+                        color: flatc("yellow"),
+                        text: id + "."
+                    });
+                    return;
+                }
+
+                core.sound.confirm(1);
 
                 await myajax({
                     url: "/api/test/problems/remove",
@@ -1906,11 +1923,12 @@ core = {
 
     wrapper: {
         wrapper: $("#wrapper"),
-        panel: new regPanel($("#wrapp")),
+        panel: new regPanel($("#wrapperPanel")),
 
         init() {
             this.panel.ref.hide();
-            this.panel.clo.onClick(this.hide);
+            this.panel.clo.onClick(() => this.hide());
+
             clog("okay", "Initialised:", {
                 color: flatc("red"),
                 text: "core.wrapper"
@@ -1918,12 +1936,89 @@ core = {
         },
 
         show(title = "Title") {
-            core.wrapper.wrapper.classList.add("show");
-            core.wrapper.panel.title = title;
+            this.panel.title = title;
+            this.wrapper.classList.add("show");
+            core.sound.select();
         },
 
         hide() {
-            core.wrapper.wrapper.classList.remove("show");
+            this.wrapper.classList.remove("show");
+        }
+    },
+
+    dialog: {
+        wrapper: $("#dialogWrapper"),
+        panel: new regPanel($("#dialogPanel")),
+
+        init() {
+            this.panel.clo.onClick(() => this.hide());
+            clog("okay", "Initialised:", {
+                color: flatc("red"),
+                text: "core.dialog"
+            });
+        },
+
+        show({
+            panelTitle = "Title",
+            title = "Title",
+            description = "Description",
+            level = "info",
+            additionalNode = null,
+            buttonList = {}
+        } = {}) {
+            return new Promise((resolve) => {
+                this.panel.title = panelTitle;
+                this.panel.main.dataset.level = level;
+                
+                let header = `
+                    <t class="title">${title}</t>
+                    <t class="description">${description}</t>
+                `
+                this.panel.main.innerHTML = header;
+                this.panel.clo.onClick(() => {
+                    resolve("close");
+                    this.hide();
+                });
+
+                if (additionalNode) {
+                    additionalNode.classList.add("additional");
+                    this.panel.main.appendChild(additionalNode);
+                }
+
+                let buttonKeyList = Object.keys(buttonList);
+                if (buttonKeyList.length) {
+                    let btnGroup = document.createElement("span");
+                    btnGroup.classList.add("buttonGroup");
+    
+                    for (let key of buttonKeyList) {
+                        let item = buttonList[key];
+                        let button = document.createElement("button");
+
+                        button.classList.add("sq-btn", item.color);
+                        button.innerText = item.text;
+                        button.returnValue = key;
+                        button.dataset.soundhover = "";
+                        button.dataset.soundselect = "";
+                        core.sound.applySound(button);
+
+                        button.addEventListener("mouseup", e => {
+                            resolve(e.target.returnValue);
+                            this.hide();
+                        });
+
+                        btnGroup.appendChild(button);
+                    }
+    
+                    this.panel.main.appendChild(btnGroup);
+                }
+
+                this.wrapper.classList.add("show");
+                core.sound.select();
+            })
+        },
+
+        hide() {
+            this.wrapper.classList.remove("show");
         }
     },
 
@@ -2154,62 +2249,67 @@ core = {
                     continue;
                 }
 
-                if (typeof item.dataset.soundhover !== "undefined")
-                    item.addEventListener("mouseenter", e => {
-                        if (this.enable.master && this.enable.mouseOver)
-                            this.__soundToggle(this.sounds.hover);
-                    })
-
-                if (typeof item.dataset.soundhoversoft !== "undefined")
-                    item.addEventListener("mouseenter", e => {
-                        if (this.enable.master && this.enable.mouseOver)
-                            this.__soundToggle(this.sounds.hoverSoft);
-                    })
-
-                if (typeof item.dataset.soundselect !== "undefined")
-                    item.addEventListener("mousedown", e => {
-                        if (this.enable.master && this.enable.btnClick)
-                            this.__soundToggle(this.sounds.select);
-                    })
-
-                if (typeof item.dataset.soundselectsoft !== "undefined")
-                    item.addEventListener("mousedown", e => {
-                        if (this.enable.master && this.enable.btnClick)
-                            this.__soundToggle(this.sounds.selectSoft);
-                    })
-
-                if (typeof item.dataset.soundchange !== "undefined")
-                    item.addEventListener("change", e => {
-                        if (this.enable.master && this.enable.others)
-                            this.__soundToggle(this.sounds.valueChange);
-                    })
-
-                if (typeof item.dataset.soundcheck !== "undefined")
-                    item.addEventListener("change", e => {
-                        if (this.enable.master && this.enable.btnClick)
-                            if (e.target.checked === true)
-                                this.__soundToggle(this.sounds.checkOn);
-                            else
-                                this.__soundToggle(this.sounds.checkOff);
-                    })
-
-                if (typeof item.dataset.soundtoggle === "string")
-                    new ClassWatcher(item, item.dataset.soundtoggle, () => {
-                        if (this.enable.master && this.enable.panelToggle)
-                            this.__soundToggle(this.sounds.overlayPopIn);
-                    }, () => {
-                        if (this.enable.master && this.enable.panelToggle)
-                            this.__soundToggle(this.sounds.overlayPopOut);
-                    });
-                
+                this.applySound(item);
             }
+        },
+        
+        applySound(item) {
+            if (!item.nodeType || item.nodeType <= 0)
+                return false;
+
+            if (typeof item.dataset.soundhover !== "undefined")
+                item.addEventListener("mouseenter", e => {
+                    if (this.enable.master && this.enable.mouseOver)
+                        this.__soundToggle(this.sounds.hover);
+                })
+
+            if (typeof item.dataset.soundhoversoft !== "undefined")
+                item.addEventListener("mouseenter", e => {
+                    if (this.enable.master && this.enable.mouseOver)
+                        this.__soundToggle(this.sounds.hoverSoft);
+                })
+
+            if (typeof item.dataset.soundselect !== "undefined")
+                item.addEventListener("mousedown", e => {
+                    if (this.enable.master && this.enable.btnClick)
+                        this.__soundToggle(this.sounds.select);
+                })
+
+            if (typeof item.dataset.soundselectsoft !== "undefined")
+                item.addEventListener("mousedown", e => {
+                    if (this.enable.master && this.enable.btnClick)
+                        this.__soundToggle(this.sounds.selectSoft);
+                })
+
+            if (typeof item.dataset.soundchange !== "undefined")
+                item.addEventListener("change", e => {
+                    if (this.enable.master && this.enable.others)
+                        this.__soundToggle(this.sounds.valueChange);
+                })
+
+            if (typeof item.dataset.soundcheck !== "undefined")
+                item.addEventListener("change", e => {
+                    if (this.enable.master && this.enable.btnClick)
+                        if (e.target.checked === true)
+                            this.__soundToggle(this.sounds.checkOn);
+                        else
+                            this.__soundToggle(this.sounds.checkOff);
+                })
+
+            if (typeof item.dataset.soundtoggle === "string")
+                new ClassWatcher(item, item.dataset.soundtoggle, () => {
+                    if (this.enable.master && this.enable.panelToggle)
+                        this.__soundToggle(this.sounds.overlayPopIn);
+                }, () => {
+                    if (this.enable.master && this.enable.panelToggle)
+                        this.__soundToggle(this.sounds.overlayPopOut);
+                });
         }
     },
 
 }
 
 class ClassWatcher {
-
     constructor(targetNode, classToWatch, classAddedCallback, classRemovedCallback) {
         this.targetNode = targetNode;
         this.classToWatch = classToWatch;

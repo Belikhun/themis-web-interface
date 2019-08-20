@@ -601,7 +601,7 @@
         </span>
 
         <div id="wrapper">
-            <panel id="wrapp">
+            <panel id="wrapperPanel">
                 <div class="head">
                     <t class="le"></t>
                     <span class="ri">
@@ -614,8 +614,20 @@
             </panel>
         </div>
 
-        <div id="container">
+        <div id="dialogWrapper">
+            <panel id="dialogPanel">
+                <div class="head">
+                    <t class="le"></t>
+                    <span class="ri">
+                        <i class="material-icons clo sound" title="Đóng" data-soundhover data-soundselect>close</i>
+                    </span>
+                </div>
+                <div class="main">
+                </div>
+            </panel>
+        </div>
 
+        <div id="container">
             <panel id="uploadp">
                 <div class="head">
                     <t class="le">Nộp bài</t>
@@ -743,7 +755,6 @@
                     </ul>
                 </div>
             </panel>
-
         </div>
 
         <!-- Session Data -->

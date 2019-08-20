@@ -172,7 +172,8 @@ panel .main.blank::after {
     order: 5;
 }
 
-#wrapper {
+#wrapper,
+#dialogWrapper {
     position: fixed;
     display: none;
     align-items: center;
@@ -185,17 +186,89 @@ panel .main.blank::after {
     z-index: 2;
 }
 
-#wrapper.show {
+#dialogWrapper {
+    z-index: 3;
+}
+
+#wrapper.show,
+#dialogWrapper.show {
     display: flex;
 }
 
-#wrapper #wrapp {
+#wrapper #wrapperPanel {
     position: relative;
     width: calc(100% - 100px);
-    max-width: 1000px;
     height: calc(100% - 20px);
+    max-width: 1000px;
     max-height: 640px;
     margin: unset;
+}
+
+#dialogWrapper #dialogPanel .main {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+}
+
+#dialogWrapper #dialogPanel .main .title {
+    font-size: 17px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    color: #34495e;
+}
+
+#dialogWrapper #dialogPanel .main[data-level=success] .title {
+    color: rgb(10, 190, 34);
+}
+
+#dialogWrapper #dialogPanel .main[data-level=warning] .title {
+    color: rgb(177, 174, 23);
+}
+
+#dialogWrapper #dialogPanel .main[data-level=warning] .title {
+    color: rgb(177, 174, 23);
+}
+
+#dialogWrapper #dialogPanel .main[data-level=error] .title {
+    color: rgb(226, 21, 21);
+}
+
+#dialogWrapper #dialogPanel .main .description {
+    font-size: 12px;
+    text-align: center;
+    padding-top: 4px;
+}
+
+#dialogWrapper #dialogPanel .main .additional {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+
+#dialogWrapper #dialogPanel .main .buttonGroup {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    width: 100%;
+}
+
+#dialogWrapper #dialogPanel .main .buttonGroup .sq-btn {
+    margin: 0 4px;
+    flex: 1 1 0;
+}
+
+#dialogWrapper #dialogPanel .main .buttonGroup .sq-btn:last-child {
+    margin-right: 0;
+}
+
+#dialogWrapper #dialogPanel .main .buttonGroup .sq-btn:first-child {
+    margin-left: 0;
 }
 
 body.guest #timep.show,

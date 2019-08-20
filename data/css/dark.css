@@ -58,6 +58,24 @@ body.dark panel .main {
     background-color: rgb(65, 65, 65);
 }
 
+/* dialog */
+
+body.dark #dialogWrapper #dialogPanel .main .title {
+    color: rgb(238, 238, 238);
+}
+
+body.dark #dialogWrapper #dialogPanel .main[data-level=success] .title {
+    color: rgb(55, 238, 80);
+}
+
+body.dark #dialogWrapper #dialogPanel .main[data-level=warning] .title {
+    color: rgb(231, 228, 38);
+}
+
+body.dark #dialogWrapper #dialogPanel .main[data-level=error] .title {
+    color: rgb(246, 107, 107);
+}
+
 /* File Upload Panel */
 
 body.dark #uploadp .fileupload-container #submit_dropzone {
