@@ -208,8 +208,6 @@ sound = {
         this.sounds.selectSoft = await this.__loadSoundAsync(`/data/sounds/generic-select-soft.mp3`);
         this.sounds.overlayPopIn = await this.__loadSoundAsync(`/data/sounds/overlay-pop-in.mp3`);
         this.sounds.overlayPopOut = await this.__loadSoundAsync(`/data/sounds/overlay-pop-out.mp3`);
-        this.sounds.confirm = await this.__loadSoundAsync(`/data/sounds/generic-confirm.mp3`);
-        this.sounds.notification = await this.__loadSoundAsync(`/data/sounds/notification.mp3`);
     },
 
     async __loadSoundAsync(url, volume = 0.1) {
