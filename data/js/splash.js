@@ -21,11 +21,11 @@ class splash {
                 name: "appsubname"
             }, {
                 type: "div",
-                class: "progress",
+                class: "progressBar",
                 name: "progress",
                 list: [{
                     type: "div",
-                    class: "inner",
+                    class: "bar",
                     name: "bar"
                 }]
             }, {
@@ -70,6 +70,7 @@ class splash {
         this.loaded = false;
         this.tree = this.tree.obj;
         this.bar = this.tree.middle.progress.bar;
+        this.bar.dataset.color = "blue";
         this.status = this.tree.middle.status;
         this.phase = this.tree.middle.phase;
 
@@ -98,14 +99,14 @@ class splash {
     }
 
     __preLoadInit() {
-        this.bar.dataset.slow = true;
+        this.bar.dataset.slow = 30;
         this.preLoaded = false;
         this.status.innerText = "Đang Tải...";
         this.phase.innerText = "Phase 1/3: Page Initialization";
 
         setTimeout(() => {
             this.bar.style.width = "50%";
-        }, 600);
+        }, 200);
 
         document.body.onload = () => {
             this.__loadInit();
@@ -113,11 +114,11 @@ class splash {
     }
 
     async __loadInit() {
-        this.bar.dataset.slow = false;
+        this.bar.dataset.slow = "";
         this.preLoaded = true;
         this.loaded = false;
         this.phase.innerText = "Phase 2/3: Script Initialization";
-        this.bar.style.width = `40%`;
+        this.bar.style.width = `50%`;
         this.tree.middle.tips.innerHTML = `Thử tải lại cứng bằng tổ hợp phím <b>Ctrl + Shift + R</b> hoặc <b>Ctrl + F5</b> nếu có lỗi xảy ra`;
 
         await this.init((progress = 0, text = "") => {
@@ -125,7 +126,7 @@ class splash {
                 return false;
 
             this.status.innerText = `${text} [${progress.toFixed(2)}%]`;
-            this.bar.style.width = `${40 + progress*0.5}%`;
+            this.bar.style.width = `${50 + progress*0.5}%`;
         }).catch(e => this.__panic(e));
 
         this.loaded = true;
@@ -155,7 +156,7 @@ class splash {
 
         this.status.innerText = "Lỗi đã xảy ra";
         this.tree.middle.errorMsg.innerText = `${e}: ${d}`;
-        this.bar.classList.add("red");
+        this.bar.dataset.color = "red";
         
         if (stop)
             throw error;

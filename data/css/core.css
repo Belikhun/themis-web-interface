@@ -489,7 +489,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     overflow: hidden;
 }
 
-#uploadp .fileupload-container #submit_dropzone {
+#uploadp .fileupload-container #submitDropzone {
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -508,31 +508,31 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     opacity: 1;
 }
 
-#uploadp .fileupload-container #submit_dropzone.drag {
+#uploadp .fileupload-container #submitDropzone.drag {
     background-color: #ccc;
     color: white;
 }
 
-#uploadp .fileupload-container #submit_dropzone.hide {
+#uploadp .fileupload-container #submitDropzone.hide {
     opacity: 0;
 }
 
-#uploadp .fileupload-container #submit_dropzone.hide+.info {
+#uploadp .fileupload-container #submitDropzone.hide+.info {
     opacity: 1;
 }
 
-#uploadp .fileupload-container #submit_dropzone #submit_input {
+#uploadp .fileupload-container #submitDropzone #submitInput {
     display: none;
 }
 
-#uploadp .fileupload-container #submit_dropzone .title {
+#uploadp .fileupload-container #submitDropzone .title {
     color: rgb(104, 104, 104);
     font-size: 16px;
     font-weight: bold;
     text-transform: uppercase;
 }
 
-#uploadp .fileupload-container #submit_dropzone .sub {
+#uploadp .fileupload-container #submitDropzone .sub {
     color: rgb(128, 128, 128);
     font-size: 12px;
     margin: 6px 0;
@@ -548,7 +548,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     opacity: 0;
 }
 
-#uploadp .fileupload-container .info #submit_upstate {
+#uploadp .fileupload-container .info #submitStatus {
     position: relative;
     display: block;
     padding: 0 0 2px 0;
@@ -561,7 +561,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     color: rgb(136, 136, 136);
 }
 
-#uploadp .fileupload-container .info #submit_name {
+#uploadp .fileupload-container .info #submitFileName {
     position: relative;
     display: block;
     width: 100%;
@@ -572,48 +572,12 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     color: rgb(93, 93, 93);
 }
 
-#uploadp .fileupload-container .info .bar {
+#uploadp .fileupload-container .info .progressBar {
     position: absolute;
     bottom: 24px;
     left: 50%;
-    transform: translateX(-50%);
     width: 90%;
-    height: 2px;
-    background-color: rgba(90, 90, 90, 0.2);
-}
-
-#uploadp .fileupload-container .info .bar #submit_bar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 0%;
-    background-color: #16dfb6;
-    transition: width 0.2s ease;
-}
-
-#uploadp .fileupload-container .info .bar #submit_bar.red {
-    background-color: #c0392b;
-}
-
-#uploadp .fileupload-container .info .bar #submit_perc {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: translateY(-100%);
-    font-size: 14px;
-    font-weight: bold;
-    color: rgba(116, 116, 116, 0.7);
-}
-
-#uploadp .fileupload-container .info .bar #submit_size {
-    position: absolute;
-    top: 0;
-    right: 0;
-    transform: translateY(-100%);
-    font-size: 14px;
-    font-weight: bold;
-    color: rgba(116, 116, 116, 0.7);
+    transform: translateX(-50%);
 }
 
 .problem-settings {
@@ -1427,7 +1391,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     justify-content: center;
 }
 
-#timep .time-container #time_state {
+#timep .time-container #timeState {
     position: absolute;
     top: 22px;
     font-size: 16px;
@@ -1444,8 +1408,8 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     top: 38px;
 }
 
-#timep .time-container .time #time_time,
-#timep .time-container .time #time_ms {
+#timep .time-container .time #timeClock,
+#timep .time-container .time #timeClockMs {
     position: relative;
     display: inline-block;
     flex-grow: 1;
@@ -1457,77 +1421,35 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     color: #34495e;
 }
 
-#timep .time-container .time #time_ms {
+#timep .time-container .time #timeClockMs {
     display: none;
     flex-grow: 0;
     font-size: 24px;
     margin-bottom: 6px;
 }
 
-#timep .time-container.ms .time #time_ms {
+#timep .time-container.ms .time #timeClockMs {
     display: inline-block;
 }
 
-#timep .time-container .time #time_ms::before {
+#timep .time-container .time #timeClockMs::before {
     content: "."
 }
 
-#timep .time-container[data-color="green"] .time #time_time,
-#timep .time-container[data-color="green"] .time #time_ms {
+#timep .time-container[data-color="green"] .time #timeClock,
+#timep .time-container[data-color="green"] .time #timeClockMs {
     color: #27ae60;
 }
 
-#timep .time-container[data-color="red"] .time #time_time,
-#timep .time-container[data-color="red"] .time #time_ms {
+#timep .time-container[data-color="red"] .time #timeClock,
+#timep .time-container[data-color="red"] .time #timeClockMs {
     color: #c0392b;
 }
 
-#timep .time-container .bar {
+#timep .time-container .progressBar {
     position: absolute;
     bottom: 24px;
     width: 90%;
-    height: 2px;
-    background-color: rgba(90, 90, 90, 0.2);
-}
-
-#timep .time-container .bar #time_bar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 0%;
-    max-width: 100%;
-    background-color: #3ea7ee;
-    transition: width 0.2s ease;
-}
-
-#timep .time-container.ms .bar #time_bar {
-    transition: unset;
-}
-
-#timep .time-container[data-color="red"] .bar #time_bar {
-    background-color: #c0392b;
-}
-
-#timep .time-container .bar #time_start {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: translateY(-100%);
-    font-size: 14px;
-    font-weight: bold;
-    color: rgba(116, 116, 116, 0.7);
-    transition: width 0.2s ease;
-}
-
-#timep .time-container .bar #time_end {
-    position: absolute;
-    top: 0;
-    right: 0;
-    transform: translateY(-100%);
-    font-size: 14px;
-    font-weight: bold;
-    color: rgba(116, 116, 116, 0.7);
 }
 
 #wrapper #wrapp .main .full {

@@ -78,48 +78,31 @@ body.dark #dialogWrapper #dialogPanel .main[data-level=error] .title {
 
 /* File Upload Panel */
 
-body.dark #uploadp .fileupload-container #submit_dropzone {
+body.dark #uploadp .fileupload-container #submitDropzone {
     border-color: rgb(124, 124, 124);
     color: rgb(124, 124, 124);
 }
 
-body.dark #uploadp .fileupload-container #submit_dropzone.drag {
+body.dark #uploadp .fileupload-container #submitDropzone.drag {
     background-color: rgb(98, 98, 98);
     border-color: rgb(156, 156, 156);
     color: rgb(156, 156, 156);
 }
 
-body.dark #uploadp .fileupload-container #submit_dropzone .title {
+body.dark #uploadp .fileupload-container #submitDropzone .title {
     color: rgb(180, 180, 180);
 }
 
-body.dark #uploadp .fileupload-container #submit_dropzone .sub {
+body.dark #uploadp .fileupload-container #submitDropzone .sub {
     color: rgb(160, 160, 160);
 }
 
-body.dark #uploadp .fileupload-container .info #submit_upstate {
+body.dark #uploadp .fileupload-container .info #submitStatus {
     color: rgb(214, 214, 214);
 }
 
-body.dark #uploadp .fileupload-container .info #submit_name {
+body.dark #uploadp .fileupload-container .info #submitFileName {
     color: rgb(160, 160, 160);
-}
-
-body.dark #uploadp .fileupload-container .info .bar {
-    background-color: rgba(204, 204, 204, 0.2);
-}
-
-body.dark #uploadp .fileupload-container .info .bar #submit_bar {
-    background-color: #21c2a2;
-}
-
-body.dark #uploadp .fileupload-container .info .bar #submit_bar.red {
-    background-color: #f14d3b;
-}
-
-body.dark #uploadp .fileupload-container .info .bar #submit_perc,
-body.dark #uploadp .fileupload-container .info .bar #submit_size {
-    color: rgba(200, 200, 200, 0.7);
 }
 
 /* Problems Panel */
@@ -166,39 +149,26 @@ body.dark .problemEnlarged .right .description::before {
 
 /* Time Panel */
 
-body.dark #timep .time-container #time_state {
+body.dark #timep .time-container #timeState {
     color: rgb(195, 195, 195);
 }
 
-body.dark #timep .time-container .time #time_time,
-body.dark #timep .time-container .time #time_ms {
+body.dark #timep .time-container .time #timeClock,
+body.dark #timep .time-container .time #timeClockMs {
     color: rgb(226, 226, 226);
 }
 
-body.dark #timep .time-container .bar {
-    background-color: rgba(214, 214, 214, 0.2);
-}
-
-body.dark #timep .time-container .bar #time_start,
-body.dark #timep .time-container .bar #time_end {
-    color: rgba(206, 206, 206, 0.7);
-}
-
-body.dark #timep .time-container .bar #time_bar {
-    background-color: #3186be;
-}
-
-body.dark #timep .time-container[data-color="red"] .time #time_time,
-body.dark #timep .time-container[data-color="red"] .time #time_ms {
+body.dark #timep .time-container[data-color="red"] .time #timeClock,
+body.dark #timep .time-container[data-color="red"] .time #timeClockMs {
     color: #f17466;
 }
 
-body.dark #timep .time-container[data-color="green"] .time #time_time,
-body.dark #timep .time-container[data-color="green"] .time #time_ms {
+body.dark #timep .time-container[data-color="green"] .time #timeClock,
+body.dark #timep .time-container[data-color="green"] .time #timeClockMs {
     color: #42ff91;
 }
 
-body.dark #timep .time-container[data-color="red"] #time_bar {
+body.dark #timep .time-container[data-color="red"] #timeProgress {
     background-color: #e03e2c;
 }
 

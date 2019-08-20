@@ -87,29 +87,11 @@
     text-transform: uppercase;
 }
 
-.splash .middle .progress {
+.splash .middle .progressBar {
     position: relative;
-    height: 2px;
     width: 260px;
     margin: auto;
     margin-bottom: 8px;
-    background-color: #bac7c8;
-}
-
-.splash .middle .progress .inner {
-    position: absolute;
-    background-color: #3498db;
-    width: 0;
-    height: 100%;
-    transition: width 0.4s ease; 
-}
-
-.splash .middle .progress.red .inner {
-    background-color: #c0392b;
-}
-
-.splash .middle .progress .inner[data-slow = true] {
-    transition: width 25s ease-out; 
 }
 
 .splash .middle t {
@@ -202,21 +184,6 @@ body.dark .splash .middle .appname,
 body.dark .splash .middle .appsubname,
 .splash.dark .middle .appname {
     color: #acb8bb;
-}
-
-body.dark .splash .middle .progress,
-.splash.dark .middle .progress {
-    background-color: #4f4f51;
-}
-
-body.dark .splash .middle .progress .inner,
-.splash.dark .middle .progress .inner {
-    background-color: #44abf0;
-}
-
-body.dark .splash .middle .progress.red .inner,
-.splash.dark .middle .progress.red .inner {
-    background-color: #f14d3b;
 }
 
 body.dark .splash .middle .phase,

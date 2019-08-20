@@ -74,6 +74,7 @@
         <!-- Load Library First -->
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/default.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/splash.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/progressbar.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/input.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/textview.css" />
@@ -636,19 +637,19 @@
                     </span>
                 </div>
                 <div class="main fileupload-container">
-                    <div id="submit_dropzone">
-                        <input type="file" id="submit_input" multiple>
+                    <div id="submitDropzone">
+                        <input type="file" id="submitInput" multiple>
                         <t class="title">Thả tệp tại đây</t>
                         <t class="sub">hoặc</t>
-                        <label for="submit_input" class="sq-btn dark sound" data-soundhover data-soundselect>Chọn tệp</label>
+                        <label for="submitInput" class="sq-btn dark sound" data-soundhover data-soundselect>Chọn tệp</label>
                     </div>
                     <div class="info">
-                        <t id="submit_upstate">null</t>
-                        <t id="submit_name">null</t>
-                        <div class="bar">
-                            <div id="submit_bar"></div>
-                            <t id="submit_perc">0%</t>
-                            <t id="submit_size">00/00</t>
+                        <t id="submitStatus">null</t>
+                        <t id="submitFileName">null</t>
+                        <div class="progressBar">
+                            <div class="bar" id="submitProgressBar"></div>
+                            <t class="left" id="submitInfoProgress">0%</t>
+                            <t class="right" id="submitInfoSize">00/00</t>
                         </div>
                     </div>
                 </div>
@@ -663,17 +664,17 @@
                     </span>
                 </div>
                 <div class="main time-container">
-                    <t id="time_state">---</t>
+                    <t id="timeState">---</t>
 
                     <div class="time">
-                        <t id="time_time">--:--</t>
-                        <t id="time_ms">--</t>
+                        <t id="timeClock">--:--</t>
+                        <t id="timeClockMs">--</t>
                     </div>
                     
-                    <div class="bar">
-                        <div id="time_bar"></div>
-                        <t id="time_start">--:--</t>
-                        <t id="time_end">--:--</t>
+                    <div class="progressBar">
+                        <div class="bar" id="timeProgress"></div>
+                        <t class="left" id="timeStart">--:--</t>
+                        <t class="right" id="timeEnd">--:--</t>
                     </div>
                 </div>
             </panel>

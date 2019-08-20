@@ -562,13 +562,13 @@ core = {
     },
 
     submit: {
-        dropzone: $("#submit_dropzone"),
-        input: $("#submit_input"),
-        state: $("#submit_upstate"),
-        name: $("#submit_name"),
-        bar: $("#submit_bar"),
-        percent: $("#submit_perc"),
-        size: $("#submit_size"),
+        dropzone: $("#submitDropzone"),
+        input: $("#submitInput"),
+        state: $("#submitStatus"),
+        name: $("#submitFileName"),
+        bar: $("#submitProgressBar"),
+        percent: $("#submitInfoProgress"),
+        size: $("#submitInfoSize"),
         panel: new regPanel($("#uploadp")),
         uploadCoolDown: 1000,
         uploading: false,
@@ -578,8 +578,8 @@ core = {
             this.dropzone.addEventListener("dragEnter", this.dragEnter, false);
             this.dropzone.addEventListener("dragLeave", this.dragLeave, false);
             this.dropzone.addEventListener("dragOver", this.dragOver, false);
-            this.dropzone.addEventListener("drop", (e) => this.fileSelect(e), false);
-            this.input.addEventListener("change", (e) => this.fileSelect(e, "input"));
+            this.dropzone.addEventListener("drop", e => this.fileSelect(e), false);
+            this.input.addEventListener("change", e => this.fileSelect(e, "input"));
             this.panel.ref.onClick(() => this.reset());
 
             this.panel.title = "Nộp bài";
@@ -602,7 +602,7 @@ core = {
             this.size.innerText = "00/00";
             this.percent.innerText = "0%";
             this.bar.style.width = "0%";
-            this.bar.className = "";
+            this.bar.dataset.color = "";
         },
 
         fileSelect(e, type = "drop") {
@@ -629,6 +629,7 @@ core = {
             this.size.innerText = "00/00";
             this.percent.innerText = "0%";
             this.bar.style.width = "0%";
+            this.bar.dataset.color = "aqua";
             setTimeout(() => this.upload(files), 1000);
         },
 
@@ -672,7 +673,6 @@ core = {
             this.size.innerText = "00/00";
             this.percent.innerText = `${p.toFixed(0)}%`;
             this.bar.style.width = `${p}%`;
-            this.bar.classList.remove("red");
 
             setTimeout(() => {
                 myajax({
@@ -722,7 +722,7 @@ core = {
                     this.input.value = "";
                     this.state.innerText = e.data.description;
                     this.panel.title = "Nộp bài - Đã dừng.";
-                    this.bar.classList.add("red");
+                    this.bar.dataset.color = "red";
                 })
             }, this.uploadCoolDown / 2);
         },
@@ -968,12 +968,12 @@ core = {
 
     timer: {
         timePanel: new regPanel($("#timep")),
-        state: $("#time_state"),
-        time: $("#time_time"),
-        timeMs: $("#time_ms"),
-        bar: $("#time_bar"),
-        start: $("#time_start"),
-        end: $("#time_end"),
+        state: $("#timeState"),
+        time: $("#timeClock"),
+        timeMs: $("#timeClockMs"),
+        bar: $("#timeProgress"),
+        start: $("#timeStart"),
+        end: $("#timeEnd"),
         timeData: Array(),
         enabled: true,
         interval: null,
@@ -1041,11 +1041,13 @@ core = {
                 this.startInterval(65);
                 this.showMs = true;
                 this.timePanel.main.classList.add("ms");
+                this.bar.classList.add("noTransition");
             } else {
                 clearInterval(this.interval);
                 this.startInterval(1000);
                 this.showMs = false;
                 this.timePanel.main.classList.remove("ms");
+                this.bar.classList.remove("noTransition");
             }
         },
 
@@ -1054,6 +1056,7 @@ core = {
             this.timePanel.main.dataset.color = "red";
             this.time.innerText = "--:--";
             this.bar.style.width = "0%";
+            this.bar.dataset.color = "blue";
             this.start.innerText = "--:--:-- - --:--:--";
             this.end.innerText = "--:--";
             this.state.innerText = "---";
@@ -1077,7 +1080,7 @@ core = {
                 if (this.last === 0)
                     this.last = t;
 
-                color = "";
+                color = "blue";
                 proc = ((t) / this.last) * 100;
                 end = parseTime(this.last).str;
                 state = "Bắt đầu kì thi sau";
@@ -1087,7 +1090,7 @@ core = {
                     core.problems.getList();
 
                     if (core.userSettings.publicFilesIframe)
-                    core.userSettings.publicFilesIframe.contentWindow.location.reload();
+                        core.userSettings.publicFilesIframe.contentWindow.location.reload();
                 }
 
                 color = "green";
@@ -1115,6 +1118,7 @@ core = {
                 this.timeMs.innerText = tp.ms;
 
             this.timePanel.main.dataset.color = color;
+            this.bar.dataset.color = color;
             this.time.innerText = tp.str;
             this.bar.style.width = proc + "%";
             this.end.innerText = end;
@@ -1335,14 +1339,15 @@ core = {
                     core.settings.cPanelIframe.contentWindow.document.body.classList.remove("dark");
             }, false);
 
-            // Transition setting
-            let transition = new this.toggleSwitch(this.millisecondToggler, "__showms",
-                e => core.timer.toggleMs(true),
-                e => core.timer.toggleMs(false)
-            , false);
-
             // Millisecond setting
-            let millisecond = new this.toggleSwitch(this.transitionToggler, "__transition",
+            let milisecond = new this.toggleSwitch(this.millisecondToggler, "__showms",
+                e => core.timer.toggleMs(true),
+                e => core.timer.toggleMs(false),
+                false
+            )
+            
+            // Transition setting
+            let transition = new this.toggleSwitch(this.transitionToggler, "__transition",
                 e => document.body.classList.remove("disableTransition"),
                 e => document.body.classList.add("disableTransition"),
                 true
