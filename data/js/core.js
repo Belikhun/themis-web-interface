@@ -1085,6 +1085,8 @@ core = {
                 if (!core.problems.loaded) {
                     clog("INFO", "Reloading problems list and public files list");
                     core.problems.getList();
+
+                    if (core.userSettings.publicFilesIframe)
                     core.userSettings.publicFilesIframe.contentWindow.location.reload();
                 }
 
