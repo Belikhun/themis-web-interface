@@ -2078,6 +2078,9 @@ core = {
                 key: "confirm",
                 name: "generic-confirm.mp3"
             }, {
+                key: "confirm2",
+                name: "generic-confirm-2.mp3"
+            }, {
                 key: "notification",
                 name: "notification.mp3"
             }, {
@@ -2127,9 +2130,14 @@ core = {
                 this.__soundToggle(this.sounds.select);
         },
 
-        confirm() {
+        confirm(variation = 0) {
+            let sound = [
+                this.sounds.confirm,
+                this.sounds.confirm2
+            ][variation]
+
             if (this.enable.master && this.enable.others)
-                this.__soundToggle(this.sounds.confirm);
+                this.__soundToggle(sound);
         },
 
         notification() {
