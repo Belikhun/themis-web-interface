@@ -1278,6 +1278,9 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 }
 
 #rankp div.ranking-container table {
+    position: relative;
+    display: block;
+
     box-sizing: border-box;
     border-spacing: 0;
     padding: 10px;
@@ -1308,7 +1311,6 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    object-fit: cover;
 }
 
 #rankp div.ranking-container table tr td:nth-child(3) .name {
@@ -1348,7 +1350,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 }
 
 #rankp div.ranking-container table tr th {
-    border-bottom: 1px solid #c0c0c0;
+    border-bottom: 1px solid #9b9b9b;
     color: rgb(82, 82, 82);
 }
 
