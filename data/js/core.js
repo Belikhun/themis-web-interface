@@ -302,7 +302,7 @@ core = {
         
         if (data.judging.length === 0 && data.logs.length === 0 && data.queues.length === 0) {
             this.logPanel.main.classList.add("blank");
-            this.pLogData = data;
+            this.previousLogHash = data.hash;
             list.innerHTML = "";
 
             clog("debg", "Log Is Blank. Took", {
@@ -390,7 +390,7 @@ core = {
 
         if (data.list.length === 0 && data.rank.length === 0) {
             this.rankPanel.main.classList.add("blank");
-            this.pRankData = data;
+            this.previousRankHash = data.hash;
             this.rankPanel.main.innerHTML = "";
             
             clog("debg", "Rank Is Blank. Took", {
