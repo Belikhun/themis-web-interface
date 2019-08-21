@@ -102,8 +102,8 @@ core = {
     logPanel: new regPanel($("#logp")),
     rankPanel: new regPanel($("#rankp")),
     container: $("#container"),
-    pLogData: new Array(),
-    pRankData: new Array(),
+    previousLogHash: "",
+    previousRankHash: "",
     updateDelay: 2000,
     initialized: false,
     __logTimeout: null,
@@ -292,7 +292,7 @@ core = {
             method: clearJudging ? "DELETE" : "GET",
         });
 
-        if (compareJSON(data, this.pLogData) && !bypass)
+        if (data.hash === this.previousLogHash && !bypass)
             return false;
 
         clog("debg", "Updating Log");
@@ -368,7 +368,7 @@ core = {
             `
 
         list.innerHTML = out;
-        this.pLogData = data;
+        this.previousLogHash = data.hash;
 
         clog("debg", "Log Updated. Took", {
             color: flatc("blue"),
@@ -382,7 +382,7 @@ core = {
             method: "GET",
         });
 
-        if (compareJSON(data, this.pRankData) && !bypass)
+        if (data.hash === this.previousRankHash && !bypass)
             return false;
 
         clog("debg", "Updating Rank");
@@ -448,7 +448,7 @@ core = {
 
         out += "</tbody></table>";
         this.rankPanel.main.innerHTML = out;
-        this.pRankData = data;
+        this.previousRankHash = data.hash;
 
         clog("debg", "Rank Updated. Took", {
             color: flatc("blue"),
@@ -1585,7 +1585,7 @@ core = {
         syslogs: {
             panel: null,
             container: null,
-            prevData: null,
+            prevHash: "",
 
             async init(panel) {
                 this.panel = panel;
@@ -1605,14 +1605,14 @@ core = {
                     }
                 });
 
-                if (compareJSON(data, this.prevData))
+                if (data.hash === this.prevHash)
                     return;
 
-                this.prevData = data;
+                this.prevHash = data.hash;
                 this.container.innerHTML = "";
                 var html = [];
 
-                for (let i of data)
+                for (let i of data.logs)
                     html.push(`
                         <div class="log ${i.level.toLowerCase()}" onclick="this.classList.toggle('enlarge')">
                             <span class="level">${i.level}</span>

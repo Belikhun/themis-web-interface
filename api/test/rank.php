@@ -57,7 +57,10 @@
         return ($a > $b) ? -1 : 1;
     });
     
-    stop(0, "Thành công!", 200, Array(
+    $returnData = Array (
         "list" => $namelist,
         "rank" => $res
-    ));
+    );
+
+    $returnData["hash"] = md5(serialize($returnData));
+    stop(0, "Thành công!", 200, $returnData);

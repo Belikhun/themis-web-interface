@@ -104,9 +104,12 @@
 
 	$_SESSION["logsData"]["judging"] = $judging;
 
-	stop(0, "Thành công!", 200, Array(
+	$returnData = Array (
 		"queues" => $queues,
 		"judging" => $judging,
 		"logs" => $logres,
-	));
+	);
+
+	$returnData["hash"] = md5(serialize($returnData));
+	stop(0, "Thành công!", 200, $returnData);
 ?>
