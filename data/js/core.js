@@ -2039,6 +2039,7 @@ core = {
 
     sound: {
         initialized: false,
+        soundsLoaded: false,
 
         btn: {
             soundToggle: $("#usett_btn_sound_toggle"),
@@ -2107,6 +2108,7 @@ core = {
             await this.loadSound((p, t) => {
                 set(10 + p*0.85, `Loading: ${t}`);
             });
+            this.soundsLoaded = true;
 
             set(95, "Scanning");
             this.scan();
@@ -2234,8 +2236,10 @@ core = {
 
             if (!sound.paused)
                 sound.pause();
+
             sound.currentTime = 0;
-            sound.play().catch(e => clog("errr", "Error occurred while trying to play sounds."));
+            sound.play()
+                .catch(e => clog("errr", "Error occurred while trying to play sounds."));
         },
 
         select() {
@@ -2272,7 +2276,7 @@ core = {
         },
         
         applySound(item) {
-            if (!item.nodeType || item.nodeType <= 0 || !this.initialized)
+            if (!item.nodeType || item.nodeType <= 0 || !this.soundsLoaded)
                 return false;
 
             if (typeof item.dataset.soundhover !== "undefined")
