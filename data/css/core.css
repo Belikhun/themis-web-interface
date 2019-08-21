@@ -1286,8 +1286,6 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 
 #rankp div.ranking-container table {
     position: relative;
-    display: block;
-
     box-sizing: border-box;
     border-spacing: 0;
     padding: 10px;
@@ -1305,11 +1303,15 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     text-align: left;
 }
 
+#rankp div.ranking-container table tr th:nth-child(2) {
+    width: 40px;
+}
+
 #rankp div.ranking-container table tr td:nth-child(2) {
     display: flex;
     align-items: center;
     padding: 10px;
-    margin-left: 10px;
+    margin: 0 0 0 10px;
 }
 
 #rankp div.ranking-container table tr td:nth-child(2) .avt {
