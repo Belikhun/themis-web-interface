@@ -2004,8 +2004,8 @@ core = {
                         let item = buttonList[key];
                         let button = document.createElement("button");
 
-                        button.classList.add("sq-btn", item.color);
-                        button.innerText = item.text;
+                        button.classList.add("sq-btn", item.color || "blue");
+                        button.innerText = item.text || "Text";
                         button.returnValue = key;
                         button.dataset.soundhover = "";
                         button.dataset.soundselect = "";
