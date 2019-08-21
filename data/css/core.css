@@ -58,6 +58,7 @@ panel {
 panel .head {
     position: relative;
     display: flex;
+    flex-direction: row;
     align-items: center;
     width: 100%;
     height: 40px;
@@ -69,17 +70,22 @@ panel .head {
 
 panel .head .le {
     position: relative;
-    color: rgba(56, 56, 56, 0.8);
+    display: inline-block;
+    flex: 1 1 0;
+
     font-size: 14px;
     font-weight: 500;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    color: rgba(56, 56, 56, 0.8);
 }
 
 panel .head .ri {
-    position: absolute;
+    position: relative;
     display: flex;
     align-items: center;
-    /*float: right;*/
-    right: 10px;
+    flex: 0 0 0;
 }
 
 panel .head .ri i {
@@ -1086,13 +1092,13 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 
 #problemp .problem-container .problem-list li.item {
     position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     width: 100%;
-    height: 60px;
     box-sizing: border-box;
     padding: 10px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
     border-bottom: 1px solid #e6e6e6;
 }
 
@@ -1112,6 +1118,8 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 
 #problemp .problem-container .problem-list li.item .icon {
     position: relative;
+    display: inline-block;
+    flex: 0 0 1;
     width: 50px;
     height: 50px;
     border-radius: 25px;
@@ -1119,6 +1127,8 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 }
 
 #problemp .problem-container .problem-list li.item .title {
+    display: inline-block;
+    flex: 1 1 0;
     list-style: none;
     margin: unset;
     padding: 0 0 0 10px;
