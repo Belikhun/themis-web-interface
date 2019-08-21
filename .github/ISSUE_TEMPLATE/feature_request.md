@@ -1,6 +1,6 @@
 ---
-name: Feature request
-about: Suggest an idea for this project
+name: Thêm tính năng
+about: Góp ý một ý tưởng cho dự án
 
 ---
 

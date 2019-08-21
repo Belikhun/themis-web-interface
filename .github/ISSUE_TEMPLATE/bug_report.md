@@ -1,35 +1,35 @@
 ---
-name: Bug report
-about: Create a report to help us improve
+name: Báo lỗi
+about: Báo một lỗi để mình có thể sửa trong thời gian sớm nhất!
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+**Mô tả lỗi**
+Một mô tả ngắn gọn và rõ ràng về lỗi mà bạn gặp
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+**Để gây ra lỗi**
+Các bước thực hiện để gây ra lỗi:
+1. Đi tới '...'
+2. Nhấn vào '....'
+3. Cuộn xuống '....'
+4. Lỗi!!!
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+**Hành vi dự kiến**
+Một mô tả rõ ràng và ngắn gọn về hành vi mà bạn nghĩ sẽ xảy ra.
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+**Ảnh chụp màn hình**
+Nếu có thể, hãy đính kèm một ảnh chụp màn hình tại đây.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+**Desktop (không yêu cầu):**
+ - Hệ điều hành: [vd: iOS]
+ - Trình duyệt [vd: chrome, safari]
+ - Phiên bản [vd: 22]
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+**Điện thoại (không yêu cầu):**
+ - Tên máy: [vd: iPhone6]
+ - Hệ điều hành: [vd: iOS8.1]
+ - Trình duyệt [vd: stock browser, safari]
+ - Phiên bản [vd: 22]
 
-**Additional context**
-Add any other context about the problem here.
+**Thông tin thêm**
+Thêm bất kỳ thông tin nào liên quan đến lỗi tại đây.
