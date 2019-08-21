@@ -51,6 +51,12 @@ ul {
     padding: 0 0 0 20px;
 }
 
+pre {
+    position: relative;
+    display: block;
+    overflow: auto;
+}
+
 .lazyload {
     position: relative;
     display: inline-block;

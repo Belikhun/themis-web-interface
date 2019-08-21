@@ -64,8 +64,9 @@ class splash {
         container.insertBefore(this.tree.tree, container.childNodes[0]);
         this.splash = this.tree.tree;
 
-        this.init = async () => {};
-        this.postInit = async () => {};
+        this.init = async () => {}
+        this.postInit = async () => {}
+        this.onErrored = async () => {}
         this.preLoaded = false;
         this.loaded = false;
         this.tree = this.tree.obj;
@@ -147,17 +148,22 @@ class splash {
     
             this.status.innerText = `${text} [${progress}%]`;
             this.bar.style.width = `${90 + progress*0.1}%`;
-        }).catch(e => this.__panic(e, false));
+        }).catch(async e => await this.__panic(e, false));
+
+        cookie.set("splashInitSuccess", true, 1);
     }
 
-    __panic(error, stop = true) {
+    async __panic(error, stop = true) {
         let e = error.name || `${error.data.data.file}:${error.data.data.line}`;
         let d = error.message || error.data.description;
 
         this.status.innerText = "Lỗi đã xảy ra";
-        this.tree.middle.errorMsg.innerText = `${e}: ${d}`;
+        this.tree.middle.errorMsg.innerText = `${e} >>> ${d}`;
         this.bar.dataset.color = "red";
         
+        await this.onErrored(error, e, d);
+        cookie.set("splashInitSuccess", false, 1);
+
         if (stop)
             throw error;
         else

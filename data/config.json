@@ -24,7 +24,7 @@
     "viewlog": true,
     "viewlogother": true,
     "ratelimit": {
-        "maxrequest": 30,
+        "maxrequest": 36,
         "time": 10,
         "bantime": 60
     },

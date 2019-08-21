@@ -210,6 +210,12 @@ panel .main.blank::after {
     margin: unset;
 }
 
+#dialogWrapper #dialogPanel {
+    width: unset;
+    min-width: 350px;
+    max-width: 80%;
+}
+
 #dialogWrapper #dialogPanel .main {
     position: relative;
     display: flex;
@@ -252,6 +258,7 @@ panel .main.blank::after {
     position: relative;
     display: flex;
     flex-direction: row;
+    margin: 10px 0;
     justify-content: center;
     width: 100%;
 }

@@ -126,6 +126,52 @@
                     darkmode: cookie.get("__darkMode")
                 });
             }
+
+            mainSplash.onErrored = async (error, e, d) => {
+                if (cookie.get("splashInitSuccess", true) === "false")
+                    if (core.dialog.initialized) {
+                        let errorDetail = document.createElement("ul");
+                        let errorDetailHtml = "";
+                        
+                        errorDetailHtml = error.stack
+                            ? error.stack
+                                .split("\n")
+                                .map(i => `<li>${i}</li>`)
+                                .join("")
+                            : `<li>${e} >>> ${d}</li>`;
+                        
+                        errorDetail.classList.add("textview", "small", "noBreakLine");
+                        errorDetail.style.flexDirection = "column";
+                        errorDetail.innerHTML = errorDetailHtml;
+
+                        $("#dialogWrapper").style.zIndex = 999;
+                        let action = await core.dialog.show({
+                            panelTitle: "Lỗi",
+                            title: "Oops",
+                            description: "Có vẻ như lỗi vẫn đang tiếp diễn!<br>Hãy thử <b>tải lại</b> trang hoặc sử dụng thông tin dưới đây để gửi một báo cáo lỗi:",
+                            level: "error",
+                            additionalNode: errorDetail,
+                            buttonList: {
+                                report: {
+                                    text: "Báo lỗi",
+                                    color: "pink",
+                                    resolve: false,
+                                    onClick: () => window.open("<?php print REPORT_ERROR; ?>", "_blank")
+                                },
+                                reload: { text: "Tải lại", color: "blue" },
+                                close: { text: "Đóng", color: "dark" }
+                            }
+                        })
+
+                        switch (action) {
+                            case "reload":
+                                location.reload();
+                                break;
+                        }
+                        
+                    } else
+                        alert(error);
+            }
         </script>
 
         <!-- Main Content -->

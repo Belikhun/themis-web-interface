@@ -124,20 +124,20 @@ core = {
         clog("info", "Initializing...");
         var initTime = new stopClock();
 
-        set(5, "Fetching Rank...");
+        set(5, "Initializing: core.dialog");
+        this.dialog.init();
+
+        set(7, "Initializing: core.wrapper");
+        this.wrapper.init();
+
+        set(10, "Fetching Rank...");
         await this.fetchRank();
         this.rankPanel.ref.onClick(() => this.fetchRank(true));
         __connection__.onStateChange((s) => { s === "online" ? this.__fetchRank() : null });
         this.__fetchRank();
 
-        set(10, "Initializing: core.timer");
+        set(15, "Initializing: core.timer");
         await this.timer.init();
-
-        set(15, "Initializing: core.wrapper");
-        this.wrapper.init();
-
-        set(17, "Initializing: core.dialog");
-        this.dialog.init();
 
         set(20, "Initializing: core.userSettings");
         this.userSettings.init(LOGGED_IN);
@@ -544,7 +544,7 @@ core = {
                                     </span>
                                 </span>
 
-                                <a href="/api/test/rawlog?f=${data.header.file.logFilename}" target="dialog" class="sq-btn blue" rel="noopener" target="_blank">📄 Raw Log</a>
+                                <a href="/api/test/rawlog?f=${data.header.file.logFilename}" class="sq-btn blue" rel="noopener" target="_blank">📄 Raw Log</a>
                             </span>
                         </div>
 
@@ -1822,7 +1822,7 @@ core = {
                 let confirm = await core.dialog.show({
                     panelTitle: "Xác nhận",
                     title: `Xóa ${id}`,
-                    description: `Bạn có chắc muốn xóa <i>${id}</i> không? Hành động này <b>không thể hoàn tác</b> một khi đã thực hiện!`,
+                    description: `Bạn có chắc muốn xóa <i>${id}</i> không?<br>Hành động này <b>không thể hoàn tác</b> một khi đã thực hiện!`,
                     level: "warning",
                     buttonList: {
                         yes: { text: "XÓA!!!", color: "pink" },
@@ -1959,9 +1959,12 @@ core = {
     dialog: {
         wrapper: $("#dialogWrapper"),
         panel: new regPanel($("#dialogPanel")),
+        initialized: false,
 
         init() {
             this.panel.clo.onClick(() => this.hide());
+
+            this.initialized = true;
             clog("okay", "Initialised:", {
                 color: flatc("red"),
                 text: "core.dialog"
@@ -2006,15 +2009,17 @@ core = {
 
                         button.classList.add("sq-btn", item.color || "blue");
                         button.innerText = item.text || "Text";
+                        button.onclick = item.onClick || null;
                         button.returnValue = key;
                         button.dataset.soundhover = "";
                         button.dataset.soundselect = "";
                         core.sound.applySound(button);
 
-                        button.addEventListener("mouseup", e => {
-                            resolve(e.target.returnValue);
-                            this.hide();
-                        });
+                        if (!(typeof item.resolve === "boolean") || item.resolve !== false)
+                            button.addEventListener("mouseup", e => {
+                                resolve(e.target.returnValue);
+                                this.hide();
+                            });
 
                         btnGroup.appendChild(button);
                     }
@@ -2033,6 +2038,8 @@ core = {
     },
 
     sound: {
+        initialized: false,
+
         btn: {
             soundToggle: $("#usett_btn_sound_toggle"),
             soundOnMouseHover: $("#usett_btn_sound_mouse_hover"),
@@ -2105,6 +2112,7 @@ core = {
             this.scan();
 
             set(100, "Done");
+            this.initialized = true;
             clog("okay", "Initialised:", {
                 color: flatc("red"),
                 text: "core.usersettings.sound"
@@ -2221,7 +2229,7 @@ core = {
         },
 
         __soundToggle(sound) {
-            if (sound.readyState < 3)
+            if (sound.readyState < 3 || !this.initialized)
                 return false;
 
             if (!sound.paused)
@@ -2264,7 +2272,7 @@ core = {
         },
         
         applySound(item) {
-            if (!item.nodeType || item.nodeType <= 0)
+            if (!item.nodeType || item.nodeType <= 0 || !this.initialized)
                 return false;
 
             if (typeof item.dataset.soundhover !== "undefined")
