@@ -8,6 +8,11 @@
   Deny from all
 </Files>
 
+<Files "info.php">  
+  Order Allow,Deny
+  Deny from all
+</Files>
+
 <Files "config.json">  
   Order Allow,Deny
   Deny from all
