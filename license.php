@@ -5,6 +5,8 @@
     //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
+
+    require_once $_SERVER["DOCUMENT_ROOT"]."/data/info.php";
 ?>
 
 <!DOCTYPE html>
@@ -12,7 +14,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>License</title>
+    <title>License | <?php print APPNAME ." v". VERSION; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/default.css" />

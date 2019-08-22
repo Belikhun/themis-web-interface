@@ -9,7 +9,7 @@
         "begin": {
             "seconds": 0,
             "minutes": 0,
-            "hours": 0,
+            "hours": 23,
             "days": 21,
             "months": 8,
             "years": 2019
@@ -28,5 +28,5 @@
         "time": 10,
         "bantime": 60
     },
-    "pagetitle": "%name% v%version%"
+    "pagetitle": "%contestName%"
 }
