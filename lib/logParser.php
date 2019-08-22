@@ -156,7 +156,7 @@
                     continue;
 
                 $lineParsed = [];
-                if (preg_match_all("/.+‣.+‣(.+): (.+\w)/m", $line, $lineParsed, PREG_SET_ORDER, 0)) {
+                if (preg_match_all("/.+‣.+‣(.+): (.+|\d+)/m", $line, $lineParsed, PREG_SET_ORDER, 0)) {
                     # line match begin of test data format
                     if (!empty($lineData))
                         array_push($data, $lineData);
