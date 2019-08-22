@@ -1,11 +1,12 @@
 # Change Logs
 
-- [Thay đổi trong v0.4.5](#thay-đổi-trong-v045-release)
-	- [Thay đổi trong v0.4.4](#thay-đổi-trong-v044-release)
-	- [Thay đổi trong v0.4.3](#thay-đổi-trong-v043-release)
-	- [Thay đổi trong v0.4.2](#thay-đổi-trong-v040-release)
-	- [Thay đổi trong v0.4.1](#thay-đổi-trong-v040-release)
-	- [Thay đổi trong v0.4.0](#thay-đổi-trong-v040-release)
+- [Thay đổi trong v0.4.6](#thay-đổi-trong-v046)
+	- [Thay đổi trong v0.4.5](#thay-đổi-trong-v045)
+	- [Thay đổi trong v0.4.4](#thay-đổi-trong-v044)
+	- [Thay đổi trong v0.4.3](#thay-đổi-trong-v043)
+	- [Thay đổi trong v0.4.2](#thay-đổi-trong-v040)
+	- [Thay đổi trong v0.4.1](#thay-đổi-trong-v040)
+	- [Thay đổi trong v0.4.0](#thay-đổi-trong-v040)
 	- [Thay đổi trong v0.4.0-prerelease](#thay-đổi-trong-v040-prerelease)
 	- [Thay đổi trong v0.3.7](#thay-đổi-trong-v037)
 	- [Thay đổi trong v0.3.6](#thay-đổi-trong-v036)
@@ -22,7 +23,24 @@
 
 ---
 
-## Thay đổi trong v0.4.5
+## Thay đổi trong v0.4.6
+
+* **Bug:** Tăng thêm điểm cho cùng một bài bằng cách nộp với nhiều kiểu tệp
+* **Bug:** Lỗi `TypeError: Cannot read property 'contentWindow' of null` khi kì thi đang diễn ra
+* **Bug:** Đọc nội dung tệp bị cấm bằng api `/avt/get` và `/avt/change` (RFI)
+* **Bug:** Lỗi khi đọc tệp nhật ký với số điểm không có phần thập phân
+* **Thêm:** Thêm meta tag vào trang web
+* **Thêm:** Lazyload image
+* **Thêm:** Giới hạn tên không được vượt quá 34 kí tự
+* **Thêm:** Trang riêng cho phần `license`
+* **Chỉnh sửa:** Hiển thị thông tin kì thi ở màn hình tải thay vì thông tin dự án
+* **Chỉnh sửa:** Chỉnh sửa nút xem nhật ký tại bảng nhật ký
+* **Chỉnh sửa:** Hiển thị đúng những dòng chữ bị tràn
+* **Chỉnh sửa:** Tăng tốc độ kiểm tra thay đổi ở `rank` và `log`
+* **Chỉnh sửa:** Thay đổi thiết kế bảng xếp hạng
+* Sửa một số bug, lỗi hiển thị và thêm một số chức năng nhỏ khác~!
+
+### Thay đổi trong v0.4.5
 
 * **Bug:** Trang lỗi hiển thị ở api thay vì hiển thị đoạn json chứa thông tin lỗi
 * **Bug:** Lỗi `Undefined Variable: lastmtime` tại `/api/test/logs` khi tắt cài đặt `Cho phép xem nhật ký`
