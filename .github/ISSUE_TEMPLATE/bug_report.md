@@ -1,6 +1,9 @@
 ---
 name: Báo lỗi
 about: Báo một lỗi để mình có thể sửa trong thời gian sớm nhất!
+title: ''
+labels: bug, help wanted
+assignees: belivipro9x99
 
 ---
 
