@@ -1286,6 +1286,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 
 #rankp div.ranking-container table {
     position: relative;
+    font-family: "Calibri";
     box-sizing: border-box;
     border-spacing: 0;
     padding: 10px;
@@ -1325,7 +1326,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 #rankp div.ranking-container table tr td:nth-child(3) .name {
     position: relative;
     display: inline-block;
-    padding: 3px 9px;
+    font-size: 15px;
 }
 
 #rankp div.ranking-container table tr td.number:nth-child(4) {
@@ -1337,25 +1338,24 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     text-align: left;
 }
 
-#rankp div.ranking-container table tbody tr:nth-child(1) td:nth-child(3) .name {
-    color: white;
-    font-weight: bold;
-    background-color: #e74c3c;
-    border-radius: 4px;
+#rankp div.ranking-container table tbody tr[data-rank="1"] {
+    background-color: rgba(111, 241, 134, 0.2);
 }
 
-#rankp div.ranking-container table tbody tr:nth-child(2) td:nth-child(3) .name {
-    color: white;
-    font-weight: bold;
-    background-color: #36aa66;
-    border-radius: 4px;
+#rankp div.ranking-container table tbody tr[data-rank="2"] {
+    background-color: rgba(239, 241, 111, 0.2);
 }
 
-#rankp div.ranking-container table tbody tr:nth-child(3) td:nth-child(3) .name {
-    color: white;
-    font-weight: bold;
-    background-color: #8e44ad;
-    border-radius: 4px;
+#rankp div.ranking-container table tbody tr[data-rank="3"] {
+    background-color: rgba(230, 111, 241, 0.2);
+}
+
+#rankp div.ranking-container table tbody tr[data-rank="1"] td:nth-child(3) .name,
+#rankp div.ranking-container table tbody tr[data-rank="2"] td:nth-child(3) .name,
+#rankp div.ranking-container table tbody tr[data-rank="3"] td:nth-child(3) .name {
+    font-weight: bolder;
+    font-size: 16px;
+    color: rgb(65, 65, 65);
 }
 
 #rankp div.ranking-container table tr th {
@@ -1366,11 +1366,11 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 #rankp div.ranking-container table tr th,
 #rankp div.ranking-container table tr td {
     padding: 10px 12px;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 #rankp div.ranking-container table tr td.number {
-    font-size: 12px;
+    font-size: 13px;
     text-align: right;
     color: rgb(172, 172, 172);
 }
@@ -1388,23 +1388,23 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 }
 
 #rankp div.ranking-container table tr td.number.correct {
-    background-color: rgba(22, 233, 47, 0.4);
+    background-color: rgb(147, 243, 158);
 }
 
 #rankp div.ranking-container table tr td.number.passed {
-    background-color: rgba(19, 218, 224, 0.4);
+    background-color: rgb(150, 245, 248);
 }
 
 #rankp div.ranking-container table tr td.number.accepted {
-    background-color: rgba(235, 228, 22, 0.4);
+    background-color: rgb(240, 237, 157);
 }
 
 #rankp div.ranking-container table tr td.number.failed {
-    background-color: rgba(230, 37, 37, 0.3);
+    background-color: rgb(248, 187, 187)
 }
 
 #rankp div.ranking-container table tr td.number.link:hover {
-    filter: brightness(1.2);
+    filter: brightness(1.1);
 }
 
 #timep .time-container {

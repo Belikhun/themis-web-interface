@@ -428,7 +428,7 @@ core = {
             }
 
             out += `
-                <tr>
+                <tr data-rank=${rank}>
                     <td>${rank}</td>
                     <td>
                         <div class="lazyload avt">
@@ -441,7 +441,10 @@ core = {
             `
 
             for (let j of list)
-                out += `<td class="number ${i.status[j] || ""}${(i.logFile[j]) ? ` link" onClick="core.viewLog('${i.logFile[j]}')` : ""}" >${parseFloat(i.point[j]).toFixed(2)}</td>`;
+                out += `
+                    <td class="number ${i.status[j] || ""}
+                        ${(i.logFile[j]) ? ` link" onClick="core.viewLog('${i.logFile[j]}')` : ""}" >
+                            ${(typeof i.point[j] !== "undefined") ? parseFloat(i.point[j]).toFixed(2) : "X"}</td>`;
             
             out += "</tr>";
         }
