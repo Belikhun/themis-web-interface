@@ -14,7 +14,7 @@
             "months": 8,
             "years": 2019
         },
-        "during": 60,
+        "during": 0,
         "offset": 10
     },
     "publish": true,
