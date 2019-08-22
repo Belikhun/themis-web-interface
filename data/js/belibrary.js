@@ -549,6 +549,7 @@ __connection__ = {
     checkEvery: 2000,
     checkInterval: null,
     checkCount: 0,
+    onRatelimited: () => {},
     __checkTime: 0,
     __sbarItem: null,
     __listeners: [],
@@ -599,12 +600,21 @@ __connection__ = {
                     break;
 
                 case "ratelimited":
+                    let counterer = () => {}
+
                     clog("lcnt", data.description);
                     this.__checkTime = parseInt(data.data.reset);
                     this.__sbarItem = (sbar) ? sbar.additem(`Kết nối lại sau [${this.__checkTime}] giây`, "spinner", {aligin: "right"}) : null;
 
+                    this.onRatelimited({
+                        onCount: (f) => counterer = f,
+                        data: data
+                    });
+
                     this.checkInterval = setInterval(() => {
                         this.__checkTime--;
+                        counterer(this.__checkTime);
+
                         if (this.__sbarItem)
                             this.__sbarItem.change(`Kết nối lại sau [${this.__checkTime}] giây`);
 

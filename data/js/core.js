@@ -124,8 +124,32 @@ core = {
         clog("info", "Initializing...");
         var initTime = new stopClock();
 
-        set(5, "Initializing: core.dialog");
+        set(0, "Initializing: core.dialog");
         this.dialog.init();
+
+        set(5, "Applying onRatelimited");
+        __connection__.onRatelimited = async o => {
+            const clock = document.createElement("t");
+            clock.classList.add("rateLimitedClock");
+
+            o.onCount(left => {
+                clock.innerHTML = `${left}<span class="inner">giây còn lại</span>`;
+
+                if (left <= 0)
+                    core.dialog.hide();
+            })
+
+            core.dialog.show({
+                panelTitle: "Rate Limited",
+                title: "Oops",
+                description: `Bạn đã bị cấm yêu cầu tới máy chủ trong vòng <b>${parseInt(o.data.data.reset)} giây</b>!<br>Vui lòng chờ cho tới khi bạn hết bị cấm!`,
+                level: "warning",
+                additionalNode: clock,
+                buttonList: {
+                    close: { text: "Đã rõ!", color: "dark" }
+                }
+            })
+        }
 
         set(7, "Initializing: core.wrapper");
         this.wrapper.init();

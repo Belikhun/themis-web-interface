@@ -2098,6 +2098,19 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     overflow: hidden;
 }
 
+.rateLimitedClock {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.rateLimitedClock > .inner {
+    font-size: 13px;
+    margin: 0 0 4px 4px;
+}
+
 footer {
     position: relative;
     box-sizing: border-box;
