@@ -1942,7 +1942,6 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     box-sizing: border-box;
     padding: 10px 10px 10px 16px;
     background-color: rgb(245, 245, 245);
-    cursor: pointer;
     counter-increment: testItem;
 
     transition: background-color 0.2s ease;
