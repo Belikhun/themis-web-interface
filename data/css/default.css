@@ -51,6 +51,66 @@ ul {
     padding: 0 0 0 20px;
 }
 
+pre {
+    position: relative;
+    display: block;
+    overflow: auto;
+}
+
+.lazyload {
+    position: relative;
+    display: inline-block;
+    background-color: rgba(128, 128, 128, 0.2);
+    min-width: 20px;
+    min-height: 20px;
+    overflow: hidden;
+
+    transition:
+        background-color 0.3s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+}
+
+.lazyload.noBackground {
+    background-color: transparent;
+    transition: unset;
+}
+
+.lazyload > img {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    opacity: 0;
+    transition:
+        opacity 0.3s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+}
+
+.lazyload > .simple-spinner {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: calc(50% - 8px);
+    left: calc(50% - 8px);
+}
+
+.lazyload.light > .simple-spinner {
+    border-color: rgb(214, 214, 214);
+    border-right-color: transparent;
+}
+
+.lazyload[data-loaded] {
+    background-color: transparent;
+}
+
+.lazyload[data-loaded] > img {
+    opacity: 1;
+}
+
+.lazyload[data-loaded] > .simple-spinner {
+    display: none;
+}
+
 /* Dark */
 
 body.dark a {

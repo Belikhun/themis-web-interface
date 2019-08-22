@@ -9,12 +9,13 @@
 05  wrong token
 06  error
 
-// 1x: login
+// 1x: account
 11  not logged in
 12  already logged in
 13  wrong username
 14  wrong password
 15  new password and retype new password doesnt match
+16  not valid name
 
 // 2x: feature
 21  edit info disabled

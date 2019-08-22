@@ -43,7 +43,7 @@
     $description = reqform("desc");
     $test = isset($_POST["test"]) ? json_decode($_POST["test"], true) : Array();
 
-    $code = problem_add($id, Array(
+    $code = problemAdd($id, Array(
         "name" => $name,
         "point" => $point,
         "time" => $time,

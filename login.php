@@ -26,6 +26,7 @@
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/input.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/scrollbar.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/spinner.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/login.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/calibri.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/material-font.css" />
@@ -37,7 +38,10 @@
     <body onload="login.init();">
 
         <div class="left-panel">
-            <div class="wallpaper"></div>
+            <div class="lazyload wallpaper">
+                <img onload="this.parentNode.dataset.loaded = 1" src="/data/img/login-bg.webp"/>
+                <div class="simple-spinner"></div>
+            </div>
             <ul class="footer">
                 <li class="title text-overflow">Chương trình chấm điểm <a href="https://dsapblog.wordpress.com/" target="_blank" rel="noopener">Themis</a></li>
                 <li class="sub text-overflow">Copyright © Lê Minh Hoàng & Đỗ Đức Đông</li>
@@ -47,7 +51,10 @@
 
         <div class="right-panel">
             <div class="header">
-                <img class="icon" src="/data/img/icon.webp">
+                <div class="lazyload icon">
+                    <img onload="this.parentNode.dataset.loaded = 1" src="/data/img/icon.webp"/>
+                    <div class="simple-spinner"></div>
+                </div>
                 <ul class="info">
                     <li class="name text-overflow">
                         <?php print $config["contest"]["name"]; ?>

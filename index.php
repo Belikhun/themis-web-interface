@@ -43,6 +43,7 @@
         $id = $userdata["id"];
     }
 
+    $stripedContestDescription = strip_tags($config["contest"]["description"]);
 ?>
 
     <!DOCTYPE html>
@@ -54,11 +55,26 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- Thay đổi tiêu đề trang hiện đã có trong phần Admin Control Panel -->
-        <title><?php print $config["pagetitle"]; ?></title>
+        <title><?php print $config["pagetitle"]; ?> | <?php print APPNAME ." v". VERSION; ?></title>
 
-        <!-- Library First -->
+        <!-- Primary Meta Tags -->
+        <meta name="title" content="<?php print $config["contest"]["name"]; ?>">
+        <meta name="description" content="<?php print $stripedContestDescription; ?>">
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="<?php print $config["contest"]["name"]; ?>">
+        <meta property="og:description" content="<?php print $stripedContestDescription; ?>">
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:title" content="<?php print $config["contest"]["name"]; ?>">
+        <meta property="twitter:description" content="<?php print $stripedContestDescription; ?>">
+
+        <!-- Load Library First -->
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/default.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/splash.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/progressbar.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/input.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/data/css/textview.css" />
@@ -87,14 +103,14 @@
         <script src="/data/js/belibrary.js" type="text/javascript"></script>
         <script type="text/javascript" src="/data/js/splash.js"></script>
         <script type="text/javascript">
-            var mainSplash = new splash(document.body, "<?php print APPNAME; ?>", "<?php print VERSION ."-". VERSION_TAG; ?>", "/data/img/icon.webp");
+            var mainSplash = new splash(document.body, `<?php print $config["contest"]["name"]; ?>`, `<?php print $stripedContestDescription; ?>`, "/data/img/icon.webp");
 
-            mainSplash.init = async (set) => {
+            mainSplash.init = async set => {
                 set(0, "Initializing core.js");
                 await core.init(set);
             }
 
-            mainSplash.postInit = async (set) => {
+            mainSplash.postInit = async set => {
                 set(50, "Đang kiểm tra phiên bản mới...");
                 await core.checkUpdateAsync(IS_ADMIN);
 
@@ -109,6 +125,52 @@
                     platform: (navigator) ? navigator.platform : null,
                     darkmode: cookie.get("__darkMode")
                 });
+            }
+
+            mainSplash.onErrored = async (error, e, d) => {
+                if (cookie.get("splashInitSuccess", true) === "false")
+                    if (core.dialog.initialized) {
+                        let errorDetail = document.createElement("ul");
+                        let errorDetailHtml = "";
+                        
+                        errorDetailHtml = error.stack
+                            ? error.stack
+                                .split("\n")
+                                .map(i => `<li>${i}</li>`)
+                                .join("")
+                            : `<li>${e} >>> ${d}</li>`;
+                        
+                        errorDetail.classList.add("textview", "small", "noBreakLine");
+                        errorDetail.style.flexDirection = "column";
+                        errorDetail.innerHTML = errorDetailHtml;
+
+                        $("#dialogWrapper").style.zIndex = 999;
+                        let action = await core.dialog.show({
+                            panelTitle: "Lỗi",
+                            title: "Oops",
+                            description: "Có vẻ như lỗi vẫn đang tiếp diễn!<br>Hãy thử <b>tải lại</b> trang hoặc sử dụng thông tin dưới đây để gửi một báo cáo lỗi:",
+                            level: "error",
+                            additionalNode: errorDetail,
+                            buttonList: {
+                                report: {
+                                    text: "Báo lỗi",
+                                    color: "pink",
+                                    resolve: false,
+                                    onClick: () => window.open("<?php print REPORT_ERROR; ?>", "_blank")
+                                },
+                                reload: { text: "Tải lại", color: "blue" },
+                                close: { text: "Đóng", color: "dark" }
+                            }
+                        })
+
+                        switch (action) {
+                            case "reload":
+                                location.reload();
+                                break;
+                        }
+                        
+                    } else
+                        alert(error);
             }
         </script>
 
@@ -208,13 +270,18 @@
 
                         <t class="title small">Đổi tên</t>
 
+                        <div class="item lr info sound" data-soundhoversoft>
+                            <t class="left">Tên được phép sử dụng tất cả các kí tự và có độ dài không vượt quá <b>34 kí tự</b></t>
+                            <div class="right"></div>
+                        </div>
+
                         <div class="item form sound" data-soundhoversoft>
                             <form id="usett_edit_name_form" autocomplete="off" action="javascript:void(0);">
                                 <div class="formgroup blue sound" data-soundselectsoft>
-                                    <input id="usett_edit_name" type="text" class="formfield" placeholder="Tên" required>
+                                    <input id="usett_edit_name" type="text" class="formfield" placeholder="Tên" maxlength="34" required>
                                     <label for="usett_edit_name" class="formlabel">Tên</label>
                                 </div>
-                                <button type="submit" class="sq-btn sound" data-soundhover data-soundselect>Gửi</button>
+                                <button type="submit" class="sq-btn sound" data-soundhover data-soundselect>Thay đổi</button>
                             </form>
                         </div>
 
@@ -234,7 +301,7 @@
                                     <input id="usett_edit_renpass" type="password" class="formfield" placeholder="Nhập lại mật khẩu mới" required>
                                     <label for="usett_edit_renpass" class="formlabel">Nhập lại mật khẩu mới</label>
                                 </div>
-                                <button type="submit" class="sq-btn sound" data-soundhover data-soundselect>Gửi</button>
+                                <button type="submit" class="sq-btn sound" data-soundhover data-soundselect>Thay đổi</button>
                             </form>
                         </div>
 
@@ -331,11 +398,6 @@
                             </label>
                         </div>
 
-                        <div class="item lr info sound" data-soundhoversoft>
-                            <t class="left">Sounds by ppy Pty Ltd. Licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0/legalcode" target="_blank" rel="noopener">CC-BY-NC 4.0</a>. See <a href="/data/sounds/LICENSE.md" target="_blank" rel="noopener">LICENSE.md</a> for more information.</t>
-                            <div class="right"></div>
-                        </div>
-
                         <div class="space"></div>
                         
                         <t class="title small">Khác</t>
@@ -369,7 +431,7 @@
                         </div>
 
                         <t class="title small">Cài đặt</t>
-                        <div id="settings_cpanelToggler" class="item arr sound" data-soundhover>Admin Control Panel</div>
+                        <div id="settings_cPanelToggler" class="item arr sound" data-soundhover>Admin Control Panel</div>
                         <div id="settings_problemToggler" class="item arr sound" data-soundhover>Chỉnh Sửa Test</div>
                         <div id="settings_syslogsToggler" class="item arr sound" data-soundhover>Nhật Ký Hệ Thống</div>
                     </div>
@@ -420,63 +482,63 @@
                         <div class="main problem-settings">
                             <div class="problem-header">
                                 <div class="left">
-                                    <span id="problem_edit_btn_back" class="back sound" data-soundhover></span>
+                                    <span id="problemEdit_btn_back" class="back sound" data-soundhover></span>
                                 </div>
-                                <t id="problem_edit_title" class="title">Danh sách</t>
+                                <t id="problemEdit_title" class="title">Danh sách</t>
                                 <div class="right">
-                                    <span id="problem_edit_btn_add" class="add sound" data-soundhover></span>
-                                    <span id="problem_edit_btn_check" class="check sound" data-soundhover></span>
+                                    <span id="problemEdit_btn_add" class="add sound" data-soundhover></span>
+                                    <span id="problemEdit_btn_check" class="check sound" data-soundhover></span>
                                 </div>
                             </div>
                             <div class="problem-container">
-                                <ul id="problem_edit_list" class="problem-list sound" data-soundtoggle="hide"></ul>
-                                <form id="problem_edit_form" class="problem" action="javascript:void(0);" autocomplete="off">
+                                <ul id="problemEdit_list" class="problem-list sound" data-soundtoggle="hide"></ul>
+                                <form id="problemEdit_form" class="problem" action="javascript:void(0);" autocomplete="off">
                                     <div class="formgroup blue">
-                                        <input id="problem_edit_id" type="text" class="formfield sound" placeholder="Tên Tệp" data-soundselectsoft required>
-                                        <label for="problem_edit_id" class="formlabel">Tên Tệp</label>
+                                        <input id="problemEdit_id" type="text" class="formfield sound" placeholder="Tên Tệp" data-soundselectsoft required>
+                                        <label for="problemEdit_id" class="formlabel">Tên Tệp</label>
                                     </div>
                                     <div class="formgroup blue">
-                                        <input id="problem_edit_name" type="text" class="formfield sound" placeholder="Tên Bài" data-soundselectsoft required>
-                                        <label for="problem_edit_name" class="formlabel">Tên Bài</label>
+                                        <input id="problemEdit_name" type="text" class="formfield sound" placeholder="Tên Bài" data-soundselectsoft required>
+                                        <label for="problemEdit_name" class="formlabel">Tên Bài</label>
                                     </div>
                                     <div class="formgroup blue">
-                                        <input id="problem_edit_point" type="number" class="formfield sound" placeholder="Điểm" data-soundselectsoft required>
-                                        <label for="problem_edit_point" class="formlabel">Điểm</label>
+                                        <input id="problemEdit_point" type="number" class="formfield sound" placeholder="Điểm" data-soundselectsoft required>
+                                        <label for="problemEdit_point" class="formlabel">Điểm</label>
                                     </div>
                                     <div class="formgroup blue">
-                                        <input id="problem_edit_time" type="number" class="formfield sound" placeholder="Thời gian chạy" value="1" data-soundselectsoft required>
-                                        <label for="problem_edit_time" class="formlabel">Thời gian chạy</label>
+                                        <input id="problemEdit_time" type="number" class="formfield sound" placeholder="Thời gian chạy" value="1" data-soundselectsoft required>
+                                        <label for="problemEdit_time" class="formlabel">Thời gian chạy</label>
                                     </div>
                                     <div class="formgroup blue">
-                                        <input id="problem_edit_inptype" type="text" class="formfield sound" placeholder="Dữ liệu vào" value="Bàn Phím" data-soundselectsoft required>
-                                        <label for="problem_edit_inptype" class="formlabel">Dữ liệu vào</label>
+                                        <input id="problemEdit_inptype" type="text" class="formfield sound" placeholder="Dữ liệu vào" value="Bàn Phím" data-soundselectsoft required>
+                                        <label for="problemEdit_inptype" class="formlabel">Dữ liệu vào</label>
                                     </div>
                                     <div class="formgroup blue">
-                                        <input id="problem_edit_outtype" type="text" class="formfield sound" placeholder="Dữ liệu ra" value="Màn Hình" data-soundselectsoft required>
-                                        <label for="problem_edit_outtype" class="formlabel">Dữ liệu ra</label>
+                                        <input id="problemEdit_outtype" type="text" class="formfield sound" placeholder="Dữ liệu ra" value="Màn Hình" data-soundselectsoft required>
+                                        <label for="problemEdit_outtype" class="formlabel">Dữ liệu ra</label>
                                     </div>
                                     <div class="formgroup blue">
-                                        <input id="problem_edit_accept" type="text" class="formfield sound" placeholder="Đuôi tệp" value="pas|py|cpp|java" data-soundselectsoft required>
-                                        <label for="problem_edit_accept" class="formlabel">Đuôi tệp (dùng | để ngăn cách)</label>
+                                        <input id="problemEdit_accept" type="text" class="formfield sound" placeholder="Đuôi tệp" value="pas|py|cpp|java" data-soundselectsoft required>
+                                        <label for="problemEdit_accept" class="formlabel">Đuôi tệp (dùng | để ngăn cách)</label>
                                     </div>
                                     <div class="formgroup blue">
-                                        <input id="problem_edit_image" type="file" class="formfield sound" accept="image/*" placeholder="Ảnh" data-soundselectsoft>
-                                        <label for="problem_edit_image" class="formlabel">Ảnh (không yêu cầu)</label>
+                                        <input id="problemEdit_image" type="file" class="formfield sound" accept="image/*" placeholder="Ảnh" data-soundselectsoft>
+                                        <label for="problemEdit_image" class="formlabel">Ảnh (không yêu cầu)</label>
                                     </div>
                                     <div class="formgroup blue">
-                                        <textarea id="problem_edit_desc" class="formfield sound" placeholder="Nội dung" data-soundselectsoft required></textarea>
-                                        <label for="problem_edit_desc" class="formlabel">Nội dung</label>
+                                        <textarea id="problemEdit_desc" class="formfield sound" placeholder="Nội dung" data-soundselectsoft required></textarea>
+                                        <label for="problemEdit_desc" class="formlabel">Nội dung</label>
                                     </div>
                                     <div class="formgroup blue">
-                                        <input id="problem_edit_attachment" type="file" class="formfield sound" placeholder="Tệp tin" data-soundselectsoft>
-                                        <label for="problem_edit_attachment" class="formlabel">Tệp đính kèm (không yêu cầu)</label>
+                                        <input id="problemEdit_attachment" type="file" class="formfield sound" placeholder="Tệp tin" data-soundselectsoft>
+                                        <label for="problemEdit_attachment" class="formlabel">Tệp đính kèm (không yêu cầu)</label>
                                     </div>
                                     <div class="test-container sound" data-soundhoversoft data-soundselectsoft>
                                         <t class="test">Test ví dụ</t>
-                                        <div class="test-list" id="problem_edit_test_list"></div>
-                                        <span class="test-add" id="problem_edit_test_add"></span>
+                                        <div class="test-list" id="problemEdit_test_list"></div>
+                                        <span class="test-add" id="problemEdit_test_add"></span>
                                     </div>
-                                    <button id="problem_edit_submit" type="submit"></button>
+                                    <button id="problemEdit_submit" type="submit"></button>
                                 </form>
                             </div>
                         </div>
@@ -576,7 +638,7 @@
                             <span class="custom sound" data-soundhover data-soundselect></span>
                         </div>
                         <div class="main">
-                            <iframe class="cpanel-container" src="/LICENSE"></iframe>
+                            <iframe class="cpanel-container" src="/license.php"></iframe>
                         </div>
                     </div>
                 </div>
@@ -586,7 +648,7 @@
         </span>
 
         <div id="wrapper">
-            <panel id="wrapp">
+            <panel id="wrapperPanel">
                 <div class="head">
                     <t class="le"></t>
                     <span class="ri">
@@ -599,8 +661,20 @@
             </panel>
         </div>
 
-        <div id="container">
+        <div id="dialogWrapper">
+            <panel id="dialogPanel">
+                <div class="head">
+                    <t class="le"></t>
+                    <span class="ri">
+                        <i class="material-icons clo sound" title="Đóng" data-soundhover data-soundselect>close</i>
+                    </span>
+                </div>
+                <div class="main">
+                </div>
+            </panel>
+        </div>
 
+        <div id="container">
             <panel id="uploadp">
                 <div class="head">
                     <t class="le">Nộp bài</t>
@@ -609,19 +683,19 @@
                     </span>
                 </div>
                 <div class="main fileupload-container">
-                    <div id="submit_dropzone">
-                        <input type="file" id="submit_input" multiple>
+                    <div id="submitDropzone">
+                        <input type="file" id="submitInput" multiple>
                         <t class="title">Thả tệp tại đây</t>
                         <t class="sub">hoặc</t>
-                        <label for="submit_input" class="sq-btn dark sound" data-soundhover data-soundselect>Chọn tệp</label>
+                        <label for="submitInput" class="sq-btn dark sound" data-soundhover data-soundselect>Chọn tệp</label>
                     </div>
                     <div class="info">
-                        <t id="submit_upstate">null</t>
-                        <t id="submit_name">null</t>
-                        <div class="bar">
-                            <div id="submit_bar"></div>
-                            <t id="submit_perc">0%</t>
-                            <t id="submit_size">00/00</t>
+                        <t id="submitStatus">null</t>
+                        <t id="submitFileName">null</t>
+                        <div class="progressBar">
+                            <div class="bar" id="submitProgressBar"></div>
+                            <t class="left" id="submitInfoProgress">0%</t>
+                            <t class="right" id="submitInfoSize">00/00</t>
                         </div>
                     </div>
                 </div>
@@ -636,17 +710,17 @@
                     </span>
                 </div>
                 <div class="main time-container">
-                    <t id="time_state">---</t>
+                    <t id="timeState">---</t>
 
                     <div class="time">
-                        <t id="time_time">--:--</t>
-                        <t id="time_ms">--</t>
+                        <t id="timeClock">--:--</t>
+                        <t id="timeClockMs">--</t>
                     </div>
                     
-                    <div class="bar">
-                        <div id="time_bar"></div>
-                        <t id="time_start">--:--</t>
-                        <t id="time_end">--:--</t>
+                    <div class="progressBar">
+                        <div class="bar" id="timeProgress"></div>
+                        <t class="left" id="timeStart">--:--</t>
+                        <t class="right" id="timeEnd">--:--</t>
                     </div>
                 </div>
             </panel>
@@ -692,7 +766,7 @@
                         </table>
 
                         <t class="description" id="problem_description"></t>
-                        <img class="image" id="problem_image" src="">
+                        <div class="lazyload image" id="problem_image"></div>
 
                         <div id="problem_attachment" class="attachment">
                             <a id="problem_attachment_link" class="link" href=""></a>
@@ -728,7 +802,6 @@
                     </ul>
                 </div>
             </panel>
-
         </div>
 
         <!-- Session Data -->

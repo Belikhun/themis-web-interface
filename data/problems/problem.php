@@ -60,7 +60,7 @@
         return $list;
     }
 
-    function problem_get(String $id) {
+    function problemGet(String $id) {
         global $problemList;
         if (!isset($problemList[$id]))
             return PROBLEM_ERROR_IDREJECT;
@@ -71,7 +71,7 @@
         return $data;
     }
 
-    function problem_edit(String $id, Array $set, Array $files = null, Array $attachments = null) {
+    function problemEdit(String $id, Array $set, Array $files = null, Array $attachments = null) {
         global $problemList;
 
         if (!isset($problemList[$id]))
@@ -132,7 +132,7 @@
         return PROBLEM_OKAY;
     }
 
-    function problem_add(String $id, Array $add, Array $files = null, Array $attachments = null) {
+    function problemAdd(String $id, Array $add, Array $files = null, Array $attachments = null) {
         global $problemList;
 
         $moveFile = false;
@@ -188,7 +188,7 @@
         return PROBLEM_OKAY;
     }
 
-    function problem_getAttachment(String $id) {
+    function problemGetAttachment(String $id) {
         global $problemList;
 
         if (!isset($problemList[$id]))
@@ -198,7 +198,7 @@
             return PROBLEM_ERROR;
         
         $i = $problemList[$id]["attachment"];
-        $f = PROBLEM_DIR."/".$id."/".$i;
+        $f = PROBLEM_DIR ."/". $id ."/". $i;
 
         contenttype(pathinfo($i, PATHINFO_EXTENSION));
         header("Content-Length: ".filesize($f));
@@ -207,7 +207,7 @@
         return PROBLEM_OKAY;
     }
 
-    function problem_remove(String $id) {
+    function problemRemove(String $id) {
         global $problemList;
 
         if (!isset($problemList[$id]))
@@ -223,12 +223,12 @@
         return PROBLEM_OKAY;
     }
 
-    function problem_exist(String $id) {
+    function problemExist(String $id) {
         global $problemList;
         return isset($problemList[$id]);
     }
 
-    function problem_checkext(String $id, String $ext) {
+    function problemCheckExtension(String $id, String $ext) {
         global $problemList;
         if (!isset($problemList[$id]))
             return PROBLEM_ERROR_IDREJECT;

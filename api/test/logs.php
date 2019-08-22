@@ -48,9 +48,11 @@
 		foreach($lqfs as $i => $item)
 			if (!in_array($item, $queuefiles)) {
 				$p = parseLogName($item .".log");
+
+				// find and remove old log file
 				$loglist = glob($config["logdir"] ."/*.*");
 				foreach ($loglist as $log)
-					if (strpos($log, $p["name"]) > 0 && (strpos($log, $username) > 0))
+					if (strpos($log, $p["problem"]) > 0 && (strpos($log, $username) > 0))
 						unlink($log);
 
 				array_push($judging, Array(
@@ -102,9 +104,12 @@
 
 	$_SESSION["logsData"]["judging"] = $judging;
 
-	stop(0, "Thành công!", 200, Array(
+	$returnData = Array (
 		"queues" => $queues,
 		"judging" => $judging,
 		"logs" => $logres,
-	));
+	);
+
+	$returnData["hash"] = md5(serialize($returnData));
+	stop(0, "Thành công!", 200, $returnData);
 ?>

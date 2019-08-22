@@ -8,13 +8,13 @@
         "zone": "Asia\/Ho_Chi_Minh",
         "begin": {
             "seconds": 0,
-            "minutes": 16,
-            "hours": 17,
-            "days": 21,
-            "months": 6,
+            "minutes": 0,
+            "hours": 23,
+            "days": 22,
+            "months": 8,
             "years": 2019
         },
-        "during": 4,
+        "during": 0,
         "offset": 10
     },
     "publish": true,
@@ -24,9 +24,9 @@
     "viewlog": true,
     "viewlogother": true,
     "ratelimit": {
-        "maxrequest": 30,
+        "maxrequest": 36,
         "time": 10,
         "bantime": 60
     },
-    "pagetitle": "%name% v%version%"
+    "pagetitle": "%contestName%"
 }

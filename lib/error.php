@@ -46,6 +46,7 @@
         case 200:
             $error = "This is not a error";
             $description = "Who take you here?";
+            $errDetailSub = "Maybe... you?";
             break;
         case 400:
             $error = "Bad Request";
@@ -53,7 +54,7 @@
             break;
         case 401:
             $error = "Unauthorized";
-            $description = "Authentication is required and has failed or has not yet been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to the requested resource.";
+            $description = "Authentication is required and has failed or has not yet been provided.";
             break;
         case 403:
             $error = "Forbidden";
@@ -63,7 +64,7 @@
         case 404:
             $error = "Not Found";
             $description = "Không thể tìm thấy <sy>$sv_hs$uri</sy> trên máy chủ.";
-            $errDetailSub = "thanos: <sg>*snap fingers*</sg><br>this page:";
+            $errDetailSub = "thanos: <sg>*snap fingers*</sg><br>this page:<br>you:<br><img src=\"/data/img/pikachu.jpg\" width=\"20%\" style=\"margin-top: 6px\">";
             break;
         case 405:
             $error = "Method Not Allowed";
@@ -75,7 +76,8 @@
             break;
         case 408:
             $error = "Request Timeout";
-            $description = "The client did not produce a request within the time that the server was prepared to wait. The client MAY repeat the request without modifications at any later time.";
+            $description = "The client did not produce a request within the time that the server was prepared to wait.";
+            $errDetailSub = "The client MAY repeat the request without modifications at any later time.";
             break;
         case 414:
             $error = "URI Too Long";
@@ -96,22 +98,25 @@
     }
 
     $errDetail = empty($errDetail) ? $errDetailSub : $errDetail;
+    $reportData = "";
 
-    $reportData = join("\n", Array(
-        "----------------BEGIN ERROR REPORT DATA----------------",
-        "Protocol       : " . $sv_pr,
-        "HTTP Code      : " . $errCode,
-        "Error Code     : " . (isset($err["code"]) ? $err["code"] : "null"),
-        "Error String   : " . $error,
-        "Error Detail   : " . (isset($err["description"]) ? $err["description"] : strip_tags($description)),
-        "URI            : " . (isset($errData["uri"]) ? $errData["uri"] : $uri),
-        "",
-        "Server         : " . $sv,
-        "Client         : " . $cl,
-        "",
-        "ERROR DATA     : " . (isset($err) ? "\n" . json_encode($err, JSON_PRETTY_PRINT) : "null"),
-        "-----------------END ERROR REPORT DATA-----------------"
-    ));
+    if (isset($err))
+        $reportData = join("\n", Array(
+            "----------------BEGIN ERROR REPORT DATA----------------",
+            "Protocol       : " . $sv_pr,
+            "HTTP Code      : " . $errCode,
+            "Error Code     : " . (isset($err["code"]) ? $err["code"] : "null"),
+            "Error String   : " . $error,
+            "Error Detail   : " . (isset($err["description"]) ? $err["description"] : strip_tags($description)),
+            "URI            : " . (isset($errData["uri"]) ? $errData["uri"] : $uri),
+            "",
+            "Server         : " . $sv,
+            "Client         : " . $cl,
+            "",
+            "ERROR DATA     : \n" . json_encode($err, JSON_PRETTY_PRINT),
+            "-----------------END ERROR REPORT DATA-----------------"
+        ));
+
     writeLog("WARN", "Got statuscode \"". $errCode ." ". $error ."\" when trying to access: ". $uri);
 ?>
 
@@ -121,8 +126,25 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
     <title><?php print $errCode ." ". $error; ?></title>
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="<?php print $error; ?>">
+    <meta name="description" content="<?php print $description; ?>">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="<?php print $error; ?>">
+    <meta property="og:description" content="<?php print $description; ?>">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="<?php print $error; ?>">
+    <meta property="twitter:description" content="<?php print $description; ?>">
+
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/error.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/scrollbar.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
@@ -142,9 +164,11 @@
             <p class="description"><?php print $description; ?></p>
             <p class="detail"><?php print $errDetail; ?></p>
 
-            <t class="reportIns">Sử dụng thông tin dưới đây để báo cáo lỗi:</t>
-            <textarea class="report" onclick="this.select()" readonly><?php print $reportData; ?></textarea>
-
+            <?php if (!empty($reportData)) { ?>
+                <t class="reportIns">Sử dụng thông tin dưới đây để báo cáo lỗi:</t>
+                <textarea class="report" onclick="this.select()" readonly><?php print $reportData; ?></textarea>
+            <?php } ?>
+            
             <p class="info">
                 Client: <?php print $cl; ?><br>
                 Server: <?php print $sv; ?><br>

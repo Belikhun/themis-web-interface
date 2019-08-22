@@ -26,7 +26,7 @@
     $id = str_replace("/", "", $id);
     $id = str_replace(".", "", $id);
 
-    $code = problem_remove($id);
+    $code = problemRemove($id);
 
     switch ($code) {
         case PROBLEM_OKAY:

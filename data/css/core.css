@@ -58,6 +58,7 @@ panel {
 panel .head {
     position: relative;
     display: flex;
+    flex-direction: row;
     align-items: center;
     width: 100%;
     height: 40px;
@@ -69,17 +70,22 @@ panel .head {
 
 panel .head .le {
     position: relative;
-    color: rgba(56, 56, 56, 0.8);
+    display: inline-block;
+    flex: 1 1 0;
+
     font-size: 14px;
     font-weight: 500;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    color: rgba(56, 56, 56, 0.8);
 }
 
 panel .head .ri {
-    position: absolute;
+    position: relative;
     display: flex;
     align-items: center;
-    /*float: right;*/
-    right: 10px;
+    flex: 0 0 0;
 }
 
 panel .head .ri i {
@@ -172,7 +178,8 @@ panel .main.blank::after {
     order: 5;
 }
 
-#wrapper {
+#wrapper,
+#dialogWrapper {
     position: fixed;
     display: none;
     align-items: center;
@@ -185,17 +192,96 @@ panel .main.blank::after {
     z-index: 2;
 }
 
-#wrapper.show {
+#dialogWrapper {
+    z-index: 3;
+}
+
+#wrapper.show,
+#dialogWrapper.show {
     display: flex;
 }
 
-#wrapper #wrapp {
+#wrapper #wrapperPanel {
     position: relative;
     width: calc(100% - 100px);
-    max-width: 1000px;
     height: calc(100% - 20px);
+    max-width: 1000px;
     max-height: 640px;
     margin: unset;
+}
+
+#dialogWrapper #dialogPanel {
+    width: unset;
+    min-width: 350px;
+    max-width: 80%;
+}
+
+#dialogWrapper #dialogPanel .main {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+}
+
+#dialogWrapper #dialogPanel .main .title {
+    font-size: 17px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    color: #34495e;
+}
+
+#dialogWrapper #dialogPanel .main[data-level=success] .title {
+    color: rgb(10, 190, 34);
+}
+
+#dialogWrapper #dialogPanel .main[data-level=warning] .title {
+    color: rgb(177, 174, 23);
+}
+
+#dialogWrapper #dialogPanel .main[data-level=warning] .title {
+    color: rgb(177, 174, 23);
+}
+
+#dialogWrapper #dialogPanel .main[data-level=error] .title {
+    color: rgb(226, 21, 21);
+}
+
+#dialogWrapper #dialogPanel .main .description {
+    font-size: 12px;
+    text-align: center;
+    padding-top: 4px;
+}
+
+#dialogWrapper #dialogPanel .main .additional {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    margin: 10px 0;
+    justify-content: center;
+    width: 100%;
+}
+
+#dialogWrapper #dialogPanel .main .buttonGroup {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    width: 100%;
+}
+
+#dialogWrapper #dialogPanel .main .buttonGroup .sq-btn {
+    margin: 0 4px;
+    flex: 1 1 0;
+}
+
+#dialogWrapper #dialogPanel .main .buttonGroup .sq-btn:last-child {
+    margin-right: 0;
+}
+
+#dialogWrapper #dialogPanel .main .buttonGroup .sq-btn:first-child {
+    margin-left: 0;
 }
 
 body.guest #timep.show,
@@ -212,7 +298,7 @@ body.guest #rankp {
     width: calc(100% - 20px);
 }
 
-body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
+body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     height: calc(100% - 20px);
 }
 
@@ -416,7 +502,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     overflow: hidden;
 }
 
-#uploadp .fileupload-container #submit_dropzone {
+#uploadp .fileupload-container #submitDropzone {
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -435,31 +521,31 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     opacity: 1;
 }
 
-#uploadp .fileupload-container #submit_dropzone.drag {
+#uploadp .fileupload-container #submitDropzone.drag {
     background-color: #ccc;
     color: white;
 }
 
-#uploadp .fileupload-container #submit_dropzone.hide {
+#uploadp .fileupload-container #submitDropzone.hide {
     opacity: 0;
 }
 
-#uploadp .fileupload-container #submit_dropzone.hide+.info {
+#uploadp .fileupload-container #submitDropzone.hide+.info {
     opacity: 1;
 }
 
-#uploadp .fileupload-container #submit_dropzone #submit_input {
+#uploadp .fileupload-container #submitDropzone #submitInput {
     display: none;
 }
 
-#uploadp .fileupload-container #submit_dropzone .title {
+#uploadp .fileupload-container #submitDropzone .title {
     color: rgb(104, 104, 104);
     font-size: 16px;
     font-weight: bold;
     text-transform: uppercase;
 }
 
-#uploadp .fileupload-container #submit_dropzone .sub {
+#uploadp .fileupload-container #submitDropzone .sub {
     color: rgb(128, 128, 128);
     font-size: 12px;
     margin: 6px 0;
@@ -475,7 +561,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     opacity: 0;
 }
 
-#uploadp .fileupload-container .info #submit_upstate {
+#uploadp .fileupload-container .info #submitStatus {
     position: relative;
     display: block;
     padding: 0 0 2px 0;
@@ -488,7 +574,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     color: rgb(136, 136, 136);
 }
 
-#uploadp .fileupload-container .info #submit_name {
+#uploadp .fileupload-container .info #submitFileName {
     position: relative;
     display: block;
     width: 100%;
@@ -499,48 +585,12 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     color: rgb(93, 93, 93);
 }
 
-#uploadp .fileupload-container .info .bar {
+#uploadp .fileupload-container .info .progressBar {
     position: absolute;
     bottom: 24px;
     left: 50%;
-    transform: translateX(-50%);
     width: 90%;
-    height: 2px;
-    background-color: rgba(90, 90, 90, 0.2);
-}
-
-#uploadp .fileupload-container .info .bar #submit_bar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 0%;
-    background-color: #16dfb6;
-    transition: width 0.2s ease;
-}
-
-#uploadp .fileupload-container .info .bar #submit_bar.red {
-    background-color: #c0392b;
-}
-
-#uploadp .fileupload-container .info .bar #submit_perc {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: translateY(-100%);
-    font-size: 14px;
-    font-weight: bold;
-    color: rgba(116, 116, 116, 0.7);
-}
-
-#uploadp .fileupload-container .info .bar #submit_size {
-    position: absolute;
-    top: 0;
-    right: 0;
-    transform: translateY(-100%);
-    font-size: 14px;
-    font-weight: bold;
-    color: rgba(116, 116, 116, 0.7);
+    transform: translateX(-50%);
 }
 
 .problem-settings {
@@ -721,7 +771,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     transform: unset;
 }
 
-.problem-settings .problem-container .problem div #problem_edit_desc {
+.problem-settings .problem-container .problem div #problemEdit_desc {
     resize: none;
     height: 160px;
 }
@@ -741,7 +791,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 
 .problem-settings .problem-container .problem .test-container .test {
     display: block;
-    font-size: 9px;
+    font-size: 8px;
     font-weight: 700;
     color: #8b8b8b;
     text-transform: uppercase;
@@ -878,6 +928,13 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     transform: translateY(calc(-50% + 22px));
     font-weight: bold;
     font-size: 10px;
+
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.syslogs-settings .log.enlarge .level::before {
+    opacity: 1;
 }
 
 .syslogs-settings .log .detail {
@@ -1042,13 +1099,13 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 
 #problemp .problem-container .problem-list li.item {
     position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     width: 100%;
-    height: 60px;
     box-sizing: border-box;
     padding: 10px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
     border-bottom: 1px solid #e6e6e6;
 }
 
@@ -1068,6 +1125,8 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 
 #problemp .problem-container .problem-list li.item .icon {
     position: relative;
+    display: inline-block;
+    flex: 0 0 1;
     width: 50px;
     height: 50px;
     border-radius: 25px;
@@ -1075,6 +1134,8 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 }
 
 #problemp .problem-container .problem-list li.item .title {
+    display: inline-block;
+    flex: 1 1 0;
     list-style: none;
     margin: unset;
     padding: 0 0 0 10px;
@@ -1149,7 +1210,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     content: "\f360";
     position: relative;
     font-family: "Font Awesome 5 Free";
-    font-size: 16px;
+    font-size: 22px;
     font-weight: 600;
     cursor: pointer;
     color: rgb(92, 92, 92);
@@ -1224,6 +1285,8 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 }
 
 #rankp div.ranking-container table {
+    position: relative;
+    font-family: "Calibri";
     box-sizing: border-box;
     border-spacing: 0;
     padding: 10px;
@@ -1241,11 +1304,15 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     text-align: left;
 }
 
+#rankp div.ranking-container table tr th:nth-child(2) {
+    width: 40px;
+}
+
 #rankp div.ranking-container table tr td:nth-child(2) {
     display: flex;
     align-items: center;
     padding: 10px;
-    margin-left: 10px;
+    margin: 0 0 0 10px;
 }
 
 #rankp div.ranking-container table tr td:nth-child(2) .avt {
@@ -1254,13 +1321,12 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    object-fit: cover;
 }
 
 #rankp div.ranking-container table tr td:nth-child(3) .name {
     position: relative;
     display: inline-block;
-    padding: 3px 9px;
+    font-size: 15px;
 }
 
 #rankp div.ranking-container table tr td.number:nth-child(4) {
@@ -1272,40 +1338,39 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     text-align: left;
 }
 
-#rankp div.ranking-container table tbody tr:nth-child(1) td:nth-child(3) .name {
-    color: white;
-    font-weight: bold;
-    background-color: #e74c3c;
-    border-radius: 4px;
+#rankp div.ranking-container table tbody tr[data-rank="1"] {
+    background-color: rgba(111, 241, 134, 0.2);
 }
 
-#rankp div.ranking-container table tbody tr:nth-child(2) td:nth-child(3) .name {
-    color: white;
-    font-weight: bold;
-    background-color: #36aa66;
-    border-radius: 4px;
+#rankp div.ranking-container table tbody tr[data-rank="2"] {
+    background-color: rgba(239, 241, 111, 0.2);
 }
 
-#rankp div.ranking-container table tbody tr:nth-child(3) td:nth-child(3) .name {
-    color: white;
-    font-weight: bold;
-    background-color: #8e44ad;
-    border-radius: 4px;
+#rankp div.ranking-container table tbody tr[data-rank="3"] {
+    background-color: rgba(230, 111, 241, 0.2);
+}
+
+#rankp div.ranking-container table tbody tr[data-rank="1"] td:nth-child(3) .name,
+#rankp div.ranking-container table tbody tr[data-rank="2"] td:nth-child(3) .name,
+#rankp div.ranking-container table tbody tr[data-rank="3"] td:nth-child(3) .name {
+    font-weight: bolder;
+    font-size: 16px;
+    color: rgb(65, 65, 65);
 }
 
 #rankp div.ranking-container table tr th {
-    border-bottom: 1px solid #c0c0c0;
+    border-bottom: 1px solid #9b9b9b;
     color: rgb(82, 82, 82);
 }
 
 #rankp div.ranking-container table tr th,
 #rankp div.ranking-container table tr td {
     padding: 10px 12px;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 #rankp div.ranking-container table tr td.number {
-    font-size: 12px;
+    font-size: 13px;
     text-align: right;
     color: rgb(172, 172, 172);
 }
@@ -1323,23 +1388,23 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 }
 
 #rankp div.ranking-container table tr td.number.correct {
-    background-color: rgba(37, 216, 58, 0.2);
+    background-color: rgb(147, 243, 158);
 }
 
 #rankp div.ranking-container table tr td.number.passed {
-    background-color: rgba(17, 214, 221, 0.2);
+    background-color: rgb(150, 245, 248);
 }
 
 #rankp div.ranking-container table tr td.number.accepted {
-    background-color: rgba(226, 219, 5, 0.3);
+    background-color: rgb(240, 237, 157);
 }
 
 #rankp div.ranking-container table tr td.number.failed {
-    background-color: rgba(221, 28, 28, 0.2);
+    background-color: rgb(248, 187, 187)
 }
 
 #rankp div.ranking-container table tr td.number.link:hover {
-    filter: brightness(1.2);
+    filter: brightness(1.1);
 }
 
 #timep .time-container {
@@ -1347,7 +1412,7 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     justify-content: center;
 }
 
-#timep .time-container #time_state {
+#timep .time-container #timeState {
     position: absolute;
     top: 22px;
     font-size: 16px;
@@ -1364,8 +1429,8 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     top: 38px;
 }
 
-#timep .time-container .time #time_time,
-#timep .time-container .time #time_ms {
+#timep .time-container .time #timeClock,
+#timep .time-container .time #timeClockMs {
     position: relative;
     display: inline-block;
     flex-grow: 1;
@@ -1377,77 +1442,35 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     color: #34495e;
 }
 
-#timep .time-container .time #time_ms {
+#timep .time-container .time #timeClockMs {
     display: none;
     flex-grow: 0;
     font-size: 24px;
     margin-bottom: 6px;
 }
 
-#timep .time-container.ms .time #time_ms {
+#timep .time-container.ms .time #timeClockMs {
     display: inline-block;
 }
 
-#timep .time-container .time #time_ms::before {
+#timep .time-container .time #timeClockMs::before {
     content: "."
 }
 
-#timep .time-container[data-color="green"] .time #time_time,
-#timep .time-container[data-color="green"] .time #time_ms {
+#timep .time-container[data-color="green"] .time #timeClock,
+#timep .time-container[data-color="green"] .time #timeClockMs {
     color: #27ae60;
 }
 
-#timep .time-container[data-color="red"] .time #time_time,
-#timep .time-container[data-color="red"] .time #time_ms {
+#timep .time-container[data-color="red"] .time #timeClock,
+#timep .time-container[data-color="red"] .time #timeClockMs {
     color: #c0392b;
 }
 
-#timep .time-container .bar {
+#timep .time-container .progressBar {
     position: absolute;
     bottom: 24px;
     width: 90%;
-    height: 2px;
-    background-color: rgba(90, 90, 90, 0.2);
-}
-
-#timep .time-container .bar #time_bar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 0%;
-    max-width: 100%;
-    background-color: #3ea7ee;
-    transition: width 0.2s ease;
-}
-
-#timep .time-container.ms .bar #time_bar {
-    transition: unset;
-}
-
-#timep .time-container[data-color="red"] .bar #time_bar {
-    background-color: #c0392b;
-}
-
-#timep .time-container .bar #time_start {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: translateY(-100%);
-    font-size: 14px;
-    font-weight: bold;
-    color: rgba(116, 116, 116, 0.7);
-    transition: width 0.2s ease;
-}
-
-#timep .time-container .bar #time_end {
-    position: absolute;
-    top: 0;
-    right: 0;
-    transform: translateY(-100%);
-    font-size: 14px;
-    font-weight: bold;
-    color: rgba(116, 116, 116, 0.7);
 }
 
 #wrapper #wrapp .main .full {
@@ -1561,8 +1584,10 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
 .problemEnlarged .right .image {
     position: relative;
     display: block;
-    width: 100%;
+    min-width: 30px;
+    min-height: 30px;
     max-width: 80%;
+    flex-shrink: 0;
     margin-top: 20px;
     border: 1px solid #ccc;
 }
@@ -1917,7 +1942,6 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     box-sizing: border-box;
     padding: 10px 10px 10px 16px;
     background-color: rgb(245, 245, 245);
-    cursor: pointer;
     counter-increment: testItem;
 
     transition: background-color 0.2s ease;
@@ -2072,6 +2096,19 @@ body.guest #problemp.hide ~ #timep:not(.show) ~ #rankp {
     height: 100%;
     border: unset;
     overflow: hidden;
+}
+
+.rateLimitedClock {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.rateLimitedClock > .inner {
+    font-size: 13px;
+    margin: 0 0 4px 4px;
 }
 
 footer {

@@ -7,6 +7,7 @@
     //? |-----------------------------------------------------------------------------------------------|
     
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/data/info.php";
 
 ?>
 
@@ -15,7 +16,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Cài đặt</title>
+    <title>Cài đặt | <?php print APPNAME ." v". VERSION; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" type="text/css" media="screen" href="/data/css/default.css" />

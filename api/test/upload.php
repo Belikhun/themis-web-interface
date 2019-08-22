@@ -51,10 +51,10 @@
 
     if ($config["submitinproblems"] === true) {
         require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";
-        if (!problem_exist($filename))
+        if (!problemExist($filename))
             stop(44, "Không có đề cho bài này!", 404, $filename);
 
-        if (!problem_checkext($filename, $extension))
+        if (!problemCheckExtension($filename, $extension))
             stop(43, "Không chấp nhận tệp!", 415);
     }
 

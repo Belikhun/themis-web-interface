@@ -58,50 +58,51 @@ body.dark panel .main {
     background-color: rgb(65, 65, 65);
 }
 
+/* dialog */
+
+body.dark #dialogWrapper #dialogPanel .main .title {
+    color: rgb(238, 238, 238);
+}
+
+body.dark #dialogWrapper #dialogPanel .main[data-level=success] .title {
+    color: rgb(55, 238, 80);
+}
+
+body.dark #dialogWrapper #dialogPanel .main[data-level=warning] .title {
+    color: rgb(231, 228, 38);
+}
+
+body.dark #dialogWrapper #dialogPanel .main[data-level=error] .title {
+    color: rgb(246, 107, 107);
+}
+
 /* File Upload Panel */
 
-body.dark #uploadp .fileupload-container #submit_dropzone {
+body.dark #uploadp .fileupload-container #submitDropzone {
     border-color: rgb(124, 124, 124);
     color: rgb(124, 124, 124);
 }
 
-body.dark #uploadp .fileupload-container #submit_dropzone.drag {
+body.dark #uploadp .fileupload-container #submitDropzone.drag {
     background-color: rgb(98, 98, 98);
     border-color: rgb(156, 156, 156);
     color: rgb(156, 156, 156);
 }
 
-body.dark #uploadp .fileupload-container #submit_dropzone .title {
+body.dark #uploadp .fileupload-container #submitDropzone .title {
     color: rgb(180, 180, 180);
 }
 
-body.dark #uploadp .fileupload-container #submit_dropzone .sub {
+body.dark #uploadp .fileupload-container #submitDropzone .sub {
     color: rgb(160, 160, 160);
 }
 
-body.dark #uploadp .fileupload-container .info #submit_upstate {
+body.dark #uploadp .fileupload-container .info #submitStatus {
     color: rgb(214, 214, 214);
 }
 
-body.dark #uploadp .fileupload-container .info #submit_name {
+body.dark #uploadp .fileupload-container .info #submitFileName {
     color: rgb(160, 160, 160);
-}
-
-body.dark #uploadp .fileupload-container .info .bar {
-    background-color: rgba(204, 204, 204, 0.2);
-}
-
-body.dark #uploadp .fileupload-container .info .bar #submit_bar {
-    background-color: #21c2a2;
-}
-
-body.dark #uploadp .fileupload-container .info .bar #submit_bar.red {
-    background-color: #f14d3b;
-}
-
-body.dark #uploadp .fileupload-container .info .bar #submit_perc,
-body.dark #uploadp .fileupload-container .info .bar #submit_size {
-    color: rgba(200, 200, 200, 0.7);
 }
 
 /* Problems Panel */
@@ -148,43 +149,48 @@ body.dark .problemEnlarged .right .description::before {
 
 /* Time Panel */
 
-body.dark #timep .time-container #time_state {
+body.dark #timep .time-container #timeState {
     color: rgb(195, 195, 195);
 }
 
-body.dark #timep .time-container .time #time_time,
-body.dark #timep .time-container .time #time_ms {
+body.dark #timep .time-container .time #timeClock,
+body.dark #timep .time-container .time #timeClockMs {
     color: rgb(226, 226, 226);
 }
 
-body.dark #timep .time-container .bar {
-    background-color: rgba(214, 214, 214, 0.2);
-}
-
-body.dark #timep .time-container .bar #time_start,
-body.dark #timep .time-container .bar #time_end {
-    color: rgba(206, 206, 206, 0.7);
-}
-
-body.dark #timep .time-container .bar #time_bar {
-    background-color: #3186be;
-}
-
-body.dark #timep .time-container[data-color="red"] .time #time_time,
-body.dark #timep .time-container[data-color="red"] .time #time_ms {
+body.dark #timep .time-container[data-color="red"] .time #timeClock,
+body.dark #timep .time-container[data-color="red"] .time #timeClockMs {
     color: #f17466;
 }
 
-body.dark #timep .time-container[data-color="green"] .time #time_time,
-body.dark #timep .time-container[data-color="green"] .time #time_ms {
+body.dark #timep .time-container[data-color="green"] .time #timeClock,
+body.dark #timep .time-container[data-color="green"] .time #timeClockMs {
     color: #42ff91;
 }
 
-body.dark #timep .time-container[data-color="red"] #time_bar {
+body.dark #timep .time-container[data-color="red"] #timeProgress {
     background-color: #e03e2c;
 }
 
 /* Rank Panel */
+
+body.dark #rankp div.ranking-container table tbody tr[data-rank="1"] {
+    background-color: rgba(11, 129, 33, 0.2);
+}
+
+body.dark #rankp div.ranking-container table tbody tr[data-rank="2"] {
+    background-color: rgba(136, 138, 15, 0.2);
+}
+
+body.dark #rankp div.ranking-container table tbody tr[data-rank="3"] {
+    background-color: rgba(112, 12, 121, 0.2);
+}
+
+body.dark #rankp div.ranking-container table tbody tr[data-rank="1"] td:nth-child(3) .name,
+body.dark #rankp div.ranking-container table tbody tr[data-rank="2"] td:nth-child(3) .name,
+body.dark #rankp div.ranking-container table tbody tr[data-rank="3"] td:nth-child(3) .name {
+    color: rgb(236, 236, 236);
+}
 
 body.dark #rankp div.ranking-container table tr th {
     color: rgb(202, 202, 202);
@@ -213,19 +219,19 @@ body.dark #rankp div.ranking-container table tr .number.failed {
 }
 
 body.dark #rankp div.ranking-container table tr .number.correct {
-    background-color: rgba(30, 219, 52, 0.3);
+    background-color: rgb(19, 148, 34);
 }
 
 body.dark #rankp div.ranking-container table tr .number.passed {
-    background-color: rgba(30, 181, 219, 0.3);
+    background-color: rgb(20, 119, 144);
 }
 
 body.dark #rankp div.ranking-container table tr .number.accepted {
-    background-color: rgba(226, 219, 5, 0.4);
+    background-color: rgb(138, 134, 24);
 }
 
 body.dark #rankp div.ranking-container table tr .number.failed {
-    background-color: rgba(221, 28, 28, 0.3);
+    background-color: rgb(151, 20, 20);
 }
 
 body.dark #rankp div.ranking-container table tr td:nth-child(3) {

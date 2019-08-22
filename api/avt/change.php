@@ -40,13 +40,15 @@
     if ($_FILES["file"]["error"] > 0)
         stop(-1, "Lỗi không rõ!", 500);
 
-    $imagepath = $_SERVER["DOCUMENT_ROOT"] ."/api/avt/". $_SESSION["username"];
-    $oldfiles = glob($imagepath.".*");
-    if (count($oldfiles) > 0) foreach ($oldfiles as $oldfile) {
-        $ext = pathinfo($oldfile, PATHINFO_EXTENSION);
-        unlink($imagepath.".".$ext);
-    }
-    move_uploaded_file($_FILES["file"]["tmp_name"], $imagepath .".". $extension);
+    $imagePath = $_SERVER["DOCUMENT_ROOT"] ."/api/avt/". $_SESSION["username"];
+    $oldFiles = glob($imagePath .".{jpg,png,gif,webp}", GLOB_BRACE);
+    if (count($oldFiles) > 0)
+        foreach ($oldFiles as $oldFile) {
+            $ext = pathinfo($oldFile, PATHINFO_EXTENSION);
+            unlink($imagePath .".". $ext);
+        }
+
+    move_uploaded_file($_FILES["file"]["tmp_name"], $imagePath .".". $extension);
     stop(0, "Thay đổi ảnh đại diện thành công.", 200, Array(
         "src" => "/api/avt/get?u=". $_SESSION["username"] ."&t=". time()
     ));

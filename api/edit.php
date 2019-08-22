@@ -24,8 +24,11 @@
 
     $change = Array();
 
-    if (isset($_POST["n"]))
+    if (isset($_POST["n"])) {
         $change["name"] = htmlspecialchars(trim($_POST["n"]));
+        if (strlen($change["name"]) > 34)
+            stop(16, "Tên người dùng không được vượt quá 34 kí tự", 400);
+    }
 
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
     $userdata = getUserData($username);

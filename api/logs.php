@@ -23,4 +23,9 @@
         stop(0, "Success", 200);
     }
 
-    stop(0, "Success", 200, readLog("json"));
+    $returnData = Array (
+        "logs" => readLog("json")
+    );
+    
+    $returnData["hash"] = md5(serialize($returnData));
+    stop(0, "Success", 200, $returnData);

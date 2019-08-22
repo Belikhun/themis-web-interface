@@ -10,12 +10,7 @@ class splash {
             list: [{
                 type: "div",
                 class: "logo",
-                name: "logo",
-                list: [{
-                    type: "div",
-                    class: "inner",
-                    name: "inner"
-                }]
+                name: "logo"
             }, {
                 type: "div",
                 class: "appname",
@@ -26,11 +21,11 @@ class splash {
                 name: "appsubname"
             }, {
                 type: "div",
-                class: "progress",
+                class: "progressBar",
                 name: "progress",
                 list: [{
                     type: "div",
-                    class: "inner",
+                    class: "bar",
                     name: "bar"
                 }]
             }, {
@@ -57,16 +52,7 @@ class splash {
             list: [{
                 type: "div",
                 class: "icon",
-                name: "icon",
-                list: [{
-                    type: "img",
-                    class: "chrome",
-                    name: "chrome"
-                }, {
-                    type: "img",
-                    class: "coccoc",
-                    name: "coccoc"
-                }]
+                name: "icon"
             }, {
                 type: "div",
                 class: "text",
@@ -78,37 +64,50 @@ class splash {
         container.insertBefore(this.tree.tree, container.childNodes[0]);
         this.splash = this.tree.tree;
 
-        this.init = async () => {};
-        this.postInit = async () => {};
+        this.init = async () => {}
+        this.postInit = async () => {}
+        this.onErrored = async () => {}
         this.preLoaded = false;
         this.loaded = false;
         this.tree = this.tree.obj;
         this.bar = this.tree.middle.progress.bar;
+        this.bar.dataset.color = "blue";
         this.status = this.tree.middle.status;
         this.phase = this.tree.middle.phase;
 
         // Middle
-        this.tree.middle.logo.inner.style.backgroundImage = `url("${icon}")`;
+        this.tree.middle.logo.innerHTML = `
+        <div class="lazyload noBackground light inner">
+            <img onload="this.parentNode.dataset.loaded = 1" src="${icon}"/>
+            <div class="simple-spinner"></div>
+        </div>`
         this.tree.middle.appname.innerText = name;
         this.tree.middle.appsubname.innerText = subname;
 
         // Footer
-        this.tree.footer.icon.chrome.src = "/data/img/chrome-icon.webp";
-        this.tree.footer.icon.coccoc.src = "/data/img/coccoc-icon.webp";
+        this.tree.footer.icon.innerHTML = `
+            <div class="lazyload chrome">
+                <img onload="this.parentNode.dataset.loaded = 1" src="/data/img/chrome-icon.webp"/>
+                <div class="simple-spinner"></div>
+            </div>
+            <div class="lazyload coccoc">
+                <img onload="this.parentNode.dataset.loaded = 1" src="/data/img/coccoc-icon.webp"/>
+                <div class="simple-spinner"></div>
+            </div>`
         this.tree.footer.text.innerText = "Trang web hoạt động tốt nhất trên trình duyệt chrome và coccoc.";
 
         this.__preLoadInit();
     }
 
     __preLoadInit() {
-        this.bar.dataset.slow = true;
+        this.bar.dataset.slow = 30;
         this.preLoaded = false;
         this.status.innerText = "Đang Tải...";
         this.phase.innerText = "Phase 1/3: Page Initialization";
 
         setTimeout(() => {
             this.bar.style.width = "50%";
-        }, 600);
+        }, 200);
 
         document.body.onload = () => {
             this.__loadInit();
@@ -116,11 +115,11 @@ class splash {
     }
 
     async __loadInit() {
-        this.bar.dataset.slow = false;
+        this.bar.dataset.slow = "";
         this.preLoaded = true;
         this.loaded = false;
         this.phase.innerText = "Phase 2/3: Script Initialization";
-        this.bar.style.width = `40%`;
+        this.bar.style.width = `50%`;
         this.tree.middle.tips.innerHTML = `Thử tải lại cứng bằng tổ hợp phím <b>Ctrl + Shift + R</b> hoặc <b>Ctrl + F5</b> nếu có lỗi xảy ra`;
 
         await this.init((progress = 0, text = "") => {
@@ -128,7 +127,7 @@ class splash {
                 return false;
 
             this.status.innerText = `${text} [${progress.toFixed(2)}%]`;
-            this.bar.style.width = `${40 + progress*0.5}%`;
+            this.bar.style.width = `${50 + progress*0.5}%`;
         }).catch(e => this.__panic(e));
 
         this.loaded = true;
@@ -149,17 +148,22 @@ class splash {
     
             this.status.innerText = `${text} [${progress}%]`;
             this.bar.style.width = `${90 + progress*0.1}%`;
-        }).catch(e => this.__panic(e, false));
+        }).catch(async e => await this.__panic(e, false));
+
+        cookie.set("splashInitSuccess", true, 1);
     }
 
-    __panic(error, stop = true) {
+    async __panic(error, stop = true) {
         let e = error.name || `${error.data.data.file}:${error.data.data.line}`;
         let d = error.message || error.data.description;
 
         this.status.innerText = "Lỗi đã xảy ra";
-        this.tree.middle.errorMsg.innerText = `${e}: ${d}`;
-        this.bar.classList.add("red");
+        this.tree.middle.errorMsg.innerText = `${e} >>> ${d}`;
+        this.bar.dataset.color = "red";
         
+        await this.onErrored(error, e, d);
+        cookie.set("splashInitSuccess", false, 1);
+
         if (stop)
             throw error;
         else

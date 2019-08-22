@@ -15,9 +15,10 @@
     margin: unset;
     padding: unset;
     list-style: none;
+    overflow: auto;
 }
 
-.textview li {
+.textview > li {
     position: relative;
     display: block;
     text-align: left;
@@ -34,37 +35,46 @@
     white-space: pre-wrap;
 }
 
-.textview li:hover {
+.textview > li:hover {
     background-color: rgba(212, 212, 212, 0.2);
 }
 
-.textview li::before {
+.textview > li::before {
+    content: counter(viewlog-line);
     position: absolute;
     width: 40px;
     left: -50px;
-    content: counter(viewlog-line);
     text-align: right;
     color: rgb(192, 192, 192);
 }
 
-.textview li:hover::before {
+.textview > li:hover::before {
     color: #2984c0;
 }
 
+.textview.small > li {
+    font-size: 12px;
+    min-height: 22px;
+    margin-left: 32px;
+}
 
-body.dark .textview li {
+.textview.noBreakLine > li {
+    white-space: pre;
+}
+
+body.dark .textview > li {
     border-left-color: rgba(204, 204, 204, 0.3);
     color: rgb(204, 204, 204);
 }
 
-body.dark .textview li:hover {
+body.dark .textview > li:hover {
     background-color: rgba(10, 10, 10, 0.2);
 }
 
-body.dark .textview li::before {
+body.dark .textview > li::before {
     color: rgb(104, 104, 104);
 }
 
-body.dark .textview li:hover::before {
+body.dark .textview > li:hover::before {
     color: #31a0eb;
 }
