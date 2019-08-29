@@ -399,16 +399,20 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     color: #585858;
 }
 
+#logp div.main ul.log-item-container li.log-item.scored .h .l .n {
+    color: #1124c8;
+}
+
 #logp div.main ul.log-item-container li.log-item.correct .h .l .n {
     color: #39aa56;
 }
 
 #logp div.main ul.log-item-container li.log-item.passed .h .l .n {
-    color: #3999aa;
+    color: #0ca3be;
 }
 
 #logp div.main ul.log-item-container li.log-item.accepted .h .l .n {
-    color: #cfc337;
+    color: #b9ab14;
 }
 
 #logp div.main ul.log-item-container li.log-item.failed .h .l .n {
@@ -470,7 +474,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 }
 
 #logp div.main ul.log-item-container li.log-item.queue .h .l .n {
-    color: #8e44ad;
+    color: #8710cc;
 }
 
 #logp div.main ul.log-item-container li.log-item.queue .d::before {
@@ -482,7 +486,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 }
 
 #logp div.main ul.log-item-container li.log-item.judging .h .l .n {
-    color: #24bdc5;
+    color: #c811c8;
 }
 
 #logp div.main ul.log-item-container li.log-item.judging .d::before {

@@ -270,15 +270,19 @@ body.dark #logp div.main ul.log-item-container .log-item .d:hover {
 }
 
 body.dark #logp div.main ul.log-item-container .log-item.queue .h .l .n {
-    color: #da90fa;
+    color: #ca92ff;
 }
 
 body.dark #logp div.main ul.log-item-container .log-item.judging .h .l .n {
-    color: #fac090;
+    color: #ff84f5;
 }
 
 body.dark #logp div.main ul.log-item-container li.log-item .h .l .n {
     color: rgb(204, 204, 204);
+}
+
+body.dark #logp div.main ul.log-item-container li.log-item.scored .h .l .n {
+    color: #a1a3ff;
 }
 
 body.dark #logp div.main ul.log-item-container li.log-item.correct .h .l .n {
@@ -294,7 +298,7 @@ body.dark #logp div.main ul.log-item-container li.log-item.accepted .h .l .n {
 }
 
 body.dark #logp div.main ul.log-item-container li.log-item.failed .h .l .n {
-    color: #e45454;
+    color: #f66f6f;
 }
 
 /* UserSettings */

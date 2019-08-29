@@ -384,7 +384,7 @@ core = {
                             <t class="n">${item.problem}</t>
                         </div>
                         <div class="r">
-                            <t class="s">${item.point} điểm</t>
+                            <t class="s">${item.point ? `${item.point} điểm` : "Đã chấm"}</t>
                             <t class="l">${this.languages[item.extension] || item.extension}</t>
                         </div>
                     </div>
