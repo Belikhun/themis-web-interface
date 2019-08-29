@@ -45,6 +45,7 @@
 		$_SESSION["logsData"]["lastqueuesfiles"] = $queuefiles;
 	else {
 		$lqfs = $_SESSION["logsData"]["lastqueuesfiles"];
+		
 		foreach($lqfs as $i => $item)
 			if (!in_array($item, $queuefiles)) {
 				$p = parseLogName($item .".log");
@@ -82,20 +83,22 @@
 		$lastm = date("d/m/Y H:i:s", $lastmtime);
 
 		$data = ((new logParser($log, LOGPARSER_MODE_MINIMAL)) -> parse())["header"];
-		$point = $data["description"];
+		$point = $data["point"];
 
 		foreach ($judging as $i => $item)
 			if ($item["name"] === $data["file"]["name"] && file_exists($log) && (int)$item["lastmtime"] < (int)filemtime($log))
 				array_splice($judging, $i, 1);
 
-		if ($config["publish"] === true)
-			$point = $data["point"];
+		if ($config["publish"] !== true) {
+			$data["status"] = "scored";
+			$data["point"] = null;
+		}
 
 		array_push($logres, Array(
 			"status" => $data["status"],
 			"problem" => $data["problem"],
 			"extension" => $data["file"]["extension"],
-			"point" => $point,
+			"point" => $data["point"],
 			"lastmodify" => $lastm,
 			"lastmtime" => $lastmtime,
 			"logFile" => $filename
@@ -104,7 +107,7 @@
 
 	$_SESSION["logsData"]["judging"] = $judging;
 
-	$returnData = Array (
+	$returnData = Array(
 		"queues" => $queues,
 		"judging" => $judging,
 		"logs" => $logres,
