@@ -1,0 +1,26 @@
+{
+    "name": "S\u1ed1 L\u01b0\u1ee3ng",
+    "point": "3",
+    "time": 1,
+    "type": {
+        "inp": "SOLUONG.INP",
+        "out": "SOLUONG.OUT"
+    },
+    "accept": [
+        "pas",
+        "cpp",
+        "c",
+        "py",
+        "java",
+        "class",
+        "pp",
+        "exe"
+    ],
+    "description": "Cho x\u00e2u k\u00fd t\u1ef1 S ch\u1ec9 g\u1ed3m c\u00e1c ch\u1eef c\u00e1i ti\u1ebfng Anh in hoa. H\u00e3y cho bi\u1ebft c\u00f3 bao nhi\u00eau ch\u1eef 'A' trong x\u00e2u S.\n\n<b>D\u1eef li\u1ec7u v\u00e0o t\u1eeb t\u1ec7p v\u0103n b\u1ea3n <i>SOLUONG.INP<\/i><\/b>\n<ul><li>M\u1ed9t d\u00f2ng duy nh\u1ea5t ch\u1ee9a x\u00e2u S<\/li><\/ul>\n<b>K\u1ebft qu\u1ea3 ghi v\u00e0o t\u1ec7p v\u0103n b\u1ea3n <i>SOLUONG.OUT<\/i><\/b>\n<ul><li>S\u1ed1 l\u01b0\u1ee3ng ch\u1eef 'A' trong x\u00e2u S.<\/li><\/ul>\n<b>Gi\u1edbi h\u1ea1n<\/b>\n<ul><li>\u0110\u1ed9 d\u00e0i x\u00e2u S <= 100 k\u00ed t\u1ef1<\/li><\/ul>",
+    "test": [
+        {
+            "inp": "HOALAN",
+            "out": "2"
+        }
+    ]
+}

@@ -1605,9 +1605,11 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 }
 
 .problemEnlarged .bottom .description {
+    position: relative;
     width: 100%;
     box-sizing: border-box;
     white-space: pre-wrap;
+    line-height: 1.4em;
 }
 
 .problemEnlarged .bottom .description * {
