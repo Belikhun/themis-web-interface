@@ -162,34 +162,51 @@
             return null;
     }
 
-    function stop($c = 0, String $d = "", $sc = 200, $b = Array()) {
+    /**
+     *
+     * Print out response data, set some header
+     * and stop script execution!
+     * 
+     * @param    code           Response code
+     * @param    description    Response description
+     * @param    HTTPStatus     Response HTTP status code
+     * @param    data           Response data (additional)
+     * @param    hashData       Hash the data
+     * @return   null
+     *
+     */
+    function stop(Int $code = 0, String $description = "", Int $HTTPStatus = 200, Array $data = Array(), Bool $hashData = false) {
         global $runtime;
 
-        $out = Array(
-            "code" => $c,
-            "status" => $sc,
-            "description" => $d,
+        $output = Array(
+            "code" => $code,
+            "status" => $HTTPStatus,
+            "description" => $description,
             "user" => $_SESSION["username"],
-            "data" => $b,
+            "data" => $data,
+            "hash" => $hashData ? md5(serialize($data)) : null,
             "runtime" => $runtime -> stop()
         );
 
-        http_response_code($sc);
+        // Set the HTTP status code
+        http_response_code($HTTPStatus);
 
+        // Determine response data method
+        // ? json or errorPage
         if (!defined("STOP_OUTPUT"))
             define("STOP_OUTPUT", "print");
 
         switch (STOP_OUTPUT) {
             case "errorpage":
-                if ($sc >= 300 || $c !== 0)
+                if ($HTTPStatus >= 300 || $code !== 0)
                     if (function_exists("printErrorPage"))
-                        printErrorPage($out, headers_sent());
-                    else print "<h1>Error $sc</h1><p>$d</p>";
+                        printErrorPage($output, headers_sent());
+                    else print "<h1>Error $HTTPStatus</h1><p>$description</p>";
                 break;
             
             default:
                 header("Content-Type: application/json", true);
-                print(json_encode($out, JSON_PRETTY_PRINT));
+                print(json_encode($output, JSON_PRETTY_PRINT));
                 break;
         }
 
