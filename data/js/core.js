@@ -316,17 +316,18 @@ core = {
             method: clearJudging ? "DELETE" : "GET",
         });
 
-        if (data.hash === this.previousLogHash && !bypass)
+        let hash = data.getHash();
+        if (hash === this.previousLogHash && !bypass)
             return false;
 
-        clog("debg", "Updating Log");
+        clog("debg", "Updating Log", `[${hash}]`);
         let updateLogTimer = new stopClock();
 
         let list = this.logPanel.main.getElementsByClassName("log-item-container")[0];
-        
+
         if (data.judging.length === 0 && data.logs.length === 0 && data.queues.length === 0) {
             this.logPanel.main.classList.add("blank");
-            this.previousLogHash = data.hash;
+            this.previousLogHash = hash;
             list.innerHTML = "";
 
             clog("debg", "Log Is Blank. Took", {
@@ -392,7 +393,7 @@ core = {
             `
 
         list.innerHTML = out;
-        this.previousLogHash = data.hash;
+        this.previousLogHash = hash;
 
         clog("debg", "Log Updated. Took", {
             color: flatc("blue"),
@@ -406,15 +407,16 @@ core = {
             method: "GET",
         });
 
-        if (data.hash === this.previousRankHash && !bypass)
+        let hash = data.getHash();
+        if (hash === this.previousRankHash && !bypass)
             return false;
 
-        clog("debg", "Updating Rank");
+        clog("debg", "Updating Rank", `[${hash}]`);
         let updateRankTimer = new stopClock();
 
         if (data.list.length === 0 && data.rank.length === 0) {
             this.rankPanel.main.classList.add("blank");
-            this.previousRankHash = data.hash;
+            this.previousRankHash = hash;
             this.rankPanel.main.innerHTML = "";
             
             clog("debg", "Rank Is Blank. Took", {
@@ -475,7 +477,7 @@ core = {
 
         out += "</tbody></table>";
         this.rankPanel.main.innerHTML = out;
-        this.previousRankHash = data.hash;
+        this.previousRankHash = hash;
 
         clog("debg", "Rank Updated. Took", {
             color: flatc("blue"),
@@ -1632,14 +1634,15 @@ core = {
                     }
                 });
 
-                if (data.hash === this.prevHash)
+                let hash = data.getHash();
+                if (hash === this.prevHash)
                     return;
 
-                this.prevHash = data.hash;
+                this.prevHash = hash;
                 this.container.innerHTML = "";
                 var html = [];
 
-                for (let i of data.logs)
+                for (let i of data)
                     html.push(`
                         <div class="log ${i.level.toLowerCase()}" onclick="this.classList.toggle('enlarge')">
                             <span class="level">${i.level}</span>

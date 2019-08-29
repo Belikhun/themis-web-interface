@@ -5,6 +5,13 @@
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
+/**
+ * An AJAX function designed for my API
+ * @param   {Object}        param0      request data
+ * @param   {Function}      callout     on request success handler
+ * @param   {Function}      error       on errored handler
+ * @returns {Promise}                   A Promise thats resolve on request complete
+ */
 function myajax({
     url = "/",
     method = "GET",
@@ -136,6 +143,9 @@ function myajax({
                             return;
                         }
                     }
+
+                    if (!rawData)
+                        res.data.__proto__.getHash = () => res.hash || null;
 
                     data = rawData ? res : res.data;
                     rawData = res;
