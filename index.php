@@ -741,29 +741,31 @@
                         <t class="name" id="problem_name"></t>
                         <t class="point" id="problem_point"></t>
                         <span class="enlarge" id="problem_enlarge" title="Phóng to"></span>
-
-                        <table class="simple-table type">
-                            <tr class="filename">
-                                <td>Tên tệp</td>
-                                <td id="problem_type_filename"></td>
-                            </tr>
-                            <tr class="ext">
-                                <td>Đuôi tệp</td>
-                                <td id="problem_type_ext"></td>
-                            </tr>
-                            <tr class="time">
-                                <td>Thời gian chạy</td>
-                                <td id="problem_type_time"></td>
-                            </tr>
-                            <tr class="inp">
-                                <td>Dữ liệu vào</td>
-                                <td id="problem_type_inp"></td>
-                            </tr>
-                            <tr class="out">
-                                <td>Dữ liệu ra</td>
-                                <td id="problem_type_out"></td>
-                            </tr>
-                        </table>
+                        
+                        <div class="simple-table-wrapper">
+                            <table class="simple-table type">
+                                <tr class="filename">
+                                    <td>Tên tệp</td>
+                                    <td id="problem_type_filename"></td>
+                                </tr>
+                                <tr class="lang">
+                                    <td>Loại tệp</td>
+                                    <td id="problem_type_lang"></td>
+                                </tr>
+                                <tr class="time">
+                                    <td>Thời gian chạy</td>
+                                    <td id="problem_type_time"></td>
+                                </tr>
+                                <tr class="inp">
+                                    <td>Dữ liệu vào</td>
+                                    <td id="problem_type_inp"></td>
+                                </tr>
+                                <tr class="out">
+                                    <td>Dữ liệu ra</td>
+                                    <td id="problem_type_out"></td>
+                                </tr>
+                            </table>
+                        </div>
 
                         <t class="description" id="problem_description"></t>
                         <div class="lazyload image" id="problem_image"></div>
@@ -772,8 +774,9 @@
                             <a id="problem_attachment_link" class="link" href=""></a>
                         </div>
 
-                        <table class="simple-table test" id="problem_test">
-                        </table>
+                        <div class="simple-table-wrapper">
+                            <table class="simple-table test" id="problem_test"></table>
+                        </div>
                     </div>
                 </div>
             </panel>

@@ -765,7 +765,7 @@ core = {
         enlargeBtn: $("#problem_enlarge"),
         type: {
             filename: $("#problem_type_filename"),
-            ext: $("#problem_type_ext"),
+            lang: $("#problem_type_lang"),
             time: $("#problem_type_time"),
             inp: $("#problem_type_inp"),
             out: $("#problem_type_out")
@@ -872,7 +872,7 @@ core = {
             this.panel.title = "Đề bài - " + data.name;
             this.point.innerText = data.point + " điểm";
             this.type.filename.innerText = data.id;
-            this.type.ext.innerText = data.accept.join(", ");
+            this.type.lang.innerText = data.accept.join(", ");
             this.type.time.innerText = data.time + " giây";
             this.type.inp.innerText = data.type.inp;
             this.type.out.innerText = data.type.out;
@@ -904,12 +904,12 @@ core = {
                 ].join("\n");
             })
 
-            this.test.innerHTML = [
-                "<tr>",
-                    "<th>Input</th>",
-                    "<th>Output</th>",
-                "</tr>"
-            ].join("\n") + testhtml;
+            this.test.innerHTML = `
+                <tr>
+                    <th>${data.type.inp}</th>
+                    <th>${data.type.out}</th>
+                </tr>
+            ` + testhtml;
         },
 
         enlargeProblem(data) {
@@ -928,56 +928,50 @@ core = {
 
             let html = `
                 <div class="problemEnlarged">
-                    <span class="left">
-                        <t class="name">${data.name}</t>
-                        <t class="point">${data.point} điểm</t>
-                        <table class="simple-table type">
-                            <tbody>
-                                <tr class="filename">
-                                    <td>Tên tệp</td>
-                                    <td>${data.id}</td>
-                                </tr>
-                                <tr class="ext">
-                                    <td>Đuôi tệp</td>
-                                    <td>${data.accept.join(", ")}</td>
-                                </tr>
-                                <tr class="time">
-                                    <td>Thời gian chạy</td>
-                                    <td>${data.time} giây</td>
-                                </tr>
-                                <tr class="inp">
-                                    <td>Dữ liệu vào</td>
-                                    <td>${data.type.inp}</td>
-                                    </tr>
-                                <tr class="out">
-                                    <td>Dữ liệu ra</td>
-                                    <td>${data.type.out}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <span class="top">
+                        <div class="group">
+                            <div class="col">
+                                <t class="name">${data.name}</t>
+                                <t class="point">${data.point} điểm</t>
+                            </div>
+
+                            <div class="col simple-table-wrapper">
+                                <table class="simple-table type">
+                                    <tbody>
+                                        <tr class="filename">
+                                            <td>Tên tệp</td>
+                                            <td>${data.id}</td>
+                                        </tr>
+                                        <tr class="lang">
+                                            <td>Loại tệp</td>
+                                            <td>${data.accept.join(", ")}</td>
+                                        </tr>
+                                        <tr class="time">
+                                            <td>Thời gian chạy</td>
+                                            <td>${data.time} giây</td>
+                                        </tr>
+                                        <tr class="inp">
+                                            <td>Dữ liệu vào</td>
+                                            <td>${data.type.inp}</td>
+                                            </tr>
+                                        <tr class="out">
+                                            <td>Dữ liệu ra</td>
+                                            <td>${data.type.out}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
 
                         ${(data.attachment.url)
-                            ?   `<div class="attachment" style="display: block;">
+                            ?   `<div class="group attachment">
                                     <a class="link" href="${data.attachment.url}">${data.attachment.file} (${convertSize(data.attachment.size)})</a>
                                 </div>`
                             :   ""
                         }
-
-                        ${(data.test.length !== 0)
-                            ?   `<table class="simple-table test">
-                                    <tbody>
-                                        <tr>
-                                            <th>Input</th>
-                                            <th>Output</th>
-                                        </tr>
-                                        ${testHtml}
-                                    </tbody>
-                                </table>`
-                            :   ""
-                        }
                     </span>
 
-                    <span class="right">
+                    <span class="bottom">
                         <div class="description">${data.description}</div>
                         ${(data.image)
                             ?   `<div class="lazyload image">
@@ -986,12 +980,28 @@ core = {
                                 </div>`
                             :   ""
                         }
+
+                        ${(data.test.length !== 0)
+                            ?   `
+                                <div class="group simple-table-wrapper">
+                                    <table class="simple-table test">
+                                        <tbody>
+                                            <tr>
+                                                <th>${data.type.inp}</th>
+                                                <th>${data.type.out}</th>
+                                            </tr>
+                                            ${testHtml}
+                                        </tbody>
+                                    </table>
+                                </div>`
+                            :   ""
+                        }
                     </span>
                 </div>
             `;
 
             core.wrapper.panel.main.innerHTML = html;
-            core.wrapper.show("Đề bài - " + data.name);
+            core.wrapper.show("Đề bài - " + data.name, true);
         }
     },
 
@@ -1975,8 +1985,9 @@ core = {
             });
         },
 
-        show(title = "Title") {
+        show(title = "Title", thin = false) {
             this.panel.title = title;
+            this.panel.elem.classList[thin ? "add" : "remove"]("thin");
             this.wrapper.classList.add("show");
             core.sound.select();
         },

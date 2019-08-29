@@ -210,6 +210,13 @@ panel .main.blank::after {
     margin: unset;
 }
 
+#wrapper #wrapperPanel.thin {
+    width: calc(100% - 300px);
+    max-width: 640px;
+    min-width: 420px;
+    margin: unset;
+}
+
 #dialogWrapper #dialogPanel {
     width: unset;
     min-width: 350px;
@@ -1234,10 +1241,16 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     display: block;
 }
 
-#problemp .problem-container .problem table {
-    overflow: auto;
+#problemp .problem-container .problem .simple-table-wrapper {
+    padding: 10px 0;
+}
+
+#problemp .problem-container .problem .simple-table-wrapper .simple-table {
     width: 100%;
-    margin: 10px 0;
+}
+
+#problemp .problem-container .problem .simple-table-wrapper .simple-table.test tr td {
+    white-space: pre;
 }
 
 #problemp .problem-container .problem table tr:hover {
@@ -1485,134 +1498,137 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 .problemEnlarged {
     position: relative;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     width: 100%;
     height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
-.problemEnlarged .left {
+.problemEnlarged .top {
     position: relative;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
     align-items: center;
-    width: 340px;
-    height: 100%;
-    padding: 20px;
+    width: 100%;
+    padding: 20px 0;
     box-sizing: border-box;
     overflow-x: hidden;
     overflow-y: auto;
 }
 
-.problemEnlarged .left .name {
-    font-size: 18px;
+.problemEnlarged .top .group {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.problemEnlarged .top .group .col {
+    position: relative;
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    padding: 0 20px;
+    align-items: center;
+}
+
+.problemEnlarged .top .group .col .name {
+    font-size: 26px;
     font-weight: bold;
+    text-align: center;
     color: #34495e;
 }
 
-.problemEnlarged .left .point {
+.problemEnlarged .top .group .col .point {
     font-size: 12px;
     color: #ecf0f1;
     letter-spacing: 0.4px;
-    background-color: #27ae60;
+    background-color: #1f8d4d;
     padding: 2px 6px;
     margin: 2px 0 10px 0;
     border-radius: 4px;
 }
 
-.problemEnlarged .left .attachment::before {
+.problemEnlarged .top .attachment {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    padding-top: 10px;
+}
+
+.problemEnlarged .top .attachment::before {
     content: "Tệp đính kèm:";
     position: relative;
     display: inline-block;
     font-family: "Calibri";
     font-size: 13px;
     font-weight: bold;
+    padding-right: 6px;
     color: rgb(124, 124, 124);
 }
 
-.problemEnlarged .left .attachment .link {
+.problemEnlarged .top .attachment .link {
     font-size: 14px;
 }
 
-.problemEnlarged .left table {
-    overflow: auto;
+.problemEnlarged .top .simple-table-wrapper .simple-table {
     width: 100%;
-    margin: 10px 0;
 }
 
-.problemEnlarged .left table.test tr td {
-    font-family: "Consolas";
-}
-
-.problemEnlarged .right {
+.problemEnlarged .bottom {
     position: relative;
     display: flex;
     flex-grow: 1;
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    height: 100%;
     box-sizing: border-box;
     background-color: rgb(238, 238, 238);
-    overflow: auto;
 }
 
-.problemEnlarged .right .description {
+.problemEnlarged .bottom .simple-table-wrapper {
+    position: relative;
+    display: block;
+    width: auto;
+    max-width: 100%;
+    margin-top: 20px;
+}
+
+.problemEnlarged .bottom .simple-table-wrapper .simple-table.test tr td {
+    font-family: "Consolas";
+    white-space: pre;
+}
+
+.problemEnlarged .bottom .description {
     width: 100%;
-    padding-left: 10px;
     box-sizing: border-box;
     white-space: pre-wrap;
 }
 
-.problemEnlarged .right .description::before {
-    content: "Đề bài:";
-    position: relative;
-    display: block;
-    font-size: 16px;
-    font-weight: bold;
-    transform: translateX(-10px);
-    padding-bottom: 4px;
-    color: rgb(54, 54, 54);
-}
-
-.problemEnlarged .right .description * {
+.problemEnlarged .bottom .description * {
     white-space: normal;
 }
 
-.problemEnlarged .right .description > a,
-.problemEnlarged .right .description > table,
-.problemEnlarged .right .description > ul {
+.problemEnlarged .bottom .description > a,
+.problemEnlarged .bottom .description > table,
+.problemEnlarged .bottom .description > ul {
     display: block;
 }
 
-.problemEnlarged .right .image {
+.problemEnlarged .bottom .image {
     position: relative;
     display: block;
     min-width: 30px;
     min-height: 30px;
-    max-width: 80%;
+    width: 100%;
     flex-shrink: 0;
     margin-top: 20px;
     border: 1px solid #ccc;
-}
-
-@media only screen and (max-width: 800px) {
-    .problemEnlarged {
-        flex-direction: column;
-        overflow-x: hidden;
-        overflow-y: auto;
-    }
-
-    .problemEnlarged .left {
-        width: 100%;
-        height: auto;
-        overflow: unset;
-    }
-
-    .problemEnlarged .right {
-        height: auto;
-        overflow: unset;
-    }
 }
 
 .viewlog-container {

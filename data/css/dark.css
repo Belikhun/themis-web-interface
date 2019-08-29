@@ -131,19 +131,19 @@ body.dark #problemp .problem-container .problem .enlarge::before {
     color: rgb(202, 202, 202);
 }
 
-body.dark .problemEnlarged .left .name {
+body.dark .problemEnlarged .top .group .col .name {
     color: rgb(216, 216, 216);
 }
 
-body.dark .problemEnlarged .right {
+body.dark .problemEnlarged .bottom {
     background-color: rgb(54, 54, 54);
 }
 
-body.dark .problemEnlarged .right .description {
+body.dark .problemEnlarged .bottom .description {
     color: rgb(214, 214, 214);
 }
 
-body.dark .problemEnlarged .right .description::before {
+body.dark .problemEnlarged .bottom .description::before {
     color: rgb(216, 216, 216);
 }
 
