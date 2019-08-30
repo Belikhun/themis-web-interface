@@ -604,9 +604,26 @@ core = {
         onUploadSuccess() {},
 
         init() {
-            this.dropzone.addEventListener("dragEnter", this.dragEnter, false);
-            this.dropzone.addEventListener("dragLeave", this.dragLeave, false);
-            this.dropzone.addEventListener("dragOver", this.dragOver, false);
+            this.dropzone.addEventListener("dragenter", e => {
+                e.stopPropagation();
+                e.preventDefault();
+                e.target.classList.add("drag");
+            }, false);
+
+            this.dropzone.addEventListener("dragleave", e => {
+                e.stopPropagation();
+                e.preventDefault();
+                e.target.classList.remove("drag");
+            }, false);
+
+            this.dropzone.addEventListener("dragover", e => {
+                e.stopPropagation();
+                e.preventDefault();
+                e.dataTransfer.dropEffect = "copy";
+                e.target.classList.add("drag");
+            }, false);
+
+
             this.dropzone.addEventListener("drop", e => this.fileSelect(e), false);
             this.input.addEventListener("change", e => this.fileSelect(e, "input"));
             this.panel.ref.onClick(() => this.reset());
