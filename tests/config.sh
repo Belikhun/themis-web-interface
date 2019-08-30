@@ -29,7 +29,7 @@ case $1 in
 
         # Copy
         cp -f .config/account.xml ../data/xmldb/account.xml
-        cp -f logParser/config.json ../data/config.json
+        cp -f .config/config.json ../data/config.json
 
         ;;
     "--restore")
