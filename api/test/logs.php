@@ -16,7 +16,7 @@
 
 	require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logParser.php";
 	$username = $_SESSION["username"];
-	$updir = glob($config["uploaddir"] ."/*.*");
+	$updir = glob($config["uploadDir"] ."/*.*");
 	$queues = Array();
 	$queuefiles = Array();
 
@@ -51,7 +51,7 @@
 				$p = parseLogName($item .".log");
 
 				// find and remove old log file
-				$loglist = glob($config["logdir"] ."/*.*");
+				$loglist = glob($config["logDir"] ."/*.*");
 				foreach ($loglist as $log)
 					if (strpos($log, $p["problem"]) > 0 && (strpos($log, $username) > 0))
 						unlink($log);
@@ -68,15 +68,15 @@
 		$_SESSION["logsData"]["lastqueuesfiles"] = $queuefiles;
 	}
 
-	$logdir = glob($config["logdir"] ."/*.log");
+	$logDir = glob($config["logDir"] ."/*.log");
 	$logres = Array();
 
-	foreach($logdir as $log) {
+	foreach($logDir as $log) {
 		if (!strpos($log, "[". $username ."]") > 0 || strpos(strtolower($log), ".log") === -1)
 			continue;
 
 		$filename = null;
-		if ($config["viewlog"] === true)
+		if ($config["viewLog"] === true)
 			$filename = pathinfo($log, PATHINFO_FILENAME);
 
 		$lastmtime = filemtime($log);

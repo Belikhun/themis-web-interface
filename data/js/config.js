@@ -6,28 +6,28 @@
 //? |-----------------------------------------------------------------------------------------------|
 
 var contest = {
-    name: $("#contest-name"),
-    desc: $("#contest-description")
+    name: $("#contest_name"),
+    desc: $("#contest_description")
 }
-var uploaddir = $("#uploaddir");
+var uploadDir = $("#uploadDir");
 var time = {
-    zone: $("#time-zone"),
-    begindate: $("#time-begindate"),
-    begintime: $("#time-begintime"),
-    during: $("#time-during"),
-    offset: $("#time-offset")
+    zone: $("#time_zone"),
+    beginDate: $("#time_beginDate"),
+    beginTime: $("#time_beginTime"),
+    during: $("#time_during"),
+    offset: $("#time_offset")
 }
-var pagetitle = $("#page-title");
+var pageTitle = $("#pageTitle");
 var publish = $("#publish");
 var submit = $("#submit");
 var submitInProblems = $("#submitInProblems");
-var editinfo = $("#editinfo");
-var viewlog = $("#viewlog");
-var viewLogOther = $("#viewlog-other");
+var editInfo = $("#editInfo");
+var viewLog = $("#viewLog");
+var viewLogOther = $("#viewLogOther");
 var ratelimit = {
-    maxrequest: $("#ratelimit-maxrequest"),
-    time: $("#ratelimit-time"),
-    bantime: $("#ratelimit-bantime")
+    maxRequest: $("#ratelimit_maxRequest"),
+    time: $("#ratelimit_time"),
+    banTime: $("#ratelimit_banTime")
 }
 
 function cvtime(h, m, s) {
@@ -67,30 +67,30 @@ function update() {
     }, data => {
         contest.name.value = data.contest.name;
         contest.desc.value = data.contest.description;
-        uploaddir.value = data.uploaddir;
+        uploadDir.value = data.uploadDir;
         time.zone.value = data.time.zone;
-        time.begindate.value = cvdate(
+        time.beginDate.value = cvdate(
             data.time.begin.days,
             data.time.begin.months,
             data.time.begin.years
         );
-        time.begintime.value = cvtime(
+        time.beginTime.value = cvtime(
             data.time.begin.hours,
             data.time.begin.minutes,
             data.time.begin.seconds
         );
         time.during.value = data.time.during;
         time.offset.value = data.time.offset;
-        pagetitle.value = data.pagetitle;
+        pageTitle.value = data.pageTitle;
         publish.checked = data.publish;
         submit.checked = data.submit;
-        submitInProblems.checked = data.submitinproblems;
-        editinfo.checked = data.editinfo;
-        viewlog.checked = data.viewlog;
-        viewLogOther.checked = data.viewlogother;
-        ratelimit.maxrequest.value = data.ratelimit.maxrequest;
+        submitInProblems.checked = data.submitInProblems;
+        editInfo.checked = data.editInfo;
+        viewLog.checked = data.viewLog;
+        viewLogOther.checked = data.viewLogOther;
+        ratelimit.maxRequest.value = data.ratelimit.maxRequest;
         ratelimit.time.value = data.ratelimit.time;
-        ratelimit.bantime.value = data.ratelimit.bantime;
+        ratelimit.banTime.value = data.ratelimit.banTime;
     });
 }
 
@@ -117,16 +117,16 @@ $("body").onload = e => {
     update();
 }
 
-$("#form-container").addEventListener("submit", e => {
-    var bd = prdate(time.begindate.value);
-    var bt = prtime(time.begintime.value);
+$("#formContainer").addEventListener("submit", e => {
+    var bd = prdate(time.beginDate.value);
+    var bt = prtime(time.beginTime.value);
     myajax({
         url: "/api/config",
         method: "POST",
         form: {
             "contest.name": contest.name.value,
             "contest.description": contest.desc.value,
-            "uploaddir": uploaddir.value,
+            "uploadDir": uploadDir.value,
             "time.zone": time.zone.value,
             "time.begin.seconds": bt.s,
             "time.begin.minutes": bt.m,
@@ -136,16 +136,16 @@ $("#form-container").addEventListener("submit", e => {
             "time.begin.years": bd.y,
             "time.during": time.during.value,
             "time.offset": time.offset.value,
-            "pagetitle": pagetitle.value,
+            "pageTitle": pageTitle.value,
             "publish": publish.checked,
             "submit": submit.checked,
-            "submitinproblems": submitInProblems.checked,
-            "editinfo": editinfo.checked,
-            "viewlog": viewlog.checked,
-            "viewlogother": viewLogOther.checked,
-            "ratelimit.maxrequest": parseInt(ratelimit.maxrequest.value),
+            "submitInProblems": submitInProblems.checked,
+            "editInfo": editInfo.checked,
+            "viewLog": viewLog.checked,
+            "viewLogOther": viewLogOther.checked,
+            "ratelimit.maxRequest": parseInt(ratelimit.maxRequest.value),
             "ratelimit.time": parseInt(ratelimit.time.value),
-            "ratelimit.bantime": parseInt(ratelimit.bantime.value),
+            "ratelimit.banTime": parseInt(ratelimit.banTime.value),
             "token": API_TOKEN
         }
     }, () => {

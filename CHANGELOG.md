@@ -97,7 +97,7 @@
 ## Thay đổi trong v0.4.0 🎉🎉
 
 * Fixed a bug where public file size does not show correctly
-* Fixed a bug where `viewlogother` setting does not updated correctly
+* Fixed a bug where `viewLogOther` setting does not updated correctly
 * Redesigned error page
 * *và các thay đổi ở phiên bản `v0.4.0-prerelease`...*
 

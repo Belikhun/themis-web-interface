@@ -11,21 +11,21 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php"; define("STOP_OUTPUT", "errorpage");
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
 
-    if ($config["viewlog"] === false)
+    if ($config["viewLog"] === false)
     stop(23, "Xem nhật ký đã bị tắt!", 403);
     
     $file = reqquery("f");
     $file = str_replace("\"", "", $file);
     $file = str_replace("/", "", $file);
     
-    $logPath = $config["logdir"] ."/". $file .".log";
+    $logPath = $config["logDir"] ."/". $file .".log";
     
     if (!file_exists($logPath))
     stop(44, "Không tìm thấy tệp nhật kí ". $file, 404);
     
     $username = $_SESSION["username"];
     
-    if (!(strpos($file, "[". $username ."]") > 0) && $config["viewlogother"] == false)
+    if (!(strpos($file, "[". $username ."]") > 0) && $config["viewLogOther"] == false)
     stop(31, "Không cho phép xem tệp nhật kí của người khác!", 403);
     
     contentType("txt");

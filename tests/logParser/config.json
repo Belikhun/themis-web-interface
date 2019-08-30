@@ -3,7 +3,7 @@
         "name": "Travis test",
         "description": "LogParser"
     },
-    "uploaddir": "/home/travis/build/belivipro9x99/themis-web-interface/tests/logParser",
+    "uploadDir": "/home/travis/build/belivipro9x99/themis-web-interface/tests/logParser",
     "time": {
         "zone": "Asia\/Ho_Chi_Minh",
         "begin": {
@@ -19,14 +19,14 @@
     },
     "publish": true,
     "submit": true,
-    "submitinproblems": true,
-    "editinfo": true,
-    "viewlog": true,
-    "viewlogother": true,
+    "submitInProblems": true,
+    "editInfo": true,
+    "viewLog": true,
+    "viewLogOther": true,
     "ratelimit": {
-        "maxrequest": 999,
+        "maxRequest": 999,
         "time": 1,
-        "bantime": 0
+        "banTime": 0
     },
-    "pagetitle": "%name% v%version%"
+    "pageTitle": "%name% v%version%"
 }

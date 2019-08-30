@@ -40,11 +40,11 @@ t {
     scroll-behavior: smooth;
 }
 
-.wrapper #form-container {
+.wrapper #formContainer {
     position: relative;
 }
 
-.wrapper #form-container::before {
+.wrapper #formContainer::before {
     content: "";
     position: absolute;
     top: 0;
@@ -56,13 +56,13 @@ t {
 
 /* Extra Stuff */
 
-.wrapper #form-container .group .item .formgroup {
+.wrapper #formContainer .group .item .formgroup {
     position: relative;
     display: block;
     width: 100%;
 }
 
-.wrapper #form-container .footer {
+.wrapper #formContainer .footer {
     position: relative;
     display: flex;
     flex-direction: row-reverse;
@@ -84,39 +84,39 @@ body.dark .formgroup.blue .formfield {
     color: rgb(204, 204, 204);
 }
 
-body.dark .wrapper #form-container::before {
+body.dark .wrapper #formContainer::before {
     background-color: rgb(56, 56, 56);
 }
 
-body.dark .wrapper #form-container .group t {
+body.dark .wrapper #formContainer .group t {
     color: rgb(178, 178, 178);
 }
 
-body.dark .wrapper #form-container .group .title {
+body.dark .wrapper #formContainer .group .title {
     color: #3498db;
 }
 
-body.dark .wrapper #form-container .group .title.big {
+body.dark .wrapper #formContainer .group .title.big {
     color: #e4e4e4;
 }
 
-body.dark .wrapper #form-container .group .title.small {
+body.dark .wrapper #formContainer .group .title.small {
     color: rgb(192, 192, 192);
 }
 
-body.dark .wrapper #form-container .group a.item,
-body.dark .wrapper #form-container .group .item.arr {
+body.dark .wrapper #formContainer .group a.item,
+body.dark .wrapper #formContainer .group .item.arr {
     color: rgb(190, 190, 190);
 }
 
-body.dark .wrapper #form-container .group .item.arr:hover {
+body.dark .wrapper #formContainer .group .item.arr:hover {
     color: #f67fe6;
 }
 
-body.dark .wrapper #form-container .group a.item:hover {
+body.dark .wrapper #formContainer .group a.item:hover {
     color: #00b8b8;
 }
 
-body.dark .wrapper #form-container .group .item .info .right {
+body.dark .wrapper #formContainer .group .item .info .right {
     color: rgb(182, 182, 182);
 }

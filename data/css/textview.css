@@ -22,7 +22,7 @@
     position: relative;
     display: block;
     text-align: left;
-    counter-increment: viewlog-line;
+    counter-increment: viewLog-line;
     margin: 0 10px 0 50px;
     padding: 4px 10px;
     min-height: 30px;
@@ -40,7 +40,7 @@
 }
 
 .textview > li::before {
-    content: counter(viewlog-line);
+    content: counter(viewLog-line);
     position: absolute;
     width: 40px;
     left: -50px;

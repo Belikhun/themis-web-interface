@@ -55,7 +55,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- Thay đổi tiêu đề trang hiện đã có trong phần Admin Control Panel -->
-        <title><?php print $config["pagetitle"]; ?> | <?php print APPNAME ." v". VERSION; ?></title>
+        <title><?php print $config["pageTitle"]; ?> | <?php print APPNAME ." v". VERSION; ?></title>
 
         <!-- Primary Meta Tags -->
         <meta name="title" content="<?php print $config["contest"]["name"]; ?>">

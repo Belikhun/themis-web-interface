@@ -19,7 +19,7 @@
     $username = $_SESSION["username"];
     checkToken();
 
-    if ($config["editinfo"] === false)
+    if ($config["editInfo"] === false)
         stop(21, "Thay đổi thông tin đã bị tắt!", 403);
 
     $change = Array();

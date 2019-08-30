@@ -20,11 +20,11 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logParser.php";
 
-    $logdir = glob($config["logdir"] ."/*.log");
+    $logDir = glob($config["logDir"] ."/*.log");
     $res = Array();
     $namelist = Array();
 
-    foreach ($logdir as $i => $log) {
+    foreach ($logDir as $i => $log) {
         $data = ((new logParser($log, LOGPARSER_MODE_MINIMAL)) -> parse())["header"];
         $filename = pathinfo($log, PATHINFO_FILENAME);
         $user = $data["user"];
@@ -32,7 +32,7 @@
         $namelist[$i] = $data["problem"];
         $res[$user]["status"][$data["problem"]] = $data["status"];
         $res[$user]["point"][$data["problem"]] = $data["point"];
-        $res[$user]["logFile"][$data["problem"]] = ($config["viewlog"] === true) ? $filename : null;
+        $res[$user]["logFile"][$data["problem"]] = ($config["viewLog"] === true) ? $filename : null;
         $res[$user]["username"] = $user;
         $res[$user]["name"] = getUserData($user)["name"] ?: null;
 

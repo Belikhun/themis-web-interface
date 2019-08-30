@@ -538,7 +538,7 @@ core = {
             `);
 
         let template = `
-            <div class="viewlog-container">
+            <div class="viewLog-container">
                 <div class="header ${data.header.status}">
                     <span class="top">
                         <div class="lazyload problemIcon">

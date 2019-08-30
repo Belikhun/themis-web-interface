@@ -23,7 +23,7 @@
 		$config["time"]["begin"]["days"],
 		$config["time"]["begin"]["years"]
 	);
-	$config["logdir"] = $config["uploaddir"] ."/Logs";
+	$config["logDir"] = $config["uploadDir"] ."/Logs";
 
 	function applyCustomVar(&$string) {
 		global $config;
@@ -44,11 +44,11 @@
 
 	applyCustomVar($config["contest"]["name"]);
 	applyCustomVar($config["contest"]["description"]);
-	applyCustomVar($config["pagetitle"]);
+	applyCustomVar($config["pageTitle"]);
 
 	function saveConfig(Array $config) {
 		unset($config["time"]["begin"]["times"]);
-		unset($config["logdir"]);
+		unset($config["logDir"]);
 		(new fip($_SERVER["DOCUMENT_ROOT"] ."/data/config.json")) -> write(json_encode($config, JSON_PRETTY_PRINT));
 	}
 

@@ -1638,7 +1638,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     border: 1px solid #ccc;
 }
 
-.viewlog-container {
+.viewLog-container {
     position: relative;
     display: flex;
     font-family: "Calibri", "Segoe UI";
@@ -1647,7 +1647,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     height: 100%;
 }
 
-.viewlog-container .header {
+.viewLog-container .header {
     position: relative;
     display: inline-flex;
     flex-direction: column;
@@ -1657,7 +1657,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     height: 100%;
 }
 
-.viewlog-container .header::before {
+.viewLog-container .header::before {
     content: "";
     position: absolute;
     top: 0;
@@ -1667,7 +1667,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     background-color: #b9b9b9;
 }
 
-.viewlog-container .header .top {
+.viewLog-container .header .top {
     position: relative;
     display: flex;
     padding: 20px 0 10px 0;
@@ -1676,14 +1676,14 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     flex-grow: 0;
 }
 
-.viewlog-container .header .top .problemIcon {
+.viewLog-container .header .top .problemIcon {
     position: relative;
     width: 92px;
     height: 92px;
     border-radius: 50%;
 }
 
-.viewlog-container .header .top .problemName {
+.viewLog-container .header .top .problemName {
     position: relative;
     font-family: "Calibri", "Segoe UI";
     font-weight: bold;
@@ -1692,7 +1692,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     margin-top: 10px;
 }
 
-.viewlog-container .header .top .point {
+.viewLog-container .header .top .point {
     position: relative;
     font-size: 12px;
     color: #ecf0f1;
@@ -1703,7 +1703,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     border-radius: 4px;
 }
 
-.viewlog-container .header .bottom {
+.viewLog-container .header .bottom {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -1712,7 +1712,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     overflow-y: auto;
 }
 
-.viewlog-container .header .bottom .line {
+.viewLog-container .header .bottom .line {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -1720,7 +1720,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     margin: 10px 0;
 }
 
-.viewlog-container .header .bottom .line .left {
+.viewLog-container .header .bottom .line .left {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -1729,7 +1729,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     padding: 0 0 0 20px;
 }
 
-.viewlog-container .header .bottom .line .left .row {
+.viewLog-container .header .bottom .line .left .row {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -1737,7 +1737,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     margin: 1px 0;
 }
 
-.viewlog-container .header .bottom .line .left .row::before {
+.viewLog-container .header .bottom .line .left .row::before {
     content: "\f111";
     position: relative;
     font-family: "Font Awesome 5 Free";
@@ -1749,19 +1749,19 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     color: rgba(46, 46, 46, 0.5);
 }
 
-.viewlog-container .header .bottom .line .left .problemInfo {
+.viewLog-container .header .bottom .line .left .problemInfo {
     margin-bottom: 10px;
 }
 
-.viewlog-container .header .bottom .line .left .problemInfo::before {
+.viewLog-container .header .bottom .line .left .problemInfo::before {
     content: "\f128";
     color: #464646;
     font-size: 21px;
     margin-right: 20px;
 }
 
-.viewlog-container .header .bottom .line .left .problemInfo .problemid,
-.viewlog-container .header .bottom .line .left .problemInfo .language {
+.viewLog-container .header .bottom .line .left .problemInfo .problemid,
+.viewLog-container .header .bottom .line .left .problemInfo .language {
     position: relative;
     font-family: "Calibri", "Segoe UI";
     font-weight: bold;
@@ -1769,79 +1769,79 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     color: #464646;
 }
 
-.viewlog-container .header .bottom .line .left .problemInfo .language {
+.viewLog-container .header .bottom .line .left .problemInfo .language {
     font-size: 14px;
     margin-left: 20px;
 }
 
 /*? Correct */
 
-.viewlog-container .header.correct .bottom .line .left .problemInfo .problemid,
-.viewlog-container .header.correct .bottom .line .left .problemInfo .language,
-.viewlog-container .header.correct .bottom .line .left .problemInfo::before {
+.viewLog-container .header.correct .bottom .line .left .problemInfo .problemid,
+.viewLog-container .header.correct .bottom .line .left .problemInfo .language,
+.viewLog-container .header.correct .bottom .line .left .problemInfo::before {
     color: #39aa56;
 }
 
-.viewlog-container .header.correct::before {
+.viewLog-container .header.correct::before {
     background-color: #39aa56;
 }
 
-.viewlog-container .header.correct .bottom .line .left .problemInfo::before {
+.viewLog-container .header.correct .bottom .line .left .problemInfo::before {
     content: "\f00c";
 }
 
 /*? Passed */
 
-.viewlog-container .header.passed .bottom .line .left .problemInfo .problemid,
-.viewlog-container .header.passed .bottom .line .left .problemInfo .language,
-.viewlog-container .header.passed .bottom .line .left .problemInfo::before {
+.viewLog-container .header.passed .bottom .line .left .problemInfo .problemid,
+.viewLog-container .header.passed .bottom .line .left .problemInfo .language,
+.viewLog-container .header.passed .bottom .line .left .problemInfo::before {
     color: #39aaa1;
 }
 
-.viewlog-container .header.passed::before {
+.viewLog-container .header.passed::before {
     background-color: #39aaa1;
 }
 
-.viewlog-container .header.passed .bottom .line .left .problemInfo::before {
+.viewLog-container .header.passed .bottom .line .left .problemInfo::before {
     content: "\f129";
 }
 
 /*? Accepted */
 
-.viewlog-container .header.accepted .bottom .line .left .problemInfo .problemid,
-.viewlog-container .header.accepted .bottom .line .left .problemInfo .language,
-.viewlog-container .header.accepted .bottom .line .left .problemInfo::before {
+.viewLog-container .header.accepted .bottom .line .left .problemInfo .problemid,
+.viewLog-container .header.accepted .bottom .line .left .problemInfo .language,
+.viewLog-container .header.accepted .bottom .line .left .problemInfo::before {
     color: #cfc337;
 }
 
-.viewlog-container .header.accepted::before {
+.viewLog-container .header.accepted::before {
     background-color: #edde3f;
 }
 
-.viewlog-container .header.accepted .bottom .line .left .problemInfo::before {
+.viewLog-container .header.accepted .bottom .line .left .problemInfo::before {
     content: "\f12a";
 }
 
 /*? Failed */
 
-.viewlog-container .header.failed .bottom .line .left .problemInfo .problemid,
-.viewlog-container .header.failed .bottom .line .left .problemInfo .language,
-.viewlog-container .header.failed .bottom .line .left .problemInfo::before {
+.viewLog-container .header.failed .bottom .line .left .problemInfo .problemid,
+.viewLog-container .header.failed .bottom .line .left .problemInfo .language,
+.viewLog-container .header.failed .bottom .line .left .problemInfo::before {
     color: #db4545;
 }
 
-.viewlog-container .header.failed::before {
+.viewLog-container .header.failed::before {
     background-color: #db4545;
 }
 
-.viewlog-container .header.failed .bottom .line .left .problemInfo::before {
+.viewLog-container .header.failed .bottom .line .left .problemInfo::before {
     content: "\f00d";
 }
 
-.viewlog-container .header .bottom .line .left .submitTime,
-.viewlog-container .header .bottom .line .left .status,
-.viewlog-container .header .bottom .line .left .result,
-.viewlog-container .header .bottom .line .left .point {
+.viewLog-container .header .bottom .line .left .submitTime,
+.viewLog-container .header .bottom .line .left .status,
+.viewLog-container .header .bottom .line .left .result,
+.viewLog-container .header .bottom .line .left .point {
     position: relative;
     font-family: "Calibri", "Segoe UI";
     font-size: 15px;
@@ -1849,41 +1849,41 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 }
 
 
-.viewlog-container .header .bottom .line .left .submitTime::before {
+.viewLog-container .header .bottom .line .left .submitTime::before {
     content: "\f783";
 }
 
-.viewlog-container .header .bottom .line .left .status::before {
+.viewLog-container .header .bottom .line .left .status::before {
     content: "\f05a";
 }
 
-.viewlog-container .header .bottom .line .left .result::before {
+.viewLog-container .header .bottom .line .left .result::before {
     content: "\f682";
 }
 
-.viewlog-container .header .bottom .line .left .point::before {
+.viewLog-container .header .bottom .line .left .point::before {
     content: "\f044";
 }
 
-.viewlog-container .header .bottom .line .left .result b {
+.viewLog-container .header .bottom .line .left .result b {
     display: inline;
     padding: 0 4px;
 }
 
-.viewlog-container .header .bottom .line .left .result b.green {
+.viewLog-container .header .bottom .line .left .result b.green {
     color: #39aa56;
 }
 
-.viewlog-container .header .bottom .line .left .result b.red {
+.viewLog-container .header .bottom .line .left .result b.red {
     color: #db4545;
 }
 
-.viewlog-container .header .bottom .line .left .point {
+.viewLog-container .header .bottom .line .left .point {
     font-weight: bold;
     font-size: 16px;
 }
 
-.viewlog-container .header .bottom .line .right {
+.viewLog-container .header .bottom .line .right {
     position: relative;
     display: inline-flex;
     flex-direction: column;
@@ -1891,11 +1891,11 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     margin-right: 20px;
 }
 
-.viewlog-container .header .bottom .line .right > * {
+.viewLog-container .header .bottom .line .right > * {
     width: 100%;
 }
 
-.viewlog-container .header .bottom .line .right .submitter {
+.viewLog-container .header .bottom .line .right .submitter {
     position: relative;
     display: flex;
     flex-direction: row-reverse;
@@ -1903,7 +1903,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     margin-bottom: 20px;
 }
 
-.viewlog-container .header .bottom .line .right .submitter .avatar {
+.viewLog-container .header .bottom .line .right .submitter .avatar {
     position: relative;
     width: 50px;
     height: 50px;
@@ -1911,12 +1911,12 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     object-fit: cover;
 }
 
-.viewlog-container .header .bottom .line .right .submitter .info {
+.viewLog-container .header .bottom .line .right .submitter .info {
     position: relative;
     margin-right: 10px;
 }
 
-.viewlog-container .header .bottom .line .right .submitter .info .tag {
+.viewLog-container .header .bottom .line .right .submitter .info .tag {
     font-size: 11px;
     letter-spacing: 0.4px;
     color: #546e7a;
@@ -1924,18 +1924,18 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     text-align: right;
 }
 
-.viewlog-container .header .bottom .line .right .submitter .info .name {
+.viewLog-container .header .bottom .line .right .submitter .info .name {
     font-size: 18px;
     color: #425161;
     font-weight: bold;
     text-align: right;
 }
 
-.viewlog-container .header .bottom .line.log {
+.viewLog-container .header .bottom .line.log {
     flex-direction: column;
 }
 
-.viewlog-container .testList {
+.viewLog-container .testList {
     position: relative;
     display: inline-block;
     flex-grow: 0;
@@ -1947,7 +1947,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     background-color: rgb(238, 238, 238);
 }
 
-.viewlog-container .testList:empty::before {
+.viewLog-container .testList:empty::before {
     content: "Không tìm thấy tests nào cả :(";
     position: absolute;
     top: 50%;
@@ -1960,7 +1960,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     color: gray;
 }
 
-.viewlog-container .testList .item {
+.viewLog-container .testList .item {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -1974,11 +1974,11 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     transition: background-color 0.2s ease;
 }
 
-.viewlog-container .testList .item:hover {
+.viewLog-container .testList .item:hover {
     background-color: rgb(255, 255, 255);
 }
 
-.viewlog-container .testList .item::before {
+.viewLog-container .testList .item::before {
     content: "";
     position: absolute;
     top: 0;
@@ -1988,7 +1988,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     background-color: #b9b9b9
 }
 
-.viewlog-container .testList .item .line {
+.viewLog-container .testList .item .line {
     position: relative;
     display: flex;
     width: 100%;
@@ -1997,19 +1997,19 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     flex-grow: 1;
 }
 
-.viewlog-container .testList .item .line .left {
+.viewLog-container .testList .item .line .left {
     position: relative;
     flex-grow: 1;
 }
 
-.viewlog-container .testList .item .line .left .testid {
+.viewLog-container .testList .item .line .left .testid {
     position: relative;
     font-size: 16px;
     font-weight: bold;
     color: #464646;
 }
 
-.viewlog-container .testList .item .line .left .testid::before {
+.viewLog-container .testList .item .line .left .testid::before {
     content: "#"counter(testItem);
     position: relative;
     display: inline-block;
@@ -2017,19 +2017,19 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     width: 25px;
 }
 
-.viewlog-container .testList .item .line .left .status {
+.viewLog-container .testList .item .line .left .status {
     position: relative;
     font-size: 13px;
 }
 
-.viewlog-container .testList .item .line.detail {
+.viewLog-container .testList .item .line.detail {
     position: relative;
     flex-direction: column;
     align-items: flex-start;
     margin-top: 10px;
 }
 
-.viewlog-container .testList .item .line.detail > t {
+.viewLog-container .testList .item .line.detail > t {
     display: block;
     width: 100%;
     font-size: 13px;
@@ -2037,7 +2037,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     color: rgb(80, 80, 80);
 }
 
-.viewlog-container .testList .item .right {
+.viewLog-container .testList .item .right {
     position: relative;
     display: inline-flex;
     flex-direction: column;
@@ -2045,7 +2045,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     flex-grow: 0;
 }
 
-.viewlog-container .testList .item .right .point {
+.viewLog-container .testList .item .right .point {
     position: relative;
     font-size: 13px;
     font-weight: bold;
@@ -2053,33 +2053,33 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     color: rgb(78, 78, 78);
 }
 
-.viewlog-container .testList .item .right .runtime {
+.viewLog-container .testList .item .right .runtime {
     position: relative;
     font-size: 13px;
     color: rgb(114, 114, 114);
 }
 
-.viewlog-container .testList .item.passed::before {
+.viewLog-container .testList .item.passed::before {
     background-color: #39aa56;
 }
 
-.viewlog-container .testList .item.passed .line .left .testid {
+.viewLog-container .testList .item.passed .line .left .testid {
     color: #39aa56;
 }
 
-.viewlog-container .testList .item.accepted::before {
+.viewLog-container .testList .item.accepted::before {
     background-color: #edde3f;
 }
 
-.viewlog-container .testList .item.accepted .line .left .testid {
+.viewLog-container .testList .item.accepted .line .left .testid {
     color: #cfc337;
 }
 
-.viewlog-container .testList .item.failed::before {
+.viewLog-container .testList .item.failed::before {
     background-color: #c0392b;
 }
 
-.viewlog-container .testList .item.failed .line .left .testid {
+.viewLog-container .testList .item.failed .line .left .testid {
     color: #c0392b;
 }
 
@@ -2093,24 +2093,24 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
         max-height: unset;
     }
 
-    .viewlog-container {
+    .viewLog-container {
         flex-direction: column;
     }
 
-    .viewlog-container .header {
+    .viewLog-container .header {
         height: unset;
     }
 
-    .viewlog-container .testList {
+    .viewLog-container .testList {
         width: 100%;
         height: unset;
     }
 
-    .viewlog-container .testList .item {
+    .viewLog-container .testList .item {
         padding-left: 20px;
     }
 
-    .viewlog-container .testList .item::before {
+    .viewLog-container .testList .item::before {
         width: 10px;
     }
 }

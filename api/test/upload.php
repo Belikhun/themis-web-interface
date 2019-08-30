@@ -49,7 +49,7 @@
     $acceptext = Array("pas", "cpp", "c", "pp", "exe", "class", "py", "java");
     $extension = pathinfo($file, PATHINFO_EXTENSION);
 
-    if ($config["submitinproblems"] === true) {
+    if ($config["submitInProblems"] === true) {
         require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";
         if (!problemExist($filename))
             stop(44, "Không có đề cho bài này!", 404, $filename);
@@ -70,7 +70,7 @@
     if ($_FILES["file"]["error"] > 0)
         stop(-1, "Lỗi không rõ.", 500);
 
-    move_uploaded_file($_FILES["file"]["tmp_name"], $config["uploaddir"] ."/". $userid ."[". $username ."][". $filename ."].". $extension);
+    move_uploaded_file($_FILES["file"]["tmp_name"], $config["uploadDir"] ."/". $userid ."[". $username ."][". $filename ."].". $extension);
     writeLog("INFO", "Đã tải lên \"$file\"");
     stop(0, "Nộp bài thành công.", 200);
 ?>

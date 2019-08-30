@@ -82,7 +82,7 @@
 
     setting("contest_name", $rawConfig["contest"]["name"], $TYPE_STRING);
     setting("contest_description", $rawConfig["contest"]["description"], $TYPE_STRING);
-    setting("uploaddir", $rawConfig["uploaddir"], $TYPE_STRING);
+    setting("uploadDir", $rawConfig["uploadDir"], $TYPE_STRING);
     setting("time_zone", $rawConfig["time"]["zone"], $TYPE_STRING);
     setting("time_begin_seconds", $rawConfig["time"]["begin"]["seconds"], $TYPE_NUMBER);
     setting("time_begin_minutes", $rawConfig["time"]["begin"]["minutes"], $TYPE_NUMBER);
@@ -92,19 +92,19 @@
     setting("time_begin_years", $rawConfig["time"]["begin"]["years"], $TYPE_NUMBER);
     setting("time_during", $rawConfig["time"]["during"], $TYPE_NUMBER);
     setting("time_offset", $rawConfig["time"]["offset"], $TYPE_NUMBER);
-    setting("pagetitle", $rawConfig["pagetitle"], $TYPE_STRING);
+    setting("pageTitle", $rawConfig["pageTitle"], $TYPE_STRING);
     setting("publish", $rawConfig["publish"], $TYPE_BOOL);
     setting("submit", $rawConfig["submit"], $TYPE_BOOL);
-    setting("submitinproblems", $rawConfig["submitinproblems"], $TYPE_BOOL);
-    setting("editinfo", $rawConfig["editinfo"], $TYPE_BOOL);
-    setting("viewlog", $rawConfig["viewlog"], $TYPE_BOOL);
-    setting("viewlogother", $rawConfig["viewlogother"], $TYPE_BOOL);
-    setting("ratelimit_maxrequest", $rawConfig["ratelimit"]["maxrequest"], $TYPE_NUMBER);
+    setting("submitInProblems", $rawConfig["submitInProblems"], $TYPE_BOOL);
+    setting("editInfo", $rawConfig["editInfo"], $TYPE_BOOL);
+    setting("viewLog", $rawConfig["viewLog"], $TYPE_BOOL);
+    setting("viewLogOther", $rawConfig["viewLogOther"], $TYPE_BOOL);
+    setting("ratelimit_maxRequest", $rawConfig["ratelimit"]["maxRequest"], $TYPE_NUMBER);
     setting("ratelimit_time", $rawConfig["ratelimit"]["time"], $TYPE_NUMBER);
-    setting("ratelimit_bantime", $rawConfig["ratelimit"]["bantime"], $TYPE_NUMBER);
+    setting("ratelimit_banTime", $rawConfig["ratelimit"]["banTime"], $TYPE_NUMBER);
 
     if ($rawConfig["publish"] === false)
-        $rawConfig["viewlog"] = false;
+        $rawConfig["viewLog"] = false;
 
     if ($changed === false)
         stop(102, "Woah nothing happened.", 200);
