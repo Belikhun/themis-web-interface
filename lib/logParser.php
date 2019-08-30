@@ -49,6 +49,7 @@
         public function parse() {
             $file = file($this -> logPath, FILE_IGNORE_NEW_LINES);
             $header = $this -> __parseHeader($file);
+
             if ($this -> mode === LOGPARSER_MODE_FULL) {
                 $testResult = $this -> __parseTestResult($file);
                 $header["testPassed"] = $this -> passed;
@@ -116,8 +117,8 @@
             #? this is weird. soo weird
             $data["user"] = trim(strtolower($l1matches[0][1]), "﻿");
             $data["problem"] = strtolower($l1matches[0][2]);
-
             $problemData = problemGet($data["problem"]);
+            
             if ($problemData !== PROBLEM_ERROR_IDREJECT) {
                 $data["problemName"] = $problemData["name"];
                 $data["problemPoint"] = $this -> __f($problemData["point"]);

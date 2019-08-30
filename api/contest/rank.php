@@ -22,15 +22,15 @@
 
     $logDir = glob($config["logDir"] ."/*.log");
     $res = Array();
-    $problemList = Array();
+    $list = Array();
 
     foreach ($logDir as $i => $log) {
         $data = ((new logParser($log, LOGPARSER_MODE_MINIMAL)) -> parse())["header"];
-        $filename = pathinfo($log, PATHINFO_FILENAME);
+        $filename = $data["file"]["logFilename"];
         $user = $data["user"];
 
         if ($config["viewRankTask"] === true) {
-            $problemList[$i] = $data["problem"];
+            $list[$i] = $data["problem"];
             $res[$user]["status"][$data["problem"]] = $data["status"];
             $res[$user]["point"][$data["problem"]] = $data["point"];
             $res[$user]["logFile"][$data["problem"]] = ($config["viewLog"] === true) ? $filename : null;
@@ -45,8 +45,8 @@
         $res[$user]["total"] += $data["point"];
     }
 
-    $nlr = arrayRemDub($problemList);
-    $problemList = ((count($nlr) > 0) ? $nlr : Array());
+    $nlr = arrayRemDub($list);
+    $list = ((count($nlr) > 0) ? $nlr : Array());
 
     // Sort user by total point
     usort($res, function($a, $b) {
@@ -60,6 +60,6 @@
     });
     
     stop(0, "Thành công!", 200, $returnData = Array (
-        "list" => $problemList,
+        "list" => $list,
         "rank" => $res
     ), true);
