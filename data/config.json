@@ -21,6 +21,8 @@
     "submit": true,
     "submitInProblems": true,
     "editInfo": true,
+    "viewRank": true,
+    "viewRankTask": true,
     "viewLog": true,
     "viewLogOther": true,
     "ratelimit": {

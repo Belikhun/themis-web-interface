@@ -97,14 +97,21 @@
     setting("submit", $rawConfig["submit"], $TYPE_BOOL);
     setting("submitInProblems", $rawConfig["submitInProblems"], $TYPE_BOOL);
     setting("editInfo", $rawConfig["editInfo"], $TYPE_BOOL);
+    setting("viewRank", $rawConfig["viewRank"], $TYPE_BOOL);
+    setting("viewRankTask", $rawConfig["viewRankTask"], $TYPE_BOOL);
     setting("viewLog", $rawConfig["viewLog"], $TYPE_BOOL);
     setting("viewLogOther", $rawConfig["viewLogOther"], $TYPE_BOOL);
     setting("ratelimit_maxRequest", $rawConfig["ratelimit"]["maxRequest"], $TYPE_NUMBER);
     setting("ratelimit_time", $rawConfig["ratelimit"]["time"], $TYPE_NUMBER);
     setting("ratelimit_banTime", $rawConfig["ratelimit"]["banTime"], $TYPE_NUMBER);
 
-    if ($rawConfig["publish"] === false)
+    if ($rawConfig["publish"] !== true) {
+        $rawConfig["viewRank"] = false;
         $rawConfig["viewLog"] = false;
+    }
+
+    if ($rawConfig["viewRankTask"] !== true)
+        $rawConfig["viewLogOther"] = false;
 
     if ($changed === false)
         stop(102, "Woah nothing happened.", 200);

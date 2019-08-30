@@ -11,7 +11,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
 
-    if ($config["publish"] !== true)
+    if ($config["publish"] !== true || $config["viewRank"] !== true)
         stop(0, "Thành công!", 200, Array(
             "list" => Array(),
             "rank" => Array()
@@ -22,17 +22,20 @@
 
     $logDir = glob($config["logDir"] ."/*.log");
     $res = Array();
-    $namelist = Array();
+    $problemList = Array();
 
     foreach ($logDir as $i => $log) {
         $data = ((new logParser($log, LOGPARSER_MODE_MINIMAL)) -> parse())["header"];
         $filename = pathinfo($log, PATHINFO_FILENAME);
         $user = $data["user"];
 
-        $namelist[$i] = $data["problem"];
-        $res[$user]["status"][$data["problem"]] = $data["status"];
-        $res[$user]["point"][$data["problem"]] = $data["point"];
-        $res[$user]["logFile"][$data["problem"]] = ($config["viewLog"] === true) ? $filename : null;
+        if ($config["viewRankTask"] === true) {
+            $problemList[$i] = $data["problem"];
+            $res[$user]["status"][$data["problem"]] = $data["status"];
+            $res[$user]["point"][$data["problem"]] = $data["point"];
+            $res[$user]["logFile"][$data["problem"]] = ($config["viewLog"] === true) ? $filename : null;
+        }
+
         $res[$user]["username"] = $user;
         $res[$user]["name"] = getUserData($user)["name"] ?: null;
 
@@ -42,11 +45,10 @@
         $res[$user]["total"] += $data["point"];
     }
 
-    if ($config["publish"] === true) {
-        $nlr = arrayRemDub($namelist);
-        $namelist = ((count($nlr) > 0) ? $nlr : Array());
-    }
+    $nlr = arrayRemDub($problemList);
+    $problemList = ((count($nlr) > 0) ? $nlr : Array());
 
+    // Sort user by total point
     usort($res, function($a, $b) {
         $a = $a["total"];
         $b = $b["total"];
@@ -58,6 +60,6 @@
     });
     
     stop(0, "Thành công!", 200, $returnData = Array (
-        "list" => $namelist,
+        "list" => $problemList,
         "rank" => $res
     ), true);

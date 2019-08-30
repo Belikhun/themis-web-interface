@@ -22,6 +22,8 @@ var publish = $("#publish");
 var submit = $("#submit");
 var submitInProblems = $("#submitInProblems");
 var editInfo = $("#editInfo");
+var viewRank = $("#viewRank");
+var viewRankTask = $("#viewRankTask");
 var viewLog = $("#viewLog");
 var viewLogOther = $("#viewLogOther");
 var ratelimit = {
@@ -86,6 +88,8 @@ function update() {
         submit.checked = data.submit;
         submitInProblems.checked = data.submitInProblems;
         editInfo.checked = data.editInfo;
+        viewRank.checked = data.viewRank;
+        viewRankTask.checked = data.viewRankTask;
         viewLog.checked = data.viewLog;
         viewLogOther.checked = data.viewLogOther;
         ratelimit.maxRequest.value = data.ratelimit.maxRequest;
@@ -141,6 +145,8 @@ $("#formContainer").addEventListener("submit", e => {
             "submit": submit.checked,
             "submitInProblems": submitInProblems.checked,
             "editInfo": editInfo.checked,
+            "viewRank": viewRank.checked,
+            "viewRankTask": viewRankTask.checked,
             "viewLog": viewLog.checked,
             "viewLogOther": viewLogOther.checked,
             "ratelimit.maxRequest": parseInt(ratelimit.maxRequest.value),

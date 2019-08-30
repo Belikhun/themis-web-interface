@@ -165,8 +165,22 @@
                     </label>
                 </div>
                 <div class="item lr sound" data-soundhoversoft>
-                    <t class="left">Cho phép xem tệp nhật ký</t>
+                    <t class="left">Bật bảng Xếp Hạng</t>
+                    <label class="sq-checkbox pink right">
+                        <input id="viewRank" type="checkbox" class="sound" data-soundcheck>
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="item lr sound" data-soundhoversoft>
+                    <t class="left">Hiển thị điểm các bài làm trong bảng Xếp Hạng</t>
                     <label class="sq-checkbox right">
+                        <input id="viewRankTask" type="checkbox" class="sound" data-soundcheck>
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="item lr sound" data-soundhoversoft>
+                    <t class="left">Cho phép xem tệp nhật ký</t>
+                    <label class="sq-checkbox pink right">
                         <input id="viewLog" type="checkbox" class="sound" data-soundcheck>
                         <span class="checkmark"></span>
                     </label>
