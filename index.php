@@ -402,6 +402,14 @@
                         
                         <t class="title small">Khác</t>
 
+                        <div class="item lr sound" data-soundhoversoft>
+                            <t class="left">Mở Đề Bài trong hộp thoại</t>
+                            <label class="sq-checkbox blue right">
+                                <input id="usett_dialogProblem" type="checkbox" class="sound" data-soundcheck>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+
                         <div class="item sound" data-soundhoversoft>
                             <div class="lr">
                                 <t class="left">Thời gian làm mới</t>

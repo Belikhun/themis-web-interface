@@ -780,6 +780,7 @@ core = {
         },
         loaded: false,
         data: null,
+        viewInDialog: false,
 
         async init(loggedIn = false) {
             this.panel.bak.hide();
@@ -855,18 +856,21 @@ core = {
                 text: id
             });
 
-            this.list.classList.add("hide");
-            this.panel.bak.hide(false);
             this.panel.title = "Đang tải...";
-
             var data = await myajax({
                 url: "/api/test/problems/get",
                 method: "GET",
-                query: {
-                    id: id
-                }
+                query: { id: id }
             });
             this.data = data;
+
+            if (this.viewInDialog) {
+                this.enlargeProblem(this.data);
+                return;
+            }
+
+            this.list.classList.add("hide");
+            this.panel.bak.hide(false);
 
             this.name.innerText = data.name;
             this.panel.title = "Đề bài - " + data.name;
@@ -1324,6 +1328,7 @@ core = {
         nightModeToggler: $("#usett_nightMode"),
         transitionToggler: $("#usett_transition"),
         millisecondToggler: $("#usett_millisecond"),
+        dialogProblemToggler: $("#usett_dialogProblem"),
         updateDelaySlider: $("#usett_udelay_slider"),
         updateDelayText: $("#usett_udelay_text"),
         toggler: $("#usett_toggler"),
@@ -1390,6 +1395,13 @@ core = {
                 e => document.body.classList.remove("disableTransition"),
                 e => document.body.classList.add("disableTransition"),
                 true
+            )
+
+            // view problem in dialog setting
+            let dialogProblem = new this.toggleSwitch(this.dialogProblemToggler, "__diagprob",
+                e => core.problems.viewInDialog = true,
+                e => core.problems.viewInDialog = false,
+                false
             )
 
             // Update delay setting
