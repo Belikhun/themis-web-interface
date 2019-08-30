@@ -83,7 +83,7 @@ apiTest.case (
 )
 
 # All GET api test
-GETApiList = ["api/config", "api/info?u=admin", "api/status", "api/test/logs", "api/test/rank", "api/test/timer", "api/test/problems/list"]
+GETApiList = ["api/config", "api/info?u=admin", "api/status", "api/contest/logs", "api/contest/rank", "api/contest/timer", "api/contest/problems/list"]
 for item in GETApiList:
     apiTest.case (
         "API \"{}\" should return a good status code".format(item),
@@ -91,7 +91,7 @@ for item in GETApiList:
     )
 
 # All GET api with token required test
-GETApiWithTokenList = ["api/logs", "api/test/logs"]
+GETApiWithTokenList = ["api/logs", "api/contest/logs"]
 for item in GETApiWithTokenList:
     apiTest.case (
         "API t\"{}\" should return a good status code".format(item),

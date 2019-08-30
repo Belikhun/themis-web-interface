@@ -60,7 +60,7 @@ def __getLog():
     global target
 
     try:
-        logData = getAPI("api/test/viewlog?f=" + target, "GET")
+        logData = getAPI("api/contest/viewlog?f=" + target, "GET")
     except Exception as excp:
         return repr(excp)
 
