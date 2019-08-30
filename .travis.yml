@@ -1,12 +1,14 @@
 language: php
-dist: "xenial"
+dist: "bionic"
 php:
     - "7.2"
+python:
+    - "3.7"
 
 before_script:
-    # install python 3.7
+    # install python
     - sudo apt-get update
-    - sudo apt-get install python3
+    - sudo apt-get -qq install python3
     - sudo apt-get -qq install python3-pip
     - sudo pip3 -q install --upgrade pip
     # install apache2 and fcgi
