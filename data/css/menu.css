@@ -363,7 +363,8 @@ body.dark .menu::before {
 }
 
 body.dark .menu .group t,
-body.dark .menu .group .item.text {
+body.dark .menu .group .item.text,
+body.dark .menu .group .item .text {
     color: rgb(178, 178, 178);
 }
 
