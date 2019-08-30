@@ -102,7 +102,7 @@ for item in GETApiWithTokenList:
 def __avatarAPITest():
     global sauce
 
-    result = testAPI("api/avt/change", "POST", data = { "token": sauce }, files = { "file": open("api/admin.jpg", "rb") })
+    result = testAPI("api/avatar/change", "POST", data = { "token": sauce }, files = { "file": open("api/admin.jpg", "rb") })
     if (result is not True):
         return result
 
@@ -112,7 +112,7 @@ def __avatarAPITest():
         return "FileNotMatch"
         
 apiTest.case (
-    "Avatar should be uploaded successfully with \"api/avt/change\" API and have no corruption",
+    "Avatar should be uploaded successfully with \"api/avatar/change\" API and have no corruption",
     __avatarAPITest
 )
 
