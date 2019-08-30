@@ -1,6 +1,6 @@
 <?php
     //? |-----------------------------------------------------------------------------------------------|
-    //? |  /api/test/problems/remove.php                                                                |
+    //? |  /api/contest/problems/remove.php                                                                |
     //? |                                                                                               |
     //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |

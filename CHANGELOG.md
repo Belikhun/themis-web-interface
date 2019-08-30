@@ -43,7 +43,7 @@
 ### Thay đổi trong v0.4.5
 
 * **Bug:** Trang lỗi hiển thị ở api thay vì hiển thị đoạn json chứa thông tin lỗi
-* **Bug:** Lỗi `Undefined Variable: lastmtime` tại `/api/test/logs` khi tắt cài đặt `Cho phép xem nhật ký`
+* **Bug:** Lỗi `Undefined Variable: lastmtime` tại `/api/contest/logs` khi tắt cài đặt `Cho phép xem nhật ký`
 * **Chỉnh sửa:** Chỉnh sửa màu tại bảng rank cho các bài chính xác`
 * **Chỉnh sửa:** Chỉnh sửa nút xem nhật ký tại bảng nhật ký`
 * Sửa một số bug, lỗi hiển thị và thêm một số chức năng nhỏ

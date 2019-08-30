@@ -32,7 +32,7 @@
                 "id" => $i,
                 "name" => $item["name"],
                 "point" => $item["point"],
-                "image" => "/api/test/problems/image?id=". $i
+                "image" => "/api/contest/problems/image?id=". $i
             ));
         }
         
@@ -53,7 +53,7 @@
                     "size" => filesize($f),
                     "attachment" => $item["attachment"],
                     "lastmodify" => filemtime($f),
-                    "url" => "/api/test/problems/attachment?id=". $i
+                    "url" => "/api/contest/problems/attachment?id=". $i
                 ));
             }
         

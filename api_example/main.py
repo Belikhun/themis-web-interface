@@ -36,13 +36,13 @@ sessid = logindata["data"]["sessid"]
 token = logindata["data"]["token"]
 
 # Lấy nhật ký nộp bài
-testlogs = ajax("http://" + host + "/api/test/logs", "GET", "json")
+testlogs = ajax("http://" + host + "/api/contest/logs", "GET", "json")
 log("DEBG", "\n" + json.dumps(testlogs, indent=2))
 
 # Trong trường hợp request không có cookie PHPSESSID khi
 # request sẽ bị lỗi chưa đăng nhập. Để khắc phục ta tiếp tục
 # session bằng cách gửi sessid nhận được lúc đăng nhập:
-testlogs = ajax("http://" + host + "/api/test/logs", "GET", "json", query = {
+testlogs = ajax("http://" + host + "/api/contest/logs", "GET", "json", query = {
 	"sessid": sessid
 })
 log("DEBG", "\n" + json.dumps(testlogs, indent=2))

@@ -321,7 +321,7 @@ core = {
 
     async fetchLog(bypass = false, clearJudging = false) {
         let data = await myajax({
-            url: "/api/test/logs",
+            url: "/api/contest/logs",
             method: clearJudging ? "DELETE" : "GET",
         });
 
@@ -412,7 +412,7 @@ core = {
 
     async fetchRank(bypass = false) {
         let data = await myajax({
-            url: "/api/test/rank",
+            url: "/api/contest/rank",
             method: "GET",
         });
 
@@ -501,7 +501,7 @@ core = {
         });
 
         var data = await myajax({
-            url: "/api/test/viewlog",
+            url: "/api/contest/viewlog",
             method: "GET",
             query: {
                 "f": file
@@ -542,7 +542,7 @@ core = {
                 <div class="header ${data.header.status}">
                     <span class="top">
                         <div class="lazyload problemIcon">
-                            <img onload="this.parentNode.dataset.loaded = 1" src="/api/test/problems/image?id=${data.header.problem}"/>
+                            <img onload="this.parentNode.dataset.loaded = 1" src="/api/contest/problems/image?id=${data.header.problem}"/>
                             <div class="simple-spinner"></div>
                         </div>
                         <t class="problemName">${data.header.problemName || data.header.problem}</t>
@@ -575,7 +575,7 @@ core = {
                                     </span>
                                 </span>
 
-                                <a href="/api/test/rawlog?f=${data.header.file.logFilename}" class="sq-btn blue" rel="noopener" target="_blank">📄 Raw Log</a>
+                                <a href="/api/contest/rawlog?f=${data.header.file.logFilename}" class="sq-btn blue" rel="noopener" target="_blank">📄 Raw Log</a>
                             </span>
                         </div>
 
@@ -705,7 +705,7 @@ core = {
 
             setTimeout(() => {
                 myajax({
-                    url: "/api/test/upload",
+                    url: "/api/contest/upload",
                     method: "POST",
                     form: {
                         "token": API_TOKEN,
@@ -809,7 +809,7 @@ core = {
             var data = Array();
             try {
                 data = await myajax({
-                    url: "/api/test/problems/list",
+                    url: "/api/contest/problems/list",
                     method: "GET"
                 });
             } catch(e) {
@@ -858,7 +858,7 @@ core = {
 
             this.panel.title = "Đang tải...";
             var data = await myajax({
-                url: "/api/test/problems/get",
+                url: "/api/contest/problems/get",
                 method: "GET",
                 query: { id: id }
             });
@@ -1045,7 +1045,7 @@ core = {
 
         async fetchTime(init = false) {
             var data = await myajax({
-                url: "/api/test/timer",
+                url: "/api/contest/timer",
                 method: "GET",
             });
 
@@ -1769,7 +1769,7 @@ core = {
 
             async getList() {
                 var data = await myajax({
-                    url: "/api/test/problems/list",
+                    url: "/api/contest/problems/list",
                     method: "GET"
                 });
 
@@ -1819,7 +1819,7 @@ core = {
 
             async editProblem(id) {
                 var data = await myajax({
-                    url: "/api/test/problems/get",
+                    url: "/api/contest/problems/get",
                     method: "GET",
                     query: {
                         id: id
@@ -1893,7 +1893,7 @@ core = {
                 core.sound.confirm(1);
 
                 await myajax({
-                    url: "/api/test/problems/remove",
+                    url: "/api/contest/problems/remove",
                     method: "POST",
                     form: {
                         id: id,
@@ -1962,7 +1962,7 @@ core = {
                 });
 
                 await myajax({
-                    url: "/api/test/problems/" + action,
+                    url: "/api/contest/problems/" + action,
                     method: "POST",
                     form: {
                         id: data.id,

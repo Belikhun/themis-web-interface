@@ -1,6 +1,6 @@
 <?php
     //? |-----------------------------------------------------------------------------------------------|
-    //? |  /api/test/problems/get.php                                                                   |
+    //? |  /api/contest/problems/get.php                                                                   |
     //? |                                                                                               |
     //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
@@ -17,7 +17,7 @@
     $data = problemGet($id);
 
     if (isset($data["image"]))
-        $data["image"] = "/api/test/problems/image?id=". $id;
+        $data["image"] = "/api/contest/problems/image?id=". $id;
     else
         $data["image"] = null;
 
@@ -27,7 +27,7 @@
         $data["attachment"] = Array(
             "file" => $data["attachment"],
             "size" => filesize($f),
-            "url" => "/api/test/problems/attachment?id=". $id,
+            "url" => "/api/contest/problems/attachment?id=". $id,
         );
     } else
         $data["attachment"] = Array(
