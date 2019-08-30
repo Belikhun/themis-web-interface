@@ -467,7 +467,7 @@ core = {
                     <td>${rank}</td>
                     <td>
                         <div class="lazyload avt">
-                            <img onload="this.parentNode.dataset.loaded = 1" src="/api/avt/get?u=${i.username}"/>
+                            <img onload="this.parentNode.dataset.loaded = 1" src="/api/avatar/get?u=${i.username}"/>
                             <div class="simple-spinner"></div>
                         </div>
                     </td>
@@ -566,7 +566,7 @@ core = {
                             <span class="right">
                                 <span class="submitter">
                                     <div class="lazyload avatar">
-                                        <img onload="this.parentNode.dataset.loaded = 1" src="/api/avt/get?u=${data.header.user}"/>
+                                        <img onload="this.parentNode.dataset.loaded = 1" src="/api/avatar/get?u=${data.header.user}"/>
                                         <div class="simple-spinner"></div>
                                     </div>
                                     <span class="info">
@@ -1554,7 +1554,7 @@ core = {
 
         async avtUpload(file) {
             await myajax({
-                url: "/api/avt/change",
+                url: "/api/avatar/change",
                 method: "POST",
                 form: {
                     token: API_TOKEN,
