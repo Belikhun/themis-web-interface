@@ -15,8 +15,8 @@
     if (isLogedIn())
         stop(12, "Đã đăng nhập bằng username: ". $_SESSION["username"], 403);
     
-    $username = reqform("u");
-    $password = reqform("p");
+    $username = reqForm("u");
+    $password = reqForm("p");
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
 
     $res = simpleLogin($username, $password);

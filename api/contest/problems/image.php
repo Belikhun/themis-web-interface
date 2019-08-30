@@ -19,7 +19,7 @@
         stop(0, "Success", 200);
     }
 
-    $id = reqquery("id");
+    $id = reqQuery("id");
     contest_timeRequire([CONTEST_STARTED], false, false);
 
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";

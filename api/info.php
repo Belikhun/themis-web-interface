@@ -12,7 +12,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logs.php";
 
-    $username = reqquery("u");
+    $username = reqQuery("u");
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
 
     $data = getUserData($username);

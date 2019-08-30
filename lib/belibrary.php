@@ -47,14 +47,14 @@
         return substr($sub, 0, strpos($sub, $right));
     }
 
-    function reqform(string $key) {
+    function reqForm(string $key) {
         if (!isset($_POST[$key]))
             stop(1, "Undefined form: ". $key, 400);
         else
             return trim($_POST[$key]);
     }
 
-    function reqquery(string $key) {
+    function reqQuery(string $key) {
         if (!isset($_GET[$key]))
             stop(1, "Undefined query: ". $key, 400);
         else

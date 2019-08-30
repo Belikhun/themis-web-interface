@@ -21,7 +21,7 @@
     if (getUserData($_SESSION["username"])["id"] !== "admin")
         stop(31, "Access Denied!", 403);
 
-    $id = reqform("id");
+    $id = reqForm("id");
     $id = str_replace("\"", "", $id);
     $id = str_replace("/", "", $id);
     $id = str_replace(".", "", $id);

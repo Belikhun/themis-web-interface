@@ -13,7 +13,7 @@
     contest_timeRequire([CONTEST_STARTED], false);
 
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
-    $id = reqquery("id");
+    $id = reqQuery("id");
     $data = problemGet($id);
 
     if (isset($data["image"]))

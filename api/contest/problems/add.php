@@ -21,13 +21,13 @@
     if (getUserData($_SESSION["username"])["id"] !== "admin")
         stop(31, "Access Denied!", 403);
 
-    $id = reqform("id");
+    $id = reqForm("id");
     $id = str_replace("\"", "", $id);
     $id = str_replace("/", "", $id);
     $id = str_replace(".", "", $id);
     
-    $name = reqform("name");
-    $point = reqform("point");
+    $name = reqForm("name");
+    $point = reqForm("point");
     if (!is_numeric($point))
         stop(3, "Loại biến không khớp! Yêu cầu form point là number", 400);
     $point = (float)$point;
@@ -40,7 +40,7 @@
     $accept = isset($_POST["acpt"]) ? json_decode($_POST["acpt"], true) : Array("pas", "cpp", "c", "pp", "exe", "class", "py", "java");
     $image = isset($_FILES["img"]) ? $_FILES["img"] : null;
     $attachment = isset($_FILES["attm"]) ? $_FILES["attm"] : null;
-    $description = reqform("desc");
+    $description = reqForm("desc");
     $test = isset($_POST["test"]) ? json_decode($_POST["test"], true) : Array();
 
     $code = problemAdd($id, Array(

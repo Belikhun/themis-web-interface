@@ -14,10 +14,8 @@
     if ($config["viewLog"] === false)
         stop(23, "Xem nhật ký đã bị tắt!", 403);
     
-    $file = reqquery("f");
-    $file = str_replace("\"", "", $file);
-    $file = str_replace("/", "", $file);
-    
+    $file = reqQuery("f");
+    $file = preg_replace("/[\/\\\\]/m", "", $file);
     $logPath = $config["logDir"] ."/". $file .".log";
     
     if (!file_exists($logPath))

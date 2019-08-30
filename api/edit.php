@@ -41,8 +41,8 @@
         elseif ($resp !== LOGIN_SUCCESS)
             stop(-1, "Sth went soooo wrong.", 500);
 
-        $newpass = reqform("np");
-        $renewpass = reqform("rnp");
+        $newpass = reqForm("np");
+        $renewpass = reqForm("rnp");
 
         if ($newpass !== $renewpass)
             stop(15, "Mật khẩu mới không khớp!", 400);

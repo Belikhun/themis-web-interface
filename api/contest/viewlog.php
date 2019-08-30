@@ -14,7 +14,7 @@
     if ($config["viewLog"] === false)
         stop(23, "Xem nhật ký đã bị tắt!", 403);
 
-    $file = reqquery("f");
+    $file = reqQuery("f");
     $file = str_replace("\"", "", $file);
     $file = str_replace("/", "", $file);
 

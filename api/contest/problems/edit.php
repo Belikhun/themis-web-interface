@@ -21,7 +21,7 @@
     if (getUserData($_SESSION["username"])["id"] !== "admin")
         stop(31, "Access Denied!", 403);
 
-    $id = reqform("id");
+    $id = reqForm("id");
     $name = getform("name");
     $description = getform("desc");
     $point = getform("point");
