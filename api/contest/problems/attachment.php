@@ -7,8 +7,8 @@
     //? |-----------------------------------------------------------------------------------------------|
 
 	require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ecatch.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php"; define("STOP_OUTPUT", "errorpage");
+    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logs.php";
     require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
 
