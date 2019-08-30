@@ -12,7 +12,9 @@ before_script:
     - sudo apt-get -qq install python3-pip
     - sudo pip3 -q install --upgrade pip
     # install apache2 and fcgi
-    - sudo apt-get -qq install apache2 libapache2-mod-fastcgi
+    - sudo apt-get -qq install apache2
+    - wget https://mirrors.edge.kernel.org/ubuntu/pool/multiverse/liba/libapache-mod-fastcgi/libapache2-mod-fastcgi_2.4.7~0910052141-1.2_amd64.deb
+    - sudo dpkg -i libapache2-mod-fastcgi_2.4.7~0910052141-1.2_amd64.deb
     # enable php-fpm
     - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
     - sudo a2enmod rewrite actions fastcgi alias mime headers
