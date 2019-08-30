@@ -1,7 +1,7 @@
 {
     "contest": {
-        "name": "Travis test",
-        "description": "LogParser"
+        "name": "logParser",
+        "description": "Config for logParser test"
     },
     "uploadDir": "/home/travis/build/belivipro9x99/themis-web-interface/tests/logParser",
     "time": {
@@ -9,18 +9,20 @@
         "begin": {
             "seconds": 0,
             "minutes": 0,
-            "hours": 22,
-            "days": 20,
-            "months": 4,
+            "hours": 0,
+            "days": 0,
+            "months": 0,
             "years": 2019
         },
-        "during": 10,
-        "offset": 10
+        "during": 0,
+        "offset": 0
     },
     "publish": true,
     "submit": true,
     "submitInProblems": true,
     "editInfo": true,
+    "viewRank": true,
+    "viewRankTask": true,
     "viewLog": true,
     "viewLogOther": true,
     "ratelimit": {
@@ -28,5 +30,5 @@
         "time": 1,
         "banTime": 0
     },
-    "pageTitle": "%name% v%version%"
+    "pageTitle": "%contestName%"
 }
