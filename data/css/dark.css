@@ -214,7 +214,8 @@ body.dark #rankp div.ranking-container table tr .number.link,
 body.dark #rankp div.ranking-container table tr .number.correct,
 body.dark #rankp div.ranking-container table tr .number.passed,
 body.dark #rankp div.ranking-container table tr .number.accepted,
-body.dark #rankp div.ranking-container table tr .number.failed {
+body.dark #rankp div.ranking-container table tr .number.failed,
+body.dark #rankp div.ranking-container table tr .number.skipped {
     color: rgb(224, 224, 224);
 }
 
@@ -232,6 +233,10 @@ body.dark #rankp div.ranking-container table tr .number.accepted {
 
 body.dark #rankp div.ranking-container table tr .number.failed {
     background-color: rgb(151, 20, 20);
+}
+
+body.dark #rankp div.ranking-container table tr .number.skipped {
+    background-color: rgb(90, 90, 90);
 }
 
 body.dark #rankp div.ranking-container table tr td:nth-child(3) {

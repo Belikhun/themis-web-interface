@@ -120,6 +120,15 @@ core = {
         "exe": "Windows Executable"
     },
 
+    taskStatus: {
+        correct: "CHÍNH XÁC",
+        passed: "Chấm thành công",
+        accepted: "Dịch thành công",
+        failed: "Dịch thất bại",
+        scored: "Đã chấm",
+        skipped: "Chưa chấm"
+    },
+
     async init(set) {
         clog("info", "Initializing...");
         var initTime = new stopClock();
@@ -384,7 +393,7 @@ core = {
                             <t class="n">${item.problem}</t>
                         </div>
                         <div class="r">
-                            <t class="s">${item.point ? `${item.point} điểm` : "Đã chấm"}</t>
+                            <t class="s">${item.point ? `${item.point} điểm` : core.taskStatus[item.status]}</t>
                             <t class="l">${this.languages[item.extension] || item.extension}</t>
                         </div>
                     </div>
@@ -499,13 +508,6 @@ core = {
             }
         });
 
-        let status = {
-            correct: "CHÍNH XÁC",
-            passed: "Chấm thành công",
-            accepted: "Dịch thành công",
-            failed: "Dịch thất bại"
-        }
-
         let logLine = [];
         if (data.header.error.length !== 0)
             for (let line of data.header.error)
@@ -556,7 +558,7 @@ core = {
                                 
                                 <t class="row point">${data.header.point} điểm</t>
                                 <t class="row submitTime">${(new Date(data.header.file.lastModify * 1000)).toLocaleString()}</t>
-                                <t class="row status">${status[data.header.status]}</t>
+                                <t class="row status">${core.taskStatus[data.header.status]}</t>
                                 <t class="row result">
                                     Đúng <b class="green">${data.header.testPassed}/${data.header.testPassed + data.header.testFailed}</b> tests, <b class="red">${data.header.testFailed}</b> tests sai
                                 </t>
@@ -677,25 +679,6 @@ core = {
             this.bar.style.width = "0%";
             this.bar.dataset.color = "aqua";
             setTimeout(() => this.upload(files), 1000);
-        },
-
-        dragEnter(e) {
-            e.stopPropagation();
-            e.preventDefault();
-            this.classList.add("drag");
-        },
-
-        dragLeave(e) {
-            e.stopPropagation();
-            e.preventDefault();
-            this.classList.remove("drag");
-        },
-
-        dragOver(e) {
-            e.stopPropagation();
-            e.preventDefault();
-            e.dataTransfer.dropEffect = "copy";
-            this.classList.add("drag");
         },
 
         upload(files, i = 0) {

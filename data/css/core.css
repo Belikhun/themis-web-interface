@@ -1400,7 +1400,8 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 #rankp div.ranking-container table tr .number.correct,
 #rankp div.ranking-container table tr .number.passed,
 #rankp div.ranking-container table tr .number.accepted,
-#rankp div.ranking-container table tr .number.failed {
+#rankp div.ranking-container table tr .number.failed,
+#rankp div.ranking-container table tr .number.skipped {
     color: rgb(75, 75, 75);
 }
 
@@ -1418,6 +1419,10 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 
 #rankp div.ranking-container table tr td.number.failed {
     background-color: rgb(248, 187, 187)
+}
+
+#rankp div.ranking-container table tr td.number.skipped {
+    background-color: rgb(212, 212, 212);
 }
 
 #rankp div.ranking-container table tr td.number.link:hover {

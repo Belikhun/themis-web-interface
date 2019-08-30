@@ -99,6 +99,12 @@
                 for ($i = 2; $i < count($file); $i++)
                     array_push($data["error"], $file[$i]);
                 
+            } else if (preg_match_all("/(.+)‣(.+): Chưa chấm/m", $firstLine, $l1matches, PREG_SET_ORDER, 0)) {
+                # test match skipped template
+                $data["status"] = "skipped";
+                $data["point"] = 0;
+                $data["description"] = "Chưa chấm";
+                $this -> logIsFailed = true;      
             } else {
                 # test match pass template
                 preg_match_all("/(.+)‣(.+): (.+\w)/m", $firstLine, $l1matches, PREG_SET_ORDER, 0);
@@ -120,10 +126,17 @@
                     $data["status"] = "correct";
             }
 
-            $problemFileName = pathinfo(strtolower($file[1]));
-            $data["file"]["base"] = $problemFileName["filename"];
-            $data["file"]["name"] = $problemFileName["basename"];
-            $data["file"]["extension"] = $problemFileName["extension"];
+            if (isset($file[1])) {
+                $problemFileInfo = pathinfo(strtolower($file[1]));
+                $data["file"]["base"] = $problemFileInfo["filename"];
+                $data["file"]["name"] = $problemFileInfo["basename"];
+                $data["file"]["extension"] = $problemFileInfo["extension"];
+            } else {
+                $problemFileInfo = parseLogName($this -> logPath);
+                $data["file"]["base"] = $problemFileInfo["problem"];
+                $data["file"]["name"] = $problemFileInfo["name"];
+                $data["file"]["extension"] = $problemFileInfo["extension"];
+            }
 
             return $data;
         }
@@ -207,7 +220,9 @@
         }
     }
 
-    function parseLogName(String $name) {
+    function parseLogName(String $path) {
+        $name = basename($path);
+
         $parse = [];
         if (preg_match_all("/(.+)\[(.+)\]\[(.+)\]\.(.+)\.log/m", $name, $parse, PREG_SET_ORDER, 0))
             return Array(
