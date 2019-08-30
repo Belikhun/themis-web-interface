@@ -12,7 +12,7 @@ body.dark .formgroup.blue .formfield {
 }
 
 body.dark #container {
-    background-color: rgb(42, 42, 42);
+    background-color: rgb(46, 46, 46);
 }
 
 /* Navigation Bar */
@@ -36,6 +36,10 @@ body.dark .nav .rnav .hamburger span {
 }
 
 /* Panel */
+
+body.dark panel {
+    box-shadow: 0 0 5px rgba(42, 42, 42, 0.2);
+}
 
 body.dark panel .head {
     background-color: rgb(56, 56, 56);
@@ -331,16 +335,16 @@ body.dark #user_settings .sub .panel .container .btn-group span:hover {
 
 body.dark #user_settings .sub .panel .container .btn-group span:hover::before,
 body.dark #user_settings .sub .panel .container .btn-group span:hover::after {
-    color: #47abee;
+    color: #67c2ff;
 }
 
 body.dark #user_settings .sub .panel .container .btn-group .close:hover {
-    background-color: rgba(255, 84, 66, 0.2);
+    background-color: rgba(219, 60, 43, 0.2);
 }
 
 body.dark #user_settings .sub .panel .container .btn-group .close:hover::before,
 body.dark #user_settings .sub .panel .container .btn-group .close:hover::after {
-    color: #f68376;
+    color: #ff8577;
 }
 
 body.dark #user_settings .main .container .group .item .info .right {
