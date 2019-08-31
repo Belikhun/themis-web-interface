@@ -146,7 +146,7 @@
 }
     
 #user_settings .sub .panel .container .btn-group:hover {
-    width: 80px;
+    width: 100px;
     background-color: rgba(245, 245, 246, 1);
 }
 
@@ -269,10 +269,6 @@
 
     transition:
         transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-#user_settings .sub .panel .container .btn-group:hover + .main {
-    transform: translateX(-30px);
 }
 
 #user_settings .sub .panel .container .main:empty::before {
