@@ -27,6 +27,6 @@
     contentType("txt");
     header("Content-Length: ". filesize($logPath));
     header("Content-Disposition: filename=". pathinfo($logPath, PATHINFO_FILENAME));
-    print readfile($logPath);
+    readfile($logPath);
 
     stop(0, "Thành công!", 200);
