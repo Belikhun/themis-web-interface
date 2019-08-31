@@ -1065,8 +1065,7 @@ core = {
             if (init) {
                 $("#timep").classList.add("show");
                 this.last = 0;
-                clearInterval(this.interval);
-                this.startInterval();
+                this.toggleMs(this.showMs);
             }
         },
 
@@ -1079,14 +1078,14 @@ core = {
         },
 
         toggleMs(show = true) {
+            clearInterval(this.interval);
+
             if (show) {
-                clearInterval(this.interval);
                 this.startInterval(65);
                 this.showMs = true;
                 this.timePanel.main.classList.add("ms");
                 this.bar.classList.add("noTransition");
             } else {
-                clearInterval(this.interval);
                 this.startInterval(1000);
                 this.showMs = false;
                 this.timePanel.main.classList.remove("ms");
