@@ -176,7 +176,7 @@
                         array_push($data, $lineData);
 
                     $lineData = $lineInitTemplate;
-                    $lineData["test"] = strtolower($lineParsed[0][1]);
+                    $lineData["test"] = $lineParsed[0][1];
                     $lineData["point"] = $this -> __f($lineParsed[0][2]);
 
                     if ($lineData["point"] == 0) {
