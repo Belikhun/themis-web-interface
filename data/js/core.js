@@ -1438,9 +1438,9 @@ core = {
                 return;
             }
 
-            this.avtWrapper.addEventListener("dragEnter",  e => this.dragEnter(e), false);
-            this.avtWrapper.addEventListener("dragLeave", e => this.dragLeave(e), false);
-            this.avtWrapper.addEventListener("dragOver", e => this.dragOver(e), false);
+            this.avtWrapper.addEventListener("dragenter",  e => this.dragEnter(e), false);
+            this.avtWrapper.addEventListener("dragleave", e => this.dragLeave(e), false);
+            this.avtWrapper.addEventListener("dragover", e => this.dragOver(e), false);
             this.avtWrapper.addEventListener("drop", e => this.fileSelect(e), false);
 
             this.avtInput.addEventListener("change", e => this.fileSelect(e, "input"));
