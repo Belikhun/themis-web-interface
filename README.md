@@ -152,6 +152,17 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
+<img align="left" src="https://lh3.googleusercontent.com/xmuQ8FjHTswmlXzeg6-Jkqmqtcgc-T2Q-ZJckOQhubgQKVGVcs2g3GLeb1yokruedXvIaeX6cm9ply-UHbMqgnvjtQReurtVfu8n1ne1AMOjtTszGcPlC8T1iSLxbOapshB3kOiGQA=w2400" width="500px">
+
+<div align="right">
+
+### Tốc độ xử lí của API lên đến **bàn thờ**!
+#### Tốc độ xử lí chỉ nằm trong khoảng 0.0001 đến 0.02 giây! Đảm bảo tính chính xác và tốc độ.
+
+</div>
+
+<br><br><br>
+
 <div align="center">
 
 ### Chủ đề sáng/tối
@@ -166,13 +177,15 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 
 ## Cài đặt và hướng dẫn sử dụng
 
+Tải về bản mới nhất tại: [releases list](https://github.com/belivipro9x99/themis-web-interface/releases)
+
 Hướng dẫn cài đặt, sử dụng và nâng cấp hiện có trong [Wiki](https://github.com/belivipro9x99/themis-web-interface/wiki/installation-and-config) của dự án.
 
 ## API Document
 
 **API** giúp bạn có thể giao tiếp với hệ thống mà không cần phải sử dụng trang web nộp bài. Do đó bạn có thể viết một chương trình chạy phía client trong trường hợp trang web nộp bài không hoạt động.
 
-Toàn bộ **Document** đều có ở trong [Wiki:API](https://github.com/belivipro9x99/themis-web-interface-reloaded/wiki/Getting-Started-with-API) của dự án.
+Toàn bộ **Tài liệu** đều có ở trong [Wiki:API](https://github.com/belivipro9x99/themis-web-interface-reloaded/wiki/Getting-Started-with-API) của dự án.
 
 ## Screenshot
 
