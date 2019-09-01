@@ -4,7 +4,7 @@
 
 An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapblog.wordpress.com)**
 
-<img src="https://lh3.googleusercontent.com/UKuF9CV5tJN9VXVOSvsqcy2FFUBAwyX01MdYooQ8IZNehFELH025Ornht5rY0EnRmFWlqQhOiiTJv8qCffz9n5DApT3kNG-7LjlTFgWlZaO1NYUw0h8HLxTc5sRX7OdpRLPjD28QAQ=w2400" width="560px">
+<img src="https://lh3.googleusercontent.com/SYT2hlU7_rxmCgHz0kt6089Md1V-j-ePWUUQBFtUVF5DTlcSjmGhr14J7Qsgx262KBZuhGKZ4eZD3ChYzdBaFMytEw0aBD3dRLi0bZskyK3-6MQ7rMkDMfcED18JgPyfeZEee50h8g=w2400" width="700px">
 
 [![version](https://img.shields.io/badge/release-v0.4.6-brightgreen.svg?longCache=true&style=for-the-badge)](https://github.com/belivipro9x99/themis-webinterface/releases/)
 [![license](https://img.shields.io/badge/license-MIT-orange.svg?longCache=true&style=for-the-badge)](https://github.com/belivipro9x99/themis-web-interface/blob/master/LICENSE)
