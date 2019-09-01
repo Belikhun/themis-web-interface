@@ -48,12 +48,12 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 
 ## Tính năng
 
-<div style="display: flex; flex-direction: row;">
-<div style="display: inline-block; flex: 1 1 0;">
+<div style="-webkit-column-count: 2; -moz-column-count: 2; column-count: 2; -webkit-column-rule: 1px dotted #e0e0e0; -moz-column-rule: 1px dotted #e0e0e0; column-rule: 1px dotted #e0e0e0;">
+<div style="display: inline-block;">
 	<h1>Tất cả mọi thứ, trong một trang</h1>
 	<h3>Không cần phải mệt nhọc di chuyển qua lại các trang, toàn bộ các chức năng đều nằm gọn gàng trong một trang duy nhất!</h3>
 </div>
-<div style="display: inline-block; padding: 0 20px;">
+<div style="display: inline-block;">
 	<img src="https://lh3.googleusercontent.com/UeHfg3u7VC-sP01dKDz_ktRQtItvTc6dPfZSDDp5p4J81Tspl1R8Ujg2tXJKzf6z24T_U0zTuULtjTWJQObeY2caOVz88YgT6usTbmFYqVlEh0BjWK0PzLl4ekl3urPDs5aGV8WdAw=w2400" width="600px">
 </div>
 </div>
