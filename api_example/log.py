@@ -1,5 +1,5 @@
 #? |-----------------------------------------------------------------------------------------------|
-#? |  /api_example/log.py                                                                          |
+#? |  /tests/lib/log.py                                                                            |
 #? |                                                                                               |
 #? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
 #? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
@@ -36,12 +36,12 @@ def log(level, *args):
 	}.get(level, Fore.WHITE)
 
 	# khởi tạo output với format hh:mm:ss| ticks| module| level
-	out = "{}{:>8}| {}{:>10}| {}{:>8}| {}{:>6}".format(
-		Fore.LIGHTCYAN_EX,
+	out = "{}{:>8}| {}{:>6}| {}{:>10}| {}{:>5}".format(
+		Fore.WHITE,
 		"{0:>2}:{1:>2}:{2:>2}".format(ltime[3], ltime[4], ltime[5]),
-		Fore.LIGHTBLUE_EX,
+		Fore.BLUE,
 		"{:10.4f}".format(ticks - sticks),
-		Fore.GREEN,
+		Fore.CYAN,
 		currentframe().f_back.f_globals["__name__"].replace("_", "").upper(),
 		lvcolor,
 		level
@@ -79,9 +79,9 @@ def log(level, *args):
 	with open("log.txt", "a", encoding="utf-8") as f:
 		print(escape_ansi(out), file=f)
 
-def exit_handler():
+def logExitHandler():
 	log("INFO", "Log ended.")
 
 open("log.txt", "w").close()
 log("INFO", "Log started at " + time.asctime(time.localtime()))
-atexit.register(exit_handler)
+atexit.register(logExitHandler)

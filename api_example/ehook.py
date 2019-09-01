@@ -1,14 +1,16 @@
 #? |-----------------------------------------------------------------------------------------------|
-#? |  /api_example/ehook.py                                                                        |
+#? |  /tests/lib/ehook.py                                                                          |
 #? |                                                                                               |
 #? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
 #? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 #? |-----------------------------------------------------------------------------------------------|
 
 from log import log
-from colorama import Fore
+from colorama import init, Fore
 from ntpath import basename
 import sys
+
+init(autoreset=True)
 
 def myexcepthook(exctype, value, tb):
     log("EXCP", "File Traceback:")
@@ -19,5 +21,6 @@ def myexcepthook(exctype, value, tb):
         log("DEBG", " File {:>30}, line {:>4}, in {}".format(basename(filename), lineno, name))
         tb = tb.tb_next
     log("EXCP", exctype.__name__ + ": " + str(value))
+    exit(2)
 
 sys.excepthook = myexcepthook
