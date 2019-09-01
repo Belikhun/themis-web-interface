@@ -107,9 +107,20 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 
 <br><br><br><br><br>
 
-<img align="left" src="https://lh3.googleusercontent.com/DSl1HyD7NQzv08x3zk_VZWVNkJllXGD5oQ7YwoXYOXE2ZwCcIB4JNZNRIeQPbxKt6bXCZYjHX3btkrkgblLEt-kAGrLQHnJfZU6-SXSV-OClwpM1cDCHJFCZcqgivXOkw67SpnL5VA=w2400" width="500px">
+<img align="left" src="https://lh3.googleusercontent.com/FX1NU0aNhcQYKJqof-0vf-Lqm38NkeL8n7jnyTyZCM_kMA5hnHysNN3vjwjDXtU0_lOyayl4NAMcW-KlbQShhbOPiPr4SO0zXS3Fu4uzpHuYrKQmYVzeMzBBjbZWHMBr3PPswhKiNQ=w2400" width="600px">
 
 <div align="right">
+
+### Xem thông tin kết quả chấm đầy đủ
+#### Các thông tin được hiển thị chi tiết, dễ đọc
+
+</div>
+
+<br><br><br><br><br><br><br><br><br><br><br>
+
+<img align="right" src="https://lh3.googleusercontent.com/DSl1HyD7NQzv08x3zk_VZWVNkJllXGD5oQ7YwoXYOXE2ZwCcIB4JNZNRIeQPbxKt6bXCZYjHX3btkrkgblLEt-kAGrLQHnJfZU6-SXSV-OClwpM1cDCHJFCZcqgivXOkw67SpnL5VA=w2400" width="500px">
+
+<div align="left">
 
 ### Danh sách nhật ký chi tiết
 #### Hiển thị 5 chi tiết quan trọng của mỗi bài: tên bài, ngôn ngữ, tình trạng, thời gian nộp và điểm!
@@ -119,9 +130,9 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 
 <br><br><br><br>
 
-<img align="right" src="https://lh3.googleusercontent.com/PHyX9dfRDTLkBnz5S7wagD3pYBeLjusK7F_WXu6EMQim2kTvv4q8pct2XqW-DCiYqo08wI00Eo9a4WdIx_Pb1CFBbqsYPwKes_RkxXYiKIjjrF8hnpP2k6S8UGEIQ-wEHI9msmAH1Q=w2400" width="500px">
+<img align="left" src="https://lh3.googleusercontent.com/PHyX9dfRDTLkBnz5S7wagD3pYBeLjusK7F_WXu6EMQim2kTvv4q8pct2XqW-DCiYqo08wI00Eo9a4WdIx_Pb1CFBbqsYPwKes_RkxXYiKIjjrF8hnpP2k6S8UGEIQ-wEHI9msmAH1Q=w2400" width="500px">
 
-<div align="left">
+<div align="right">
 
 ### Tải các tệp công khai
 #### Các tệp đính kèm và tệp công khai đều nằm gọn trong một trang, dễ dàng tìm kiếm và tải về bất kỳ tệp với một click đơn giản!
@@ -130,9 +141,9 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 
 <br><br><br><br><br><br><br><br><br><br>
 
-<img align="left" src="https://lh3.googleusercontent.com/fieCpXgSjMtXmYMbzlrRbnz2P75XxIykAL_vzrSAk2XKHV7-omEOEJ8syisaq7EaXjZ6Gsj2NDCTw6kBTzxsPMUbpq66cibV7QiIk67fwPBo1a8wKtykeC6S6UJBkQmpt78AJofeQQ=w2400" width="500px">
+<img align="right" src="https://lh3.googleusercontent.com/fieCpXgSjMtXmYMbzlrRbnz2P75XxIykAL_vzrSAk2XKHV7-omEOEJ8syisaq7EaXjZ6Gsj2NDCTw6kBTzxsPMUbpq66cibV7QiIk67fwPBo1a8wKtykeC6S6UJBkQmpt78AJofeQQ=w2400" width="500px">
 
-<div align="right">
+<div align="left">
 
 ### Bảng cài đặt dành cho <b>Admin</b></h1>
 #### Thay đổi cách hệ thống vận hành một cách đơn giản! Không còn cần phải chỉnh sửa tệp *config* mỗi khi muốn thay đổi cài đặt của hệ thống. Chỉ cần 2 click là bạn đã tới trang cài đặt cho admin với toàn bộ cài đặt mà bạn có thể tìm thấy!
@@ -141,9 +152,9 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 
 <br><br><br><br><br><br><br><br>
 
-<img align="right" src="https://lh3.googleusercontent.com/DhFQzf-JFhajuEi5wt8elpwMfvLSNVcghqMVQ47yPi6KoXzlDAYJfTqkL9bJte8AS-0TNh1xe1ljGrLhMobfmiRBvDuQAeLzPXnuypFlIQ4HZM0ZZHAHHsRRnZVQCvupNIN9YpmtPw=w2400" width="500px">
+<img align="left" src="https://lh3.googleusercontent.com/DhFQzf-JFhajuEi5wt8elpwMfvLSNVcghqMVQ47yPi6KoXzlDAYJfTqkL9bJte8AS-0TNh1xe1ljGrLhMobfmiRBvDuQAeLzPXnuypFlIQ4HZM0ZZHAHHsRRnZVQCvupNIN9YpmtPw=w2400" width="500px">
 
-<div align="left">
+<div align="right">
 
 ### Tạo và chỉnh sửa đề bài trên trang
 #### Tạo đề bài với nhiều thông tin đa dạng như: Tiêu đề, loại tệp, điểm, Nội dung, Các test, và cả Ảnh đính kèm và Tệp đính kèm nữa...!
@@ -152,9 +163,9 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
-<img align="left" src="https://lh3.googleusercontent.com/xmuQ8FjHTswmlXzeg6-Jkqmqtcgc-T2Q-ZJckOQhubgQKVGVcs2g3GLeb1yokruedXvIaeX6cm9ply-UHbMqgnvjtQReurtVfu8n1ne1AMOjtTszGcPlC8T1iSLxbOapshB3kOiGQA=w2400" width="500px">
+<img align="right" src="https://lh3.googleusercontent.com/xmuQ8FjHTswmlXzeg6-Jkqmqtcgc-T2Q-ZJckOQhubgQKVGVcs2g3GLeb1yokruedXvIaeX6cm9ply-UHbMqgnvjtQReurtVfu8n1ne1AMOjtTszGcPlC8T1iSLxbOapshB3kOiGQA=w2400" width="500px">
 
-<div align="right">
+<div align="left">
 
 ### Tốc độ xử lí của API lên đến **bàn thờ**!
 #### Tốc độ xử lí chỉ nằm trong khoảng 0.0001 đến 0.02 giây! Đảm bảo tính chính xác và tốc độ.
