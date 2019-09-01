@@ -71,7 +71,7 @@
 
 		$beginTime = $config["time"]["begin"]["times"];
 		$offsetTime = $config["time"]["offset"];
-		$t = $beginTime - time() + ($duringTime * 60);
+		$t = $beginTime - microtime(true) + ($duringTime * 60);
 
 		foreach ($req as $key => $value) {
 			$returnCode = null;

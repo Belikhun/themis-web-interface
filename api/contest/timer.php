@@ -20,7 +20,7 @@
 	$beginTime = $config["time"]["begin"]["times"];
 	$duringTime = $config["time"]["during"] * 60;
 	$offsetTime = $config["time"]["offset"];
-	$t = $beginTime - time() + $duringTime;
+	$t = $beginTime - microtime(true) + $duringTime;
 
 	if ($t > $duringTime) {
 		$t -= $duringTime;
