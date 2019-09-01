@@ -48,12 +48,16 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 
 ## Tính năng
 
+&nbsp;
+
 <img align="right" src="https://lh3.googleusercontent.com/UeHfg3u7VC-sP01dKDz_ktRQtItvTc6dPfZSDDp5p4J81Tspl1R8Ujg2tXJKzf6z24T_U0zTuULtjTWJQObeY2caOVz88YgT6usTbmFYqVlEh0BjWK0PzLl4ekl3urPDs5aGV8WdAw=w2400" width="600px">
 
-# Tất cả mọi thứ, trong một trang
-### Không cần phải mệt nhọc di chuyển qua lại các trang, toàn bộ các chức năng đều nằm gọn gàng trong một trang duy nhất!
+<div align="left">
 
-&nbsp;
+### Tất cả mọi thứ, trong một trang
+#### Không cần phải mệt nhọc di chuyển qua lại các trang, toàn bộ các chức năng đều nằm gọn gàng trong một trang duy nhất!
+
+</div>
 
 &nbsp;
 
@@ -71,9 +75,9 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 
 <div align="right">
 
-# Nộp bài với thao tác kéo-thả!
-### Nộp một hoặc nhiều bài làm cùng lúc bằng một động tác kéo-thả đơn giản!
-### Thả bài làm của bạn vào cửa sổ nộp bài và Themis Web Interface sẽ gửi bài của bạn lên máy chấm, tự động!
+### Nộp bài với thao tác kéo-thả!
+#### Nộp một hoặc nhiều bài làm cùng lúc bằng một động tác kéo-thả đơn giản!
+#### Thả bài làm của bạn vào cửa sổ nộp bài và Themis Web Interface sẽ gửi bài của bạn lên máy chấm, tự động!
 
 </div>
 
@@ -87,93 +91,205 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 
 &nbsp;
 
-<div style="display: flex; flex-direction: row;">
-<div style="display: inline-block; flex: 1 1 0;">
-	<h1>Xem đề bài trực tiếp</h1>
-	<h3>Mệt mỏi vì phải tải và mở đề? Máy bạn không thể mở tệp đề? Giờ bạn có thể xem đề bài trực tiếp trên Themis Web Interface!</h3>
-</div>
-<div style="display: inline-block; padding: 0 20px;">
-	<img src="https://lh3.googleusercontent.com/EsNaoPY-s1Pjv3bEBu-MhyLlUC9dQ9-QTMPC09xJ5L8mVGC74YjnKtDvSkYPTAYaFFM9q42eI9bAaGTfxOpJKDuh1vdd64Yxc1653arTe_xa2HIG2Abpw84I8lhHrA_EVG4OQ0S5qw=w2400" width="600px">
-</div>
+<img align="right" src="https://lh3.googleusercontent.com/EsNaoPY-s1Pjv3bEBu-MhyLlUC9dQ9-QTMPC09xJ5L8mVGC74YjnKtDvSkYPTAYaFFM9q42eI9bAaGTfxOpJKDuh1vdd64Yxc1653arTe_xa2HIG2Abpw84I8lhHrA_EVG4OQ0S5qw=w2400" width="600px">
+
+<div align="left">
+
+### Xem đề bài trực tiếp
+#### Mệt mỏi vì phải tải và mở đề? Máy bạn không thể mở tệp đề? Giờ bạn có thể xem đề bài trực tiếp trên Themis Web Interface!
+
 </div>
 
-<div style="display: flex; flex-direction: row;">
-<div style="display: inline-block; padding: 0 20px;">
-	<img src="https://lh3.googleusercontent.com/r5kVh5niYdF58ybGHeyKp-2OxJfdUPoK5L4JeHf83R95GsRC4C7cC6lGm1kIuQvzHPozkp1V9QFCIYcaG1LLy2Q1xaz_M8ILPhnIRNmDzTFUlcCcSzhKwhE3eVrZrHfvImGL0KGYCw=w2400" width="600px" style="padding: 0; margin: 0;">
-</div>
-<div style="display: inline-block; flex: 1 1 0;">
-	<h1>Chế độ kỳ thi</h1>
-	<h3>Thời gian được tính chính xác đến hàng thập phân thứ sáu! Đảm bảo tính chính xác khi kì thi diễn ra.</h3>
-	<h3>Không có dữ liệu nào liên quan đến đề bài bị lộ trước khi kì thi diễn ra</h3>
-</div>
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+<img align="left" src="https://lh3.googleusercontent.com/r5kVh5niYdF58ybGHeyKp-2OxJfdUPoK5L4JeHf83R95GsRC4C7cC6lGm1kIuQvzHPozkp1V9QFCIYcaG1LLy2Q1xaz_M8ILPhnIRNmDzTFUlcCcSzhKwhE3eVrZrHfvImGL0KGYCw=w2400" width="600px" style="padding: 0; margin: 0;">
+
+<div align="right">
+
+### Chế độ kỳ thi
+#### Thời gian được tính đến hàng thập phân thứ sáu! Đảm bảo tính chính xác khi kì thi diễn ra.
+#### Không có dữ liệu nào liên quan đến đề bài bị lộ trước khi kì thi diễn ra
+
 </div>
 
-<div style="display: flex; flex-direction: row;">
-<div style="display: inline-block; flex: 1 1 0;">
-	<h1>Bảng xếp hạng rõ ràng</h1>
-	<h3>Được thiết kế đơn giản và rõ ràng! Thứ hạng của các thí sinh đều được cập nhật tự động và sắp xếp minh bạch, toàn bộ các bài làm đều được tô màu tương ứng với kết quả chấm. Và còn có thể xem kết quả chấm của thí sinh khác nữa!</h3>
-</div>
-<div style="display: inline-block; padding: 0 20px;">
-	<img src="https://lh3.googleusercontent.com/YMPb4tEeV0qI6NKUnNS5ctOHdq_ngchNKKqFh3qiavJyduYsfqKNNNWYAiM8tVi9KjO0qlYVup2jkgsisWmGeIR_TK0TZkVQbHIA-KkhPcfEFLxas802KYHT-O_ukh6W3WEi7MnKQw=w2400" width="600px">
-</div>
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+<img align="right" src="https://lh3.googleusercontent.com/eCFMEXEuIFArVHy9wo5IiS235f9PQ5KvGWLjJhuIaxxXUKVaituGPe3TLyZ8JPptEA0bmU7sc6jrpfPq1upHjykemnsmp_C9mjy3gL1GP27c0BCHtMUfZs61qdQqM9pbvL-CsAhY-w=w2400" width="600px">
+
+<div align="left">
+
+### Bảng xếp hạng rõ ràng
+#### Được thiết kế đơn giản và rõ ràng! Thứ hạng của các thí sinh đều được cập nhật tự động và sắp xếp minh bạch, toàn bộ các bài làm đều được tô màu tương ứng với kết quả chấm. Và còn có thể xem kết quả chấm của thí sinh khác nữa!</h3>
+
 </div>
 
-<div style="display: flex; flex-direction: row;">
-<div style="display: inline-block; padding: 0 20px;">
-	<img src="https://lh3.googleusercontent.com/DSl1HyD7NQzv08x3zk_VZWVNkJllXGD5oQ7YwoXYOXE2ZwCcIB4JNZNRIeQPbxKt6bXCZYjHX3btkrkgblLEt-kAGrLQHnJfZU6-SXSV-OClwpM1cDCHJFCZcqgivXOkw67SpnL5VA=w2400" width="600px" style="padding: 0; margin: 0;">
-</div>
-<div style="display: inline-block; flex: 1 1 0;">
-	<h1>Danh sách nhật ký chi tiết</h1>
-	<h3>Hiển thị 5 chi tiết quan trọng của mỗi bài: tên bài, ngôn ngữ, tình trạng, thời gian nộp và điểm!</h3>
-	<h3>Tên bài được tô màu tương ứng với trạng thái của bài.</h3>
-</div>
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+<img align="left" src="https://lh3.googleusercontent.com/DSl1HyD7NQzv08x3zk_VZWVNkJllXGD5oQ7YwoXYOXE2ZwCcIB4JNZNRIeQPbxKt6bXCZYjHX3btkrkgblLEt-kAGrLQHnJfZU6-SXSV-OClwpM1cDCHJFCZcqgivXOkw67SpnL5VA=w2400" width="600px" style="padding: 0; margin: 0;">
+
+<div align="right">
+
+### Danh sách nhật ký chi tiết
+#### Hiển thị 5 chi tiết quan trọng của mỗi bài: tên bài, ngôn ngữ, tình trạng, thời gian nộp và điểm!
+#### Tên bài được tô màu tương ứng với trạng thái của bài.
+
 </div>
 
-<div style="display: flex; flex-direction: row;">
-<div style="display: inline-block; flex: 1 1 0;">
-	<h1>Tải các tệp công khai</h1>
-	<h3>Các tệp đính kèm và tệp công khai đều nằm gọn trong một trang, dễ dàng tìm kiếm và tải về bất kỳ tệp với một click đơn giản!</h3>
-</div>
-<div style="display: inline-block; padding: 0 20px;">
-	<img src="https://lh3.googleusercontent.com/PHyX9dfRDTLkBnz5S7wagD3pYBeLjusK7F_WXu6EMQim2kTvv4q8pct2XqW-DCiYqo08wI00Eo9a4WdIx_Pb1CFBbqsYPwKes_RkxXYiKIjjrF8hnpP2k6S8UGEIQ-wEHI9msmAH1Q=w2400" width="600px">
-</div>
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+<img align="right" src="https://lh3.googleusercontent.com/PHyX9dfRDTLkBnz5S7wagD3pYBeLjusK7F_WXu6EMQim2kTvv4q8pct2XqW-DCiYqo08wI00Eo9a4WdIx_Pb1CFBbqsYPwKes_RkxXYiKIjjrF8hnpP2k6S8UGEIQ-wEHI9msmAH1Q=w2400" width="600px">
+
+<div align="left">
+
+### Tải các tệp công khai
+#### Các tệp đính kèm và tệp công khai đều nằm gọn trong một trang, dễ dàng tìm kiếm và tải về bất kỳ tệp với một click đơn giản!
+
 </div>
 
-<div style="display: flex; flex-direction: row;">
-<div style="display: inline-block; padding: 0 20px;">
-	<img src="https://lh3.googleusercontent.com/fieCpXgSjMtXmYMbzlrRbnz2P75XxIykAL_vzrSAk2XKHV7-omEOEJ8syisaq7EaXjZ6Gsj2NDCTw6kBTzxsPMUbpq66cibV7QiIk67fwPBo1a8wKtykeC6S6UJBkQmpt78AJofeQQ=w2400" width="800px" style="padding: 0; margin: 0;">
-</div>
-<div style="display: inline-block; flex: 1 1 0;">
-	<h1>Bảng cài đặt dành cho <b>Admin</b></h1>
-	<h3>Thay đổi cách hệ thống vận hành một cách đơn giản! Không còn cần phải chỉnh sửa tệp <i>config</i> mỗi khi muốn thay đổi cài đặt của hệ thống. Chỉ cần 2 click là bạn đã tới trang cài đặt cho admin với toàn bộ cài đặt mà bạn có thể tìm thấy!</h3>
-</div>
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+<img align="left" src="https://lh3.googleusercontent.com/fieCpXgSjMtXmYMbzlrRbnz2P75XxIykAL_vzrSAk2XKHV7-omEOEJ8syisaq7EaXjZ6Gsj2NDCTw6kBTzxsPMUbpq66cibV7QiIk67fwPBo1a8wKtykeC6S6UJBkQmpt78AJofeQQ=w2400" width="800px" style="padding: 0; margin: 0;">
+
+<div align="right">
+
+### Bảng cài đặt dành cho <b>Admin</b></h1>
+#### Thay đổi cách hệ thống vận hành một cách đơn giản! Không còn cần phải chỉnh sửa tệp *config* mỗi khi muốn thay đổi cài đặt của hệ thống. Chỉ cần 2 click là bạn đã tới trang cài đặt cho admin với toàn bộ cài đặt mà bạn có thể tìm thấy!
+
 </div>
 
-<div style="display: flex; flex-direction: row;">
-<div style="display: inline-block; flex: 1 1 0;">
-	<h1>Tạo và chỉnh sửa đề bài trên trang</h1>
-	<h3>Tạo đề bài với nhiều thông tin đa dạng như: Tiêu đề, loại tệp, điểm, Nội dung, Các test, và cả Ảnh đính kèm và Tệp đính kèm nữa...!</h3>
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+<img align="right" src="https://lh3.googleusercontent.com/DhFQzf-JFhajuEi5wt8elpwMfvLSNVcghqMVQ47yPi6KoXzlDAYJfTqkL9bJte8AS-0TNh1xe1ljGrLhMobfmiRBvDuQAeLzPXnuypFlIQ4HZM0ZZHAHHsRRnZVQCvupNIN9YpmtPw=w2400" width="600px">
+
+<div align="left">
+
+### Tạo và chỉnh sửa đề bài trên trang
+#### Tạo đề bài với nhiều thông tin đa dạng như: Tiêu đề, loại tệp, điểm, Nội dung, Các test, và cả Ảnh đính kèm và Tệp đính kèm nữa...!
+
 </div>
-<div style="display: inline-block; padding: 0 20px;">
-	<img src="https://lh3.googleusercontent.com/DhFQzf-JFhajuEi5wt8elpwMfvLSNVcghqMVQ47yPi6KoXzlDAYJfTqkL9bJte8AS-0TNh1xe1ljGrLhMobfmiRBvDuQAeLzPXnuypFlIQ4HZM0ZZHAHHsRRnZVQCvupNIN9YpmtPw=w2400" width="600px">
-</div>
-</div>
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
 
 <div align="center">
-	<h1>Chủ đề sáng/tối</h1>
-	<h3>Mỏi mắt vì màu quá sáng? Hãy thử dùng chế độ tối để bảo vệ mắt của bạn!</h3>
+
+### Chủ đề sáng/tối
+#### Mỏi mắt vì màu quá sáng? Hãy thử dùng chế độ tối để bảo vệ mắt của bạn!
+
 </div>
 
-<div style="display: flex; flex-direction: row;">
-<div align="center" style="display: inline-block; padding: 0 10px; flex: 1 1 0;">
-	<img src="https://lh3.googleusercontent.com/PHBuL5yRBvxgY7PVhb0MzK7Audlara9uwCU7R23ASUMhxKmAU_EDQof84TtmISWZJ5OPyctfwipLXl6mb6OAlH114oj7SwFu2uyrrRybaJXn63RDsoC_lAHMDCwXfPciQzaOk0slUg=w2400">
-	<i>Sáng</i>
-</div>
-<div align="center" style="display: inline-block; padding: 0 10px; flex: 1 1 0;">
-	<img src="https://lh3.googleusercontent.com/Ua7x_lylzc07gykvxjcOa4ULKeKMM9E2L6bbnN4xF380bIdsBkyhfrxfGyyZ0NqudRolrtrhdExwKHkpOOqQEfzb1DUF4-wMjh9cLZyJ5cH4CSP8VOVNl1d3RUkP2qoCaaioMQqQxw=w2400">
-	<i>Tối</i>
-</div>
-</div>
+<img align="left" width="50%" src="https://lh3.googleusercontent.com/PHBuL5yRBvxgY7PVhb0MzK7Audlara9uwCU7R23ASUMhxKmAU_EDQof84TtmISWZJ5OPyctfwipLXl6mb6OAlH114oj7SwFu2uyrrRybaJXn63RDsoC_lAHMDCwXfPciQzaOk0slUg=w2400">
+	
+<img align="right" width="50%" src="https://lh3.googleusercontent.com/Ua7x_lylzc07gykvxjcOa4ULKeKMM9E2L6bbnN4xF380bIdsBkyhfrxfGyyZ0NqudRolrtrhdExwKHkpOOqQEfzb1DUF4-wMjh9cLZyJ5cH4CSP8VOVNl1d3RUkP2qoCaaioMQqQxw=w2400">
+
+&nbsp;
 
 ## Cài đặt và hướng dẫn sử dụng
 
