@@ -41,6 +41,6 @@
         );
 
     if ($data === PROBLEM_ERROR_IDREJECT)
-        stop(44, "Không tìm thấy để của id đã cho!", 404);
+        stop(44, "Không tìm thấy để của id đã cho!", 404, Array( "id" => $id ));
     else
         stop(0, "Success!", 200, $data);

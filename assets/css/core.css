@@ -782,9 +782,15 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     transform: unset;
 }
 
-.problem-settings .problem-container .problem div #problemEdit_desc {
+.problem-settings .problem-container .problem #problemEdit_desc {
     resize: none;
     height: 160px;
+}
+
+.problem-settings .problem-container .problem #problemEdit_deleteImage,
+.problem-settings .problem-container .problem #problemEdit_deleteAttachment {
+    width: 100%;
+    margin-top: 8px;
 }
 
 .problem-settings .problem-container .problem .test-container {

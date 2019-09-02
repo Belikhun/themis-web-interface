@@ -1727,17 +1727,17 @@ core = {
                 name: $("#problemEdit_name"),
                 point: $("#problemEdit_point"),
                 time: $("#problemEdit_time"),
-                inptype: $("#problemEdit_inptype"),
-                outtype: $("#problemEdit_outtype"),
+                inpType: $("#problemEdit_inpType"),
+                outType: $("#problemEdit_outType"),
                 accept: $("#problemEdit_accept"),
                 image: $("#problemEdit_image"),
+                deleteImage: $("#problemEdit_deleteImage"),
                 desc: $("#problemEdit_desc"),
                 attachment: $("#problemEdit_attachment"),
+                deleteAttachment: $("#problemEdit_deleteAttachment"),
                 testList: $("#problemEdit_test_list"),
                 testadd: $("#problemEdit_test_add"),
-                submit() {
-                    $("#problemEdit_submit").click();
-                }
+                submit() { $("#problemEdit_submit").click() }
             },
             list: $("#problemEdit_list"),
             action: null,
@@ -1828,8 +1828,8 @@ core = {
                 this.form.name.value = "";
                 this.form.point.value = null;
                 this.form.time.value = 1;
-                this.form.inptype.value = "Bàn Phím";
-                this.form.outtype.value = "Màn hình";
+                this.form.inpType.value = "Bàn Phím";
+                this.form.outType.value = "Màn hình";
                 this.form.accept.value = Object.keys(core.languages).join("|");
                 this.form.image.value = null;
                 this.form.desc.value = "";
@@ -1839,12 +1839,12 @@ core = {
             newProblem() {
                 this.resetForm();
                 this.form.id.disabled = false;
+                this.form.deleteImage.disabled = true;
+                this.form.deleteAttachment.disabled = true;
                 this.title.innerText = "Thêm đề";
                 this.action = "add";
                 this.hideList();
-                setTimeout(e => {
-                    this.form.id.focus();
-                }, 300);
+                setTimeout(e => this.form.id.focus(), 300);
             },
 
             async editProblem(id) {
@@ -1871,12 +1871,30 @@ core = {
                 this.form.name.value = data.name;
                 this.form.point.value = data.point;
                 this.form.time.value = data.time;
-                this.form.inptype.value = data.type.inp;
-                this.form.outtype.value = data.type.out;
+                this.form.inpType.value = data.type.inp;
+                this.form.outType.value = data.type.out;
                 this.form.accept.value = data.accept.join("|");
                 this.form.image.value = null;
                 this.form.desc.value = data.description;
                 this.form.attachment.value = null;
+
+                if (data.image) {
+                    this.form.deleteImage.disabled = false;
+                    this.form.deleteImage.onclick = async () => {
+                        if (await this.deleteFile("image", data.id))
+                            this.form.deleteImage.disabled = true;
+                    }
+                } else
+                    this.form.deleteImage.disabled = true;
+
+                if (data.attachment && data.attachment.file) {
+                    this.form.deleteAttachment.disabled = false;
+                    this.form.deleteAttachment.onclick = async () => {
+                        if (await this.deleteFile("attachment", data.id, data.attachment.file))
+                            this.form.deleteAttachment.disabled = true;
+                    }
+                } else
+                    this.form.deleteAttachment.disabled = true;
 
                 var html = "";
                 data.test.forEach(item => {
@@ -1891,9 +1909,7 @@ core = {
                 this.form.testList.innerHTML = html;
                 
                 this.hideList();
-                setTimeout(e => {
-                    this.form.name.focus();
-                }, 300);
+                setTimeout(e => this.form.name.focus(), 300);
             },
 
             async remProblem(id) {
@@ -1950,8 +1966,8 @@ core = {
                 data.name = this.form.name.value;
                 data.point = this.form.point.value;
                 data.time = this.form.time.value;
-                data.inptype = this.form.inptype.value;
-                data.outtype = this.form.outtype.value;
+                data.inpType = this.form.inpType.value;
+                data.outType = this.form.outType.value;
                 data.accept = this.form.accept.value.split("|");
                 data.image = (this.form.image.files.length !== 0) ? this.form.image.files[0] : null;
                 data.desc = this.form.desc.value;
@@ -2000,8 +2016,8 @@ core = {
                         name: data.name,
                         point: data.point,
                         time: data.time,
-                        inptype: data.inptype,
-                        outtype: data.outtype,
+                        inpType: data.inpType,
+                        outType: data.outType,
                         acpt: JSON.stringify(data.accept),
                         img: data.image,
                         desc: data.desc,
@@ -2010,6 +2026,54 @@ core = {
                         token: API_TOKEN
                     }
                 });
+            },
+
+            async deleteFile(type, id, fileName = null) {
+                if (!["image", "attachment"].includes(type))
+                    return false;
+
+                typeName = { image: "Ảnh Đính Kèm", attachment: "Tệp Đính Kèm" }[type]
+
+                clog("WARN", "Preparing to delete", typeName, "of", {
+                    color: flatc("yellow"),
+                    text: `${id}.`
+                }, "Waiting for confirmation...");
+
+                let action = await core.dialog.show({
+                    panelTitle: "Xác nhận",
+                    title: `Xóa ${typeName} của đề "${id}"`,
+                    description: `Bạn có chắc muốn xóa ${fileName ? `<br><b>${fileName}</b>` : "không"}?<br>Hành động này không thể hoàn tác một khi đã thực hiện!`,
+                    level: "warn",
+                    buttonList: {
+                        delete: { color: "pink", text: "XÓA!!!" },
+                        cancel: { color: "dark", text: "Hủy" }
+                    }
+                })
+
+                if (action !== "delete") {
+                    clog("INFO", "Cancelled deletion", typeName, "of", {
+                        color: flatc("yellow"),
+                        text: id
+                    })
+
+                    return false;
+                }
+
+                await myajax({
+                    url: `/api/contest/problems/${type}`,
+                    method: "DELETE",
+                    header: {
+                        id: id,
+                        token: API_TOKEN
+                    }
+                })
+
+                clog("OKAY", "Deleted", typeName, "of", {
+                    color: flatc("yellow"),
+                    text: id
+                })
+
+                return true;
             }
         }
     },

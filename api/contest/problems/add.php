@@ -31,12 +31,12 @@
     if (!is_numeric($point))
         stop(3, "Loại biến không khớp! Yêu cầu form point là number", 400);
     $point = (float)$point;
-    $time = getform("time", 1);
+    $time = getForm("time", 1);
     if (!is_numeric($time))
         stop(3, "Loại biến không khớp! Yêu cầu form time là number", 400);
     $time = (float)$time;
-    $inptype = getform("inptype", "Bàn Phím");
-    $outtype = getform("outtype", "Màn Hình");
+    $inpType = getForm("inpType", "Bàn Phím");
+    $outType = getForm("outType", "Màn Hình");
     $accept = isset($_POST["acpt"]) ? json_decode($_POST["acpt"], true) : Array("pas", "cpp", "c", "pp", "exe", "class", "py", "java");
     $image = isset($_FILES["img"]) ? $_FILES["img"] : null;
     $attachment = isset($_FILES["attm"]) ? $_FILES["attm"] : null;
@@ -48,8 +48,8 @@
         "point" => $point,
         "time" => $time,
         "type" => Array(
-            "inp" => $inptype,
-            "out" => $outtype
+            "inp" => $inpType,
+            "out" => $outType
         ),
         "accept" => $accept,
         "description" => $description,
@@ -59,18 +59,18 @@
     switch ($code) {
         case PROBLEM_OKAY:
             writeLog("OKAY", "Đã thêm đề \"$id\"");
-            stop(0, "Success!", 200);
+            stop(0, "Thêm đề thành công!", 200, Array( "id" => $id ));
             break;
         case PROBLEM_ERROR_IDREJECT:
-            stop(45, "Đã có đề với id này!", 400);
+            stop(45, "Đã có đề với id này!", 404, Array( "id" => $id ));
             break;
         case PROBLEM_ERROR_FILEREJECT:
-            stop(43, "Không chấp nhận loại tệp!", 400);
+            stop(43, "Không chấp nhận loại tệp!", 400, Array( "id" => $id, "allow" => PROBLEM_IMAGE_ALLOW ));
             break;
         case PROBLEM_ERROR_FILETOOLARGE:
-            stop(42, "Tệp quá lớn!", 400);
+            stop(42, "Tệp quá lớn!", 400, Array( "id" => $id, "image" => PROBLEM_IMAGE_MAX, "attachment" => PROBLEM_ATTACHMENT_MAX ));
             break;
         case PROBLEM_ERROR:
-            stop(-1, "Lỗi không rõ.", 500);
+            stop(-1, "Lỗi không rõ.", 500, Array( "id" => $id ));
             break;
     }

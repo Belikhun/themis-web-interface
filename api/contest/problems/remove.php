@@ -30,12 +30,12 @@
     switch ($code) {
         case PROBLEM_OKAY:
             writeLog("WARN", "Đã xóa đề \"$id\"");
-            stop(0, "Success!", 200);
+            stop(0, "Xóa đề thành công!", 200, Array( "id" => $id ));
             break;
         case PROBLEM_ERROR_IDREJECT:
-            stop(45, "Không tìm thấy đề của id đã cho!", 404);
+            stop(45, "Không tìm thấy đề của id đã cho!", 404, Array( "id" => $id ));
             break;
         case PROBLEM_ERROR:
-            stop(-1, "Lỗi không rõ.", 500);
+            stop(-1, "Lỗi không rõ.", 500, Array( "id" => $id ));
             break;
     }

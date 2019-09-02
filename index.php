@@ -525,12 +525,12 @@
                                         <label for="problemEdit_time" class="formlabel">Thời gian chạy</label>
                                     </div>
                                     <div class="formgroup blue">
-                                        <input id="problemEdit_inptype" type="text" class="formfield sound" placeholder="Dữ liệu vào" value="Bàn Phím" data-soundselectsoft required>
-                                        <label for="problemEdit_inptype" class="formlabel">Dữ liệu vào</label>
+                                        <input id="problemEdit_inpType" type="text" class="formfield sound" placeholder="Dữ liệu vào" value="Bàn Phím" data-soundselectsoft required>
+                                        <label for="problemEdit_inpType" class="formlabel">Dữ liệu vào</label>
                                     </div>
                                     <div class="formgroup blue">
-                                        <input id="problemEdit_outtype" type="text" class="formfield sound" placeholder="Dữ liệu ra" value="Màn Hình" data-soundselectsoft required>
-                                        <label for="problemEdit_outtype" class="formlabel">Dữ liệu ra</label>
+                                        <input id="problemEdit_outType" type="text" class="formfield sound" placeholder="Dữ liệu ra" value="Màn Hình" data-soundselectsoft required>
+                                        <label for="problemEdit_outType" class="formlabel">Dữ liệu ra</label>
                                     </div>
                                     <div class="formgroup blue">
                                         <input id="problemEdit_accept" type="text" class="formfield sound" placeholder="Đuôi tệp" value="pas|py|cpp|java" data-soundselectsoft required>
@@ -538,16 +538,18 @@
                                     </div>
                                     <div class="formgroup blue">
                                         <input id="problemEdit_image" type="file" class="formfield sound" accept="image/*" placeholder="Ảnh" data-soundselectsoft>
-                                        <label for="problemEdit_image" class="formlabel">Ảnh (không yêu cầu)</label>
+                                        <label for="problemEdit_image" class="formlabel">Ảnh đính kèm (tùy chọn)</label>
                                     </div>
+                                    <button class="sq-btn pink" id="problemEdit_deleteImage" type="button">Xóa ảnh đính kèm hiện tại</button>
                                     <div class="formgroup blue">
                                         <textarea id="problemEdit_desc" class="formfield sound" placeholder="Nội dung" data-soundselectsoft required></textarea>
                                         <label for="problemEdit_desc" class="formlabel">Nội dung</label>
                                     </div>
                                     <div class="formgroup blue">
-                                        <input id="problemEdit_attachment" type="file" class="formfield sound" placeholder="Tệp tin" data-soundselectsoft>
-                                        <label for="problemEdit_attachment" class="formlabel">Tệp đính kèm (không yêu cầu)</label>
+                                        <input id="problemEdit_attachment" type="file" class="formfield sound" placeholder="Tệp đính kèm" data-soundselectsoft>
+                                        <label for="problemEdit_attachment" class="formlabel">Tệp đính kèm (tùy chọn)</label>
                                     </div>
+                                    <button class="sq-btn pink" id="problemEdit_deleteAttachment" type="button">Xóa tệp đính kèm hiện tại</button>
                                     <div class="test-container sound" data-soundhoversoft data-soundselectsoft>
                                         <t class="test">Test ví dụ</t>
                                         <div class="test-list" id="problemEdit_test_list"></div>

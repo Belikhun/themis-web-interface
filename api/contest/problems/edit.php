@@ -26,13 +26,13 @@
 
     $id = preg_replace("/[.\/\\\\]/m", "", reqForm("id"));
 
-    $name = getform("name");
-    $description = getform("desc");
-    $point = getform("point");
+    $name = getForm("name");
+    $description = getForm("desc");
+    $point = getForm("point");
     if (isset($point) && !is_numeric($point))
         $point = null;
-    $accept = json_decode(getform("acpt", Array()), true);
-    $test = json_decode(getform("test", Array()), true);
+    $accept = json_decode(getForm("acpt", Array()), true);
+    $test = json_decode(getForm("test", Array()), true);
     $image = isset($_FILES["img"]) ? $_FILES["img"] : null;
     $attachment = isset($_FILES["attm"]) ? $_FILES["attm"] : null;
 
@@ -47,18 +47,18 @@
     switch ($code) {
         case PROBLEM_OKAY:
             writeLog("OKAY", "Đã chỉnh sửa đề \"$id\"");
-            stop(0, "Success!", 200);
+            stop(0, "Chỉnh sửa đề thành công!", 200, Array( "id" => $id ));
             break;
         case PROBLEM_ERROR_IDREJECT:
-            stop(45, "Không tìm thấy đề của id đã cho!", 404);
+            stop(45, "Không tìm thấy đề của id đã cho!", 404, Array( "id" => $id ));
             break;
         case PROBLEM_ERROR_FILEREJECT:
-            stop(43, "Không chấp nhận loại tệp!", 400);
+            stop(43, "Không chấp nhận loại tệp!", 400, Array( "id" => $id, "allow" => PROBLEM_IMAGE_ALLOW ));
             break;
         case PROBLEM_ERROR_FILETOOLARGE:
-            stop(42, "Tệp quá lớn!", 400);
+            stop(42, "Tệp quá lớn!", 400, Array( "id" => $id, "image" => PROBLEM_IMAGE_MAX, "attachment" => PROBLEM_ATTACHMENT_MAX ));
             break;
         case PROBLEM_ERROR:
-            stop(-1, "Lỗi không rõ.", 500);
+            stop(-1, "Lỗi không rõ.", 500, Array( "id" => $id ));
             break;
     }

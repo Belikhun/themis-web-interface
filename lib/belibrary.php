@@ -38,13 +38,13 @@
      * Kiểm tra token trong session với token được gửi trong form
      */
     function checkToken(string $token = null) {
-        $sauce = $token || isset($_POST["token"]) ? $_POST["token"] : null;
+        $sauce = $token ?: getHeader("token") ?: (isset($_POST["token"]) ? $_POST["token"] : null);
 
         if (empty($sauce))
             stop(4, "Token please!", 400);
 
         if ($sauce !== $_SESSION["api_token"])
-            stop(5, "Wrong token!", 403);
+            stop(5, "Wrong token!", 403, Array( "token" => $sauce ));
     }
 
     function getStringBetween($str, $left, $right) {
@@ -66,12 +66,26 @@
             return trim($_GET[$key]);
     }
 
-    function getform(string $key, $isnul = null) {
+    function reqHeader(string $key) {
+        $headers = getallheaders();
+
+        if (!isset($headers[$key]))
+            stop(1, "Undefined header: ". $key, 400);
+        else
+            return trim($headers[$key]);
+    }
+
+    function getForm(string $key, $isnul = null) {
         return isset($_POST[$key]) ? trim($_POST[$key]) : $isnul;
     }
 
-    function getquery(string $key, $isnul = null) {
+    function getQuery(string $key, $isnul = null) {
         return isset($_GET[$key]) ? trim($_GET[$key]) : $isnul;
+    }
+
+    function getHeader(string $key, $isnul = null) {
+        $headers = getallheaders();
+        return isset($headers[$key]) ? trim($headers[$key]) : $isnul;
     }
 
     /**

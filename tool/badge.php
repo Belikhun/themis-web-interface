@@ -9,10 +9,10 @@
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/badge.php";
 
-    $style = getquery("s", "for-the-badge");
-    $subject = getquery("su", "badge generator by");
-    $status = getquery("st", "Belikhun");
-    $color = getquery("c", "brightgreen");
+    $style = getQuery("s", "for-the-badge");
+    $subject = getQuery("su", "badge generator by");
+    $status = getQuery("st", "Belikhun");
+    $color = getQuery("c", "brightgreen");
     
     print createBadge(Array(
         "style" => $style,
