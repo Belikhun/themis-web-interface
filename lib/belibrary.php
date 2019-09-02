@@ -37,10 +37,13 @@
     /**
      * Kiểm tra token trong session với token được gửi trong form
      */
-    function checkToken() {
-        if (!isset($_POST["token"]))
+    function checkToken(string $token = null) {
+        $sauce = $token || isset($_POST["token"]) ? $_POST["token"] : null;
+
+        if (empty($sauce))
             stop(4, "Token please!", 400);
-        if ($_POST["token"] !== $_SESSION["api_token"])
+
+        if ($sauce !== $_SESSION["api_token"])
             stop(5, "Wrong token!", 403);
     }
 
