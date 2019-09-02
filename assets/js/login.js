@@ -82,7 +82,7 @@ login = {
         this.form.username.input.disabled = true;
         this.form.username.submit.disabled = true;
         this.form.password.avatar.onload = () => this.showPassInp(val);
-        this.form.password.avatar.src = "/api/avatar/get?u=" + val;
+        this.form.password.avatar.src = "/api/avatar?u=" + val;
     },
 
     async showPassInp(username) {

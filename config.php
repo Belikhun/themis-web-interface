@@ -231,9 +231,9 @@
         const API_TOKEN = `<?php print isset($_SESSION["api_token"]) ? $_SESSION["api_token"] : null; ?>`;
         const USERNAME = `<?php print $_SESSION["username"]; ?>`;
     </script>
-    <script src="data/js/belibrary.js"></script>
-    <script src="data/js/statusbar.js"></script>
-    <script src="data/js/config.js"></script>
+    <script src="assets/js/belibrary.js"></script>
+    <script src="assets/js/statusbar.js"></script>
+    <script src="assets/js/config.js"></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124598427-1"></script>

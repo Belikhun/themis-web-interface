@@ -1,6 +1,6 @@
 <?php
     //? |-----------------------------------------------------------------------------------------------|
-    //? |  /api/avatar/get.php                                                                             |
+    //? |  /data/avatar/get.php                                                                         |
     //? |                                                                                               |
     //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
@@ -11,7 +11,9 @@
     require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php"; define("STOP_OUTPUT", "errorpage");
     header("Cache-Control: no-cache, no-store, must-revalidate", true);
     
-    function showimg(string $path) {
+    chdir(__DIR__);
+    
+    function showAvatar(string $path) {
         contentType(pathinfo($path, PATHINFO_EXTENSION))
             ?: contentType("jpg");
             
@@ -21,13 +23,13 @@
     }
 
     if (!isset($_GET["u"]) || empty($_GET["u"]))
-        showimg("avt.default");
+        showAvatar("avt.default");
 
     $username = preg_replace("/[.\/\\\\]/m", "", trim($_GET["u"]));
     $files = glob($username .".{jpg,png,gif,webp}", GLOB_BRACE);
 
     if (count($files) > 0)
-        showimg($files[0]);
+        showAvatar($files[0]);
     else
-        showimg("avt.default");
+        showAvatar("avt.default");
 ?>

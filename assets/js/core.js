@@ -467,7 +467,7 @@ core = {
                     <td>${rank}</td>
                     <td>
                         <div class="lazyload avt">
-                            <img onload="this.parentNode.dataset.loaded = 1" src="/api/avatar/get?u=${i.username}"/>
+                            <img onload="this.parentNode.dataset.loaded = 1" src="/api/avatar?u=${i.username}"/>
                             <div class="simple-spinner"></div>
                         </div>
                     </td>
@@ -566,7 +566,7 @@ core = {
                             <span class="right">
                                 <span class="submitter">
                                     <div class="lazyload avatar">
-                                        <img onload="this.parentNode.dataset.loaded = 1" src="/api/avatar/get?u=${data.header.user}"/>
+                                        <img onload="this.parentNode.dataset.loaded = 1" src="/api/avatar?u=${data.header.user}"/>
                                         <div class="simple-spinner"></div>
                                     </div>
                                     <span class="info">
@@ -1496,12 +1496,20 @@ core = {
             this.sub.reTypePass.value = null;
         },
 
-        reload(data, m = 0) {
-            core.fetchRank(true);
-            if (m === 0)
-                this.uavt.src = this.avt.src = data.src;
-            else
-                this.uname.innerText = this.name.innerText = data;
+        reload(data, reload) {
+            switch (reload) {
+                case "avatar":
+                    core.fetchRank(true);
+                    this.uavt.src = this.avt.src = `${data.src}&t=${time()}`;
+                    break;
+            
+                case "name":
+                    this.uname.innerText = this.name.innerText = data.name;
+                    break;
+
+                default:
+                    break;
+            }
         },
         
         async changeName(name) {
@@ -1514,11 +1522,11 @@ core = {
                 }
             }, data => {
                 this.reset();
-                this.reload(data.name, 1);
+                this.reload(data, "name");
                 clog("okay", "Đã đổi tên thành", {
                     color: flatc("pink"),
                     text: name
-                })
+                });
             }, () => this.reset());
         },
 
@@ -1553,7 +1561,7 @@ core = {
 
         async avtUpload(file) {
             await myajax({
-                url: "/api/avatar/change",
+                url: "/api/avatar",
                 method: "POST",
                 form: {
                     token: API_TOKEN,
@@ -1561,7 +1569,7 @@ core = {
                 }
             }, data => {
                 this.reset();
-                this.reload(data);
+                this.reload(data, "avatar");
                 clog("okay", "Avatar changed.");
             }, () => this.reset());
         },

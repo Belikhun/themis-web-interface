@@ -1,6 +1,6 @@
 <?php
     //? |-----------------------------------------------------------------------------------------------|
-    //? |  /api/avatar/change.php                                                                          |
+    //? |  /data/avatar/change.php                                                                      |
     //? |                                                                                               |
     //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
@@ -40,16 +40,20 @@
     if ($_FILES["file"]["error"] > 0)
         stop(-1, "Lỗi không rõ!", 500);
 
-    $imagePath = $_SERVER["DOCUMENT_ROOT"] ."/api/avatar/". $_SESSION["username"];
+    $imagePath = $_SERVER["DOCUMENT_ROOT"] ."/data/avatar/". $_SESSION["username"];
     $oldFiles = glob($imagePath .".{jpg,png,gif,webp}", GLOB_BRACE);
+
+    // Find old avatar files and remove them
     if (count($oldFiles) > 0)
         foreach ($oldFiles as $oldFile) {
             $ext = pathinfo($oldFile, PATHINFO_EXTENSION);
             unlink($imagePath .".". $ext);
         }
 
+    // Move new avatar
     move_uploaded_file($_FILES["file"]["tmp_name"], $imagePath .".". $extension);
+
     stop(0, "Thay đổi ảnh đại diện thành công.", 200, Array(
-        "src" => "/api/avatar/get?u=". $_SESSION["username"] ."&t=". time()
+        "src" => "/api/avatar?u=". $_SESSION["username"]
     ));
 ?>

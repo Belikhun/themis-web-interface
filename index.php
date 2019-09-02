@@ -198,7 +198,7 @@
                             <?php print htmlspecialchars($name); ?>
                         </li>
                     </ul>
-                    <img id="user_avt" class="avatar" src="/api/avatar/get?u=<?php print $username; ?>" />
+                    <img id="user_avt" class="avatar" src="/api/avatar?u=<?php print $username; ?>" />
                 <?php } ?>
                 <span class="hamburger">
                     <span></span>
@@ -242,7 +242,7 @@
                         <div class="item avatar sound" data-soundhoversoft>
                             <input id="usett_avtinp" type="file">
                             <label for="usett_avtinp" class="avatar sound" data-soundhover data-soundselect title="Nhấn hoặc thả ảnh vào đây để thay đổi ảnh đại diện">
-                                <img id="usett_avt" class="avatar" src="<?php print $loggedin ? "/api/avatar/get?u=".$username : ""; ?>" />
+                                <img id="usett_avt" class="avatar" src="<?php print $loggedin ? '/api/avatar?u='. $username : ''; ?>" />
                                 <div id="usett_avtw" class="wrapper">
                                     <i class="pencil"></i>
                                     <i class="drag"></i>

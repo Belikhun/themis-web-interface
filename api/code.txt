@@ -8,6 +8,7 @@
 04  missing token
 05  wrong token
 06  error
+07  unknown request method
 
 // 1x: account
 11  not logged in
