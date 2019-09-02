@@ -12,16 +12,14 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 [![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface.svg?style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface)
 [![codefactor](https://www.codefactor.io/repository/github/belivipro9x99/themis-web-interface/badge/master?style=for-the-badge)](https://www.codefactor.io/repository/github/belivipro9x99/themis-web-interface)
 
+[![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface/master.svg?label=master&style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface)
+[![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface/indev.svg?label=indev&style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface)
+
 </div>
 
 ---
 
 **Themis Web Interface** là một dự án mã nguồn mở, phi lợi nhuận với mục đích chính nhằm biến việc quản lí và tổ chức các buổi học lập trình, ôn tập và tổ chức kì thi trở nên dễ dàng hơn.
-
-| 🌿     |                                                                                          Travis CI Status                                                                                           |
-|:-------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| master |    [![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface/master.svg?label=master&style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface)     |
-| indev | [![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface/indev.svg?label=indev&style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface) |
 
 - [Demo](#demo)
 - [Yêu cầu](#yêu-cầu)
@@ -36,11 +34,11 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 
 ### Tài khoản:
 
-| id    | username | password |
-|:------|:---------|:---------|
-| admin | admin    | admin    |
-| 1     | user1    | 123456   |
-| 2     | user2    | 123456   |
+| id    | Tên tài khoản | Mật khẩu |
+|:------|:--------------|:---------|
+| admin | admin         | admin    |
+| 1     | user1         | 123456   |
+| 2     | user2         | 123456   |
 
 * Lưu ý:
 	- Chức năng thay đổi mật khẩu và thay đổi thư mục upload đã tắt.
@@ -240,23 +238,43 @@ Toàn bộ **Tài liệu** đều có ở trong [Wiki:API](https://github.com/be
 
 ## Screenshot
 
-<p align="center"><img src="https://lh3.googleusercontent.com/hwayDiWGzXbgufohz2bY7bPkuwV5G87peF_8F6nNM3wyXFxep4_z0riHqzOPKB4gwsvWhCFtIxEjLkkMvAn-X8zCj5Uv3A9Dc5Sh3ZVNFylCgGlpAvXjFX4twrKmnRY9oRkioHkjbQ=w2400"></p>
+<img align="center" src="https://lh3.googleusercontent.com/i58BLfjKqxE3GzHk_GsV7dK91au1nmESyHEMS-77jvfNsRV8LYIrDgBc7p0fPCENHYJcgan3PRpgwMieSp0lS-V7oIr4q7GrpqUYWZ4YS3xPmhY3CZsppZ85YZB-1L2gSlHv3D4oLg=w2400">
 
-<p align="center"><img src="https://lh3.googleusercontent.com/ji5o8WyPb3_QrWNbJO8rMDM2SNxRr8ta9QnpGAMD5tiKYf28lQ6fvtbRfS06rElMBW2DwLTw-AwQKyIj_BCodlXPeXG0UoWG7_sDFnxijxg3QoxKELFlo7xfel1Wn4ESR-PSHNDjIQ=w2400"></p>
+&nbsp;
 
-<p align="center"><img src="https://lh3.googleusercontent.com/UGaJOI_NQuFkzxbGKbOM18UEvzfioakd1SNHfc-VsbOzIVH_a2EMUUxN1LbtSZkmRiITuJklnmaw2J_Me-mMr8Hn3OTd92LBDn3pBjHs24UDbTnEseb6_VLGU60FwPLdHu0QOQgrUQ=w2400"></p>
+<img align="center" src="https://lh3.googleusercontent.com/u11TlfbNthAIXYJYmJ0vG2kLA-sn77OdGv8JY320NhSRN6NoUWXsC5zre_8h0ne6rH5WfkuYHVD29_j0yqxYdT5LsXsdNbVX228rw1YJppJeTUHx4niPZZWi5GZ_PmXUDSuOx2JaSg=w2400">
 
-<p align="center"><img  src="https://lh3.googleusercontent.com/ay2242TlEQqIJJ8m7Oy_E8R4QeOEo9US_im_4sfjhIoIll3CtTbIvPAG5mnwZZNRqFXWCmWIa9zuSMITrvTPIyn2wVLhpTcbH75g-KLRLA3vrEZZLYGTGDALlLPNbeGi58_TTUpxdg=w2400"></p>
+&nbsp;
 
-<p align="center"><img  src="https://lh3.googleusercontent.com/JoE-vCwvcYzK1RfENe1x6A3U2o8IAvet6W23ZPNerY2LWw7ZC1ch4Ahsm8s5PFSupWnyMmRpf9QIJ1v-MEu7fXh_0CjGo0BpLxOZtE4eerVkACU3nvJ6j1TLqPE-FAuocqsQ5c6yow=w2400"></p>
+<img align="center" src="https://lh3.googleusercontent.com/-QyIRr8r75K7wGrsWAtVLuL4J5p_EFMcCJMxVuGzG0sKAXT8CEa02Cyo0ZjXg46hYVAkCyiSCo5gbI70ZBMMrP_WX50xX3XUbThXmnh9wIiuNneXWOoVadlBvviadoTNkMKslhmVdg=w2400">
 
-<p align="center"><img  src="https://lh3.googleusercontent.com/mkP4cd5RY7rlNZks9pESf93_pnbDmtkpXHTDXQ8TtYIc0SjZy-2-PRYM8vNdNSB4ArPS7TB3-U6LIScCEg6cuzlGGXDFPnV-yZ4ECSoEUzzYjr9zl-Ldmnzt9Sv9c3Um82ocV59KoA=w2400"></p>
+&nbsp;
 
-<p align="center"><img  src="https://lh3.googleusercontent.com/uz8FEL_1nHxlKR9SVRpGDt-dx1OhQgrkh5h5FfV-bo-DtCbHbPNq61E4AAKknBAMHVGGUGQhjffiPgNqspXGlTqjlMIovER5HMQSF-C7qIPGDTH3-SG4dE9sC2q70M04uWle2QOsOw=w2400"></p>
+<img align="center" src="https://lh3.googleusercontent.com/FpHbNNwY2mou4Cm9TYSlsMKbRiUsiLvYXB9I1uspyop8GLxk7bRhh7Iq_mKa3Ye7T7yCcqOfD5MdX1dTnkO3qEqyQVh4arDV-I4puViiBhwORGZQ78QwNhsnskmEfvh4Y4lU4YFo-Q=w2400">
 
-<p align="center"><img  src="https://lh3.googleusercontent.com/e9BAF8x4psILmn652KnqITIA_XdcxqAZf7SpxVXHrLU5r-PIwK-nWVj-zv8FNQeyBLHbm4nYUVznBRNra0G-JCKdACZ0l8abcc2BcZbhzK0az7Z6ZjraCRpwd7zfPPdNMANBqxunAg=w2400"></p>
+&nbsp;
 
-<p align="center"><img  src="https://lh3.googleusercontent.com/RLZyPc2nO5aXcP2-YVzA960DQVbgY7jOE_HkI4xy6edJRHK43YXsVbU7q6Xwt6179ic9gdkQidRr56r4V_yc6LvPZcqME831d2-8IFlgfBaKblEe8Uu-NoKAiSTx1p75qW_RsMR93w=w2400"></p>
+<img align="center" src="https://lh3.googleusercontent.com/O3jjQfD1lEsI2-hu7-5FEFT4UPhO42Khjy7cbWZnL2z707iwlXSpBh2VYEPsHaUezXDnNVJ_Pb_xtcuO4sS3DYRy_CFMYK4Kjgv-AHPTmHMZMsYW1tyi120D8SBZPxzzr9WSjpx0xg=w2400">
+
+&nbsp;
+
+<img align="center" src="https://lh3.googleusercontent.com/v0nd5lzhCm8pZMw2Ns7fHVZkl9D1ieZ4KY81N5T9DEPpt0kP-55J4o4BeQ2qmEdzPErwoa5aeuuKiGrv54Qgm1ip8oSw02I4_I-P-scGs_zxgk6YIhxUj0Y1-Gp_cBxFalURNGEBMA=w2400">
+
+&nbsp;
+
+<img align="center" src="https://lh3.googleusercontent.com/Az8ER-LmrouxuTb3mWzkChB53oK9sl1wiIdmucZ1g479xHILWj6xX8sN3bZU_qQlS3Svevev92xVjP0dEXl-pqeCY6IDGcIJJCGKUO_b83M0uJKv2sSbp8ms8MNTCZk8G-1fLLB3rQ=w2400">
+
+&nbsp;
+
+<img align="center" src="https://lh3.googleusercontent.com/OGJe6x66voA-4Lv6odYV0xwEPPOquAhI6IQvM-AyjG-vjDmLsT5Dn0g4SCeN46M4MK6eytT9w2iOQapU3Gp8YcRGtwbM3BFTwun2VUjD5SMeLdHIn6MTMVlaoDH_Zn5i3W6y9oxihQ=w2400">
+
+&nbsp;
+
+<img align="center" src="https://lh3.googleusercontent.com/noFEb3kFJGlosm5-LDsgbkfKaTpQ3cRP2RsgzvpTlFpGIlH7yE11prYLn3jC_fjmOX8Lwk5ZnBPGZQhvnG7CPgGdQIc_zSZr1LIiT69KPMItw3mC_LKPGnE_A5-HF47B-43PrpGp7A=w2400">
+
+&nbsp;
+
+<img align="center" src="https://lh3.googleusercontent.com/VR_H_0ixqmQ69mIqTLVCwOH29hePvEnvyor0oWRB1Yz7aio-ovf-61WrJ2Nd9qZqqGxoqQ6gZ9WO62112bwHTzNvnhPPIOhU8RoNWAMq71cr7E4zHd8XA1UzPgNenu6hQQmjV99xPg=w2400">
 
 ## Contribution
 
