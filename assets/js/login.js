@@ -44,6 +44,8 @@ login = {
     },
 
     async submit() {
+        let data = {}
+
         this.form.password.input.disabled = true;
         this.form.password.submit.disabled = true;
 
@@ -51,14 +53,16 @@ login = {
         await delayAsync(500);
         
         try {
-            var res = await myajax({
-                "url": "/api/login",
-                "method": "POST",
-                "form": {
-                    "u": this.form.username.input.value,
-                    "p": this.form.password.input.value
+            let response = await myajax({
+                url: "/api/login",
+                method: "POST",
+                form: {
+                    u: this.form.username.input.value,
+                    p: this.form.password.input.value
                 }
             })
+
+            data = response.data;
         } catch(e) {
             if (e.data.code === 14)
                 this.reset(true);
@@ -69,7 +73,8 @@ login = {
             return false;
         }
 
-        window.location.href = res.redirect;
+        gtag("event", "login");
+        window.location.href = data.redirect;
     },
 
     checkUsername() {

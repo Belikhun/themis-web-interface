@@ -66,7 +66,9 @@ function update() {
     myajax({
         url: "/api/config",
         method: "GET",
-    }, data => {
+    }, response => {
+        let data = response.data;
+
         contest.name.value = data.contest.name;
         contest.desc.value = data.contest.description;
         uploadDir.value = data.uploadDir;

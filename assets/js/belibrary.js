@@ -21,7 +21,6 @@ function myajax({
     type = "json",
     onUpload = () => {},
     onDownload = () => {},
-    rawData = false,
     force = false,
     changeState = true,
     reRequest = true,
@@ -119,18 +118,11 @@ function myajax({
                             await __connection__.stateChange("ratelimited", res);
 
                             // Resend previous ajax request
-                            let r = await myajax({
-                                url: url,
-                                method: method,
-                                query: query,
-                                form: form,
-                                type: type,
-                                onUpload: onUpload,
-                                onDownload: onDownload,
-                                rawData: rawData,
-                            }, callout, error).catch(d => {
-                                reject(d);
-                            })
+                            let r = await myajax(arguments[0], arguments[1], arguments[2])
+                                .catch(d => {
+                                    reject(d);
+                                    return;
+                                })
                             // Resolve promise
                             resolve(r);
 
@@ -144,11 +136,7 @@ function myajax({
                         }
                     }
 
-                    if (!rawData)
-                        res.data.__proto__.getHash = () => res.hash || null;
-
-                    data = rawData ? res : res.data;
-                    rawData = res;
+                    data = res;
                 } else {
                     if (this.status !== 200) {
                         clog("errr", {
@@ -170,11 +158,10 @@ function myajax({
                     }
 
                     data = this.responseText;
-                    rawData = null;
                 }
 
-                callout(data, rawData);
-                resolve(data, rawData);
+                callout(data);
+                resolve(data);
             }
         })
         

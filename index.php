@@ -20,12 +20,12 @@
     define("LAN_ADDR", getHostByName(getHostName()));
     define("WAN_ADDR", $wArr);
 
-    $loggedin = false;
+    $loggedIn = false;
     $username = null;
     $userdata = null;
     $name = null;
     $id = null;
-    $sessdata = Array(
+    $sessionData = Array(
         "SERVER_SOFTWARE" => $_SERVER["SERVER_SOFTWARE"],
         "SERVER_ADDR" => $_SERVER["SERVER_ADDR"],
         "SERVER_PROTOCOL" => $_SERVER["SERVER_PROTOCOL"],
@@ -36,8 +36,8 @@
 
     if (isLogedIn()) {
         require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
-        $loggedin = true;
-        $sessdata["username"] = $username = $_SESSION["username"];
+        $loggedIn = true;
+        $sessionData["username"] = $username = $_SESSION["username"];
         $userdata = getUserData($username);
         $name = $userdata["name"];
         $id = $userdata["id"];
@@ -97,7 +97,7 @@
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome.css" />
     </head>
 
-    <body class="<?php print ($loggedin ? ($id === 'admin' ? 'admin' : 'user') : 'guest'); ?>">
+    <body class="<?php print ($loggedIn ? ($id === 'admin' ? 'admin' : 'user') : 'guest'); ?>">
 
         <!-- Init Library and Splash First -->
         <script src="/assets/js/belibrary.js" type="text/javascript"></script>
@@ -123,7 +123,12 @@
                     versiontag: window.serverStatus.versionTag,
                     contestname: window.serverStatus.contestName,
                     platform: (navigator) ? navigator.platform : null,
-                    darkmode: cookie.get("__darkMode")
+                    darkmode: cookie.get("__darkMode"),
+
+                    event_category: "load",
+                    event_label: "scriptInitialized",
+                    send_to: "default",
+                    event_callback: () => clog("INFO", "Analytics data sent!")
                 });
             }
 
@@ -189,7 +194,7 @@
                 </ul>
             </span>
             <span id="usett_toggler" class="rnav">
-                <?php if ($loggedin) { ?>
+                <?php if ($loggedIn) { ?>
                     <ul class="info">
                         <li class="tag text-overflow">
                             <?php print $username ."#". $id; ?>
@@ -226,7 +231,7 @@
                         <div id="settings_publicFilesToggler" class="item arr sound" data-soundhover>Các tệp công khai</div>
                     </div>
 
-                    <?php if (!$loggedin) { ?>
+                    <?php if (!$loggedIn) { ?>
                         <div class="group user">
                             <t class="title">Đăng Nhập</t>
                             <div class="item form">
@@ -242,7 +247,7 @@
                         <div class="item avatar sound" data-soundhoversoft>
                             <input id="usett_avtinp" type="file">
                             <label for="usett_avtinp" class="avatar sound" data-soundhover data-soundselect title="Nhấn hoặc thả ảnh vào đây để thay đổi ảnh đại diện">
-                                <img id="usett_avt" class="avatar" src="<?php print $loggedin ? '/api/avatar?u='. $username : ''; ?>" />
+                                <img id="usett_avt" class="avatar" src="<?php print $loggedIn ? '/api/avatar?u='. $username : ''; ?>" />
                                 <div id="usett_avtw" class="wrapper">
                                     <i class="pencil"></i>
                                     <i class="drag"></i>
@@ -818,9 +823,9 @@
         <!-- Session Data -->
         <script>
             const IS_ADMIN = `<?php print ($id === "admin" ? "true" : "false"); ?>` === "true";
-            const LOGGED_IN = `<?php print ($loggedin === true ? "true" : "false"); ?>` === "true";
+            const LOGGED_IN = `<?php print ($loggedIn === true ? "true" : "false"); ?>` === "true";
             const API_TOKEN = `<?php print isset($_SESSION["api_token"]) ? $_SESSION["api_token"] : null; ?>`;
-            const SESSION = <?php print json_encode($sessdata); ?>
+            const SESSION = <?php print json_encode($sessionData); ?>
         </script>
 
         <script src="/assets/js/statusbar.js" type="text/javascript"></script>
@@ -857,11 +862,12 @@
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124598427-1"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
+            function gtag() { dataLayer.push(arguments) }
             gtag("js", new Date());
 
             gtag("config", "UA-124598427-1", {
-                "custom_map": {
+                groups: "default",
+                custom_map: {
                     dimension1: "version",
                     dimension2: "hostname",
                     dimension3: "versiontag",

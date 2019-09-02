@@ -225,7 +225,7 @@ core = {
     },
 
     async getServerStatusAsync() {
-        const data = await myajax({
+        const response = await myajax({
             url: "/api/status",
             method: "GET",
         }).catch(e => {
@@ -235,7 +235,7 @@ core = {
             });
         });
 
-        window.serverStatus = data;
+        window.serverStatus = response.data;
     },
 
     async checkUpdateAsync(showMsgs = false) {
@@ -244,7 +244,7 @@ core = {
 
         // Parse local version data
         var tl = window.serverStatus.version.split(".");
-        let data = {};
+        let data = {}
 
         const localVer = {
             v: parseInt(tl[0])*100 + parseInt(tl[1])*10 + parseInt(tl[2]),
@@ -256,13 +256,14 @@ core = {
         $("#about_localVersion").innerText = tls;
 
         try {
-            data = await myajax({
+            let response = await myajax({
                 url: "https://api.github.com/repos/belivipro9x99/themis-web-interface/releases/latest",
                 method: "GET",
-                rawData: true,
                 changeState: false,
                 reRequest: false
             });
+
+            data = response;
         } catch (error) {
             clog("WARN", "Error Checking for update:", {
                 text: typeof error.data === "undefined" ? error.description : error.data.description,
@@ -320,12 +321,13 @@ core = {
     },
 
     async fetchLog(bypass = false, clearJudging = false) {
-        let data = await myajax({
+        let response = await myajax({
             url: "/api/contest/logs",
             method: clearJudging ? "DELETE" : "GET",
         });
 
-        let hash = data.getHash();
+        let data = response.data;
+        let hash = response.hash;
         if (hash === this.previousLogHash && !bypass)
             return false;
 
@@ -411,12 +413,13 @@ core = {
     },
 
     async fetchRank(bypass = false) {
-        let data = await myajax({
+        let response = await myajax({
             url: "/api/contest/rank",
             method: "GET",
         });
 
-        let hash = data.getHash();
+        let data = response.data;
+        let hash = response.hash;
         if (hash === this.previousRankHash && !bypass)
             return false;
 
@@ -500,7 +503,7 @@ core = {
             text: file
         });
 
-        var data = await myajax({
+        let response = await myajax({
             url: "/api/contest/viewlog",
             method: "GET",
             query: {
@@ -508,6 +511,7 @@ core = {
             }
         });
 
+        let data = response.data;
         let logLine = [];
         if (data.header.error.length !== 0)
             for (let line of data.header.error)
@@ -718,11 +722,11 @@ core = {
                         this.percent.innerText = `${p.toFixed(0)}%`;
                         this.bar.style.width = `${p}%`;
                     }
-                }, (data, res) => {
-                    if ([103, 104].includes(res.code)) {
+                }, (response) => {
+                    if ([103, 104].includes(response.code)) {
                         clog("errr", "Upload Stopped:", {
                             color: flatc("red"),
-                            text: res.description
+                            text: response.description
                         });
 
                         this.uploading = false;
@@ -806,12 +810,15 @@ core = {
         },
 
         async getList() {
-            var data = Array();
+            let data = {}
+
             try {
-                data = await myajax({
+                let response = await myajax({
                     url: "/api/contest/problems/list",
                     method: "GET"
                 });
+
+                data = response.data;
             } catch(e) {
                 if (e.data.code === 103) {
                     clog("WARN", "Kì thi chưa bắt đầu");
@@ -857,11 +864,14 @@ core = {
             });
 
             this.panel.title = "Đang tải...";
-            var data = await myajax({
+
+            let response = await myajax({
                 url: "/api/contest/problems/get",
                 method: "GET",
                 query: { id: id }
             });
+
+            let data = response.data;
             this.data = data;
 
             if (this.viewInDialog) {
@@ -1044,10 +1054,12 @@ core = {
         },
 
         async fetchTime(init = false) {
-            var data = await myajax({
+            let response = await myajax({
                 url: "/api/contest/timer",
                 method: "GET",
             });
+
+            let data = response.data;
 
             if (data.during <= 0) {
                 $("#timep").classList.remove("show");
@@ -1520,12 +1532,13 @@ core = {
                     n: name,
                     token: API_TOKEN
                 }
-            }, data => {
+            }, response => {
                 this.reset();
-                this.reload(data, "name");
+                this.reload(response.data, "name");
+
                 clog("okay", "Đã đổi tên thành", {
                     color: flatc("pink"),
-                    text: name
+                    text: response.data.name
                 });
             }, () => this.reset());
         },
@@ -1567,9 +1580,10 @@ core = {
                     token: API_TOKEN,
                     file: file
                 }
-            }, data => {
+            }, response => {
                 this.reset();
-                this.reload(data, "avatar");
+                this.reload(response.data, "avatar");
+
                 clog("okay", "Avatar changed.");
             }, () => this.reset());
         },
@@ -1654,7 +1668,7 @@ core = {
             },
 
             async refresh(clearLogs = false) {
-                const data = await myajax({
+                let response = await myajax({
                     url: "/api/logs",
                     method: "POST",
                     form: {
@@ -1663,7 +1677,8 @@ core = {
                     }
                 });
 
-                let hash = data.getHash();
+                let data = response.data;
+                let hash = response.hash;
                 if (hash === this.prevHash)
                     return;
 
@@ -1775,11 +1790,12 @@ core = {
             },
 
             async getList() {
-                var data = await myajax({
+                let response = await myajax({
                     url: "/api/contest/problems/list",
                     method: "GET"
                 });
 
+                let data = response.data;
                 this.list.innerHTML = "";
                 data.forEach(item => {
                     html = [
@@ -1825,7 +1841,7 @@ core = {
             },
 
             async editProblem(id) {
-                var data = await myajax({
+                let response = await myajax({
                     url: "/api/contest/problems/get",
                     method: "GET",
                     query: {
@@ -1833,6 +1849,7 @@ core = {
                     }
                 });
 
+                let data = response.data;
                 clog("info", "Editing problem", {
                     color: flatc("yellow"),
                     text: id
@@ -1894,7 +1911,7 @@ core = {
                         color: flatc("yellow"),
                         text: id + "."
                     });
-                    return;
+                    return false;
                 }
 
                 core.sound.confirm(1);
