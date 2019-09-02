@@ -7,9 +7,9 @@
     //? |-----------------------------------------------------------------------------------------------|
 
 
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ecatch.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ecatch.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
     header("Cache-Control: max-age=0, must-revalidate", true);
 
     //? Try to get server WAN address
@@ -35,7 +35,7 @@
     );
 
     if (isLogedIn()) {
-        require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
+        require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
         $loggedIn = true;
         $sessionData["username"] = $username = $_SESSION["username"];
         $userdata = getUserData($username);

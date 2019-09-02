@@ -7,11 +7,11 @@
     //? |-----------------------------------------------------------------------------------------------|
 
     // Include config file
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logs.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/api_ecatch.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logs.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
 
     if (!isLogedIn())
         stop(11, "Bạn chưa đăng nhập!", 403);
@@ -30,7 +30,7 @@
             stop(16, "Tên người dùng không được vượt quá 34 kí tự", 400);
     }
 
-    require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
     $userdata = getUserData($username);
 
     if (isset($_POST["p"])) {

@@ -7,10 +7,10 @@
     //? |-----------------------------------------------------------------------------------------------|
 
     // Include config file
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/api_ecatch.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
 
     if (!isLogedIn())
         stop(11, "Bạn chưa đăng nhập!", 403);

@@ -7,17 +7,17 @@
     //? |-----------------------------------------------------------------------------------------------|
 
     // Include config file
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logs.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/api_ecatch.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logs.php";
 
     if (isLogedIn())
         stop(12, "Đã đăng nhập bằng username: ". $_SESSION["username"], 403);
     
     $username = reqForm("u");
     $password = reqForm("p");
-    require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
 
     $res = simpleLogin($username, $password);
     if ($res === LOGIN_SUCCESS) {

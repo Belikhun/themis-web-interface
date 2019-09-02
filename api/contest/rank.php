@@ -6,10 +6,10 @@
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/api_ecatch.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
 
     if ($config["publish"] !== true || $config["viewRank"] !== true)
         stop(0, "Thành công!", 200, Array(
@@ -17,8 +17,8 @@
             "rank" => Array()
         ));
 
-    require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logParser.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logParser.php";
 
     $logDir = glob($config["logDir"] ."/*.log");
     $res = Array();

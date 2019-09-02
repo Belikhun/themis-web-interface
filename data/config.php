@@ -6,9 +6,9 @@
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
-	require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
-	require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
-	require_once $_SERVER["DOCUMENT_ROOT"]."/data/info.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/info.php";
 
 	// get and parse config data from config file
 	$config = json_decode((new fip($_SERVER["DOCUMENT_ROOT"] ."/data/config.json")) -> read(), true);

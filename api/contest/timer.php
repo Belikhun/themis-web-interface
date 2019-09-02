@@ -6,10 +6,10 @@
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
-	require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
-	require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/api_ecatch.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
 
 	if ($config["time"]["during"] <= 0)
 		stop(101, "Not in Contest mode.", 200, Array(

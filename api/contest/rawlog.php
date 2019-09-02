@@ -6,10 +6,10 @@
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ecatch.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php"; define("STOP_OUTPUT", "errorpage");
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ecatch.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php"; define("STOP_OUTPUT", "errorpage");
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
 
     if ($config["viewLog"] === false)
         stop(23, "Xem nhật ký đã bị tắt!", 403);
