@@ -55,19 +55,26 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 <div align="left">
 
 ### Tất cả mọi thứ, trong một trang
-#### Không cần phải mệt nhọc di chuyển qua lại các trang, toàn bộ mọi thứ đều nằm gọn gàng trong một trang chính duy nhất!
+
+---
+
+Không cần phải mệt nhọc di chuyển qua lại các trang, toàn bộ mọi thứ đều **nằm gọn gàng trong một trang chính duy nhất**!
 
 </div>
 
-<br><br><br><br><br><br><br>
+<br><br><br><br><br><br>
 
 <img align="left" src="https://lh3.googleusercontent.com/D28g6keHMrLT3LaVEtTTkURv8pBDfZZWTc8pXo2YwsYxpKx154uVWf7uxSIvStJzA75l7nIVhilnRYm-S9aER2EzhgWrdvtjLrb1UbLrt2UoUsOPKbXhC-kn0vON2T2gj-cQxe_wuA=w2400" width="500px">
 
 <div align="right">
 
 ### Nộp bài với thao tác kéo-thả!
-#### Nộp một hoặc nhiều bài làm cùng lúc bằng một động tác kéo-thả đơn giản!
-#### Thả bài làm của bạn vào cửa sổ nộp bài và Themis Web Interface sẽ gửi bài của bạn lên máy chấm, tự động!
+
+---
+
+Nộp *một* hoặc *nhiều bài* làm cùng lúc bằng một động tác **kéo-thả** đơn giản!
+
+Thả bài làm của bạn vào cửa sổ nộp bài và *Themis Web Interface* sẽ gửi bài của bạn lên máy chấm, **tự động**!
 
 </div>
 
@@ -78,19 +85,26 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 <div align="left">
 
 ### Xem đề bài trực tiếp
-#### Mệt mỏi vì phải tải và mở đề? Máy bạn không thể mở tệp đề? Giờ bạn có thể xem đề bài trực tiếp trên Themis Web Interface!
+
+---
+
+Mệt mỏi vì phải tải và mở đề? Máy bạn không thể mở tệp đề? Giờ bạn có thể xem đề bài trực tiếp trên *Themis Web Interface*!
 
 </div>
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br>
 
 <img align="left" src="https://lh3.googleusercontent.com/r5kVh5niYdF58ybGHeyKp-2OxJfdUPoK5L4JeHf83R95GsRC4C7cC6lGm1kIuQvzHPozkp1V9QFCIYcaG1LLy2Q1xaz_M8ILPhnIRNmDzTFUlcCcSzhKwhE3eVrZrHfvImGL0KGYCw=w2400" width="500px">
 
 <div align="right">
 
 ### Chế độ kỳ thi
-#### Thời gian được tính đến hàng thập phân thứ sáu! Đảm bảo tính chính xác khi kì thi diễn ra.
-#### Không có dữ liệu nào liên quan đến đề bài bị lộ trước kì thi
+
+---
+
+Thời gian được tính đến **hàng thập phân thứ sáu**! Đảm bảo tính *chính xác* khi kì thi diễn ra.
+
+Không có dữ liệu nào liên quan đến đề bài bị lộ trước kì thi
 
 </div>
 
@@ -101,76 +115,100 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 <div align="left">
 
 ### Bảng xếp hạng rõ ràng
-#### Được thiết kế đơn giản và rõ ràng! Thứ hạng của các thí sinh đều được cập nhật tự động và sắp xếp minh bạch, toàn bộ các bài làm đều được tô màu tương ứng với kết quả chấm. Và còn có thể xem kết quả chấm của thí sinh khác nữa!</h3>
+
+---
+
+Được thiết kế **đơn giản** và **rõ ràng**! Thứ hạng của các thí sinh đều được cập nhật **tự động** và sắp xếp **minh bạch**, toàn bộ các bài làm đều được **tô màu tương ứng với kết quả chấm**. Và còn có thể xem kết quả chấm của thí sinh khác nữa!</h3>
 
 </div>
 
-<br><br><br><br><br>
+<br><br><br><br>
 
 <img align="left" src="https://lh3.googleusercontent.com/FX1NU0aNhcQYKJqof-0vf-Lqm38NkeL8n7jnyTyZCM_kMA5hnHysNN3vjwjDXtU0_lOyayl4NAMcW-KlbQShhbOPiPr4SO0zXS3Fu4uzpHuYrKQmYVzeMzBBjbZWHMBr3PPswhKiNQ=w2400" width="600px">
 
 <div align="right">
 
 ### Xem thông tin kết quả chấm đầy đủ
-#### Các thông tin được hiển thị chi tiết, dễ đọc
+
+---
+
+Không còn phải đau mắt nhìn từng dòng của tệp nhật ký nữa! *Themis Web Interface* hiển thị toàn bộ thông tin của tệp nhật ký dưới dạng **Dao diện người dùng** dễ đọc và đầy đủ.
 
 </div>
 
-<br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
 
 <img align="right" src="https://lh3.googleusercontent.com/DSl1HyD7NQzv08x3zk_VZWVNkJllXGD5oQ7YwoXYOXE2ZwCcIB4JNZNRIeQPbxKt6bXCZYjHX3btkrkgblLEt-kAGrLQHnJfZU6-SXSV-OClwpM1cDCHJFCZcqgivXOkw67SpnL5VA=w2400" width="500px">
 
 <div align="left">
 
 ### Danh sách nhật ký chi tiết
-#### Hiển thị 5 chi tiết quan trọng của mỗi bài: tên bài, ngôn ngữ, tình trạng, thời gian nộp và điểm!
-#### Tên bài được tô màu tương ứng với trạng thái của bài.
+
+---
+
+Hiển thị 5 chi tiết quan trọng của mỗi bài: **tên bài**, **ngôn ngữ**, **tình trạng**, **thời gian nộp** và **điểm**!
+
+Tên bài được **tô màu tương ứng với trạng thái của bài**.
 
 </div>
 
-<br><br><br><br>
+<br><br><br>
 
 <img align="left" src="https://lh3.googleusercontent.com/ghYC3u13Qg_RL79Ec9DsLBuIJSVUUyRGMU-mytRx225QKgp4dukd7c7Vt-TojF65GkEMsWeyYUCJt3kgKMsOib_1flYsQ_LQhfQ7N4LIZ6rB_xAlitQWW_oUPsS309wRW_qYCoymiA=w2400" width="500px">
 
 <div align="right">
 
 ### Tải các tệp công khai
-#### Danh sách các tệp đính kèm và tệp công khai đều nằm gọn trong một trang, dễ dàng tìm kiếm và tải về bất kỳ tệp với một click đơn giản!
+
+---
+
+Danh sách các *tệp đính kèm* và *tệp công khai* đều **nằm gọn trong một trang**, dễ dàng tìm kiếm và tải về bất kỳ tệp với một *click* đơn giản!
 
 </div>
 
-<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br>
 
 <img align="right" src="https://lh3.googleusercontent.com/RSidBy9TJHb-qKmqlH9PB_JvRfb6Cq98ZWOATbAR4x0QFkbvyY4fVq5FsXgj0H7iUeFYom2p9mo0TJjPtSmLpui1EAHGRn0WLzviL7abfNrD7uXkBi8bM8VNRjXdFjgqhdiXGtw4Og=w2400" width="500px">
 
 <div align="left">
 
 ### Bảng cài đặt dành cho <b>Admin</b></h1>
-#### Thay đổi cách hệ thống vận hành một cách đơn giản! Không còn cần phải chỉnh sửa tệp *config* mỗi khi muốn thay đổi cài đặt của hệ thống. Chỉ với 2 click là bạn đã tới trang cài đặt cho admin với toàn bộ cài đặt mà bạn có thể tìm thấy!
+
+---
+
+Thay đổi cách hệ thống vận hành một cách **đơn giản**! Không còn cần phải chỉnh sửa tệp *config* mỗi khi muốn thay đổi cài đặt của hệ thống. Chỉ với *2 click* là bạn đã tới trang cài đặt cho admin với toàn bộ cài đặt mà bạn có thể tìm thấy!
 
 </div>
 
-<br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br>
 
 <img align="left" src="https://lh3.googleusercontent.com/zqEm3eNuA6U12TflorfHmnfmGy8eLA3w1E0lpDCZA-qRHqYbp1eNWzpa9_Dn_QfDJsjpEN5Um1VPSYfN8nOc00JLzhpSGkFy7WLZrlR_nV7mLN3xx7vI3DO_KG3a0DIfSsRUvEl_WQ=w2400" width="500px">
 
 <div align="right">
 
 ### Tạo và chỉnh sửa đề bài trên trang
-#### Dễ dàng tạo, chỉnh sửa và xóa các đề bài khi bạn muốn!
-#### Tạo đề bài đơn giản với nhiều thông tin đa dạng như: Tiêu đề, loại tệp, điểm, Nội dung, Các test, ... Còn cả Ảnh đính kèm và Tệp đính kèm nữa!
-#### Nội dung đề bài cho phép sử dụng mã `HTML` để định dạng giúp bạn dễ dàng định dạng đề bài y như trong **Office Word**!
+
+---
+
+Dễ dàng **tạo**, **chỉnh sửa** và **xóa** các đề bài khi bạn muốn!
+
+Tạo đề bài đơn giản với nhiều thông tin đa dạng như: **Tiêu đề**, **Loại tệp**, **điểm**, **Nội dung**, **Các test**, ... Còn có cả **Ảnh đính kèm** và **Tệp đính kèm** nữa!
+
+Nội dung đề bài cho phép sử dụng mã `HTML` để định dạng giúp bạn dễ dàng định dạng đề bài y như trong **Office Word**!
 
 </div>
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 <img align="right" src="https://lh3.googleusercontent.com/Gi5UPsMQoC8wV-c_7612ngjyGkQNxItLUZO7aZAWvfPuAkCJEwSWm943gF02VC00NhQITGrPdUDblUyt1NhT00gbqfa5O1irce3E-8Y_3hK_Qbq4BjXnqua0bq1qZSRWgCCY8GOCAg=w2400" width="500px">
 
 <div align="left">
 
-### Tốc độ xử lí của API lên đến **bàn thờ**!
-#### Tốc độ xử lí chỉ trung bình là **0.015 giây**! Đảm bảo tính chính xác và tốc độ phản hồi.
+### Tốc độ xử lí của API lên đến "bàn thờ"!
+
+---
+
+Tốc độ xử lí trung bình của *API* là **0.015 giây**! Đảm bảo tính độ **chính xác** và **tốc độ phản hồi** cao.
 
 </div>
 
@@ -179,7 +217,10 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 <div align="center">
 
 ### Chủ đề sáng/tối
-#### Mỏi mắt vì màu quá sáng? Thử dùng chế độ tối xem!
+
+---
+
+Mỏi mắt vì màu quá sáng? Thử dùng chế độ **tối** xem!
 
 </div>
 
