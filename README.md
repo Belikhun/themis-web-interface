@@ -55,7 +55,7 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 <div align="left">
 
 ### Tất cả mọi thứ, trong một trang
-#### Không cần phải mệt nhọc di chuyển qua lại các trang, toàn bộ các chức năng đều nằm gọn gàng trong một trang duy nhất!
+#### Không cần phải mệt nhọc di chuyển qua lại các trang, toàn bộ mọi thứ đều nằm gọn gàng trong một trang chính duy nhất!
 
 </div>
 
@@ -90,7 +90,7 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 
 ### Chế độ kỳ thi
 #### Thời gian được tính đến hàng thập phân thứ sáu! Đảm bảo tính chính xác khi kì thi diễn ra.
-#### Không có dữ liệu nào liên quan đến đề bài bị lộ trước khi kì thi diễn ra
+#### Không có dữ liệu nào liên quan đến đề bài bị lộ trước kì thi
 
 </div>
 
@@ -135,7 +135,7 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 <div align="right">
 
 ### Tải các tệp công khai
-#### Các tệp đính kèm và tệp công khai đều nằm gọn trong một trang, dễ dàng tìm kiếm và tải về bất kỳ tệp với một click đơn giản!
+#### Danh sách các tệp đính kèm và tệp công khai đều nằm gọn trong một trang, dễ dàng tìm kiếm và tải về bất kỳ tệp với một click đơn giản!
 
 </div>
 
@@ -146,7 +146,7 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 <div align="left">
 
 ### Bảng cài đặt dành cho <b>Admin</b></h1>
-#### Thay đổi cách hệ thống vận hành một cách đơn giản! Không còn cần phải chỉnh sửa tệp *config* mỗi khi muốn thay đổi cài đặt của hệ thống. Chỉ cần 2 click là bạn đã tới trang cài đặt cho admin với toàn bộ cài đặt mà bạn có thể tìm thấy!
+#### Thay đổi cách hệ thống vận hành một cách đơn giản! Không còn cần phải chỉnh sửa tệp *config* mỗi khi muốn thay đổi cài đặt của hệ thống. Chỉ với 2 click là bạn đã tới trang cài đặt cho admin với toàn bộ cài đặt mà bạn có thể tìm thấy!
 
 </div>
 
@@ -157,7 +157,9 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 <div align="right">
 
 ### Tạo và chỉnh sửa đề bài trên trang
-#### Tạo đề bài với nhiều thông tin đa dạng như: Tiêu đề, loại tệp, điểm, Nội dung, Các test, và cả Ảnh đính kèm và Tệp đính kèm nữa...!
+#### Dễ dàng tạo, chỉnh sửa và xóa các đề bài khi bạn muốn!
+#### Tạo đề bài đơn giản với nhiều thông tin đa dạng như: Tiêu đề, loại tệp, điểm, Nội dung, Các test, ... Còn cả Ảnh đính kèm và Tệp đính kèm nữa!
+#### Nội dung đề bài cho phép sử dụng mã `HTML` để định dạng giúp bạn dễ dàng định dạng đề bài y như trong **Office Word**!
 
 </div>
 
@@ -168,7 +170,7 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 <div align="left">
 
 ### Tốc độ xử lí của API lên đến **bàn thờ**!
-#### Tốc độ xử lí chỉ nằm trong khoảng 0.0001 đến 0.02 giây! Đảm bảo tính chính xác và tốc độ.
+#### Tốc độ xử lí chỉ trung bình là **0.015 giây**! Đảm bảo tính chính xác và tốc độ phản hồi.
 
 </div>
 
@@ -177,13 +179,12 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 <div align="center">
 
 ### Chủ đề sáng/tối
-#### Mỏi mắt vì màu quá sáng? Hãy thử dùng chế độ tối để bảo vệ mắt của bạn!
+#### Mỏi mắt vì màu quá sáng? Thử dùng chế độ tối xem!
 
 </div>
 
 <img align="center" width="100%" src="https://lh3.googleusercontent.com/THSC1TkSHY0zek7_JuOSKYRUAfGZV7U7mUkm75aqwDKX383jYERoUWJw59lCHJzlI2baMrj6dlpq8y2-F1YbRTNnEoIeotvfESW2rGdaMQgCkCt3j7d5UMBkp6CjQc2jCx_KdCYXzQ=w2400">
 	
-
 &nbsp;
 
 ## Cài đặt và hướng dẫn sử dụng
@@ -193,8 +194,6 @@ Tải về bản mới nhất tại: [releases list](https://github.com/belivipr
 Hướng dẫn cài đặt, sử dụng và nâng cấp hiện có trong [Wiki](https://github.com/belivipro9x99/themis-web-interface/wiki/installation-and-config) của dự án.
 
 ## API Document
-
-**API** giúp bạn có thể giao tiếp với hệ thống mà không cần phải sử dụng trang web nộp bài. Do đó bạn có thể viết một chương trình chạy phía client trong trường hợp trang web nộp bài không hoạt động.
 
 Toàn bộ **Tài liệu** đều có ở trong [Wiki:API](https://github.com/belivipro9x99/themis-web-interface-reloaded/wiki/Getting-Started-with-API) của dự án.
 
@@ -217,6 +216,8 @@ Toàn bộ **Tài liệu** đều có ở trong [Wiki:API](https://github.com/be
 <p align="center"><img  src="https://lh3.googleusercontent.com/e9BAF8x4psILmn652KnqITIA_XdcxqAZf7SpxVXHrLU5r-PIwK-nWVj-zv8FNQeyBLHbm4nYUVznBRNra0G-JCKdACZ0l8abcc2BcZbhzK0az7Z6ZjraCRpwd7zfPPdNMANBqxunAg=w2400"></p>
 
 <p align="center"><img  src="https://lh3.googleusercontent.com/RLZyPc2nO5aXcP2-YVzA960DQVbgY7jOE_HkI4xy6edJRHK43YXsVbU7q6Xwt6179ic9gdkQidRr56r4V_yc6LvPZcqME831d2-8IFlgfBaKblEe8Uu-NoKAiSTx1p75qW_RsMR93w=w2400"></p>
+
+## Contribution
 
 ## Contributor
 
