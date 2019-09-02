@@ -6,7 +6,7 @@
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
-    include_once $_SERVER["DOCUMENT_ROOT"] ."/lib/api_ecatch.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
 
     $dom = new DOMDocument();
     $dom -> load($_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.xml");

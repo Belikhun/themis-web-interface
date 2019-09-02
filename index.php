@@ -6,8 +6,9 @@
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
-
-    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ecatch.php";
+    // SET PAGE TYPE
+    define("PAGE_TYPE", "NORMAL");
+    
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
     header("Cache-Control: max-age=0, must-revalidate", true);
@@ -137,9 +138,10 @@
                     if (core.dialog.initialized) {
                         let errorDetail = document.createElement("ul");
                         let errorDetailHtml = "";
-                        
-                        errorDetailHtml = error.stack
-                            ? error.stack
+                        let stack = error.stack || error.data.stack || null
+
+                        errorDetailHtml = stack
+                            ? stack
                                 .split("\n")
                                 .map(i => `<li>${i}</li>`)
                                 .join("")

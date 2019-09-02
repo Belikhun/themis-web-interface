@@ -6,6 +6,8 @@
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
+    include_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logs.php";
+
     setlocale(LC_TIME, "vi_VN.UTF-8");
 
     if (session_status() === PHP_SESSION_NONE) {
@@ -192,7 +194,7 @@
         http_response_code($HTTPStatus);
 
         if (!defined("PAGE_TYPE"))
-            define("PAGE_TYPE", "normal");
+            define("PAGE_TYPE", "NORMAL");
 
         switch (strtoupper(PAGE_TYPE)) {
             case "NORMAL":
@@ -205,7 +207,9 @@
                 break;
             
             case "API":
-                header("Content-Type: application/json", true);
+                if (!headers_sent())
+                    header("Content-Type: application/json", true);
+                    
                 print(json_encode($output, JSON_PRETTY_PRINT));
                 
                 break;
@@ -334,12 +338,12 @@
     }
 
     function printErrorPage(Array $data, Bool $useIframe = false) {
+        $_SESSION["lastError"] = $data;
         print (($useIframe) ? "\" />" : "") . "<!-- Output Stopped here. Begin Error Page Element -->";
         
-        if ($useIframe) {
-            $_SESSION["lastError"] = $data;
+        if ($useIframe)
             print "<iframe src=\"/lib/error.php\" style=\"position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: unset; overflow: auto;\"></iframe>";
-        } else
+        else
             require $_SERVER["DOCUMENT_ROOT"]. "/lib/error.php";
     }
 
@@ -352,7 +356,9 @@
             "line" => $line,
         );
         
-        writeLog("ERRR", "[$code] $text tại ". basename($file) .":". $line);
+        if (function_exists("writeLog"))
+            writeLog("ERRR", "[$code] $text tại ". basename($file) .":". $line);
+
         stop(-1, "Error Occurred: ". $text, 500, $errorData);
     }
 

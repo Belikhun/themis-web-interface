@@ -63,6 +63,8 @@
         $t = time();
         $bt = debug_backtrace();
         $bt = isset($bt[1]) ? $bt[1] : $bt[0];
+        $file = isset($bt["file"]) ? $bt["file"] : "unknown";
+        $line = isset($bt["line"]) ? $bt["line"] : "unknown";
 
         // Get client data
         $username = $includeClientData ? $_SESSION["username"] : null;
@@ -73,7 +75,7 @@
             "unixtime" => $t,
             "time" => date("d/m/Y H:i:s", $t),
             "text" => $text,
-            "module" => pathinfo($bt["file"], PATHINFO_BASENAME) .":". $bt["line"],
+            "module" => pathinfo($file, PATHINFO_BASENAME) .":". $line,
             "client" => Array(
                 "username" => $username,
                 "ip" => $ip

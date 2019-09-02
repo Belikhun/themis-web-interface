@@ -5,8 +5,7 @@
     //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
-
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/api_ecatch.php";
+    
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
     
     define("PROBLEM_DIR", $_SERVER["DOCUMENT_ROOT"] ."/data/problems");

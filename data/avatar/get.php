@@ -6,8 +6,9 @@
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
-    // Include config file
-    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ecatch.php";
+    // SET PAGE TYPE
+    define("PAGE_TYPE", "NORMAL");
+
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php"; define("STOP_OUTPUT", "errorpage");
     header("Cache-Control: no-cache, no-store, must-revalidate", true);
     

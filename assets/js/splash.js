@@ -161,8 +161,8 @@ class splash {
     }
 
     async __panic(error, stop = true) {
-        let e = error.name || `${error.data.data.file}:${error.data.data.line}`;
-        let d = error.message || error.data.description;
+        let e = error.name || error.data.name || `${error.data.data.file}:${error.data.data.line}`;
+        let d = error.message || error.data.message || error.data.description || error.description;
 
         this.status.innerText = "Lỗi đã xảy ra";
         this.tree.middle.errorMsg.innerText = `${e} >>> ${d}`;

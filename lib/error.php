@@ -8,12 +8,7 @@
 
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logs.php";
-    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
-
-    if (isset($_GET["c"]) && is_numeric($_GET["c"])) {
-        http_response_code($_GET["c"]);
-        $_SERVER["REDIRECT_STATUS"] = $_GET["c"];
-    }
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/info.php";
 
     $sv = $_SERVER["SERVER_SOFTWARE"] . " + PHP/" . phpversion();
     $sv_ar = $_SERVER["SERVER_ADDR"];
@@ -22,6 +17,7 @@
     $uri = $_SERVER["REQUEST_URI"];
     $cl_ar = $_SERVER["REMOTE_ADDR"];
     $cl = $_SERVER["HTTP_USER_AGENT"];
+
     if (isset($_SERVER["REDIRECT_STATUS"]))
         $errCode = $_SERVER["REDIRECT_STATUS"];
     elseif (isset($_GET["code"]))

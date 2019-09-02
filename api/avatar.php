@@ -16,7 +16,8 @@
             require $_SERVER["DOCUMENT_ROOT"] ."/data/avatar/change.php";
         
         default:
-            require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/api_ecatch.php";
+            // SET PAGE TYPE
+            define("PAGE_TYPE", "NORMAL");
             require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
 
             stop(7, "Unknown request method: ". $requestMethod, 400, Array( "method" => $requestMethod ));
