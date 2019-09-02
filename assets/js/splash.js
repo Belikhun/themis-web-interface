@@ -87,11 +87,11 @@ class splash {
         // Footer
         this.tree.footer.icon.innerHTML = `
             <div class="lazyload chrome">
-                <img onload="this.parentNode.dataset.loaded = 1" src="/data/img/chrome-icon.webp"/>
+                <img onload="this.parentNode.dataset.loaded = 1" src="/assets/img/chrome-icon.webp"/>
                 <div class="simple-spinner"></div>
             </div>
             <div class="lazyload coccoc">
-                <img onload="this.parentNode.dataset.loaded = 1" src="/data/img/coccoc-icon.webp"/>
+                <img onload="this.parentNode.dataset.loaded = 1" src="/assets/img/coccoc-icon.webp"/>
                 <div class="simple-spinner"></div>
             </div>`
         this.tree.footer.text.innerText = "Trang web hoạt động tốt nhất trên trình duyệt chrome và coccoc.";

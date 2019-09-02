@@ -2159,7 +2159,7 @@ footer .header .logo {
     display: block;
     margin: auto;
     margin-bottom: 12px;
-    background-image: url("/data/img/icon.webp");
+    background-image: url("/assets/img/icon.webp");
     background-position: center;
     background-size: cover;
     border-radius: 50%;

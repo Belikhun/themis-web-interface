@@ -19,17 +19,17 @@
     <title>Cài đặt | <?php print APPNAME ." v". VERSION; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/default.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/statusbar.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/scrollbar.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/material-font.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/fontawesome.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/calibri.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/input.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/switch.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/menu.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/config.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/default.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/statusbar.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollbar.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/material-font.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/input.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/switch.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/menu.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/config.css" />
 </head>
 
 <body id="container">

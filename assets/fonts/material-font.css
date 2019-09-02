@@ -2,11 +2,11 @@
     font-family: "Material Icons";
     font-style: normal;
     font-weight: 400;
-    src: url(/data/fonts/MaterialIcons-Regular.ttf) format("truetype");
+    src: url(/assets/fonts/MaterialIcons-Regular.ttf) format("truetype");
     /* For IE6-8 */
     src: local("Material Icons"),
     local("MaterialIcons-Regular"),
-    url(/data/fonts/MaterialIcons-Regular.woff) format("woff"),
+    url(/assets/fonts/MaterialIcons-Regular.woff) format("woff"),
 }
 
 .material-icons {

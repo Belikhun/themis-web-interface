@@ -72,38 +72,38 @@
         <meta property="twitter:description" content="<?php print $stripedContestDescription; ?>">
 
         <!-- Load Library First -->
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/default.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/splash.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/progressbar.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/input.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/textview.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/table.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/switch.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/slider.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/navbar.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/usersetting.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/menu.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/spinner.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/statusbar.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/scrollbar.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/default.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/splash.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/progressbar.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/input.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/textview.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/table.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/switch.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/slider.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/navbar.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/usersetting.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/menu.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/spinner.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/statusbar.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollbar.css" />
         <!-- Page Style -->
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/core.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/dark.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/core.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/dark.css" />
         <!-- Fonts -->
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/calibri.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/material-font.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/consolas.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/fontawesome.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/material-font.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/consolas.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome.css" />
     </head>
 
     <body class="<?php print ($loggedin ? ($id === 'admin' ? 'admin' : 'user') : 'guest'); ?>">
 
         <!-- Init Library and Splash First -->
-        <script src="/data/js/belibrary.js" type="text/javascript"></script>
-        <script type="text/javascript" src="/data/js/splash.js"></script>
+        <script src="/assets/js/belibrary.js" type="text/javascript"></script>
+        <script type="text/javascript" src="/assets/js/splash.js"></script>
         <script type="text/javascript">
-            var mainSplash = new splash(document.body, `<?php print $config["contest"]["name"]; ?>`, `<?php print $stripedContestDescription; ?>`, "/data/img/icon.webp");
+            var mainSplash = new splash(document.body, `<?php print $config["contest"]["name"]; ?>`, `<?php print $stripedContestDescription; ?>`, "/assets/img/icon.webp");
 
             mainSplash.init = async set => {
                 set(0, "Initializing core.js");
@@ -178,7 +178,7 @@
 
         <div class="nav">
             <span class="lnav">
-                <img class="icon" src="/data/img/icon.webp" />
+                <img class="icon" src="/assets/img/icon.webp" />
                 <ul class="title">
                     <li class="main text-overflow">
                         <?php print $config["contest"]["name"]; ?>
@@ -823,7 +823,7 @@
             const SESSION = <?php print json_encode($sessdata); ?>
         </script>
 
-        <script src="/data/js/statusbar.js" type="text/javascript"></script>
+        <script src="/assets/js/statusbar.js" type="text/javascript"></script>
         <script type="text/javascript">
             const sbar = new statusbar(document.body);
             sbar.__item = new Array();
@@ -851,7 +851,7 @@
         </script>
 
         <!-- Core script -->
-        <script src="/data/js/core.js" type="text/javascript"></script>
+        <script src="/assets/js/core.js" type="text/javascript"></script>
         
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124598427-1"></script>

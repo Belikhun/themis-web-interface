@@ -17,13 +17,13 @@
     <title>License | <?php print APPNAME ." v". VERSION; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/default.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/scrollbar.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/material-font.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/fontawesome.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/calibri.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/menu.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/default.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollbar.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/material-font.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/menu.css" />
 
     <style>
         body {
@@ -102,7 +102,7 @@
 
         <div class="group file">
             <t class="title">Sounds</t>
-            <t class="title small">CC-BY-NC 4.0 (<a href="/data/sounds/LICENSE.md" target="_blank" rel="noopener">LICENSE.md</a>) (<a href="https://creativecommons.org/licenses/by-nc/4.0/legalcode" target="_blank" rel="noopener">tl;dr</a>)</t>
+            <t class="title small">CC-BY-NC 4.0 (<a href="/assets/sounds/LICENSE.md" target="_blank" rel="noopener">LICENSE.md</a>) (<a href="https://creativecommons.org/licenses/by-nc/4.0/legalcode" target="_blank" rel="noopener">tl;dr</a>)</t>
             <t class="title small">ppy Pty. Ltd</t>
 
             <div class="item lr info">
@@ -255,7 +255,7 @@ Creative Commons may be contacted at creativecommons.org
     </div>
 
     <!-- Library -->
-    <script type="text/javascript" src="/data/js/belibrary.js"></script>
+    <script type="text/javascript" src="/assets/js/belibrary.js"></script>
     <script type="text/javascript">
         if (cookie.get("__darkMode") === "true")
             document.body.classList.add("dark");

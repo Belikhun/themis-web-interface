@@ -1,5 +1,5 @@
 //? |-----------------------------------------------------------------------------------------------|
-//? |  /data/js/config.js                                                                           |
+//? |  /assets/js/config.js                                                                           |
 //? |                                                                                               |
 //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
@@ -206,14 +206,14 @@ sound = {
     },
 
     async loadSound() {
-        this.sounds.checkOff = await this.__loadSoundAsync(`/data/sounds/check-off.mp3`);
-        this.sounds.checkOn = await this.__loadSoundAsync(`/data/sounds/check-on.mp3`);
-        this.sounds.hover = await this.__loadSoundAsync(`/data/sounds/generic-hover.mp3`);
-        this.sounds.hoverSoft = await this.__loadSoundAsync(`/data/sounds/generic-hover-soft.mp3`);
-        this.sounds.select = await this.__loadSoundAsync(`/data/sounds/generic-select.mp3`);
-        this.sounds.selectSoft = await this.__loadSoundAsync(`/data/sounds/generic-select-soft.mp3`);
-        this.sounds.overlayPopIn = await this.__loadSoundAsync(`/data/sounds/overlay-pop-in.mp3`);
-        this.sounds.overlayPopOut = await this.__loadSoundAsync(`/data/sounds/overlay-pop-out.mp3`);
+        this.sounds.checkOff = await this.__loadSoundAsync(`/assets/sounds/check-off.mp3`);
+        this.sounds.checkOn = await this.__loadSoundAsync(`/assets/sounds/check-on.mp3`);
+        this.sounds.hover = await this.__loadSoundAsync(`/assets/sounds/generic-hover.mp3`);
+        this.sounds.hoverSoft = await this.__loadSoundAsync(`/assets/sounds/generic-hover-soft.mp3`);
+        this.sounds.select = await this.__loadSoundAsync(`/assets/sounds/generic-select.mp3`);
+        this.sounds.selectSoft = await this.__loadSoundAsync(`/assets/sounds/generic-select-soft.mp3`);
+        this.sounds.overlayPopIn = await this.__loadSoundAsync(`/assets/sounds/overlay-pop-in.mp3`);
+        this.sounds.overlayPopOut = await this.__loadSoundAsync(`/assets/sounds/overlay-pop-out.mp3`);
     },
 
     async __loadSoundAsync(url, volume = 0.1) {

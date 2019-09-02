@@ -22,15 +22,15 @@
 
         <title>Đăng nhập</title>
 
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/default.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/input.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/scrollbar.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/spinner.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/login.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/calibri.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/material-font.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/fontawesome.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/default.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/input.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollbar.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/spinner.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/login.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/material-font.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="https://fonts.googleapis.com/css?family=Open+Sans" />
 
     </head>
@@ -39,7 +39,7 @@
 
         <div class="left-panel">
             <div class="lazyload wallpaper">
-                <img onload="this.parentNode.dataset.loaded = 1" src="/data/img/login-bg.webp"/>
+                <img onload="this.parentNode.dataset.loaded = 1" src="/assets/img/login-bg.webp"/>
                 <div class="simple-spinner"></div>
             </div>
             <ul class="footer">
@@ -52,7 +52,7 @@
         <div class="right-panel">
             <div class="header">
                 <div class="lazyload icon">
-                    <img onload="this.parentNode.dataset.loaded = 1" src="/data/img/icon.webp"/>
+                    <img onload="this.parentNode.dataset.loaded = 1" src="/assets/img/icon.webp"/>
                     <div class="simple-spinner"></div>
                 </div>
                 <ul class="info">
@@ -98,8 +98,8 @@
             </div>
         </div>
 
-        <script src="/data/js/belibrary.js" type="text/javascript"></script>
-        <script src="/data/js/login.js" type="text/javascript"></script>
+        <script src="/assets/js/belibrary.js" type="text/javascript"></script>
+        <script src="/assets/js/login.js" type="text/javascript"></script>
 
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124598427-1"></script>

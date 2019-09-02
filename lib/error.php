@@ -64,7 +64,7 @@
         case 404:
             $error = "Not Found";
             $description = "Không thể tìm thấy <sy>$sv_hs$uri</sy> trên máy chủ.";
-            $errDetailSub = "thanos: <sg>*snap fingers*</sg><br>this page:<br>you:<br><img src=\"/data/img/pikachu.jpg\" width=\"20%\" style=\"margin-top: 6px\">";
+            $errDetailSub = "thanos: <sg>*snap fingers*</sg><br>this page:<br>you:<br><img src=\"/assets/img/pikachu.jpg\" width=\"20%\" style=\"margin-top: 6px\">";
             break;
         case 405:
             $error = "Method Not Allowed";
@@ -145,10 +145,10 @@
     <meta property="twitter:title" content="<?php print $error; ?>">
     <meta property="twitter:description" content="<?php print $description; ?>">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/error.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/scrollbar.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/calibri.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/error.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollbar.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri.css" />
 </head>
 
 <body>
@@ -185,7 +185,7 @@
     </div>
 
     <div class="footer">
-        <img src="/data/img/icon.webp" class="icon">
+        <img src="/assets/img/icon.webp" class="icon">
         <p><?php print APPNAME; ?>. Copyright (c) 2018-2019 Belikhun. This project is licensed under the MIT License.</p>
     </div>
 

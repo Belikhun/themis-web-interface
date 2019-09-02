@@ -1,5 +1,5 @@
 //? |-----------------------------------------------------------------------------------------------|
-//? |  /data/js/core.js                                                                             |
+//? |  /assets/js/core.js                                                                             |
 //? |                                                                                               |
 //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
@@ -2258,7 +2258,7 @@ core = {
             for (var i = 0; i < soundList.length; i++) {
                 const o = soundList[i];
                 set((i/(soundList.length - 1))*100, o.name);
-                this.sounds[o.key] = await this.__loadSoundAsync(`/data/sounds/${o.name}`);
+                this.sounds[o.key] = await this.__loadSoundAsync(`/assets/sounds/${o.name}`);
             }
         },
 
