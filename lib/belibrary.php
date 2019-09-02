@@ -191,22 +191,28 @@
         // Set the HTTP status code
         http_response_code($HTTPStatus);
 
-        // Determine response data method
-        // ? json or errorPage
-        if (!defined("STOP_OUTPUT"))
-            define("STOP_OUTPUT", "print");
+        if (!defined("PAGE_TYPE"))
+            define("PAGE_TYPE", "normal");
 
-        switch (STOP_OUTPUT) {
-            case "errorpage":
+        switch (strtoupper(PAGE_TYPE)) {
+            case "NORMAL":
+                if (!headers_sent())
+                    header("Output: [$code] $description");
+
                 if ($HTTPStatus >= 300 || $code !== 0)
-                    if (function_exists("printErrorPage"))
-                        printErrorPage($output, headers_sent());
-                    else print "<h1>Error $HTTPStatus</h1><p>$description</p>";
+                    printErrorPage($output, headers_sent());
+
                 break;
             
-            default:
+            case "API":
                 header("Content-Type: application/json", true);
                 print(json_encode($output, JSON_PRETTY_PRINT));
+                
+                break;
+
+            default:
+                print "<h1>Error $HTTPStatus</h1><p>$description</p>";
+
                 break;
         }
 
@@ -327,6 +333,32 @@
         }
     }
 
+    function printErrorPage(Array $data, Bool $useIframe = false) {
+        print (($useIframe) ? "\" />" : "") . "<!-- Output Stopped here. Begin Error Page Element -->";
+        
+        if ($useIframe) {
+            $_SESSION["lastError"] = $data;
+            print "<iframe src=\"/lib/error.php\" style=\"position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: unset; overflow: auto;\"></iframe>";
+        } else
+            require $_SERVER["DOCUMENT_ROOT"]. "/lib/error.php";
+    }
+
+    //! Error Handler
+    function errorHandler(Int $code, String $text, String $file, Int $line) {
+        $errorData = Array(
+            "code" => $code,
+            "description" => $text,
+            "file" => basename($file),
+            "line" => $line,
+        );
+        
+        writeLog("ERRR", "[$code] $text tại ". basename($file) .":". $line);
+        stop(-1, "Error Occurred: ". $text, 500, $errorData);
+    }
+
+    set_error_handler("errorHandler", E_ALL);
+
+    //? set start time
     if (!isset($runtime))
         $runtime = new stopClock();
 
