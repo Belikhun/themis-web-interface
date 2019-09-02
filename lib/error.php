@@ -145,9 +145,9 @@
     <meta property="twitter:title" content="<?php print $error; ?>">
     <meta property="twitter:description" content="<?php print $description; ?>">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/error.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollbar.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css//error.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css//scrollbar.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css//button.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri.css" />
 </head>
 

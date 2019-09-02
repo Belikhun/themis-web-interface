@@ -1,5 +1,5 @@
 //? |-----------------------------------------------------------------------------------------------|
-//? |  /assets/js/core.js                                                                             |
+//? |  /assets/js/core.js                                                                           |
 //? |                                                                                               |
 //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
@@ -734,6 +734,7 @@ core = {
                         this.state.innerText = res.description;
                         this.panel.title = "Nộp bài - Đã dừng.";
                         this.bar.classList.add("red");
+
                         return false;
                     }
 
@@ -756,6 +757,12 @@ core = {
                     this.state.innerText = e.data.description;
                     this.panel.title = "Nộp bài - Đã dừng.";
                     this.bar.dataset.color = "red";
+
+                    switch(e.data.code) {
+                        case 44:
+                            this.name.innerText = e.data.data.file;
+                            break;
+                    }
                 })
             }, this.uploadCoolDown / 2);
         },

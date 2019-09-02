@@ -146,7 +146,7 @@
             $maxImageSize = 2097153;
             $imageFile = utf8_encode(strtolower($image["name"]));
             $acceptExt = array("jpg", "png", "gif", "webp");
-            $extension = pathinfo($file, PATHINFO_EXTENSION);
+            $extension = pathinfo($imageFile, PATHINFO_EXTENSION);
 
             if (!in_array($extension, $acceptExt))
                 return PROBLEM_ERROR_FILEREJECT;
@@ -165,7 +165,7 @@
             $maxAttachmentSize = 268435456;
             $attachmentFile = utf8_encode(strtolower($attachment["name"]));
 
-            if ($attachment["size"] > $maxfilesize)
+            if ($attachment["size"] > $maxAttachmentSize)
                 return PROBLEM_ERROR_FILETOOLARGE;
 
             if ($attachment["error"] > 0)

@@ -43,12 +43,12 @@
     <title><?php print "Index of ". $clientPath ?> | <?php print APPNAME ." v". VERSION; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollbar.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css//scrollbar.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/material-font.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/menu.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css//button.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css//menu.css" />
 
     <style>
         body {
