@@ -44,7 +44,7 @@
     $userid = $_SESSION["id"];
     apache_setenv("no-gzip", "1");
 
-    $file = strtolower($_FILES["file"]["name"]);
+    $file = utf8_encode(strtolower($_FILES["file"]["name"]));
     $filename = pathinfo($file, PATHINFO_FILENAME);
     $acceptext = Array("pas", "cpp", "c", "pp", "exe", "class", "py", "java");
     $extension = pathinfo($file, PATHINFO_EXTENSION);

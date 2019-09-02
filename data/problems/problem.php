@@ -71,7 +71,7 @@
         return $data;
     }
 
-    function problemEdit(String $id, Array $set, Array $files = null, Array $attachments = null) {
+    function problemEdit(String $id, Array $set, Array $image = null, Array $attachment = null) {
         global $problemList;
 
         if (!isset($problemList[$id]))
@@ -80,46 +80,46 @@
         $data = $problemList[$id];
         $new = $data;
 
-        if (isset($files)) {
-            $maxfilesize = 2097153;
-            $file = strtolower($files["name"]);
-            $acceptext = array("jpg", "png", "gif", "webp");
-            $extension = pathinfo($file, PATHINFO_EXTENSION);
+        if (isset($image)) {
+            $maxImageSize = 2097153;
+            $imageFile = utf8_encode(strtolower($image["name"]));
+            $acceptExt = array("jpg", "png", "gif", "webp");
+            $extension = pathinfo($imageFile, PATHINFO_EXTENSION);
 
-            if (!in_array($extension, $acceptext))
+            if (!in_array($extension, $acceptExt))
                 return PROBLEM_ERROR_FILEREJECT;
 
-            if ($files["size"] > $maxfilesize)
+            if ($image["size"] > $maxImageSize)
                 return PROBLEM_ERROR_FILETOOLARGE;
 
-            if ($files["error"] > 0)
+            if ($image["error"] > 0)
                 return PROBLEM_ERROR;
 
             if (isset($problemList[$id]["image"]) && file_exists(PROBLEM_DIR ."/". $id ."/". $problemList[$id]["image"]))
                 unlink(PROBLEM_DIR ."/". $id ."/". $problemList[$id]["image"]);
 
-            move_uploaded_file($files["tmp_name"], PROBLEM_DIR ."/". $id ."/". $file);
+            move_uploaded_file($image["tmp_name"], PROBLEM_DIR ."/". $id ."/". $imageFile);
 
-            $new["image"] = $file;
+            $new["image"] = $imageFile;
         }
 
-        if (isset($attachments)) {
-            $maxfilesize = 268435456;
-            $attachment = strtolower($attachments["name"]);
-            $extension = pathinfo($attachment, PATHINFO_EXTENSION);
+        if (isset($attachment)) {
+            $maxAttachmentSize = 268435456;
+            $attachmentFile = utf8_encode(strtolower($attachment["name"]));
+            $extension = pathinfo($attachmentFile, PATHINFO_EXTENSION);
 
-            if ($attachments["size"] > $maxfilesize)
+            if ($attachment["size"] > $maxAttachmentSize)
                 return PROBLEM_ERROR_FILETOOLARGE;
 
-            if ($attachments["error"] > 0)
+            if ($attachment["error"] > 0)
                 return PROBLEM_ERROR;
 
             if (isset($problemList[$id]["attachment"]) && file_exists(PROBLEM_DIR ."/". $id ."/". $problemList[$id]["attachment"]))
                 unlink(PROBLEM_DIR ."/". $id ."/". $problemList[$id]["attachment"]);
 
-            move_uploaded_file($attachments["tmp_name"], PROBLEM_DIR ."/". $id ."/". $attachment);
+            move_uploaded_file($attachment["tmp_name"], PROBLEM_DIR ."/". $id ."/". $attachmentFile);
 
-            $new["attachment"] = $attachment;
+            $new["attachment"] = $attachmentFile;
         }
 
         $key = array_intersect_key($data, $set);
@@ -132,58 +132,57 @@
         return PROBLEM_OKAY;
     }
 
-    function problemAdd(String $id, Array $add, Array $files = null, Array $attachments = null) {
+    function problemAdd(String $id, Array $add, Array $image = null, Array $attachment = null) {
         global $problemList;
 
-        $moveFile = false;
+        $moveImage = false;
         $moveAttachment = false;
         if (isset($problemList[$id]))
             return PROBLEM_ERROR_IDREJECT;
 
         $problemList[$id] = $add;
 
-        if (isset($files)) {
-            $maxFileSize = 2097153;
-            $file = strtolower($files["name"]);
-            $acceptext = array("jpg", "png", "gif", "webp");
+        if (isset($image)) {
+            $maxImageSize = 2097153;
+            $imageFile = utf8_encode(strtolower($image["name"]));
+            $acceptExt = array("jpg", "png", "gif", "webp");
             $extension = pathinfo($file, PATHINFO_EXTENSION);
 
-            if (!in_array($extension, $acceptext))
+            if (!in_array($extension, $acceptExt))
                 return PROBLEM_ERROR_FILEREJECT;
 
-            if ($files["size"] > $maxFileSize)
+            if ($image["size"] > $maxImageSize)
                 return PROBLEM_ERROR_FILETOOLARGE;
 
-            if ($files["error"] > 0)
+            if ($image["error"] > 0)
                 return PROBLEM_ERROR;
 
-            $moveFile = true;
-            $problemList[$id]["image"] = $file;
+            $moveImage = true;
+            $problemList[$id]["image"] = $imageFile;
         }
 
-        if (isset($attachments)) {
-            $maxfilesize = 268435456;
-            $attachment = strtolower($attachments["name"]);
-            $extension = pathinfo($attachment, PATHINFO_EXTENSION);
+        if (isset($attachment)) {
+            $maxAttachmentSize = 268435456;
+            $attachmentFile = utf8_encode(strtolower($attachment["name"]));
 
-            if ($attachments["size"] > $maxfilesize)
+            if ($attachment["size"] > $maxfilesize)
                 return PROBLEM_ERROR_FILETOOLARGE;
 
-            if ($attachments["error"] > 0)
+            if ($attachment["error"] > 0)
                 return PROBLEM_ERROR;
 
             $moveAttachment = true;
-            $problemList[$id]["attachment"] = $attachment;
+            $problemList[$id]["attachment"] = $attachmentFile;
         }
 
         mkdir(PROBLEM_DIR. "/" .$id);
         (new fip(PROBLEM_DIR. "/" .$id. "/data.json")) -> write(json_encode($problemList[$id], JSON_PRETTY_PRINT));
 
-        if ($moveFile)
-            move_uploaded_file($files["tmp_name"], PROBLEM_DIR ."/". $id ."/". $file);
+        if ($moveImage)
+            move_uploaded_file($image["tmp_name"], PROBLEM_DIR ."/". $id ."/". $imageFile);
 
         if ($moveAttachment)
-            move_uploaded_file($attachments["tmp_name"], PROBLEM_DIR ."/". $id ."/". $attachment);
+            move_uploaded_file($attachment["tmp_name"], PROBLEM_DIR ."/". $id ."/". $attachmentFile);
 
         return PROBLEM_OKAY;
     }
@@ -202,7 +201,7 @@
 
         contenttype(pathinfo($i, PATHINFO_EXTENSION));
         header("Content-Length: ".filesize($f));
-        header("Content-disposition: attachment; filename=". pathinfo($i, PATHINFO_BASENAME)); 
+        header("Content-disposition: attachment; filename=". utf8_decode(pathinfo($i, PATHINFO_BASENAME))); 
         readfile($f);
         return PROBLEM_OKAY;
     }
