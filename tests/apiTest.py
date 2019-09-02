@@ -102,11 +102,11 @@ for item in GETApiWithTokenList:
 def __avatarAPITest():
     global sauce
 
-    result = testAPI("api/avatar/change", "POST", data = { "token": sauce }, files = { "file": open("api/admin.jpg", "rb") })
+    result = testAPI("api/avatar", "POST", data = { "token": sauce }, files = { "file": open("api/admin.jpg", "rb") })
     if (result is not True):
         return result
 
-    if (filecmp.cmp("../api/avatar/admin.jpg", "api/admin.jpg")):
+    if (filecmp.cmp("../data/avatar/admin.jpg", "api/admin.jpg")):
         return True
     else:
         return "FileNotMatch"
