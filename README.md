@@ -23,7 +23,7 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 
 - [Demo](#demo)
 - [Tính năng](#tính-năng)
-- [Cài đặt và hướng dẫn sử dụng](#cài-đặt-và-hướng-dẫn-sử-dụng)
+- [Tải về và cài đặt](#tải-về-và-cài-đặt)
 - [API Document](#api-document)
 - [Screenshot](#screenshot)
 - [Contribution](#contribution)
@@ -225,7 +225,7 @@ Mỏi mắt vì màu quá sáng? Thử dùng chế độ **tối** xem!
 	
 &nbsp;
 
-## Cài đặt và hướng dẫn sử dụng
+## Tải về và cài đặt
 
 Tải về bản mới nhất tại: [releases list](https://github.com/belivipro9x99/themis-web-interface/releases)
 
