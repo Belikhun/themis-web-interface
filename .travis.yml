@@ -45,6 +45,9 @@ matrix:
           env: TEST_SUITE=API
         - name: "logParser Test"
           env: TEST_SUITE=logParser
+        # add your test here. ex:
+        # - name: "myVeryCool Test"
+        #   env: TEST_SUITE=coolTest
 
 script: ./run.sh $TEST_SUITE -q
 

@@ -20,7 +20,7 @@
     "publish": true,
     "submit": true,
     "submitInProblems": true,
-    "editInfo": true,
+    "editInfo": false,
     "viewRank": true,
     "viewRankTask": true,
     "viewLog": true,

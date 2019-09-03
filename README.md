@@ -278,6 +278,8 @@ Toàn bộ **Tài liệu** đều có ở trong [Wiki:API](https://github.com/be
 
 ## Contribution
 
-## Contributor
+> **⚠ Before you dig into the sourcecode:**「Keep calm and read the code!」 This code is hard to read/understand. Maintain it is a nightmare. Soooo... i'm wordless now
 
-Many thanks to ```namkojj```, aka [Nam](https://www.facebook.com/profile.php?id=100008107446343) for helping me translating, hunting bugs and testing out this project.
+All contribution are **welcome**! Want something to be changed? Just submit a issue or create a pull request
+
+Before creating a pull request, please make sure to follow [Standard Workflow](https://guides.github.com/introduction/flow/) and [Contribution Guideline](CONTRIBUTING.md)
