@@ -32,6 +32,8 @@ var ratelimit = {
     banTime: $("#ratelimit_banTime")
 }
 
+var setTimeToNow = $("#setTimeToNow");
+
 function cvtime(h, m, s) {
     return [h, m, s]
         .map(v => v < 10 ? "0" + v : v)
@@ -118,6 +120,21 @@ $("body").onload = e => {
 
     if (window.frameElement)
         document.body.classList.add("embeded");
+
+    setTimeToNow.addEventListener("mouseup", e => {
+        let now = new Date();
+
+        time.beginDate.value = cvdate(
+            now.getDay() + 1,
+            now.getMonth() + 1,
+            now.getFullYear()
+        );
+        time.beginTime.value = cvtime(
+            now.getHours(),
+            now.getMinutes(),
+            now.getSeconds()
+        );
+    })
 
     sound.init();
     update();

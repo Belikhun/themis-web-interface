@@ -160,7 +160,7 @@
                         <input id="time_beginTime" type="time" step="1" class="formfield" autocomplete="off" placeholder="Thời gian bắt đầu kì thi" required>
                         <label for="time_beginTime" class="formlabel">Thời gian bắt đầu kì thi</label>
                     </div>
-                    <button type="button" id="setToCurrentTime" class="right sq-btn green sound" data-soundhover data-soundselect>Hiện tại</button>
+                    <button type="button" id="setTimeToNow" class="right sq-btn blue sound" data-soundhover data-soundselect>Hiện tại</button>
                 </div>
                 <div class="item sound" data-soundhoversoft>
                     <div class="formgroup blue sound" data-soundselectsoft>

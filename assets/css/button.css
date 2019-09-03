@@ -133,6 +133,7 @@
 .sq-btn {
     position: relative;
     display: inline-block;
+    flex-shrink: 0;
     color: rgb(250, 250, 250);
     background-color: rgb(68, 170, 221);
     font-size: 12px;
