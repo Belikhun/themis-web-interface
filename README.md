@@ -22,12 +22,11 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 **Themis Web Interface** là một dự án mã nguồn mở, phi lợi nhuận với mục đích chính nhằm biến việc quản lí và tổ chức các buổi học lập trình, ôn tập và tổ chức kì thi trở nên dễ dàng hơn.
 
 - [Demo](#demo)
-- [Yêu cầu](#yêu-cầu)
 - [Tính năng](#tính-năng)
 - [Cài đặt và hướng dẫn sử dụng](#cài-đặt-và-hướng-dẫn-sử-dụng)
 - [API Document](#api-document)
 - [Screenshot](#screenshot)
-- [Contributor](#contributor)
+- [Contribution](#contribution)
 
 ## Demo
 * **000webhost**: <a href="https://tweb-demo.000webhostapp.com/" target="_blank">https://tweb-demo.000webhostapp.com/</a>
