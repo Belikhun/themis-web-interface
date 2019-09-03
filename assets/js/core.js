@@ -2046,7 +2046,7 @@ core = {
                     level: "warn",
                     buttonList: {
                         delete: { color: "pink", text: "XÓA!!!" },
-                        cancel: { color: "dark", text: "Hủy" }
+                        cancel: { color: "blue", text: "Hủy" }
                     }
                 })
 
