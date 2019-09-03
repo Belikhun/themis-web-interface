@@ -123,7 +123,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title><?php print $errCode ." ". $error; ?></title>
+    <title><?php print $errCode ." ". $error; ?> | <?php print APPNAME ." v". VERSION; ?></title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
