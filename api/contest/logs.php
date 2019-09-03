@@ -20,22 +20,22 @@
 	$username = $_SESSION["username"];
 	$updir = glob($config["uploadDir"] ."/*.*");
 	$queues = Array();
-	$queuefiles = Array();
+	$queueFiles = Array();
 
 	foreach ($updir as $file) {
 		if (!strpos($file, "[". $username ."]") > 0)
 			continue;
 
-		$data = parseLogName(pathinfo($file .".log", PATHINFO_BASENAME));
+		$data = parseLogName($file);
 		$lastm = date("d/m/Y H:i:s", filemtime($file));
-		
+
 		array_push($queues, Array(
 			"problem" => $data["problem"],
 			"extension" => $data["extension"],
 			"lastmodify" => $lastm
 		));
 
-		array_push($queuefiles, $file);
+		array_push($queueFiles, $file);
 	}
 
 	if ($_SERVER["REQUEST_METHOD"] === "DELETE")
@@ -43,14 +43,14 @@
 	
 	$judging = isset($_SESSION["logsData"]["judging"]) ? $_SESSION["logsData"]["judging"] : Array();
 
-	if (!isset($_SESSION["logsData"]["lastqueuesfiles"]))
-		$_SESSION["logsData"]["lastqueuesfiles"] = $queuefiles;
+	if (!isset($_SESSION["logsData"]["lastQueueFiles"]))
+		$_SESSION["logsData"]["lastQueueFiles"] = $queueFiles;
 	else {
-		$lqfs = $_SESSION["logsData"]["lastqueuesfiles"];
+		$lqfs = $_SESSION["logsData"]["lastQueueFiles"];
 		
 		foreach($lqfs as $i => $item)
-			if (!in_array($item, $queuefiles)) {
-				$p = parseLogName($item .".log");
+			if (!in_array($item, $queueFiles)) {
+				$p = parseLogName($item);
 
 				// find and remove old log file
 				$loglist = glob($config["logDir"] ."/*.*");
@@ -67,7 +67,7 @@
 				));
 			}
 
-		$_SESSION["logsData"]["lastqueuesfiles"] = $queuefiles;
+		$_SESSION["logsData"]["lastQueueFiles"] = $queueFiles;
 	}
 
 	$logDir = glob($config["logDir"] ."/*.log");

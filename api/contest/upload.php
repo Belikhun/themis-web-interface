@@ -58,7 +58,7 @@
     if ($_FILES["file"]["error"] > 0)
         stop(-1, "Lỗi không rõ.", 500);
 
-    move_uploaded_file($_FILES["file"]["tmp_name"], $config["uploadDir"] ."/". $userid ."[". $username ."][". $filename ."] .". $extension);
+    move_uploaded_file($_FILES["file"]["tmp_name"], $config["uploadDir"] ."/". $userid ."[". $username ."][". $filename ."].". $extension);
     writeLog("INFO", "Đã tải lên \"$file\"");
     stop(0, "Nộp bài thành công.", 200);
 ?>

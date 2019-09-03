@@ -225,13 +225,14 @@
         $name = basename($path);
 
         $parse = [];
-        if (preg_match_all("/(.+)\[(.+)\]\[(.+)\]\.(.+)\.log/m", $name, $parse, PREG_SET_ORDER, 0))
+        if (preg_match_all("/(.+)\[(.+)\]\[(.+)\]\.([^\.]+)\.?(log)?/m", $name, $parse, PREG_SET_ORDER, 0))
             return Array(
                 "id" => $parse[0][1],
                 "user" => $parse[0][2],
                 "problem" => $parse[0][3],
                 "extension" => $parse[0][4],
-                "name" => $parse[0][3] .".". $parse[0][4]
+                "name" => $parse[0][3] .".". $parse[0][4],
+                "isLogFile" => isset($parse[0][5])
             );
 
         return false;
