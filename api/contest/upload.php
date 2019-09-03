@@ -14,19 +14,6 @@
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logs.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
 
-	function parsename(string $path) {
-		$path = basename($path);
-		$path = str_replace("[", " ", str_replace(".", " ", str_replace("]", "", $path)));
-		list($id, $username, $filename, $ext) = sscanf($path, "%s %s %s %s");
-		return Array(
-			"id" => $id,
-			"username" => $username,
-			"filename" => $filename,
-			"ext" => $ext,
-			"name" => $filename.".".$ext
-		);
-	}
-
     if (!isLogedIn())
         stop(11, "Bạn chưa đăng nhập.", 403);
 

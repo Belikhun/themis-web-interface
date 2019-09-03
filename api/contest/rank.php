@@ -13,8 +13,20 @@
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
 
-    if ($config["publish"] !== true || $config["viewRank"] !== true)
-        stop(0, "Thành công!", 200, Array(
+    if ($config["publish"] !== true)
+        stop(108, "Thông tin không được công bố", 200, Array(
+            "list" => Array(),
+            "rank" => Array()
+        ));
+
+    if ($config["viewRank"] !== true)
+        stop(107, "Xếp hạng đã bị tắt", 200, Array(
+            "list" => Array(),
+            "rank" => Array()
+        ));
+
+    if (contest_timeRequire([CONTEST_STARTED, CONTEST_NOTENDED], true) !== true)
+        stop(103, "Kì thi chưa bắt đầu", 200, Array(
             "list" => Array(),
             "rank" => Array()
         ));

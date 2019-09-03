@@ -41,3 +41,5 @@
 104 contest ended
 105 contest not ended
 106 disconnected
+107 disabled
+108 not published
