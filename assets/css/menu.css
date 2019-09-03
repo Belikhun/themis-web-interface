@@ -201,17 +201,6 @@ body.embeded .menu {
     flex-direction: row;
 }
 
-.menu .group .item.lr .left {
-    flex-grow: 3;
-    margin-right: 10px;
-}
-
-.menu .group .item.lr .right {
-    text-align: right;
-    flex-grow: 0;
-    margin-left: 10px;
-}
-
 .menu .group .item .lr {
     position: relative;
     display: flex;
@@ -222,11 +211,19 @@ body.embeded .menu {
     padding: 0 0;
 }
 
+.menu .group .item.lr .left,
 .menu .group .item .lr .left {
-    flex-grow: 3;
+    flex-grow: 1;
     margin-right: 10px;
 }
 
+.menu .group .item.lr .middle,
+.menu .group .item .lr .middle {
+    flex-grow: 1;
+    margin: 0 5px;
+}
+
+.menu .group .item.lr .right,
 .menu .group .item .lr .right {
     flex-grow: 0;
     margin-left: 10px;
