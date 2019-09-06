@@ -13,6 +13,8 @@
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/info.php";
 
+    // Gonna add sth here
+
     stop(0, "Server Normal", 200, Array(
         "version" => VERSION,
         "versionTag" => VERSION_TAG,

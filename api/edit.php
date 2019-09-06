@@ -52,11 +52,21 @@
         $change["repass"] = $userdata["repass"] + 1;
     }
 
-    if (!isset($change["name"]) && !isset($change["password"]))
+    if (empty($change))
         stop(102, "No action taken.", 200);
 
-    if (editUser($username, $change) === USER_EDIT_SUCCESS) {
-        writeLog("INFO", "Đã thay đổi ". (isset($change["name"]) ? "tên thành \"". $change["name"] ."\"" : "") . ((isset($change["name"]) && isset($change["password"])) ? " và " : "") . (isset($change["password"]) ? "mật khẩu" : ""));
-        stop(0, "Thay đổi thông tin thành công!", 200, $change);
-    } else
-        stop(6, "Thay đổi thông tin thất bại.", 500);
+    $res = editUser($username, $change);
+
+    switch ($res) {
+        case USER_EDIT_SUCCESS:
+            writeLog("INFO", "Đã thay đổi ". (isset($change["name"]) ? "tên thành \"". $change["name"] ."\"" : "") . ((isset($change["name"]) && isset($change["password"])) ? " và " : "") . (isset($change["password"]) ? "mật khẩu" : ""));
+            stop(0, "Thay đổi thông tin thành công!", 200, $change);
+            break;
+        case USER_EDIT_WRONGUSERNAME:
+            stop(13, "Không tìm thấy tài khoản \"$username\"!", 400, Array( "username" => $username ));
+            break;
+        case USER_EDIT_ERROR:
+            writeLog("ERRR", "Lỗi khi lưu thông tin tài khoản [$id] \"$username\"");
+            stop(-1, "Lỗi không rõ.", 500);
+            break;
+    }

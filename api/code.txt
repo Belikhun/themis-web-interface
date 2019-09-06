@@ -17,6 +17,7 @@
 14  wrong password
 15  new password and retype new password doesnt match
 16  not valid name
+17  account exist
 
 // 2x: feature
 21  edit info disabled
