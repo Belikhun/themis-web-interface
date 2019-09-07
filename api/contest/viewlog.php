@@ -16,7 +16,7 @@
     if ($config["viewLog"] === false)
         stop(23, "Xem nhật ký đã bị tắt!", 403);
 
-    contest_timeRequire([CONTEST_STARTED, CONTEST_NOTENDED], false);
+    contest_timeRequire([CONTEST_STARTED], false);
 
     $file = preg_replace("/[\/\\\\]/m", "", reqQuery("f"));
     $logPath = $config["logDir"] ."/". $file .".log";
