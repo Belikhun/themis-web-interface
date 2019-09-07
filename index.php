@@ -73,24 +73,24 @@
         <meta property="twitter:description" content="<?php print $stripedContestDescription; ?>">
 
         <!-- Load Library First -->
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css//default.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css//splash.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css//progressbar.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css//button.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css//input.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css//textview.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css//table.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css//switch.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css//slider.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css//navbar.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css//usersetting.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css//menu.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css//spinner.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css//statusbar.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css//scrollbar.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/default.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/splash.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/progressbar.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/input.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/textview.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/table.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/switch.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/slider.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/navbar.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/usersetting.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/menu.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/spinner.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/statusbar.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollbar.css" />
         <!-- Page Style -->
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css//core.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css//dark.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/core.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/dark.css" />
         <!-- Fonts -->
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/material-font.css" />
