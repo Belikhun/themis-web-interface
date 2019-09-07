@@ -175,9 +175,9 @@ core = {
         set(20, "Initializing: core.userSettings");
         this.userSettings.init(LOGGED_IN);
 
-        set(25, "Initializing: core.sound");
-        await this.sound.init((p, t) => {
-            set(25 + p*0.5, `Initializing: core.sounds (${t})`);
+        set(25, "Initializing: sounds");
+        await sounds.init((p, t) => {
+            set(25 + p*0.5, `Initializing: sounds (${t})`);
         });
 
         set(75, "Initializing: core.problems");
@@ -675,7 +675,7 @@ core = {
                 text: files.length
             }, "files");
 
-            core.sound.confirm();
+            sounds.confirm();
 
             this.state.innerText = "Chuẩn bị tải lên " + files.length + " tệp...";
             this.size.innerText = "00/00";
@@ -1342,6 +1342,14 @@ core = {
             newPass: $("#usett_edit_npass"),
             reTypePass: $("#usett_edit_renpass"),
         },
+        soundsToggler: {
+            soundToggle: $("#usett_btn_sound_toggle"),
+            soundOnMouseHover: $("#usett_btn_sound_mouse_hover"),
+            soundOnBtnClick: $("#usett_btn_sound_button_click"),
+            soundOnPanelToggle: $("#usett_btn_sound_panel_toggle"),
+            soundOthers: $("#usett_btn_sound_others"),
+            soundOnNotification: $("#usett_btn_sound_notification"),
+        },
         logoutBtn: $("#usett_logout"),
         nightModeToggler: $("#usett_nightMode"),
         transitionToggler: $("#usett_transition"),
@@ -1383,6 +1391,56 @@ core = {
             this.publicFilesPanel.ref.onClick(() => this.publicFilesIframe.contentWindow.location.reload());
 
             this.adminConfig.style.display = "none";
+
+            // Sounds Toggler Settings
+
+            new this.toggleSwitch(this.soundsToggler.soundToggle, "__s_m", () => {
+                sounds.enable.master = true;
+
+                this.soundsToggler.soundOnMouseHover.disabled = false;
+                this.soundsToggler.soundOnBtnClick.disabled = false;
+                this.soundsToggler.soundOnPanelToggle.disabled = false;
+                this.soundsToggler.soundOthers.disabled = false;
+                this.soundsToggler.soundOnNotification.disabled = false;
+            }, () => {
+                sounds.enable.master = false;
+
+                this.soundsToggler.soundOnMouseHover.disabled = true;
+                this.soundsToggler.soundOnBtnClick.disabled = true;
+                this.soundsToggler.soundOnPanelToggle.disabled = true;
+                this.soundsToggler.soundOthers.disabled = true;
+                this.soundsToggler.soundOnNotification.disabled = true;
+            }, false);
+
+            new this.toggleSwitch(this.soundsToggler.soundOnMouseHover, "__s_mo",
+                () => sounds.enable.mouseOver = true,
+                () => sounds.enable.mouseOver = false,
+                true
+            );
+
+            new this.toggleSwitch(this.soundsToggler.soundOnBtnClick, "__s_bc",
+                () => sounds.enable.btnClick = true,
+                () => sounds.enable.btnClick = false,
+                true
+            );
+
+            new this.toggleSwitch(this.soundsToggler.soundOnPanelToggle, "__s_pt",
+                () => sounds.enable.panelToggle = true,
+                () => sounds.enable.panelToggle = false,
+                true
+            );
+
+            new this.toggleSwitch(this.soundsToggler.soundOthers, "__s_ot",
+                () => sounds.enable.others = true,
+                () => sounds.enable.others = false,
+                true
+            );
+
+            new this.toggleSwitch(this.soundsToggler.soundOnNotification, "__s_nf",
+                () => sounds.enable.notification = true,
+                () => sounds.enable.notification = false,
+                true
+            );
 
             // Night mode setting
             let nightMode = new this.toggleSwitch(this.nightModeToggler, "__darkMode", e => {
@@ -1937,7 +1995,7 @@ core = {
                     return false;
                 }
 
-                core.sound.confirm(1);
+                sounds.confirm(1);
 
                 await myajax({
                     url: "/api/contest/problems/remove",
@@ -2096,7 +2154,7 @@ core = {
             this.panel.title = title;
             this.panel.elem.classList[thin ? "add" : "remove"]("thin");
             this.wrapper.classList.add("show");
-            core.sound.select();
+            sounds.select();
         },
 
         hide() {
@@ -2161,7 +2219,7 @@ core = {
                         button.returnValue = key;
                         button.dataset.soundhover = "";
                         button.dataset.soundselect = "";
-                        core.sound.applySound(button);
+                        sounds.applySound(button);
 
                         if (!(typeof item.resolve === "boolean") || item.resolve !== false)
                             button.addEventListener("mouseup", e => {
@@ -2176,307 +2234,14 @@ core = {
                 }
 
                 this.wrapper.classList.add("show");
-                core.sound.select();
+                sounds.select();
             })
         },
 
         hide() {
             this.wrapper.classList.remove("show");
         }
-    },
-
-    sound: {
-        initialized: false,
-        soundsLoaded: false,
-
-        btn: {
-            soundToggle: $("#usett_btn_sound_toggle"),
-            soundOnMouseHover: $("#usett_btn_sound_mouse_hover"),
-            soundOnBtnClick: $("#usett_btn_sound_button_click"),
-            soundOnPanelToggle: $("#usett_btn_sound_panel_toggle"),
-            soundOthers: $("#usett_btn_sound_others"),
-            soundOnNotification: $("#usett_btn_sound_notification"),
-        },
-
-        sounds: {
-            checkOff: null,
-            checkOn: null,
-            hover: null,
-            hoverSoft: null,
-            select: null,
-            selectSoft: null,
-            overlayPopIn: null,
-            overlayPopOut: null,
-            confirm: null,
-            notification: null,
-        },
-        
-        enable: {
-            master: false,
-            mouseOver: true,
-            btnClick: true,
-            panelToggle: true,
-            others: true,
-            notification: true,
-        },
-
-        async init(set = () => {}) {
-            set(0, "Taking Cookies 🍪");
-            this.enable.master = cookie.get("__s_m", false) == "true";
-            this.enable.mouseOver = cookie.get("__s_mo", true) == "true";
-            this.enable.btnClick = cookie.get("__s_bc", true) == "true";
-            this.enable.panelToggle = cookie.get("__s_pt", true) == "true";
-            this.enable.others = cookie.get("__s_ot", true) == "true";
-            this.enable.notification = cookie.get("__s_nf", true) == "true";
-
-            set(5, "Setting Events");
-            this.__btnApplyEvent([{
-                    e: this.btn.soundToggle,
-                    k: "master"
-                }, {
-                    e: this.btn.soundOnMouseHover,
-                    k: "mouseOver"
-                }, {
-                    e: this.btn.soundOnBtnClick,
-                    k: "btnClick"
-                }, {
-                    e: this.btn.soundOnPanelToggle,
-                    k: "panelToggle"
-                }, {
-                    e: this.btn.soundOthers,
-                    k: "others"
-                }, {
-                    e: this.btn.soundOnNotification,
-                    k: "notification"
-                }]
-            );
-            this.updateSettings(true);
-
-            set(10, "Loading Sounds");
-            await this.loadSound((p, t) => {
-                set(10 + p*0.85, `Loading: ${t}`);
-            });
-            this.soundsLoaded = true;
-
-            set(95, "Scanning");
-            this.scan();
-
-            set(100, "Done");
-            this.initialized = true;
-            clog("okay", "Initialised:", {
-                color: flatc("red"),
-                text: "core.usersettings.sound"
-            });
-        },
-
-        __btnApplyEvent(list) {
-            for (var item of list) {
-                item.e.item = item;
-                item.e.addEventListener("change", (e) => {
-                    var i = e.target.item;
-                    this.enable[i.k] = i.e.checked;
-                    this.updateSettings();
-                })
-            }
-        },
-
-        updateSettings(init = false) {
-            if (init) {
-                this.btn.soundToggle.checked = this.enable.master;
-                this.btn.soundOnMouseHover.checked = this.enable.mouseOver;
-                this.btn.soundOnBtnClick.checked = this.enable.btnClick;
-                this.btn.soundOnPanelToggle.checked = this.enable.panelToggle;
-                this.btn.soundOthers.checked = this.enable.others;
-                this.btn.soundOnNotification.checked = this.enable.notification;
-            }
-
-            if (this.enable.master === false) {
-                this.btn.soundOnMouseHover.disabled = true;
-                this.btn.soundOnBtnClick.disabled = true;
-                this.btn.soundOnPanelToggle.disabled = true;
-                this.btn.soundOthers.disabled = true;
-                this.btn.soundOnNotification.disabled = true;
-            } else {
-                this.btn.soundOnMouseHover.disabled = false;
-                this.btn.soundOnBtnClick.disabled = false;
-                this.btn.soundOnPanelToggle.disabled = false;
-                this.btn.soundOthers.disabled = false;
-                this.btn.soundOnNotification.disabled = false;
-            }
-
-            cookie.set("__s_m", this.enable.master, 9999);
-            cookie.set("__s_mo", this.enable.mouseOver, 9999);
-            cookie.set("__s_bc", this.enable.btnClick, 9999);
-            cookie.set("__s_pt", this.enable.panelToggle, 9999);
-            cookie.set("__s_ot", this.enable.others, 9999);
-            cookie.set("__s_nf", this.enable.notification, 9999);
-        },
-
-        async loadSound(set = () => {}) {
-            const soundList = [{
-                key: "checkOff",
-                name: "check-off.mp3"
-            }, {
-                key: "checkOn",
-                name: "check-on.mp3"
-            }, {
-                key: "hover",
-                name: "generic-hover.mp3"
-            }, {
-                key: "hoverSoft",
-                name: "generic-hover-soft.mp3"
-            }, {
-                key: "select",
-                name: "generic-select.mp3"
-            }, {
-                key: "selectSoft",
-                name: "generic-select-soft.mp3"
-            }, {
-                key: "overlayPopIn",
-                name: "overlay-pop-in.mp3"
-            }, {
-                key: "overlayPopOut",
-                name: "overlay-pop-out.mp3"
-            }, {
-                key: "confirm",
-                name: "generic-confirm.mp3"
-            }, {
-                key: "confirm2",
-                name: "generic-confirm-2.mp3"
-            }, {
-                key: "notification",
-                name: "notification.mp3"
-            }, {
-                key: "valueChange",
-                name: "generic-value-change.mp3"
-            }]
-
-            for (var i = 0; i < soundList.length; i++) {
-                const o = soundList[i];
-                set((i/(soundList.length - 1))*100, o.name);
-                this.sounds[o.key] = await this.__loadSoundAsync(`/assets/sounds/${o.name}`);
-            }
-        },
-
-        async __loadSoundAsync(url, volume = 0.5) {
-            sound = new Audio(url);
-            clog("DEBG", `Loading sound: ${url}`);
-
-            return new Promise((resolve, reject) => {
-                sound.addEventListener("canplaythrough", handler = e => {
-                    sound.removeEventListener("canplaythrough", handler);
-                    sound.volume = volume;
-                    clog("DEBG", `Sound loaded: ${url}`);
-                    resolve(sound);
-                });
-
-                sound.addEventListener("error", e => {
-                    clog("ERRR", `Error loading sound: ${url}`);
-                    console.log(e);
-                    reject(e);
-                })
-            })
-        },
-
-        __soundToggle(sound) {
-            if (sound.readyState < 3 || !this.initialized)
-                return false;
-
-            if (!sound.paused)
-                sound.pause();
-
-            sound.currentTime = 0;
-            sound.play()
-                .catch(e => clog("errr", "Error occurred while trying to play sounds."));
-        },
-
-        select() {
-            if (this.enable.master && this.enable.btnClick)
-                this.__soundToggle(this.sounds.select);
-        },
-
-        confirm(variation = 0) {
-            let sound = [
-                this.sounds.confirm,
-                this.sounds.confirm2
-            ][variation]
-
-            if (this.enable.master && this.enable.others)
-                this.__soundToggle(sound);
-        },
-
-        notification() {
-            if (this.enable.master && this.enable.notification)
-                this.__soundToggle(this.sounds.notification);
-        },
-
-        scan() {
-            const list = document.getElementsByClassName("sound");
-
-            for (var item of list) {
-                if (typeof item.dataset === "undefined") {
-                    clog("DEBG", `Unknown element: ${e} in core.userSettings.sound.scan`);
-                    continue;
-                }
-
-                this.applySound(item);
-            }
-        },
-        
-        applySound(item) {
-            if (!item.nodeType || item.nodeType <= 0 || !this.soundsLoaded)
-                return false;
-
-            if (typeof item.dataset.soundhover !== "undefined")
-                item.addEventListener("mouseenter", e => {
-                    if (this.enable.master && this.enable.mouseOver)
-                        this.__soundToggle(this.sounds.hover);
-                })
-
-            if (typeof item.dataset.soundhoversoft !== "undefined")
-                item.addEventListener("mouseenter", e => {
-                    if (this.enable.master && this.enable.mouseOver)
-                        this.__soundToggle(this.sounds.hoverSoft);
-                })
-
-            if (typeof item.dataset.soundselect !== "undefined")
-                item.addEventListener("mousedown", e => {
-                    if (this.enable.master && this.enable.btnClick)
-                        this.__soundToggle(this.sounds.select);
-                })
-
-            if (typeof item.dataset.soundselectsoft !== "undefined")
-                item.addEventListener("mousedown", e => {
-                    if (this.enable.master && this.enable.btnClick)
-                        this.__soundToggle(this.sounds.selectSoft);
-                })
-
-            if (typeof item.dataset.soundchange !== "undefined")
-                item.addEventListener("change", e => {
-                    if (this.enable.master && this.enable.others)
-                        this.__soundToggle(this.sounds.valueChange);
-                })
-
-            if (typeof item.dataset.soundcheck !== "undefined")
-                item.addEventListener("change", e => {
-                    if (this.enable.master && this.enable.btnClick)
-                        if (e.target.checked === true)
-                            this.__soundToggle(this.sounds.checkOn);
-                        else
-                            this.__soundToggle(this.sounds.checkOff);
-                })
-
-            if (typeof item.dataset.soundtoggle === "string")
-                new ClassWatcher(item, item.dataset.soundtoggle, () => {
-                    if (this.enable.master && this.enable.panelToggle)
-                        this.__soundToggle(this.sounds.overlayPopIn);
-                }, () => {
-                    if (this.enable.master && this.enable.panelToggle)
-                        this.__soundToggle(this.sounds.overlayPopOut);
-                });
-        }
-    },
-
+    }
 }
 
 class ClassWatcher {
