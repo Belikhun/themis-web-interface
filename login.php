@@ -67,17 +67,17 @@
                 </ul>
             </div>
             <div class="center">
-                <t class="title">Đăng nhập</t>
+                <t id="login_title" class="title">Đang tải...</t>
                 <t id="form_message"></t>
 
                 <form id="form_container" action="javascript:void(0);">
                     <div id="form_username">
-                        <div class="formgroup blue">
+                        <div class="formgroup blue sound" data-soundselectsoft>
                             <input id="form_username_input" type="text" class="formfield" autocomplete="off" placeholder="Tên tài khoản" required disabled>
                             <label for="form_username_input" class="formlabel">Tên tài khoản</label>
                         </div>
 
-                        <button id="form_username_submit" type="button" class="sq-btn" disabled>Tiếp</button>
+                        <button id="form_username_submit" type="button" class="sq-btn sound" data-soundhover data-soundselect disabled>Tiếp</button>
                     </div>
 
                     <div id="form_password">
@@ -86,12 +86,12 @@
                             <t id="form_user"></t>
                         </div>
 
-                        <div class="formgroup blue">
+                        <div class="formgroup blue sound" data-soundselectsoft>
                             <input id="form_password_input" type="password" class="formfield" autocomplete="off" placeholder="Mật khẩu" required disabled>
                             <label for="form_password_input" class="formlabel">Mật khẩu</label>
                         </div>
 
-                        <button id="form_password_submit" type="submit" class="sq-btn pink" disabled>Đăng nhập</button>
+                        <button id="form_password_submit" type="submit" class="sq-btn pink sound" data-soundhover data-soundselect disabled>Đăng nhập</button>
                     </div>
                 </form>
             </div>
@@ -101,6 +101,7 @@
         </div>
 
         <script src="/assets/js/belibrary.js" type="text/javascript"></script>
+        <script src="/assets/js/sounds.js" type="text/javascript"></script>
         <script src="/assets/js/login.js" type="text/javascript"></script>
 
         <!-- Global site tag (gtag.js) - Google Analytics -->

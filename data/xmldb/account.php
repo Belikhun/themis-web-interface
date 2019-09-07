@@ -38,7 +38,9 @@
                 break;
             }
 
-            $rowData[$accountHeader[$j]] = $tmp;
+            $key = $accountHeader[$j];
+            $tmp = ($key === "repass") ? (int) $tmp : $tmp;
+            $rowData[$key] = $tmp;
         }
 
         if (!empty($rowData))
@@ -61,7 +63,7 @@
             return LOGIN_WRONGPASSWORD;
     }
 
-    function getUserData(String $username) {
+    function getUserData($username) {
         global $accountData;
         return isset($accountData[$username]) ? $accountData[$username] : null;
     }
@@ -84,9 +86,10 @@
 
             foreach ($cell as $j => $cellData)
                 if ($j === array_search("username", $accountHeader) && $cellData -> textContent === $username) {
-                    foreach ($replace as $k => $val)
-                        if (($cellIndex = array_search($k, $accountHeader)) !== false)
-                            $cell -> item($cellIndex) -> textContent = $val;
+                    // Update new value
+                    foreach ($replace as $key => $value)
+                        if ((($cellIndex = array_search($key, $accountHeader)) !== false) && !empty($value))
+                            $cell -> item($cellIndex) -> textContent = $value;
 
                     // Update change to parsed data
                     $accountData = array_merge($accountData, $replace);

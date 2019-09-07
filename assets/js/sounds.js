@@ -147,9 +147,14 @@ const sounds = {
             .catch(e => clog("errr", "Error occurred while trying to play sounds."));
     },
 
-    select() {
-        if (this.enable.master && this.enable.btnClick)
-            this.__soundToggle(this.sounds.select);
+    select(variation = 0) {
+        let sound = [
+            this.sounds.select,
+            this.sounds.selectSoft
+        ][variation]
+
+        if (this.enable.master && this.enable.others)
+            this.__soundToggle(sound);
     },
 
     confirm(variation = 0) {

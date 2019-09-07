@@ -29,13 +29,13 @@
     $errDetailSub = null;
 
     if (isset($_SESSION["lastError"])) {
-        $err = $_SESSION["lastError"];
-        $errData = $err["data"];
+        $lastError = $_SESSION["lastError"];
+        $errData = $lastError["data"];
         $_SESSION["lastError"] = null;
 
-        $errCode = $err["status"];
+        $errCode = $lastError["status"];
         http_response_code($errCode);
-        $errDetail = "<b>Lỗi [" .$err["code"]. "]:</b> <sg><i>" . $err["description"] . "</i></sg>". (isset($errData["file"]) ? " tại <i>" . $errData["file"] . "</i> dòng " . $errData["line"] : "");
+        $errDetail = "<b>Lỗi [". $lastError["code"] ."]:</b> <sg><i>". $lastError["description"] ."</i></sg>". (isset($errData["file"]) ? " tại <i>" . $errData["file"] . "</i> dòng " . $errData["line"] : "");
     }
 
     switch ($errCode) {
@@ -94,16 +94,16 @@
     }
 
     $errDetail = empty($errDetail) ? $errDetailSub : $errDetail;
-    $reportData = "";
+    $reportData = null;
 
-    if (isset($err))
+    if (isset($lastError) && $errCode >= 500)
         $reportData = join("\n", Array(
             "----------------BEGIN ERROR REPORT DATA----------------",
             "Protocol       : " . $sv_pr,
             "HTTP Code      : " . $errCode,
-            "Error Code     : " . (isset($err["code"]) ? $err["code"] : "null"),
+            "Error Code     : " . (isset($lastError["code"]) ? $lastError["code"] : "null"),
             "Error String   : " . $error,
-            "Error Detail   : " . (isset($err["description"]) ? $err["description"] : strip_tags($description)),
+            "Error Detail   : " . (isset($lastError["description"]) ? $lastError["description"] : strip_tags($description)),
             "URI            : " . (isset($errData["uri"]) ? $errData["uri"] : $uri),
             "",
             "Server         : " . $sv,

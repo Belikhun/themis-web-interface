@@ -16,11 +16,12 @@
     $username = reqQuery("u");
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
 
+    if (!$data = getUserData($username))
+        stop(13, "Không tìm thấy tên người dùng \"$username\"!", 404, Array( "username" => $username ));
+
     $data = getUserData($username);
     unset($data["password"]);
     unset($data["repass"]);
 
-    writeLog("INFO", "Xem thông tin người dùng \"$username\"");
     stop(0, "Thành công!", 200, $data);
-
 ?>

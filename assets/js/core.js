@@ -1590,6 +1590,8 @@ core = {
         },
         
         async changeName(name) {
+            sounds.confirm();
+
             await myajax({
                 url: "/api/edit",
                 method: "POST",
@@ -1609,6 +1611,8 @@ core = {
         },
 
         async changePassword(pass, newPass, reTypePass) {
+            sounds.confirm();
+
             await myajax({
                 url: "/api/edit",
                 method: "POST",
@@ -1638,6 +1642,8 @@ core = {
         },
 
         async avtUpload(file) {
+            sounds.confirm();
+
             await myajax({
                 url: "/api/avatar",
                 method: "POST",
@@ -2241,46 +2247,5 @@ core = {
         hide() {
             this.wrapper.classList.remove("show");
         }
-    }
-}
-
-class ClassWatcher {
-    constructor(targetNode, classToWatch, classAddedCallback, classRemovedCallback) {
-        this.targetNode = targetNode;
-        this.classToWatch = classToWatch;
-        this.classAddedCallback = classAddedCallback;
-        this.classRemovedCallback = classRemovedCallback;
-        this.observer = null;
-        this.lastClassState = targetNode.classList.contains(this.classToWatch);
-
-        this.mutationCallback = mutationsList => {
-            for (let mutation of mutationsList) {
-                if (mutation.type === "attributes" && mutation.attributeName === "class") {
-                    let currentClassState = mutation.target.classList.contains(this.classToWatch);
-                    if (this.lastClassState !== currentClassState) {
-                        this.lastClassState = currentClassState;
-                        if (currentClassState)
-                            this.classAddedCallback();
-                        else
-                            this.classRemovedCallback();
-                    }
-                }
-            }
-        }
-
-        this.init();
-    }
-
-    init() {
-        this.observer = new MutationObserver(this.mutationCallback);
-        this.observe();
-    }
-
-    observe() {
-        this.observer.observe(this.targetNode, { attributes: true });
-    }
-
-    disconnect() {
-        this.observer.disconnect();
     }
 }

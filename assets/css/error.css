@@ -102,6 +102,7 @@ body {
     text-transform: uppercase;
     text-align: right;
     padding-top: 10px;
+    letter-spacing: 1px;
     color: rgb(224, 224, 224);
 }
 

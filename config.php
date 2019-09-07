@@ -234,6 +234,7 @@
     </script>
     <script src="assets/js/belibrary.js"></script>
     <script src="assets/js/statusbar.js"></script>
+    <script src="assets/js/sounds.js"></script>
     <script src="assets/js/config.js"></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->

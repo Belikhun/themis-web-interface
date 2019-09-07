@@ -26,8 +26,9 @@ login = {
         },
         profile: $("#form_profile")
     },
+    title: $("#login_title"),
 
-    init() {
+    async init() {
         this.form.username.submit.addEventListener("click", () => this.checkUsername(), false);
         this.form.username.input.addEventListener("keyup", e => {
             if (e.keyCode === 13 || e.keyCode === 9) {
@@ -36,11 +37,15 @@ login = {
             }
         });
 
+        sounds.init();
+
         this.form.container.addEventListener("submit", () => this.submit(), false);
         this.form.profile.addEventListener("click", () => this.reset(false), false);
         this.form.username.input.disabled = false;
         this.form.username.submit.disabled = false;
+        this.title.innerText = "Đăng nhập";
         this.form.username.input.focus();
+        sounds.select(1);
     },
 
     async submit() {
@@ -48,6 +53,7 @@ login = {
 
         this.form.password.input.disabled = true;
         this.form.password.submit.disabled = true;
+        sounds.confirm(1);
 
         // Cool down a little bit
         await delayAsync(500);
@@ -68,8 +74,8 @@ login = {
                 this.reset(true);
             else
                 this.reset(false);
-            this.form.username.message.innerText = e.data.description;
 
+            this.form.username.message.innerText = e.data.description;
             return false;
         }
 
@@ -77,22 +83,32 @@ login = {
         window.location.href = data.redirect;
     },
 
-    checkUsername() {
-        var val = this.form.username.input.value;
-        if (val === "" || val === null) {
+    async checkUsername() {
+        let username = this.form.username.input.value;
+        
+        if (username === "" || username === null) {
             login.form.username.input.focus();
             return false;
         }
+        
+        this.form.password.avatar.onload = null;
+        sounds.confirm(0);
+
+        let userData = await myajax({
+            url: "/api/info",
+            method: "GET",
+            query: { u: username }
+        }).catch();
 
         this.form.username.input.disabled = true;
         this.form.username.submit.disabled = true;
-        this.form.password.avatar.onload = () => this.showPassInp(val);
-        this.form.password.avatar.src = "/api/avatar?u=" + val;
+        this.form.password.avatar.onload = () => this.showPassInp(username, userData.data ? userData.data.name : null);
+        this.form.password.avatar.src = "/api/avatar?u=" + username;
     },
 
-    async showPassInp(username) {
+    async showPassInp(username, name) {
         this.form.username.container.classList.add("hide");
-        this.form.password.user.innerText = username;
+        this.form.password.user.innerText = name || username;
         this.form.password.input.disabled = false;
         this.form.password.submit.disabled = false;
 
@@ -100,6 +116,7 @@ login = {
         await delayAsync(400);
 
         this.form.password.input.focus();
+        sounds.select(1);
     },
 
     reset(keepUsername = false) {
@@ -107,6 +124,7 @@ login = {
         this.form.username.input.disabled = false;
         this.form.username.submit.disabled = false;
         this.form.password.input.value = "";
+
         if (!keepUsername) {
             this.form.username.input.value = "";
             this.form.username.container.classList.remove("hide");

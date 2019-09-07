@@ -859,6 +859,9 @@
             sbar.additem(SESSION.REMOTE_ADDR, "desktop", {aligin: "right"});
         </script>
 
+        <!-- Sounds -->
+        <script src="/assets/js/sounds.js" type="text/javascript"></script>
+
         <!-- Core script -->
         <script src="/assets/js/core.js" type="text/javascript"></script>
         
