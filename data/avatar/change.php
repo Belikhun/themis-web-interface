@@ -24,6 +24,13 @@
     if (!isset($_FILES["file"]))
         stop(41, "Chưa chọn tệp!", 400);
 
+    if ($username = getForm("u")) {
+        require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
+        if (getUserData($_SESSION["username"])["id"] !== "admin")
+            stop(31, "Access Denied!", 403);
+    } else
+        $username = $_SESSION["username"];
+
     $maxfilesize = 1048576;
     $file = strtolower($_FILES["file"]["name"]);
     $acceptext = array("jpg", "png", "gif", "webp");
@@ -41,7 +48,7 @@
     if ($_FILES["file"]["error"] > 0)
         stop(-1, "Lỗi không rõ!", 500);
 
-    $imagePath = $_SERVER["DOCUMENT_ROOT"] ."/data/avatar/". $_SESSION["username"];
+    $imagePath = $_SERVER["DOCUMENT_ROOT"] ."/data/avatar/". $username;
     $oldFiles = glob($imagePath .".{jpg,png,gif,webp}", GLOB_BRACE);
 
     // Find old avatar files and remove them
@@ -55,6 +62,7 @@
     move_uploaded_file($_FILES["file"]["tmp_name"], $imagePath .".". $extension);
 
     stop(0, "Thay đổi ảnh đại diện thành công.", 200, Array(
-        "src" => "/api/avatar?u=". $_SESSION["username"]
+        "src" => "/api/avatar?u=". $username,
+        "username" => $username
     ));
 ?>
