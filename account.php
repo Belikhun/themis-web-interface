@@ -23,7 +23,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/default.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/statusbar.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/statusBar.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollbar.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/material-font.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome.css" />
@@ -37,14 +37,12 @@
 
 <body id="container">
 
-    <div class="wrapper">
-        <form id="formContainer" class="menu" action="javascript:void(0);">
-            <div class="group home">
-                <t class="title big">Quản lý tài khoản</t>
-                <t class="title small">Thêm, chỉnh sửa hoặc xóa tài khoản</t>
-            </div>
+    <div class="wrapper menu">
+        <div class="group home">
+            <t class="title big">Quản lý tài khoản</t>
+            <t class="title small">Thêm, chỉnh sửa hoặc xóa tài khoản</t>
+        </div>
 
-        </form>
     </div>
 
     <script>
@@ -52,7 +50,7 @@
         const USERNAME = `<?php print $_SESSION["username"]; ?>`;
     </script>
     <script src="assets/js/belibrary.js"></script>
-    <script src="assets/js/statusbar.js"></script>
+    <script src="assets/js/statusBar.js"></script>
     <script src="assets/js/sounds.js"></script>
     <script src="assets/js/account.js"></script>
 

@@ -1,20 +1,19 @@
 //? |-----------------------------------------------------------------------------------------------|
-//? |  /assets/js/statusbar.js                                                                      |
+//? |  /assets/js/statusBar.js                                                                      |
 //? |                                                                                               |
 //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
-class statusbar {
-
+class statusBar {
     constructor(elem) {
         if (typeof elem !== "object")
-            throw `statusbar.js init: elem is not an object, ${typeof elem} given.`;
+            throw `statusBar.js init: elem is not an object, ${typeof elem} given.`;
 
-        elem.classList.add("statusbar-container");
+        elem.classList.add("statusBar-container");
 
         this.bar = document.createElement("div");
-        this.bar.classList.add("statusbar");
+        this.bar.classList.add("statusBar");
 
         this.left = document.createElement("span");
         this.left.classList.add("left");

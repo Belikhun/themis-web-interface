@@ -86,7 +86,7 @@
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/usersetting.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/menu.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/spinner.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/statusbar.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/statusBar.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollbar.css" />
         <!-- Page Style -->
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/core.css" />
@@ -832,9 +832,9 @@
             const SESSION = <?php print json_encode($sessionData); ?>
         </script>
 
-        <script src="/assets/js/statusbar.js" type="text/javascript"></script>
+        <script src="/assets/js/statusBar.js" type="text/javascript"></script>
         <script type="text/javascript">
-            const sbar = new statusbar(document.body);
+            const sbar = new statusBar(document.body);
             sbar.__item = new Array();
 
             document.__onclog = (type, ts, msg) => {

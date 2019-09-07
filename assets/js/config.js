@@ -102,7 +102,7 @@ function update() {
     });
 }
 
-const sbar = new statusbar(document.body);
+const sbar = new statusBar(document.body);
 sbar.additem(USERNAME, "account", {space: false, aligin: "left"});
 
 document.__onclog = (type, ts, msg) => {
