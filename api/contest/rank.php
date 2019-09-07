@@ -25,7 +25,7 @@
             "rank" => Array()
         ));
 
-    if (contest_timeRequire([CONTEST_STARTED, CONTEST_NOTENDED], true) !== true)
+    if (contest_timeRequire([CONTEST_STARTED], true) !== true)
         stop(103, "Kì thi chưa bắt đầu", 200, Array(
             "list" => Array(),
             "rank" => Array()
