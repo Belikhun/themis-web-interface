@@ -91,25 +91,25 @@ const account = {
 
                 <span class="column grow">
                     <div class="row">
-                        <div class="formgroup blue sound userID" data-soundselectsoft>
-                            <input id="userID_${username}" type="text" class="formfield" autocomplete="off" placeholder="ID" required>
-                            <label for="userID_${username}" class="formlabel">ID</label>
+                        <div class="formGroup blue sound userID" data-soundselectsoft>
+                            <input id="userID_${username}" type="text" class="formField" autocomplete="off" placeholder="ID" required>
+                            <label for="userID_${username}">ID</label>
                         </div>
 
-                        <div class="formgroup blue sound username" data-soundselectsoft>
-                            <input id="userUsername_${username}" type="text" class="formfield" autocomplete="off" placeholder="Tên người dùng" required>
-                            <label for="userUsername_${username}" class="formlabel">Tên người dùng</label>
+                        <div class="formGroup blue sound username" data-soundselectsoft>
+                            <input id="userUsername_${username}" type="text" class="formField" autocomplete="off" placeholder="Tên người dùng" required>
+                            <label for="userUsername_${username}">Tên người dùng</label>
                         </div>
                     </div>
                     
-                    <div class="row formgroup blue sound" data-soundselectsoft>
-                        <input id="userPassword_${username}" type="text" class="formfield" autocomplete="off" placeholder="Mật khẩu">
-                        <label for="userPassword_${username}" class="formlabel">Mật khẩu</label>
+                    <div class="row formGroup blue sound" data-soundselectsoft>
+                        <input id="userPassword_${username}" type="text" class="formField" autocomplete="off" placeholder="Mật khẩu">
+                        <label for="userPassword_${username}">Mật khẩu</label>
                     </div>
 
-                    <div class="row formgroup blue sound" data-soundselectsoft>
-                        <input id="userName_${username}" type="text" class="formfield" autocomplete="off" placeholder="Tên" required>
-                        <label for="userName_${username}" class="formlabel">Tên</label>
+                    <div class="row formGroup blue sound" data-soundselectsoft>
+                        <input id="userName_${username}" type="text" class="formField" autocomplete="off" placeholder="Tên" required>
+                        <label for="userName_${username}">Tên</label>
                     </div>
                 </span>
 

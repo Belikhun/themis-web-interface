@@ -1448,15 +1448,23 @@ const core = {
 
                 this.publicFilesIframe.contentWindow.document.body.classList.add("dark");
                 this.licenseIframe.contentWindow.document.body.classList.add("dark");
+
                 if (core.settings.cPanelIframe)
                     core.settings.cPanelIframe.contentWindow.document.body.classList.add("dark");
+
+                if (core.settings.aPanelIframe)
+                    core.settings.aPanelIframe.contentWindow.document.body.classList.add("dark");
             }, e => {
                 document.body.classList.remove("dark");
 
                 this.publicFilesIframe.contentWindow.document.body.classList.remove("dark");
                 this.licenseIframe.contentWindow.document.body.classList.remove("dark");
+
                 if (core.settings.cPanelIframe)
                     core.settings.cPanelIframe.contentWindow.document.body.classList.remove("dark");
+
+                if (core.settings.aPanelIframe)
+                    core.settings.aPanelIframe.contentWindow.document.body.classList.remove("dark");
             }, false);
 
             // Millisecond setting

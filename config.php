@@ -65,16 +65,16 @@
                 </div>
 
                 <div class="item sound" data-soundhoversoft>
-                    <div class="formgroup blue sound" data-soundselectsoft>
-                        <input id="contest_name" type="text" class="formfield" autocomplete="off" placeholder="Tên kì thi" required>
-                        <label for="contest_name" class="formlabel">Tên kì thi</label>
+                    <div class="formGroup blue sound" data-soundselectsoft>
+                        <input id="contest_name" type="text" class="formField" autocomplete="off" placeholder="Tên kì thi" required>
+                        <label for="contest_name">Tên kì thi</label>
                     </div>
                 </div>
 
                 <div class="item sound" data-soundhoversoft>
-                    <div class="formgroup blue sound" data-soundselectsoft>
-                        <input id="contest_description" type="text" class="formfield" autocomplete="off" placeholder="Mô tả kì thi" required>
-                        <label for="contest_description" class="formlabel">Mô tả kì thi</label>
+                    <div class="formGroup blue sound" data-soundselectsoft>
+                        <input id="contest_description" type="text" class="formField" autocomplete="off" placeholder="Mô tả kì thi" required>
+                        <label for="contest_description">Mô tả kì thi</label>
                     </div>
                 </div>
                 
@@ -135,9 +135,9 @@
                 <t class="title">Thư mục</t>
 
                 <div class="item sound" data-soundhoversoft>
-                    <div class="formgroup blue sound" data-soundselectsoft>
-                        <input id="uploadDir" type="text" class="formfield" autocomplete="off" placeholder="Thư mục lưu bài làm" required>
-                        <label for="uploadDir" class="formlabel">Thư mục lưu bài làm</label>
+                    <div class="formGroup blue sound" data-soundselectsoft>
+                        <input id="uploadDir" type="text" class="formField" autocomplete="off" placeholder="Thư mục lưu bài làm" required>
+                        <label for="uploadDir">Thư mục lưu bài làm</label>
                     </div>
                 </div>
             </div>
@@ -146,32 +146,32 @@
                 <t class="title">Thời gian</t>
 
                 <div class="item sound" data-soundhoversoft>
-                    <div class="formgroup blue sound" data-soundselectsoft>
-                        <input id="time_zone" type="text" class="formfield" autocomplete="off" placeholder="Khu vực" required>
-                        <label for="time_zone" class="formlabel">Khu vực</label>
+                    <div class="formGroup blue sound" data-soundselectsoft>
+                        <input id="time_zone" type="text" class="formField" autocomplete="off" placeholder="Khu vực" required>
+                        <label for="time_zone">Khu vực</label>
                     </div>
                 </div>
                 <div class="item lr sound" data-soundhoversoft>
-                    <div class="left formgroup blue sound" data-soundselectsoft>
-                        <input id="time_beginDate" type="date" class="formfield" autocomplete="off" placeholder="Ngày bắt đầu kì thi" required>
-                        <label for="time_beginDate" class="formlabel">Ngày bắt đầu kì thi</label>
+                    <div class="left formGroup blue sound" data-soundselectsoft>
+                        <input id="time_beginDate" type="date" class="formField" autocomplete="off" placeholder="Ngày bắt đầu kì thi" required>
+                        <label for="time_beginDate">Ngày bắt đầu kì thi</label>
                     </div>
-                    <div class="middle formgroup blue sound" data-soundselectsoft>
-                        <input id="time_beginTime" type="time" step="1" class="formfield" autocomplete="off" placeholder="Thời gian bắt đầu kì thi" required>
-                        <label for="time_beginTime" class="formlabel">Thời gian bắt đầu kì thi</label>
+                    <div class="middle formGroup blue sound" data-soundselectsoft>
+                        <input id="time_beginTime" type="time" step="1" class="formField" autocomplete="off" placeholder="Thời gian bắt đầu kì thi" required>
+                        <label for="time_beginTime">Thời gian bắt đầu kì thi</label>
                     </div>
                     <button type="button" id="setTimeToNow" class="right sq-btn blue sound" data-soundhover data-soundselect>Hiện tại</button>
                 </div>
                 <div class="item sound" data-soundhoversoft>
-                    <div class="formgroup blue sound" data-soundselectsoft>
-                        <input id="time_during" type="number" class="formfield" autocomplete="off" placeholder="Thời gian làm bài" required>
-                        <label for="time_during" class="formlabel">Thời gian làm bài (phút)</label>
+                    <div class="formGroup blue sound" data-soundselectsoft>
+                        <input id="time_during" type="number" class="formField" autocomplete="off" placeholder="Thời gian làm bài" required>
+                        <label for="time_during">Thời gian làm bài (phút)</label>
                     </div>
                 </div>
                 <div class="item sound" data-soundhoversoft>
-                    <div class="formgroup blue sound" data-soundselectsoft>
-                        <input id="time_offset" type="number" class="formfield" autocomplete="off" placeholder="Thời gian bù" required>
-                        <label for="time_offset" class="formlabel">Thời gian bù (giây)</label>
+                    <div class="formGroup blue sound" data-soundselectsoft>
+                        <input id="time_offset" type="number" class="formField" autocomplete="off" placeholder="Thời gian bù" required>
+                        <label for="time_offset">Thời gian bù (giây)</label>
                     </div>
                 </div>
             </div>
@@ -180,9 +180,9 @@
                 <t class="title">Khác</t>
 
                 <div class="item sound" data-soundhoversoft>
-                    <div class="formgroup blue sound" data-soundselectsoft>
-                        <input id="pageTitle" type="text" class="formfield" autocomplete="off" placeholder="Tiêu đề trang" required>
-                        <label for="pageTitle" class="formlabel">Tiêu đề trang</label>
+                    <div class="formGroup blue sound" data-soundselectsoft>
+                        <input id="pageTitle" type="text" class="formField" autocomplete="off" placeholder="Tiêu đề trang" required>
+                        <label for="pageTitle">Tiêu đề trang</label>
                     </div>
                 </div>
 
@@ -199,23 +199,23 @@
                 <t class="title">RateLimit</t>
 
                 <div class="item sound" data-soundhoversoft>
-                    <div class="formgroup blue sound" data-soundselectsoft>
-                        <input id="ratelimit_maxRequest" type="number" class="formfield" autocomplete="off" placeholder="Số yêu cầu tối đa" required>
-                        <label for="ratelimit_maxRequest" class="formlabel">Số yêu cầu tối đa</label>
+                    <div class="formGroup blue sound" data-soundselectsoft>
+                        <input id="ratelimit_maxRequest" type="number" class="formField" autocomplete="off" placeholder="Số yêu cầu tối đa" required>
+                        <label for="ratelimit_maxRequest">Số yêu cầu tối đa</label>
                     </div>
                 </div>
 
                 <div class="item sound" data-soundhoversoft>
-                    <div class="formgroup blue sound" data-soundselectsoft>
-                        <input id="ratelimit_time" type="number" class="formfield" autocomplete="off" placeholder="Thời gian (giây)" required>
-                        <label for="ratelimit_time" class="formlabel">Thời gian tối đa thực hiện yêu cầu (giây)</label>
+                    <div class="formGroup blue sound" data-soundselectsoft>
+                        <input id="ratelimit_time" type="number" class="formField" autocomplete="off" placeholder="Thời gian (giây)" required>
+                        <label for="ratelimit_time">Thời gian tối đa thực hiện yêu cầu (giây)</label>
                     </div>
                 </div>
 
                 <div class="item sound" data-soundhoversoft>
-                    <div class="formgroup blue sound" data-soundselectsoft>
-                        <input id="ratelimit_banTime" type="number" class="formfield" autocomplete="off" placeholder="Thời gian cấm yêu cầu (giây)" required>
-                        <label for="ratelimit_banTime" class="formlabel">Thời gian cấm yêu cầu (giây)</label>
+                    <div class="formGroup blue sound" data-soundselectsoft>
+                        <input id="ratelimit_banTime" type="number" class="formField" autocomplete="off" placeholder="Thời gian cấm yêu cầu (giây)" required>
+                        <label for="ratelimit_banTime">Thời gian cấm yêu cầu (giây)</label>
                     </div>
                 </div>
 

@@ -72,9 +72,9 @@
 
                 <form id="form_container" action="javascript:void(0);">
                     <div id="form_username">
-                        <div class="formgroup blue sound" data-soundselectsoft>
-                            <input id="form_username_input" type="text" class="formfield" autocomplete="off" placeholder="Tên tài khoản" required disabled>
-                            <label for="form_username_input" class="formlabel">Tên tài khoản</label>
+                        <div class="formGroup blue sound" data-soundselectsoft>
+                            <input id="form_username_input" type="text" class="formField" autocomplete="off" placeholder="Tên tài khoản" required disabled>
+                            <label for="form_username_input">Tên tài khoản</label>
                         </div>
 
                         <button id="form_username_submit" type="button" class="sq-btn sound" data-soundhover data-soundselect disabled>Tiếp</button>
@@ -86,9 +86,9 @@
                             <t id="form_user"></t>
                         </div>
 
-                        <div class="formgroup blue sound" data-soundselectsoft>
-                            <input id="form_password_input" type="password" class="formfield" autocomplete="off" placeholder="Mật khẩu" required disabled>
-                            <label for="form_password_input" class="formlabel">Mật khẩu</label>
+                        <div class="formGroup blue sound" data-soundselectsoft>
+                            <input id="form_password_input" type="password" class="formField" autocomplete="off" placeholder="Mật khẩu" required disabled>
+                            <label for="form_password_input">Mật khẩu</label>
                         </div>
 
                         <button id="form_password_submit" type="submit" class="sq-btn pink sound" data-soundhover data-soundselect disabled>Đăng nhập</button>

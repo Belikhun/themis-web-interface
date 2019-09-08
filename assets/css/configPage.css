@@ -57,7 +57,7 @@ t {
 
 /* Extra Stuff */
 
-.wrapper #formContainer .group .item .formgroup {
+.wrapper #formContainer .group .item .formGroup {
     position: relative;
     display: block;
     width: 100%;
@@ -83,7 +83,7 @@ body.dark t {
     color: rgb(212, 212, 212);
 }
 
-body.dark .formgroup.blue .formfield {
+body.dark .formGroup.blue .formField {
     color: rgb(204, 204, 204);
 }
 
