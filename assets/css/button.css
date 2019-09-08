@@ -290,6 +290,7 @@
 .sq-btn.red:before {
     border-color: transparent transparent rgb(240, 62, 86) transparent;
     animation-duration: 8.1s;
+    animation-delay: 0.3s;
 }
 
 .sq-btn.red:after {

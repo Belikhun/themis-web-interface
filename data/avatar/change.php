@@ -31,24 +31,22 @@
     } else
         $username = $_SESSION["username"];
 
-    $maxfilesize = 1048576;
     $file = strtolower($_FILES["file"]["name"]);
-    $acceptext = array("jpg", "png", "gif", "webp");
     $extension = pathinfo($file, PATHINFO_EXTENSION);
 
-    if (!in_array($extension, $acceptext))
-        stop(43, "Chỉ chấp nhận ảnh png, jpg, webp hoặc gif!", 400);
+    if (!in_array($extension, IMAGE_ALLOW))
+        stop(43, "Không chấp nhận loại tệp!", 400, Array( "allow" => IMAGE_ALLOW ));
 
-    if ($_FILES["file"]["size"] > $maxfilesize)
+    if ($_FILES["file"]["size"] > MAX_IMAGE_SIZE)
         stop(42, "Tệp quá lớn!", 400, Array(
             "size" => $_FILES["file"]["size"],
-            "max" => $maxfilesize
+            "max" => MAX_IMAGE_SIZE
         ));
 
     if ($_FILES["file"]["error"] > 0)
         stop(-1, "Lỗi không rõ!", 500);
 
-    $imagePath = $_SERVER["DOCUMENT_ROOT"] ."/data/avatar/". $username;
+    $imagePath = AVATAR_DIR ."/". $username;
     $oldFiles = glob($imagePath .".{jpg,png,gif,webp}", GLOB_BRACE);
 
     // Find old avatar files and remove them

@@ -27,14 +27,12 @@
 
     contest_timeRequire([CONTEST_STARTED, CONTEST_NOTENDED], false);
 
-    $maxfilesize = 10*1024*1024;
     $username = $_SESSION["username"];
     $userid = $_SESSION["id"];
     apache_setenv("no-gzip", "1");
 
     $file = utf8_encode(strtolower($_FILES["file"]["name"]));
     $filename = pathinfo($file, PATHINFO_FILENAME);
-    $acceptext = Array("pas", "cpp", "c", "pp", "exe", "class", "py", "java");
     $extension = pathinfo($file, PATHINFO_EXTENSION);
 
     if ($config["submitInProblems"] === true) {
@@ -46,13 +44,13 @@
             stop(43, "Không chấp nhận tệp!", 415);
     }
 
-    if (!in_array($extension, $acceptext))
-        stop(43, "Không chấp nhận tệp!", 415);
+    if (!in_array($extension, UPLOAD_ALLOW))
+        stop(43, "Không chấp nhận tệp!", 415, Array( "allow" => UPLOAD_ALLOW ));
 
-    if (($_FILES["file"]["size"] > $maxfilesize))
+    if (($_FILES["file"]["size"] > MAX_UPLOAD_SIZE))
         stop(42, "Tệp quá lớn!", 400, Array(
             "size" => $_FILES["file"]["size"],
-            "max" => $maxfilesize
+            "max" => MAX_UPLOAD_SIZE
         ));
 
     if ($_FILES["file"]["error"] > 0)

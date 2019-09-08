@@ -68,8 +68,8 @@ class splash {
         }]
 
         this.tree = buildElementTree("div", "splash", tree);
-        container.insertBefore(this.tree.tree, container.childNodes[0]);
         this.splash = this.tree.tree;
+        container.insertBefore(this.splash, container.childNodes[0]);
 
         this.init = async () => {}
         this.postInit = async () => {}

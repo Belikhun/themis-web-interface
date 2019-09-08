@@ -201,8 +201,14 @@ function escapeHTML(str) {
     });
 }
 
-function fcfn(nodes, classname) {
-    return nodes.getElementsByClassName(classname)[0];
+/**
+ * Return the first element with the given className
+ * @param   {Element}   node          Container
+ * @param   {String}    className     Class
+ * @returns {Element}
+ */
+function fcfn(node, className) {
+    return node.getElementsByClassName(className)[0];
 }
 
 function buildElementTree(type = "div", __class = [], data = new Array(), __keypath = "") {
@@ -212,15 +218,21 @@ function buildElementTree(type = "div", __class = [], data = new Array(), __keyp
     tree.classList.add.apply(tree.classList, __class);
     var objtree = tree;
 
-    for (var i = 0; i < data.length; i++) {
-        var d = data[i];
+    for (let i = 0; i < data.length; i++) {
+        let d = data[i];
+
         if (typeof d.list == "object") {
             let k = __keypath + (__keypath === "" ? "" : ".") + d.name;
             var t = buildElementTree(d.type, d.class, d.list, k);
 
             t.tree.dataset.name = d.name;
             t.tree.dataset.path = k;
+            (d.id) ? t.tree.id = d.id : 0;
+            (d.for) ? t.tree.htmlFor = d.for : 0;
+            (d.inpType) ? t.tree.type = d.inpType : 0;
+            (d.text) ? t.tree.innerText = d.text : 0;
             tree.appendChild(t.tree);
+
             objtree[d.name] = t.tree;
             Object.assign(objtree[d.name], t.obj);
         } else {
@@ -232,6 +244,11 @@ function buildElementTree(type = "div", __class = [], data = new Array(), __keyp
             t.classList.add.apply(t.classList, d.class);
             t.dataset.name = d.name;
             t.dataset.path = k;
+            (d.id) ? t.id = d.id : 0;
+            (d.for) ? t.htmlFor = d.for : 0;
+            (d.inpType) ? t.type = d.inpType : 0;
+            (d.text) ? t.innerText = d.text : 0;
+
             tree.appendChild(t);
             objtree[d.name] = t;
         }
@@ -253,13 +270,15 @@ function checkServer(ip, callback = () => {}) {
                 if (this.status === 0) {
                     pon = {
                         code: -1,
-                        description: "Server Offline"
+                        description: `Server "${ip}" is Offline`,
+                        address: ip
                     }
                     reject(pon);
                 } else {
                     pon = {
                         code: 0,
-                        description: "Server Online"
+                        description: `Server "${ip}" is Online`,
+                        address: ip
                     }
                     resolve(pon);
                 }
@@ -430,6 +449,11 @@ function randBetween(min, max, toInt = true) {
     return toInt ? Math.floor(rand) : rand;
 }
 
+/**
+ * A shorthand of querySelector
+ * @param {String} selector Selector
+ * @returns {Element}
+ */
 function $(selector) {
     return document.querySelector(selector);
 }

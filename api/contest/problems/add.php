@@ -65,10 +65,10 @@
             stop(45, "Đã có đề với id này!", 404, Array( "id" => $id ));
             break;
         case PROBLEM_ERROR_FILEREJECT:
-            stop(43, "Không chấp nhận loại tệp!", 400, Array( "id" => $id, "allow" => PROBLEM_IMAGE_ALLOW ));
+            stop(43, "Không chấp nhận loại tệp!", 400, Array( "id" => $id, "allow" => IMAGE_ALLOW ));
             break;
         case PROBLEM_ERROR_FILETOOLARGE:
-            stop(42, "Tệp quá lớn!", 400, Array( "id" => $id, "image" => PROBLEM_IMAGE_MAX, "attachment" => PROBLEM_ATTACHMENT_MAX ));
+            stop(42, "Tệp quá lớn!", 400, Array( "id" => $id, "image" => MAX_IMAGE_SIZE, "attachment" => MAX_ATTACHMENT_SIZE ));
             break;
         case PROBLEM_ERROR:
             stop(-1, "Lỗi không rõ.", 500, Array( "id" => $id ));

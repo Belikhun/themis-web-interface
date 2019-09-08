@@ -215,7 +215,7 @@
             </span>
         </div>
 
-        <span id="user_settings" data-soundtoggle="show" class="sound">
+        <span id="user_settings" class="sound" data-soundtoggle="show">
 
             <div class="main">
                 <div class="container menu">
@@ -447,6 +447,7 @@
 
                         <t class="title small">Cài đặt</t>
                         <div id="settings_cPanelToggler" class="item arr sound" data-soundhover>Admin Control Panel</div>
+                        <div id="settings_accountEditorToggler" class="item arr sound" data-soundhover>Quản lý tài khoản</div>
                         <div id="settings_problemToggler" class="item arr sound" data-soundhover>Chỉnh Sửa Test</div>
                         <div id="settings_syslogsToggler" class="item arr sound" data-soundhover>Nhật Ký Hệ Thống</div>
                     </div>
@@ -563,6 +564,19 @@
                 </div>
 
                 <div id="settings_controlPanel" data-soundtoggle="show" class="panel large sound">
+                    <div class="container">
+                        <div class="btn-group">
+                            <span class="reload sound" data-soundhover data-soundselect></span>
+                            <span class="close sound" data-soundhover></span>
+                            <span class="custom sound" data-soundhover data-soundselect></span>
+                        </div>
+                        <div class="main">
+                            <iframe class="cpanel-container" src=""></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="settings_accountEditor" data-soundtoggle="show" class="panel large sound">
                     <div class="container">
                         <div class="btn-group">
                             <span class="reload sound" data-soundhover data-soundselect></span>

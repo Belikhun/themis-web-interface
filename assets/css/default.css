@@ -9,6 +9,7 @@
 
 body {
     position: relative;
+    display: block;
     font-family: "Segoe UI", Calibri, Geneva, Verdana, sans-serif;
     font-size: 15px;
     color: rgb(42, 42, 42);

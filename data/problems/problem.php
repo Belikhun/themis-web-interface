@@ -8,18 +8,12 @@
     
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
     
-    define("PROBLEM_DIR", $_SERVER["DOCUMENT_ROOT"] ."/data/problems");
     $problemList = Array();
 
     foreach(glob(PROBLEM_DIR ."/*", GLOB_ONLYDIR) as $i => $path) {
         $data = json_decode((new fip($path."/data.json")) -> read(), true);
         $problemList[basename($path)] = $data;
     }
-
-    // Size Limit
-    define("PROBLEM_IMAGE_MAX", 2097153);
-    define("PROBLEM_IMAGE_ALLOW", Array("jpg", "png", "gif", "webp"));
-    define("PROBLEM_ATTACHMENT_MAX", 268435456);
 
     // Return Code
     define("PROBLEM_OKAY", 0);
@@ -90,10 +84,10 @@
             $imageFile = utf8_encode(strtolower($image["name"]));
             $extension = pathinfo($imageFile, PATHINFO_EXTENSION);
 
-            if (!in_array($extension, PROBLEM_IMAGE_ALLOW))
+            if (!in_array($extension, IMAGE_ALLOW))
                 return PROBLEM_ERROR_FILEREJECT;
 
-            if ($image["size"] > PROBLEM_IMAGE_MAX)
+            if ($image["size"] > MAX_IMAGE_SIZE)
                 return PROBLEM_ERROR_FILETOOLARGE;
 
             if ($image["error"] > 0)
@@ -111,7 +105,7 @@
             $attachmentFile = utf8_encode(strtolower($attachment["name"]));
             $extension = pathinfo($attachmentFile, PATHINFO_EXTENSION);
 
-            if ($attachment["size"] > PROBLEM_ATTACHMENT_MAX)
+            if ($attachment["size"] > MAX_ATTACHMENT_SIZE)
                 return PROBLEM_ERROR_FILETOOLARGE;
 
             if ($attachment["error"] > 0)
@@ -153,7 +147,7 @@
             if (!in_array($extension, $acceptExt))
                 return PROBLEM_ERROR_FILEREJECT;
 
-            if ($image["size"] > PROBLEM_IMAGE_MAX)
+            if ($image["size"] > MAX_IMAGE_SIZE)
                 return PROBLEM_ERROR_FILETOOLARGE;
 
             if ($image["error"] > 0)
@@ -166,7 +160,7 @@
         if (isset($attachment)) {
             $attachmentFile = utf8_encode(strtolower($attachment["name"]));
 
-            if ($attachment["size"] > PROBLEM_ATTACHMENT_MAX)
+            if ($attachment["size"] > MAX_ATTACHMENT_SIZE)
                 return PROBLEM_ERROR_FILETOOLARGE;
 
             if ($attachment["error"] > 0)

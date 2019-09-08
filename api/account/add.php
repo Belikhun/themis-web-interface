@@ -21,7 +21,7 @@
 
     $id = reqForm("id");
     $username = reqForm("u");
-    $password = password_hash(reqForm("p"));
+    $password = password_hash(reqForm("p"), PASSWORD_DEFAULT);
     $name = reqForm("n");
 
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";

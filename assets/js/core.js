@@ -98,7 +98,7 @@ class regPanel {
     }
 }
 
-core = {
+const core = {
     logPanel: new regPanel($("#logp")),
     rankPanel: new regPanel($("#rankp")),
     container: $("#container"),
@@ -1685,6 +1685,8 @@ core = {
         navcont: $("#usett_left_panel"),
         cPanel: null,
         cPanelIframe: null,
+        aPanel: null,
+        aPanelIframe: null,
         pPanel: null,
         lPanel: null,
         adminConfig: $("#usett_adminConfig"),
@@ -1692,12 +1694,16 @@ core = {
         async init() {
             this.adminConfig.style.display = "block";
             this.cPanel = new core.userSettings.panel($("#settings_controlPanel"));
+            this.aPanel = new core.userSettings.panel($("#settings_accountEditor"));
             this.pPanel = new core.userSettings.panel($("#settings_problem"));
             this.lPanel = new core.userSettings.panel($("#settings_syslogs"));
             this.cPanelIframe = this.cPanel.main.getElementsByTagName("iframe")[0];
+            this.aPanelIframe = this.aPanel.main.getElementsByTagName("iframe")[0];
             this.cPanelIframe.src = "config.php";
+            this.aPanelIframe.src = "account.php";
 
             this.cPanel.toggler = $("#settings_cPanelToggler");
+            this.aPanel.toggler = $("#settings_accountEditorToggler");
             this.pPanel.toggler = $("#settings_problemToggler");
             this.lPanel.toggler = $("#settings_syslogsToggler");
 
@@ -1705,8 +1711,13 @@ core = {
             await this.syslogs.init(this.lPanel);
 
             this.cPanel.ref.onClick(() => {
-                this.cPanelIframe.contentWindow.location.reload();
-                clog("okay", "Reloaded cPanel IFrame.");
+                this.cPanelIframe.contentWindow.update();
+                clog("okay", "Reloaded controlPanel.");
+            })
+
+            this.aPanel.ref.onClick(() => {
+                this.aPanelIframe.contentWindow.reloadAccountList();
+                clog("okay", "Reloaded accountEditorPanel.");
             })
 
             this.pPanel.ref.onClick(() => {

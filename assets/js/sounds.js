@@ -167,6 +167,16 @@ const sounds = {
             this.__soundToggle(sound);
     },
 
+    toggle(variation = 0) {
+        let sound = [
+            this.sounds.overlayPopIn,
+            this.sounds.overlayPopOut
+        ][variation]
+
+        if (this.enable.master && this.enable.others)
+            this.__soundToggle(sound);
+    },
+
     notification() {
         if (this.enable.master && this.enable.notification)
             this.__soundToggle(this.sounds.notification);
@@ -183,10 +193,12 @@ const sounds = {
 
             this.applySound(item);
         }
+
+        return true;
     },
     
     applySound(item) {
-        if (!item.nodeType || item.nodeType <= 0 || !this.soundsLoaded)
+        if (!item.nodeType || item.nodeType <= 0 || item.dataset.soundApplied || !this.soundsLoaded)
             return false;
 
         if (typeof item.dataset.soundhover !== "undefined")
@@ -236,5 +248,7 @@ const sounds = {
                 if (this.enable.master && this.enable.panelToggle)
                     this.__soundToggle(this.sounds.overlayPopOut);
             });
+
+        item.dataset.soundApplied = true;
     }
 }

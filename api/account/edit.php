@@ -21,16 +21,46 @@
 
     $username = reqForm("u");
     $id = getForm("id");
-    $password = password_hash(getForm("p"));
+    $password = getForm("p");
     $name = getForm("n");
 
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
     if (getUserData($_SESSION["username"])["id"] !== "admin")
         stop(31, "Access Denied!", 403);
 
+    if (isset($_FILES["avatar"])) {
+        $file = strtolower($_FILES["avatar"]["name"]);
+        $extension = pathinfo($file, PATHINFO_EXTENSION);
+
+        if (!in_array($extension, IMAGE_ALLOW))
+            stop(43, "Không chấp nhận loại ảnh!", 400, Array( "allow" => IMAGE_ALLOW ));
+
+        if ($_FILES["avatar"]["size"] > MAX_IMAGE_SIZE)
+            stop(42, "Ảnh quá lớn!", 400, Array(
+                "size" => $_FILES["avatar"]["size"],
+                "max" => MAX_IMAGE_SIZE
+            ));
+
+        if ($_FILES["avatar"]["error"] > 0)
+            stop(-1, "Lỗi không rõ!", 500);
+
+        $imagePath = AVATAR_DIR ."/". $username;
+        $oldFiles = glob($imagePath .".{jpg,png,gif,webp}", GLOB_BRACE);
+
+        // Find old avatar files and remove them
+        if (count($oldFiles) > 0)
+            foreach ($oldFiles as $oldFile) {
+                $ext = pathinfo($oldFile, PATHINFO_EXTENSION);
+                unlink($imagePath .".". $ext);
+            }
+
+        // Move new avatar
+        move_uploaded_file($_FILES["avatar"]["tmp_name"], $imagePath .".". $extension);
+    }
+
     $data = Array();
     $id ? $data["id"] = $id : null;
-    $password ? $data["password"] = $password : null;
+    $password ? $data["password"] = password_hash($password, PASSWORD_DEFAULT) : null;
     $name ? $data["name"] = $name : null;
     $res = editUser($username, $data);
 

@@ -31,18 +31,22 @@
     <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/input.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/switch.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/spinner.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/menu.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/accountPage.css" />
 </head>
 
 <body id="container">
-
     <div class="wrapper menu">
         <div class="group home">
             <t class="title big">Quản lý tài khoản</t>
             <t class="title small">Thêm, chỉnh sửa hoặc xóa tài khoản</t>
+
+            <div class="space"></div>
         </div>
 
+        <div id="accountContainer">
+        </div>
     </div>
 
     <script>
