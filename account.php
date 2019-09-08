@@ -22,18 +22,18 @@
     <title>Quản lý tài khoản | <?php print APPNAME ." v". VERSION; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/default.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/statusBar.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollbar.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/material-font.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/input.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/switch.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/spinner.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/menu.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/accountPage.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/default.css?v=<?php print VERSION; ?>" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/statusBar.css?v=<?php print VERSION; ?>" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollbar.css?v=<?php print VERSION; ?>" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/material-font.css?v=<?php print VERSION; ?>" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome.css?v=<?php print VERSION; ?>" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri.css?v=<?php print VERSION; ?>" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/input.css?v=<?php print VERSION; ?>" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/switch.css?v=<?php print VERSION; ?>" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css?v=<?php print VERSION; ?>" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/spinner.css?v=<?php print VERSION; ?>" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/menu.css?v=<?php print VERSION; ?>" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/accountPage.css?v=<?php print VERSION; ?>" />
 </head>
 
 <body id="container">
@@ -98,10 +98,10 @@
         const API_TOKEN = `<?php print isset($_SESSION["api_token"]) ? $_SESSION["api_token"] : null; ?>`;
         const USERNAME = `<?php print $_SESSION["username"]; ?>`;
     </script>
-    <script src="assets/js/belibrary.js"></script>
-    <script src="assets/js/statusBar.js"></script>
-    <script src="assets/js/sounds.js"></script>
-    <script src="assets/js/account.js"></script>
+    <script src="assets/js/belibrary.js?v=<?php print VERSION; ?>"></script>
+    <script src="assets/js/statusBar.js?v=<?php print VERSION; ?>"></script>
+    <script src="assets/js/sounds.js?v=<?php print VERSION; ?>"></script>
+    <script src="assets/js/account.js?v=<?php print VERSION; ?>"></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124598427-1"></script>

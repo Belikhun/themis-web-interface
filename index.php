@@ -73,41 +73,41 @@
         <meta property="twitter:description" content="<?php print $stripedContestDescription; ?>">
 
         <!-- Load Library First -->
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/default.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/splash.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/progressbar.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/input.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/textview.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/table.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/switch.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/slider.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/navbar.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/usersetting.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/menu.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/spinner.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/statusBar.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollbar.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/default.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/splash.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/progressbar.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/input.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/textview.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/table.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/switch.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/slider.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/navbar.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/usersetting.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/menu.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/spinner.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/statusBar.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollbar.css?v=<?php print VERSION; ?>" />
         <!-- Page Style -->
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/core.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/dark.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/core.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/dark.css?v=<?php print VERSION; ?>" />
         <!-- Fonts -->
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/material-font.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/consolas.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/material-font.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/consolas.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome.css?v=<?php print VERSION; ?>" />
     </head>
 
     <body class="<?php print ($loggedIn ? ($id === 'admin' ? 'admin' : 'user') : 'guest'); ?>">
 
         <!-- Init Library and Splash First -->
-        <script src="/assets/js/belibrary.js" type="text/javascript"></script>
-        <script type="text/javascript" src="/assets/js/splash.js"></script>
+        <script src="/assets/js/belibrary.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+        <script type="text/javascript" src="/assets/js/splash.js?v=<?php print VERSION; ?>"></script>
         <script type="text/javascript">
             var mainSplash = new splash(document.body, `<?php print $config["contest"]["name"]; ?>`, `<?php print $stripedContestDescription; ?>`, "/assets/img/icon.webp");
 
             mainSplash.init = async set => {
-                set(0, "Initializing core.js");
+                set(0, "Initializing core.js?v=<?php print VERSION; ?>");
                 await core.init(set);
             }
 
@@ -846,7 +846,7 @@
             const SESSION = <?php print json_encode($sessionData); ?>
         </script>
 
-        <script src="/assets/js/statusBar.js" type="text/javascript"></script>
+        <script src="/assets/js/statusBar.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
         <script type="text/javascript">
             const sbar = new statusBar(document.body);
             sbar.__item = new Array();
@@ -874,10 +874,10 @@
         </script>
 
         <!-- Sounds -->
-        <script src="/assets/js/sounds.js" type="text/javascript"></script>
+        <script src="/assets/js/sounds.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 
         <!-- Core script -->
-        <script src="/assets/js/core.js" type="text/javascript"></script>
+        <script src="/assets/js/core.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
         
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124598427-1"></script>

@@ -24,15 +24,15 @@
 
         <title>Đăng nhập</title>
 
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/default.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/input.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollbar.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/spinner.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/loginPage.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/material-font.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/default.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/input.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollbar.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/spinner.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/loginPage.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/material-font.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="https://fonts.googleapis.com/css?family=Open+Sans" />
 
     </head>
@@ -100,9 +100,9 @@
             </div>
         </div>
 
-        <script src="/assets/js/belibrary.js" type="text/javascript"></script>
-        <script src="/assets/js/sounds.js" type="text/javascript"></script>
-        <script src="/assets/js/login.js" type="text/javascript"></script>
+        <script src="/assets/js/belibrary.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+        <script src="/assets/js/sounds.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+        <script src="/assets/js/login.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124598427-1"></script>
