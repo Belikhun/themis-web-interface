@@ -26,11 +26,11 @@
         stop(0, "Xóa nhật ký thành công!", 200);
     }
 
-    $logs = readLog("json");
+    $logs = array_reverse(readLog("json"));
     $logsTotal = max(count($logs), 1);
     $showCount = (int) getForm("show", $logsTotal);
     $maxPage = (int) floor($logsTotal / $showCount);
-    $pageNth = (int) getForm("page", $maxPage);
+    $pageNth = (int) getForm("page", 0);
     $from = ($pageNth) * $showCount;
     $to = min(($pageNth + 1) * $showCount, $logsTotal);
 
