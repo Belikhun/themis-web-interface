@@ -23,7 +23,25 @@
 
     if (getForm("clear", "false") === "true") {
         clearLog();
-        stop(0, "Success", 200);
+        stop(0, "Xóa nhật ký thành công!", 200);
     }
 
-    stop(0, "Success", 200, readLog("json"), true);
+    $logs = readLog("json");
+    $logsTotal = max(count($logs), 1);
+    $showCount = (int) getForm("show", $logsTotal);
+    $maxPage = (int) floor($logsTotal / $showCount);
+    $pageNth = (int) getForm("page", $maxPage);
+    $from = ($pageNth) * $showCount;
+    $to = min(($pageNth + 1) * $showCount, $logsTotal);
+
+    $slicedLogs = array_slice($logs, $from, $to - $from);
+
+    stop(0, "Success", 200, Array(
+        "total" => $logsTotal,
+        "perPage" => $showCount,
+        "maxPage" => $maxPage,
+        "pageNth" => $pageNth,
+        "from" => $from,
+        "to" => $to,
+        "logs" => $slicedLogs
+    ), true);
