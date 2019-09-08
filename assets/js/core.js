@@ -160,6 +160,30 @@ const core = {
             })
         }
 
+        set(6, "Applying onDisconnected");
+        __connection__.onDisconnected = async o => {
+            const retry = document.createElement("t");
+            retry.classList.add("disconnectedRetry");
+
+            o.onCount(tryNth => {
+                if (tryNth === "connected")
+                    core.dialog.hide();
+
+                retry.innerHTML = `Lần thử<span class="inner">${tryNth}</span>`;
+            })
+
+            core.dialog.show({
+                panelTitle: "Disconnected",
+                title: "Oops",
+                description: `Bạn đã bị mất kết nối tới máy chủ!<br><b>Themis Web Interface</b> đang thử kết nối lại!`,
+                level: "error",
+                additionalNode: retry,
+                buttonList: {
+                    close: { text: "Đã rõ!", color: "dark" }
+                }
+            })
+        }
+
         set(7, "Initializing: core.wrapper");
         this.wrapper.init();
 

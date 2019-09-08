@@ -611,6 +611,7 @@ __connection__ = {
     checkEvery: 2000,
     checkInterval: null,
     checkCount: 0,
+    onDisconnected: () => {},
     onRatelimited: () => {},
     __checkTime: 0,
     __sbarItem: null,
@@ -643,21 +644,31 @@ __connection__ = {
                     break;
 
                 case "offline":
+                    let checkerer = () => {}
+
                     clog("lcnt", "Mất kết nối tới máy chủ.");
                     this.checkCount = 0;
                     this.__sbarItem = (sbar) ? sbar.additem("Đang thử kết nối lại...", "spinner", {aligin: "right"}) : null;
+
+                    this.onDisconnected({
+                        onCount: (f) => checkerer = f
+                    });
 
                     this.checkInterval = setInterval(() => {
                         this.checkCount++;
                         if (this.__sbarItem)
                             this.__sbarItem.change(`Đang thử kết nối lại... [Lần ${this.checkCount}]`);
                             
-                        checkServer(window.location.origin).then((data) => {
-                            if (data.code === 0) {
-                                this.stateChange("online");
-                                resolve();
-                            }
-                        });
+                        checkerer(this.checkCount);
+
+                        checkServer(window.location.origin)
+                            .then((data) => {
+                                if (data.code === 0) {
+                                    this.stateChange("online");
+                                    checkerer("connected");
+                                    resolve();
+                                }
+                            });
                     }, this.checkEvery);
                     break;
 
