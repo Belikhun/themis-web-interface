@@ -165,19 +165,23 @@ Danh sách các *tệp đính kèm* và *tệp công khai* đều **nằm gọn 
 
 <br><br><br><br><br><br><br><br><br>
 
-<img align="right" src="https://lh3.googleusercontent.com/RSidBy9TJHb-qKmqlH9PB_JvRfb6Cq98ZWOATbAR4x0QFkbvyY4fVq5FsXgj0H7iUeFYom2p9mo0TJjPtSmLpui1EAHGRn0WLzviL7abfNrD7uXkBi8bM8VNRjXdFjgqhdiXGtw4Og=w2400" width="500px">
+<img align="right" src="https://lh3.googleusercontent.com/bui1LOgpbZtgg-lyLCmMAFzJVnBdjHMn5xEEyv3ne3haMUNUtdSc4PxPFINq0N8o-At-TmaYVXwONraZZFDui_RFkWYE2mop_-_KcVWXbjGpk_7Gb1gRXIqYP5QpyXbnNaPGISewIQ=w2400" width="500px">
 
 <div align="left">
 
-### Bảng cài đặt dành cho <b>Admin</b></h1>
+### Công cụ dành cho <b>Admin</b></h1>
 
 ---
 
-Thay đổi cách hệ thống vận hành một cách **đơn giản**! Không còn cần phải chỉnh sửa tệp *config* mỗi khi muốn thay đổi cài đặt của hệ thống. Chỉ với *2 click* là bạn đã tới trang cài đặt cho admin với toàn bộ cài đặt mà bạn có thể tìm thấy!
+Bao gồm 3 công cụ chính: **Bảng Điều Khiển**, **Bảng Quản Lí Tài Khoản** và **Soạn Đề Bài**
+
+Thay đổi cách hệ thống vận hành một cách **đơn giản** qua **Bảng Điều Khiển**! Không còn cần phải chỉnh sửa tệp *config* mỗi khi muốn thay đổi cài đặt của hệ thống. Chỉ với *2 click* là bạn đã tới trang cài đặt cho admin với toàn bộ cài đặt mà bạn có thể tìm thấy!
+
+Quản lí người dùng dễ dàng với **Bảng Quản Lí Tài Khoản**! Thêm, Chỉnh Sửa hay Xóa bất kì tài khoản nào một cách nhanh gọn. Thay thế hoàn toàn với phương pháp chỉnh sửa tệp `account.xml` truyền thống.
 
 </div>
 
-<br><br><br><br><br><br><br>
+<br><br><br><br><br>
 
 <img align="left" src="https://lh3.googleusercontent.com/zqEm3eNuA6U12TflorfHmnfmGy8eLA3w1E0lpDCZA-qRHqYbp1eNWzpa9_Dn_QfDJsjpEN5Um1VPSYfN8nOc00JLzhpSGkFy7WLZrlR_nV7mLN3xx7vI3DO_KG3a0DIfSsRUvEl_WQ=w2400" width="500px">
 
