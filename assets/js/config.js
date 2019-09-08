@@ -125,10 +125,11 @@ $("body").onload = e => {
         let now = new Date();
 
         time.beginDate.value = cvdate(
-            now.getDay() + 1,
+            now.getDate() + 1,
             now.getMonth() + 1,
             now.getFullYear()
         );
+
         time.beginTime.value = cvtime(
             now.getHours(),
             now.getMinutes(),
