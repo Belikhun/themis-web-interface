@@ -681,8 +681,10 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 
 .problem-settings .problem-container .problem-list li.item {
     position: relative;
+    display: flex;
+    flex-direction: row;
     width: 100%;
-    height: 46px;
+    height: 64px;
     box-sizing: border-box;
     padding: 0 10px;
     display: flex;
@@ -700,13 +702,18 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 
 .problem-settings .problem-container .problem-list li.item .icon {
     position: relative;
-    width: 30px;
-    height: 30px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
     border-radius: 15px;
     object-fit: cover;
 }
 
 .problem-settings .problem-container .problem-list li.item .title {
+    position: relative;
+    flex-grow: 1;
+    flex-shrink: 1;
     list-style: none;
     margin: unset;
     padding: 0 0 0 10px;
@@ -724,9 +731,10 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 }
 
 .problem-settings .problem-container .problem-list li.item .action {
-    position: absolute;
-    right: 10px;
-    display: none;
+    position: relative;
+    display: block;
+    flex-grow: 0;
+    flex-shrink: 0;
 }
 
 .problem-settings .problem-container .problem-list li.item .action span {
@@ -734,15 +742,12 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     cursor: pointer;
 }
 
-.problem-settings .problem-container .problem-list li.item:hover .action {
-    display: block;
-}
-
 .problem-settings .problem-container .problem-list li.item .action span::before {
     font-family: "Font Awesome 5 Free";
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
     color: #95a5a6;
+    transition: color 0.1s ease;
 }
 
 .problem-settings .problem-container .problem-list li.item .action span.delete::before {
