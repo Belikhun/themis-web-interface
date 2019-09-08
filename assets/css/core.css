@@ -746,7 +746,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 }
 
 .problem-settings .problem-container .problem-list li.item .action span.delete::before {
-    content: "\f056";
+    content: "\f1f8";
 }
 
 .problem-settings .problem-container .problem-list li.item .action span.delete:hover::before {
