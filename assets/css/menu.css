@@ -345,6 +345,10 @@ body.embeded .menu {
     content: "\f7d9";
 }
 
+.menu .group.plus::after {
+    content: "\f067";
+}
+
 /* Dark */
 
 body.dark .menu {

@@ -45,6 +45,51 @@
             <div class="space"></div>
         </div>
 
+        <div class="group plus">
+            <div class="item sound" data-soundhover>
+                <button id="accountAdd" class="sq-btn dark sound" data-soundhover data-soundselect>Thêm một tài khoản mới</button>
+            </div>
+
+            <div id="accountAddContainer" class="accountEditor">
+                <form id="accountAddEditor" class="editor" action="javascript:void(0);">
+                    <input type="file" class="avatarInput" id="addUserAvatar" accept="image/*">
+                    <label id="addAvatarPreviewContainer" class="lazyload column avatar sound" data-soundhover data-soundselect for="addUserAvatar">
+                        <img id="addAvatarPreview" onload="this.parentNode.dataset.loaded = 1" src="/api/avatar"/>
+                        <div class="simple-spinner"></div>
+                    </label>
+    
+                    <span class="column grow">
+                        <div class="row">
+                            <div class="formGroup blue sound userID" data-soundselectsoft>
+                                <input id="addUserID" type="text" class="formField" autocomplete="off" placeholder="ID" required>
+                                <label for="addUserID">ID</label>
+                            </div>
+    
+                            <div class="formGroup blue sound username" data-soundselectsoft>
+                                <input id="addUserUsername" type="text" class="formField" autocomplete="off" placeholder="Tên người dùng" required>
+                                <label for="addUserUsername">Tên người dùng</label>
+                            </div>
+                        </div>
+                        
+                        <div class="row formGroup blue sound" data-soundselectsoft>
+                            <input id="addUserPassword" type="text" class="formField" autocomplete="off" placeholder="Mật khẩu" required>
+                            <label for="addUserPassword">Mật khẩu</label>
+                        </div>
+    
+                        <div class="row formGroup blue sound" data-soundselectsoft>
+                            <input id="addUserName" type="text" class="formField" autocomplete="off" placeholder="Tên" required>
+                            <label for="addUserName">Tên</label>
+                        </div>
+                    </span>
+    
+                    <span class="column">
+                        <button id="addSubmit" class="row sq-btn blue sound" data-soundhover data-soundselect>Thêm</button>
+                        <button id="addCancel" class="row sq-btn red sound" type="button" data-soundhover data-soundselect>Hủy</button>
+                    </span>
+                </form>
+            </div>
+        </div>
+
         <div id="accountContainer">
         </div>
     </div>

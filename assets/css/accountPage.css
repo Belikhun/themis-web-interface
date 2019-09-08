@@ -105,7 +105,7 @@ body:not(.embeded) {
     display: none;
 }
 
-#accountContainer .accountEditor {
+.accountEditor {
     position: relative;
     display: block;
 
@@ -114,11 +114,12 @@ body:not(.embeded) {
     transition: height 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+.accountEditor.showEditor,
 #accountContainer .group.showEditor .accountEditor {
     height: 200px;
 }
 
-#accountContainer .accountEditor .editor {
+.accountEditor .editor {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -128,11 +129,11 @@ body:not(.embeded) {
     box-sizing: border-box;
 }
 
-#accountContainer .accountEditor .editor .avatarInput {
+.accountEditor .editor .avatarInput {
     display: none;
 }
 
-#accountContainer .accountEditor .editor .avatar {
+.accountEditor .editor .avatar {
     position: relative;
     flex-grow: 0;
     flex-shrink: 0;
@@ -143,7 +144,7 @@ body:not(.embeded) {
     overflow: hidden;
 }
 
-#accountContainer .accountEditor .editor .avatar::after {
+.accountEditor .editor .avatar::after {
     content: "\f304";
     position: absolute;
     display: flex;
@@ -160,11 +161,11 @@ body:not(.embeded) {
     transition: opacity 0.2s ease;
 }
 
-#accountContainer .accountEditor .editor .avatar:hover::after {
+.accountEditor .editor .avatar:hover::after {
     opacity: 1;
 }
 
-#accountContainer .accountEditor .editor .column {
+.accountEditor .editor .column {
     position: relative;
     display: flex;
     flex-shrink: 1;
@@ -173,11 +174,11 @@ body:not(.embeded) {
     margin: 0 20px;
 }
 
-#accountContainer .accountEditor .editor .column.grow {
+.accountEditor .editor .column.grow {
     flex-grow: 1;
 }
 
-#accountContainer .accountEditor .editor .row {
+.accountEditor .editor .row {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -186,12 +187,12 @@ body:not(.embeded) {
     margin: 5px 0;
 }
 
-#accountContainer .accountEditor .editor .column .row .userID {
+.accountEditor .editor .column .row .userID {
     flex-grow: 0;
     margin-right: 10px;
 }
 
-#accountContainer .accountEditor .editor .column .row .username {
+.accountEditor .editor .column .row .username {
     flex-grow: 1;
     margin-left: 10px;
 }

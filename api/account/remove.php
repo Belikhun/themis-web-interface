@@ -25,6 +25,16 @@
     if (getUserData($_SESSION["username"])["id"] !== "admin")
         stop(31, "Access Denied!", 403);
 
+    $imagePath = AVATAR_DIR ."/". $username;
+    $oldFiles = glob($imagePath .".{jpg,png,gif,webp}", GLOB_BRACE);
+
+    // Find old avatar files and remove them
+    if (count($oldFiles) > 0)
+        foreach ($oldFiles as $oldFile) {
+            $ext = pathinfo($oldFile, PATHINFO_EXTENSION);
+            unlink($imagePath .".". $ext);
+        }
+
     $res = deleteUser($username);
 
     switch ($res) {

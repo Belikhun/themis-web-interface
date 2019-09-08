@@ -28,7 +28,8 @@
     if (getUserData($_SESSION["username"])["id"] !== "admin")
         stop(31, "Access Denied!", 403);
 
-    if (isset($_FILES["avatar"])) {
+    // Avatar file process
+    if (isset($_FILES["avatar"]) && isset($accountData[$username])) {
         $file = strtolower($_FILES["avatar"]["name"]);
         $extension = pathinfo($file, PATHINFO_EXTENSION);
 

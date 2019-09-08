@@ -30,8 +30,78 @@ $("body").onload = e => {
 
 const account = {
     container: $("#accountContainer"),
+    addForm: {
+        toggler: $("#accountAdd"),
+        container: $("#accountAddContainer"),
+        editor: $("#accountAddEditor"),
+        avatarInput: $("#addUserAvatar"),
+        avatarPreviewContainer: $("#addAvatarPreviewContainer"),
+        avatarPreview: $("#addAvatarPreview"),
+        userIDInput: $("#addUserID"),
+        usernameInput: $("#addUserUsername"),
+        passwordInput: $("#addUserPassword"),
+        nameInput: $("#addUserName"),
+        submit: $("#addSubmit"),
+        cancel: $("#addCancel")
+    },
 
     async init() {
+        // Set up events
+        this.addForm.toggler.addEventListener("mouseup", e => {
+            this.addForm.editor.reset();
+            this.addForm.container.classList.add("showEditor");
+            e.target.disabled = true;
+            sounds.toggle(0);
+
+            this.addForm.avatarPreviewContainer.removeAttribute("dataset-loaded");
+            this.addForm.avatarPreview.src = "/api/avatar";
+        });
+
+        this.addForm.avatarInput.addEventListener("change", e => {
+            this.addForm.avatarPreviewContainer.removeAttribute("dataset-loaded");
+            this.addForm.avatarPreview.src = URL.createObjectURL(e.target.files[0]);
+        });
+
+        this.addForm.cancel.addEventListener("mouseup", e => {
+            this.addForm.toggler.disabled = false;
+            this.addForm.container.classList.remove("showEditor");
+            this.addForm.editor.reset();
+            sounds.toggle(1);
+        });
+
+        this.addForm.submit.addEventListener("mouseup", async e => {
+            let data = {
+                id: this.addForm.userIDInput.value,
+                u: this.addForm.usernameInput.value,
+                n: this.addForm.nameInput.value,
+                p: this.addForm.passwordInput.value
+            }
+
+            if (this.addForm.avatarInput.files[0])
+                data.avatar = this.addForm.avatarInput.files[0];
+
+            sounds.confirm(0);
+
+            let response = await myajax({
+                url: "/api/account/add",
+                method: "POST",
+                form: {
+                    token: API_TOKEN,
+                    ...data
+                }
+            })
+
+            clog("OKAY", "Thêm thành công tài khoản", {
+                text: this.addForm.usernameInput.value,
+                color: flatc("yellow")
+            });
+
+            this.addForm.toggler.disabled = false;
+            this.addForm.container.classList.remove("showEditor");
+            this.addForm.editor.reset();
+            this.reload();
+        });
+
         await this.reload();
     },
 
