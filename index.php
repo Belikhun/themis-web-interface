@@ -445,6 +445,8 @@
                             <t class="right" style="user-select: text;"><?php print WAN_ADDR ?: "Không rõ"; ?></t>
                         </div>
 
+                        <div class="space"></div>
+
                         <t class="title small">Cài đặt</t>
                         <div id="settings_cPanelToggler" class="item arr sound" data-soundhover>Admin Control Panel</div>
                         <div id="settings_accountEditorToggler" class="item arr sound" data-soundhover>Quản lý tài khoản</div>
