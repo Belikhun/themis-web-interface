@@ -170,6 +170,7 @@
         global $accountDOM;
         global $accountRow;
         global $accountHeader;
+        global $accountData;
 
         foreach ($accountRow as $i => $row) {
             if ($i === 0)
@@ -179,9 +180,8 @@
 
             foreach ($cell as $j => $cellData)
                 if ($j === array_search("username", $accountHeader) && $cellData -> textContent === $username) {
-                    foreach ($replace as $k => $val)
-                        if (($cellIndex = array_search($k, $accountHeader)) !== false)
-                            $row -> parentNode -> removeChild($row);
+                    // Delete the row contain all user data
+                    $row -> parentNode -> removeChild($row);
 
                     // Update change to parsed data
                     unset($accountData[$username]);

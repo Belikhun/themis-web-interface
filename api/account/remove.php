@@ -25,7 +25,7 @@
     if (getUserData($_SESSION["username"])["id"] !== "admin")
         stop(31, "Access Denied!", 403);
 
-    $res = deleteUser($username, $data);
+    $res = deleteUser($username);
 
     switch ($res) {
         case USER_EDIT_SUCCESS:

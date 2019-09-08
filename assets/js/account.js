@@ -187,6 +187,8 @@ const account = {
             if (avatarInput.files[0])
                 data.avatar = avatarInput.files[0];
 
+            sounds.confirm(0);
+
             let response = await myajax({
                 url: "/api/account/edit",
                 method: "POST",
@@ -196,6 +198,11 @@ const account = {
                     ...data
                 }
             })
+
+            clog("OKAY", "Chỉnh sửa thành công tài khoản", {
+                text: username,
+                color: flatc("yellow")
+            });
 
             this.reload();
         })
@@ -223,10 +230,14 @@ const account = {
             }
         })
 
+        sounds.confirm(1);
+
         clog("OKAY", "Đã xóa người dùng", {
             text: username,
             color: flatc("yellow")
         });
+
+        this.reload();
     }
 }
 

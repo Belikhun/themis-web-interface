@@ -22,15 +22,6 @@ body:not(.embeded) {
     background-color: gray;
 }
 
-t {
-    position: relative;
-    font-size: 14px;
-    font-weight: normal;
-    font-style: none;
-    color: rgb(29, 29, 29);
-    word-wrap: break-word;
-}
-
 .wrapper {
     position: relative;
     width: 100%;

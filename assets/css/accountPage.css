@@ -7,6 +7,10 @@
 ? |-----------------------------------------------------------------------------------------------|
 */
 
+body:not(.embeded) {
+    background-color: gray;
+}
+
 #accountContainer {
     position: relative;
     display: contents;
@@ -190,4 +194,18 @@
 #accountContainer .accountEditor .editor .column .row .username {
     flex-grow: 1;
     margin-left: 10px;
+}
+
+/* Dark */
+
+body.dark #accountContainer .accountInfo .info .id {
+    color: rgb(182, 182, 182);
+}
+
+body.dark #accountContainer .accountInfo .info .name {
+    color: rgb(218, 218, 218);
+}
+
+body.dark .formGroup.blue .formField {
+    color: rgb(204, 204, 204);
 }
