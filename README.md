@@ -205,7 +205,7 @@ Nội dung đề bài cho phép sử dụng mã `HTML` để định dạng giú
 
 ---
 
-Tốc độ xử lí trung bình của *API* là **0.015 giây**! Đảm bảo tính độ **chính xác** và **tốc độ phản hồi** cao.
+Tốc độ xử lí trung bình của *API* là **0.015 giây**! Đảm bảo độ **chính xác** và **tốc độ phản hồi** cao.
 
 </div>
 
