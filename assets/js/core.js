@@ -375,7 +375,7 @@ const core = {
         
         for (let item of data.judging)
             out += `
-                <li class="log-item judging">
+                <div class="logItem judging">
                     <div class="h">
                         <div class="l">
                             <t class="t">${item.lastmodify}</t>
@@ -387,12 +387,12 @@ const core = {
                         </div>
                     </div>
                     <a class="d"></a>
-                </li>
+                </div>
             `
 
         for (let item of data.queues)
             out += `
-                <li class="log-item queue">
+                <div class="logItem queue">
                     <div class="h">
                         <div class="l">
                             <t class="t">${item.lastmodify}</t>
@@ -404,12 +404,12 @@ const core = {
                         </div>
                     </div>
                     <a class="d"></a>
-                </li>
+                </div>
             `
 
         for (let item of data.logs)
             out += `
-                <li class="log-item ${item.status}">
+                <div class="logItem ${item.status}">
                     <div class="h">
                         <div class="l">
                             <t class="t">${item.lastmodify}</t>
@@ -421,7 +421,7 @@ const core = {
                         </div>
                     </div>
                     <a class="d${item.logFile ? ` link" onClick="core.viewLog('${item.logFile}')"` : `"`}></a>
-                </li>
+                </div>
             `
 
         list.innerHTML = out;

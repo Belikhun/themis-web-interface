@@ -360,16 +360,11 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     content: "\f564";
 }
 
-#logp .log-item-container {
+#logp .logItemContainer {
     position: relative;
-    width: 100%;
-    height: 100%;
-    list-style: none;
-    margin: unset;
-    padding: unset;
 }
 
-#logp .log-item-container li.log-item {
+#logp .logItemContainer .logItem {
     position: relative;
     box-sizing: border-box;
     width: calc(100% - 25px);
@@ -378,7 +373,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     padding-right: 25px;
 }
 
-#logp .log-item-container li.log-item .h {
+#logp .logItemContainer .logItem .h {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -389,46 +384,46 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     border-bottom: 1px solid #e6e6e6;
 }
 
-#logp .log-item-container li.log-item .h .l {
+#logp .logItemContainer .logItem .h .l {
     position: relative;
     display: inline-block;
     flex-grow: 1;
     overflow: hidden;
 }
 
-#logp .log-item-container li.log-item .h .l .t {
+#logp .logItemContainer .logItem .h .l .t {
     font-size: 10px;
     font-weight: normal;
     color: rgba(59, 71, 82, 0.7);
 }
 
-#logp .log-item-container li.log-item .h .l .n {
+#logp .logItemContainer .logItem .h .l .n {
     font-size: 13px;
     font-weight: bold;
     color: #585858;
 }
 
-#logp .log-item-container li.log-item.scored .h .l .n {
+#logp .logItemContainer .logItem.scored .h .l .n {
     color: #1124c8;
 }
 
-#logp .log-item-container li.log-item.correct .h .l .n {
+#logp .logItemContainer .logItem.correct .h .l .n {
     color: #39aa56;
 }
 
-#logp .log-item-container li.log-item.passed .h .l .n {
+#logp .logItemContainer .logItem.passed .h .l .n {
     color: #0ca3be;
 }
 
-#logp .log-item-container li.log-item.accepted .h .l .n {
+#logp .logItemContainer .logItem.accepted .h .l .n {
     color: #b9ab14;
 }
 
-#logp .log-item-container li.log-item.failed .h .l .n {
+#logp .logItemContainer .logItem.failed .h .l .n {
     color: #db4545;
 }
 
-#logp .log-item-container li.log-item .h .r {
+#logp .logItemContainer .logItem .h .r {
     position: relative;
     display: flex;
     flex-grow: 0;
@@ -438,19 +433,19 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     margin-right: 10px;
 }
 
-#logp .log-item-container li.log-item .h .r t {
+#logp .logItemContainer .logItem .h .r t {
     color: rgba(98, 98, 98, 0.7);
     font-size: 11px;
     letter-spacing: 0.01em;
 }
 
-#logp .log-item-container li.log-item .h .r .s {
+#logp .logItemContainer .logItem .h .r .s {
     font-weight: bold;
     color: rgba(82, 82, 82, 0.7);
     font-size: 11px;
 }
 
-#logp .log-item-container li.log-item .d {
+#logp .logItemContainer .logItem .d {
     position: absolute;
     right: 0;
     top: 0;
@@ -466,27 +461,27 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     text-decoration: none;
 }
 
-#logp .log-item-container li.log-item .d:not(.link) {
+#logp .logItemContainer .logItem .d:not(.link) {
     cursor: not-allowed;
 }
 
-#logp .log-item-container li.log-item .d::before {
+#logp .logItemContainer .logItem .d::before {
     content: "open_in_browser";
     font-family: "Material Icons";
     font-weight: lighter;
     font-size: 16px;
 }
 
-#logp .log-item-container li.log-item .d:hover {
+#logp .logItemContainer .logItem .d:hover {
     background-color: #f1f1f1;
     color: #6e6e6e;
 }
 
-#logp .log-item-container li.log-item.queue .h .l .n {
+#logp .logItemContainer .logItem.queue .h .l .n {
     color: #8710cc;
 }
 
-#logp .log-item-container li.log-item.queue .d::before {
+#logp .logItemContainer .logItem.queue .d::before {
     content: "\f2f1";
     font-family: "Font Awesome 5 Free";
     animation: spin 1s linear 0s infinite forwards;
@@ -494,11 +489,11 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     font-size: 12px;
 }
 
-#logp .log-item-container li.log-item.judging .h .l .n {
+#logp .logItemContainer .logItem.judging .h .l .n {
     color: #c811c8;
 }
 
-#logp .log-item-container li.log-item.judging .d::before {
+#logp .logItemContainer .logItem.judging .d::before {
     content: "\f0e3";
     font-family: "Font Awesome 5 Free";
     animation: spin 1s linear 0s infinite forwards;
@@ -506,8 +501,8 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     font-size: 12px;
 }
 
-#logp .log-item-container li.log-item.queue .d,
-#logp .log-item-container li.log-item.judging .d {
+#logp .logItemContainer .logItem.queue .d,
+#logp .logItemContainer .logItem.judging .d {
     cursor: default;
 }
 
