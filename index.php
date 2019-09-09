@@ -843,9 +843,8 @@
                         <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
                     </span>
                 </div>
-                <div class="main">
-                    <ul class="log-item-container">
-                    </ul>
+                <div class="main log-item-container">
+                    
                 </div>
             </panel>
         </div>

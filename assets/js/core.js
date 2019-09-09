@@ -358,10 +358,11 @@ const core = {
         clog("debg", "Updating Log", `[${hash}]`);
         let updateLogTimer = new stopClock();
 
-        let list = this.logPanel.main.getElementsByClassName("log-item-container")[0];
+        let list = this.logPanel.main;
 
         if (data.judging.length === 0 && data.logs.length === 0 && data.queues.length === 0) {
             this.logPanel.main.innerHTML = "";
+            this.previousLogHash = hash;
             clog("debg", "Log Is Empty. Took", {
                 color: flatc("blue"),
                 text: updateLogTimer.stop + "s"
@@ -448,6 +449,7 @@ const core = {
 
         if (data.list.length === 0 && data.rank.length === 0) {
             this.rankPanel.main.innerHTML = "";
+            this.previousRankHash = hash;
             clog("debg", "Rank Is Empty. Took", {
                 color: flatc("blue"),
                 text: updateRankTimer.stop + "s"

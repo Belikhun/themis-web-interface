@@ -253,60 +253,60 @@ body.dark #rankp div.ranking-container table tr:nth-child(3) td:nth-child(2) .na
 
 /* Log Panel */
 
-body.dark #logp div.main ul.log-item-container .log-item .h {
+body.dark #logp .log-item-container .log-item .h {
     border-bottom-color: rgb(88, 88, 88);
 }
 
-body.dark #logp div.main ul.log-item-container .log-item .h .l .t {
+body.dark #logp .log-item-container .log-item .h .l .t {
     color: rgba(216, 216, 216, 0.7);
 }
 
-body.dark #logp div.main ul.log-item-container .log-item .h .r .s {
+body.dark #logp .log-item-container .log-item .h .r .s {
     color: rgb(218, 218, 218);
 }
 
-body.dark #logp div.main ul.log-item-container .log-item .h .r .l {
+body.dark #logp .log-item-container .log-item .h .r .l {
     color: rgb(200, 200, 200);
 }
 
-body.dark #logp div.main ul.log-item-container .log-item .d {
+body.dark #logp .log-item-container .log-item .d {
     background-color: rgb(58, 58, 58);
     color: #aaaaaa;
 }
 
-body.dark #logp div.main ul.log-item-container .log-item .d:hover {
+body.dark #logp .log-item-container .log-item .d:hover {
     color: #d6d6d6;
 }
 
-body.dark #logp div.main ul.log-item-container .log-item.queue .h .l .n {
+body.dark #logp .log-item-container .log-item.queue .h .l .n {
     color: #ca92ff;
 }
 
-body.dark #logp div.main ul.log-item-container .log-item.judging .h .l .n {
+body.dark #logp .log-item-container .log-item.judging .h .l .n {
     color: #ff84f5;
 }
 
-body.dark #logp div.main ul.log-item-container li.log-item .h .l .n {
+body.dark #logp .log-item-container li.log-item .h .l .n {
     color: rgb(204, 204, 204);
 }
 
-body.dark #logp div.main ul.log-item-container li.log-item.scored .h .l .n {
+body.dark #logp .log-item-container li.log-item.scored .h .l .n {
     color: #a1a3ff;
 }
 
-body.dark #logp div.main ul.log-item-container li.log-item.correct .h .l .n {
+body.dark #logp .log-item-container li.log-item.correct .h .l .n {
     color: #1edf4e;
 }
 
-body.dark #logp div.main ul.log-item-container li.log-item.passed .h .l .n {
+body.dark #logp .log-item-container li.log-item.passed .h .l .n {
     color: #1fc5e2;
 }
 
-body.dark #logp div.main ul.log-item-container li.log-item.accepted .h .l .n {
+body.dark #logp .log-item-container li.log-item.accepted .h .l .n {
     color: #dfd029;
 }
 
-body.dark #logp div.main ul.log-item-container li.log-item.failed .h .l .n {
+body.dark #logp .log-item-container li.log-item.failed .h .l .n {
     color: #f66f6f;
 }
 
