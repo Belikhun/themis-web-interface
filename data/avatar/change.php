@@ -27,8 +27,8 @@
     if ($username = getForm("u"))
         if ($_SESSION["id"] !== "admin")
             stop(31, "Access Denied!", 403);
-    else
-        $username = $_SESSION["username"];
+
+    $username = $_SESSION["username"];
 
     $file = strtolower($_FILES["file"]["name"]);
     $extension = pathinfo($file, PATHINFO_EXTENSION);
