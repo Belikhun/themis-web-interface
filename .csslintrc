@@ -1,4 +1,1 @@
-{
-    "compatible-vendor-prefixes": false,
-    "important": false
-}
+--ignore=compatible-vendor-prefixes,important
