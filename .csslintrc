@@ -1,5 +1,6 @@
 --errors=important
 --warnings=import
 {
-    "compatible-vendor-prefixes": false
+    "compatible-vendor-prefixes": false,
+    "important": false
 }
