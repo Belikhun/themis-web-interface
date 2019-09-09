@@ -687,12 +687,11 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     position: relative;
     display: flex;
     flex-direction: row;
+    align-items: center;
     width: 100%;
     height: 64px;
     box-sizing: border-box;
     padding: 0 10px;
-    display: flex;
-    align-items: center;
     border-bottom: unset;
 }
 
@@ -1337,10 +1336,6 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     white-space: pre-wrap;
 }
 
-#problemp .problem-container .problem .description * {
-    white-space: normal;
-}
-
 #problemp .problem-container .problem .description > a,
 #problemp .problem-container .problem .description > table,
 #problemp .problem-container .problem .description > ul {
@@ -1723,10 +1718,6 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     line-height: 1.4em;
 }
 
-.problemEnlarged .bottom .description * {
-    white-space: normal;
-}
-
 .problemEnlarged .bottom .description > a,
 .problemEnlarged .bottom .description > table,
 .problemEnlarged .bottom .description > ul {
@@ -1995,10 +1986,6 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     flex-direction: column;
     flex-grow: 0;
     margin-right: 20px;
-}
-
-.viewLog-container .header .bottom .line .right > * {
-    width: 100%;
 }
 
 .viewLog-container .header .bottom .line .right .submitter {
@@ -2294,16 +2281,16 @@ footer .header .button {
     margin-top: 20px;
 }
 
-footer .header .button * {
+footer .header .button button {
     flex-grow: 1;
     margin: 0 5px;
 }
 
-footer .header .button *.sq-btn:nth-child(1)::before {
+footer .header .button button.sq-btn:nth-child(1)::before {
     animation-delay: 0.4s;
 }
 
-footer .header .button *.sq-btn:nth-child(1)::after {
+footer .header .button button.sq-btn:nth-child(1)::after {
     animation-delay: 1.2s;
 }
 

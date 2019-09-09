@@ -73,7 +73,7 @@
 	$logDir = glob($config["logDir"] ."/*.log");
 	$logres = Array();
 
-	foreach($logDir as $log) {
+	foreach ($logDir as $log) {
 		if (!strpos($log, "[". $username ."]") > 0 || strpos(strtolower($log), ".log") === -1)
 			continue;
 

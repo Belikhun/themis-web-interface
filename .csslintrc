@@ -1,0 +1,5 @@
+--errors=important
+--warnings=import
+{
+    "compatible-vendor-prefixes": false
+}
