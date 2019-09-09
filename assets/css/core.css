@@ -609,7 +609,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 }
 
 .problem-settings {
-    padding: unset!important;
+    padding: unset;
     height: 220px;
 }
 
@@ -709,7 +709,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     flex-shrink: 0;
     width: 40px;
     height: 40px;
-    border-radius: 15px;
+    border-radius: 50%;
     object-fit: cover;
 }
 
@@ -1190,15 +1190,15 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 
 
 #problemp .problem-container {
-    overflow: hidden!important;
+    overflow: hidden;
 }
 
 #problemp .problem-container .problem-list:empty::before {
-    content: "\f51b"!important;
+    content: "\f51b";
 }
 
 #problemp .problem-container .problem-list:empty::after {
-    content: "Không tìm thấy đề hoặc chưa bắt đầu kì thi."!important;
+    content: "Không tìm thấy đề hoặc chưa bắt đầu kì thi.";
 }
 
 #problemp .problem-container .problem-list {
@@ -1531,7 +1531,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 }
 
 #timep .time-container {
-    display: flex !important;
+    display: flex;
     justify-content: center;
 }
 
