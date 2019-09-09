@@ -8,9 +8,9 @@
         "zone": "Asia\/Ho_Chi_Minh",
         "begin": {
             "seconds": 0,
-            "minutes": 15,
-            "hours": 23,
-            "days": 3,
+            "minutes": 40,
+            "hours": 22,
+            "days": 8,
             "months": 9,
             "years": 2019
         },
@@ -20,13 +20,13 @@
     "publish": true,
     "submit": true,
     "submitInProblems": true,
-    "editInfo": false,
+    "editInfo": true,
     "viewRank": true,
     "viewRankTask": true,
     "viewLog": true,
     "viewLogOther": true,
     "ratelimit": {
-        "maxRequest": 60,
+        "maxRequest": 40,
         "time": 10,
         "banTime": 30
     },

@@ -1771,14 +1771,49 @@ const core = {
         syslogs: {
             panel: null,
             container: null,
+            logsContainer: null,
+            nav: {
+                left: null,
+                btnLeft: null,
+                currentPage: null,
+                btnRight: null,
+                right: null
+            },
             prevHash: "",
+            showPerPage: 10,
+            currentPage: 0,
+            maxPage: 0,
 
             async init(panel) {
                 this.panel = panel;
                 this.container = panel.main;
-                panel.cus.onClick(() => this.refresh(true))
+                this.logsContainer = fcfn(this.container, "logsContainer");
+                this.nav.left = fcfn(this.container, "left");
+                this.nav.btnLeft = fcfn(this.container, "buttonLeft");
+                this.nav.currentPage = fcfn(this.container, "currentPage");
+                this.nav.btnRight = fcfn(this.container, "buttonRight");
+                this.nav.right = fcfn(this.container, "right");
+                this.panel.cus.onClick(() => this.refresh(true))
 
                 await this.refresh();
+
+                this.nav.btnLeft.addEventListener("click", e => {
+                    this.currentPage--;
+
+                    if (this.currentPage < 0)
+                        this.currentPage = 0;
+
+                    this.refresh();
+                });
+
+                this.nav.btnRight.addEventListener("click", e => {
+                    this.currentPage++;
+
+                    if (this.currentPage > this.maxPage)
+                        this.currentPage = this.maxPage;
+
+                    this.refresh();
+                });
             },
 
             async refresh(clearLogs = false) {
@@ -1787,7 +1822,9 @@ const core = {
                     method: "POST",
                     form: {
                         token: API_TOKEN,
-                        clear: clearLogs
+                        clear: clearLogs,
+                        show: this.showPerPage,
+                        page: this.currentPage
                     }
                 });
 
@@ -1797,13 +1834,16 @@ const core = {
                     return;
 
                 this.prevHash = hash;
-                this.container.innerHTML = "";
+                this.nav.left.innerText = `Hiển thị ${data.from} - ${data.to}`;
+                this.nav.currentPage.innerText = `Trang ${data.pageNth + 1}/${data.maxPage + 1}`;
+                this.nav.right.innerText = `Tổng ${data.total}`;
+                this.maxPage = data.maxPage;
                 var html = [];
 
-                for (let i of data)
+                for (let i of data.logs)
                     html.push(`
                         <div class="log ${i.level.toLowerCase()}" onclick="this.classList.toggle('enlarge')">
-                            <span class="level">${i.level}</span>
+                            <span class="level">${i.level}<i>#${i.nth}</i></span>
                             <span class="detail">
                                 <div class="text">${i.text}</div>
                                 <div class="info">
@@ -1815,9 +1855,8 @@ const core = {
                         </div>
                     `);
                 
-                this.container.innerHTML = html.join("\n");
-                this.container.scrollTop = this.container.scrollHeight - this.container.clientHeight;
-                clog("okay", "Refreshed SysLogs.");
+                this.logsContainer.innerHTML = html.join("\n");
+                clog("info", "Refreshed SysLogs.");
             }
         },
 

@@ -12,12 +12,12 @@
 
     function readLog(string $format) {
         $logs = new fip(LOG_FILE, "[]");
-        $logsdata = json_decode($logs -> read(), true) ?: [];
+        $logsData = json_decode($logs -> read(), true) ?: [];
 
         switch($format) {
             case "text":
                 $output = "";
-                foreach ($logsdata as $key => $value) {
+                foreach ($logsData as $key => $value) {
                     $s = join("| ", Array(
                         $value["time"],
                         sprintf("%'. 16s", $value["module"]),
@@ -30,12 +30,13 @@
                 break;
 
             case "json":
-                $output = $logsdata;
+                array_walk($logsData, function(&$value, $index) { $value["nth"] = $index + 1; });
+                $output = $logsData;
                 break;
 
             case "formattedjson":
                 $output = Array();
-                foreach ($logsdata as $key => $value)
+                foreach ($logsData as $key => $value)
                     $s = join("| ", Array(
                         date("d/m/Y H:i:s"),
                         sprintf("%'. 16s", $value["module"]),
@@ -84,9 +85,9 @@
 
         // Write to logs file
         $logs = new fip(LOG_FILE, "[]");
-        $logsdata = json_decode($logs -> read(), true) ?: [];
-        array_push($logsdata, $n);
-        $logs -> write(json_encode($logsdata, JSON_PRETTY_PRINT));
+        $logsData = json_decode($logs -> read(), true) ?: [];
+        array_push($logsData, $n);
+        $logs -> write(json_encode($logsData, JSON_PRETTY_PRINT));
 
         return true;
     }

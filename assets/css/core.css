@@ -914,7 +914,20 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     display: none;
 }
 
-.syslogs-settings .log {
+#user_settings #usett_panelContainer .panel .container .syslogs-settings {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.syslogs-settings .logsContainer {
+    position: relative;
+    flex-grow: 1;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.syslogs-settings .logsContainer .log {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -925,43 +938,51 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     transition: background-color 0.3s ease;
 }
 
-.syslogs-settings .log:hover {
+.syslogs-settings .logsContainer .log:hover {
     background-color: rgba(232, 232, 232, 0.8);
 }
 
-.syslogs-settings .log .level {
+.syslogs-settings .logsContainer .log .level {
     position: relative;
     display: inline-flex;
-    min-width: 80px;
     align-items: center;
     justify-content: center;
-    color: rgb(82, 82, 82);
-    background-color: rgb(242, 242, 242);
-    font-weight: bold;
-    font-size: 14px;
-    padding: 0 20px;
-    box-sizing: border-box;
     flex-grow: 0;
+    color: rgb(82, 82, 82);
+    background-color: rgb(236, 236, 236);
+    min-width: 100px;
+    padding: 0 10px 0 40px;
+    font-size: 14px;
+    font-weight: bold;
+    box-sizing: border-box;
     overflow: hidden;
+    transition: all 0.3s ease;
+    transition-property: padding, background-color;
 }
 
-.syslogs-settings .log .level::before {
-    content: "#" counter(log-item);
+.syslogs-settings .logsContainer .log.enlarge .level {
+    padding: 0 20px;
+    background-color: rgb(242, 242, 242);
+}
+
+.syslogs-settings .logsContainer .log .level > i {
     position: absolute;
     top: 50%;
-    transform: translateY(calc(-50% + 22px));
+    left: 10px;
+    transform: translateY(-50%);
     font-weight: bold;
     font-size: 10px;
+    font-style: normal;
 
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: all 0.3s ease;
 }
 
-.syslogs-settings .log.enlarge .level::before {
-    opacity: 1;
+.syslogs-settings .logsContainer .log.enlarge .level > i {
+    left: 50%;
+    transform: translate(-50%, calc(-50% + 22px));
 }
 
-.syslogs-settings .log .detail {
+.syslogs-settings .logsContainer .log .detail {
     position: relative;
     display: inline-block;
     width: 100%;
@@ -973,7 +994,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     border-left: 2px solid rgb(165, 165, 165);
 }
 
-.syslogs-settings .log .detail::before {
+.syslogs-settings .logsContainer .log .detail::before {
     content: "\f107";
     position: absolute;
     top: 50%;
@@ -989,11 +1010,11 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     transition: transform 0.3s ease;
 }
 
-.syslogs-settings .log.enlarge .detail::before {
+.syslogs-settings .logsContainer .log.enlarge .detail::before {
     transform: translateY(-50%) rotate(180deg);
 }
 
-.syslogs-settings .log .detail .text {
+.syslogs-settings .logsContainer .log .detail .text {
     position: relative;
     display: block;
     font-family: "Consolas", "Calibri", "Segoe UI";
@@ -1002,7 +1023,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     color: rgb(56, 56, 56);
 }
 
-.syslogs-settings .log .detail .info {
+.syslogs-settings .logsContainer .log .detail .info {
     position: relative;
     display: block;
     width: 100%;
@@ -1015,7 +1036,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     transition: height 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
-.syslogs-settings .log .detail .info::before {
+.syslogs-settings .logsContainer .log .detail .info::before {
     content: "";
     position: relative;
     display: block;
@@ -1023,11 +1044,11 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     height: 8px;
 }
 
-.syslogs-settings .log.enlarge .detail .info {
+.syslogs-settings .logsContainer .log.enlarge .detail .info {
     height: 54px;
 }
 
-.syslogs-settings .log .detail .info t {
+.syslogs-settings .logsContainer .log .detail .info t {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -1038,7 +1059,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     color: rgb(90, 90, 90);
 }
 
-.syslogs-settings .log .detail .info t::before {
+.syslogs-settings .logsContainer .log .detail .info t::before {
     content: "\f111";
     position: relative;
     display: inline-block;
@@ -1049,53 +1070,123 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     font-weight: 900;
 }
 
-.syslogs-settings .log .detail .info .client {
+.syslogs-settings .logsContainer .log .detail .info .client {
     font-weight: bold;
 }
 
-.syslogs-settings .log .detail .info .client::before {
+.syslogs-settings .logsContainer .log .detail .info .client::before {
     content: "\f2bd";
 }
 
-.syslogs-settings .log .detail .info .timestamp::before {
+.syslogs-settings .logsContainer .log .detail .info .timestamp::before {
     content: "\f017";
 }
 
-.syslogs-settings .log .detail .info .module::before {
+.syslogs-settings .logsContainer .log .detail .info .module::before {
     content: "\f466";
 }
 
-.syslogs-settings .log.okay .detail {
+.syslogs-settings .logsContainer .log.okay .detail {
     border-left-color: rgb(124, 194, 129);
 }
 
-.syslogs-settings .log.okay .level {
+.syslogs-settings .logsContainer .log.okay .level {
     color: rgb(28, 172, 38);
 }
 
-.syslogs-settings .log.warn .detail {
+.syslogs-settings .logsContainer .log.warn .detail {
     border-left-color: rgb(190, 184, 92);
 }
 
-.syslogs-settings .log.warn .level {
+.syslogs-settings .logsContainer .log.warn .level {
     color: rgb(163, 155, 46);
 }
 
-.syslogs-settings .log.errr .detail {
+.syslogs-settings .logsContainer .log.errr .detail {
     border-left-color: rgb(223, 150, 150);
 }
 
-.syslogs-settings .log.errr .level {
+.syslogs-settings .logsContainer .log.errr .level {
     color: rgb(233, 67, 67);
 }
 
-.syslogs-settings .log.verb .detail {
+.syslogs-settings .logsContainer .log.verb .detail {
     border-left-color: rgb(191, 149, 211);
 }
 
-.syslogs-settings .log.verb .level {
+.syslogs-settings .logsContainer .log.verb .level {
     color: rgb(148, 15, 209);
 }
+
+.syslogs-settings .navigation {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-grow: 0;
+    flex-direction: row;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: rgb(242, 242, 242);
+}
+
+.syslogs-settings .navigation .left,
+.syslogs-settings .navigation .right {
+    position: relative;
+    flex: 1 0 0;
+    font-size: 11px;
+}
+
+.syslogs-settings .navigation .right {
+    text-align: right;
+}
+
+.syslogs-settings .navigation .middle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 2;
+}
+
+.syslogs-settings .navigation .middle .icon {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    padding: 0 18px;
+}
+
+.syslogs-settings .navigation .middle .icon::before {
+    content: "\f111";
+    position: relative;
+    display: inline-block;
+
+    font-family: "Font Awesome 5 Free";
+    font-size: 22px;
+    font-weight: 900;
+    color: rgb(158, 158, 158);
+    transition: color 0.2s ease;
+}
+
+.syslogs-settings .navigation .middle .icon:hover::before {
+    color: #f368e0;
+}
+
+.syslogs-settings .navigation .middle .buttonLeft::before {
+    content: "\f104";
+}
+
+.syslogs-settings .navigation .middle .buttonRight::before {
+    content: "\f105";
+}
+
+.syslogs-settings .navigation .middle .currentPage {
+    position: relative;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 18px;
+}
+
 
 #problemp .problem-container {
     overflow: hidden!important;

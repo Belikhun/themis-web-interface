@@ -21,20 +21,18 @@
     if (getUserData($_SESSION["username"])["id"] !== "admin")
         stop(31, "Access Denied!", 403);
 
-    if (getForm("clear", "false") === "true") {
+    if (getForm("clear", "false") === "true")
         clearLog();
-        stop(0, "Xóa nhật ký thành công!", 200);
-    }
 
-    $logs = array_reverse(readLog("json"));
-    $logsTotal = max(count($logs), 1);
+    $logs = readLog("json");
+    $logsTotal = max(count($logs) - 1, 0);
     $showCount = (int) getForm("show", $logsTotal);
-    $maxPage = (int) floor($logsTotal / $showCount);
+    $maxPage = (int) $showCount === 0 ? 1 : floor(($logsTotal + 1) / $showCount);
     $pageNth = (int) getForm("page", 0);
-    $from = ($pageNth) * $showCount;
-    $to = min(($pageNth + 1) * $showCount, $logsTotal);
+    $from = max($logsTotal - ($pageNth + 1) * $showCount + 1, 1);
+    $to = $logsTotal - ($pageNth) * $showCount;
 
-    $slicedLogs = array_slice($logs, $from, $to - $from);
+    $slicedLogs = array_reverse(array_slice($logs, $from - 1, $to - $from + 1));
 
     stop(0, "Success", 200, Array(
         "total" => $logsTotal,
