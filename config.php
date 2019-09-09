@@ -77,6 +77,13 @@
                         <label for="contest_description">Mô tả kì thi</label>
                     </div>
                 </div>
+
+                <div class="item lr warning sound" data-soundhoversoft>
+                    <div class="left text">
+                        <b>Lưu ý:</b> Một số cài đặt sẽ không được áp dụng cho tài khoản admin mà chỉ áp dụng cho tài khoản thường.
+                    </div>
+                    <div class="right"></div>
+                </div>
                 
                 <div class="item lr sound" data-soundhoversoft>
                     <t class="left">Công bố kết quả</t>

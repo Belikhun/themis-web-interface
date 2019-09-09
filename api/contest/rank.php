@@ -13,13 +13,13 @@
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
 
-    if ($config["publish"] !== true)
+    if ($config["publish"] !== true && $_SESSION["id"] !== "admin")
         stop(108, "Thông tin không được công bố", 200, Array(
             "list" => Array(),
             "rank" => Array()
         ));
 
-    if ($config["viewRank"] !== true)
+    if ($config["viewRank"] !== true && $_SESSION["id"] !== "admin")
         stop(107, "Xếp hạng đã bị tắt", 200, Array(
             "list" => Array(),
             "rank" => Array()
@@ -43,11 +43,11 @@
         $filename = $data["file"]["logFilename"];
         $user = $data["user"];
 
-        if ($config["viewRankTask"] === true) {
+        if ($config["viewRankTask"] === true || $_SESSION["id"] === "admin") {
             $list[$i] = $data["problem"];
             $res[$user]["status"][$data["problem"]] = $data["status"];
             $res[$user]["point"][$data["problem"]] = $data["point"];
-            $res[$user]["logFile"][$data["problem"]] = ($config["viewLog"] === true) ? $filename : null;
+            $res[$user]["logFile"][$data["problem"]] = ($config["viewLog"] === true || $_SESSION["id"] === "admin") ? $filename : null;
         }
 
         $res[$user]["username"] = $user;

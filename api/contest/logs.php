@@ -78,7 +78,7 @@
 			continue;
 
 		$filename = null;
-		if ($config["viewLog"] === true)
+		if ($config["viewLog"] === true || $_SESSION["id"] === "admin")
 			$filename = pathinfo($log, PATHINFO_FILENAME);
 
 		$lastmtime = filemtime($log);
@@ -91,7 +91,7 @@
 			if ($item["name"] === $data["file"]["name"] && file_exists($log) && (int)$item["lastmtime"] < (int)filemtime($log))
 				array_splice($judging, $i, 1);
 
-		if ($config["publish"] !== true) {
+		if ($config["publish"] !== true && $_SESSION["id"] !== "admin") {
 			$data["status"] = "scored";
 			$data["point"] = null;
 		}

@@ -13,7 +13,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
 
-    if ($config["viewLog"] === false)
+    if ($config["viewLog"] === false && $_SESSION["id"] !== "admin")
         stop(23, "Xem nhật ký đã bị tắt!", 403);
 
     contest_timeRequire([CONTEST_STARTED], false);

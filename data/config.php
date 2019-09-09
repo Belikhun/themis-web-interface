@@ -7,7 +7,6 @@
     //? |-----------------------------------------------------------------------------------------------|
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/info.php";
 
 	// get and parse config data from config file
@@ -66,7 +65,7 @@
 			return true;
 
 		// Admin can bypass this check
-		if ($_SESSION["username"] !== null && getUserData($_SESSION["username"])["id"] === "admin")
+		if ($_SESSION["username"] !== null && $_SESSION["id"] === "admin")
 			return true;
 
 		$beginTime = $config["time"]["begin"]["times"];
