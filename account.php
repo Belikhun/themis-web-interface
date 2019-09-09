@@ -97,7 +97,7 @@
     </div>
 
     <script>
-        const API_TOKEN = `<?php print isset($_SESSION["api_token"]) ? $_SESSION["api_token"] : null; ?>`;
+        const API_TOKEN = `<?php print isset($_SESSION["apiToken"]) ? $_SESSION["apiToken"] : null; ?>`;
         const USERNAME = `<?php print $_SESSION["username"]; ?>`;
     </script>
     <script src="assets/js/belibrary.js?v=<?php print VERSION; ?>"></script>

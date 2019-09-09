@@ -17,13 +17,13 @@
         "during": 120,
         "offset": 10
     },
-    "publish": false,
+    "publish": true,
     "submit": true,
     "submitInProblems": true,
     "editInfo": true,
-    "viewRank": false,
+    "viewRank": true,
     "viewRankTask": true,
-    "viewLog": false,
+    "viewLog": true,
     "viewLogOther": true,
     "ratelimit": {
         "maxRequest": 40,

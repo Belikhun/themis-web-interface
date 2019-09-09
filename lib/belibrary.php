@@ -55,7 +55,7 @@
         if (empty($sauce))
             stop(4, "Token please!", 400);
 
-        if ($sauce !== $_SESSION["api_token"])
+        if ($sauce !== $_SESSION["apiToken"])
             stop(5, "Wrong token!", 403, Array( "token" => $sauce ));
     }
 

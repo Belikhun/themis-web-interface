@@ -854,7 +854,7 @@
         <script>
             const IS_ADMIN = `<?php print ($id === "admin" ? "true" : "false"); ?>` === "true";
             const LOGGED_IN = `<?php print ($loggedIn === true ? "true" : "false"); ?>` === "true";
-            const API_TOKEN = `<?php print isset($_SESSION["api_token"]) ? $_SESSION["api_token"] : null; ?>`;
+            const API_TOKEN = `<?php print isset($_SESSION["apiToken"]) ? $_SESSION["apiToken"] : null; ?>`;
             const SESSION = <?php print json_encode($sessionData); ?>
         </script>
 

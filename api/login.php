@@ -26,11 +26,12 @@
         $_SESSION["username"] = $username;
         $_SESSION["id"] = $udata["id"];
         $_SESSION["name"] = $udata["name"];
-        $_SESSION["api_token"] = bin2hex(random_bytes(64));
+        $_SESSION["apiToken"] = bin2hex(random_bytes(64));
         session_regenerate_id();
+
         writeLog("OKAY", "Đăng nhập thành công [". session_id() ."]");
         stop(0, "Đăng nhập thành công.", 200, Array(
-            "token" => $_SESSION["api_token"],
+            "token" => $_SESSION["apiToken"],
             "sessid" => session_id(),
             "redirect" => "/"
         ));
