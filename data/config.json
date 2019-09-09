@@ -8,22 +8,22 @@
         "zone": "Asia\/Ho_Chi_Minh",
         "begin": {
             "seconds": 0,
-            "minutes": 40,
-            "hours": 22,
-            "days": 8,
+            "minutes": 0,
+            "hours": 21,
+            "days": 9,
             "months": 9,
             "years": 2019
         },
         "during": 120,
         "offset": 10
     },
-    "publish": true,
+    "publish": false,
     "submit": true,
     "submitInProblems": true,
     "editInfo": true,
-    "viewRank": true,
+    "viewRank": false,
     "viewRankTask": true,
-    "viewLog": true,
+    "viewLog": false,
     "viewLogOther": true,
     "ratelimit": {
         "maxRequest": 40,

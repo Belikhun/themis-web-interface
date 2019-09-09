@@ -119,7 +119,8 @@ panel .main {
     background-color: #fafafa;
 }
 
-panel .main.blank::before {
+panel .main:empty::before,
+panel .main .showEmpty:empty::before {
     content: "\f51b";
     position: absolute;
     left: 50%;
@@ -131,7 +132,8 @@ panel .main.blank::before {
     color: rgb(192, 192, 192);
 }
 
-panel .main.blank::after {
+panel .main:empty::after,
+panel .main .showEmpty:empty::after {
     content: "Không có dữ liệu";
     position: absolute;
     display: block;
@@ -354,7 +356,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     }
 }
 
-#logp div.main.blank::before {
+#logp div.main:empty::before {
     content: "\f564";
 }
 
@@ -1192,11 +1194,11 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     overflow: hidden!important;
 }
 
-#problemp .problem-container.blank::before {
+#problemp .problem-container .problem-list:empty::before {
     content: "\f51b"!important;
 }
 
-#problemp .problem-container.blank::after {
+#problemp .problem-container .problem-list:empty::after {
     content: "Không tìm thấy đề hoặc chưa bắt đầu kì thi."!important;
 }
 
@@ -1397,11 +1399,11 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     overflow: auto;
 }
 
-#rankp div.ranking-container.blank::before {
+#rankp div.ranking-container:empty::before {
     content: "\f02d";
-}
+} 
 
-#rankp div.ranking-container.blank::after {
+#rankp div.ranking-container:empty::after {
     content: "Không có dữ liệu hoặc đã bị tắt";
 }
 

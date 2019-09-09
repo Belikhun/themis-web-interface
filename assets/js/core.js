@@ -361,18 +361,14 @@ const core = {
         let list = this.logPanel.main.getElementsByClassName("log-item-container")[0];
 
         if (data.judging.length === 0 && data.logs.length === 0 && data.queues.length === 0) {
-            this.logPanel.main.classList.add("blank");
-            this.previousLogHash = hash;
-            list.innerHTML = "";
-
-            clog("debg", "Log Is Blank. Took", {
+            this.logPanel.main.innerHTML = "";
+            clog("debg", "Log Is Empty. Took", {
                 color: flatc("blue"),
                 text: updateLogTimer.stop + "s"
             });
 
             return false;
-        } else
-            this.logPanel.main.classList.remove("blank");
+        }
 
         let out = "";
         
@@ -451,19 +447,14 @@ const core = {
         let updateRankTimer = new stopClock();
 
         if (data.list.length === 0 && data.rank.length === 0) {
-            this.rankPanel.main.classList.add("blank");
-            this.previousRankHash = hash;
             this.rankPanel.main.innerHTML = "";
-            
-            clog("debg", "Rank Is Blank. Took", {
+            clog("debg", "Rank Is Empty. Took", {
                 color: flatc("blue"),
                 text: updateRankTimer.stop + "s"
             });
 
             return false;
-        } else
-            this.rankPanel.main.classList.remove("blank");
-
+        }
 
         let list = data.list;
         let out = `
@@ -853,7 +844,6 @@ const core = {
             } catch(e) {
                 if (e.data.code === 103) {
                     clog("WARN", "Kì thi chưa bắt đầu");
-                    this.panel.main.classList.add("blank");
                     this.list.innerHTML = "";
                 } else
                     console.error(e);
