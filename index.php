@@ -599,13 +599,13 @@
                             <span class="custom delete sound" data-soundhover data-soundselect></span>
                         </div>
                         <div class="main syslogs-settings">
-                            <div class="logsContainer"></div>
+                            <div class="logsContainer showEmpty"></div>
                             <div class="navigation">
                                 <span class="left"></span>
                                 <span class="middle">
-                                     <span class="icon buttonLeft"></span>
+                                     <span class="icon buttonLeft sound" data-soundhover data-soundselect></span>
                                      <span class="currentPage"></span>
-                                     <span class="icon buttonRight"></span>
+                                     <span class="icon buttonRight sound" data-soundhover data-soundselect></span>
                                 </span>
                                 <span class="right"></span>
                             </div>
