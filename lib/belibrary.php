@@ -27,6 +27,9 @@
     if (!isset($_SESSION["username"]))
         $_SESSION["username"] = null;
 
+    if (!isset($_SESSION["id"]))
+        $_SESSION["id"] = "guest";
+
     if (!function_exists("getallheaders")) {
         function getallheaders() {
             $headers = [];

@@ -24,11 +24,10 @@
     if (!isset($_FILES["file"]))
         stop(41, "Chưa chọn tệp!", 400);
 
-    if ($username = getForm("u")) {
-        require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
-        if (getUserData($_SESSION["username"])["id"] !== "admin")
+    if ($username = getForm("u"))
+        if ($_SESSION["id"] !== "admin")
             stop(31, "Access Denied!", 403);
-    } else
+    else
         $username = $_SESSION["username"];
 
     $file = strtolower($_FILES["file"]["name"]);
