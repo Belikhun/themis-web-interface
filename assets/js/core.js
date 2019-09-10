@@ -1520,9 +1520,16 @@ const core = {
                 let value = parseInt(e.target.value);
 
                 this.updateDelayText.innerText = `${value / 1000} giây/yêu cầu`;
-                clog("OKAY", "Set updateDelay to", `${value} ms/request`);
+
+                if (value < 2000)
+                    e.target.classList.add("pink") || e.target.classList.remove("blue");
+                else
+                    e.target.classList.remove("pink") || e.target.classList.add("blue");
+                    
                 cookie.set("__updateDelay", value);
                 core.updateDelay = value;
+
+                clog("OKAY", "Set updateDelay to", `${value} ms/request`);
             })
 
             this.updateDelaySlider.value = parseInt(cookie.get("__updateDelay", 2000));
