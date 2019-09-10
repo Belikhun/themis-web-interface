@@ -19,10 +19,10 @@
         
     checkToken();
 
-    $id = reqForm("id");
-    $username = reqForm("u");
+    $id = htmlspecialchars(strip_tags(reqForm("id")));
+    $username = preg_replace("/[^a-zA-Z0-9]+/", "", strip_tags(reqForm("u")));
     $password = password_hash(reqForm("p"), PASSWORD_DEFAULT);
-    $name = reqForm("n");
+    $name = htmlspecialchars(strip_tags(reqForm("n")));
 
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
     if (getUserData($_SESSION["username"])["id"] !== "admin")

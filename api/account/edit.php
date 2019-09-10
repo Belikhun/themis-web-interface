@@ -60,9 +60,9 @@
     }
 
     $data = Array();
-    $id ? $data["id"] = $id : null;
+    $id ? $data["id"] = htmlspecialchars(strip_tags($id)) : null;
     $password ? $data["password"] = password_hash($password, PASSWORD_DEFAULT) : null;
-    $name ? $data["name"] = $name : null;
+    $name ? $data["name"] = htmlspecialchars(strip_tags($name)) : null;
     $res = editUser($username, $data);
 
     switch ($res) {
