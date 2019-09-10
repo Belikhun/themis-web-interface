@@ -10,7 +10,7 @@
         "pas",
         "py"
     ],
-    "description": "Vi\u1ebft ch\u01b0\u01a1ng tr\u00ecnh in ra t\u1ea5t c\u1ea3 c\u00e1c \u01b0\u1edbc c\u1ee7a m\u1ed9t s\u1ed1 n",
+    "description": "Cho m\u1ed9t s\u1ed1 n. H\u00e3y in ra t\u1ea5t c\u1ea3 c\u00e1c \u01b0\u1edbc s\u1ed1 nh\u1ecf h\u01a1n ho\u1eb7c b\u1eb1ng n.\n\n<b>D\u1eef li\u1ec7u v\u00e0o nh\u1eadp t\u1eeb <i>B\u00e0n Ph\u00edm<\/i><\/b>\n<ul><li>M\u1ed9t d\u00f2ng duy nh\u1ea5t ch\u1ee9a s\u1ed1 n<\/li><\/ul>\n<b>K\u1ebft qu\u1ea3 in ra <i>M\u00e0n H\u00ecnh<\/i><\/b>\n<ul><li>M\u1ed9t d\u00f2ng g\u1ed3m c\u00e1c \u01b0\u1edbc s\u1ed1 c\u1ee7a n<\/li><\/ul>\n<b>Gi\u1edbi h\u1ea1n<\/b>\n<ul><li>n > 10000000<\/li><\/ul>",
     "test": [
         {
             "inp": "456",
