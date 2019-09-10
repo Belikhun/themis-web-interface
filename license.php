@@ -6,7 +6,7 @@
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
-    require_once $_SERVER["DOCUMENT_ROOT"]."/data/info.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/info.php";
 ?>
 
 <!DOCTYPE html>
@@ -17,13 +17,13 @@
     <title>License | <?php print APPNAME ." v". VERSION; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/default.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/scrollbar.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/material-font.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/fontawesome.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/calibri.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/menu.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/default.css?v=<?php print VERSION; ?>" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollbar.css?v=<?php print VERSION; ?>" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/material-font.css?v=<?php print VERSION; ?>" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome.css?v=<?php print VERSION; ?>" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri.css?v=<?php print VERSION; ?>" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css?v=<?php print VERSION; ?>" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/menu.css?v=<?php print VERSION; ?>" />
 
     <style>
         body {
@@ -102,7 +102,7 @@
 
         <div class="group file">
             <t class="title">Sounds</t>
-            <t class="title small">CC-BY-NC 4.0 (<a href="/data/sounds/LICENSE.md" target="_blank" rel="noopener">LICENSE.md</a>) (<a href="https://creativecommons.org/licenses/by-nc/4.0/legalcode" target="_blank" rel="noopener">tl;dr</a>)</t>
+            <t class="title small">CC-BY-NC 4.0 (<a href="/assets/sounds/LICENSE.md" target="_blank" rel="noopener">LICENSE.md</a>) (<a href="https://creativecommons.org/licenses/by-nc/4.0/legalcode" target="_blank" rel="noopener">tl;dr</a>)</t>
             <t class="title small">ppy Pty. Ltd</t>
 
             <div class="item lr info">
@@ -255,7 +255,7 @@ Creative Commons may be contacted at creativecommons.org
     </div>
 
     <!-- Library -->
-    <script type="text/javascript" src="/data/js/belibrary.js"></script>
+    <script type="text/javascript" src="/assets/js/belibrary.js?v=<?php print VERSION; ?>"></script>
     <script type="text/javascript">
         if (cookie.get("__darkMode") === "true")
             document.body.classList.add("dark");
@@ -268,10 +268,10 @@ Creative Commons may be contacted at creativecommons.org
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124598427-1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+        function gtag() { dataLayer.push(arguments) }
+        gtag("js", new Date());
 
-        gtag('config', 'UA-124598427-1');
+        gtag("config", "UA-124598427-1");
     </script>
 </body>
 

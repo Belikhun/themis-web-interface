@@ -6,20 +6,26 @@
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
-    // Include config file
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
+    // SET PAGE TYPE
+    define("PAGE_TYPE", "API");
+    
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
     
     if (!isLogedIn())
         stop(11, "Bạn chưa đăng nhập!", 403);
 
     checkToken();
 
-    // Unset all of the session variables
-    $_SESSION = array();
-    $_SESSION["username"] = null;
     session_destroy();
+    session_start();
+
+    // Unset all of the session variables
+    $_SESSION = Array();
+    $_SESSION["username"] = null;
+    $_SESSION["id"] = null;
+    $_SESSION["name"] = null;
+    $_SESSION["apiToken"] = null;
 
     stop(0, "Đăng xuất thành công.", 200);
 

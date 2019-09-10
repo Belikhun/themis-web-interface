@@ -8,12 +8,7 @@
 
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logs.php";
-    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
-
-    if (isset($_GET["c"]) && is_numeric($_GET["c"])) {
-        http_response_code($_GET["c"]);
-        $_SERVER["REDIRECT_STATUS"] = $_GET["c"];
-    }
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/info.php";
 
     $sv = $_SERVER["SERVER_SOFTWARE"] . " + PHP/" . phpversion();
     $sv_ar = $_SERVER["SERVER_ADDR"];
@@ -22,6 +17,7 @@
     $uri = $_SERVER["REQUEST_URI"];
     $cl_ar = $_SERVER["REMOTE_ADDR"];
     $cl = $_SERVER["HTTP_USER_AGENT"];
+
     if (isset($_SERVER["REDIRECT_STATUS"]))
         $errCode = $_SERVER["REDIRECT_STATUS"];
     elseif (isset($_GET["code"]))
@@ -33,13 +29,13 @@
     $errDetailSub = null;
 
     if (isset($_SESSION["lastError"])) {
-        $err = $_SESSION["lastError"];
-        $errData = $err["data"];
+        $lastError = $_SESSION["lastError"];
+        $errData = $lastError["data"];
         $_SESSION["lastError"] = null;
 
-        $errCode = $err["status"];
+        $errCode = $lastError["status"];
         http_response_code($errCode);
-        $errDetail = "<b>Lỗi [" .$err["code"]. "]:</b> <sg><i>" . $err["description"] . "</i></sg>". (isset($errData["file"]) ? " tại <i>" . $errData["file"] . "</i> dòng " . $errData["line"] : "");
+        $errDetail = "<b>Lỗi [". $lastError["code"] ."]:</b> <sg><i>". $lastError["description"] ."</i></sg>". (isset($errData["file"]) ? " tại <i>" . $errData["file"] . "</i> dòng " . $errData["line"] : "");
     }
 
     switch ($errCode) {
@@ -64,7 +60,7 @@
         case 404:
             $error = "Not Found";
             $description = "Không thể tìm thấy <sy>$sv_hs$uri</sy> trên máy chủ.";
-            $errDetailSub = "thanos: <sg>*snap fingers*</sg><br>this page:<br>you:<br><img src=\"/data/img/pikachu.jpg\" width=\"20%\" style=\"margin-top: 6px\">";
+            $errDetailSub = "thanos: <sg>*snap fingers*</sg><br>this page:<br>you:<br><img src=\"/assets/img/pikachu.jpg\" width=\"20%\" style=\"margin-top: 6px\">";
             break;
         case 405:
             $error = "Method Not Allowed";
@@ -98,16 +94,16 @@
     }
 
     $errDetail = empty($errDetail) ? $errDetailSub : $errDetail;
-    $reportData = "";
+    $reportData = null;
 
-    if (isset($err))
+    if (isset($lastError) && $errCode >= 500)
         $reportData = join("\n", Array(
             "----------------BEGIN ERROR REPORT DATA----------------",
             "Protocol       : " . $sv_pr,
             "HTTP Code      : " . $errCode,
-            "Error Code     : " . (isset($err["code"]) ? $err["code"] : "null"),
+            "Error Code     : " . (isset($lastError["code"]) ? $lastError["code"] : "null"),
             "Error String   : " . $error,
-            "Error Detail   : " . (isset($err["description"]) ? $err["description"] : strip_tags($description)),
+            "Error Detail   : " . (isset($lastError["description"]) ? $lastError["description"] : strip_tags($description)),
             "URI            : " . (isset($errData["uri"]) ? $errData["uri"] : $uri),
             "",
             "Server         : " . $sv,
@@ -127,7 +123,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title><?php print $errCode ." ". $error; ?></title>
+    <title><?php print $errCode ." ". $error; ?> | <?php print APPNAME ." v". VERSION; ?></title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -145,10 +141,10 @@
     <meta property="twitter:title" content="<?php print $error; ?>">
     <meta property="twitter:description" content="<?php print $description; ?>">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/error.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/scrollbar.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/calibri.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/error.css?v=<?php print VERSION; ?>" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollbar.css?v=<?php print VERSION; ?>" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css?v=<?php print VERSION; ?>" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri.css?v=<?php print VERSION; ?>" />
 </head>
 
 <body>
@@ -185,7 +181,7 @@
     </div>
 
     <div class="footer">
-        <img src="/data/img/icon.webp" class="icon">
+        <img src="/assets/img/icon.webp" class="icon">
         <p><?php print APPNAME; ?>. Copyright (c) 2018-2019 Belikhun. This project is licensed under the MIT License.</p>
     </div>
 

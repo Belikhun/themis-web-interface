@@ -1,5 +1,5 @@
 #? |-----------------------------------------------------------------------------------------------|
-#? |  /tests/api/test.py                                                                           |
+#? |  /tests/api/contest.py                                                                           |
 #? |                                                                                               |
 #? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
 #? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
@@ -83,7 +83,7 @@ apiTest.case (
 )
 
 # All GET api test
-GETApiList = ["api/config", "api/info?u=admin", "api/status", "api/test/logs", "api/test/rank", "api/test/timer", "api/test/problems/list"]
+GETApiList = ["api/config", "api/info?u=admin", "api/status", "api/contest/logs", "api/contest/rank", "api/contest/timer", "api/contest/problems/list"]
 for item in GETApiList:
     apiTest.case (
         "API \"{}\" should return a good status code".format(item),
@@ -91,7 +91,7 @@ for item in GETApiList:
     )
 
 # All GET api with token required test
-GETApiWithTokenList = ["api/logs", "api/test/logs"]
+GETApiWithTokenList = ["api/logs", "api/contest/logs"]
 for item in GETApiWithTokenList:
     apiTest.case (
         "API t\"{}\" should return a good status code".format(item),
@@ -102,17 +102,17 @@ for item in GETApiWithTokenList:
 def __avatarAPITest():
     global sauce
 
-    result = testAPI("api/avt/change", "POST", data = { "token": sauce }, files = { "file": open("api/admin.jpg", "rb") })
+    result = testAPI("api/avatar", "POST", data = { "token": sauce }, files = { "file": open("api/admin.jpg", "rb") })
     if (result is not True):
         return result
 
-    if (filecmp.cmp("../api/avt/admin.jpg", "api/admin.jpg")):
+    if (filecmp.cmp("../data/avatar/admin.jpg", "api/admin.jpg")):
         return True
     else:
         return "FileNotMatch"
         
 apiTest.case (
-    "Avatar should be uploaded successfully with \"api/avt/change\" API and have no corruption",
+    "Avatar should be uploaded successfully with \"api/avatar/change\" API and have no corruption",
     __avatarAPITest
 )
 

@@ -1,0 +1,299 @@
+/* 
+? |-----------------------------------------------------------------------------------------------|
+? |  /assets/css/button.css                                                                       |
+? |                                                                                               |
+? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+? |-----------------------------------------------------------------------------------------------|
+*/
+
+.btn {
+    color: rgb(250, 250, 250);
+    background-color: rgb(33, 187, 98);
+    font-size: 12px;
+    font-family: "Segoe UI", sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 7.2px 18px;
+    border-width: 0;
+    border-style: solid;
+    border-color: rgb(0, 0, 0);
+    border-image: initial;
+    border-radius: 5px;
+    box-sizing: border-box;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 1s cubic-bezier(0.06, 0.81, 0, 0.98);
+}
+
+.btn:hover {
+    background-color: #2ECC71;
+}
+
+.btn:active {
+    background-color: #208B4E;
+}
+
+.btn.gray {
+    background-color: #34495e;
+}
+
+.btn.gray:hover {
+    background-color: #3c5a79;
+}
+
+.btn.gray:active {
+    background-color: #2a3a4b;
+}
+
+.btn.red {
+    background-color: #e74c3c;
+}
+
+.btn.red:hover {
+    background-color: #f74734;
+}
+
+.btn.red:active {
+    background-color: #be5044;
+}
+
+.btn.yellow {
+    background-color: #f1c40f;
+}
+
+.btn.yellow:hover {
+    background-color: #f8c809;
+}
+
+.btn.yellow:active {
+    background-color: #ddb619;
+}
+
+.btn.blue {
+    background-color: #4285f4;
+}
+
+.btn.blue:hover {
+    background-color: #5694f6;
+}
+
+.btn.blue:active {
+    background-color: #2d76eb;
+}
+
+.btn:disabled {
+    background-color: #3b4249;
+    color: rgb(119, 119, 119);
+    cursor: default;
+}
+
+.ms-btn {
+    position: relative;
+    display: flex;
+    color: white;
+    background-color: transparent;
+    font-size: 12px;
+    font-family: "Segoe UI", sans-serif;
+    font-weight: normal;
+    padding: 10px 6px;
+    border-width: 2px;
+    border-style: solid;
+    border-image: initial;
+    border-color: transparent;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 1s cubic-bezier(0.06, 0.81, 0, 0.98);
+    align-items: center;
+    justify-content: center;
+}
+
+.ms-btn .text {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 12px;
+}
+
+.ms-btn .icon {
+    margin-right: 12px;
+    width: 24px;
+    height: 24px;
+}
+
+.ms-btn:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.ms-btn:active {
+    border-color: transparent;
+    background-color: rgba(255, 255, 255, 0.4);
+    transform: scale(0.96);
+}
+
+.sq-btn {
+    position: relative;
+    display: inline-block;
+    flex-shrink: 0;
+    color: rgb(250, 250, 250);
+    background-color: rgb(68, 170, 221);
+    font-size: 12px;
+    font-family: "Segoe UI", sans-serif;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 0.5px;
+    padding: 8px 20px;
+    border-width: 0;
+    border-style: solid;
+    border-color: rgb(0, 0, 0);
+    border-image: initial;
+    border-radius: 0;
+    box-sizing: border-box;
+    cursor: pointer;
+    overflow: hidden;
+    z-index: 0;
+
+    transition:
+        filter 1s cubic-bezier(0.06, 0.81, 0, 0.98),
+        transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.sq-btn::before,
+.sq-btn::after {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    right: 5%;
+    top: 100%;
+    border-style: solid;
+    border-width: 0 50px 100px 50px;
+    border-color: transparent transparent rgb(102, 204, 255) transparent;
+    z-index: -1;
+
+    animation-name: sq-btn-trig-anim;
+    animation-duration: 8s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.sq-btn::after {
+    left: -10%;
+    border-color: transparent transparent rgb(41, 154, 190) transparent;
+    transform: scale(0.8);
+    animation-duration: 4.5s;
+    animation-delay: 0.8s;
+}
+
+@keyframes sq-btn-trig-anim {
+    0% {
+        top: 100%;
+    }
+
+    100% {
+        top: -120px;
+    }
+}
+
+.sq-btn:hover {
+    filter: brightness(1.15);
+}
+
+.sq-btn:active {
+    transform: scale(0.9);
+}
+
+.sq-btn:focus {
+    outline: none;
+    text-decoration: underline;
+}
+
+.sq-btn:disabled {
+    filter: brightness(0.6);
+    cursor: default;
+}
+
+.sq-btn.pink {
+    background-color: rgb(255, 102, 170);
+}
+
+.sq-btn.pink::before {
+    border-color: transparent transparent rgb(255, 152, 204) transparent;
+    animation-duration: 7.6s;
+}
+
+.sq-btn.pink::after {
+    border-color: transparent transparent rgb(202, 96, 146) transparent;
+    animation-duration: 7.8s;
+}
+
+.sq-btn.green {
+    background-color: rgb(136, 180, 0);
+}
+
+.sq-btn.green::before {
+    border-color: transparent transparent rgb(156, 204, 0) transparent;
+    animation-duration: 8.2s;
+}
+
+.sq-btn.green::after {
+    border-color: transparent transparent rgb(124, 162, 0) transparent;
+    animation-duration: 7.7s;
+}
+
+.sq-btn.yellow {
+    background-color: rgb(246, 194, 28);
+}
+
+.sq-btn.yellow::before {
+    border-color: transparent transparent rgb(254, 204, 34) transparent;
+    animation-duration: 7.9s;
+}
+
+.sq-btn.yellow::after {
+    border-color: transparent transparent rgb(240, 178, 14) transparent;
+    animation-duration: 8.1s;
+}
+
+.sq-btn.dark {
+    background-color: #042430;
+}
+
+.sq-btn.dark:before {
+    border-color: transparent transparent #133947 transparent;
+    animation-duration: 7.6s;
+}
+
+.sq-btn.dark:after {
+    border-color: transparent transparent #0b2e3d transparent;
+    animation-duration: 7.8s;
+}
+
+.sq-btn.brown {
+    background-color: #231B22;
+}
+
+.sq-btn.brown:before {
+    border-color: transparent transparent rgb(58, 47, 57) transparent;
+    animation-duration: 8.3s;
+}
+
+.sq-btn.brown:after {
+    border-color: transparent transparent rgb(20, 16, 20) transparent;
+    animation-duration: 8.1s;
+}
+
+.sq-btn.red {
+    background-color: rgb(221, 45, 68);
+}
+
+.sq-btn.red:before {
+    border-color: transparent transparent rgb(240, 62, 86) transparent;
+    animation-duration: 8.1s;
+    animation-delay: 0.3s;
+}
+
+.sq-btn.red:after {
+    border-color: transparent transparent rgb(197, 36, 57) transparent;
+    animation-duration: 7.7s;
+}

@@ -1,0 +1,127 @@
+/* 
+? |-----------------------------------------------------------------------------------------------|
+? |  /assets/css/.formField.css                                                                        |
+? |                                                                                               |
+? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+? |-----------------------------------------------------------------------------------------------|
+*/
+
+.formGroup {
+    position: relative;
+    padding: 15px 0 0;
+    margin-top: 8px;
+}
+
+.formGroup .formField {
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid rgba(130, 130, 130, 0.4);
+    outline: none;
+    font-family: "Calibri", "Segoe UI", sans-serif;
+    font-size: 14px;
+    color: #cecece;
+    user-select: none;
+    padding: 6px 0 7px 0;
+    background: transparent;
+    transition: border-color 0.5s;
+}
+
+.formGroup .formField::placeholder {
+    color: transparent;
+}
+
+.formGroup .formField:placeholder-shown + label {
+    font-size: 13px;
+    cursor: text;
+    top: 24px;
+}
+
+.formGroup label,
+.formGroup .formField:focus + label {
+    position: absolute;
+    top: 4px;
+    display: block;
+    transition: 0.3s;
+    font-size: 10px;
+    font-family: "Calibri", "Segoe UI", sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #5a5b5f;
+    user-select: none;
+}
+
+.formGroup .formField:focus + label {
+    color: #b9bbbe;
+}
+
+.formGroup .formField:focus {
+    padding: 6px 0;
+    border-bottom: 2px solid rgba(224, 224, 224, 0.8);
+}
+
+.formGroup .formField:disabled {
+    color: rgb(172, 172, 172);
+    background-color: rgba(128, 128, 128, 0.05);
+    cursor: not-allowed;
+}
+
+/* Dark Color */
+
+.formGroup.dark .formField {
+    border-bottom: 1px solid rgba(39, 39, 39, 0.4);
+    color: #424242;
+}
+
+.formGroup.dark label,
+.formGroup.dark .formField:focus + label {
+    color: #b1b3b8;
+}
+
+.formGroup.dark .formField:focus + label {
+    color: #5f5f62;
+}
+
+.formGroup.dark .formField:focus {
+    border-bottom: 2px solid rgba(39, 39, 39, 0.8);
+}
+
+/* Blue */
+
+.formGroup.blue .formField {
+    border-bottom: 1px solid rgba(130, 130, 130, 0.4);
+    color: #424242;
+}
+
+.formGroup.blue label,
+.formGroup.blue .formField:focus + label {
+    color: #8b8b8b;
+}
+
+.formGroup.blue .formField:focus + label {
+    color: #4285f4;
+}
+
+.formGroup.blue .formField:focus {
+    border-bottom: 2px solid #4285f4;
+}
+
+/* Purple */
+
+.formGroup.purple .formField {
+    border-bottom: 1px solid rgba(130, 130, 130, 0.4);
+    color: #424242;
+}
+
+.formGroup.purple label,
+.formGroup.purple .formField:focus + label {
+    color: #b1b3b8;
+}
+
+.formGroup.purple .formField:focus + label {
+    color: #512da8;
+}
+
+.formGroup.purple .formField:focus {
+    border-bottom: 2px solid #512da8;
+}

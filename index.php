@@ -6,10 +6,11 @@
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
-
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ecatch.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
+    // SET PAGE TYPE
+    define("PAGE_TYPE", "NORMAL");
+    
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
     header("Cache-Control: max-age=0, must-revalidate", true);
 
     //? Try to get server WAN address
@@ -20,12 +21,12 @@
     define("LAN_ADDR", getHostByName(getHostName()));
     define("WAN_ADDR", $wArr);
 
-    $loggedin = false;
+    $loggedIn = false;
     $username = null;
     $userdata = null;
     $name = null;
     $id = null;
-    $sessdata = Array(
+    $sessionData = Array(
         "SERVER_SOFTWARE" => $_SERVER["SERVER_SOFTWARE"],
         "SERVER_ADDR" => $_SERVER["SERVER_ADDR"],
         "SERVER_PROTOCOL" => $_SERVER["SERVER_PROTOCOL"],
@@ -35,9 +36,9 @@
     );
 
     if (isLogedIn()) {
-        require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
-        $loggedin = true;
-        $sessdata["username"] = $username = $_SESSION["username"];
+        require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
+        $loggedIn = true;
+        $sessionData["username"] = $username = $_SESSION["username"];
         $userdata = getUserData($username);
         $name = $userdata["name"];
         $id = $userdata["id"];
@@ -55,7 +56,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- Thay đổi tiêu đề trang hiện đã có trong phần Admin Control Panel -->
-        <title><?php print $config["pagetitle"]; ?> | <?php print APPNAME ." v". VERSION; ?></title>
+        <title><?php print $config["pageTitle"]; ?> | <?php print APPNAME ." v". VERSION; ?></title>
 
         <!-- Primary Meta Tags -->
         <meta name="title" content="<?php print $config["contest"]["name"]; ?>">
@@ -72,41 +73,41 @@
         <meta property="twitter:description" content="<?php print $stripedContestDescription; ?>">
 
         <!-- Load Library First -->
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/default.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/splash.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/progressbar.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/input.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/textview.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/table.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/switch.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/slider.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/navbar.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/usersetting.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/menu.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/spinner.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/statusbar.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/scrollbar.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/default.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/splash.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/progressbar.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/input.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/textview.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/table.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/switch.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/slider.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/navbar.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/usersetting.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/menu.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/spinner.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/statusBar.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollbar.css?v=<?php print VERSION; ?>" />
         <!-- Page Style -->
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/core.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/dark.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/core.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/dark.css?v=<?php print VERSION; ?>" />
         <!-- Fonts -->
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/calibri.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/material-font.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/consolas.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/fontawesome.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/material-font.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/consolas.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome.css?v=<?php print VERSION; ?>" />
     </head>
 
-    <body class="<?php print ($loggedin ? ($id === 'admin' ? 'admin' : 'user') : 'guest'); ?>">
+    <body class="<?php print ($loggedIn ? ($id === 'admin' ? 'admin' : 'user') : 'guest'); ?>">
 
         <!-- Init Library and Splash First -->
-        <script src="/data/js/belibrary.js" type="text/javascript"></script>
-        <script type="text/javascript" src="/data/js/splash.js"></script>
+        <script src="/assets/js/belibrary.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+        <script type="text/javascript" src="/assets/js/splash.js?v=<?php print VERSION; ?>"></script>
         <script type="text/javascript">
-            var mainSplash = new splash(document.body, `<?php print $config["contest"]["name"]; ?>`, `<?php print $stripedContestDescription; ?>`, "/data/img/icon.webp");
+            var mainSplash = new splash(document.body, `<?php print $config["contest"]["name"]; ?>`, `<?php print $stripedContestDescription; ?>`, "/assets/img/icon.webp");
 
             mainSplash.init = async set => {
-                set(0, "Initializing core.js");
+                set(0, "Initializing core.js?v=<?php print VERSION; ?>");
                 await core.init(set);
             }
 
@@ -123,7 +124,12 @@
                     versiontag: window.serverStatus.versionTag,
                     contestname: window.serverStatus.contestName,
                     platform: (navigator) ? navigator.platform : null,
-                    darkmode: cookie.get("__darkMode")
+                    darkmode: cookie.get("__darkMode"),
+
+                    event_category: "load",
+                    event_label: "scriptInitialized",
+                    send_to: "default",
+                    event_callback: () => clog("INFO", "Analytics data sent!")
                 });
             }
 
@@ -132,9 +138,10 @@
                     if (core.dialog.initialized) {
                         let errorDetail = document.createElement("ul");
                         let errorDetailHtml = "";
-                        
-                        errorDetailHtml = error.stack
-                            ? error.stack
+                        let stack = error.stack || error.data.stack || null
+
+                        errorDetailHtml = stack
+                            ? stack
                                 .split("\n")
                                 .map(i => `<li>${i}</li>`)
                                 .join("")
@@ -178,7 +185,7 @@
 
         <div class="nav">
             <span class="lnav">
-                <img class="icon" src="/data/img/icon.webp" />
+                <img class="icon" src="/assets/img/icon.webp" />
                 <ul class="title">
                     <li class="main text-overflow">
                         <?php print $config["contest"]["name"]; ?>
@@ -189,7 +196,7 @@
                 </ul>
             </span>
             <span id="usett_toggler" class="rnav">
-                <?php if ($loggedin) { ?>
+                <?php if ($loggedIn) { ?>
                     <ul class="info">
                         <li class="tag text-overflow">
                             <?php print $username ."#". $id; ?>
@@ -198,7 +205,7 @@
                             <?php print htmlspecialchars($name); ?>
                         </li>
                     </ul>
-                    <img id="user_avt" class="avatar" src="/api/avt/get?u=<?php print $username; ?>" />
+                    <img id="user_avt" class="avatar" src="/api/avatar?u=<?php print $username; ?>" />
                 <?php } ?>
                 <span class="hamburger">
                     <span></span>
@@ -208,7 +215,7 @@
             </span>
         </div>
 
-        <span id="user_settings" data-soundtoggle="show" class="sound">
+        <span id="user_settings" class="sound" data-soundtoggle="show">
 
             <div class="main">
                 <div class="container menu">
@@ -226,7 +233,7 @@
                         <div id="settings_publicFilesToggler" class="item arr sound" data-soundhover>Các tệp công khai</div>
                     </div>
 
-                    <?php if (!$loggedin) { ?>
+                    <?php if (!$loggedIn) { ?>
                         <div class="group user">
                             <t class="title">Đăng Nhập</t>
                             <div class="item form">
@@ -242,7 +249,7 @@
                         <div class="item avatar sound" data-soundhoversoft>
                             <input id="usett_avtinp" type="file">
                             <label for="usett_avtinp" class="avatar sound" data-soundhover data-soundselect title="Nhấn hoặc thả ảnh vào đây để thay đổi ảnh đại diện">
-                                <img id="usett_avt" class="avatar" src="<?php print $loggedin ? "/api/avt/get?u=".$username : ""; ?>" />
+                                <img id="usett_avt" class="avatar" src="<?php print $loggedIn ? '/api/avatar?u='. $username : ''; ?>" />
                                 <div id="usett_avtw" class="wrapper">
                                     <i class="pencil"></i>
                                     <i class="drag"></i>
@@ -277,9 +284,9 @@
 
                         <div class="item form sound" data-soundhoversoft>
                             <form id="usett_edit_name_form" autocomplete="off" action="javascript:void(0);">
-                                <div class="formgroup blue sound" data-soundselectsoft>
-                                    <input id="usett_edit_name" type="text" class="formfield" placeholder="Tên" maxlength="34" required>
-                                    <label for="usett_edit_name" class="formlabel">Tên</label>
+                                <div class="formGroup blue sound" data-soundselectsoft>
+                                    <input id="usett_edit_name" type="text" class="formField" placeholder="Tên" maxlength="34" required>
+                                    <label for="usett_edit_name">Tên</label>
                                 </div>
                                 <button type="submit" class="sq-btn sound" data-soundhover data-soundselect>Thay đổi</button>
                             </form>
@@ -289,17 +296,17 @@
 
                         <div class="item form sound" data-soundhoversoft>
                             <form id="usett_edit_pass_form" autocomplete="off" action="javascript:void(0);">
-                                <div class="formgroup blue sound" data-soundselectsoft>
-                                    <input id="usett_edit_pass" type="password" class="formfield" placeholder="Mật khẩu" required>
-                                    <label for="usett_edit_pass" class="formlabel">Mật khẩu</label>
+                                <div class="formGroup blue sound" data-soundselectsoft>
+                                    <input id="usett_edit_pass" type="password" class="formField" placeholder="Mật khẩu" required>
+                                    <label for="usett_edit_pass">Mật khẩu</label>
                                 </div>
-                                <div class="formgroup blue sound" data-soundselectsoft>
-                                    <input id="usett_edit_npass" type="password" class="formfield" placeholder="Mật khẩu mới" required>
-                                    <label for="usett_edit_npass" class="formlabel">Mật khẩu mới</label>
+                                <div class="formGroup blue sound" data-soundselectsoft>
+                                    <input id="usett_edit_npass" type="password" class="formField" placeholder="Mật khẩu mới" required>
+                                    <label for="usett_edit_npass">Mật khẩu mới</label>
                                 </div>
-                                <div class="formgroup blue sound" data-soundselectsoft>
-                                    <input id="usett_edit_renpass" type="password" class="formfield" placeholder="Nhập lại mật khẩu mới" required>
-                                    <label for="usett_edit_renpass" class="formlabel">Nhập lại mật khẩu mới</label>
+                                <div class="formGroup blue sound" data-soundselectsoft>
+                                    <input id="usett_edit_renpass" type="password" class="formField" placeholder="Nhập lại mật khẩu mới" required>
+                                    <label for="usett_edit_renpass">Nhập lại mật khẩu mới</label>
                                 </div>
                                 <button type="submit" class="sq-btn sound" data-soundhover data-soundselect>Thay đổi</button>
                             </form>
@@ -402,6 +409,14 @@
                         
                         <t class="title small">Khác</t>
 
+                        <div class="item lr sound" data-soundhoversoft>
+                            <t class="left">Mở Đề Bài trong hộp thoại</t>
+                            <label class="sq-checkbox blue right">
+                                <input id="usett_dialogProblem" type="checkbox" class="sound" data-soundcheck>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+
                         <div class="item sound" data-soundhoversoft>
                             <div class="lr">
                                 <t class="left">Thời gian làm mới</t>
@@ -430,8 +445,11 @@
                             <t class="right" style="user-select: text;"><?php print WAN_ADDR ?: "Không rõ"; ?></t>
                         </div>
 
+                        <div class="space"></div>
+
                         <t class="title small">Cài đặt</t>
                         <div id="settings_cPanelToggler" class="item arr sound" data-soundhover>Admin Control Panel</div>
+                        <div id="settings_accountEditorToggler" class="item arr sound" data-soundhover>Quản lý tài khoản</div>
                         <div id="settings_problemToggler" class="item arr sound" data-soundhover>Chỉnh Sửa Test</div>
                         <div id="settings_syslogsToggler" class="item arr sound" data-soundhover>Nhật Ký Hệ Thống</div>
                     </div>
@@ -493,46 +511,48 @@
                             <div class="problem-container">
                                 <ul id="problemEdit_list" class="problem-list sound" data-soundtoggle="hide"></ul>
                                 <form id="problemEdit_form" class="problem" action="javascript:void(0);" autocomplete="off">
-                                    <div class="formgroup blue">
-                                        <input id="problemEdit_id" type="text" class="formfield sound" placeholder="Tên Tệp" data-soundselectsoft required>
-                                        <label for="problemEdit_id" class="formlabel">Tên Tệp</label>
+                                    <div class="formGroup blue">
+                                        <input id="problemEdit_id" type="text" class="formField sound" placeholder="Tên Tệp" data-soundselectsoft required>
+                                        <label for="problemEdit_id">Tên Tệp</label>
                                     </div>
-                                    <div class="formgroup blue">
-                                        <input id="problemEdit_name" type="text" class="formfield sound" placeholder="Tên Bài" data-soundselectsoft required>
-                                        <label for="problemEdit_name" class="formlabel">Tên Bài</label>
+                                    <div class="formGroup blue">
+                                        <input id="problemEdit_name" type="text" class="formField sound" placeholder="Tên Bài" data-soundselectsoft required>
+                                        <label for="problemEdit_name">Tên Bài</label>
                                     </div>
-                                    <div class="formgroup blue">
-                                        <input id="problemEdit_point" type="number" class="formfield sound" placeholder="Điểm" data-soundselectsoft required>
-                                        <label for="problemEdit_point" class="formlabel">Điểm</label>
+                                    <div class="formGroup blue">
+                                        <input id="problemEdit_point" type="number" class="formField sound" placeholder="Điểm" data-soundselectsoft required>
+                                        <label for="problemEdit_point">Điểm</label>
                                     </div>
-                                    <div class="formgroup blue">
-                                        <input id="problemEdit_time" type="number" class="formfield sound" placeholder="Thời gian chạy" value="1" data-soundselectsoft required>
-                                        <label for="problemEdit_time" class="formlabel">Thời gian chạy</label>
+                                    <div class="formGroup blue">
+                                        <input id="problemEdit_time" type="number" class="formField sound" placeholder="Thời gian chạy" value="1" data-soundselectsoft required>
+                                        <label for="problemEdit_time">Thời gian chạy</label>
                                     </div>
-                                    <div class="formgroup blue">
-                                        <input id="problemEdit_inptype" type="text" class="formfield sound" placeholder="Dữ liệu vào" value="Bàn Phím" data-soundselectsoft required>
-                                        <label for="problemEdit_inptype" class="formlabel">Dữ liệu vào</label>
+                                    <div class="formGroup blue">
+                                        <input id="problemEdit_inpType" type="text" class="formField sound" placeholder="Dữ liệu vào" value="Bàn Phím" data-soundselectsoft required>
+                                        <label for="problemEdit_inpType">Dữ liệu vào</label>
                                     </div>
-                                    <div class="formgroup blue">
-                                        <input id="problemEdit_outtype" type="text" class="formfield sound" placeholder="Dữ liệu ra" value="Màn Hình" data-soundselectsoft required>
-                                        <label for="problemEdit_outtype" class="formlabel">Dữ liệu ra</label>
+                                    <div class="formGroup blue">
+                                        <input id="problemEdit_outType" type="text" class="formField sound" placeholder="Dữ liệu ra" value="Màn Hình" data-soundselectsoft required>
+                                        <label for="problemEdit_outType">Dữ liệu ra</label>
                                     </div>
-                                    <div class="formgroup blue">
-                                        <input id="problemEdit_accept" type="text" class="formfield sound" placeholder="Đuôi tệp" value="pas|py|cpp|java" data-soundselectsoft required>
-                                        <label for="problemEdit_accept" class="formlabel">Đuôi tệp (dùng | để ngăn cách)</label>
+                                    <div class="formGroup blue">
+                                        <input id="problemEdit_accept" type="text" class="formField sound" placeholder="Đuôi tệp" value="pas|py|cpp|java" data-soundselectsoft required>
+                                        <label for="problemEdit_accept">Đuôi tệp (dùng | để ngăn cách)</label>
                                     </div>
-                                    <div class="formgroup blue">
-                                        <input id="problemEdit_image" type="file" class="formfield sound" accept="image/*" placeholder="Ảnh" data-soundselectsoft>
-                                        <label for="problemEdit_image" class="formlabel">Ảnh (không yêu cầu)</label>
+                                    <div class="formGroup blue">
+                                        <input id="problemEdit_image" type="file" class="formField sound" accept="image/*" placeholder="Ảnh" data-soundselectsoft>
+                                        <label for="problemEdit_image">Ảnh đính kèm (tùy chọn)</label>
                                     </div>
-                                    <div class="formgroup blue">
-                                        <textarea id="problemEdit_desc" class="formfield sound" placeholder="Nội dung" data-soundselectsoft required></textarea>
-                                        <label for="problemEdit_desc" class="formlabel">Nội dung</label>
+                                    <button class="sq-btn pink" id="problemEdit_deleteImage" type="button">Xóa ảnh đính kèm hiện tại</button>
+                                    <div class="formGroup blue">
+                                        <textarea id="problemEdit_desc" class="formField sound" placeholder="Nội dung" data-soundselectsoft required></textarea>
+                                        <label for="problemEdit_desc">Nội dung</label>
                                     </div>
-                                    <div class="formgroup blue">
-                                        <input id="problemEdit_attachment" type="file" class="formfield sound" placeholder="Tệp tin" data-soundselectsoft>
-                                        <label for="problemEdit_attachment" class="formlabel">Tệp đính kèm (không yêu cầu)</label>
+                                    <div class="formGroup blue">
+                                        <input id="problemEdit_attachment" type="file" class="formField sound" placeholder="Tệp đính kèm" data-soundselectsoft>
+                                        <label for="problemEdit_attachment">Tệp đính kèm (tùy chọn)</label>
                                     </div>
+                                    <button class="sq-btn pink" id="problemEdit_deleteAttachment" type="button">Xóa tệp đính kèm hiện tại</button>
                                     <div class="test-container sound" data-soundhoversoft data-soundselectsoft>
                                         <t class="test">Test ví dụ</t>
                                         <div class="test-list" id="problemEdit_test_list"></div>
@@ -558,6 +578,19 @@
                     </div>
                 </div>
 
+                <div id="settings_accountEditor" data-soundtoggle="show" class="panel large sound">
+                    <div class="container">
+                        <div class="btn-group">
+                            <span class="reload sound" data-soundhover data-soundselect></span>
+                            <span class="close sound" data-soundhover></span>
+                            <span class="custom sound" data-soundhover data-soundselect></span>
+                        </div>
+                        <div class="main">
+                            <iframe class="cpanel-container" src=""></iframe>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="settings_syslogs" data-soundtoggle="show" class="panel large sound">
                     <div class="container">
                         <div class="btn-group">
@@ -566,6 +599,16 @@
                             <span class="custom delete sound" data-soundhover data-soundselect></span>
                         </div>
                         <div class="main syslogs-settings">
+                            <div class="logsContainer showEmpty"></div>
+                            <div class="navigation">
+                                <span class="left"></span>
+                                <span class="middle">
+                                     <span class="icon buttonLeft sound" data-soundhover data-soundselect></span>
+                                     <span class="currentPage"></span>
+                                     <span class="icon buttonRight sound" data-soundhover data-soundselect></span>
+                                </span>
+                                <span class="right"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -735,35 +778,37 @@
                     </span>
                 </div>
                 <div class="main problem-container">
-                    <ul class="problem-list sound" data-soundtoggle="hide" id="problemList">
+                    <ul class="problem-list showEmpty sound" data-soundtoggle="hide" id="problemList">
                     </ul>
                     <div class="problem">
                         <t class="name" id="problem_name"></t>
                         <t class="point" id="problem_point"></t>
                         <span class="enlarge" id="problem_enlarge" title="Phóng to"></span>
-
-                        <table class="simple-table type">
-                            <tr class="filename">
-                                <td>Tên tệp</td>
-                                <td id="problem_type_filename"></td>
-                            </tr>
-                            <tr class="ext">
-                                <td>Đuôi tệp</td>
-                                <td id="problem_type_ext"></td>
-                            </tr>
-                            <tr class="time">
-                                <td>Thời gian chạy</td>
-                                <td id="problem_type_time"></td>
-                            </tr>
-                            <tr class="inp">
-                                <td>Dữ liệu vào</td>
-                                <td id="problem_type_inp"></td>
-                            </tr>
-                            <tr class="out">
-                                <td>Dữ liệu ra</td>
-                                <td id="problem_type_out"></td>
-                            </tr>
-                        </table>
+                        
+                        <div class="simple-table-wrapper">
+                            <table class="simple-table type">
+                                <tr class="filename">
+                                    <td>Tên tệp</td>
+                                    <td id="problem_type_filename"></td>
+                                </tr>
+                                <tr class="lang">
+                                    <td>Loại tệp</td>
+                                    <td id="problem_type_lang"></td>
+                                </tr>
+                                <tr class="time">
+                                    <td>Thời gian chạy</td>
+                                    <td id="problem_type_time"></td>
+                                </tr>
+                                <tr class="inp">
+                                    <td>Dữ liệu vào</td>
+                                    <td id="problem_type_inp"></td>
+                                </tr>
+                                <tr class="out">
+                                    <td>Dữ liệu ra</td>
+                                    <td id="problem_type_out"></td>
+                                </tr>
+                            </table>
+                        </div>
 
                         <t class="description" id="problem_description"></t>
                         <div class="lazyload image" id="problem_image"></div>
@@ -772,8 +817,9 @@
                             <a id="problem_attachment_link" class="link" href=""></a>
                         </div>
 
-                        <table class="simple-table test" id="problem_test">
-                        </table>
+                        <div class="simple-table-wrapper">
+                            <table class="simple-table test" id="problem_test"></table>
+                        </div>
                     </div>
                 </div>
             </panel>
@@ -797,9 +843,8 @@
                         <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
                     </span>
                 </div>
-                <div class="main">
-                    <ul class="log-item-container">
-                    </ul>
+                <div class="main logItemContainer">
+                    
                 </div>
             </panel>
         </div>
@@ -807,14 +852,14 @@
         <!-- Session Data -->
         <script>
             const IS_ADMIN = `<?php print ($id === "admin" ? "true" : "false"); ?>` === "true";
-            const LOGGED_IN = `<?php print ($loggedin === true ? "true" : "false"); ?>` === "true";
-            const API_TOKEN = `<?php print isset($_SESSION["api_token"]) ? $_SESSION["api_token"] : null; ?>`;
-            const SESSION = <?php print json_encode($sessdata); ?>
+            const LOGGED_IN = `<?php print ($loggedIn === true ? "true" : "false"); ?>` === "true";
+            const API_TOKEN = `<?php print isset($_SESSION["apiToken"]) ? $_SESSION["apiToken"] : null; ?>`;
+            const SESSION = <?php print json_encode($sessionData); ?>
         </script>
 
-        <script src="/data/js/statusbar.js" type="text/javascript"></script>
+        <script src="/assets/js/statusBar.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
         <script type="text/javascript">
-            const sbar = new statusbar(document.body);
+            const sbar = new statusBar(document.body);
             sbar.__item = new Array();
 
             document.__onclog = (type, ts, msg) => {
@@ -839,18 +884,22 @@
             sbar.additem(SESSION.REMOTE_ADDR, "desktop", {aligin: "right"});
         </script>
 
+        <!-- Sounds -->
+        <script src="/assets/js/sounds.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+
         <!-- Core script -->
-        <script src="/data/js/core.js" type="text/javascript"></script>
+        <script src="/assets/js/core.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
         
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124598427-1"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
+            function gtag() { dataLayer.push(arguments) }
             gtag("js", new Date());
 
             gtag("config", "UA-124598427-1", {
-                "custom_map": {
+                groups: "default",
+                custom_map: {
                     dimension1: "version",
                     dimension2: "hostname",
                     dimension3: "versiontag",

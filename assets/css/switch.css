@@ -1,0 +1,215 @@
+/* 
+? |-----------------------------------------------------------------------------------------------|
+? |  /assets/css/switch.css                                                                       |
+? |                                                                                               |
+? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+? |-----------------------------------------------------------------------------------------------|
+*/
+
+.ios-switch {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    width: 50px;
+    height: 25px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.ios-switch .background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #BDBDBD;
+    transition: all .3s ease-in-out;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #ADADA5;
+    border-radius: 48px;
+    box-sizing: border-box;
+}
+
+/* Hide the browser's default checkbox */
+.ios-switch input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.ios-switch .circle {
+    position: absolute;
+    display: inline-block;
+    top: 0;
+    left: 0;
+    right: 24px;
+    margin: 1px;
+    height: 23px;
+    border-radius: 11.5px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+    will-change: left, right;
+    animation: swanmrv 0.3s cubic-bezier(0.48,-0.07, 0.49, 1.08);
+    animation-fill-mode: forwards;
+}
+
+.ios-switch input:checked + .background {
+    background: #4cd864;
+    border-color: #4cd864;
+}
+
+.ios-switch input:checked ~ .circle {
+    animation: swanmfw 0.3s cubic-bezier(0.48,-0.07, 0.49, 1.08);
+    animation-fill-mode: forwards;
+}
+
+@keyframes swanmfw {
+    0% {
+        left: 0;
+    }
+    30% {
+        left: 0;
+        right: 12px;
+    }
+    100% {
+        left: 24px;
+        right: 0;
+    }
+}
+
+@keyframes swanmrv {
+    0% {
+        right: 0;
+        left: 24px;
+    }
+    30% {
+        left: 12px;
+        right: 0;
+    }
+    100% {
+        left: 0;
+        right: 24px;
+    }
+}
+
+.material-switch {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    width: 40px;
+    height: 16px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.material-switch input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.material-switch .track {
+    position: absolute;
+    width: 40px;
+    height: 16px;
+    border-radius: 8px;
+    background-color: #BDC1C6;
+    transition: color 0.2s ease-in-out;
+}
+
+.material-switch .track::after {
+    content: "";
+    position: absolute;
+    background-color: #ffffff;
+    width: 24px;
+    height: 24px;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+    transition: all 0.2s ease-in-out;
+}
+
+.material-switch input:checked + .track {
+    background-color: rgba(26, 115, 232, 0.5);
+}
+
+.material-switch input:checked + .track::after {
+    left: 16px;
+    background-color: #4285f4;
+}
+
+.sq-checkbox {
+    position: relative;
+    display: block;
+    width: 24px;
+    height: 12px;
+    cursor: pointer;
+    user-select: none;
+
+    transition: width 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.sq-checkbox input {
+    position: absolute;
+    display: none;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.sq-checkbox .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border: 3px solid rgb(68, 170, 221);
+    border-radius: 10px;
+    box-sizing: border-box;
+
+    transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.sq-checkbox:hover {
+    width: 42px;
+}
+
+.sq-checkbox:hover input ~ .checkmark {
+    background-color: rgba(68, 170, 221, 0.4);
+    border-color: rgb(160, 220, 250);
+}
+
+.sq-checkbox input:checked ~ .checkmark {
+    background-color: rgb(68, 170, 221);
+}
+
+.sq-checkbox:hover input:checked ~ .checkmark {
+    background-color: rgb(160, 220, 250);
+}
+
+.sq-checkbox input:disabled ~ .checkmark {
+    filter: brightness(0.8)
+}
+
+.sq-checkbox.pink .checkmark {
+    border-color: rgb(255, 102, 170);
+}
+
+.sq-checkbox.pink:hover input ~ .checkmark {
+    background-color: rgba(255, 102, 171, 0.4);
+    border-color: rgb(255, 194, 214);
+}
+
+.sq-checkbox.pink input:checked ~ .checkmark {
+    background-color: rgb(255, 102, 170);
+}
+
+.sq-checkbox.pink:hover input:checked ~ .checkmark {
+    background-color: rgb(255, 194, 214);
+}

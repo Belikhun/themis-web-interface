@@ -11,8 +11,8 @@
      * @package logParser
      */
 
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/data/problems/problem.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
 
     /**
      * Parse all the log file
@@ -49,6 +49,7 @@
         public function parse() {
             $file = file($this -> logPath, FILE_IGNORE_NEW_LINES);
             $header = $this -> __parseHeader($file);
+
             if ($this -> mode === LOGPARSER_MODE_FULL) {
                 $testResult = $this -> __parseTestResult($file);
                 $header["testPassed"] = $this -> passed;
@@ -99,6 +100,12 @@
                 for ($i = 2; $i < count($file); $i++)
                     array_push($data["error"], $file[$i]);
                 
+            } else if (preg_match_all("/(.+)‣(.+): Chưa chấm/m", $firstLine, $l1matches, PREG_SET_ORDER, 0)) {
+                # test match skipped template
+                $data["status"] = "skipped";
+                $data["point"] = 0;
+                $data["description"] = "Chưa chấm";
+                $this -> logIsFailed = true;      
             } else {
                 # test match pass template
                 preg_match_all("/(.+)‣(.+): (.+\w)/m", $firstLine, $l1matches, PREG_SET_ORDER, 0);
@@ -110,8 +117,8 @@
             #? this is weird. soo weird
             $data["user"] = trim(strtolower($l1matches[0][1]), "﻿");
             $data["problem"] = strtolower($l1matches[0][2]);
-
             $problemData = problemGet($data["problem"]);
+            
             if ($problemData !== PROBLEM_ERROR_IDREJECT) {
                 $data["problemName"] = $problemData["name"];
                 $data["problemPoint"] = $this -> __f($problemData["point"]);
@@ -120,10 +127,17 @@
                     $data["status"] = "correct";
             }
 
-            $problemFileName = pathinfo(strtolower($file[1]));
-            $data["file"]["base"] = $problemFileName["filename"];
-            $data["file"]["name"] = $problemFileName["basename"];
-            $data["file"]["extension"] = $problemFileName["extension"];
+            if (isset($file[1])) {
+                $problemFileInfo = pathinfo(strtolower($file[1]));
+                $data["file"]["base"] = $problemFileInfo["filename"];
+                $data["file"]["name"] = $problemFileInfo["basename"];
+                $data["file"]["extension"] = $problemFileInfo["extension"];
+            } else {
+                $problemFileInfo = parseLogName($this -> logPath);
+                $data["file"]["base"] = $problemFileInfo["problem"];
+                $data["file"]["name"] = $problemFileInfo["name"];
+                $data["file"]["extension"] = $problemFileInfo["extension"];
+            }
 
             return $data;
         }
@@ -162,7 +176,7 @@
                         array_push($data, $lineData);
 
                     $lineData = $lineInitTemplate;
-                    $lineData["test"] = strtolower($lineParsed[0][1]);
+                    $lineData["test"] = $lineParsed[0][1];
                     $lineData["point"] = $this -> __f($lineParsed[0][2]);
 
                     if ($lineData["point"] == 0) {
@@ -207,15 +221,18 @@
         }
     }
 
-    function parseLogName(String $name) {
+    function parseLogName(String $path) {
+        $name = basename($path);
+
         $parse = [];
-        if (preg_match_all("/(.+)\[(.+)\]\[(.+)\]\.(.+)\.log/m", $name, $parse, PREG_SET_ORDER, 0))
+        if (preg_match_all("/(.+)\[(.+)\]\[(.+)\]\.([^\.]+)\.?(log)?/m", $name, $parse, PREG_SET_ORDER, 0))
             return Array(
                 "id" => $parse[0][1],
                 "user" => $parse[0][2],
                 "problem" => $parse[0][3],
                 "extension" => $parse[0][4],
-                "name" => $parse[0][3] .".". $parse[0][4]
+                "name" => $parse[0][3] .".". $parse[0][4],
+                "isLogFile" => isset($parse[0][5])
             );
 
         return false;

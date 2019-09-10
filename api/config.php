@@ -6,12 +6,13 @@
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
-    // Include config file
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logs.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
+    // SET PAGE TYPE
+    define("PAGE_TYPE", "API");
+    
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logs.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
 
     if ($_SERVER["REQUEST_METHOD"] === "GET")
         stop(0, "Thành công!", 200, $rawConfig);
@@ -21,8 +22,7 @@
         
     checkToken();
 
-    require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
-    if (getUserData($_SESSION["username"])["id"] !== "admin")
+    if ($_SESSION["id"] !== "admin")
         stop(31, "Access Denied!", 403);
 
     $TYPE_ARRAY = Array(
@@ -82,7 +82,7 @@
 
     setting("contest_name", $rawConfig["contest"]["name"], $TYPE_STRING);
     setting("contest_description", $rawConfig["contest"]["description"], $TYPE_STRING);
-    setting("uploaddir", $rawConfig["uploaddir"], $TYPE_STRING);
+    setting("uploadDir", $rawConfig["uploadDir"], $TYPE_STRING);
     setting("time_zone", $rawConfig["time"]["zone"], $TYPE_STRING);
     setting("time_begin_seconds", $rawConfig["time"]["begin"]["seconds"], $TYPE_NUMBER);
     setting("time_begin_minutes", $rawConfig["time"]["begin"]["minutes"], $TYPE_NUMBER);
@@ -92,19 +92,26 @@
     setting("time_begin_years", $rawConfig["time"]["begin"]["years"], $TYPE_NUMBER);
     setting("time_during", $rawConfig["time"]["during"], $TYPE_NUMBER);
     setting("time_offset", $rawConfig["time"]["offset"], $TYPE_NUMBER);
-    setting("pagetitle", $rawConfig["pagetitle"], $TYPE_STRING);
+    setting("pageTitle", $rawConfig["pageTitle"], $TYPE_STRING);
     setting("publish", $rawConfig["publish"], $TYPE_BOOL);
     setting("submit", $rawConfig["submit"], $TYPE_BOOL);
-    setting("submitinproblems", $rawConfig["submitinproblems"], $TYPE_BOOL);
-    setting("editinfo", $rawConfig["editinfo"], $TYPE_BOOL);
-    setting("viewlog", $rawConfig["viewlog"], $TYPE_BOOL);
-    setting("viewlogother", $rawConfig["viewlogother"], $TYPE_BOOL);
-    setting("ratelimit_maxrequest", $rawConfig["ratelimit"]["maxrequest"], $TYPE_NUMBER);
+    setting("submitInProblems", $rawConfig["submitInProblems"], $TYPE_BOOL);
+    setting("editInfo", $rawConfig["editInfo"], $TYPE_BOOL);
+    setting("viewRank", $rawConfig["viewRank"], $TYPE_BOOL);
+    setting("viewRankTask", $rawConfig["viewRankTask"], $TYPE_BOOL);
+    setting("viewLog", $rawConfig["viewLog"], $TYPE_BOOL);
+    setting("viewLogOther", $rawConfig["viewLogOther"], $TYPE_BOOL);
+    setting("ratelimit_maxRequest", $rawConfig["ratelimit"]["maxRequest"], $TYPE_NUMBER);
     setting("ratelimit_time", $rawConfig["ratelimit"]["time"], $TYPE_NUMBER);
-    setting("ratelimit_bantime", $rawConfig["ratelimit"]["bantime"], $TYPE_NUMBER);
+    setting("ratelimit_banTime", $rawConfig["ratelimit"]["banTime"], $TYPE_NUMBER);
 
-    if ($rawConfig["publish"] === false)
-        $rawConfig["viewlog"] = false;
+    if ($rawConfig["publish"] !== true) {
+        $rawConfig["viewRank"] = false;
+        $rawConfig["viewLog"] = false;
+    }
+
+    if ($rawConfig["viewRankTask"] !== true)
+        $rawConfig["viewLogOther"] = false;
 
     if ($changed === false)
         stop(102, "Woah nothing happened.", 200);

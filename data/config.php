@@ -6,9 +6,8 @@
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
-	require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
-	require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
-	require_once $_SERVER["DOCUMENT_ROOT"]."/data/info.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/info.php";
 
 	// get and parse config data from config file
 	$config = json_decode((new fip($_SERVER["DOCUMENT_ROOT"] ."/data/config.json")) -> read(), true);
@@ -23,7 +22,7 @@
 		$config["time"]["begin"]["days"],
 		$config["time"]["begin"]["years"]
 	);
-	$config["logdir"] = $config["uploaddir"] ."/Logs";
+	$config["logDir"] = $config["uploadDir"] ."/Logs";
 
 	function applyCustomVar(&$string) {
 		global $config;
@@ -44,11 +43,11 @@
 
 	applyCustomVar($config["contest"]["name"]);
 	applyCustomVar($config["contest"]["description"]);
-	applyCustomVar($config["pagetitle"]);
+	applyCustomVar($config["pageTitle"]);
 
 	function saveConfig(Array $config) {
 		unset($config["time"]["begin"]["times"]);
-		unset($config["logdir"]);
+		unset($config["logDir"]);
 		(new fip($_SERVER["DOCUMENT_ROOT"] ."/data/config.json")) -> write(json_encode($config, JSON_PRETTY_PRINT));
 	}
 
@@ -66,12 +65,12 @@
 			return true;
 
 		// Admin can bypass this check
-		if ($_SESSION["username"] !== null && getUserData($_SESSION["username"])["id"] === "admin")
+		if ($_SESSION["username"] !== null && $_SESSION["id"] === "admin")
 			return true;
 
 		$beginTime = $config["time"]["begin"]["times"];
 		$offsetTime = $config["time"]["offset"];
-		$t = $beginTime - time() + ($duringTime * 60);
+		$t = $beginTime - microtime(true) + ($duringTime * 60);
 
 		foreach ($req as $key => $value) {
 			$returnCode = null;

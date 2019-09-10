@@ -6,6 +6,8 @@
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
+    include_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logs.php";
+
     setlocale(LC_TIME, "vi_VN.UTF-8");
 
     if (session_status() === PHP_SESSION_NONE) {
@@ -25,6 +27,21 @@
     if (!isset($_SESSION["username"]))
         $_SESSION["username"] = null;
 
+    if (!isset($_SESSION["id"]))
+        $_SESSION["id"] = "guest";
+
+    if (!function_exists("getallheaders")) {
+        function getallheaders() {
+            $headers = [];
+
+            foreach ($_SERVER as $name => $value)
+                if (substr($name, 0, 5) == "HTTP_")
+                    $headers[str_replace(" ", "-", ucwords(strtolower(str_replace("_", " ", substr($name, 5)))))] = $value;
+
+            return $headers;
+        }
+    }
+
     function isLogedIn() {
         if (session_status() !== PHP_SESSION_NONE && (isset($_SESSION["username"]) || $_SESSION["username"] !== null))
             return true;
@@ -35,11 +52,14 @@
     /**
      * Kiểm tra token trong session với token được gửi trong form
      */
-    function checkToken() {
-        if (!isset($_POST["token"]))
+    function checkToken(string $token = null) {
+        $sauce = $token ?: getHeader("token") ?: (isset($_POST["token"]) ? $_POST["token"] : null);
+
+        if (empty($sauce))
             stop(4, "Token please!", 400);
-        if ($_POST["token"] !== $_SESSION["api_token"])
-            stop(5, "Wrong token!", 403);
+
+        if ($sauce !== $_SESSION["apiToken"])
+            stop(5, "Wrong token!", 403, Array( "token" => $sauce ));
     }
 
     function getStringBetween($str, $left, $right) {
@@ -47,26 +67,40 @@
         return substr($sub, 0, strpos($sub, $right));
     }
 
-    function reqform(string $key) {
+    function reqForm(string $key) {
         if (!isset($_POST[$key]))
             stop(1, "Undefined form: ". $key, 400);
         else
             return trim($_POST[$key]);
     }
 
-    function reqquery(string $key) {
+    function reqQuery(string $key) {
         if (!isset($_GET[$key]))
             stop(1, "Undefined query: ". $key, 400);
         else
             return trim($_GET[$key]);
     }
 
-    function getform(string $key, $isnul = null) {
+    function reqHeader(string $key) {
+        $headers = getallheaders();
+
+        if (!isset($headers[$key]))
+            stop(1, "Undefined header: ". $key, 400);
+        else
+            return trim($headers[$key]);
+    }
+
+    function getForm(string $key, $isnul = null) {
         return isset($_POST[$key]) ? trim($_POST[$key]) : $isnul;
     }
 
-    function getquery(string $key, $isnul = null) {
+    function getQuery(string $key, $isnul = null) {
         return isset($_GET[$key]) ? trim($_GET[$key]) : $isnul;
+    }
+
+    function getHeader(string $key, $isnul = null) {
+        $headers = getallheaders();
+        return isset($headers[$key]) ? trim($headers[$key]) : $isnul;
     }
 
     /**
@@ -162,34 +196,59 @@
             return null;
     }
 
-    function stop($c = 0, String $d = "", $sc = 200, $b = Array()) {
+    /**
+     *
+     * Print out response data, set some header
+     * and stop script execution!
+     * 
+     * @param    code           Response code
+     * @param    description    Response description
+     * @param    HTTPStatus     Response HTTP status code
+     * @param    data           Response data (additional)
+     * @param    hashData       Hash the data
+     * @return   null
+     *
+     */
+    function stop(Int $code = 0, String $description = "", Int $HTTPStatus = 200, Array $data = Array(), Bool $hashData = false) {
         global $runtime;
 
-        $out = Array(
-            "code" => $c,
-            "status" => $sc,
-            "description" => $d,
+        $output = Array(
+            "code" => $code,
+            "status" => $HTTPStatus,
+            "description" => $description,
             "user" => $_SESSION["username"],
-            "data" => $b,
+            "data" => $data,
+            "hash" => $hashData ? md5(serialize($data)) : null,
             "runtime" => $runtime -> stop()
         );
 
-        http_response_code($sc);
+        // Set the HTTP status code
+        http_response_code($HTTPStatus);
 
-        if (!defined("STOP_OUTPUT"))
-            define("STOP_OUTPUT", "print");
+        if (!defined("PAGE_TYPE"))
+            define("PAGE_TYPE", "NORMAL");
 
-        switch (STOP_OUTPUT) {
-            case "errorpage":
-                if ($sc >= 300 || $c !== 0)
-                    if (function_exists("printErrorPage"))
-                        printErrorPage($out, headers_sent());
-                    else print "<h1>Error $sc</h1><p>$d</p>";
+        switch (strtoupper(PAGE_TYPE)) {
+            case "NORMAL":
+                if (!headers_sent())
+                    header("Output: [$code] $description");
+
+                if ($HTTPStatus >= 300 || $code !== 0)
+                    printErrorPage($output, headers_sent());
+
                 break;
             
+            case "API":
+                if (!headers_sent())
+                    header("Content-Type: application/json", true);
+                    
+                print(json_encode($output, JSON_PRETTY_PRINT));
+                
+                break;
+
             default:
-                header("Content-Type: application/json", true);
-                print(json_encode($out, JSON_PRETTY_PRINT));
+                print "<h1>Error $HTTPStatus</h1><p>$description</p>";
+
                 break;
         }
 
@@ -310,6 +369,34 @@
         }
     }
 
+    function printErrorPage(Array $data, Bool $useIframe = false) {
+        $_SESSION["lastError"] = $data;
+        print (($useIframe) ? "\" />" : "") . "<!-- Output Stopped here. Begin Error Page Element -->";
+        
+        if ($useIframe)
+            print "<iframe src=\"/lib/error.php\" style=\"position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: unset; overflow: auto;\"></iframe>";
+        else
+            require $_SERVER["DOCUMENT_ROOT"]. "/lib/error.php";
+    }
+
+    //! Error Handler
+    function errorHandler(Int $code, String $text, String $file, Int $line) {
+        $errorData = Array(
+            "code" => $code,
+            "description" => $text,
+            "file" => basename($file),
+            "line" => $line,
+        );
+        
+        if (function_exists("writeLog"))
+            writeLog("ERRR", "[$code] $text tại ". basename($file) .":". $line);
+
+        stop(-1, "Error Occurred: ". $text, 500, $errorData);
+    }
+
+    set_error_handler("errorHandler", E_ALL);
+
+    //? set start time
     if (!isset($runtime))
         $runtime = new stopClock();
 

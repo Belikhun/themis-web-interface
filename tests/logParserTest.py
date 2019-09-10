@@ -1,5 +1,5 @@
 #? |-----------------------------------------------------------------------------------------------|
-#? |  /tests/api/test.py                                                                           |
+#? |  /tests/api/contest.py                                                                           |
 #? |                                                                                               |
 #? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
 #? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
@@ -60,7 +60,7 @@ def __getLog():
     global target
 
     try:
-        logData = getAPI("api/test/viewlog?f=" + target, "GET")
+        logData = getAPI("api/contest/viewlog?f=" + target, "GET")
     except Exception as excp:
         return repr(excp)
 
@@ -70,7 +70,7 @@ def __getLog():
 target = "passed"
 logData = {}
 
-apiTest.case("Should get \"{}\" log data successfully".format(target), __getLog)
+apiTest.case("Should parse \"{}\" log data successfully".format(target), __getLog)
 apiTest.case("[log:{:<9}] Log's status must be \"passed\"".format(target), lambda: True if (logData["header"]["status"] == "passed") else "Status is \"{}\"".format(logData["header"]["status"]))
 apiTest.case("[log:{:<9}] Extension must be \"java\"".format(target), lambda: True if (logData["header"]["file"]["extension"] == "java") else "Extension is \"{}\"".format(logData["header"]["file"]["extension"]))
 apiTest.case("[log:{:<9}] Have 3 passed tests".format(target), lambda: True if (logData["header"]["testPassed"] == 3) else "There are {} passed tests".format(logData["header"]["testPassed"]))
@@ -85,7 +85,7 @@ apiTest.case("[log:{:<9}] Got an output of 5 in Test0002".format(target), lambda
 target = "accepted"
 logData = {}
 
-apiTest.case("Should get \"{}\" log data successfully".format(target), __getLog)
+apiTest.case("Should parse \"{}\" log data successfully".format(target), __getLog)
 apiTest.case("[log:{:<9}] Log's status must be \"accepted\"".format(target), lambda: True if (logData["header"]["status"] == "accepted") else "Status is \"{}\"".format(logData["header"]["status"]))
 apiTest.case("[log:{:<9}] Extension must be \"pas\"".format(target), lambda: True if (logData["header"]["file"]["extension"] == "pas") else "Extension is \"{}\"".format(logData["header"]["file"]["extension"]))
 apiTest.case("[log:{:<9}] Have 0 passed tests".format(target), lambda: True if (logData["header"]["testPassed"] == 0) else "There are {} passed tests".format(logData["header"]["testPassed"]))
@@ -98,7 +98,7 @@ apiTest.case("[log:{:<9}] Got a valid error detail in Test0003".format(target), 
 target = "failed"
 logData = {}
 
-apiTest.case("Should get \"{}\" log data successfully".format(target), __getLog)
+apiTest.case("Should parse \"{}\" log data successfully".format(target), __getLog)
 apiTest.case("[log:{:<9}] Log's status must be \"failed\"".format(target), lambda: True if (logData["header"]["status"] == "failed") else "Status is \"{}\"".format(logData["header"]["status"]))
 apiTest.case("[log:{:<9}] Extension must be \"cpp\"".format(target), lambda: True if (logData["header"]["file"]["extension"] == "cpp") else "Extension is \"{}\"".format(logData["header"]["file"]["extension"]))
 apiTest.case("[log:{:<9}] Have 0 passed tests".format(target), lambda: True if (logData["header"]["testPassed"] == 0) else "There are {} passed tests".format(logData["header"]["testPassed"]))
@@ -106,5 +106,12 @@ apiTest.case("[log:{:<9}] Have 0 accepted/failed tests".format(target), lambda: 
 apiTest.case("[log:{:<9}] Got 0.00 points in total".format(target), lambda: True if (logData["header"]["point"] == 0) else "Point is {}".format(logData["header"]["point"]))
 apiTest.case("[log:{:<9}] Got no test result".format(target), lambda: True if not (logData["test"]) else "Test count is {}".format(len(logData["test"])))
 apiTest.case("[log:{:<9}] Got a valid error detail".format(target), lambda: True if (logData["header"]["error"]) else "Error detail have {} line".format(len(logData["header"]["error"])))
+
+#! Test for skipped log
+target = "skipped"
+logData = {}
+
+apiTest.case("Should parse \"{}\" log data successfully".format(target), __getLog)
+apiTest.case("[log:{:<9}] Log's status must be \"skipped\"".format(target), lambda: True if (logData["header"]["status"] == "skipped") else "Status is \"{}\"".format(logData["header"]["status"]))
 
 apiTest.complete()

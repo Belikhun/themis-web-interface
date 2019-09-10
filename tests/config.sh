@@ -25,11 +25,11 @@ case $1 in
         mv -f ../data/xmldb/account.xml .backup/account.xml
         mv -f ../data/config.json .backup/config.json
         [ -f ../data/logs.json ] && mv -f ../data/logs.json .backup/logs.json
-        cp -rf ../api/avt/ .backup/avt/
+        cp -rf ../data/avatar/ .backup/avt/
 
         # Copy
         cp -f .config/account.xml ../data/xmldb/account.xml
-        cp -f logParser/config.json ../data/config.json
+        cp -f .config/config.json ../data/config.json
 
         ;;
     "--restore")
@@ -39,8 +39,8 @@ case $1 in
         mv -f .backup/account.xml ../data/xmldb/account.xml
         mv -f .backup/config.json ../data/config.json
         [ -f .backup/logs.json ] && mv -f .backup/logs.json ../data/logs.json
-        rm -rf ../api/avt/
-        mv -f .backup/avt/ ../api/avt/
+        rm -rf ../data/avatar/
+        mv -f .backup/avt/ ../data/avatar/
 
         # Clean Backup
         rm -rf .backup/*

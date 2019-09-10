@@ -6,9 +6,11 @@
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ecatch.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/data/config.php";
+    // SET PAGE TYPE
+    define("PAGE_TYPE", "NORMAL");
+    
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
     header("Cache-Control: max-age=0, must-revalidate", true);
 
 ?>
@@ -22,15 +24,15 @@
 
         <title>Đăng nhập</title>
 
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/default.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/input.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/scrollbar.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/spinner.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/css/login.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/calibri.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/material-font.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/fontawesome.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/default.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/input.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollbar.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/spinner.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/loginPage.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/material-font.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="https://fonts.googleapis.com/css?family=Open+Sans" />
 
     </head>
@@ -39,7 +41,7 @@
 
         <div class="left-panel">
             <div class="lazyload wallpaper">
-                <img onload="this.parentNode.dataset.loaded = 1" src="/data/img/login-bg.webp"/>
+                <img onload="this.parentNode.dataset.loaded = 1" src="/assets/img/login-bg.webp"/>
                 <div class="simple-spinner"></div>
             </div>
             <ul class="footer">
@@ -52,7 +54,7 @@
         <div class="right-panel">
             <div class="header">
                 <div class="lazyload icon">
-                    <img onload="this.parentNode.dataset.loaded = 1" src="/data/img/icon.webp"/>
+                    <img onload="this.parentNode.dataset.loaded = 1" src="/assets/img/icon.webp"/>
                     <div class="simple-spinner"></div>
                 </div>
                 <ul class="info">
@@ -65,17 +67,17 @@
                 </ul>
             </div>
             <div class="center">
-                <t class="title">Đăng nhập</t>
+                <t id="login_title" class="title">Đang tải...</t>
                 <t id="form_message"></t>
 
                 <form id="form_container" action="javascript:void(0);">
                     <div id="form_username">
-                        <div class="formgroup blue">
-                            <input id="form_username_input" type="text" class="formfield" autocomplete="off" placeholder="Tên tài khoản" required disabled>
-                            <label for="form_username_input" class="formlabel">Tên tài khoản</label>
+                        <div class="formGroup blue sound" data-soundselectsoft>
+                            <input id="form_username_input" type="text" class="formField" autocomplete="off" placeholder="Tên tài khoản" required disabled>
+                            <label for="form_username_input">Tên tài khoản</label>
                         </div>
 
-                        <button id="form_username_submit" type="button" class="sq-btn" disabled>Tiếp</button>
+                        <button id="form_username_submit" type="button" class="sq-btn sound" data-soundhover data-soundselect disabled>Tiếp</button>
                     </div>
 
                     <div id="form_password">
@@ -84,12 +86,12 @@
                             <t id="form_user"></t>
                         </div>
 
-                        <div class="formgroup blue">
-                            <input id="form_password_input" type="password" class="formfield" autocomplete="off" placeholder="Mật khẩu" required disabled>
-                            <label for="form_password_input" class="formlabel">Mật khẩu</label>
+                        <div class="formGroup blue sound" data-soundselectsoft>
+                            <input id="form_password_input" type="password" class="formField" autocomplete="off" placeholder="Mật khẩu" required disabled>
+                            <label for="form_password_input">Mật khẩu</label>
                         </div>
 
-                        <button id="form_password_submit" type="submit" class="sq-btn pink" disabled>Đăng nhập</button>
+                        <button id="form_password_submit" type="submit" class="sq-btn pink sound" data-soundhover data-soundselect disabled>Đăng nhập</button>
                     </div>
                 </form>
             </div>
@@ -98,17 +100,18 @@
             </div>
         </div>
 
-        <script src="/data/js/belibrary.js" type="text/javascript"></script>
-        <script src="/data/js/login.js" type="text/javascript"></script>
+        <script src="/assets/js/belibrary.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+        <script src="/assets/js/sounds.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+        <script src="/assets/js/login.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124598427-1"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
+            function gtag() { dataLayer.push(arguments) }
+            gtag("js", new Date());
 
-            gtag('config', 'UA-124598427-1');
+            gtag("config", "UA-124598427-1");
         </script>
 
     </body>

@@ -6,18 +6,19 @@
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
-    // Include config file
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/api_ecatch.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/ratelimit.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/belibrary.php";
-    require_once $_SERVER["DOCUMENT_ROOT"]."/lib/logs.php";
+    // SET PAGE TYPE
+    define("PAGE_TYPE", "API");
+    
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logs.php";
 
     if (isLogedIn())
         stop(12, "Đã đăng nhập bằng username: ". $_SESSION["username"], 403);
     
-    $username = reqform("u");
-    $password = reqform("p");
-    require_once $_SERVER["DOCUMENT_ROOT"]."/data/xmldb/account.php";
+    $username = reqForm("u");
+    $password = reqForm("p");
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
 
     $res = simpleLogin($username, $password);
     if ($res === LOGIN_SUCCESS) {
@@ -25,11 +26,12 @@
         $_SESSION["username"] = $username;
         $_SESSION["id"] = $udata["id"];
         $_SESSION["name"] = $udata["name"];
-        $_SESSION["api_token"] = bin2hex(random_bytes(64));
+        $_SESSION["apiToken"] = bin2hex(random_bytes(64));
         session_regenerate_id();
+
         writeLog("OKAY", "Đăng nhập thành công [". session_id() ."]");
         stop(0, "Đăng nhập thành công.", 200, Array(
-            "token" => $_SESSION["api_token"],
+            "token" => $_SESSION["apiToken"],
             "sessid" => session_id(),
             "redirect" => "/"
         ));

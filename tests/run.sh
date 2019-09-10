@@ -26,6 +26,13 @@ case "$SUITE" in
         ARGS="logParserTest.py"
     ;;
 
+    # add your tests here. for example:
+
+    # myCoolTest)
+    #     COMMAND="python3"
+    #     ARGS="veryCoolTest.py"
+    # ;;
+
     --help)
         printHelp
         exit 0

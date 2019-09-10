@@ -8,6 +8,7 @@
 04  missing token
 05  wrong token
 06  error
+07  unknown request method
 
 // 1x: account
 11  not logged in
@@ -16,6 +17,7 @@
 14  wrong password
 15  new password and retype new password doesnt match
 16  not valid name
+17  account exist
 
 // 2x: feature
 21  edit info disabled
@@ -40,3 +42,5 @@
 104 contest ended
 105 contest not ended
 106 disconnected
+107 disabled
+108 not published

@@ -6,7 +6,9 @@
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
     
-    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ecatch.php";
+    // SET PAGE TYPE
+    define("PAGE_TYPE", "NORMAL");
+    
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
@@ -43,12 +45,12 @@
     <title><?php print "Index of ". $clientPath ?> | <?php print APPNAME ." v". VERSION; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/scrollbar.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/material-font.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/fontawesome.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/fonts/calibri.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/button.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/data/css/menu.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollbar.css?v=<?php print VERSION; ?>" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/material-font.css?v=<?php print VERSION; ?>" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome.css?v=<?php print VERSION; ?>" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri.css?v=<?php print VERSION; ?>" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css?v=<?php print VERSION; ?>" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/menu.css?v=<?php print VERSION; ?>" />
 
     <style>
         body {
@@ -180,7 +182,7 @@
     </div>
 
     <!-- Library -->
-    <script type="text/javascript" src="/data/js/belibrary.js"></script>
+    <script type="text/javascript" src="/assets/js/belibrary.js?v=<?php print VERSION; ?>"></script>
     <script type="text/javascript">
         if (cookie.get("__darkMode") === "true")
             document.body.classList.add("dark");
@@ -193,10 +195,10 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124598427-1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+        function gtag() { dataLayer.push(arguments) }
+        gtag("js", new Date());
 
-        gtag('config', 'UA-124598427-1');
+        gtag("config", "UA-124598427-1");
     </script>
 </body>
 

@@ -1,6 +1,7 @@
 # Change Logs
 
-- [Thay đổi trong v0.4.6](#thay-đổi-trong-v046)
+- [Thay đổi trong v0.5.0](#thay-đổi-trong-v050)
+	- [Thay đổi trong v0.4.6](#thay-đổi-trong-v046)
 	- [Thay đổi trong v0.4.5](#thay-đổi-trong-v045)
 	- [Thay đổi trong v0.4.4](#thay-đổi-trong-v044)
 	- [Thay đổi trong v0.4.3](#thay-đổi-trong-v043)
@@ -23,7 +24,41 @@
 
 ---
 
-## Thay đổi trong v0.4.6
+## Thay đổi trong v0.5.0
+
+* **Bug:** Rò rỉ một số thông tin từ api "test/logs" khi tắt công bố kết quả (#19)
+* **Bug:** Sửa lỗi hiển thị tại bảng nhật ký khi tắt Công bố kết quả (#20)
+* **Bug:** Sửa lỗi hiển thị các test trong đề bài (#21)
+* **Bug:** Sửa lỗi kéo thả tệp để nộp bài không hoạt động (#22)
+* **Bug:** Lỗi chỉnh sửa ảnh đính kèm của đề bài (#23)
+* **Bug:** Sửa lỗi khi đọc tệp nhật ký *Chưa được chấm*
+* **Thêm:** Thêm bảng **Quản lý tài khoản**
+* **Thêm:** Cài đặt người dùng: Tự động mở đề bài ở cửa sổ lớn
+* **Thêm:** Xóa ảnh đính kèm và tệp đính kèm hiện tại của đề bài
+* **Thêm:** Thêm một số cài đặt mới cho Admin
+	* Bật bảng xếp hạng
+	* Hiển thị điểm các bài làm trong bảng xếp hạng
+* **Thay đổi:** Chỉnh sửa lại một số màu ở chế độ tối
+* **Thay đổi:** Chỉnh sửa lại hiệu ứng ở bảng cài đặt
+* **Thay đổi:** Thiết kế lại bố cục của bảng cài đặt
+* **Thay đổi:** Hiển thị các nhật ký hệ thống dưới dạng trang
+* **Thay đổi:** Đổi tên một số tên hàm và tên biến quan trọng
+* **Thay đổi:** Đổi tên API
+	* `test -> contest`
+	* `avt -> avatar`
+* **Thay đổi:** Loại bỏ Ratelimit ở API `avatar/get`
+* **Thay đổi:** API `/contest/timer` tính toán chính xác đến hàng phần nghìn
+* **Thay đổi:** Thiết kế lại trang `README`
+* **Thay đổi:** Thay đổi cấu trúc hệ thống
+	* Toàn bộ tệp public ở `data` được di chuyển sang `assets`
+	* Toàn bộ tệp còn lại ở `data` đều bị cấm truy cập
+	* Dữ liệu ảnh `avatar` được đưa đến thư mục `data`
+* **Thay đổi:** Merge `ecatch` and `api_ecatch` into `belibrary`
+* **Thay đổi:** Tách riêng module `sounds`
+* **Thay đổi:** Thêm tài khoản admin vào trường hợp ngoại lệ của một số cài đặt
+* Sửa một số lỗi khác và thêm một số chức năng nhỏ
+
+### Thay đổi trong v0.4.6
 
 * **Bug:** Tăng thêm điểm cho cùng một bài bằng cách nộp với nhiều kiểu tệp
 * **Bug:** Lỗi `TypeError: Cannot read property 'contentWindow' of null` khi kì thi đang diễn ra
@@ -43,7 +78,7 @@
 ### Thay đổi trong v0.4.5
 
 * **Bug:** Trang lỗi hiển thị ở api thay vì hiển thị đoạn json chứa thông tin lỗi
-* **Bug:** Lỗi `Undefined Variable: lastmtime` tại `/api/test/logs` khi tắt cài đặt `Cho phép xem nhật ký`
+* **Bug:** Lỗi `Undefined Variable: lastmtime` tại `/api/contest/logs` khi tắt cài đặt `Cho phép xem nhật ký`
 * **Chỉnh sửa:** Chỉnh sửa màu tại bảng rank cho các bài chính xác`
 * **Chỉnh sửa:** Chỉnh sửa nút xem nhật ký tại bảng nhật ký`
 * Sửa một số bug, lỗi hiển thị và thêm một số chức năng nhỏ
@@ -97,7 +132,7 @@
 ## Thay đổi trong v0.4.0 🎉🎉
 
 * Fixed a bug where public file size does not show correctly
-* Fixed a bug where `viewlogother` setting does not updated correctly
+* Fixed a bug where `viewLogOther` setting does not updated correctly
 * Redesigned error page
 * *và các thay đổi ở phiên bản `v0.4.0-prerelease`...*
 

@@ -9,9 +9,9 @@
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
 
-    $maxRequest = $config["ratelimit"]["maxrequest"] ?: 60;
+    $maxRequest = $config["ratelimit"]["maxRequest"] ?: 60;
     $perSeconds = $config["ratelimit"]["time"] ?: 8;
-    $banTime = $config["ratelimit"]["bantime"] ?: 15;
+    $banTime = $config["ratelimit"]["banTime"] ?: 15;
 
     if (!isset($_SESSION["firstrequest"]))
         $_SESSION["firstrequest"] = time();

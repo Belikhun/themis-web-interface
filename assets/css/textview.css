@@ -1,0 +1,80 @@
+/* 
+? |-----------------------------------------------------------------------------------------------|
+? |  /assets/css/textview.css                                                                     |
+? |                                                                                               |
+? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+? |-----------------------------------------------------------------------------------------------|
+*/
+
+.textview {
+    position: relative;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin: unset;
+    padding: unset;
+    list-style: none;
+    overflow: auto;
+}
+
+.textview > li {
+    position: relative;
+    display: block;
+    text-align: left;
+    counter-increment: viewLog-line;
+    margin: 0 10px 0 50px;
+    padding: 4px 10px;
+    min-height: 30px;
+    box-sizing: border-box;
+    border-left: 1px solid rgba(82, 82, 82, 0.3);
+    color: rgb(95, 95, 95);
+    font-family: "Consolas";
+    font-weight: bold;
+    font-size: 17px;
+    white-space: pre-wrap;
+}
+
+.textview > li:hover {
+    background-color: rgba(212, 212, 212, 0.2);
+}
+
+.textview > li::before {
+    content: counter(viewLog-line);
+    position: absolute;
+    width: 40px;
+    left: -50px;
+    text-align: right;
+    color: rgb(192, 192, 192);
+}
+
+.textview > li:hover::before {
+    color: #2984c0;
+}
+
+.textview.small > li {
+    font-size: 12px;
+    min-height: 22px;
+    margin-left: 32px;
+}
+
+.textview.noBreakLine > li {
+    white-space: pre;
+}
+
+body.dark .textview > li {
+    border-left-color: rgba(204, 204, 204, 0.3);
+    color: rgb(204, 204, 204);
+}
+
+body.dark .textview > li:hover {
+    background-color: rgba(10, 10, 10, 0.2);
+}
+
+body.dark .textview > li::before {
+    color: rgb(104, 104, 104);
+}
+
+body.dark .textview > li:hover::before {
+    color: #31a0eb;
+}

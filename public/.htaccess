@@ -1,3 +1,4 @@
+Options +FollowSymLinks +Indexes
 Order allow,deny
 Allow from all
 Require all granted

@@ -1,0 +1,243 @@
+/* 
+? |-----------------------------------------------------------------------------------------------|
+? |  /assets/css/splash.css                                                                       |
+? |                                                                                               |
+? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+? |-----------------------------------------------------------------------------------------------|
+*/
+
+.splash {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #ecf0f1;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    z-index: 100;
+
+    transition: background-color 0.2s ease;
+}
+
+.splash.done {
+    animation: splash-disapear 1s ease 0.5s 1 alternate forwards;
+}
+
+.splash .middle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% - 60px);
+}
+
+.splash .middle .logo {
+    position: relative;
+    display: block;
+    margin: auto;
+    margin-bottom: 22px;
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+    background-color: #3498db;
+}
+
+.splash .middle .logo::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #3498db;
+    border-radius: 100%;
+    animation: sk-scaleout 1.6s infinite ease-in-out;
+}
+
+.splash .middle .logo .inner {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-image: unset;
+    background-position: center;
+    background-size: contain;
+}
+
+.splash .middle .appname {
+    position: relative;
+    display: block;
+    margin: auto;
+    text-align: center;
+    color: #2c3e50;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.splash .middle .appsubname {
+    position: relative;
+    display: block;
+    text-align: center;
+    margin: 4px auto 22px auto;
+    color: #40566d;
+    font-weight: bold;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+.splash .middle .progressBar {
+    position: relative;
+    width: 260px;
+    margin: auto;
+    margin-bottom: 8px;
+}
+
+.splash .middle t {
+    position: relative;
+    display: block;
+    margin: auto;
+    text-align: center;
+    font-family: "Calibri";
+}
+
+.splash .middle .phase {
+    min-height: 16px;
+    font-weight: bold;
+    font-size: 11px;
+    color: rgb(98, 98, 98);
+    text-transform: uppercase;
+}
+
+.splash .middle .status {
+    padding-bottom: 10px;
+    min-height: 18px;
+    font-size: 16px;
+    color: rgb(58, 58, 58);
+}
+
+.splash .middle .errormsg {
+    min-height: 24px;
+    font-size: 17px;
+    font-weight: bold;
+    color: rgb(204, 28, 28);
+}
+
+.splash .middle .tips {
+    min-height: 18px;
+    font-size: 13px;
+    color: rgb(78, 78, 78);
+}
+
+.splash .middle .tips::before {
+    content: "Tips: ";
+    font-weight: bold;
+}
+
+.splash .footer {
+    position: absolute;
+    bottom: 36px;
+    width: 100%;
+}
+
+.splash .footer .icon {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 10px;
+}
+
+.splash .footer .icon .lazyload {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: visible;
+    margin: 0 6px;
+}
+
+.splash .footer .text {
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    padding: 0 10px;
+    width: 100%;
+    color: #34495e;
+    text-align: center;
+    font-size: 12px;
+}
+
+/* Dark */
+
+body.dark .splash,
+.splash.dark {
+    background-color: #282829;
+}
+
+body.dark .splash .middle .appname,
+.splash.dark .middle .appname {
+    color: #ecf0f1;
+}
+
+body.dark .splash .middle .appsubname,
+.splash.dark .middle .appname {
+    color: #acb8bb;
+}
+
+body.dark .splash .middle .phase,
+.splash.dark .middle .phase {
+    color: rgb(148, 148, 148);
+}
+
+body.dark .splash .middle .status,
+.splash.dark .middle .status {
+    color: rgb(195, 195, 195);
+}
+
+body.dark .splash .middle .errormsg,
+.splash.dark .middle .errormsg {
+    color: #f08174;
+}
+
+body.dark .splash .middle .tips,
+.splash.dark .middle .tips {
+    color: rgb(172, 172, 172);
+}
+
+body.dark .splash .footer .text,
+.splash.dark .footer .text {
+    color: #dbdbdb;
+}
+
+@keyframes sk-scaleout {
+    0% {
+        transform: scale(0.95);
+    }
+
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+@keyframes splash-disapear {
+    0% {
+        opacity: 1;
+        z-index: 10;
+        display: flex;
+    }
+
+    99% {
+        opacity: 0;
+        z-index: 10;
+        display: flex;
+    }
+
+    100% {
+        opacity: 0;
+        z-index: -10;
+        display: none;
+    }
+}
