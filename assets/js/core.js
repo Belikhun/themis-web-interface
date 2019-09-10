@@ -896,6 +896,7 @@ const core = {
 
             let data = response.data;
             this.data = data;
+            this.panel.title = "Đề bài - " + data.name;
 
             if (this.viewInDialog) {
                 this.enlargeProblem(this.data);
@@ -906,7 +907,6 @@ const core = {
             this.panel.bak.hide(false);
 
             this.name.innerText = data.name;
-            this.panel.title = "Đề bài - " + data.name;
             this.point.innerText = data.point + " điểm";
             this.type.filename.innerText = data.id;
             this.type.lang.innerText = data.accept.join(", ");
