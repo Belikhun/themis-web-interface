@@ -1525,7 +1525,7 @@ const core = {
                     e.target.classList.add("pink") || e.target.classList.remove("blue");
                 else
                     e.target.classList.remove("pink") || e.target.classList.add("blue");
-                    
+
                 cookie.set("__updateDelay", value);
                 core.updateDelay = value;
 
@@ -1974,7 +1974,7 @@ const core = {
                 this.form.point.value = null;
                 this.form.time.value = 1;
                 this.form.inpType.value = "Bàn Phím";
-                this.form.outType.value = "Màn hình";
+                this.form.outType.value = "Màn Hình";
                 this.form.accept.value = Object.keys(core.languages).join("|");
                 this.form.image.value = null;
                 this.form.desc.value = "";
