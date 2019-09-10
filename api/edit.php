@@ -20,7 +20,7 @@
     $username = $_SESSION["username"];
     checkToken();
 
-    if ($config["editInfo"] === false)
+    if ($config["editInfo"] === false && $_SESSION["id"] !== "admin")
         stop(21, "Thay đổi thông tin đã bị tắt!", 403);
 
     $change = Array();
