@@ -45,6 +45,7 @@ body:not(.embeded) {
     margin: unset;
     padding: 0 20px;
     font-weight: bold;
+    overflow: hidden;
 }
 
 #accountContainer .accountInfo .info .id {
@@ -52,12 +53,20 @@ body:not(.embeded) {
     font-size: 11px;
     letter-spacing: 0.4px;
     color: #546e7a;
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 #accountContainer .accountInfo .info .name {
     position: relative;
     font-size: 18px;
     color: #425161;
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 #accountContainer .accountInfo .button {
