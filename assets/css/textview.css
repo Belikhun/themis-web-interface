@@ -1,13 +1,13 @@
 /* 
 ? |-----------------------------------------------------------------------------------------------|
-? |  /assets/css/textview.css                                                                     |
+? |  /assets/css/textView.css                                                                     |
 ? |                                                                                               |
 ? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
 ? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 ? |-----------------------------------------------------------------------------------------------|
 */
 
-.textview {
+.textView {
     position: relative;
     display: block;
     width: 100%;
@@ -18,7 +18,7 @@
     overflow: auto;
 }
 
-.textview > li {
+.textView > li {
     position: relative;
     display: block;
     text-align: left;
@@ -35,11 +35,11 @@
     white-space: pre-wrap;
 }
 
-.textview > li:hover {
+.textView > li:hover {
     background-color: rgba(212, 212, 212, 0.2);
 }
 
-.textview > li::before {
+.textView > li::before {
     content: counter(viewLog-line);
     position: absolute;
     width: 40px;
@@ -48,33 +48,33 @@
     color: rgb(192, 192, 192);
 }
 
-.textview > li:hover::before {
+.textView > li:hover::before {
     color: #2984c0;
 }
 
-.textview.small > li {
+.textView.small > li {
     font-size: 12px;
     min-height: 22px;
     margin-left: 32px;
 }
 
-.textview.noBreakLine > li {
+.textView.noBreakLine > li {
     white-space: pre;
 }
 
-body.dark .textview > li {
+body.dark .textView > li {
     border-left-color: rgba(204, 204, 204, 0.3);
     color: rgb(204, 204, 204);
 }
 
-body.dark .textview > li:hover {
+body.dark .textView > li:hover {
     background-color: rgba(10, 10, 10, 0.2);
 }
 
-body.dark .textview > li::before {
+body.dark .textView > li::before {
     color: rgb(104, 104, 104);
 }
 
-body.dark .textview > li:hover::before {
+body.dark .textView > li:hover::before {
     color: #31a0eb;
 }

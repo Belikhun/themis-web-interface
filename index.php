@@ -78,7 +78,7 @@
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/progressBar.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/input.css?v=<?php print VERSION; ?>" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/textview.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/textView.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/table.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/switch.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/slider.css?v=<?php print VERSION; ?>" />
@@ -147,7 +147,7 @@
                                 .join("")
                             : `<li>${e} >>> ${d}</li>`;
                         
-                        errorDetail.classList.add("textview", "small", "noBreakLine");
+                        errorDetail.classList.add("textView", "small", "noBreakLine");
                         errorDetail.style.flexDirection = "column";
                         errorDetail.innerHTML = errorDetailHtml;
 

@@ -1,0 +1,106 @@
+/* 
+? |-----------------------------------------------------------------------------------------------|
+? |  /assets/css/progressBar.css                                                                  |
+? |                                                                                               |
+? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+? |-----------------------------------------------------------------------------------------------|
+*/
+
+.progressBar {
+    position: relative;
+    display: block;
+    height: 2px;
+    margin-top: 20px;
+    background-color: rgba(90, 90, 90, 0.2);
+}
+
+.progressBar > .bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background-color: #16dfb6;
+    transition:
+        width 0.4s ease,
+        background-color 0.4s ease;
+}
+
+.progressBar > .bar.noTransition {
+    transition:
+        background-color 0.4s ease;
+}
+
+.progressBar > .bar[data-slow="10"] {
+    transition:
+        width 10s cubic-bezier(0.215, 0.61, 0.355, 1),
+        background-color 0.4s ease;
+}
+
+.progressBar > .bar[data-slow="20"] {
+    transition:
+        width 20s cubic-bezier(0.215, 0.61, 0.355, 1),
+        background-color 0.4s ease;
+}
+
+.progressBar > .bar[data-slow="30"] {
+    transition:
+        width 30s cubic-bezier(0.215, 0.61, 0.355, 1),
+        background-color 0.4s ease;
+}
+
+.progressBar > .left,
+.progressBar > .right {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateY(-100%);
+    font-size: 14px;
+    font-weight: bold;
+    color: rgba(116, 116, 116, 0.7);
+}
+
+.progressBar > .right {
+    left: unset;
+    right: 0;
+}
+
+/*? Colors */
+
+.progressBar > .bar[data-color="blue"] {
+    background-color: #3498db;
+}
+
+.progressBar > .bar[data-color="red"] {
+    background-color: #c0392b;
+}
+
+/*? Dark */
+
+body.dark .progressBar,
+.progressBar.dark {
+    background-color: rgba(160, 160, 160, 0.2);
+}
+
+body.dark .progressBar > .bar,
+.progressBar.dark > .bar {
+    background-color: #21c2a2;
+}
+
+body.dark .progressBar > .left,
+body.dark .progressBar > .right,
+.progressBar.dark > .left,
+.progressBar.dark > .right {
+    color: rgba(218, 218, 218, 0.8);
+}
+
+body.dark .progressBar > .bar[data-color="blue"],
+.progressBar.dark > .bar[data-color="blue"] {
+    background-color: #44abf0;
+}
+
+body.dark .progressBar > .bar[data-color="red"],
+.progressBar.dark > .bar[data-color="red"] {
+    background-color: #f14d3b;
+}

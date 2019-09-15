@@ -601,7 +601,7 @@ const core = {
                         </div>
 
                         <div class="line log">
-                            <ul class="textview">${logLine.join("\n")}</ul>
+                            <ul class="textView">${logLine.join("\n")}</ul>
                         </div>
                     </span>
                 </div>
