@@ -107,7 +107,7 @@
 * **Chỉnh sửa:** Thay thế tiến trình theo % ở bảng thời gian thành `(thời gian bắt đầu) tới (thời gian kết thúc)`
 * **Chỉnh sửa:** Thay đổi màu của một số phần tử
 * **Chỉnh sửa:** Thay đổi hiệu ứng của bảng cài đặt
-* **Chỉnh sửa:** Loại bỏ scrollbar trong bảng cài đặt
+* **Chỉnh sửa:** Loại bỏ scrollBar trong bảng cài đặt
 * **Chỉnh sửa:** Viết lại một số đoạn code cũ
 * Sửa một số bug, lỗi hiển thị và thêm một số chức năng nhỏ
 

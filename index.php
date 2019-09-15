@@ -75,7 +75,7 @@
         <!-- Load Library First -->
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/default.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/splash.css?v=<?php print VERSION; ?>" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/progressbar.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/progressBar.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/input.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/textview.css?v=<?php print VERSION; ?>" />
@@ -83,11 +83,11 @@
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/switch.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/slider.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/navbar.css?v=<?php print VERSION; ?>" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/usersetting.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/userSetting.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/menu.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/spinner.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/statusBar.css?v=<?php print VERSION; ?>" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollbar.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollBar.css?v=<?php print VERSION; ?>" />
         <!-- Page Style -->
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/core.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/dark.css?v=<?php print VERSION; ?>" />
@@ -736,7 +736,7 @@
                         <t id="submitStatus">null</t>
                         <t id="submitFileName">null</t>
                         <div class="progressBar">
-                            <div class="bar" id="submitProgressBar"></div>
+                            <div class="bar" id="submitprogressBar"></div>
                             <t class="left" id="submitInfoProgress">0%</t>
                             <t class="right" id="submitInfoSize">00/00</t>
                         </div>

@@ -618,7 +618,7 @@ const core = {
         input: $("#submitInput"),
         state: $("#submitStatus"),
         name: $("#submitFileName"),
-        bar: $("#submitProgressBar"),
+        bar: $("#submitprogressBar"),
         percent: $("#submitInfoProgress"),
         size: $("#submitInfoSize"),
         panel: new regPanel($("#uploadp")),
@@ -1541,7 +1541,7 @@ const core = {
 
                 clog("okay", "Initialised:", {
                     color: flatc("red"),
-                    text: "core.usersettings (notLoggedIn mode)"
+                    text: "core.userSettings (notLoggedIn mode)"
                 });
                 return;
             }
@@ -1567,7 +1567,7 @@ const core = {
 
             clog("okay", "Initialised:", {
                 color: flatc("red"),
-                text: "core.usersettings"
+                text: "core.userSettings"
             });
 
         },

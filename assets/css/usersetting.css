@@ -1,6 +1,6 @@
 /* 
 ? |-----------------------------------------------------------------------------------------------|
-? |  /assets/css/usersetting.css                                                                  |
+? |  /assets/css/userSetting.css                                                                  |
 ? |                                                                                               |
 ? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
 ? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
@@ -41,7 +41,7 @@
     scroll-behavior: smooth;
 }
 
-#user_settings .main::-webkit-scrollbar { 
+#user_settings .main::-webkit-scrollBar { 
     display: none;
 }
 

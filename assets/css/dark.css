@@ -310,7 +310,7 @@ body.dark #logp .logItemContainer .logItem.failed .h .l .n {
     color: #f66f6f;
 }
 
-/* UserSettings */
+/* userSettings */
 
 body.dark #user_settings .sub .panel .container {
     background-color: rgba(56, 56, 56, 0.8);
