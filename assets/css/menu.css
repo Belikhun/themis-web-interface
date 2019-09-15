@@ -114,6 +114,10 @@ body.embeded .menu {
     background-color: rgba(245, 245, 246, 0.4);
 }
 
+.menu .group .item.line {
+    flex-direction: row;
+}
+
 .menu .group a.item {
     display: block;
     width: 100%;

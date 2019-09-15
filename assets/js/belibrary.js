@@ -318,6 +318,49 @@ function parseTime(t = 0, padding = 3) {
     }
 }
 
+function formatTime(seconds, { ended = "Đã kết thúc", endedCallback = () => {} } = {}) {
+    var time = { năm: 31536000, ngày: 86400, giờ: 3600, phút: 60, giây: 1 },
+        res = [];
+  
+    if (seconds === 0)
+        return "bây giờ";
+
+    if (seconds < 0) {
+        endedCallback();
+        return ended;
+    }
+    
+    for (var key in time)
+        if (seconds >= time[key]) {
+            var val = Math.floor(seconds / time[key]);
+            res.push(val += " " + key);
+            seconds = seconds % time[key];
+        }
+   
+    return res.length > 1 ? res.join(", ").replace(/,([^,]*)$/, " và" + "$1") : res[0];
+}
+
+function liveTime(element, start = time(new Date()), { count = "up", prefix = "", surfix = "", ended = "Đã kết thúc", endedCallback = () => {}, interval = 1000 } = {}) {
+    var updateInterval = setInterval(e => {
+        if (!document.body.contains(element)) {
+            clog("DEBG", "Live Time Element does not exist in document. Clearing...");
+            clearInterval(updateInterval);
+        }
+
+        let t = 0;
+
+        if (count === "up")
+            t = time() - start;
+        else
+            t = start - time();
+
+        element.innerText = `${prefix}${formatTime(t, { ended: ended, endedCallback: () => endedCallback(element) })}${surfix}`;
+
+        if (t < 0)
+            clearInterval(updateInterval);
+    }, interval);
+}
+
 function convertSize(bytes) {
     let sizes = ["B", "KB", "MB", "GB", "TB"];
     for (var i = 0; bytes >= 1024 && i < (sizes.length -1 ); i++)
