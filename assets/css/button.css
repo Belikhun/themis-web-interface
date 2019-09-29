@@ -171,10 +171,8 @@
     border-color: transparent transparent rgb(102, 204, 255) transparent;
     z-index: -1;
 
-    animation-name: sq-btn-trig-anim;
-    animation-duration: 8s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
+    animation:
+        sq-btn-trig-anim 8s linear 0s infinite;
 }
 
 .sq-btn::after {
@@ -259,12 +257,12 @@
     background-color: #042430;
 }
 
-.sq-btn.dark:before {
+.sq-btn.dark::before {
     border-color: transparent transparent #133947 transparent;
     animation-duration: 7.6s;
 }
 
-.sq-btn.dark:after {
+.sq-btn.dark::after {
     border-color: transparent transparent #0b2e3d transparent;
     animation-duration: 7.8s;
 }
@@ -273,12 +271,12 @@
     background-color: #231B22;
 }
 
-.sq-btn.brown:before {
+.sq-btn.brown::before {
     border-color: transparent transparent rgb(58, 47, 57) transparent;
     animation-duration: 8.3s;
 }
 
-.sq-btn.brown:after {
+.sq-btn.brown::after {
     border-color: transparent transparent rgb(20, 16, 20) transparent;
     animation-duration: 8.1s;
 }
@@ -287,13 +285,56 @@
     background-color: rgb(221, 45, 68);
 }
 
-.sq-btn.red:before {
+.sq-btn.red::before {
     border-color: transparent transparent rgb(240, 62, 86) transparent;
     animation-duration: 8.1s;
     animation-delay: 0.3s;
 }
 
-.sq-btn.red:after {
+.sq-btn.red::after {
     border-color: transparent transparent rgb(197, 36, 57) transparent;
     animation-duration: 7.7s;
+}
+
+@keyframes sq-btn-bgRainbow {
+    0% { background-color: rgb(221, 45, 68); }
+    20% { background-color: rgb(246, 194, 28); }
+    40% { background-color: rgb(136, 180, 0); }
+    60% { background-color: rgb(68, 170, 221); }
+    80% { background-color: rgb(255, 102, 170); }
+    100% { background-color: rgb(221, 45, 68); }
+}
+
+@keyframes sq-btn-triRainbow1 {
+    0%      { border-bottom-color: rgb(240, 62, 86);   }
+    20%     { border-bottom-color: rgb(254, 204, 34);  }
+    40%     { border-bottom-color: rgb(156, 204, 0);   }
+    60%     { border-bottom-color: rgb(102, 204, 255); }
+    80%     { border-bottom-color: rgb(255, 152, 204); }
+    100%    { border-bottom-color: rgb(240, 62, 86);   }
+}
+
+@keyframes sq-btn-triRainbow2 {
+    0%      { border-color: transparent transparent rgb(197, 36, 57) transparent;       }
+    20%     { border-color: transparent transparent rgb(240, 178, 14) transparent;      }
+    40%     { border-color: transparent transparent rgb(124, 162, 0) transparent;       }
+    60%     { border-color: transparent transparent rgb(41, 154, 190) transparent;      }
+    80%     { border-color: transparent transparent rgb(202, 96, 146) transparent;     }
+    100%    { border-color: transparent transparent rgb(197, 36, 57) transparent;       }
+}
+
+.sq-btn.rainbow {
+    animation: sq-btn-bgRainbow 10s linear 0s infinite;
+}
+
+.sq-btn.rainbow::before {
+    animation:
+        sq-btn-trig-anim 8.2s linear 0s infinite,
+        sq-btn-triRainbow1 10s linear 0s infinite;
+}
+
+.sq-btn.rainbow::after {
+    animation:
+        sq-btn-trig-anim 7.6s linear 0s infinite,
+        sq-btn-triRainbow2 10s linear 0s infinite;
 }

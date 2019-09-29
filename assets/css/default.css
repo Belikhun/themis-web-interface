@@ -8,127 +8,237 @@
 */
 
 body {
-    position: relative;
-    display: block;
-    font-family: "Segoe UI", Calibri, Geneva, Verdana, sans-serif;
-    font-size: 15px;
-    color: rgb(42, 42, 42);
-    margin: unset;
-    width: 100vw;
-    height: 100vh;
-    overflow: auto;
+	position: relative;
+	display: block;
+	font-family: "Segoe UI", Calibri, Geneva, Verdana, sans-serif;
+	font-size: 15px;
+	color: rgb(42, 42, 42);
+	margin: unset;
+	width: 100vw;
+	height: 100vh;
+	overflow: auto;
 }
 
 a {
-    position: relative;
-    color: #16a085;
+	position: relative;
+	color: #16a085;
 }
 
 a.sq-btn {
-    color: white;
-    text-decoration: none;
+	color: white;
+	text-decoration: none;
 }
 
 a.sq-btn:focus {
-    text-decoration: none;
+	text-decoration: none;
 }
 
 .text-overflow {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 t {
-    position: relative;
-    display: block;
-    font-size: 14px;
-    font-weight: normal;
-    color: rgb(28, 28, 28);
-    word-wrap: break-word;
+	position: relative;
+	display: block;
+	font-size: 14px;
+	font-weight: normal;
+	color: rgb(28, 28, 28);
+	word-wrap: break-word;
 }
 
 ul {
-    position: relative;
-    display: block;
-    margin: 10px 0;
-    padding: 0 0 0 20px;
+	position: relative;
+	display: block;
+	margin: 10px 0;
+	padding: 0 0 0 20px;
 }
 
 pre {
-    position: relative;
-    display: block;
-    overflow: auto;
+	position: relative;
+	display: block;
+	max-width: 100%;
+	overflow: auto;
+	font-family: "Consolas";
+	font-weight: bold;
+	color: rgb(22, 22, 22);
+}
+
+pre.break {
+	overflow: hidden;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+}
+
+pre.center {
+	text-align: center;
+}
+
+pre.dark {
+	color: white;
 }
 
 .lazyload {
-    position: relative;
-    display: inline-block;
-    background-color: rgba(128, 128, 128, 0.2);
-    min-width: 20px;
-    min-height: 20px;
-    overflow: hidden;
+	position: relative;
+	display: inline-block;
+	background-color: rgba(128, 128, 128, 0.2);
+	min-width: 20px;
+	min-height: 20px;
+	overflow: hidden;
 
-    transition:
-        background-color 0.3s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+	transition:
+		background-color 0.3s cubic-bezier(0.55, 0.055, 0.675, 0.19);
 }
 
 .lazyload.noBackground {
-    background-color: transparent;
-    transition: unset;
+	background-color: transparent;
+	transition: unset;
 }
 
 .lazyload > img {
-    position: relative;
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 
-    opacity: 0;
-    transition:
-        opacity 0.3s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+	opacity: 0;
+	transition:
+		opacity 0.3s cubic-bezier(0.55, 0.055, 0.675, 0.19);
 }
 
 .lazyload > .simple-spinner {
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    top: calc(50% - 8px);
-    left: calc(50% - 8px);
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	top: calc(50% - 8px);
+	left: calc(50% - 8px);
 }
 
 .lazyload.light > .simple-spinner {
-    border-color: rgb(214, 214, 214);
-    border-right-color: transparent;
+	border-color: rgb(214, 214, 214);
+	border-right-color: transparent;
 }
 
 .lazyload[data-loaded] {
-    background-color: transparent;
+	background-color: transparent;
 }
 
 .lazyload[data-loaded] > img {
-    opacity: 1;
+	opacity: 1;
 }
 
 .lazyload[data-loaded] > .simple-spinner {
-    display: none;
+	display: none;
+}
+
+dot {
+	position: relative;
+	display: inline-block;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background-color: rgb(88, 88, 88);
+	margin: 0 8px;
+}
+
+.price::after {
+	content: "đ";
+	font-size: 13px;
+	font-weight: normal;
+	text-transform: lowercase;
+	text-decoration: underline;
+	padding-left: 2px;
+}
+
+.triBg {
+	position: relative;
+	transition:
+		background-color 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+}
+
+.triBg .triBgContainer {
+	position: absolute;
+	display: block;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.triBg .triBgContainer > span {
+	position: absolute;
+	display: block;
+	width: 0;
+	height: 0;
+	left: 0;
+	top: calc(100% + 200px);
+	border-style: solid;
+	border-width: 0 30px 52.0px 30px;
+	border-color: transparent transparent gray transparent;
+	transition:
+		border-bottom-color 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+
+	animation-name: trigAnim;
+	animation-duration: 8s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}
+
+.triBg[data-tri-color = "pink"]			{ background-color: #ff66aa; }
+.triBg[data-tri-color = "green"]		{ background-color: #88b400; }
+.triBg[data-tri-color = "blue"]			{ background-color: #44aadd; }
+.triBg[data-tri-color = "yellow"]		{ background-color: #f6c21c; }
+.triBg[data-tri-color = "red"]			{ background-color: #dd2d44; }
+.triBg[data-tri-color = "brown"]		{ background-color: #231B22; }
+.triBg[data-tri-color = "gray"]			{ background-color: #485e74; }
+.triBg[data-tri-color = "dark"]			{ background-color: #042430; }
+.triBg[data-tri-color = "purple"]		{ background-color: #3f1195; }
+.triBg[data-tri-color = "darkBlue"]		{ background-color: #083992; }
+.triBg[data-tri-color = "navyBlue"]		{ background-color: #333D79; }
+
+.triBg[data-tri-color = "pink"]			.triBgContainer > span { border-bottom-color: #ff66aa; }
+.triBg[data-tri-color = "green"]		.triBgContainer > span { border-bottom-color: #88b400; }
+.triBg[data-tri-color = "blue"]			.triBgContainer > span { border-bottom-color: #44aadd; }
+.triBg[data-tri-color = "yellow"]		.triBgContainer > span { border-bottom-color: #f6c21c; }
+.triBg[data-tri-color = "red"]			.triBgContainer > span { border-bottom-color: #dd2d44; }
+.triBg[data-tri-color = "brown"]		.triBgContainer > span { border-bottom-color: #231B22; }
+.triBg[data-tri-color = "gray"]			.triBgContainer > span { border-bottom-color: #485e74; }
+.triBg[data-tri-color = "dark"]			.triBgContainer > span { border-bottom-color: #042430; }
+.triBg[data-tri-color = "purple"]		.triBgContainer > span { border-bottom-color: #3f1195; }
+.triBg[data-tri-color = "darkBlue"]		.triBgContainer > span { border-bottom-color: #083992; }
+.triBg[data-tri-color = "navyBlue"]		.triBgContainer > span { border-bottom-color: #333D79; }
+
+@keyframes trigAnim {
+	0% {
+		top: calc(100% + 200px);
+	}
+
+	100% {
+		top: -200px;
+	}
 }
 
 /* Dark */
 
 body.dark a {
-    color: #19c8a5;
+	color: #19c8a5;
 }
 
 body.dark a.sq-btn {
-    color: white;
+	color: white;
 }
 
 body.dark t {
-    color: rgb(212, 212, 212);
+	color: rgb(212, 212, 212);
 }
 
 body.dark t {
-    color: rgb(214, 214, 214);
+	color: rgb(214, 214, 214);
+}
+
+body.dark dot {
+	background-color: rgb(214, 214, 214);
 }

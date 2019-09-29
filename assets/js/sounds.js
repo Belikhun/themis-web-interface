@@ -51,6 +51,12 @@ const sounds = {
         key: "confirm2",
         name: "generic-confirm-2.mp3"
     }, {
+        key: "confirm3",
+        name: "generic-confirm-3.mp3"
+    }, {
+        key: "warning",
+        name: "generic-warning.mp3"
+    }, {
         key: "notification",
         name: "notification.mp3"
     }, {
@@ -116,7 +122,8 @@ const sounds = {
     },
 
     async __loadSoundAsync(url, volume = 0.6) {
-        sound = new Audio(url);
+        var sound = new Audio();
+        sound.src = chrome.extension ? chrome.extension.getURL(url) : url;
         clog("DEBG", `Loading sound: ${url}`);
 
         return new Promise((resolve, reject) => {
@@ -160,7 +167,8 @@ const sounds = {
     confirm(variation = 0) {
         let sound = [
             this.sounds.confirm,
-            this.sounds.confirm2
+            this.sounds.confirm2,
+            this.sounds.confirm3
         ][variation]
 
         if (this.enable.master && this.enable.others)
@@ -180,6 +188,11 @@ const sounds = {
     notification() {
         if (this.enable.master && this.enable.notification)
             this.__soundToggle(this.sounds.notification);
+    },
+
+    warning() {
+        if (this.enable.master && this.enable.others)
+            this.__soundToggle(this.sounds.warning);
     },
 
     scan() {

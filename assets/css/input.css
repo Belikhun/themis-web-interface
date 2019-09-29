@@ -33,7 +33,6 @@
 
 .formGroup .formField:placeholder-shown + label {
     font-size: 13px;
-    cursor: text;
     top: 24px;
 }
 

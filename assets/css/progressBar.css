@@ -50,6 +50,16 @@
         background-color 0.4s ease;
 }
 
+.progressBar > .warningZone {
+    position: absolute;
+    display: inline-block;
+    top: 0;
+    right: 0;
+    width: 10%;
+    height: 100%;
+    background-color: rgba(255, 102, 102, 0.2);
+}
+
 .progressBar > .left,
 .progressBar > .right {
     position: absolute;
@@ -66,10 +76,25 @@
     right: 0;
 }
 
+.progressBar.textBottom {
+    margin-bottom: 20px;
+}
+
+.progressBar.textBottom > .left,
+.progressBar.textBottom > .right {
+    top: unset;
+    bottom: 0;
+    transform: translateY(100%);
+}
+
 /*? Colors */
 
 .progressBar > .bar[data-color="blue"] {
     background-color: #3498db;
+}
+
+.progressBar > .bar[data-color="green"] {
+    background-color: #a3d40e;
 }
 
 .progressBar > .bar[data-color="red"] {
@@ -98,6 +123,11 @@ body.dark .progressBar > .right,
 body.dark .progressBar > .bar[data-color="blue"],
 .progressBar.dark > .bar[data-color="blue"] {
     background-color: #44abf0;
+}
+
+body.dark .progressBar > .bar[data-color="green"],
+.progressBar.dark > .bar[data-color="green"] {
+    background-color: #c0f12b;
 }
 
 body.dark .progressBar > .bar[data-color="red"],
