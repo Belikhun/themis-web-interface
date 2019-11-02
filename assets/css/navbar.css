@@ -51,7 +51,9 @@
 
 .nav .lnav .title .main {
     position: relative;
-    font-size: 17px;
+    font-family: Exo;
+    font-size: 18px;
+    font-weight: bold;
     color: #425161;
     overflow: hidden;
     white-space: nowrap;
@@ -158,14 +160,17 @@
 
 .nav .rnav .info .tag {
     position: relative;
-    font-size: 11px;
+    font-family: Exo;
+    font-size: 12px;
     letter-spacing: 0.4px;
     color: #546e7a;
 }
 
 .nav .rnav .info .name {
     position: relative;
-    font-size: 18px;
+    font-family: Exo;
+    font-size: 16px;
+    font-weight: bold;
     color: #425161;
 }
 

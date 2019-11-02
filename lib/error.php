@@ -96,7 +96,7 @@
     $errDetail = empty($errDetail) ? $errDetailSub : $errDetail;
     $reportData = null;
 
-    if (isset($lastError) && $errCode >= 500)
+    if (isset($lastError) && isset($err) && $errCode >= 500)
         $reportData = join("\n", Array(
             "----------------BEGIN ERROR REPORT DATA----------------",
             "Protocol       : " . $sv_pr,
@@ -142,7 +142,7 @@
     <meta property="twitter:description" content="<?php print $description; ?>">
 
     <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/error.css?v=<?php print VERSION; ?>" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollbar.css?v=<?php print VERSION; ?>" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollBar.css?v=<?php print VERSION; ?>" />
     <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css?v=<?php print VERSION; ?>" />
     <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri.css?v=<?php print VERSION; ?>" />
 </head>
@@ -182,19 +182,18 @@
 
     <div class="footer">
         <img src="/assets/img/icon.webp" class="icon">
-        <p><?php print APPNAME; ?>. Copyright (c) 2018-2019 Belikhun. This project is licensed under the MIT License.</p>
+        <p><?php print APPNAME; ?>. Copyright (c) <?php print AUTHOR; ?>. This project is licensed under the MIT License.</p>
     </div>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124598427-1"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124598427-2"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
 
-        gtag('config', 'UA-124598427-1');
+        gtag('config', 'UA-124598427-2');
     </script>
-
 </body>
 
 </html>

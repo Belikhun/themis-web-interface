@@ -331,7 +331,13 @@ const core = {
     async __fetchLog(bypass = false, clearJudging = false) {
         clearTimeout(this.__logTimeout);
         var timer = new stopClock();
-        this.initialized ? await this.fetchLog(bypass, clearJudging) : null;
+        
+        try {
+            if (this.initialized)
+                await this.fetchLog(bypass, clearJudging);
+        } catch(e) {
+            clog("ERRR", e);
+        }
         
         this.__logTimeout = setTimeout(() => this.__fetchLog(), this.updateDelay - timer.stop*1000);
     },
@@ -339,7 +345,13 @@ const core = {
     async __fetchRank() {
         clearTimeout(this.__rankTimeout);
         var timer = new stopClock();
-        this.initialized ? await this.fetchRank() : null;
+
+        try {
+            if (this.initialized)
+                await this.fetchRank();
+        } catch(e) {
+            clog("ERRR", e);
+        }
         
         this.__rankTimeout = setTimeout(() => this.__fetchRank(), this.updateDelay - timer.stop*1000);
     },
@@ -534,7 +546,8 @@ const core = {
             for (let line of data.header.error)
                 logLine.push(`<li>${line}</li>`);
         else
-            logLine.push(`<li>${data.header.description}</li>`)
+            for (let line of data.header.description)
+                logLine.push(`<li>${line}</li>`);
 
         let testList = [];
         for (let item of data.test)
@@ -579,9 +592,10 @@ const core = {
                                 
                                 <t class="row point">${data.header.point} điểm</t>
                                 <t class="row submitTime">${(new Date(data.header.file.lastModify * 1000)).toLocaleString()}</t>
+                                <t class="row submitted">${formatTime(time() - data.header.file.lastModify)} trước</t>
                                 <t class="row status">${core.taskStatus[data.header.status]}</t>
                                 <t class="row result">
-                                    Đúng <b class="green">${data.header.testPassed}/${data.header.testPassed + data.header.testFailed}</b> tests, <b class="red">${data.header.testFailed}</b> tests sai
+                                    Đúng <b class="green">${data.header.testPassed}/${data.header.testPassed + data.header.testFailed}</b> test, <b class="red">${data.header.testFailed}</b> test sai
                                 </t>
                             </span>
                             <span class="right">
@@ -591,7 +605,7 @@ const core = {
                                         <div class="simple-spinner"></div>
                                     </div>
                                     <span class="info">
-                                        <t class="tag">Bài làm của:</t>
+                                        <t class="tag">Bài làm của</t>
                                         <t class="name">${data.header.name || "u:" + data.header.user}</t>
                                     </span>
                                 </span>
@@ -601,7 +615,7 @@ const core = {
                         </div>
 
                         <div class="line log">
-                            <ul class="textview">${logLine.join("\n")}</ul>
+                            <ul class="textView">${logLine.join("\n")}</ul>
                         </div>
                     </span>
                 </div>
@@ -618,7 +632,7 @@ const core = {
         input: $("#submitInput"),
         state: $("#submitStatus"),
         name: $("#submitFileName"),
-        bar: $("#submitProgressBar"),
+        bar: $("#submitprogressBar"),
         percent: $("#submitInfoProgress"),
         size: $("#submitInfoSize"),
         panel: new regPanel($("#uploadp")),
@@ -965,72 +979,83 @@ const core = {
 
             let html = `
                 <div class="problemEnlarged">
-                    <span class="top">
-                        <div class="group">
-                            <div class="col">
-                                <t class="name">${data.name}</t>
-                                <t class="point">${data.point} điểm</t>
-                            </div>
+                    <span class="left">
+                        <span class="top">
+                            <div class="group">
+                                <div class="col">
+                                    <t class="name">${data.name}</t>
+                                    <t class="point">${data.point} điểm</t>
+                                </div>
 
-                            <div class="col simple-table-wrapper">
-                                <table class="simple-table type">
-                                    <tbody>
-                                        <tr class="filename">
-                                            <td>Tên tệp</td>
-                                            <td>${data.id}</td>
-                                        </tr>
-                                        <tr class="lang">
-                                            <td>Loại tệp</td>
-                                            <td>${data.accept.join(", ")}</td>
-                                        </tr>
-                                        <tr class="time">
-                                            <td>Thời gian chạy</td>
-                                            <td>${data.time} giây</td>
-                                        </tr>
-                                        <tr class="inp">
-                                            <td>Dữ liệu vào</td>
-                                            <td>${data.type.inp}</td>
-                                            </tr>
-                                        <tr class="out">
-                                            <td>Dữ liệu ra</td>
-                                            <td>${data.type.out}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        ${(data.attachment.url)
-                            ?   `<div class="group attachment">
-                                    <a class="link" href="${data.attachment.url}">${data.attachment.file} (${convertSize(data.attachment.size)})</a>
-                                </div>`
-                            :   ""
-                        }
-                    </span>
-
-                    <span class="bottom">
-                        <div class="description">${data.description}</div>
-                        ${(data.image)
-                            ?   `<div class="lazyload image">
-                                    <img onload="this.parentNode.dataset.loaded = 1" src="${data.image}"/>
-                                    <div class="simple-spinner"></div>
-                                </div>`
-                            :   ""
-                        }
-
-                        ${(data.test.length !== 0)
-                            ?   `
-                                <div class="group simple-table-wrapper">
-                                    <table class="simple-table test">
+                                <div class="col simple-table-wrapper">
+                                    <table class="simple-table type">
                                         <tbody>
-                                            <tr>
-                                                <th>${data.type.inp}</th>
-                                                <th>${data.type.out}</th>
+                                            <tr class="filename">
+                                                <td>Tên tệp</td>
+                                                <td>${data.id}</td>
                                             </tr>
-                                            ${testHtml}
+                                            <tr class="lang">
+                                                <td>Loại tệp</td>
+                                                <td>${data.accept.join(", ")}</td>
+                                            </tr>
+                                            <tr class="time">
+                                                <td>Thời gian chạy</td>
+                                                <td>${data.time} giây</td>
+                                            </tr>
+                                            <tr class="inp">
+                                                <td>Dữ liệu vào</td>
+                                                <td>${data.type.inp}</td>
+                                                </tr>
+                                            <tr class="out">
+                                                <td>Dữ liệu ra</td>
+                                                <td>${data.type.out}</td>
+                                            </tr>
                                         </tbody>
                                     </table>
-                                </div>`
+                                </div>
+                            </div>
+
+                            ${(data.attachment.url)
+                                ?   `<div class="group attachment">
+                                        <a class="link" href="${data.attachment.url}">${data.attachment.file} (${convertSize(data.attachment.size)})</a>
+                                    </div>`
+                                :   ""
+                            }
+                        </span>
+
+                        <span class="bottom">
+                            <div class="description">${data.description}</div>
+
+                            ${(data.image)
+                                ?   `<div class="lazyload image">
+                                        <img onload="this.parentNode.dataset.loaded = 1" src="${data.image}"/>
+                                        <div class="simple-spinner"></div>
+                                    </div>`
+                                :   ""
+                            }
+
+                            ${(data.test.length !== 0)
+                                ?   `
+                                    <div class="group simple-table-wrapper">
+                                        <table class="simple-table test">
+                                            <tbody>
+                                                <tr>
+                                                    <th>${data.type.inp}</th>
+                                                    <th>${data.type.out}</th>
+                                                </tr>
+                                                ${testHtml}
+                                            </tbody>
+                                        </table>
+                                    </div>`
+                                :   ""
+                            }
+                        </span>
+                    </span>
+                    <span class="right">
+                        ${(data.attachment.url && data.attachment.embed)
+                            ?   `<object class="embedAttachment" data="${data.attachment.url}&embed=true">
+                                    <embed src="${data.attachment.url}&embed=true"/>
+                                </object>`
                             :   ""
                         }
                     </span>
@@ -1038,7 +1063,7 @@ const core = {
             `;
 
             core.wrapper.panel.main.innerHTML = html;
-            core.wrapper.show("Đề bài - " + data.name, true);
+            core.wrapper.show("Đề bài - " + data.name, (data.attachment.url && data.attachment.embed) ? "large" : "small");
         }
     },
 
@@ -1209,7 +1234,7 @@ const core = {
                 if (!elem.classList.contains("panel"))
                     return false;
         
-                this.container = $("#user_settings");
+                this.container = $("#userSettings");
 
                 this.elem = elem;
                 this.eToggle = null;
@@ -1374,7 +1399,7 @@ const core = {
         updateDelaySlider: $("#usett_udelay_slider"),
         updateDelayText: $("#usett_udelay_text"),
         toggler: $("#usett_toggler"),
-        container: $("#user_settings"),
+        container: $("#userSettings"),
         adminConfig: $("#usett_adminConfig"),
         panelContainer: $("#usett_panelContainer"),
         publicFilesPanel: null,
@@ -1541,7 +1566,7 @@ const core = {
 
                 clog("okay", "Initialised:", {
                     color: flatc("red"),
-                    text: "core.usersettings (notLoggedIn mode)"
+                    text: "core.userSettings (notLoggedIn mode)"
                 });
                 return;
             }
@@ -1567,7 +1592,7 @@ const core = {
 
             clog("okay", "Initialised:", {
                 color: flatc("red"),
-                text: "core.usersettings"
+                text: "core.userSettings"
             });
 
         },
@@ -2237,9 +2262,9 @@ const core = {
             });
         },
 
-        show(title = "Title", thin = false) {
+        show(title = "Title", size = "normal") {
             this.panel.title = title;
-            this.panel.elem.classList[thin ? "add" : "remove"]("thin");
+            this.panel.elem.dataset.size = size;
             this.wrapper.classList.add("show");
             sounds.select();
         },

@@ -69,7 +69,7 @@ const account = {
             sounds.toggle(1);
         });
 
-        this.addForm.submit.addEventListener("mouseup", async e => {
+        this.addForm.editor.addEventListener("submit", async e => {
             let data = {
                 id: this.addForm.userIDInput.value,
                 u: this.addForm.usernameInput.value,
@@ -195,6 +195,8 @@ const account = {
         container.parentElement.classList.add("showEditor");
         sounds.toggle(0);
 
+        var editor = fcfn(container, "editor");
+
         var avatarInput = $(`#userAvatar_${username}`);
         var avatarPreviewContainer = fcfn(container, "avatarImageContainer");
         var avatarPreview = fcfn(container, "avatarImage");
@@ -245,7 +247,7 @@ const account = {
             avatarPreview.src = URL.createObjectURL(e.target.files[0]);
         });
 
-        submitButton.addEventListener("mouseup", async e => {
+        editor.addEventListener("submit", async e => {
             let data = {
                 id: userIDInput.value,
                 n: nameInput.value

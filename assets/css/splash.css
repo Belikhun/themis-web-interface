@@ -72,7 +72,10 @@
     margin: auto;
     text-align: center;
     color: #2c3e50;
-    font-weight: bold;
+    font-family: Exo;
+    font-size: 20px;
+    letter-spacing: 1.2px;
+    font-weight: 800;
     text-transform: uppercase;
 }
 
@@ -82,8 +85,10 @@
     text-align: center;
     margin: 4px auto 22px auto;
     color: #40566d;
-    font-weight: bold;
-    font-size: 10px;
+    font-family: Calibri;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .4px;
     text-transform: uppercase;
 }
 

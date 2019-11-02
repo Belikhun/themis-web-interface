@@ -1,13 +1,13 @@
 /* 
 ? |-----------------------------------------------------------------------------------------------|
-? |  /assets/css/usersetting.css                                                                  |
+? |  /assets/css/userSetting.css                                                                  |
 ? |                                                                                               |
 ? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
 ? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 ? |-----------------------------------------------------------------------------------------------|
 */
 
-#user_settings {
+#userSettings {
     position: fixed;
     width: 0;
     top: 58px;
@@ -18,19 +18,19 @@
     z-index: 2;
 }
 
-#user_settings.show {
+#userSettings.show {
     width: 380px;
 }
 
-#user_settings.subPanel {
+#userSettings.subPanel {
     width: 50px;
 }
 
-#user_settings.show ~ #container {
+#userSettings.show ~ #container {
     filter: brightness(0.4);
 }
 
-#user_settings .main {
+#userSettings .main {
     position: relative;
     width: 100%;
     right: 0;
@@ -41,11 +41,11 @@
     scroll-behavior: smooth;
 }
 
-#user_settings .main::-webkit-scrollbar { 
+#userSettings .main::-webkit-scrollBar { 
     display: none;
 }
 
-#user_settings .main .container {
+#userSettings .main .container {
     position: absolute;
     width: 100%;
     min-width: 320px;
@@ -54,7 +54,7 @@
     right: 0;
 }
 
-#user_settings .sub {
+#userSettings .sub {
     position: absolute;
     width: calc(100vw - 100%);
     height: 100%;
@@ -65,11 +65,11 @@
     display: none;
 }
 
-#user_settings.show .sub {
+#userSettings.show .sub {
     display: block;
 }
 
-#user_settings .sub .panel {
+#userSettings .sub .panel {
     position: absolute;
     top: 0;
     right: 0;
@@ -80,11 +80,11 @@
     transition: width 0.5s cubic-bezier(0.785, 0.135, 0.15, 0.86);
 }
 
-#user_settings .sub .panel.show {
+#userSettings .sub .panel.show {
     width: 400px;
 }
 
-#user_settings .sub .panel .container {
+#userSettings .sub .panel .container {
     position: absolute;
     display: block;
     width: 400px;
@@ -96,40 +96,40 @@
     overflow: hidden;
 }
 
-#user_settings .sub .panel.large.show,
-#user_settings .sub .panel.large .container {
+#userSettings .sub .panel.large.show,
+#userSettings .sub .panel.large .container {
     width: 840px;
     max-width: calc(100vw - 100px);
 }
 
 @media only screen and (max-width: 740px) {
-    #user_settings.show {
+    #userSettings.show {
         width: 100vw;
     }
 
-    #user_settings.subPanel {
+    #userSettings.subPanel {
         width: 50px;
     }
 
-    #user_settings .main .container {
+    #userSettings .main .container {
         width: 100vw;
     }
 
-    #user_settings .sub {
+    #userSettings .sub {
         right: 50px;
         width: 0;
     }
 
-    #user_settings .sub .panel.show,
-    #user_settings .sub .panel .container,
-    #user_settings .sub .panel.large.show,
-    #user_settings .sub .panel.large .container {
+    #userSettings .sub .panel.show,
+    #userSettings .sub .panel .container,
+    #userSettings .sub .panel.large.show,
+    #userSettings .sub .panel.large .container {
         width: calc(100vw - 50px);
         max-width: unset;
     }
 }
 
-#user_settings .sub .panel .container .btn-group {
+#userSettings .sub .panel .container .btn-group {
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -145,12 +145,12 @@
         background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 }
     
-#user_settings .sub .panel .container .btn-group:hover {
+#userSettings .sub .panel .container .btn-group:hover {
     width: 100px;
     background-color: rgba(245, 245, 246, 1);
 }
 
-#user_settings .sub .panel .container .btn-group span {
+#userSettings .sub .panel .container .btn-group span {
     position: relative;
     display: flex;
     align-items: center;
@@ -164,7 +164,7 @@
         transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
-#user_settings .sub .panel .container .btn-group span::before {
+#userSettings .sub .panel .container .btn-group span::before {
     content: "\f111";
     position: relative;
     display: block;
@@ -178,43 +178,43 @@
         font-size 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-#user_settings .sub .panel .container .btn-group span:hover {
+#userSettings .sub .panel .container .btn-group span:hover {
     background-color: rgba(41, 127, 185, 0.1);
 }
 
-#user_settings .sub .panel .container .btn-group span:active {
+#userSettings .sub .panel .container .btn-group span:active {
     transform: scale(0.8);
 }
 
-#user_settings .sub .panel .container .btn-group span:hover::before {
+#userSettings .sub .panel .container .btn-group span:hover::before {
     color: #2980b9;
 }
 
-#user_settings .sub .panel .container .btn-group:hover span::before {
+#userSettings .sub .panel .container .btn-group:hover span::before {
     font-size: 18px;
 }
 
-#user_settings .sub .panel .container .btn-group .close:hover {
+#userSettings .sub .panel .container .btn-group .close:hover {
     background-color: rgba(231, 77, 60, 0.1);
 }
 
-#user_settings .sub .panel .container .btn-group .close::before {
+#userSettings .sub .panel .container .btn-group .close::before {
     content: "\f054";
 }
 
-#user_settings .sub .panel .container .btn-group .close:hover::before {
+#userSettings .sub .panel .container .btn-group .close:hover::before {
     color: #e74c3c;
 }
 
-#user_settings .sub .panel .container .btn-group .reload::before {
+#userSettings .sub .panel .container .btn-group .reload::before {
     content: "\f2f1";
 }
 
-#user_settings .sub .panel .container .btn-group .delete::before {
+#userSettings .sub .panel .container .btn-group .delete::before {
     content: "\f2ed";
 }
 
-#user_settings .sub .panel .container .btn-group span::after {
+#userSettings .sub .panel .container .btn-group span::after {
     position: absolute;
     display: block;
     left: 50%;
@@ -234,31 +234,31 @@
         color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-#user_settings .sub .panel .container .btn-group:hover span::after {
+#userSettings .sub .panel .container .btn-group:hover span::after {
     opacity: 1;
 }
 
-#user_settings .sub .panel .container .btn-group span:hover::after {
+#userSettings .sub .panel .container .btn-group span:hover::after {
     color: #2980b9;
 }
 
-#user_settings .sub .panel .container .btn-group .reload::after {
+#userSettings .sub .panel .container .btn-group .reload::after {
     content: "Làm mới";
 }
 
-#user_settings .sub .panel .container .btn-group .close::after {
+#userSettings .sub .panel .container .btn-group .close::after {
     content: "Đóng";
 }
 
-#user_settings .sub .panel .container .btn-group .close:hover::after {
+#userSettings .sub .panel .container .btn-group .close:hover::after {
     color: #e74c3c;
 }
 
-#user_settings .sub .panel .container .btn-group .delete::after {
+#userSettings .sub .panel .container .btn-group .delete::after {
     content: "Xóa nhật ký";
 }
 
-#user_settings .sub .panel .container .main {
+#userSettings .sub .panel .container .main {
     position: relative;
     display: block;
     width: 100%;
@@ -271,8 +271,8 @@
         transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-#user_settings .sub .panel .container .main:empty::before,
-#user_settings .sub .panel .container .main .showEmpty:empty::before {
+#userSettings .sub .panel .container .main:empty::before,
+#userSettings .sub .panel .container .main .showEmpty:empty::before {
     content: "\f51b";
     position: absolute;
     left: 50%;
@@ -284,8 +284,8 @@
     color: rgb(170, 170, 170);
 }
 
-#user_settings .sub .panel .container .main:empty::after,
-#user_settings .sub .panel .container .main .showEmpty:empty::after {
+#userSettings .sub .panel .container .main:empty::after,
+#userSettings .sub .panel .container .main .showEmpty:empty::after {
     content: "Không có dữ liệu";
     position: absolute;
     display: inline-block;
@@ -303,11 +303,11 @@
 
 /* Element and Stuff */
 
-#user_settings .main .container .group .item #usett_avtinp {
+#userSettings .main .container .group .item #usett_avtinp {
     display: none;
 }
 
-#user_settings .main .container .group .item .avatar {
+#userSettings .main .container .group .item .avatar {
     position: relative;
     display: block;
     width: 70px;
@@ -317,14 +317,14 @@
     overflow: hidden;
 }
 
-#user_settings .main .container .group .item .avatar img {
+#userSettings .main .container .group .item .avatar img {
     position: relative;
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-#user_settings .main .container .group .item .avatar .wrapper {
+#userSettings .main .container .group .item .avatar .wrapper {
     position: absolute;
     display: flex;
     align-items: center;
@@ -333,19 +333,21 @@
     left: 0;
     width: 100%;
     height: 100%;
+    overflow: hidden;
+    cursor: pointer;
     opacity: 0;
     border-radius: 50%;
     background-color: rgba(0, 0, 0, 0.4);
-    cursor: pointer;
+
     transition: opacity 0.2s ease;
 }
 
-#user_settings .main .container .group .item .avatar .wrapper i {
+#userSettings .main .container .group .item .avatar .wrapper i {
     position: absolute;
     display: inline-block;
 }
 
-#user_settings .main .container .group .item .avatar .wrapper i::before {
+#userSettings .main .container .group .item .avatar .wrapper i::before {
     position: relative;
     font-family: "Font Awesome 5 Free";
     font-style: normal;
@@ -354,40 +356,40 @@
     color: rgb(211, 211, 211);
 }
 
-#user_settings .main .container .group .item .avatar .wrapper i.pencil::before {
+#userSettings .main .container .group .item .avatar .wrapper i.pencil::before {
     content: "\f303";
     font-size: 18px;
 }
 
-#user_settings .main .container .group .item .avatar .wrapper i.drag::before {
+#userSettings .main .container .group .item .avatar .wrapper i.drag::before {
     content: "\f103";
     font-size: 22px;
 }
 
-#user_settings .main .container .group .item .avatar .wrapper .material-spinner {
+#userSettings .main .container .group .item .avatar .wrapper .material-spinner {
     transform: scale(0.6);
     filter: brightness(1.4);
     visibility: hidden;
 }
 
-#user_settings .main .container .group .item .avatar:hover .wrapper.drag .pencil::before,
-#user_settings .main .container .group .item .avatar:hover .wrapper.load .pencil::before {
+#userSettings .main .container .group .item .avatar:hover .wrapper.drag .pencil::before,
+#userSettings .main .container .group .item .avatar:hover .wrapper.load .pencil::before {
     visibility: hidden;
 }
 
-#user_settings .main .container .group .item .avatar:hover .wrapper .pencil::before,
-#user_settings .main .container .group .item .avatar .wrapper.drag i.drag::before,
-#user_settings .main .container .group .item .avatar .wrapper.load .material-spinner {
+#userSettings .main .container .group .item .avatar:hover .wrapper .pencil::before,
+#userSettings .main .container .group .item .avatar .wrapper.drag i.drag::before,
+#userSettings .main .container .group .item .avatar .wrapper.load .material-spinner {
     visibility: visible;
 }
 
-#user_settings .main .container .group .item .avatar:hover .wrapper,
-#user_settings .main .container .group .item .avatar .wrapper.drag,
-#user_settings .main .container .group .item .avatar .wrapper.load {
+#userSettings .main .container .group .item .avatar:hover .wrapper,
+#userSettings .main .container .group .item .avatar .wrapper.drag,
+#userSettings .main .container .group .item .avatar .wrapper.load {
     opacity: 1;
 }
 
-#user_settings .main .container .group .item .info {
+#userSettings .main .container .group .item .info {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -396,7 +398,7 @@
     padding: 4px 0;
 }
 
-#user_settings .main .container .group .item .info .left {
+#userSettings .main .container .group .item .info .left {
     position: relative;
     color: gray;
     flex-grow: 2;
@@ -405,7 +407,7 @@
     text-transform: uppercase;
 }
 
-#user_settings .main .container .group .item .info .right {
+#userSettings .main .container .group .item .info .right {
     position: relative;
     color: rgb(90, 90, 90);
     flex-grow: 1;
@@ -413,28 +415,28 @@
     font-family: "Calibri";
 }
 
-#user_settings .main .container .group .item.form form {
+#userSettings .main .container .group .item.form form {
     position: relative;
     display: block;
     width: 100%;
 }
 
-#user_settings .main .container .group .item.form form .formGroup {
+#userSettings .main .container .group .item.form form .formGroup {
     display: block;
     margin: 0 0 10px 0;
 }
 
-#user_settings .main .container .group .item.form form button {
+#userSettings .main .container .group .item.form form button {
     display: block;
     margin: auto;
 }
 
-#user_settings .main .container .group .item.logout .sq-btn {
+#userSettings .main .container .group .item.logout .sq-btn {
     display: block;
     width: 100%;
 }
 
-#user_settings .main .container .group .item #usett_udelay_slider {
+#userSettings .main .container .group .item #usett_udelay_slider {
     position: relative;
     width: 100%;
     margin-top: 16px;

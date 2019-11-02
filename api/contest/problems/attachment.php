@@ -25,7 +25,7 @@
 
             require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
 
-            if (problemGetAttachment($id) === PROBLEM_OKAY)
+            if (problemGetAttachment($id, !getQuery("embed", false)) === PROBLEM_OKAY)
                 writeLog("INFO", "Đã tải tệp đính kèm của bài \"". $_GET["id"] ."\"");
             else
                 stop(44, "Không tìm thấy tệp đính kèm", 404);

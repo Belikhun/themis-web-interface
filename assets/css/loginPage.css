@@ -53,8 +53,9 @@ body.dark {
 }
 
 .left-panel .footer .title {
-    font-weight: 400;
+    font-family: Exo;
     font-size: 23px;
+    font-weight: 400;
     word-spacing: 1px;
     color: #fff;
 }
@@ -119,7 +120,8 @@ body.dark {
 
 .right-panel .header .info .name {
     position: relative;
-    font-size: 17px;
+    font-family: Exo;
+    font-size: 16px;
     color: #425161;
     overflow: hidden;
     white-space: nowrap;
@@ -244,7 +246,7 @@ body.dark {
 }
 
 body.dark .right-panel {
-    background-color: rgb(30, 30, 30);
+    background-color: rgb(22, 22, 22);
 }
 
 body.dark .right-panel .header .info .name {

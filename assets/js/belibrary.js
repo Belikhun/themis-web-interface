@@ -17,6 +17,7 @@ function myajax({
     method = "GET",
     query = Array(),
     form = Array(),
+    json = {},
     header = Array(),
     type = "json",
     onUpload = () => {},
@@ -69,7 +70,7 @@ function myajax({
                     return;
                 }
                 
-                if ((this.responseText === "" || !this.responseText) && this.status !== 200) {
+                if ((this.responseText === "" || !this.responseText) && this.status >= 400) {
                     clog("errr", {
                         color: flatc("red"),
                         text: `HTTP ${this.status}:`
@@ -101,7 +102,7 @@ function myajax({
                         return;
                     }
 
-                    if (this.status !== 200 || (res.code !== 0 && res.code < 100)) {
+                    if (this.status >= 400 || (res.code !== 0 && res.code < 100)) {
                         clog("errr", {
                             color: flatc("magenta"),
                             text: method
@@ -138,11 +139,27 @@ function myajax({
 
                     data = res;
                 } else {
-                    if (this.status !== 200) {
+                    if (this.status >= 400) {
+                        let code = "HTTP" + this.status;
+                        let text = this.statusText;
+                        let resData = res;
+
+                        let header = this.getResponseHeader("output-json");
+
+                        if (header) {
+                            let headerJSON = JSON.parse(header);
+
+                            if (!resData)
+                                resData = headerJSON;
+
+                            code = `HTTP ${headerJSON.status} [${headerJSON.code}]`
+                            text = headerJSON.description;
+                        }
+
                         clog("errr", {
                             color: flatc("red"),
-                            text: "HTTP" + this.status
-                        }, this.statusText, {
+                            text: code
+                        }, text, {
                             color: flatc("magenta"),
                             text: method
                         }, {
@@ -150,7 +167,7 @@ function myajax({
                             text: url
                         });
 
-                        let errorObj = { code: 3, description: `HTTP ${this.status}: ${this.statusText}`, data: res }
+                        let errorObj = { code: 3, description: `${code}: ${text}`, data: resData }
                         error(errorObj);
                         reject(errorObj);
 
@@ -166,11 +183,17 @@ function myajax({
         })
         
         xhr.open(method, url);
+        let sendData = formData;
 
         for (let key of Object.keys(header))
             xhr.setRequestHeader(key, header[key]);
 
-        xhr.send(formData);
+        if (Object.keys(json).length !== 0) {
+            sendData = JSON.stringify(json);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        }
+
+        xhr.send(sendData);
     })
 }
 
@@ -180,6 +203,52 @@ function delayAsync(time) {
             resolve();
         }, time);
     });
+}
+
+function waitFor(checker = async () => {}, handler = () => {}, retry = 10, timeout = 1000, onFail = () => {}) {
+    return new Promise((resolve, reject) => {
+        var retryNth = 0;
+        var doCheck = true;
+
+        const __check = async () => {
+            var result = false;
+
+            try {
+                result = await checker(retryNth + 1).catch();
+            } catch(e) {
+                result = false;
+            }
+
+            if (!result) {
+                retryNth++;
+                clog("DEBG", `[${retryNth}] check failed`);
+
+                if (retryNth >= retry) {
+                    doCheck = false;
+                    onFail(retryNth);
+                    reject(retryNth);
+                }
+
+                return;
+            }
+
+            clog("DEBG", `[${retryNth}] check passed`);
+            doCheck = false;
+            await handler(result);
+            resolve(result);
+        }
+
+        const __checkHandler = async () => {
+            if (!doCheck)
+                return;
+    
+            let timeStart = time();
+            await __check();
+            setTimeout(() => __checkHandler(), timeout - ((time() - timeStart) * 1000));
+        }
+
+        __checkHandler();
+    })
 }
 
 function escapeHTML(str) {
@@ -318,6 +387,49 @@ function parseTime(t = 0, padding = 3) {
     }
 }
 
+function formatTime(seconds, { ended = "Đã kết thúc", endedCallback = () => {} } = {}) {
+    var time = { năm: 31536000, ngày: 86400, giờ: 3600, phút: 60, giây: 1 },
+        res = [];
+  
+    if (seconds === 0)
+        return "bây giờ";
+
+    if (seconds < 0) {
+        endedCallback();
+        return ended;
+    }
+    
+    for (var key in time)
+        if (seconds >= time[key]) {
+            var val = Math.floor(seconds / time[key]);
+            res.push(val += " " + key);
+            seconds = seconds % time[key];
+        }
+   
+    return res.length > 1 ? res.join(", ").replace(/,([^,]*)$/, " và" + "$1") : res[0];
+}
+
+function liveTime(element, start = time(new Date()), { count = "up", prefix = "", surfix = "", ended = "Đã kết thúc", endedCallback = () => {}, interval = 1000 } = {}) {
+    var updateInterval = setInterval(e => {
+        if (!document.body.contains(element)) {
+            clog("DEBG", "Live Time Element does not exist in document. Clearing...");
+            clearInterval(updateInterval);
+        }
+
+        let t = 0;
+
+        if (count === "up")
+            t = time() - start;
+        else
+            t = start - time();
+
+        element.innerText = `${prefix}${formatTime(t, { ended: ended, endedCallback: () => endedCallback(element) })}${surfix}`;
+
+        if (t < 0)
+            clearInterval(updateInterval);
+    }, interval);
+}
+
 function convertSize(bytes) {
     let sizes = ["B", "KB", "MB", "GB", "TB"];
     for (var i = 0; bytes >= 1024 && i < (sizes.length -1 ); i++)
@@ -398,7 +510,7 @@ function currentScript() {
  * @param {number} inp Input in Number
  * @param {number} length Length
  */
-function pleft(inp, length = 0) {
+function pleft(inp, length = 0, right = false) {
     type = typeof inp;
     inp = (type === "number") ? inp.toString() : inp;
     padd = "";
@@ -418,14 +530,15 @@ function pleft(inp, length = 0) {
     }
 
     padd = padd.repeat((length - inp.length < 0) ? 0 : length - inp.length);
-    return padd + inp;
+    return (right) ? inp + padd : padd + inp;
 }
 
 /**
  * My color template
  * Return HEX string color code.
  * 
- * @param {string} color 
+ * @param   {string}    color
+ * @returns {String}
  */
 function flatc(color) {
     const clist = {
@@ -438,25 +551,94 @@ function flatc(color) {
         gray: "#6B737E",
         magenta: "#D290E4",
         black: "#282D35",
-        pink: "#f368e0"
+        pink: "#f368e0",
     }
 
     return (clist[color]) ? clist[color] : clist.black;
 }
 
-function randBetween(min, max, toInt = true) {
-    var rand = Math.random() * (max - min + 1) + min;
-    return toInt ? Math.floor(rand) : rand;
+/**
+ * Color template from OSC package
+ * Return HEX string color code.
+ * 
+ * @param   {string}    color
+ * @returns {String}
+ */
+function oscColor(color) {
+    const clist = {
+        pink: "#ff66aa",
+        green: "#88b400",
+        blue: "#44aadd",
+        yellow: "#f6c21c",
+        brown: "#231B22",
+        gray: "#485e74",
+        dark: "#042430"
+    }
+
+    return (clist[color]) ? clist[color] : clist.dark;
 }
 
 /**
- * A shorthand of querySelector
- * @param {String} selector Selector
- * @returns {Element}
+ * Triangle Background
+ * Create alot of triangle in the background of element
+ * 
+ * @param   {Element}       element     Target Element
+ * @param   {String}        color       Color
  */
-function $(selector) {
-    return document.querySelector(selector);
+function triBg(element, {
+    speed = 26,
+	color = "gray",
+	scale = 2,
+	triangleCount = 38
+} = {}) {
+    let current = element.querySelector(".triBgContainer");
+    if (current)
+        element.removeChild(current);
+
+    delete current;
+
+    element.classList.add("triBg");
+    element.dataset.triColor = color;
+
+    let container = document.createElement("div");
+    container.classList.add("triBgContainer");
+    container.dataset.count = triangleCount;
+
+    for (let i = 0; i < triangleCount; i++) {
+        let randScale = randBetween(0.4, 2.0, false);
+        let randBright = ["brown", "dark"].indexOf(color) !== -1
+            ? randBetween(1.1, 1.3, false)
+            : randBetween(0.9, 1.2, false)
+    
+        let randLeftPos = randBetween(0, 98, false);
+        let delay = randBetween(- speed / 2, speed / 2, false);
+
+        let triangle = document.createElement("span");
+        triangle.style.filter = `brightness(${randBright})`;
+        triangle.style.transform = `scale(${randScale * scale})`;
+        triangle.style.left = `${randLeftPos}%`;
+        triangle.style.animationDelay = `${delay}s`;
+        triangle.style.animationDuration = `${speed / randScale}s`;
+
+        container.appendChild(triangle);
+    }
+
+    element.insertBefore(container, element.firstChild);
 }
+
+function randBetween(min, max, toInt = true) {
+    return toInt
+        ? Math.floor(Math.random() * (max - min + 1) + min)
+        : (Math.random() * (max - min) + min)
+}
+
+if (typeof $ !== "function")
+    /**
+     * A shorthand of querySelector
+     * @param {String} selector Selector
+     * @returns {Element}
+     */
+    function $ (selector) { return document.querySelector(selector) };
 
 cookie = {
     cookie: null,
@@ -523,29 +705,35 @@ function clog(level, ...args) {
 		CRIT: "gray",
     }[level])
 
-    text = [{
+    text = [
+        {
             color: flatc("aqua"),
             text: `${pleft(date.getHours(), 2)}:${pleft(date.getMinutes(), 2)}:${pleft(date.getSeconds(), 2)}`,
-            padding: 8
+            padding: 8,
+            seperate: true
         }, {
             color: flatc("blue"),
             text: rtime,
-            padding: 8
+            padding: 8,
+            seperate: true
         }, {
             color: flatc("red"),
             text: window.location.pathname,
-            padding: 16
+            padding: 16,
+            seperate: true
         }, {
             color: lc,
             text: level,
-            padding: 6
+            padding: 6,
+            seperate: true
         }
     ]
 
     text = text.concat(args);
     var out = new Array();
-    out[0] = "";
-    var n = 1;
+    out[0] = "%c";
+    out[1] = "padding-left: 10px";
+    var n = 2;
     // i | 1   2   3   4   5     6
     // j | 0   1   2   3   4     5
     // n | 1 2 3 4 5 6 7 8 9 10 11
@@ -558,11 +746,18 @@ function clog(level, ...args) {
             out[n] = `font-size: ${size}px; font-family: ${font}; color: ${flatc("black")}`;
             n += 1;
         } else if (typeof item === "object") {
+            if (!item.text) {
+                out[n] = item;
+                n += 1;
+
+                continue;
+            }
+
             var t = pleft(item.text, ((item.padding) ? item.padding : 0));
             if (i > 4) str += t + " ";
             out[0] += `%c${t}`;
             
-            if (item.padding) {
+            if (item.seperate) {
                 out[0] += "%c| ";
                 out[n] = `font-size: ${size}px; color: ${item.color};`;
                 out[n+1] = `font-size: ${size}px; color: ${item.color}; font-weight: bold;`;
@@ -577,7 +772,28 @@ function clog(level, ...args) {
     }
 
     document.__onclog(level, rtime, str);
-    console.log.apply(this, out);
+
+    switch (level) {
+        case "DEBG":
+            console.debug.apply(this, out);
+            break;
+    
+        case "WARN":
+            console.warn.apply(this, out);
+            break;
+
+        case "ERRR":
+            console.error.apply(this, out);
+            break;
+
+        case "CRIT":
+            console.error.apply(this, out);
+            break;
+
+        default:
+            console.log.apply(this, out);
+            break;
+    }
 }
 
 if (typeof document.__onclog === "undefined")
@@ -648,7 +864,7 @@ __connection__ = {
 
                     clog("lcnt", "Mất kết nối tới máy chủ.");
                     this.checkCount = 0;
-                    this.__sbarItem = (sbar) ? sbar.additem("Đang thử kết nối lại...", "spinner", {aligin: "right"}) : null;
+                    this.__sbarItem = (typeof sbar !== "undefined") ? sbar.additem("Đang thử kết nối lại...", "spinner", {aligin: "right"}) : null;
 
                     this.onDisconnected({
                         onCount: (f) => checkerer = f

@@ -39,6 +39,14 @@
     font-weight: normal;
 }
 
+.simple-table.center tbody tr td {
+    text-align: center;
+}
+
+.simple-table.right tbody tr td {
+    text-align: right;
+}
+
 .simple-table tbody tr {
     transition: background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 }

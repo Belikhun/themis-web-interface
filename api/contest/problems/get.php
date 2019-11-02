@@ -32,12 +32,14 @@
             "file" => $data["attachment"],
             "size" => filesize($f),
             "url" => "/api/contest/problems/attachment?id=". $id,
+            "embed" => in_array(strtolower(pathinfo($data["attachment"], PATHINFO_EXTENSION)), ["pdf"])
         );
     } else
         $data["attachment"] = Array(
             "file" => null,
             "size" => 0,
-            "url" => null
+            "url" => null,
+            "embed" => false
         );
 
     if ($data === PROBLEM_ERROR_IDREJECT)

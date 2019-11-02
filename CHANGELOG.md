@@ -1,6 +1,7 @@
 # Change Logs
 
-- [Thay đổi trong v0.5.0](#thay-đổi-trong-v050)
+- [Thay đổi trong v0.5.1](#thay-đổi-trong-v051)
+	- [Thay đổi trong v0.5.0](#thay-đổi-trong-v050)
 	- [Thay đổi trong v0.4.6](#thay-đổi-trong-v046)
 	- [Thay đổi trong v0.4.5](#thay-đổi-trong-v045)
 	- [Thay đổi trong v0.4.4](#thay-đổi-trong-v044)
@@ -24,7 +25,19 @@
 
 ---
 
-## Thay đổi trong v0.5.0
+## Thay đổi trong v0.5.1
+
+* **Bug:** Sửa icon hiển thị trong Avatar tại cài đặt người dùng hiển thị lệch (#26)
+* **Bug:** Sửa không thể tiến hành nhập mật khẩu khi nhập sai tên người dùng (#27)
+* **Bug:** Sửa lỗi phân tích tệp nhật ký (#28)
+* **Bug:** Sửa lỗi hash của api `rank` và `logs` thay đổi liên tục do **Floating Number Precision** (part of 9133aafead1e1b3e16b18c788c1985c1897adea4)
+* **Bug:** Loại bỏ chuyển tên người dùng thành chữ thường trong `logParser` (part of 9133aafead1e1b3e16b18c788c1985c1897adea4)
+* **Bug:** Sửa lỗi Xếp Hạng và Nhật Ký dừng làm mới khi có lỗi hệ thống xảy ra (7ee6fc6169367d6700d72291fef1bb56e76b23b5)
+* **Thêm:** Hiển thị xem trước cho tệp pdf trong `Cửa sổ xem đề bài` (7444b89178ca4ed2913e63aa8a5191867af99337)
+* **Thay đổi:** Thay đổi `favicon.ico` (9158e031f89731373d2e489179b63c021dfef27c)
+
+
+### Thay đổi trong v0.5.0
 
 * **Bug:** Rò rỉ một số thông tin từ api "test/logs" khi tắt công bố kết quả (#19)
 * **Bug:** Sửa lỗi hiển thị tại bảng nhật ký khi tắt Công bố kết quả (#20)
@@ -107,7 +120,7 @@
 * **Chỉnh sửa:** Thay thế tiến trình theo % ở bảng thời gian thành `(thời gian bắt đầu) tới (thời gian kết thúc)`
 * **Chỉnh sửa:** Thay đổi màu của một số phần tử
 * **Chỉnh sửa:** Thay đổi hiệu ứng của bảng cài đặt
-* **Chỉnh sửa:** Loại bỏ scrollbar trong bảng cài đặt
+* **Chỉnh sửa:** Loại bỏ scrollBar trong bảng cài đặt
 * **Chỉnh sửa:** Viết lại một số đoạn code cũ
 * Sửa một số bug, lỗi hiển thị và thêm một số chức năng nhỏ
 
@@ -157,8 +170,8 @@
 
 ### Thay đổi trong v0.3.7
 
-* Thiết kế lại user_settings
-* Chuyển hai bảng cài đặt cho admin vào user_settings
+* Thiết kế lại userSettings
+* Chuyển hai bảng cài đặt cho admin vào userSettings
 * Sửa lỗi không xem được nhật kí khi chưa đăng nhập
 * Xóa bỏ một số tệp không cần thiết
 * Thêm kiểm tra phiên bản

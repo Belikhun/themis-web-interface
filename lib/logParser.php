@@ -44,6 +44,7 @@
             $this -> logIsFailed = false;
             $this -> passed = 0;
             $this -> failed = 0;
+            $this -> blankLinePos = 3;
         }
 
         public function parse() {
@@ -74,7 +75,7 @@
                 "point" => 0,
                 "testPassed" => 0,
                 "testFailed" => 0,
-                "description" => null,
+                "description" => Array(),
                 "error" => Array(),
                 "file" => Array(
                     "base" => null,
@@ -88,34 +89,43 @@
             $firstLine = $file[0];
             $l1matches = [];
 
-            # check with error regex template
+            //? check with error regex template
             if (preg_match_all("/(.+)‣(.+): ℱ (.+\w)/m", $firstLine, $l1matches, PREG_SET_ORDER, 0)) {
-                # test match failed template
+                //* test match failed template
                 $data["status"] = "failed";
                 $data["point"] = 0;
-                $data["description"] = $l1matches[0][3];
+                $data["description"] = [$l1matches[0][3]];
                 $this -> logIsFailed = true;
 
-                # error detail start from line 3
+                //? error detail start from line 3
                 for ($i = 2; $i < count($file); $i++)
                     array_push($data["error"], $file[$i]);
                 
             } else if (preg_match_all("/(.+)‣(.+): Chưa chấm/m", $firstLine, $l1matches, PREG_SET_ORDER, 0)) {
-                # test match skipped template
+                //* test match skipped template
                 $data["status"] = "skipped";
                 $data["point"] = 0;
-                $data["description"] = "Chưa chấm";
-                $this -> logIsFailed = true;      
+                $data["description"] = ["Chưa chấm"];
+                $this -> logIsFailed = true;
             } else {
-                # test match pass template
+                //* test match pass template
                 preg_match_all("/(.+)‣(.+): (.+\w)/m", $firstLine, $l1matches, PREG_SET_ORDER, 0);
                 $data["point"] = $this -> __f($l1matches[0][3]);
                 $data["status"] = ($data["point"] == 0) ? "accepted" : "passed";
-                $data["description"] = $file[2];
+                
+                for ($i = 2; $i < count($file); $i++) {
+                    //? Break on blank line
+                    if (empty($file[$i])) {
+                        $this -> blankLinePos = $i;
+                        break;
+                    }
+
+                    array_push($data["description"],  $file[$i]);
+                }
             }
 
-            #? this is weird. soo weird
-            $data["user"] = trim(strtolower($l1matches[0][1]), "﻿");
+            //! this is weird. soo weird
+            $data["user"] = trim($l1matches[0][1], "﻿");
             $data["problem"] = strtolower($l1matches[0][2]);
             $problemData = problemGet($data["problem"]);
             
@@ -163,8 +173,8 @@
                 )
             );
 
-            # test result start from line 4
-            for ($i = 3; $i < count($file); $i++) {
+            # test result start after blank line
+            for ($i = $this -> blankLinePos; $i < count($file); $i++) {
                 $line = $file[$i];
                 if (empty($line))
                     continue;
@@ -217,7 +227,7 @@
         }
 
         private function __f($str) {
-            return (float) str_replace(",", ".", $str);
+            return round((float) str_replace(",", ".", $str), 2);
         }
     }
 

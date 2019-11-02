@@ -58,6 +58,9 @@
         if (empty($sauce))
             stop(4, "Token please!", 400);
 
+        if (!isset($_SESSION["apiToken"]))
+            stop(4, "No token available!", 500);
+
         if ($sauce !== $_SESSION["apiToken"])
             stop(5, "Wrong token!", 403, Array( "token" => $sauce ));
     }
@@ -134,6 +137,7 @@
             "json" => "application/json",
             "xml" => "application/xml",
             "swf" => "application/x-shockwave-flash",
+            "crx" => "application/x-chrome-extension",
             "flv" => "video/x-flv",
     
             // images
@@ -182,7 +186,6 @@
             "docx" => "application/msword",
             "xlsx" => "application/vnd.ms-excel",
             "pptx" => "application/vnd.ms-powerpoint",
-    
     
             // open office
             "odt" => "application/vnd.oasis.opendocument.text",

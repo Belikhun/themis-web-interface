@@ -12,7 +12,7 @@ body.dark .formGroup.blue .formField {
 }
 
 body.dark #container {
-    background-color: rgb(46, 46, 46);
+    background-color: rgb(30, 30, 30);
 }
 
 /* Navigation Bar */
@@ -42,8 +42,8 @@ body.dark panel {
 }
 
 body.dark panel .head {
-    background-color: rgb(56, 56, 56);
-    border-bottom-color: rgb(78, 78, 78);
+    background-color: rgb(40, 40, 40);
+    border-bottom-color: rgb(67, 67, 67);
 }
 
 body.dark panel .head .le {
@@ -59,7 +59,7 @@ body.dark panel .head .ri i:hover {
 }
 
 body.dark panel .main {
-    background-color: rgb(65, 65, 65);
+    background-color: rgb(48, 48, 48);
 }
 
 /* dialog */
@@ -270,12 +270,12 @@ body.dark #logp .logItemContainer .logItem .h .r .l {
 }
 
 body.dark #logp .logItemContainer .logItem .d {
-    background-color: rgb(58, 58, 58);
+    background-color: rgb(44, 44, 44);
     color: #aaaaaa;
 }
 
 body.dark #logp .logItemContainer .logItem .d:hover {
-    color: #d6d6d6;
+    color: #e0e0e0;
 }
 
 body.dark #logp .logItemContainer .logItem.queue .h .l .n {
@@ -310,44 +310,44 @@ body.dark #logp .logItemContainer .logItem.failed .h .l .n {
     color: #f66f6f;
 }
 
-/* UserSettings */
+/* userSettings */
 
-body.dark #user_settings .sub .panel .container {
+body.dark #userSettings .sub .panel .container {
     background-color: rgba(56, 56, 56, 0.8);
 }
 
-body.dark #user_settings .sub .panel .container .btn-group {
+body.dark #userSettings .sub .panel .container .btn-group {
     background-color: rgba(56, 56, 56, 0.8);
 }
 
-body.dark #user_settings .sub .panel .container .btn-group:hover {
+body.dark #userSettings .sub .panel .container .btn-group:hover {
     background-color: rgb(56, 56, 56);
 }
 
-body.dark #user_settings .sub .panel .container .btn-group span::before,
-body.dark #user_settings .sub .panel .container .btn-group span::after {
+body.dark #userSettings .sub .panel .container .btn-group span::before,
+body.dark #userSettings .sub .panel .container .btn-group span::after {
     color: rgb(192, 192, 192);
 }
 
-body.dark #user_settings .sub .panel .container .btn-group span:hover {
+body.dark #userSettings .sub .panel .container .btn-group span:hover {
     background-color: rgba(41, 140, 206, 0.2);
 }
 
-body.dark #user_settings .sub .panel .container .btn-group span:hover::before,
-body.dark #user_settings .sub .panel .container .btn-group span:hover::after {
+body.dark #userSettings .sub .panel .container .btn-group span:hover::before,
+body.dark #userSettings .sub .panel .container .btn-group span:hover::after {
     color: #67c2ff;
 }
 
-body.dark #user_settings .sub .panel .container .btn-group .close:hover {
+body.dark #userSettings .sub .panel .container .btn-group .close:hover {
     background-color: rgba(219, 60, 43, 0.2);
 }
 
-body.dark #user_settings .sub .panel .container .btn-group .close:hover::before,
-body.dark #user_settings .sub .panel .container .btn-group .close:hover::after {
+body.dark #userSettings .sub .panel .container .btn-group .close:hover::before,
+body.dark #userSettings .sub .panel .container .btn-group .close:hover::after {
     color: #ff8577;
 }
 
-body.dark #user_settings .main .container .group .item .info .right {
+body.dark #userSettings .main .container .group .item .info .right {
     color: rgb(168, 168, 168);
 }
 

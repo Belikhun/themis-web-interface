@@ -85,6 +85,7 @@ login = {
 
     async checkUsername() {
         let username = this.form.username.input.value;
+        let userData = [];
         
         if (username === "" || username === null) {
             login.form.username.input.focus();
@@ -94,11 +95,15 @@ login = {
         this.form.password.avatar.onload = null;
         sounds.confirm(0);
 
-        let userData = await myajax({
-            url: "/api/info",
-            method: "GET",
-            query: { u: username }
-        }).catch();
+        try {
+            userData = await myajax({
+                url: "/api/info",
+                method: "GET",
+                query: { u: username }
+            });
+        } catch (e) {
+            // Ignore
+        }
 
         this.form.username.input.disabled = true;
         this.form.username.submit.disabled = true;

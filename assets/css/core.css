@@ -23,6 +23,60 @@ input:-webkit-autofill {
     background-color: rgba(0, 0, 0, 0);
 }
 
+.note {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 12px 20px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.note::before {
+    position: relative;
+    display: inline-block;
+    font-family: "Font Awesome 5 Free";
+    font-size: 17px;
+    font-weight: 900;
+    padding-right: 12px;
+    color: black;
+}
+
+.note .inner {
+    position: relative;
+    display: inline-block;
+    flex-grow: 1;
+    font-family: Calibri;
+    font-size: 13px;
+    color: #343434;
+}
+
+.note.info {
+    background-color: #cccccc;
+}
+
+.note.info::before {
+    content: "\f05a";
+}
+
+.note.warning {
+    background-color: #fff386;
+}
+
+.note.warning::before {
+    content: "\f071";
+}
+
+.note.okay {
+    background-color: #8fff98;
+}
+
+.note.okay::before {
+    content: "\f14a";
+}
+
 body #container {
     position: relative;
     display: flex;
@@ -212,10 +266,17 @@ panel .main .showEmpty:empty::after {
     margin: unset;
 }
 
-#wrapper #wrapperPanel.thin {
+#wrapper #wrapperPanel[data-size="small"] {
     width: calc(100% - 300px);
-    max-width: 640px;
+    max-width: 720px;
     min-width: 420px;
+    margin: unset;
+}
+
+#wrapper #wrapperPanel[data-size="large"] {
+    width: calc(100% - 80px);
+    max-width: unset;
+    max-height: 100%;
     margin: unset;
 }
 
@@ -910,7 +971,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     display: none;
 }
 
-#user_settings #usett_panelContainer .panel .container .syslogs-settings {
+#userSettings #usett_panelContainer .panel .container .syslogs-settings {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -1254,7 +1315,9 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 
 #problemp .problem-container .problem-list li.item .title .name {
     position: relative;
-    font-size: 16px;
+    font-family: Exo;
+    font-size: 15px;
+    font-weight: bold;
     color: #494949;
 }
 
@@ -1295,8 +1358,10 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 #problemp .problem-container .problem .name {
     display: block;
     text-align: center;
+    font-family: Exo;
     font-size: 18px;
     font-weight: bold;
+    letter-spacing: .6px;
     color: #34495e;
 }
 
@@ -1305,7 +1370,6 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     text-align: center;
     font-size: 12px;
     font-weight: bold;
-    font-style: italic;
     color: #287548;
     letter-spacing: 0.4px;
 }
@@ -1439,11 +1503,12 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 #rankp div.ranking-container table tr td:nth-child(3) .name {
     position: relative;
     display: inline-block;
-    font-size: 15px;
+    font-size: 14px;
 }
 
 #rankp div.ranking-container table tr td.number:nth-child(4) {
     color: #3c7be7;
+    font-size: 16px;
     font-weight: bold;
 }
 
@@ -1467,7 +1532,9 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 #rankp div.ranking-container table tbody tr[data-rank="2"] td:nth-child(3) .name,
 #rankp div.ranking-container table tbody tr[data-rank="3"] td:nth-child(3) .name {
     font-weight: bolder;
-    font-size: 16px;
+    font-family: Exo;
+    font-size: 13px;
+    letter-spacing: .2px;
     color: rgb(65, 65, 65);
 }
 
@@ -1596,17 +1663,28 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     margin: auto;
 }
 
-.problemEnlarged {
+.problemEnlarged  {
     position: relative;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: 100%;
     height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
 }
 
-.problemEnlarged .top {
+.problemEnlarged .left {
+    position: relative;
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-direction: column;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.problemEnlarged .left .top {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -1619,7 +1697,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     overflow-y: auto;
 }
 
-.problemEnlarged .top .group {
+.problemEnlarged .left .top .group {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -1628,7 +1706,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     justify-content: center;
 }
 
-.problemEnlarged .top .group .col {
+.problemEnlarged .left .top .group .col {
     position: relative;
     display: flex;
     flex: 1 1 0;
@@ -1637,14 +1715,14 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     align-items: center;
 }
 
-.problemEnlarged .top .group .col .name {
+.problemEnlarged .left .top .group .col .name {
     font-size: 26px;
     font-weight: bold;
     text-align: center;
     color: #34495e;
 }
 
-.problemEnlarged .top .group .col .point {
+.problemEnlarged .left .top .group .col .point {
     font-size: 12px;
     color: #ecf0f1;
     letter-spacing: 0.4px;
@@ -1654,15 +1732,17 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     border-radius: 4px;
 }
 
-.problemEnlarged .top .attachment {
+.problemEnlarged .left .top .attachment {
     position: relative;
     display: flex;
     flex-direction: row;
     align-items: flex-end;
-    padding-top: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 20px;
 }
 
-.problemEnlarged .top .attachment::before {
+.problemEnlarged .left .top .attachment::before {
     content: "Tệp đính kèm:";
     position: relative;
     display: inline-block;
@@ -1673,15 +1753,15 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     color: rgb(124, 124, 124);
 }
 
-.problemEnlarged .top .attachment .link {
+.problemEnlarged .left .top .attachment .link {
     font-size: 14px;
 }
 
-.problemEnlarged .top .simple-table-wrapper .simple-table {
+.problemEnlarged .left .top .simple-table-wrapper .simple-table {
     width: 100%;
 }
 
-.problemEnlarged .bottom {
+.problemEnlarged .left .bottom {
     position: relative;
     display: flex;
     flex-grow: 1;
@@ -1692,7 +1772,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     background-color: rgb(238, 238, 238);
 }
 
-.problemEnlarged .bottom .simple-table-wrapper {
+.problemEnlarged .left .bottom .simple-table-wrapper {
     position: relative;
     display: block;
     width: auto;
@@ -1700,12 +1780,12 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     margin-top: 20px;
 }
 
-.problemEnlarged .bottom .simple-table-wrapper .simple-table.test tr td {
+.problemEnlarged .left .bottom .simple-table-wrapper .simple-table.test tr td {
     font-family: "Consolas";
     white-space: pre;
 }
 
-.problemEnlarged .bottom .description {
+.problemEnlarged .left .bottom .description {
     position: relative;
     width: 100%;
     box-sizing: border-box;
@@ -1713,13 +1793,13 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     line-height: 1.4em;
 }
 
-.problemEnlarged .bottom .description > a,
-.problemEnlarged .bottom .description > table,
-.problemEnlarged .bottom .description > ul {
+.problemEnlarged .left .bottom .description > a,
+.problemEnlarged .left .bottom .description > table,
+.problemEnlarged .left .bottom .description > ul {
     display: block;
 }
 
-.problemEnlarged .bottom .image {
+.problemEnlarged .left .bottom .image {
     position: relative;
     display: block;
     min-width: 30px;
@@ -1728,6 +1808,35 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     flex-shrink: 0;
     margin-top: 20px;
     border: 1px solid #ccc;
+}
+
+.problemEnlarged .right {
+    position: relative;
+    display: none;
+    flex-grow: 2;
+    width: calc(100% - 100px);
+}
+
+#wrapperPanel[data-size="large"] .problemEnlarged .right {
+    display: block;
+}
+
+.problemEnlarged .right > .embedAttachment {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+@media only screen and (max-width: 800px) {
+    .problemEnlarged {
+        flex-direction: column;
+    }
+
+    .problemEnlarged .right {
+        width: 100%;
+        height: 50%;
+    }
 }
 
 .viewLog-container {
@@ -1777,8 +1886,8 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 
 .viewLog-container .header .top .problemName {
     position: relative;
-    font-family: "Calibri", "Segoe UI";
-    font-weight: bold;
+    font-family: Exo;
+    font-weight: bolder;
     color: rgb(70, 70, 70);
     font-size: 24px;
     margin-top: 10px;
@@ -1855,14 +1964,15 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 .viewLog-container .header .bottom .line .left .problemInfo .problemid,
 .viewLog-container .header .bottom .line .left .problemInfo .language {
     position: relative;
-    font-family: "Calibri", "Segoe UI";
+    font-family: Consolas;
     font-weight: bold;
     font-size: 18px;
     color: #464646;
 }
 
 .viewLog-container .header .bottom .line .left .problemInfo .language {
-    font-size: 14px;
+    font-family: Calibri;
+    font-size: 16px;
     margin-left: 20px;
 }
 
@@ -1945,6 +2055,10 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     content: "\f783";
 }
 
+.viewLog-container .header .bottom .line .left .submitted::before {
+    content: "\f093";
+}
+
 .viewLog-container .header .bottom .line .left .status::before {
     content: "\f05a";
 }
@@ -2013,9 +2127,10 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 }
 
 .viewLog-container .header .bottom .line .right .submitter .info .name {
-    font-size: 18px;
-    color: #425161;
+    font-family: Exo;
+    font-size: 15px;
     font-weight: bold;
+    color: #425161;
     text-align: right;
 }
 
@@ -2036,7 +2151,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 }
 
 .viewLog-container .testList:empty::before {
-    content: "Không tìm thấy tests nào cả :(";
+    content: "Không tìm thấy test nào cả :(";
     position: absolute;
     top: 50%;
     left: 50%;
