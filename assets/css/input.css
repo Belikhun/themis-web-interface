@@ -22,7 +22,8 @@
     font-size: 14px;
     color: #cecece;
     user-select: none;
-    padding: 6px 0 7px 0;
+    padding: 2px 0 7px 0;
+    margin-top: 4px;
     background: transparent;
     transition: border-color 0.5s;
 }
@@ -55,7 +56,7 @@
 }
 
 .formGroup .formField:focus {
-    padding: 6px 0;
+    padding: 2px 0 6px 0;
     border-bottom: 2px solid rgba(224, 224, 224, 0.8);
 }
 

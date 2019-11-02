@@ -17,6 +17,7 @@ function myajax({
     method = "GET",
     query = Array(),
     form = Array(),
+    json = {},
     header = Array(),
     type = "json",
     onUpload = () => {},
@@ -69,7 +70,7 @@ function myajax({
                     return;
                 }
                 
-                if ((this.responseText === "" || !this.responseText) && this.status !== 200) {
+                if ((this.responseText === "" || !this.responseText) && this.status >= 400) {
                     clog("errr", {
                         color: flatc("red"),
                         text: `HTTP ${this.status}:`
@@ -101,7 +102,7 @@ function myajax({
                         return;
                     }
 
-                    if (this.status !== 200 || (res.code !== 0 && res.code < 100)) {
+                    if (this.status >= 400 || (res.code !== 0 && res.code < 100)) {
                         clog("errr", {
                             color: flatc("magenta"),
                             text: method
@@ -138,11 +139,27 @@ function myajax({
 
                     data = res;
                 } else {
-                    if (this.status !== 200) {
+                    if (this.status >= 400) {
+                        let code = "HTTP" + this.status;
+                        let text = this.statusText;
+                        let resData = res;
+
+                        let header = this.getResponseHeader("output-json");
+
+                        if (header) {
+                            let headerJSON = JSON.parse(header);
+
+                            if (!resData)
+                                resData = headerJSON;
+
+                            code = `HTTP ${headerJSON.status} [${headerJSON.code}]`
+                            text = headerJSON.description;
+                        }
+
                         clog("errr", {
                             color: flatc("red"),
-                            text: "HTTP" + this.status
-                        }, this.statusText, {
+                            text: code
+                        }, text, {
                             color: flatc("magenta"),
                             text: method
                         }, {
@@ -150,7 +167,7 @@ function myajax({
                             text: url
                         });
 
-                        let errorObj = { code: 3, description: `HTTP ${this.status}: ${this.statusText}`, data: res }
+                        let errorObj = { code: 3, description: `${code}: ${text}`, data: resData }
                         error(errorObj);
                         reject(errorObj);
 
@@ -166,11 +183,17 @@ function myajax({
         })
         
         xhr.open(method, url);
+        let sendData = formData;
 
         for (let key of Object.keys(header))
             xhr.setRequestHeader(key, header[key]);
 
-        xhr.send(formData);
+        if (Object.keys(json).length !== 0) {
+            sendData = JSON.stringify(json);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        }
+
+        xhr.send(sendData);
     })
 }
 
@@ -181,7 +204,6 @@ function delayAsync(time) {
         }, time);
     });
 }
-
 
 function waitFor(checker = async () => {}, handler = () => {}, retry = 10, timeout = 1000, onFail = () => {}) {
     return new Promise((resolve, reject) => {
@@ -488,7 +510,7 @@ function currentScript() {
  * @param {number} inp Input in Number
  * @param {number} length Length
  */
-function pleft(inp, length = 0) {
+function pleft(inp, length = 0, right = false) {
     type = typeof inp;
     inp = (type === "number") ? inp.toString() : inp;
     padd = "";
@@ -508,7 +530,7 @@ function pleft(inp, length = 0) {
     }
 
     padd = padd.repeat((length - inp.length < 0) ? 0 : length - inp.length);
-    return padd + inp;
+    return (right) ? inp + padd : padd + inp;
 }
 
 /**
@@ -567,7 +589,7 @@ function triBg(element, {
     speed = 26,
 	color = "gray",
 	scale = 2,
-	triangeCount = 38
+	triangleCount = 38
 } = {}) {
     let current = element.querySelector(".triBgContainer");
     if (current)
@@ -580,9 +602,9 @@ function triBg(element, {
 
     let container = document.createElement("div");
     container.classList.add("triBgContainer");
-    container.dataset.count = triangeCount;
+    container.dataset.count = triangleCount;
 
-    for (let i = 0; i < triangeCount; i++) {
+    for (let i = 0; i < triangleCount; i++) {
         let randScale = randBetween(0.4, 2.0, false);
         let randBright = ["brown", "dark"].indexOf(color) !== -1
             ? randBetween(1.1, 1.3, false)
@@ -610,13 +632,13 @@ function randBetween(min, max, toInt = true) {
         : (Math.random() * (max - min) + min)
 }
 
-/**
- * A shorthand of querySelector
- * @param {String} selector Selector
- * @returns {Element}
- */
 if (typeof $ !== "function")
-    var $ = (selector) => document.querySelector(selector);
+    /**
+     * A shorthand of querySelector
+     * @param {String} selector Selector
+     * @returns {Element}
+     */
+    function $ (selector) { return document.querySelector(selector) };
 
 cookie = {
     cookie: null,

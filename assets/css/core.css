@@ -910,7 +910,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     display: none;
 }
 
-#user_settings #usett_panelContainer .panel .container .syslogs-settings {
+#userSettings #usett_panelContainer .panel .container .syslogs-settings {
     position: relative;
     display: flex;
     flex-direction: column;

@@ -197,6 +197,7 @@ dot {
 .triBg[data-tri-color = "dark"]			{ background-color: #042430; }
 .triBg[data-tri-color = "purple"]		{ background-color: #3f1195; }
 .triBg[data-tri-color = "darkBlue"]		{ background-color: #083992; }
+.triBg[data-tri-color = "darkRed"]		{ background-color: #440505; }
 .triBg[data-tri-color = "navyBlue"]		{ background-color: #333D79; }
 
 .triBg[data-tri-color = "pink"]			.triBgContainer > span { border-bottom-color: #ff66aa; }
@@ -209,6 +210,7 @@ dot {
 .triBg[data-tri-color = "dark"]			.triBgContainer > span { border-bottom-color: #042430; }
 .triBg[data-tri-color = "purple"]		.triBgContainer > span { border-bottom-color: #3f1195; }
 .triBg[data-tri-color = "darkBlue"]		.triBgContainer > span { border-bottom-color: #083992; }
+.triBg[data-tri-color = "darkRed"]		.triBgContainer > span { border-bottom-color: #440505; }
 .triBg[data-tri-color = "navyBlue"]		.triBgContainer > span { border-bottom-color: #333D79; }
 
 @keyframes trigAnim {

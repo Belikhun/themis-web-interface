@@ -1209,7 +1209,7 @@ const core = {
                 if (!elem.classList.contains("panel"))
                     return false;
         
-                this.container = $("#user_settings");
+                this.container = $("#userSettings");
 
                 this.elem = elem;
                 this.eToggle = null;
@@ -1374,7 +1374,7 @@ const core = {
         updateDelaySlider: $("#usett_udelay_slider"),
         updateDelayText: $("#usett_udelay_text"),
         toggler: $("#usett_toggler"),
-        container: $("#user_settings"),
+        container: $("#userSettings"),
         adminConfig: $("#usett_adminConfig"),
         panelContainer: $("#usett_panelContainer"),
         publicFilesPanel: null,

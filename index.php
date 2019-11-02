@@ -215,7 +215,7 @@
             </span>
         </div>
 
-        <span id="user_settings" class="sound" data-soundtoggle="show">
+        <span id="userSettings" class="sound" data-soundtoggle="show">
 
             <div class="main">
                 <div class="container menu">

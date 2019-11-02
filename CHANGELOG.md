@@ -157,8 +157,8 @@
 
 ### Thay đổi trong v0.3.7
 
-* Thiết kế lại user_settings
-* Chuyển hai bảng cài đặt cho admin vào user_settings
+* Thiết kế lại userSettings
+* Chuyển hai bảng cài đặt cho admin vào userSettings
 * Sửa lỗi không xem được nhật kí khi chưa đăng nhập
 * Xóa bỏ một số tệp không cần thiết
 * Thêm kiểm tra phiên bản
