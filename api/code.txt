@@ -15,7 +15,7 @@
 12  already logged in
 13  wrong username
 14  wrong password
-15  new password and retype new password doesnt match
+15  new password and retype new password does not match
 16  not valid name
 17  account exist
 

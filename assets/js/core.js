@@ -331,7 +331,13 @@ const core = {
     async __fetchLog(bypass = false, clearJudging = false) {
         clearTimeout(this.__logTimeout);
         var timer = new stopClock();
-        this.initialized ? await this.fetchLog(bypass, clearJudging) : null;
+        
+        try {
+            if (this.initialized)
+                await this.fetchLog(bypass, clearJudging);
+        } catch(e) {
+            clog("ERRR", e);
+        }
         
         this.__logTimeout = setTimeout(() => this.__fetchLog(), this.updateDelay - timer.stop*1000);
     },
@@ -339,7 +345,13 @@ const core = {
     async __fetchRank() {
         clearTimeout(this.__rankTimeout);
         var timer = new stopClock();
-        this.initialized ? await this.fetchRank() : null;
+
+        try {
+            if (this.initialized)
+                await this.fetchRank();
+        } catch(e) {
+            clog("ERRR", e);
+        }
         
         this.__rankTimeout = setTimeout(() => this.__fetchRank(), this.updateDelay - timer.stop*1000);
     },
