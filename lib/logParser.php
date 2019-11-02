@@ -94,7 +94,7 @@
                 //* test match failed template
                 $data["status"] = "failed";
                 $data["point"] = 0;
-                $data["description"] = $l1matches[0][3];
+                $data["description"] = [$l1matches[0][3]];
                 $this -> logIsFailed = true;
 
                 //? error detail start from line 3
@@ -105,7 +105,7 @@
                 //* test match skipped template
                 $data["status"] = "skipped";
                 $data["point"] = 0;
-                $data["description"] = "Chưa chấm";
+                $data["description"] = ["Chưa chấm"];
                 $this -> logIsFailed = true;
             } else {
                 //* test match pass template
@@ -125,7 +125,7 @@
             }
 
             //! this is weird. soo weird
-            $data["user"] = trim(strtolower($l1matches[0][1]), "﻿");
+            $data["user"] = trim($l1matches[0][1], "﻿");
             $data["problem"] = strtolower($l1matches[0][2]);
             $problemData = problemGet($data["problem"]);
             
@@ -227,7 +227,7 @@
         }
 
         private function __f($str) {
-            return (float) str_replace(",", ".", $str);
+            return round((float) str_replace(",", ".", $str), 2);
         }
     }
 
