@@ -111,7 +111,7 @@
                 //* test match pass template
                 preg_match_all("/(.+)‣(.+): (.+\w)/m", $firstLine, $l1matches, PREG_SET_ORDER, 0);
                 $data["point"] = $this -> __f($l1matches[0][3]);
-                $data["status"] = ($data["point"] === 0) ? "accepted" : "passed";
+                $data["status"] = ($data["point"] == 0) ? "accepted" : "passed";
                 
                 for ($i = 2; $i < count($file); $i++) {
                     //? Break on blank line
