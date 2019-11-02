@@ -548,6 +548,9 @@
                                         <textarea id="problemEdit_desc" class="formField sound" placeholder="Nội dung" data-soundselectsoft required></textarea>
                                         <label for="problemEdit_desc">Nội dung</label>
                                     </div>
+                                    <div class="note info">
+                                        <span class="inner">Nếu tệp đính kèm là <b>pdf</b>, hệ thống sẽ hiển thị tệp đó trong cửa sổ xem đề bài</span>
+                                    </div>
                                     <div class="formGroup blue">
                                         <input id="problemEdit_attachment" type="file" class="formField sound" placeholder="Tệp đính kèm" data-soundselectsoft>
                                         <label for="problemEdit_attachment">Tệp đính kèm (tùy chọn)</label>

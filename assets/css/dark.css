@@ -12,7 +12,7 @@ body.dark .formGroup.blue .formField {
 }
 
 body.dark #container {
-    background-color: rgb(46, 46, 46);
+    background-color: rgb(30, 30, 30);
 }
 
 /* Navigation Bar */
@@ -42,8 +42,8 @@ body.dark panel {
 }
 
 body.dark panel .head {
-    background-color: rgb(56, 56, 56);
-    border-bottom-color: rgb(78, 78, 78);
+    background-color: rgb(40, 40, 40);
+    border-bottom-color: rgb(67, 67, 67);
 }
 
 body.dark panel .head .le {
@@ -59,7 +59,7 @@ body.dark panel .head .ri i:hover {
 }
 
 body.dark panel .main {
-    background-color: rgb(65, 65, 65);
+    background-color: rgb(48, 48, 48);
 }
 
 /* dialog */
@@ -270,12 +270,12 @@ body.dark #logp .logItemContainer .logItem .h .r .l {
 }
 
 body.dark #logp .logItemContainer .logItem .d {
-    background-color: rgb(58, 58, 58);
+    background-color: rgb(44, 44, 44);
     color: #aaaaaa;
 }
 
 body.dark #logp .logItemContainer .logItem .d:hover {
-    color: #d6d6d6;
+    color: #e0e0e0;
 }
 
 body.dark #logp .logItemContainer .logItem.queue .h .l .n {

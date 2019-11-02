@@ -182,7 +182,7 @@
         return PROBLEM_OKAY;
     }
 
-    function problemGetAttachment(String $id) {
+    function problemGetAttachment(String $id, Bool $downloadHeader = true) {
         global $problemList;
 
         if (!problemExist($id))
@@ -196,7 +196,10 @@
 
         contentType(pathinfo($i, PATHINFO_EXTENSION));
         header("Content-Length: ".filesize($f));
-        header("Content-disposition: attachment; filename=". utf8_decode(pathinfo($i, PATHINFO_BASENAME))); 
+
+        if ($downloadHeader)
+            header("Content-disposition: attachment; filename=". utf8_decode(pathinfo($i, PATHINFO_BASENAME))); 
+        
         readfile($f);
         return PROBLEM_OKAY;
     }

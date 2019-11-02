@@ -979,72 +979,83 @@ const core = {
 
             let html = `
                 <div class="problemEnlarged">
-                    <span class="top">
-                        <div class="group">
-                            <div class="col">
-                                <t class="name">${data.name}</t>
-                                <t class="point">${data.point} điểm</t>
-                            </div>
+                    <span class="left">
+                        <span class="top">
+                            <div class="group">
+                                <div class="col">
+                                    <t class="name">${data.name}</t>
+                                    <t class="point">${data.point} điểm</t>
+                                </div>
 
-                            <div class="col simple-table-wrapper">
-                                <table class="simple-table type">
-                                    <tbody>
-                                        <tr class="filename">
-                                            <td>Tên tệp</td>
-                                            <td>${data.id}</td>
-                                        </tr>
-                                        <tr class="lang">
-                                            <td>Loại tệp</td>
-                                            <td>${data.accept.join(", ")}</td>
-                                        </tr>
-                                        <tr class="time">
-                                            <td>Thời gian chạy</td>
-                                            <td>${data.time} giây</td>
-                                        </tr>
-                                        <tr class="inp">
-                                            <td>Dữ liệu vào</td>
-                                            <td>${data.type.inp}</td>
-                                            </tr>
-                                        <tr class="out">
-                                            <td>Dữ liệu ra</td>
-                                            <td>${data.type.out}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        ${(data.attachment.url)
-                            ?   `<div class="group attachment">
-                                    <a class="link" href="${data.attachment.url}">${data.attachment.file} (${convertSize(data.attachment.size)})</a>
-                                </div>`
-                            :   ""
-                        }
-                    </span>
-
-                    <span class="bottom">
-                        <div class="description">${data.description}</div>
-                        ${(data.image)
-                            ?   `<div class="lazyload image">
-                                    <img onload="this.parentNode.dataset.loaded = 1" src="${data.image}"/>
-                                    <div class="simple-spinner"></div>
-                                </div>`
-                            :   ""
-                        }
-
-                        ${(data.test.length !== 0)
-                            ?   `
-                                <div class="group simple-table-wrapper">
-                                    <table class="simple-table test">
+                                <div class="col simple-table-wrapper">
+                                    <table class="simple-table type">
                                         <tbody>
-                                            <tr>
-                                                <th>${data.type.inp}</th>
-                                                <th>${data.type.out}</th>
+                                            <tr class="filename">
+                                                <td>Tên tệp</td>
+                                                <td>${data.id}</td>
                                             </tr>
-                                            ${testHtml}
+                                            <tr class="lang">
+                                                <td>Loại tệp</td>
+                                                <td>${data.accept.join(", ")}</td>
+                                            </tr>
+                                            <tr class="time">
+                                                <td>Thời gian chạy</td>
+                                                <td>${data.time} giây</td>
+                                            </tr>
+                                            <tr class="inp">
+                                                <td>Dữ liệu vào</td>
+                                                <td>${data.type.inp}</td>
+                                                </tr>
+                                            <tr class="out">
+                                                <td>Dữ liệu ra</td>
+                                                <td>${data.type.out}</td>
+                                            </tr>
                                         </tbody>
                                     </table>
-                                </div>`
+                                </div>
+                            </div>
+
+                            ${(data.attachment.url)
+                                ?   `<div class="group attachment">
+                                        <a class="link" href="${data.attachment.url}">${data.attachment.file} (${convertSize(data.attachment.size)})</a>
+                                    </div>`
+                                :   ""
+                            }
+                        </span>
+
+                        <span class="bottom">
+                            <div class="description">${data.description}</div>
+
+                            ${(data.image)
+                                ?   `<div class="lazyload image">
+                                        <img onload="this.parentNode.dataset.loaded = 1" src="${data.image}"/>
+                                        <div class="simple-spinner"></div>
+                                    </div>`
+                                :   ""
+                            }
+
+                            ${(data.test.length !== 0)
+                                ?   `
+                                    <div class="group simple-table-wrapper">
+                                        <table class="simple-table test">
+                                            <tbody>
+                                                <tr>
+                                                    <th>${data.type.inp}</th>
+                                                    <th>${data.type.out}</th>
+                                                </tr>
+                                                ${testHtml}
+                                            </tbody>
+                                        </table>
+                                    </div>`
+                                :   ""
+                            }
+                        </span>
+                    </span>
+                    <span class="right">
+                        ${(data.attachment.url && data.attachment.embed)
+                            ?   `<object class="embedAttachment" data="${data.attachment.url}&embed=true">
+                                    <embed src="${data.attachment.url}&embed=true"/>
+                                </object>`
                             :   ""
                         }
                     </span>
@@ -1052,7 +1063,7 @@ const core = {
             `;
 
             core.wrapper.panel.main.innerHTML = html;
-            core.wrapper.show("Đề bài - " + data.name, true);
+            core.wrapper.show("Đề bài - " + data.name, (data.attachment.url && data.attachment.embed) ? "large" : "small");
         }
     },
 
@@ -2251,9 +2262,9 @@ const core = {
             });
         },
 
-        show(title = "Title", thin = false) {
+        show(title = "Title", size = "normal") {
             this.panel.title = title;
-            this.panel.elem.classList[thin ? "add" : "remove"]("thin");
+            this.panel.elem.dataset.size = size;
             this.wrapper.classList.add("show");
             sounds.select();
         },
