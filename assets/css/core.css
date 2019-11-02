@@ -1254,7 +1254,9 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 
 #problemp .problem-container .problem-list li.item .title .name {
     position: relative;
-    font-size: 16px;
+    font-family: Exo;
+    font-size: 15px;
+    font-weight: bold;
     color: #494949;
 }
 
@@ -1295,8 +1297,10 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 #problemp .problem-container .problem .name {
     display: block;
     text-align: center;
+    font-family: Exo;
     font-size: 18px;
     font-weight: bold;
+    letter-spacing: .6px;
     color: #34495e;
 }
 
@@ -1305,7 +1309,6 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     text-align: center;
     font-size: 12px;
     font-weight: bold;
-    font-style: italic;
     color: #287548;
     letter-spacing: 0.4px;
 }
@@ -1439,11 +1442,12 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 #rankp div.ranking-container table tr td:nth-child(3) .name {
     position: relative;
     display: inline-block;
-    font-size: 15px;
+    font-size: 14px;
 }
 
 #rankp div.ranking-container table tr td.number:nth-child(4) {
     color: #3c7be7;
+    font-size: 16px;
     font-weight: bold;
 }
 
@@ -1467,7 +1471,9 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 #rankp div.ranking-container table tbody tr[data-rank="2"] td:nth-child(3) .name,
 #rankp div.ranking-container table tbody tr[data-rank="3"] td:nth-child(3) .name {
     font-weight: bolder;
-    font-size: 16px;
+    font-family: Exo;
+    font-size: 13px;
+    letter-spacing: .2px;
     color: rgb(65, 65, 65);
 }
 
@@ -1777,8 +1783,8 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 
 .viewLog-container .header .top .problemName {
     position: relative;
-    font-family: "Calibri", "Segoe UI";
-    font-weight: bold;
+    font-family: Exo;
+    font-weight: bolder;
     color: rgb(70, 70, 70);
     font-size: 24px;
     margin-top: 10px;
@@ -1855,14 +1861,15 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 .viewLog-container .header .bottom .line .left .problemInfo .problemid,
 .viewLog-container .header .bottom .line .left .problemInfo .language {
     position: relative;
-    font-family: "Calibri", "Segoe UI";
+    font-family: Consolas;
     font-weight: bold;
     font-size: 18px;
     color: #464646;
 }
 
 .viewLog-container .header .bottom .line .left .problemInfo .language {
-    font-size: 14px;
+    font-family: Calibri;
+    font-size: 16px;
     margin-left: 20px;
 }
 
@@ -1945,6 +1952,10 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     content: "\f783";
 }
 
+.viewLog-container .header .bottom .line .left .submitted::before {
+    content: "\f093";
+}
+
 .viewLog-container .header .bottom .line .left .status::before {
     content: "\f05a";
 }
@@ -2013,9 +2024,10 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 }
 
 .viewLog-container .header .bottom .line .right .submitter .info .name {
-    font-size: 18px;
-    color: #425161;
+    font-family: Exo;
+    font-size: 15px;
     font-weight: bold;
+    color: #425161;
     text-align: right;
 }
 

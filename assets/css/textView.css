@@ -33,6 +33,7 @@
     font-weight: bold;
     font-size: 17px;
     white-space: pre-wrap;
+    word-break: break-all;
 }
 
 .textView > li:hover {

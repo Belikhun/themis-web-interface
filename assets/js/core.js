@@ -546,7 +546,8 @@ const core = {
             for (let line of data.header.error)
                 logLine.push(`<li>${line}</li>`);
         else
-            logLine.push(`<li>${data.header.description}</li>`)
+            for (let line of data.header.description)
+                logLine.push(`<li>${line}</li>`);
 
         let testList = [];
         for (let item of data.test)
@@ -591,9 +592,10 @@ const core = {
                                 
                                 <t class="row point">${data.header.point} điểm</t>
                                 <t class="row submitTime">${(new Date(data.header.file.lastModify * 1000)).toLocaleString()}</t>
+                                <t class="row submitted">${formatTime(time() - data.header.file.lastModify)} trước</t>
                                 <t class="row status">${core.taskStatus[data.header.status]}</t>
                                 <t class="row result">
-                                    Đúng <b class="green">${data.header.testPassed}/${data.header.testPassed + data.header.testFailed}</b> tests, <b class="red">${data.header.testFailed}</b> tests sai
+                                    Đúng <b class="green">${data.header.testPassed}/${data.header.testPassed + data.header.testFailed}</b> test, <b class="red">${data.header.testFailed}</b> test sai
                                 </t>
                             </span>
                             <span class="right">
@@ -603,7 +605,7 @@ const core = {
                                         <div class="simple-spinner"></div>
                                     </div>
                                     <span class="info">
-                                        <t class="tag">Bài làm của:</t>
+                                        <t class="tag">Bài làm của</t>
                                         <t class="name">${data.header.name || "u:" + data.header.user}</t>
                                     </span>
                                 </span>
