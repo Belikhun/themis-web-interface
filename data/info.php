@@ -9,7 +9,7 @@
 	// dont claim it for your own. thats not nice
 	define("APPNAME", "Themis Web Interface");
 	define("AUTHOR", "Belikhun");
-	define("VERSION", "0.5.1");
+	define("VERSION", "0.5.2");
 	define("VERSION_TAG", "release");
 	define("REPO_ADDRESS", "https://github.com/belivipro9x99/themis-web-interface");
 	define("REPORT_ERROR", REPO_ADDRESS . "/issues");

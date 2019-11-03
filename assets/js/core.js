@@ -775,6 +775,7 @@ const core = {
                     });
 
                     this.state.innerText = `Tải lên thành công! ${(i + 1)}/${files.length}`;
+                    sounds.notification();
                     this.onUploadSuccess();
                     
                     setTimeout(() => {
@@ -788,6 +789,7 @@ const core = {
                     this.state.innerText = e.data.description;
                     this.panel.title = "Nộp bài - Đã dừng.";
                     this.bar.dataset.color = "red";
+                    sounds.warning();
 
                     switch(e.data.code) {
                         case 44:
@@ -1646,7 +1648,7 @@ const core = {
         },
         
         async changeName(name) {
-            sounds.confirm();
+            sounds.confirm(1);
 
             await myajax({
                 url: "/api/edit",
@@ -1667,7 +1669,7 @@ const core = {
         },
 
         async changePassword(pass, newPass, reTypePass) {
-            sounds.confirm();
+            sounds.confirm(2);
 
             await myajax({
                 url: "/api/edit",
@@ -1681,7 +1683,10 @@ const core = {
             }, () => {
                 clog("okay", "Thay đổi mật khẩu thành công!");
                 this.reset();
-            }, () => this.reset());
+            }, () => {
+                sounds.warning();
+                this.reset();
+            });
         },
 
         fileSelect(e, type = "drop") {
@@ -1694,12 +1699,11 @@ const core = {
             var file = (type === "drop") ? e.dataTransfer.files[0] : e.target.files[0];
 
             this.avtWrapper.classList.add("load");
+            sounds.confirm();
             setTimeout(() => this.avtUpload(file), 1000);
         },
 
         async avtUpload(file) {
-            sounds.confirm();
-
             await myajax({
                 url: "/api/avatar",
                 method: "POST",
@@ -1710,9 +1714,13 @@ const core = {
             }, response => {
                 this.reset();
                 this.reload(response.data, "avatar");
+                sounds.notification();
 
                 clog("okay", "Avatar changed.");
-            }, () => this.reset());
+            }, () => {
+                sounds.warning();
+                this.reset();
+            })
         },
 
         dragEnter(e) {

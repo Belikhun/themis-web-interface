@@ -1504,6 +1504,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     position: relative;
     display: inline-block;
     font-size: 14px;
+    letter-spacing: .2px;
 }
 
 #rankp div.ranking-container table tr td.number:nth-child(4) {
@@ -1539,8 +1540,12 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 }
 
 #rankp div.ranking-container table tr th {
+    position: sticky;
+    top: 0;
+    background-color: #fafafa;
     border-bottom: 1px solid #9b9b9b;
     color: rgb(82, 82, 82);
+    z-index: 1;
 }
 
 #rankp div.ranking-container table tr th,
@@ -2394,14 +2399,6 @@ footer .header .button {
 footer .header .button button {
     flex-grow: 1;
     margin: 0 5px;
-}
-
-footer .header .button button.sq-btn:nth-child(1)::before {
-    animation-delay: 0.4s;
-}
-
-footer .header .button button.sq-btn:nth-child(1)::after {
-    animation-delay: 1.2s;
 }
 
 footer .header t {
