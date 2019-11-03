@@ -2401,14 +2401,6 @@ footer .header .button button {
     margin: 0 5px;
 }
 
-footer .header .button button.sq-btn:nth-child(1)::before {
-    animation-delay: 0.4s;
-}
-
-footer .header .button button.sq-btn:nth-child(1)::after {
-    animation-delay: 1.2s;
-}
-
 footer .header t {
     position: relative;
     display: block;

@@ -10,7 +10,7 @@
         style => "flat-square",
         color => "green",
         subject => "sample",
-        status => "text",
+        status => "text"
     )) {
         $clist = Array(
             "green" => "#97CA00",
@@ -43,7 +43,7 @@
                             <path fill="#555" d="M0 0h<?php print $box1; ?>v20H0z"/>
                             <path fill="<?php print $ccode; ?>" d="M<?php print $box1; ?> 0h<?php print $box2; ?>v20H<?php print $box1; ?>z"/>
                         </g>
-                        <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="110">
+                        <g fill="#fff" text-anchor="middle" font-family="Calibri" font-size="130">
                             <text x="<?php print $suanchor; ?>" y="140" transform="scale(.1)"><?php print $data["subject"]; ?></text>
                             <text x="<?php print $stanchor; ?>" y="140" transform="scale(.1)"><?php print $data["status"]; ?></text>
                         </g>
@@ -58,7 +58,7 @@
                             <path fill="#555" d="M0 0h<?php print $box1; ?>v28H0z" />
                             <path fill="<?php print $ccode; ?>" d="M<?php print $box1; ?> 0h<?php print $box2; ?>v28H<?php print $box1; ?>z" />
                         </g>
-                        <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="110">
+                        <g fill="#fff" text-anchor="middle" font-family="Calibri" font-size="130">
                             <text x="<?php print $suanchor; ?>" y="175" transform="scale(.1)"><?php print $data["subject"]; ?></text>
                             <text x="<?php print $stanchor; ?>" y="175" font-weight="bold" transform="scale(.1)" ><?php print $data["status"]; ?></text>
                         </g>

@@ -48,6 +48,7 @@
     font-weight: 700;
     text-transform: uppercase;
     color: #5a5b5f;
+    cursor: text;
     user-select: none;
 }
 

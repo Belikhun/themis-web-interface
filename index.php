@@ -295,17 +295,18 @@
                         <t class="title small">Đổi mật khẩu</t>
 
                         <div class="item form sound" data-soundhoversoft>
-                            <form id="usett_edit_pass_form" autocomplete="off" action="javascript:void(0);">
+                            <form id="usett_edit_pass_form" action="javascript:void(0);">
+                                <input type="text" autocomplete="username" value="<?php print $username; ?>" style="display: none">
                                 <div class="formGroup blue sound" data-soundselectsoft>
-                                    <input id="usett_edit_pass" type="password" class="formField" placeholder="Mật khẩu" required>
+                                    <input id="usett_edit_pass" type="password" autocomplete="current-password" class="formField" placeholder="Mật khẩu" required>
                                     <label for="usett_edit_pass">Mật khẩu</label>
                                 </div>
                                 <div class="formGroup blue sound" data-soundselectsoft>
-                                    <input id="usett_edit_npass" type="password" class="formField" placeholder="Mật khẩu mới" required>
+                                    <input id="usett_edit_npass" type="password" autocomplete="new-password" class="formField" placeholder="Mật khẩu mới" required>
                                     <label for="usett_edit_npass">Mật khẩu mới</label>
                                 </div>
                                 <div class="formGroup blue sound" data-soundselectsoft>
-                                    <input id="usett_edit_renpass" type="password" class="formField" placeholder="Nhập lại mật khẩu mới" required>
+                                    <input id="usett_edit_renpass" type="password" autocomplete="new-password" class="formField" placeholder="Nhập lại mật khẩu mới" required>
                                     <label for="usett_edit_renpass">Nhập lại mật khẩu mới</label>
                                 </div>
                                 <button type="submit" class="sq-btn sound" data-soundhover data-soundselect>Thay đổi</button>
@@ -632,7 +633,7 @@
                                     <t class="subtitle">Made from scratch, crafted with <font color="red">❤</font> by Belikhun</t>
 
                                     <div class="button">
-                                        <button class="sq-btn green sound" data-soundhover data-soundselect onclick="this.innerText = randBetween(1, 1000)">Click Me!</button>
+                                        <button class="sq-btn rainbow sound" data-soundhover data-soundselect onclick="this.innerText = randBetween(1, 1000)">Click Me!</button>
                                         <button class="sq-btn pink sound" data-soundhover data-soundselect>(╯°□°）╯︵ ┻━┻</button>
                                     </div>
                                 </div>
@@ -653,8 +654,8 @@
                                 <div class="badge">
                                     <a href="<?php print REPO_ADDRESS; ?>/releases/" target="_blank" rel="noopener"><img src="/tool/badge?su=<?php print VERSION_TAG; ?>&st=v<?php print VERSION; ?>&c=brightgreen"></a>
                                     <img src="/tool/badge?su=license&st=MIT&c=orange">
-                                    <img src="/tool/badge?su=status&st=may contain bugs&c=blue">
-                                    <img src="/tool/badge?su=author&st=Đỗ Mạnh Hà&c=red">
+                                    <img src="/tool/badge?su=status&st=near stable&c=blue">
+                                    <img src="/tool/badge?su=author&st=Belikhun&c=red">
                                     <a href="http://thptlaclongquan.hoabinh.edu.vn" target="_blank" rel="noopener"><img src="/tool/badge?su=school&st=Lac Long Quan High School, Hoa Binh&c=yellow"></a>
                                 </div>
                                 
