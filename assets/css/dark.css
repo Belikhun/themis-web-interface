@@ -197,6 +197,7 @@ body.dark #rankp div.ranking-container table tbody tr[data-rank="3"] td:nth-chil
 }
 
 body.dark #rankp div.ranking-container table tr th {
+    background-color: #414141;
     color: rgb(202, 202, 202);
     border-bottom-color: rgb(88, 88, 88);
 }
