@@ -1504,6 +1504,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     position: relative;
     display: inline-block;
     font-size: 14px;
+    letter-spacing: .2px;
 }
 
 #rankp div.ranking-container table tr td.number:nth-child(4) {
