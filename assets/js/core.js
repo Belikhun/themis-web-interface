@@ -106,6 +106,7 @@ const core = {
     previousRankHash: "",
     updateDelay: 2000,
     initialized: false,
+    enableAutoUpdate: true,
     __logTimeout: null,
     __rankTimeout: null,
 
@@ -333,7 +334,7 @@ const core = {
         var timer = new stopClock();
         
         try {
-            if (this.initialized)
+            if (this.initialized && this.enableAutoUpdate)
                 await this.fetchLog(bypass, clearJudging);
         } catch(e) {
             clog("ERRR", e);
@@ -347,7 +348,7 @@ const core = {
         var timer = new stopClock();
 
         try {
-            if (this.initialized)
+            if (this.initialized && this.enableAutoUpdate)
                 await this.fetchRank();
         } catch(e) {
             clog("ERRR", e);
@@ -1398,6 +1399,7 @@ const core = {
         transitionToggler: $("#usett_transition"),
         millisecondToggler: $("#usett_millisecond"),
         dialogProblemToggler: $("#usett_dialogProblem"),
+        autoUpdateToggler: $("#usett_enableAutoUpdate"),
         updateDelaySlider: $("#usett_udelay_slider"),
         updateDelayText: $("#usett_udelay_text"),
         toggler: $("#usett_toggler"),
@@ -1542,6 +1544,19 @@ const core = {
                 e => core.problems.viewInDialog = true,
                 e => core.problems.viewInDialog = false,
                 false
+            )
+
+            // auto update rank and logs setting
+            let autoUpdate = new this.toggleSwitch(this.autoUpdateToggler, "__autoupdate",
+                e => {
+                    this.updateDelaySlider.disabled = false;
+                    core.enableAutoUpdate = true;
+                },
+                e => {
+                    this.updateDelaySlider.disabled = true;
+                    core.enableAutoUpdate = false;
+                },
+                true
             )
 
             // Update delay setting

@@ -419,6 +419,14 @@
                             </label>
                         </div>
 
+                        <div class="item lr sound" data-soundhoversoft>
+                            <t class="left">Tự động cập nhật Xếp Hạng và Nhật Ký</t>
+                            <label class="sq-checkbox pink right">
+                                <input id="usett_enableAutoUpdate" type="checkbox" class="sound" data-soundcheck>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+
                         <div class="item sound" data-soundhoversoft>
                             <div class="lr">
                                 <t class="left">Thời gian làm mới</t>
