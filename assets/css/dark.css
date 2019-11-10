@@ -519,11 +519,11 @@ body.dark .viewLog-container .testList {
 }
 
 body.dark .viewLog-container .testList .item {
-    background-color: rgb(60, 60, 60);
+    background-color: rgb(48, 48, 48);
 }
 
 body.dark .viewLog-container .testList .item:hover {
-    background-color: rgb(68, 68, 68);
+    background-color: rgb(60, 60, 60);
 }
 
 body.dark .viewLog-container .testList .item .line.detail > t {
