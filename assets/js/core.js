@@ -392,7 +392,7 @@ const core = {
                     <div class="h">
                         <div class="l">
                             <t class="t">${item.lastmodify}</t>
-                            <t class="n">${item.problem}</t>
+                            <t class="n">${item.problemName || item.problem}</t>
                         </div>
                         <div class="r">
                             <t class="s">Đang chấm</t>
@@ -409,7 +409,7 @@ const core = {
                     <div class="h">
                         <div class="l">
                             <t class="t">${item.lastmodify}</t>
-                            <t class="n">${item.problem}</t>
+                            <t class="n">${item.problemName || item.problem}</t>
                         </div>
                         <div class="r">
                             <t class="s">Đang chờ</t>
@@ -426,10 +426,10 @@ const core = {
                     <div class="h">
                         <div class="l">
                             <t class="t">${item.lastmodify}</t>
-                            <t class="n">${item.problem}</t>
+                            <t class="n">${item.problemName || item.problem}</t>
                         </div>
                         <div class="r">
-                            <t class="s">${item.point ? `${item.point} điểm` : core.taskStatus[item.status]}</t>
+                            <t class="s">${item.point ? ((item.problemPoint) ? `${item.point}/${item.problemPoint} điểm` : `${item.point} điểm`) : core.taskStatus[item.status]}</t>
                             <t class="l">${this.languages[item.extension] || item.extension}</t>
                         </div>
                     </div>
@@ -483,7 +483,7 @@ const core = {
         `
 
         for (let i of data.list)
-            out += `<th>${i}</th>`;
+            out += `<th>${data.nameList[i] || i}</th>`;
 
         out += "</tr></thead><tbody>";
         let ptotal = 0;
