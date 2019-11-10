@@ -31,7 +31,7 @@
     $userid = $_SESSION["id"];
     apache_setenv("no-gzip", "1");
 
-    $file = utf8_encode(strtolower($_FILES["file"]["name"]));
+    $file = utf8_encode($_FILES["file"]["name"]);
     $filename = pathinfo($file, PATHINFO_FILENAME);
     $extension = pathinfo($file, PATHINFO_EXTENSION);
 
