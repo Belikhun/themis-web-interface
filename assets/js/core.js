@@ -1410,6 +1410,19 @@ const core = {
         licensePanel: null,
         licenseIframe: null,
 
+        updateDelayOptions: {
+            1: 500,
+            2: 1000,
+            3: 2000,
+            4: 10000,
+            5: 60000,
+            6: 120000,
+            7: 240000,
+            8: 300000,
+            9: 600000,
+            10: 3600000
+        },
+
         __hideAllPanel() {
             var l = this.panelContainer.getElementsByClassName("show");
 
@@ -1533,7 +1546,8 @@ const core = {
 
             // Update delay setting
             this.updateDelaySlider.addEventListener("input", e => {
-                let value = parseInt(e.target.value);
+                let _o = parseInt(e.target.value);
+                let value = this.updateDelayOptions[_o] || 2000;
 
                 this.updateDelayText.innerText = `${value / 1000} giây/yêu cầu`;
 
@@ -1544,7 +1558,8 @@ const core = {
             })
             
             this.updateDelaySlider.addEventListener("change", e => {
-                let value = parseInt(e.target.value);
+                let _o = parseInt(e.target.value);
+                let value = this.updateDelayOptions[_o] || 2000;
 
                 this.updateDelayText.innerText = `${value / 1000} giây/yêu cầu`;
 
@@ -1553,13 +1568,13 @@ const core = {
                 else
                     e.target.classList.remove("pink") || e.target.classList.add("blue");
 
-                cookie.set("__updateDelay", value);
+                cookie.set("__updateDelay", this.updateDelayOptions[_o] ? _o : 2);
                 core.updateDelay = value;
 
                 clog("OKAY", "Set updateDelay to", `${value} ms/request`);
             })
 
-            this.updateDelaySlider.value = parseInt(cookie.get("__updateDelay", 2000));
+            this.updateDelaySlider.value = parseInt(cookie.get("__updateDelay", 2));
             this.updateDelaySlider.dispatchEvent(new Event("change"));
 
             // If not logged in, Stop here
