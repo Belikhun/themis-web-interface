@@ -523,7 +523,7 @@
                                 <form id="problemEdit_form" class="problem" action="javascript:void(0);" autocomplete="off">
                                     <div class="formGroup blue">
                                         <input id="problemEdit_id" type="text" class="formField sound" placeholder="Tên Tệp" data-soundselectsoft required>
-                                        <label for="problemEdit_id">Tên Tệp</label>
+                                        <label for="problemEdit_id">Mã Đề</label>
                                     </div>
                                     <div class="formGroup blue">
                                         <input id="problemEdit_name" type="text" class="formField sound" placeholder="Tên Bài" data-soundselectsoft required>
