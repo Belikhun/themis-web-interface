@@ -649,10 +649,9 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     position: relative;
     display: block;
     width: 100%;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 500;
     text-align: center;
-    text-transform: uppercase;
     color: rgb(93, 93, 93);
 }
 
