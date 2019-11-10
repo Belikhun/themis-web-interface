@@ -1282,7 +1282,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 }
 
 #problemp .problem-container .problem-list li.item:hover {
-    background-color: rgba(202, 202, 202, 0.1);
+    background-color: rgba(124, 124, 124, 0.1);
 }
 
 #problemp .problem-container .problem-list li.item:after {
