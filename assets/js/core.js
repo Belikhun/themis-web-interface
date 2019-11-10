@@ -106,6 +106,7 @@ const core = {
     previousRankHash: "",
     updateDelay: 2000,
     initialized: false,
+    enableAutoUpdate: true,
     __logTimeout: null,
     __rankTimeout: null,
 
@@ -333,7 +334,7 @@ const core = {
         var timer = new stopClock();
         
         try {
-            if (this.initialized)
+            if (this.initialized && this.enableAutoUpdate)
                 await this.fetchLog(bypass, clearJudging);
         } catch(e) {
             clog("ERRR", e);
@@ -347,7 +348,7 @@ const core = {
         var timer = new stopClock();
 
         try {
-            if (this.initialized)
+            if (this.initialized && this.enableAutoUpdate)
                 await this.fetchRank();
         } catch(e) {
             clog("ERRR", e);
@@ -391,7 +392,7 @@ const core = {
                     <div class="h">
                         <div class="l">
                             <t class="t">${item.lastmodify}</t>
-                            <t class="n">${item.problem}</t>
+                            <t class="n">${item.problemName || item.problem}</t>
                         </div>
                         <div class="r">
                             <t class="s">Đang chấm</t>
@@ -408,7 +409,7 @@ const core = {
                     <div class="h">
                         <div class="l">
                             <t class="t">${item.lastmodify}</t>
-                            <t class="n">${item.problem}</t>
+                            <t class="n">${item.problemName || item.problem}</t>
                         </div>
                         <div class="r">
                             <t class="s">Đang chờ</t>
@@ -425,10 +426,10 @@ const core = {
                     <div class="h">
                         <div class="l">
                             <t class="t">${item.lastmodify}</t>
-                            <t class="n">${item.problem}</t>
+                            <t class="n">${item.problemName || item.problem}</t>
                         </div>
                         <div class="r">
-                            <t class="s">${item.point ? `${item.point} điểm` : core.taskStatus[item.status]}</t>
+                            <t class="s">${item.point ? ((item.problemPoint) ? `${item.point}/${item.problemPoint} điểm` : `${item.point} điểm`) : core.taskStatus[item.status]}</t>
                             <t class="l">${this.languages[item.extension] || item.extension}</t>
                         </div>
                     </div>
@@ -482,7 +483,7 @@ const core = {
         `
 
         for (let i of data.list)
-            out += `<th>${i}</th>`;
+            out += `<th>${data.nameList[i] || i}</th>`;
 
         out += "</tr></thead><tbody>";
         let ptotal = 0;
@@ -1398,6 +1399,7 @@ const core = {
         transitionToggler: $("#usett_transition"),
         millisecondToggler: $("#usett_millisecond"),
         dialogProblemToggler: $("#usett_dialogProblem"),
+        autoUpdateToggler: $("#usett_enableAutoUpdate"),
         updateDelaySlider: $("#usett_udelay_slider"),
         updateDelayText: $("#usett_udelay_text"),
         toggler: $("#usett_toggler"),
@@ -1409,6 +1411,19 @@ const core = {
         aboutPanel: null,
         licensePanel: null,
         licenseIframe: null,
+
+        updateDelayOptions: {
+            1: 500,
+            2: 1000,
+            3: 2000,
+            4: 10000,
+            5: 60000,
+            6: 120000,
+            7: 240000,
+            8: 300000,
+            9: 600000,
+            10: 3600000
+        },
 
         __hideAllPanel() {
             var l = this.panelContainer.getElementsByClassName("show");
@@ -1531,9 +1546,23 @@ const core = {
                 false
             )
 
+            // auto update rank and logs setting
+            let autoUpdate = new this.toggleSwitch(this.autoUpdateToggler, "__autoupdate",
+                e => {
+                    this.updateDelaySlider.disabled = false;
+                    core.enableAutoUpdate = true;
+                },
+                e => {
+                    this.updateDelaySlider.disabled = true;
+                    core.enableAutoUpdate = false;
+                },
+                true
+            )
+
             // Update delay setting
             this.updateDelaySlider.addEventListener("input", e => {
-                let value = parseInt(e.target.value);
+                let _o = parseInt(e.target.value);
+                let value = this.updateDelayOptions[_o] || 2000;
 
                 this.updateDelayText.innerText = `${value / 1000} giây/yêu cầu`;
 
@@ -1544,7 +1573,8 @@ const core = {
             })
             
             this.updateDelaySlider.addEventListener("change", e => {
-                let value = parseInt(e.target.value);
+                let _o = parseInt(e.target.value);
+                let value = this.updateDelayOptions[_o] || 2000;
 
                 this.updateDelayText.innerText = `${value / 1000} giây/yêu cầu`;
 
@@ -1553,13 +1583,13 @@ const core = {
                 else
                     e.target.classList.remove("pink") || e.target.classList.add("blue");
 
-                cookie.set("__updateDelay", value);
+                cookie.set("__updateDelay", this.updateDelayOptions[_o] ? _o : 2);
                 core.updateDelay = value;
 
                 clog("OKAY", "Set updateDelay to", `${value} ms/request`);
             })
 
-            this.updateDelaySlider.value = parseInt(cookie.get("__updateDelay", 2000));
+            this.updateDelaySlider.value = parseInt(cookie.get("__updateDelay", 2));
             this.updateDelaySlider.dispatchEvent(new Event("change"));
 
             // If not logged in, Stop here

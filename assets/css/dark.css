@@ -280,7 +280,7 @@ body.dark #logp .logItemContainer .logItem .d:hover {
 }
 
 body.dark #logp .logItemContainer .logItem.queue .h .l .n {
-    color: #ca92ff;
+    color: #bc75fd;
 }
 
 body.dark #logp .logItemContainer .logItem.judging .h .l .n {
@@ -296,19 +296,19 @@ body.dark #logp .logItemContainer .logItem.scored .h .l .n {
 }
 
 body.dark #logp .logItemContainer .logItem.correct .h .l .n {
-    color: #1edf4e;
+    color: #36f666;
 }
 
 body.dark #logp .logItemContainer .logItem.passed .h .l .n {
-    color: #1fc5e2;
+    color: #2bd1ee;
 }
 
 body.dark #logp .logItemContainer .logItem.accepted .h .l .n {
-    color: #dfd029;
+    color: #eedf3c;
 }
 
 body.dark #logp .logItemContainer .logItem.failed .h .l .n {
-    color: #f66f6f;
+    color: #fe8f8f;
 }
 
 /* userSettings */
@@ -519,11 +519,11 @@ body.dark .viewLog-container .testList {
 }
 
 body.dark .viewLog-container .testList .item {
-    background-color: rgb(60, 60, 60);
+    background-color: rgb(48, 48, 48);
 }
 
 body.dark .viewLog-container .testList .item:hover {
-    background-color: rgb(68, 68, 68);
+    background-color: rgb(60, 60, 60);
 }
 
 body.dark .viewLog-container .testList .item .line.detail > t {

@@ -126,7 +126,7 @@
 
             //! this is weird. soo weird
             $data["user"] = trim($l1matches[0][1], "﻿");
-            $data["problem"] = strtolower($l1matches[0][2]);
+            $data["problem"] = $l1matches[0][2];
             $problemData = problemGet($data["problem"]);
             
             if ($problemData !== PROBLEM_ERROR_IDREJECT) {
@@ -138,7 +138,7 @@
             }
 
             if (isset($file[1])) {
-                $problemFileInfo = pathinfo(strtolower($file[1]));
+                $problemFileInfo = pathinfo($file[1]);
                 $data["file"]["base"] = $problemFileInfo["filename"];
                 $data["file"]["name"] = $problemFileInfo["basename"];
                 $data["file"]["extension"] = $problemFileInfo["extension"];
@@ -235,15 +235,27 @@
         $name = basename($path);
 
         $parse = [];
-        if (preg_match_all("/(.+)\[(.+)\]\[(.+)\]\.([^\.]+)\.?(log)?/m", $name, $parse, PREG_SET_ORDER, 0))
+        if (preg_match_all("/(.+)\[(.+)\]\[(.+)\]\.([^\.]+)\.?(log)?/m", $name, $parse, PREG_SET_ORDER, 0)) {
+            $problemData = problemGet($parse[0][3]);
+            $problemName = null;
+            $problemPoint = null;
+            
+            if ($problemData !== PROBLEM_ERROR_IDREJECT) {
+                $problemName = $problemData["name"];
+                $problemPoint = $problemData["point"];
+            }
+
             return Array(
                 "id" => $parse[0][1],
                 "user" => $parse[0][2],
                 "problem" => $parse[0][3],
+                "problemName" => $problemName,
+                "problemPoint" => $problemPoint,
                 "extension" => $parse[0][4],
                 "name" => $parse[0][3] .".". $parse[0][4],
                 "isLogFile" => isset($parse[0][5])
             );
+        }
 
         return false;
     }

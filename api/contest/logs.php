@@ -17,6 +17,7 @@
 		stop(11, "Bạn chưa đăng nhập.", 403);
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logParser.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
 	$username = $_SESSION["username"];
 	$updir = glob($config["uploadDir"] ."/*.*");
 	$queues = Array();
@@ -31,6 +32,8 @@
 
 		array_push($queues, Array(
 			"problem" => $data["problem"],
+			"problemName" => $data["problemName"],
+			"problemPoint" => $data["problemPoint"],
 			"extension" => $data["extension"],
 			"lastmodify" => $lastm
 		));
@@ -50,18 +53,20 @@
 		
 		foreach($lqfs as $i => $item)
 			if (!in_array($item, $queueFiles)) {
-				$p = parseLogName($item);
+				$data = parseLogName($item);
 
 				// find and remove old log file
 				$loglist = glob($config["logDir"] ."/*.*");
 				foreach ($loglist as $log)
-					if (strpos($log, $p["problem"]) > 0 && (strpos($log, $username) > 0))
+					if (strpos($log, $data["problem"]) > 0 && (strpos($log, $username) > 0))
 						unlink($log);
 
 				array_push($judging, Array(
-					"problem" => $p["problem"],
-					"name" => $p["name"],
-					"extension" => $p["extension"],
+					"problem" => $data["problem"],
+					"problemName" => $data["problemName"],
+					"problemPoint" => $data["problemPoint"],
+					"name" => $data["name"],
+					"extension" => $data["extension"],
 					"lastmodify" => date("d/m/Y H:i:s"),
 					"lastmtime" => time(),
 				));
@@ -99,6 +104,8 @@
 		array_push($logres, Array(
 			"status" => $data["status"],
 			"problem" => $data["problem"],
+			"problemName" => $data["problemName"],
+			"problemPoint" => $data["problemPoint"],
 			"extension" => $data["file"]["extension"],
 			"point" => $data["point"],
 			"lastmodify" => $lastm,

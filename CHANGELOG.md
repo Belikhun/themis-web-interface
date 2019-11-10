@@ -1,6 +1,7 @@
 # Change Logs
 
-- [Thay đổi trong v0.5.2](#thay-đổi-trong-v051)
+- [Thay đổi trong v0.5.3](#thay-đổi-trong-v053)
+	- [Thay đổi trong v0.5.2](#thay-đổi-trong-v052)
 	- [Thay đổi trong v0.5.1](#thay-đổi-trong-v051)
 	- [Thay đổi trong v0.5.0](#thay-đổi-trong-v050)
 	- [Thay đổi trong v0.4.6](#thay-đổi-trong-v046)
@@ -26,7 +27,18 @@
 
 ---
 
-## Thay đổi trong v0.5.2
+## Thay đổi trong v0.5.3
+
+* **Bug:** Sửa lỗi font **Exo** không được tải (#31)
+* **Thêm:** Thêm cài đặt: **Tự động cập nhật Xếp Hạng và Nhật Ký** (#32)
+* **Thay đổi:** Hiển thị tên đề bài thay vì mã đề bài nếu có thể (2806eb0993d3a1c6c98db86da3af629607e3c430)
+* **Thay đổi:** Lọc mã đề bài: Chỉ cho phép các kí tự (a-z A-Z) và số (0-9) (8e72ce23229d63696358ccc18b5e0a3e196a4cac)
+* **Thay đổi:** Tăng giới hạn của cài đặt **Thời gian làm mới** (#32)
+* **Thay đổi:** Cache các tài nguyên tĩnh (`sounds`, `fonts` và `img`) với thời hạn *1 tuần* (#32)
+* **Thay đổi:** Loại bỏ *chuyển thành chữ thường* tại một số api (4458efc20fdbda895a3c70ec38631527c0437dd3, eb94135e3b452c23d6c30873f37dd6ea0636d23c, 1b80b01feb5eb050904d94888e828ce17238da1f)
+* Sửa một số lỗi khác và thêm một số chức năng nhỏ
+
+### Thay đổi trong v0.5.2
 
 * **Chỉnh sửa:** Đính dòng đầu tiên của bảng xếp hạng ở phía trên để dễ dàng đọc hơn
 * **Chỉnh sửa:** Thêm ratelimit cho trang `public`

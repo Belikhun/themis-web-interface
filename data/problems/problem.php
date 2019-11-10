@@ -11,7 +11,7 @@
     $problemList = Array();
 
     foreach(glob(PROBLEM_DIR ."/*", GLOB_ONLYDIR) as $i => $path) {
-        $data = json_decode((new fip($path."/data.json")) -> read(), true);
+        $data = json_decode((new fip($path ."/data.json")) -> read(), true);
         $problemList[basename($path)] = $data;
     }
 

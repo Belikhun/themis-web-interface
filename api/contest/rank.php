@@ -37,6 +37,7 @@
     $logDir = glob($config["logDir"] ."/*.log");
     $res = Array();
     $list = Array();
+    $nameList = Array();
 
     foreach ($logDir as $i => $log) {
         $data = ((new logParser($log, LOGPARSER_MODE_MINIMAL)) -> parse())["header"];
@@ -48,6 +49,9 @@
             $res[$user]["status"][$data["problem"]] = $data["status"];
             $res[$user]["point"][$data["problem"]] = $data["point"];
             $res[$user]["logFile"][$data["problem"]] = ($config["viewLog"] === true || $_SESSION["id"] === "admin") ? $filename : null;
+
+            if ($data["problemName"])
+                $nameList[$data["problem"]] = $data["problemName"];
         }
 
         $res[$user]["username"] = $user;
@@ -75,5 +79,6 @@
     
     stop(0, "Thành công!", 200, $returnData = Array (
         "list" => $list,
+        "nameList" => $nameList,
         "rank" => $res
     ), true);

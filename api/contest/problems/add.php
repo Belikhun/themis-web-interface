@@ -23,7 +23,7 @@
 
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
 
-    $id = preg_replace("/[.\/\\\\]/m", "", reqForm("id"));
+    $id = preg_replace("/[^a-zA-Z0-9]/m", "", reqForm("id"));
     
     $name = reqForm("name");
     $point = reqForm("point");

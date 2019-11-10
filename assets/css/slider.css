@@ -7,7 +7,7 @@
 ? |-----------------------------------------------------------------------------------------------|
 */
 
-input[type=range].sq-slider {
+input.sq-slider[type=range] {
     position: relative;
     width: 40px;
     height: 2px;
@@ -19,7 +19,7 @@ input[type=range].sq-slider {
     -moz-appearance: none;
 }
 
-input[type=range].sq-slider::-webkit-slider-thumb {
+input.sq-slider[type=range]::-webkit-slider-thumb {
     width: 14px;
     height: 14px;
     border-radius: 50%;
@@ -30,44 +30,53 @@ input[type=range].sq-slider::-webkit-slider-thumb {
     -moz-appearance: none;
 }
 
-input[type=range].sq-slider:hover {
+input.sq-slider[type=range]:hover {
     background-color: rgba(255, 102, 171, 0.8);
 }
 
-input[type=range].sq-slider:hover::-webkit-slider-thumb {
+input.sq-slider[type=range]:hover::-webkit-slider-thumb {
     background-color: rgb(255, 194, 214);
 }
 
-input[type=range].sq-slider:active {
+input.sq-slider[type=range]:active {
     background-color: rgba(235, 91, 156, 0.8);
 }
 
-input[type=range].sq-slider:active::-webkit-slider-thumb {
+input.sq-slider[type=range]:active::-webkit-slider-thumb {
     background-color: rgb(233, 139, 170);
+}
+
+input.sq-slider[type=range]:disabled {
+    filter: brightness(0.6);
+    cursor: not-allowed;
+}
+
+input.sq-slider[type=range]:disabled::-webkit-slider-thumb {
+    cursor: not-allowed;
 }
 
 /* Blue */
 
-input[type=range].sq-slider.blue {
+input.sq-slider[type=range].blue {
     background-color: rgba(68, 170, 221, 0.6);
 }
 
-input[type=range].sq-slider.blue::-webkit-slider-thumb {
+input.sq-slider[type=range].blue::-webkit-slider-thumb {
     background-color: rgb(68, 170, 221);
 }
 
-input[type=range].sq-slider.blue:hover {
+input.sq-slider[type=range].blue:hover {
     background-color: rgba(68, 170, 221, 0.8);
 }
 
-input[type=range].sq-slider.blue:hover::-webkit-slider-thumb {
+input.sq-slider[type=range].blue:hover::-webkit-slider-thumb {
     background-color: rgb(160, 220, 250);
 }
 
-input[type=range].sq-slider.blue:active {
+input.sq-slider[type=range].blue:active {
     background-color: rgba(50, 145, 192, 0.8);
 }
 
-input[type=range].sq-slider.blue:active::-webkit-slider-thumb {
+input.sq-slider[type=range].blue:active::-webkit-slider-thumb {
     background-color: rgb(65, 167, 218);
 }

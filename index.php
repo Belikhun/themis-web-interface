@@ -93,6 +93,7 @@
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/dark.css?v=<?php print VERSION; ?>" />
         <!-- Fonts -->
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/exo.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/material-font.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/consolas.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome.css?v=<?php print VERSION; ?>" />
@@ -418,12 +419,20 @@
                             </label>
                         </div>
 
+                        <div class="item lr sound" data-soundhoversoft>
+                            <t class="left">Tự động cập nhật Xếp Hạng và Nhật Ký</t>
+                            <label class="sq-checkbox pink right">
+                                <input id="usett_enableAutoUpdate" type="checkbox" class="sound" data-soundcheck>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+
                         <div class="item sound" data-soundhoversoft>
                             <div class="lr">
                                 <t class="left">Thời gian làm mới</t>
                                 <t id="usett_udelay_text" class="right">0000 ms/request</t>
                             </div>
-                            <input type="range" id="usett_udelay_slider" class="sq-slider blue sound" data-soundselectsoft data-soundchange min="500" max="10000" step="100">
+                            <input type="range" id="usett_udelay_slider" class="sq-slider blue sound" data-soundselectsoft data-soundchange min="1" max="10" step="1">
                         </div>
                         <t class="item lr warning sound" data-soundhoversoft>
                             <t class="left"><b>Lưu Ý: </b>Đặt thời gian làm mới quá nhỏ sẽ khiến bạn dễ dàng bị phạt <i>(cụ thể là bị ratelimited)</i> trong một khoảng thời gian nhất định.</t>
@@ -514,7 +523,7 @@
                                 <form id="problemEdit_form" class="problem" action="javascript:void(0);" autocomplete="off">
                                     <div class="formGroup blue">
                                         <input id="problemEdit_id" type="text" class="formField sound" placeholder="Tên Tệp" data-soundselectsoft required>
-                                        <label for="problemEdit_id">Tên Tệp</label>
+                                        <label for="problemEdit_id">Mã Đề</label>
                                     </div>
                                     <div class="formGroup blue">
                                         <input id="problemEdit_name" type="text" class="formField sound" placeholder="Tên Bài" data-soundselectsoft required>

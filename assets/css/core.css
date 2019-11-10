@@ -649,10 +649,9 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     position: relative;
     display: block;
     width: 100%;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 500;
     text-align: center;
-    text-transform: uppercase;
     color: rgb(93, 93, 93);
 }
 
@@ -1282,7 +1281,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 }
 
 #problemp .problem-container .problem-list li.item:hover {
-    background-color: rgba(202, 202, 202, 0.1);
+    background-color: rgba(124, 124, 124, 0.1);
 }
 
 #problemp .problem-container .problem-list li.item:after {
@@ -1534,7 +1533,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 #rankp div.ranking-container table tbody tr[data-rank="3"] td:nth-child(3) .name {
     font-weight: bolder;
     font-family: Exo;
-    font-size: 13px;
+    font-size: 14px;
     letter-spacing: .2px;
     color: rgb(65, 65, 65);
 }
@@ -1545,12 +1544,17 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     background-color: #fafafa;
     border-bottom: 1px solid #9b9b9b;
     color: rgb(82, 82, 82);
+    font-family: Segoe UI;
+    font-size: 13px;
     z-index: 1;
 }
 
 #rankp div.ranking-container table tr th,
 #rankp div.ranking-container table tr td {
     padding: 10px 12px;
+}
+
+#rankp div.ranking-container table tr td {
     font-size: 13px;
 }
 
