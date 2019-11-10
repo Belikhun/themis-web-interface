@@ -126,7 +126,7 @@
 
             //! this is weird. soo weird
             $data["user"] = trim($l1matches[0][1], "﻿");
-            $data["problem"] = strtolower($l1matches[0][2]);
+            $data["problem"] = $l1matches[0][2];
             $problemData = problemGet($data["problem"]);
             
             if ($problemData !== PROBLEM_ERROR_IDREJECT) {
