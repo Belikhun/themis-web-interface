@@ -109,14 +109,14 @@ class statusBar {
         
         this.center.innerHTML = "";
         type = type.toLowerCase();
-        const typelist = ["info", "okay", "warn", "errr", "crit", "lcnt"]
+        const typeList = ["info", "okay", "warn", "errr", "crit", "lcnt"]
 
         if (!lock)
             this.__hidetimeout = setTimeout(() => {
                 this.msg(false);
             }, 6000);
 
-        if (typelist.indexOf(type) !== -1) {
+        if (typeList.indexOf(type) !== -1) {
             this.__lasttype = type;
             this.bar.classList.add(type);
         }

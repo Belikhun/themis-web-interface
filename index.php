@@ -877,8 +877,8 @@
 
             document.__onclog = (type, ts, msg) => {
                 type = type.toLowerCase();
-                const typelist = ["okay", "warn", "errr", "crit", "lcnt"]
-                if (typelist.indexOf(type) === -1)
+                const typeList = ["okay", "warn", "errr", "crit", "lcnt"]
+                if (typeList.indexOf(type) === -1)
                     return false;
 
                 if (type === "errr")

@@ -31,7 +31,7 @@ function myajax({
             let errorObj = {}
             switch (__connection__.onlineState) {
                 case "offline":
-                    errorObj = { code: 106, description: "Disconnected to Server" }
+                    errorObj = { code: 106, description: "Mất kết nối tới máy chủ" }
                     break;
                 case "ratelimited":
                     errorObj = { code: 32, description: "Rate Limited" }
@@ -63,7 +63,7 @@ function myajax({
                     if (changeState === true)
                         __connection__.stateChange("offline");
                         
-                    let errorObj = { code: 106, description: "Disconnected to Server" };
+                    let errorObj = { code: 106, description: "Mất kết nối tới máy chủ" };
                     reject(errorObj);
                     error(errorObj);
 
@@ -93,9 +93,9 @@ function myajax({
                     try {
                         var res = JSON.parse(this.responseText);
                     } catch (data) {
-                        clog("errr", "Error parsing JSON.");
+                        clog("errr", "Lỗi phân tích JSON");
 
-                        let errorObj = { code: 2, description: `Error parsing JSON`, data: data }
+                        let errorObj = { code: 2, description: `Lỗi phân tích JSON`, data: data }
                         error(errorObj);
                         reject(errorObj);
 
@@ -737,18 +737,20 @@ function clog(level, ...args) {
     ]
 
     text = text.concat(args);
+    var n = 2;
     var out = new Array();
     out[0] = "%c";
     out[1] = "padding-left: 10px";
-    var n = 2;
     // i | 1   2   3   4   5     6
     // j | 0   1   2   3   4     5
     // n | 1 2 3 4 5 6 7 8 9 10 11
 
-    for (var i = 1; i <= text.length; i++) {
+    for (let i = 1; i <= text.length; i++) {
         item = text[i-1];
         if (typeof item === "string" || typeof item === "number") {
-            if (i > 4) str += `${item} `;
+            if (i > 4)
+                str += `${item} `;
+
             out[0] += `%c${item} `;
             out[n] = `font-size: ${size}px; font-family: ${font}; color: ${flatc("black")}`;
             n += 1;
@@ -757,11 +759,18 @@ function clog(level, ...args) {
                 out[n] = item;
                 n += 1;
 
+                if (item.code && item.description)
+                    str += `[${item.code}] ${item.description} `;
+                else
+                    str += JSON.stringify(item) + " ";
+
                 continue;
             }
 
-            var t = pleft(item.text, ((item.padding) ? item.padding : 0));
-            if (i > 4) str += t + " ";
+            let t = pleft(item.text, ((item.padding) ? item.padding : 0));
+            if (i > 4)
+                str += `${t} `;
+
             out[0] += `%c${t}`;
             
             if (item.seperate) {
