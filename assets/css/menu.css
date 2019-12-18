@@ -220,7 +220,7 @@ body.embeded .menu {
 .menu .group .item.lr .left,
 .menu .group .item .lr .left {
     flex-grow: 1;
-    margin-right: 10px;
+    margin: 0 10px 0 0;
 }
 
 .menu .group .item.lr .middle,
