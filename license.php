@@ -268,13 +268,13 @@ Creative Commons may be contacted at creativecommons.org
     </script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124598427-1"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<?php print TRACK_ID; ?>"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments) }
         gtag("js", new Date());
 
-        gtag("config", "UA-124598427-1");
+        gtag("config", `<?php print TRACK_ID; ?>`);
     </script>
 </body>
 
