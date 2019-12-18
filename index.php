@@ -460,7 +460,7 @@
                         <t class="title small">Cài đặt</t>
                         <div id="settings_cPanelToggler" class="item arr sound" data-soundhover>Admin Control Panel</div>
                         <div id="settings_accountEditorToggler" class="item arr sound" data-soundhover>Quản lý tài khoản</div>
-                        <div id="settings_problemToggler" class="item arr sound" data-soundhover>Chỉnh Sửa Test</div>
+                        <div id="settings_problemToggler" class="item arr sound" data-soundhover>Chỉnh Sửa Đề Bài</div>
                         <div id="settings_syslogsToggler" class="item arr sound" data-soundhover>Nhật Ký Hệ Thống</div>
                     </div>
 
