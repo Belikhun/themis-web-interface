@@ -295,10 +295,13 @@ panel .main .showEmpty:empty::after {
 }
 
 #dialogWrapper #dialogPanel .main .title {
-    font-size: 17px;
+    font-family: Exo;
+    font-size: 20px;
     font-weight: bold;
+    font-style: italic;
     text-align: center;
     text-transform: uppercase;
+    letter-spacing: .4px;
     color: #34495e;
 }
 
