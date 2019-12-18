@@ -42,7 +42,7 @@
     $image = isset($_FILES["img"]) ? $_FILES["img"] : null;
     $attachment = isset($_FILES["attm"]) ? $_FILES["attm"] : null;
 
-    // TODO: Add edit for inpType and outType
+    //! TD: Add edit for inpType and outType
     $code = problemEdit($id, Array(
         "name" => $name,
         "description" => $description,

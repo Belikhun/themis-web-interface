@@ -134,7 +134,7 @@ class splash {
                 return false;
 
             this.status.innerText = `${text} [${progress.toFixed(2)}%]`;
-            this.bar.style.width = `${50 + progress*0.5}%`;
+            this.bar.style.width = `${50 + progress*0.4}%`;
         }).catch(e => this.__panic(e));
 
         this.loaded = true;
