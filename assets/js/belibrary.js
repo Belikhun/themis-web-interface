@@ -340,17 +340,22 @@ function checkServer(ip, callback = () => {}) {
                     pon = {
                         code: -1,
                         description: `Server "${ip}" is Offline`,
+                        online: false,
                         address: ip
                     }
+
                     reject(pon);
                 } else {
                     pon = {
                         code: 0,
                         description: `Server "${ip}" is Online`,
+                        online: true,
                         address: ip
                     }
+
                     resolve(pon);
                 }
+                
                 callback(pon);
             }
         })
@@ -414,6 +419,8 @@ function liveTime(element, start = time(new Date()), { count = "up", prefix = ""
         if (!document.body.contains(element)) {
             clog("DEBG", "Live Time Element does not exist in document. Clearing...");
             clearInterval(updateInterval);
+            delete element;
+            delete updateInterval;
         }
 
         let t = 0;
