@@ -694,7 +694,7 @@
                             <span class="custom sound" data-soundhover data-soundselect></span>
                         </div>
                         <div class="main">
-                            <iframe class="cpanel-container" src="/license.php"></iframe>
+                            <iframe class="cpanel-container" src="/licenseInfo.php"></iframe>
                         </div>
                     </div>
                 </div>
