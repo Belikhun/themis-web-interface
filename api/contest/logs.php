@@ -93,7 +93,7 @@
 		$point = $data["point"];
 
 		foreach ($judging as $i => $item)
-			if ($item["name"] === $data["file"]["name"] && file_exists($log) && (int)$item["lastmtime"] < (int)filemtime($log))
+			if ($item["name"] === $data["file"]["name"] && file_exists($log))
 				array_splice($judging, $i, 1);
 
 		if ($config["publish"] !== true && $_SESSION["id"] !== "admin") {
