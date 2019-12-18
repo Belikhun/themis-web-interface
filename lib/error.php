@@ -186,13 +186,13 @@
     </div>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124598427-2"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<?php print TRACK_ID; ?>"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+        function gtag() { dataLayer.push(arguments) }
+        gtag("js", new Date());
 
-        gtag('config', 'UA-124598427-2');
+        gtag("config", `<?php print TRACK_ID; ?>`);
     </script>
 </body>
 

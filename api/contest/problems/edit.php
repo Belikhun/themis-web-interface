@@ -30,15 +30,24 @@
     $point = getForm("point");
     if (isset($point) && !is_numeric($point))
         $point = null;
+
+    $time = getForm("time");
+    if (isset($time) && !is_numeric($time))
+        $time = null;
+
+    $inpType = getForm("inpType");
+    $outType = getForm("outType");
     $accept = json_decode(getForm("acpt", Array()), true);
     $test = json_decode(getForm("test", Array()), true);
     $image = isset($_FILES["img"]) ? $_FILES["img"] : null;
     $attachment = isset($_FILES["attm"]) ? $_FILES["attm"] : null;
 
+    //! TD: Add edit for inpType and outType
     $code = problemEdit($id, Array(
         "name" => $name,
         "description" => $description,
         "point" => $point,
+        "time" => $time,
         "accept" => $accept,
         "test" => $test,
     ), $image, $attachment);

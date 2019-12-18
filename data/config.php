@@ -31,7 +31,8 @@
 			"name" => APPNAME,
 			"version" => VERSION,
 			"author" => AUTHOR,
-			"contestName" => $config["contest"]["name"]
+			"contestName" => $config["contest"]["name"],
+			"root" => $_SERVER["DOCUMENT_ROOT"]
 		);
 
 		foreach ($list as $key => $value)
@@ -43,6 +44,7 @@
 
 	applyCustomVar($config["contest"]["name"]);
 	applyCustomVar($config["contest"]["description"]);
+	applyCustomVar($config["uploadDir"]);
 	applyCustomVar($config["pageTitle"]);
 
 	function saveConfig(Array $config) {

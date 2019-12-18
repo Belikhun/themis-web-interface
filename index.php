@@ -460,7 +460,7 @@
                         <t class="title small">Cài đặt</t>
                         <div id="settings_cPanelToggler" class="item arr sound" data-soundhover>Admin Control Panel</div>
                         <div id="settings_accountEditorToggler" class="item arr sound" data-soundhover>Quản lý tài khoản</div>
-                        <div id="settings_problemToggler" class="item arr sound" data-soundhover>Chỉnh Sửa Test</div>
+                        <div id="settings_problemToggler" class="item arr sound" data-soundhover>Chỉnh Sửa Đề Bài</div>
                         <div id="settings_syslogsToggler" class="item arr sound" data-soundhover>Nhật Ký Hệ Thống</div>
                     </div>
 
@@ -694,7 +694,7 @@
                             <span class="custom sound" data-soundhover data-soundselect></span>
                         </div>
                         <div class="main">
-                            <iframe class="cpanel-container" src="/license.php"></iframe>
+                            <iframe class="cpanel-container" src="/licenseInfo.php"></iframe>
                         </div>
                     </div>
                 </div>
@@ -877,8 +877,8 @@
 
             document.__onclog = (type, ts, msg) => {
                 type = type.toLowerCase();
-                const typelist = ["okay", "warn", "errr", "crit", "lcnt"]
-                if (typelist.indexOf(type) === -1)
+                const typeList = ["okay", "warn", "errr", "crit", "lcnt"]
+                if (typeList.indexOf(type) === -1)
                     return false;
 
                 if (type === "errr")
@@ -904,13 +904,13 @@
         <script src="/assets/js/core.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
         
         <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124598427-1"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=<?php print TRACK_ID; ?>"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
             function gtag() { dataLayer.push(arguments) }
             gtag("js", new Date());
 
-            gtag("config", "UA-124598427-1", {
+            gtag("config", `<?php print TRACK_ID; ?>`, {
                 groups: "default",
                 custom_map: {
                     dimension1: "version",

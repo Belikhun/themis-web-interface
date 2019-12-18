@@ -33,7 +33,7 @@
 
     $file = utf8_encode($_FILES["file"]["name"]);
     $filename = pathinfo($file, PATHINFO_FILENAME);
-    $extension = pathinfo($file, PATHINFO_EXTENSION);
+    $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
 
     if ($config["submitInProblems"] === true) {
         require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
@@ -42,7 +42,8 @@
 
         if (!problemCheckExtension($filename, $extension))
             stop(43, "Không chấp nhận tệp!", 415);
-    }
+    } else
+        $filename = strtoupper($filename);
 
     if (!in_array($extension, UPLOAD_ALLOW))
         stop(43, "Không chấp nhận tệp!", 415, Array( "allow" => UPLOAD_ALLOW ));

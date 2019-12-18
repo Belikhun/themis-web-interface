@@ -31,7 +31,7 @@ function myajax({
             let errorObj = {}
             switch (__connection__.onlineState) {
                 case "offline":
-                    errorObj = { code: 106, description: "Disconnected to Server" }
+                    errorObj = { code: 106, description: "Mất kết nối tới máy chủ" }
                     break;
                 case "ratelimited":
                     errorObj = { code: 32, description: "Rate Limited" }
@@ -63,7 +63,7 @@ function myajax({
                     if (changeState === true)
                         __connection__.stateChange("offline");
                         
-                    let errorObj = { code: 106, description: "Disconnected to Server" };
+                    let errorObj = { code: 106, description: "Mất kết nối tới máy chủ" };
                     reject(errorObj);
                     error(errorObj);
 
@@ -93,9 +93,9 @@ function myajax({
                     try {
                         var res = JSON.parse(this.responseText);
                     } catch (data) {
-                        clog("errr", "Error parsing JSON.");
+                        clog("errr", "Lỗi phân tích JSON");
 
-                        let errorObj = { code: 2, description: `Error parsing JSON`, data: data }
+                        let errorObj = { code: 2, description: `Lỗi phân tích JSON`, data: data }
                         error(errorObj);
                         reject(errorObj);
 
@@ -340,17 +340,22 @@ function checkServer(ip, callback = () => {}) {
                     pon = {
                         code: -1,
                         description: `Server "${ip}" is Offline`,
+                        online: false,
                         address: ip
                     }
+
                     reject(pon);
                 } else {
                     pon = {
                         code: 0,
                         description: `Server "${ip}" is Online`,
+                        online: true,
                         address: ip
                     }
+
                     resolve(pon);
                 }
+
                 callback(pon);
             }
         })
@@ -414,6 +419,8 @@ function liveTime(element, start = time(new Date()), { count = "up", prefix = ""
         if (!document.body.contains(element)) {
             clog("DEBG", "Live Time Element does not exist in document. Clearing...");
             clearInterval(updateInterval);
+            delete element;
+            delete updateInterval;
         }
 
         let t = 0;
@@ -730,18 +737,20 @@ function clog(level, ...args) {
     ]
 
     text = text.concat(args);
+    var n = 2;
     var out = new Array();
     out[0] = "%c";
     out[1] = "padding-left: 10px";
-    var n = 2;
     // i | 1   2   3   4   5     6
     // j | 0   1   2   3   4     5
     // n | 1 2 3 4 5 6 7 8 9 10 11
 
-    for (var i = 1; i <= text.length; i++) {
+    for (let i = 1; i <= text.length; i++) {
         item = text[i-1];
         if (typeof item === "string" || typeof item === "number") {
-            if (i > 4) str += `${item} `;
+            if (i > 4)
+                str += `${item} `;
+
             out[0] += `%c${item} `;
             out[n] = `font-size: ${size}px; font-family: ${font}; color: ${flatc("black")}`;
             n += 1;
@@ -750,11 +759,18 @@ function clog(level, ...args) {
                 out[n] = item;
                 n += 1;
 
+                if (item.code && item.description)
+                    str += `[${item.code}] ${item.description} `;
+                else
+                    str += JSON.stringify(item) + " ";
+
                 continue;
             }
 
-            var t = pleft(item.text, ((item.padding) ? item.padding : 0));
-            if (i > 4) str += t + " ";
+            let t = pleft(item.text, ((item.padding) ? item.padding : 0));
+            if (i > 4)
+                str += `${t} `;
+
             out[0] += `%c${t}`;
             
             if (item.seperate) {
@@ -823,6 +839,7 @@ window.addEventListener("error", e => {
 // })
 
 __connection__ = {
+    enabled: true,
     onlineState: "online",
     checkEvery: 2000,
     checkInterval: null,
@@ -835,6 +852,9 @@ __connection__ = {
 
     async stateChange(state = "online", data = {}) {
         return new Promise((resolve, reject) => {
+            if (!this.enabled)
+                resolve({ code: 0, description: "Module Disabled", data: { disabled: true } });
+
             const s = ["online", "offline", "ratelimited"];
             if (!typeof state === "string" || state === this.onlineState || s.indexOf(state) === -1) {
                 let t = {code: -1, description: `Unknown state or rejected: ${state}`}
@@ -860,32 +880,51 @@ __connection__ = {
                     break;
 
                 case "offline":
-                    let checkerer = () => {}
+                    let checkerHandler = () => {}
+                    let checkTimeout = null;
+                    var doCheck = true;
 
                     clog("lcnt", "Mất kết nối tới máy chủ.");
                     this.checkCount = 0;
                     this.__sbarItem = (typeof sbar !== "undefined") ? sbar.additem("Đang thử kết nối lại...", "spinner", {aligin: "right"}) : null;
 
-                    this.onDisconnected({
-                        onCount: (f) => checkerer = f
-                    });
+                    // Bind check handler
+                    this.onDisconnected({ onCount: (f) => checkerHandler = f });
 
-                    this.checkInterval = setInterval(() => {
+                    let checker = async () => {
                         this.checkCount++;
                         if (this.__sbarItem)
                             this.__sbarItem.change(`Đang thử kết nối lại... [Lần ${this.checkCount}]`);
                             
-                        checkerer(this.checkCount);
+                        checkerHandler(this.checkCount);
 
-                        checkServer(window.location.origin)
-                            .then((data) => {
-                                if (data.code === 0) {
-                                    this.stateChange("online");
-                                    checkerer("connected");
-                                    resolve();
-                                }
-                            });
-                    }, this.checkEvery);
+                        let data = await checkServer(window.location.origin);
+
+                        if (data.online) {
+                            doCheck = false;
+                            this.stateChange("online");
+                            checkerHandler("connected");
+                            resolve();
+                        }
+                    }
+
+                    let checkHandle = async () => {
+                        clearTimeout(checkTimeout);
+
+                        if (!doCheck)
+                            return;
+
+                        // Start time
+                        let timer = new stopClock();
+                        
+                        try {
+                            await checker();
+                        } catch(e) {}
+                        
+                        checkTimeout = setTimeout(() => checkHandle(), this.checkEvery - timer.stop * 1000);
+                    }
+
+                    checkHandle();
                     break;
 
                 case "ratelimited":
