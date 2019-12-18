@@ -355,7 +355,7 @@ function checkServer(ip, callback = () => {}) {
 
                     resolve(pon);
                 }
-                
+
                 callback(pon);
             }
         })
@@ -830,6 +830,7 @@ window.addEventListener("error", e => {
 // })
 
 __connection__ = {
+    enabled: true,
     onlineState: "online",
     checkEvery: 2000,
     checkInterval: null,
@@ -842,6 +843,9 @@ __connection__ = {
 
     async stateChange(state = "online", data = {}) {
         return new Promise((resolve, reject) => {
+            if (!this.enabled)
+                resolve({ code: 0, description: "Module Disabled", data: { disabled: true } });
+
             const s = ["online", "offline", "ratelimited"];
             if (!typeof state === "string" || state === this.onlineState || s.indexOf(state) === -1) {
                 let t = {code: -1, description: `Unknown state or rejected: ${state}`}
@@ -867,32 +871,51 @@ __connection__ = {
                     break;
 
                 case "offline":
-                    let checkerer = () => {}
+                    let checkerHandler = () => {}
+                    let checkTimeout = null;
+                    var doCheck = true;
 
                     clog("lcnt", "Mất kết nối tới máy chủ.");
                     this.checkCount = 0;
                     this.__sbarItem = (typeof sbar !== "undefined") ? sbar.additem("Đang thử kết nối lại...", "spinner", {aligin: "right"}) : null;
 
-                    this.onDisconnected({
-                        onCount: (f) => checkerer = f
-                    });
+                    // Bind check handler
+                    this.onDisconnected({ onCount: (f) => checkerHandler = f });
 
-                    this.checkInterval = setInterval(() => {
+                    let checker = async () => {
                         this.checkCount++;
                         if (this.__sbarItem)
                             this.__sbarItem.change(`Đang thử kết nối lại... [Lần ${this.checkCount}]`);
                             
-                        checkerer(this.checkCount);
+                        checkerHandler(this.checkCount);
 
-                        checkServer(window.location.origin)
-                            .then((data) => {
-                                if (data.code === 0) {
-                                    this.stateChange("online");
-                                    checkerer("connected");
-                                    resolve();
-                                }
-                            });
-                    }, this.checkEvery);
+                        let data = await checkServer(window.location.origin);
+
+                        if (data.online) {
+                            doCheck = false;
+                            this.stateChange("online");
+                            checkerHandler("connected");
+                            resolve();
+                        }
+                    }
+
+                    let checkHandle = async () => {
+                        clearTimeout(checkTimeout);
+
+                        if (!doCheck)
+                            return;
+
+                        // Start time
+                        let timer = new stopClock();
+                        
+                        try {
+                            await checker();
+                        } catch(e) {}
+                        
+                        checkTimeout = setTimeout(() => checkHandle(), this.checkEvery - timer.stop * 1000);
+                    }
+
+                    checkHandle();
                     break;
 
                 case "ratelimited":
