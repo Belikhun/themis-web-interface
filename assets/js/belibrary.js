@@ -25,6 +25,7 @@ function myajax({
     force = false,
     changeState = true,
     reRequest = true,
+    withCredentials = false,
 }, callout = () => {}, error = () => {}) {
     return new Promise((resolve, reject) => {
         if (__connection__.onlineState !== "online" && force === false) {
@@ -183,6 +184,9 @@ function myajax({
         })
         
         xhr.open(method, url);
+        xhr.withCredentials = withCredentials;
+        xhr.onreadystatechange = (e) => clog("DEBG", "XHR State Change", e);
+
         let sendData = formData;
 
         for (let key of Object.keys(header))
@@ -812,33 +816,137 @@ function clog(level, ...args) {
     }
 }
 
-if (typeof document.__onclog === "undefined")
-    document.__onclog = (lv, t, m) => {};
+const popup = {
+    tree: {},
+    popup: {},
+    popupNode: null,
 
-// Init
-sc = new stopClock();
-clog("info", "Log started at:", {
-    color: flatc("green"),
-    text: (new Date()).toString()
-})
+    levelTemplate: {
+        light: {
+            okay: { bg: "green", icon: "check", h: "dark", b: "light" },
+            warning: { bg: "yellow", icon: "exclamation", h: "dark", b: "light" },
+            error: { bg: "red", icon: "bomb", h: "light", b: "light" },
+            offline: { bg: "gray", icon: "unlink", h: "light", b: "light" },
+            confirm: { bg: "blue", icon: "question", h: "dark", b: "light" },
+            info: { bg: "purple", icon: "info", h: "light", b: "light" }
+        },
+        dark: {
+            okay: { bg: "darkGreen", icon: "check", h: "light", b: "dark" },
+            warning: { bg: "darkYellow", icon: "exclamation", h: "light", b: "dark" },
+            error: { bg: "darkRed", icon: "bomb", h: "light", b: "dark" },
+            offline: { bg: "gray", icon: "unlink", h: "light", b: "dark" },
+            confirm: { bg: "darkBlue", icon: "question", h: "light", b: "dark" },
+            info: { bg: "purple", icon: "info", h: "light", b: "dark" }
+        }
+    },
 
-// Error handling
+    init() {
+        const tree = [{type:"div",class:"popupWindow",name:"popup",list:[{type:"div",class:"header",name:"header",list:[{type:"span",class:"top",name:"top",list:[{type:"t",class:["windowTitle","text-overflow"],name:"windowTitle"},{type:"span",class:"close",name:"close"}]},{type:"span",class:"icon",name:"icon"},{type:"t",class:"text",name:"text"}]},{type:"div",class:"body",name:"body",list:[{type:"div",class:"top",name:"top",list:[{type:"t",class:"message",name:"message"},{type:"t",class:"description",name:"description"}]},{type:"div",class:"customNode",name:"customNode"},{type:"div",class:"buttonGroup",name:"button"}]}]}];
 
-window.addEventListener("error", e => {
-    clog("crit", {
-        color: flatc("red"),
-        text: e.message
-    }, "at", {
-        color: flatc("aqua"),
-        text: `${e.filename}:${e.lineno}:${e.colno}`
-    })
-})
+        this.tree = buildElementTree("div", "popupContainer", tree);
+        this.popupNode = this.tree.tree;
+        this.popup = this.tree.obj.popup;
+        document.body.insertBefore(this.popupNode, document.body.childNodes[0]);
 
-// window.addEventListener("unhandledrejection", (e) => {
-//      promise: e.promise; reason: e.reason
-// })
+        this.popup.header.top.close.dataset.soundhover = "";
+        this.popup.header.top.close.dataset.soundselect = "";
 
-__connection__ = {
+        if (typeof sounds !== "undefined")
+            sounds.applySound(this.popup.header.top.close);
+    },
+
+    show({
+        windowTitle = "Popup",
+        title = "Title",
+        message = "Message",
+		description = "Description",
+        level = "info",
+        icon = null,
+        bgColor = null,
+        headerTheme = null,
+        bodyTheme = null,
+		additionalNode = document.createElement("div"),
+		buttonList = {}
+	} = {}) {
+        return new Promise((resolve, reject) => {
+            this.popup.dataset.level = level;
+
+            //* THEME
+            let template = document.body.classList.contains("dark") ? this.levelTemplate.dark : this.levelTemplate.light;
+            
+            if (template[level])
+                template = template[level];
+            else
+                reject({ code: -1, description: `Unknown level: ${level}` })
+
+            triBg(this.popup.header, { color: (typeof bgColor === "string") ? bgColor : template.bg });
+            this.popup.header.icon.dataset.icon = (typeof icon === "string") ? icon : template.icon;
+            this.popup.header.setAttribute("theme", (typeof headerTheme === "string") ? headerTheme : template.h);
+            this.popup.body.setAttribute("theme", (typeof bodyTheme === "string") ? bodyTheme : template.b);
+
+            delete template;
+
+            //* HEADER
+            this.popup.header.top.windowTitle.innerText = windowTitle;
+            this.popup.header.text.innerText = title;
+
+            //* BODY
+            this.popup.body.top.message.innerText = message;
+            this.popup.body.top.description.innerHTML = description;
+
+            additionalNode.classList.add("customNode");
+            this.popup.body.replaceChild(additionalNode, this.popup.body.customNode);
+            this.popup.body.customNode = additionalNode;
+
+            //* BODY BUTTON
+
+            this.popup.header.top.close.onclick = () => {
+                resolve("close");
+                this.hide();
+            }
+
+            this.popup.body.button.innerHTML = "";
+            let buttonKeyList = Object.keys(buttonList);
+            if (buttonKeyList.length) {
+                for (let key of buttonKeyList) {
+                    let item = buttonList[key];
+                    let button = document.createElement("button");
+
+                    button.classList.add("sq-btn", item.color || "blue");
+                    button.innerText = item.text || "Text";
+                    button.onclick = item.onClick || null;
+                    button.returnValue = key;
+                    button.dataset.soundhover = "";
+                    button.dataset.soundselect = "";
+
+                    if (typeof sounds !== "undefined")
+                        sounds.applySound(button);
+
+                    if (!(typeof item.resolve === "boolean") || item.resolve !== false)
+                        button.addEventListener("mouseup", e => {
+                            resolve(e.target.returnValue);
+                            this.hide();
+                        });
+
+                        this.popup.body.button.appendChild(button);
+                }
+            }
+
+            this.popupNode.classList.add("show");
+
+            if (typeof sounds !== "undefined")
+                sounds.select();
+        })
+    },
+
+    hide() {
+        this.popupNode.classList.remove("show");
+        this.popup.header.removeChild(fcfn(this.popup.header, "triBgContainer"));
+        this.popup.body.button.innerHTML = "";
+    }
+}
+
+const __connection__ = {
     enabled: true,
     onlineState: "online",
     checkEvery: 2000,
@@ -967,3 +1075,31 @@ __connection__ = {
     }
 
 }
+
+//? =================
+//?    SCRIPT INIT
+
+if (typeof document.__onclog === "undefined")
+    document.__onclog = (lv, t, m) => {};
+
+var sc = new stopClock();
+clog("info", "Log started at:", {
+    color: flatc("green"),
+    text: (new Date()).toString()
+})
+
+// Error handling
+
+window.addEventListener("error", e => {
+    clog("crit", {
+        color: flatc("red"),
+        text: e.message
+    }, "at", {
+        color: flatc("aqua"),
+        text: `${e.filename}:${e.lineno}:${e.colno}`
+    })
+})
+
+// window.addEventListener("unhandledrejection", (e) => {
+//      promise: e.promise; reason: e.reason
+// })

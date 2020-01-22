@@ -143,7 +143,7 @@ const sounds = {
     },
 
     __soundToggle(sound) {
-        if (sound.readyState < 3 || !this.initialized)
+        if (!sound || sound.readyState < 3 || !this.initialized)
             return false;
 
         if (!sound.paused)

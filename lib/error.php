@@ -79,6 +79,10 @@
             $error = "URI Too Long";
             $description = "The URI provided was too long for the server to process.";
             break;
+        case 429:
+            $error = "Too Many Request";
+            $description = "Hey, you! Yes you. Why you spam here?";
+            break;
         case 500:
             $error = "Internal Server Error";
             $description = "the server did an oopsie";
@@ -176,8 +180,6 @@
                 <a href="/"><button class="sq-btn">Về Trang Chủ</button></a>
             </div>
         </div>
-
-
     </div>
 
     <div class="footer">

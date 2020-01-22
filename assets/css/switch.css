@@ -194,7 +194,8 @@
 }
 
 .sq-checkbox input:disabled ~ .checkmark {
-    filter: brightness(0.8)
+    filter: brightness(0.8);
+    cursor: not-allowed;
 }
 
 .sq-checkbox.pink .checkmark {
