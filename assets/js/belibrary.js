@@ -816,6 +816,9 @@ function clog(level, ...args) {
     }
 }
 
+/**
+ * Universal Popup, require default.css
+ */
 const popup = {
     tree: {},
     popup: {},
@@ -840,6 +843,10 @@ const popup = {
         }
     },
 
+    /**
+     * Universal Popup, require default.css
+     * Initialize Popup Element in Document
+     */
     init() {
         const tree = [{type:"div",class:"popupWindow",name:"popup",list:[{type:"div",class:"header",name:"header",list:[{type:"span",class:"top",name:"top",list:[{type:"t",class:["windowTitle","text-overflow"],name:"windowTitle"},{type:"span",class:"close",name:"close"}]},{type:"span",class:"icon",name:"icon"},{type:"t",class:"text",name:"text"}]},{type:"div",class:"body",name:"body",list:[{type:"div",class:"top",name:"top",list:[{type:"t",class:"message",name:"message"},{type:"t",class:"description",name:"description"}]},{type:"div",class:"customNode",name:"customNode"},{type:"div",class:"buttonGroup",name:"button"}]}]}];
 

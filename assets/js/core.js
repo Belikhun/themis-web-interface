@@ -134,8 +134,8 @@ const core = {
         clog("info", "Initializing...");
         var initTime = new stopClock();
 
-        set(0, "Initializing: core.dialog");
-        this.dialog.init();
+        set(0, "Initializing: popup");
+        popup.init();
 
         set(5, "Applying onRatelimited");
         __connection__.onRatelimited = async o => {
@@ -146,11 +146,11 @@ const core = {
                 clock.innerHTML = `${left}<span class="inner">giây còn lại</span>`;
 
                 if (left <= 0)
-                    core.dialog.hide();
+                    popup.hide();
             })
 
-            core.dialog.show({
-                panelTitle: "Rate Limited",
+            popup.show({
+                windowTitle: "Rate Limited",
                 title: "Oops",
                 description: `Bạn đã bị cấm yêu cầu tới máy chủ trong vòng <b>${parseInt(o.data.data.reset)} giây</b>!<br>Vui lòng chờ cho tới khi bạn hết bị cấm!`,
                 level: "warning",
@@ -168,13 +168,13 @@ const core = {
 
             o.onCount(tryNth => {
                 if (tryNth === "connected")
-                    core.dialog.hide();
+                    popup.hide();
 
                 retry.innerHTML = `Lần thử<span class="inner">${tryNth}</span>`;
             })
 
-            core.dialog.show({
-                panelTitle: "Disconnected",
+            popup.show({
+                windowTitle: "Disconnected",
                 title: "Oops",
                 description: `Bạn đã bị mất kết nối tới máy chủ!<br><b>Themis Web Interface</b> đang thử kết nối lại!`,
                 level: "error",
@@ -2126,8 +2126,8 @@ const core = {
                     text: id + "."
                 }, "Waiting for confirmation");
 
-                let confirm = await core.dialog.show({
-                    panelTitle: "Xác nhận",
+                let confirm = await popup.show({
+                    windowTitle: "Xác nhận",
                     title: `Xóa ${id}`,
                     description: `Bạn có chắc muốn xóa <i>${id}</i> không?<br>Hành động này <b>không thể hoàn tác</b> một khi đã thực hiện!`,
                     level: "warning",
@@ -2247,11 +2247,11 @@ const core = {
                     text: `${id}.`
                 }, "Waiting for confirmation...");
 
-                let action = await core.dialog.show({
-                    panelTitle: "Xác nhận",
+                let action = await popup.show({
+                    windowTitle: "Xác nhận",
                     title: `Xóa ${typeName} của đề "${id}"`,
                     description: `Bạn có chắc muốn xóa ${fileName ? `<br><b>${fileName}</b>` : "không"}?<br>Hành động này không thể hoàn tác một khi đã thực hiện!`,
-                    level: "warn",
+                    level: "warning",
                     buttonList: {
                         delete: { color: "pink", text: "XÓA!!!" },
                         cancel: { color: "blue", text: "Hủy" }
@@ -2305,87 +2305,6 @@ const core = {
             this.panel.elem.dataset.size = size;
             this.wrapper.classList.add("show");
             sounds.select();
-        },
-
-        hide() {
-            this.wrapper.classList.remove("show");
-        }
-    },
-
-    dialog: {
-        wrapper: $("#dialogWrapper"),
-        panel: new regPanel($("#dialogPanel")),
-        initialized: false,
-
-        init() {
-            this.panel.clo.onClick(() => this.hide());
-
-            this.initialized = true;
-            clog("okay", "Initialised:", {
-                color: flatc("red"),
-                text: "core.dialog"
-            });
-        },
-
-        show({
-            panelTitle = "Title",
-            title = "Title",
-            description = "Description",
-            level = "info",
-            additionalNode = null,
-            buttonList = {}
-        } = {}) {
-            return new Promise((resolve) => {
-                this.panel.title = panelTitle;
-                this.panel.main.dataset.level = level;
-                
-                let header = `
-                    <t class="title">${title}</t>
-                    <t class="description">${description}</t>
-                `
-                this.panel.main.innerHTML = header;
-                this.panel.clo.onClick(() => {
-                    resolve("close");
-                    this.hide();
-                });
-
-                if (additionalNode) {
-                    additionalNode.classList.add("additional");
-                    this.panel.main.appendChild(additionalNode);
-                }
-
-                let buttonKeyList = Object.keys(buttonList);
-                if (buttonKeyList.length) {
-                    let btnGroup = document.createElement("span");
-                    btnGroup.classList.add("buttonGroup");
-    
-                    for (let key of buttonKeyList) {
-                        let item = buttonList[key];
-                        let button = document.createElement("button");
-
-                        button.classList.add("sq-btn", item.color || "blue");
-                        button.innerText = item.text || "Text";
-                        button.onclick = item.onClick || null;
-                        button.returnValue = key;
-                        button.dataset.soundhover = "";
-                        button.dataset.soundselect = "";
-                        sounds.applySound(button);
-
-                        if (!(typeof item.resolve === "boolean") || item.resolve !== false)
-                            button.addEventListener("mouseup", e => {
-                                resolve(e.target.returnValue);
-                                this.hide();
-                            });
-
-                        btnGroup.appendChild(button);
-                    }
-    
-                    this.panel.main.appendChild(btnGroup);
-                }
-
-                this.wrapper.classList.add("show");
-                sounds.select();
-            })
         },
 
         hide() {

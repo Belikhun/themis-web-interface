@@ -93,6 +93,7 @@
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/dark.css?v=<?php print VERSION; ?>" />
         <!-- Fonts -->
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/opensans.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/exo.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/material-font.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/consolas.css?v=<?php print VERSION; ?>" />
@@ -709,19 +710,6 @@
                     <t class="le"></t>
                     <span class="ri">
                         <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
-                        <i class="material-icons clo sound" title="Đóng" data-soundhover data-soundselect>close</i>
-                    </span>
-                </div>
-                <div class="main">
-                </div>
-            </panel>
-        </div>
-
-        <div id="dialogWrapper">
-            <panel id="dialogPanel">
-                <div class="head">
-                    <t class="le"></t>
-                    <span class="ri">
                         <i class="material-icons clo sound" title="Đóng" data-soundhover data-soundselect>close</i>
                     </span>
                 </div>
