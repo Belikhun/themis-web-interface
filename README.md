@@ -279,7 +279,7 @@ Toàn bộ **Tài liệu** đều có ở trong [Wiki:API](https://github.com/be
 
 <img align="center" src="https://lh3.googleusercontent.com/VR_H_0ixqmQ69mIqTLVCwOH29hePvEnvyor0oWRB1Yz7aio-ovf-61WrJ2Nd9qZqqGxoqQ6gZ9WO62112bwHTzNvnhPPIOhU8RoNWAMq71cr7E4zHd8XA1UzPgNenu6hQQmjV99xPg=w2400">
 
-## Contribution
+## Contributing
 
 > **⚠ Before you dig into the sourcecode:**「Keep calm and read the code!」 This code is hard to read/understand. Maintain it is a nightmare. Soooo... i'm wordless now
 
