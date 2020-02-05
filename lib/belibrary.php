@@ -139,6 +139,7 @@
             "swf" => "application/x-shockwave-flash",
             "crx" => "application/x-chrome-extension",
             "flv" => "video/x-flv",
+            "log" => "text/x-log",
     
             // images
             "png" => "image/png",
@@ -233,8 +234,10 @@
 
         switch (strtoupper(PAGE_TYPE)) {
             case "NORMAL":
-                if (!headers_sent())
+                if (!headers_sent()) {
                     header("Output: [$code] $description");
+                    header("Output-Json: ". json_encode($output));
+                }
 
                 if ($HTTPStatus >= 300 || $code !== 0)
                     printErrorPage($output, headers_sent());

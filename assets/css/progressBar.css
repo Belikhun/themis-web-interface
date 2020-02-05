@@ -101,36 +101,54 @@
     background-color: #c0392b;
 }
 
+.progressBar > .bar[data-color="yellow"] {
+    background-color: #bbb823;
+}
+
+.progressBar > .bar[data-color="pink"] {
+    background-color: #eb36df;
+}
+
 /*? Dark */
 
-body.dark .progressBar,
+body.dark .progressBar:not(.light),
 .progressBar.dark {
     background-color: rgba(160, 160, 160, 0.2);
 }
 
-body.dark .progressBar > .bar,
+body.dark .progressBar:not(.light) > .bar,
 .progressBar.dark > .bar {
-    background-color: #21c2a2;
+    background-color: #4ff8d6;
 }
 
-body.dark .progressBar > .left,
-body.dark .progressBar > .right,
+body.dark .progressBar:not(.light) > .left,
+body.dark .progressBar:not(.light) > .right,
 .progressBar.dark > .left,
 .progressBar.dark > .right {
     color: rgba(218, 218, 218, 0.8);
 }
 
-body.dark .progressBar > .bar[data-color="blue"],
+body.dark .progressBar:not(.light) > .bar[data-color="blue"],
 .progressBar.dark > .bar[data-color="blue"] {
-    background-color: #44abf0;
+    background-color: #5fbfff;
 }
 
-body.dark .progressBar > .bar[data-color="green"],
+body.dark .progressBar:not(.light) > .bar[data-color="green"],
 .progressBar.dark > .bar[data-color="green"] {
-    background-color: #c0f12b;
+    background-color: #60f15d;
 }
 
-body.dark .progressBar > .bar[data-color="red"],
+body.dark .progressBar:not(.light) > .bar[data-color="red"],
 .progressBar.dark > .bar[data-color="red"] {
-    background-color: #f14d3b;
+    background-color: #ff6d5c;
+}
+
+body.dark .progressBar:not(.light) > .bar[data-color="yellow"],
+.progressBar.dark > .bar[data-color="yellow"] {
+    background-color: #f8f662;
+}
+
+body.dark .progressBar:not(.light) > .bar[data-color="pink"],
+.progressBar.dark > .bar[data-color="pink"] {
+    background-color: #ff9ef8;
 }

@@ -61,23 +61,23 @@
 
 /* Dark */
 
-body.dark .simple-table tbody tr th,
+body.dark .simple-table:not(.light) tbody tr th,
 .simple-table.dark tbody tr th {
     border-bottom: 2px solid rgb(158, 158, 158);
     color: rgb(212, 212, 212);
 }
 
-body.dark .simple-table tbody tr td,
+body.dark .simple-table:not(.light) tbody tr td,
 .simple-table.dark tbody tr td {
     color: rgb(206, 206, 206);
 }
 
-body.dark .simple-table tbody tr:hover,
+body.dark .simple-table:not(.light) tbody tr:hover,
 .simple-table.dark tbody tr:hover {
     background-color: rgba(126, 126, 126, 0.2);
 }
 
-body.dark .simple-table tbody tr:not(:last-child) td,
+body.dark .simple-table:not(.light) tbody tr:not(:last-child) td,
 .simple-table.dark tbody tr:not(:last-child) td {
     border-bottom: 1px solid rgb(144, 144, 144);
 }

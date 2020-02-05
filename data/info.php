@@ -6,7 +6,7 @@
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
-	// dont claim it for your own. thats not nice
+	// dont claim it for your own. its not nice
 	define("APPNAME", "Themis Web Interface");
 	define("AUTHOR", "Belikhun");
 	define("VERSION", "0.5.4");

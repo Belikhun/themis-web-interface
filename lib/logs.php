@@ -10,9 +10,12 @@
 
     define("LOG_FILE", $_SERVER["DOCUMENT_ROOT"] ."/data/logs.json");
 
-    function readLog(string $format) {
+    function readLog(string $format, $reversed = false) {
         $logs = new fip(LOG_FILE, "[]");
         $logsData = json_decode($logs -> read(), true) ?: [];
+
+        if ($reversed)
+            $logsData = array_reverse($logsData);
 
         switch($format) {
             case "text":
@@ -20,9 +23,10 @@
                 foreach ($logsData as $key => $value) {
                     $s = join("| ", Array(
                         $value["time"],
-                        sprintf("%'. 16s", $value["module"]),
-                        sprintf("%'. 5s", $value["level"]),
-                        sprintf("%'. 32s", $value["client"]["username"] ."@". $value["client"]["ip"]),
+                        sprintf("%'. 22s", $value["module"]),
+                        sprintf("%'. 6s", $value["level"]),
+                        sprintf("%'. 14s", $value["client"]["username"] ?: "ANONYMOUS"),
+                        sprintf("%'. 42s", $value["client"]["ip"] ?: "NO IP ADDRESS"),
                         $value["text"]
                     ));
                     $output = $output.$s."\n";
@@ -41,7 +45,7 @@
                         date("d/m/Y H:i:s"),
                         sprintf("%'. 16s", $value["module"]),
                         sprintf("%'. 5s", $value["level"]),
-                        sprintf("%'. 32s", $value["client"]["username"] ."@". $value["client"]["ip"]),
+                        sprintf("%'. 42s", $value["client"]["username"] ."@". $value["client"]["ip"]),
                         $value["text"]
                     ));
 

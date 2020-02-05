@@ -11,15 +11,6 @@ const sounds = {
     soundsLoaded: false,
     ROOT_DIR: "/assets/sounds",
 
-    btn: {
-        soundToggle: $("#usett_btn_sound_toggle"),
-        soundOnMouseHover: $("#usett_btn_sound_mouse_hover"),
-        soundOnBtnClick: $("#usett_btn_sound_button_click"),
-        soundOnPanelToggle: $("#usett_btn_sound_panel_toggle"),
-        soundOthers: $("#usett_btn_sound_others"),
-        soundOnNotification: $("#usett_btn_sound_notification"),
-    },
-
     soundList: [{
         key: "checkOff",
         name: "check-off.mp3"
