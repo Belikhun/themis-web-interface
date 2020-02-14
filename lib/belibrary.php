@@ -52,7 +52,7 @@
     /**
      * Kiểm tra token trong session với token được gửi trong form
      */
-    function checkToken(string $token = null) {
+    function checkToken(String $token = null) {
         $sauce = $token ?: getHeader("token") ?: (isset($_POST["token"]) ? $_POST["token"] : null);
 
         if (empty($sauce))
@@ -70,21 +70,21 @@
         return substr($sub, 0, strpos($sub, $right));
     }
 
-    function reqForm(string $key) {
+    function reqForm(String $key) {
         if (!isset($_POST[$key]))
             stop(1, "Undefined form: ". $key, 400);
         else
             return trim($_POST[$key]);
     }
 
-    function reqQuery(string $key) {
+    function reqQuery(String $key) {
         if (!isset($_GET[$key]))
             stop(1, "Undefined query: ". $key, 400);
         else
             return trim($_GET[$key]);
     }
 
-    function reqHeader(string $key) {
+    function reqHeader(String $key) {
         $headers = getallheaders();
 
         if (!isset($headers[$key]))
@@ -93,22 +93,67 @@
             return trim($headers[$key]);
     }
 
-    function getForm(string $key, $isnul = null) {
-        return isset($_POST[$key]) ? trim($_POST[$key]) : $isnul;
+    function reqKey(Array $data, String $key, String $type = "") {
+        if (!isset($data[$key]))
+            stop(8, "Undefined key: ". $key, 400);
+        
+        if ($type !== "" && gettype($data[$key]) !== $type)
+            stop(3, "Variable type mismatch: key $key is not a $type");
+
+        return $data[$key];
     }
 
-    function getQuery(string $key, $isnul = null) {
-        return isset($_GET[$key]) ? trim($_GET[$key]) : $isnul;
+    function reqKeys(Array $data, String ...$keys) {
+        foreach ($keys as $key)
+            if (!isset($data[$key]))
+                stop(1, "Undefined key: ". $key, 400);
     }
 
-    function getHeader(string $key, $isnul = null) {
+    function reqData(String $type = "json") {
+        $rawData = file_get_contents("php://input");
+
+        try {
+            switch ($type) {
+                case "json":
+                    return json_decode($rawData, true);
+                
+                default:
+                    return $rawData;
+            }
+        } catch (\Exception $th) {
+            errorHandler(
+                $th -> getCode(),
+                "reqData type $type failed: ". $th -> getMessage(),
+                $th -> getFile(),
+                $th -> getLine()
+            );
+        }
+    }
+
+    function getForm(String $key, $isNull = null) {
+        return isset($_POST[$key]) ? trim($_POST[$key]) : $isNull;
+    }
+
+    function getQuery(String $key, $isNull = null) {
+        return isset($_GET[$key]) ? trim($_GET[$key]) : $isNull;
+    }
+
+    function getHeader(String $key, $isNull = null) {
         $headers = getallheaders();
-        return isset($headers[$key]) ? trim($headers[$key]) : $isnul;
+        return isset($headers[$key]) ? trim($headers[$key]) : $isNull;
+    }
+
+    function getKey(Array $data, String $key, $isNull = null) {
+        return isset($data[$key])
+            ? is_string($data[$key])
+                ? trim($data[$key])
+                : $data[$key]
+            : $isNull;
     }
 
     /**
      * Remove the directory and its content (all files and subdirectories).
-     * @param string path to directory
+     * @param String path to directory
      */
     function rmrf($dir) {
         foreach (glob($dir) as $file)
@@ -122,7 +167,7 @@
     /**
      * Thay đổi header Content-Type tương ứng với đuôi tệp
      * 
-     * @param string Đuôi tên tệp
+     * @param String Đuôi tên tệp
      * @return bool true nếu thành công.
      * 
      */
@@ -318,7 +363,7 @@
         public $stream;
         public $path;
 
-        public function __construct(string $path, string $defaultData = "") {
+        public function __construct(String $path, String $defaultData = "") {
             $this -> path = $path;
 
             if (!file_exists($path)) {
@@ -327,7 +372,7 @@
             }
         }
 
-        public function fos(string $path, string $mode) {
+        public function fos(String $path, String $mode) {
             try {
                 $this -> stream = fopen($path, $mode);
                 if (!$this -> stream) {
@@ -355,7 +400,7 @@
             return $data;
         }
 
-        public function write(string $data = "") {
+        public function write(String $data = "") {
             $this -> fos($this -> path, "w");
             fwrite($this -> stream, $data);
             $this -> fcs();

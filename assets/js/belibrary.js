@@ -372,16 +372,21 @@ function time(date = new Date()) {
 	return date.getTime() / 1000;
 }
 
-function parseTime(t = 0, padding = 3) {
-	var d = "";
+function parseTime(t = 0, {
+	msDigit = 3,
+	showPlus = false
+} = {}) {
+	let d = showPlus ? "+" : "";
+	
 	if (t < 0) {
 		t = -t;
 		d = "-";
 	}
-	var h = Math.floor(t / 3600);
-	var m = Math.floor(t % 3600 / 60);
-	var s = Math.floor(t % 3600 % 60);
-	var ms = pleft(parseInt(t.toFixed(padding).split(".")[1]), padding);
+	
+	let h = Math.floor(t / 3600);
+	let m = Math.floor(t % 3600 / 60);
+	let s = Math.floor(t % 3600 % 60);
+	let ms = pleft(parseInt(t.toFixed(msDigit).split(".")[1]), msDigit);
 
 	return {
 		h: h,
@@ -417,7 +422,7 @@ function formatTime(seconds, { ended = "Đã kết thúc", endedCallback = () =>
 	return res.length > 1 ? res.join(", ").replace(/,([^,]*)$/, " và" + "$1") : res[0];
 }
 
-function liveTime(element, start = time(new Date()), { count = "up", prefix = "", surfix = "", ended = "Đã kết thúc", endedCallback = () => {}, interval = 1000 } = {}) {
+function liveTime(element, start = time(new Date()), { type = "full", count = "up", prefix = "", surfix = "", ended = "Đã kết thúc", endedCallback = () => {}, interval = 1000 } = {}) {
 	var updateInterval = setInterval(e => {
 		if (!document.body.contains(element)) {
 			clog("DEBG", "Live Time Element does not exist in document. Clearing...");
@@ -427,13 +432,47 @@ function liveTime(element, start = time(new Date()), { count = "up", prefix = ""
 		}
 
 		let t = 0;
+		let ts = "";
+		let parsed = null;
 
 		if (count === "up")
 			t = time() - start;
 		else
 			t = start - time();
 
-		element.innerText = `${prefix}${formatTime(t, { ended: ended, endedCallback: () => endedCallback(element) })}${surfix}`;
+		switch (type) {
+			case "full":
+				ts = formatTime(t, { ended: ended, endedCallback: () => endedCallback(element) });
+				break;
+
+			case "simple":
+				if (t < 0) {
+					endedCallback(element);
+					ts = ended;
+					break;
+				}
+
+				parsed = parseTime(t % 86400, { showPlus: true });
+				ts = `<timer><days>${Math.floor(t / 86400)}</days>${parsed.str}<ms>${parsed.ms}</ms></timer>`;
+				break;
+
+			case "minimal":
+				if (t < 0) {
+					endedCallback(element);
+					ts = ended;
+					break;
+				}
+				
+				parsed = parseTime(t % 86400, { showPlus: true });
+				ts = `<timer><days>${Math.floor(t / 86400)}</days>${parsed.str}</timer>`;
+				break;
+		
+			default:
+				ts = `Unknown clock type: ${type}`;
+				break;
+		}
+
+		element.innerHTML = `${prefix}${ts}${surfix}`;
 
 		if (t < 0)
 			clearInterval(updateInterval);
@@ -690,16 +729,18 @@ function emptyNode(node) {
 
 /**
  * Create Input Element, require input.css
- * @param	{String}	type		Input Type
- * @param	{String}	id			Input ID
- * @param	{String}	label		Input Label
- * @param	{String}	value		Input Value
- * @param	{Boolean}	required	Input Is Required?
- * @returns	{Object}
+ * @param	{Object}
  */
-function createInput(type, id, label, value, required = false) {
+function createInput({
+	type = "text",
+	id = randString(6),
+	label = "Sample Input",
+	value = "",
+	color = "default",
+	required = false
+} = {}) {
 	let formGroup = document.createElement("div");
-	formGroup.classList.add("formGroup");
+	formGroup.classList.add("formGroup", color);
 	formGroup.dataset.soundhoversoft = "";
 	formGroup.dataset.soundselectsoft = "";
 
@@ -739,19 +780,23 @@ function createInput(type, id, label, value, required = false) {
  * @param	{String}	color		Switch Color
  * @param	{String}	value		Switch Value
  * @param	{String}	type		Switch Type
- * @returns	{Object}
  */
-function createSwitch(text, color, value, type = "checkbox") {
+function createSwitch({
+	label = "Sample Switch",
+	color = "pink",
+	value = false,
+	type = "checkbox"
+} = {}) {
 	let container = document.createElement("div");
 	container.classList.add("switchContainer");
 	container.dataset.soundhoversoft = "";
 	sounds.applySound(container);
 
 	let title = document.createElement("span");
-	title.innerHTML = text;
+	title.innerHTML = label;
 
-	let label = document.createElement("label");
-	label.classList.add("sq-checkbox", color);
+	let switchLabel = document.createElement("label");
+	switchLabel.classList.add("sq-checkbox", color);
 
 	let input = document.createElement("input");
 	input.type = type;
@@ -764,10 +809,10 @@ function createSwitch(text, color, value, type = "checkbox") {
 	let mark = document.createElement("span");
 	mark.classList.add("checkmark");
 
-	label.appendChild(input);
-	label.appendChild(mark);
+	switchLabel.appendChild(input);
+	switchLabel.appendChild(mark);
 	container.appendChild(title);
-	container.appendChild(label);
+	container.appendChild(switchLabel);
 
 	return { group: container, input: input }
 }
@@ -776,7 +821,7 @@ function createSwitch(text, color, value, type = "checkbox") {
  * Create Button Element, require button.css
  * @param	{String}	text		Button Label
  * @param	{String}	color		Button Color
- * @returns	{Object}
+ * @returns	{HTMLButtonElement}		Button Element
  */
 function createBtn(text, color = "blue") {
 	let btn = document.createElement("button");
@@ -1101,8 +1146,10 @@ const __connection__ = {
 
 	async stateChange(state = "online", data = {}) {
 		return new Promise((resolve, reject) => {
-			if (!this.enabled)
+			if (!this.enabled) {
 				resolve({ code: 0, description: "Module Disabled", data: { disabled: true } });
+				return;
+			}
 
 			const s = ["online", "offline", "ratelimited"];
 			if (!typeof state === "string" || state === this.onlineState || s.indexOf(state) === -1) {
