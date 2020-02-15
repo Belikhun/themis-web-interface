@@ -6,66 +6,19 @@
 //? |-----------------------------------------------------------------------------------------------|
 
 class splash {
+    get tips() {
+        let tips = [
+            "Thử tải lại cứng bằng tổ hợp phím <b>Ctrl + Shift + R</b> hoặc <b>Ctrl + F5</b> nếu có lỗi xảy ra"
+        ]
+
+        return tips[randBetween(0, tips.length - 1)];
+    }
+
     constructor(container, name, subname, icon) {
         if (!container.classList)
             return false;
 
-        const tree = [{
-            type: "div",
-            class: "middle",
-            name: "middle",
-            list: [{
-                type: "div",
-                class: "logo",
-                name: "logo"
-            }, {
-                type: "div",
-                class: "appname",
-                name: "appname"
-            }, {
-                type: "div",
-                class: "appsubname",
-                name: "appsubname"
-            }, {
-                type: "div",
-                class: "progressBar",
-                name: "progress",
-                list: [{
-                    type: "div",
-                    class: "bar",
-                    name: "bar"
-                }]
-            }, {
-                type: "t",
-                class: "phase",
-                name: "phase"
-            }, {
-                type: "t",
-                class: "status",
-                name: "status"
-            }, {
-                type: "t",
-                class: "errormsg",
-                name: "errorMsg"
-            }, {
-                type: "t",
-                class: "tips",
-                name: "tips"
-            }]
-        }, {
-            type: "div",
-            class: "footer",
-            name: "footer",
-            list: [{
-                type: "div",
-                class: "icon",
-                name: "icon"
-            }, {
-                type: "div",
-                class: "text",
-                name: "text"
-            }]
-        }]
+        const tree=[{type:"div",class:"middle",name:"middle",list:[{type:"div",class:"logo",name:"logo"},{type:"div",class:"appname",name:"appname"},{type:"div",class:"appsubname",name:"appsubname"},{type:"div",class:"progressBar",name:"progress",list:[{type:"div",class:"bar",name:"bar"}]},{type:"t",class:"phase",name:"phase"},{type:"t",class:"status",name:"status"},{type:"t",class:"errormsg",name:"errorMsg"},{type:"t",class:"tips",name:"tips"}]},{type:"div",class:"footer",name:"footer",list:[{type:"div",class:"icon",name:"icon"},{type:"div",class:"text",name:"text"}]}];
 
         this.tree = buildElementTree("div", "splash", tree);
         this.splash = this.tree.tree;

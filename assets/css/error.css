@@ -9,7 +9,7 @@
 
 body {
     position: relative;
-    font-family: "Segoe UI", Calibri, Geneva, sans-serif;
+    font-family: "Open Sans", "Segoe UI", Calibri, Geneva, sans-serif;
     font-weight: normal;
     font-size: 20px;
     color: rgb(202, 202, 202);
@@ -114,7 +114,6 @@ body {
 
 .container .right .description {
     position: relative;
-    font-family: "Calibri";
     font-size: 27px;
     color: rgb(230, 230, 230);
 }
