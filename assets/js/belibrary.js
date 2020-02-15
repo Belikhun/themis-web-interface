@@ -27,6 +27,8 @@ function myajax({
 	reRequest = true,
 	withCredentials = false,
 }, callout = () => {}, error = () => {}) {
+	var argumentsList = arguments;
+
 	return new Promise((resolve, reject) => {
 		if (__connection__.onlineState !== "online" && force === false) {
 			let errorObj = {}
@@ -64,7 +66,7 @@ function myajax({
 					if (changeState === true)
 						__connection__.stateChange("offline");
 
-					let errorObj = { code: 106, description: "Mất kết nối tới máy chủ" };
+					let errorObj = { code: 106, description: "Mất kết nối tới máy chủ" }
 					reject(errorObj);
 					error(errorObj);
 
@@ -119,8 +121,9 @@ function myajax({
 							// Waiting for :?unratelimited:?
 							await __connection__.stateChange("ratelimited", res);
 
+							clog("debg", "resending request", argumentsList);
 							// Resend previous ajax request
-							let r = await myajax(arguments[0], arguments[1], arguments[2])
+							let r = await myajax(...argumentsList)
 								.catch(d => {
 									reject(d);
 									return;
