@@ -114,7 +114,7 @@ const sounds = {
 
     async __loadSoundAsync(url, volume = 0.6) {
         var sound = new Audio();
-        sound.src = chrome.extension ? chrome.extension.getURL(url) : url;
+        sound.src = (typeof chrome !== "undefined" && chrome.extension) ? chrome.extension.getURL(url) : url;
         clog("DEBG", `Loading sound: ${url}`);
 
         return new Promise((resolve, reject) => {
