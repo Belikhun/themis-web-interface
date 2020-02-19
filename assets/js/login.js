@@ -93,6 +93,8 @@ login = {
         }
         
         this.form.password.avatar.onload = null;
+        this.form.username.input.disabled = true;
+        this.form.username.submit.disabled = true;
         sounds.confirm(0);
 
         try {
@@ -103,10 +105,9 @@ login = {
             });
         } catch (e) {
             // Ignore
+            clog("ERRR", e);
         }
 
-        this.form.username.input.disabled = true;
-        this.form.username.submit.disabled = true;
         this.form.password.avatar.onload = () => this.showPassInp(username, userData.data ? userData.data.name : null);
         this.form.password.avatar.src = "/api/avatar?u=" + username;
     },
