@@ -227,7 +227,7 @@ body.dark line {
 	bottom: 0;
 	right: 0;
 
-	z-index: 50;
+	z-index: 999;
     background-color: rgba(16, 16, 16, 0.8);
 }
 

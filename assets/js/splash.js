@@ -114,14 +114,15 @@ class splash {
     }
 
     async __panic(error, stop = true) {
-        let e = error.name || error.data.name || `${error.data.data.file}:${error.data.data.line}`;
-        let d = error.message || error.data.message || error.data.description || error.description;
+        let e = error.code ? `[${error.code}]` : error.name || error.data.name || `${error.data.data.file}:${error.data.data.line}`;
+	    let d = error.description || error.message || error.data.message || error.data.description || error.description;
 
         this.status.innerText = "Lỗi đã xảy ra";
         this.tree.middle.errorMsg.innerText = `${e} >>> ${d}`;
         this.bar.dataset.color = "red";
         
         await this.onErrored(error, e, d);
+        clog("ERRR", error);
         cookie.set("splashInitSuccess", false, 1);
 
         if (stop)

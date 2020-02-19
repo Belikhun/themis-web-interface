@@ -1009,6 +1009,7 @@ const popup = {
 	tree: {},
 	popup: {},
 	popupNode: null,
+	initialized: false,
 
 	levelTemplate: {
 		light: {
@@ -1042,6 +1043,8 @@ const popup = {
 
 		if (typeof sounds !== "undefined")
 			sounds.applySound(this.popup.header.top.close);
+
+		this.initialized = true;
 	},
 
 	show({
@@ -1058,6 +1061,11 @@ const popup = {
 		buttonList = {}
 	} = {}) {
 		return new Promise((resolve, reject) => {
+			if (!this.initialized) {
+				reject({ code: -1, description: "popup not initialized. Please initialize it first by using popup.init()" });
+				return;
+			}
+
 			this.popup.dataset.level = level;
 
 			//* THEME

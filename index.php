@@ -122,7 +122,7 @@
                     version: window.serverStatus.version,
                     hostname: location.hostname,
                     loadtime: ((new Date()).getTime() - window.performance.timing.navigationStart) / 1000,
-                    downlink: (navigator) ? navigator.connection.downlink : 0,
+                    downlink: (navigator && navigator.connection) ? navigator.connection.downlink : 0,
                     versiontag: window.serverStatus.versionTag,
                     contestname: window.serverStatus.contestName,
                     platform: (navigator) ? navigator.platform : null,
@@ -137,10 +137,10 @@
 
             mainSplash.onErrored = async (error, e, d) => {
                 if (cookie.get("splashInitSuccess", true) === "false")
-                    if (core.dialog.initialized) {
+                    if (popup.initialized) {
                         let errorDetail = document.createElement("ul");
                         let errorDetailHtml = "";
-                        let stack = error.stack || error.data.stack || null
+                        let stack = (error.data && error.data.stack) || error.stack || null
 
                         errorDetailHtml = stack
                             ? stack
@@ -153,9 +153,8 @@
                         errorDetail.style.flexDirection = "column";
                         errorDetail.innerHTML = errorDetailHtml;
 
-                        $("#dialogWrapper").style.zIndex = 999;
-                        let action = await core.dialog.show({
-                            panelTitle: "Lỗi",
+                        let action = await popup.show({
+                            windowTitle: "Lỗi",
                             title: "Oops",
                             description: "Có vẻ như lỗi vẫn đang tiếp diễn!<br>Hãy thử <b>tải lại</b> trang hoặc sử dụng thông tin dưới đây để gửi một báo cáo lỗi:",
                             level: "error",
