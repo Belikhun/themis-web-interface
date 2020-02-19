@@ -184,40 +184,55 @@
 
         <!-- Main Content -->
 
-        <div class="nav">
-            <span class="lnav">
-                <img class="icon" src="/assets/img/icon.webp" />
-                <ul class="title">
-                    <li class="main text-overflow">
-                        <?php print $config["contest"]["name"]; ?>
-                    </li>
-                    <li class="sub text-overflow">
-                        <?php print $config["contest"]["description"]; ?>
-                    </li>
-                </ul>
-            </span>
-            <span id="usett_toggler" class="rnav">
-                <?php if ($loggedIn) { ?>
-                    <ul class="info">
-                        <li class="tag text-overflow">
-                            <?php print $username ."#". $id; ?>
+        <div id="navBar" class="navBar showBottom">
+            <div class="top">
+                <span class="left">
+                    <img class="icon" src="/assets/img/icon.webp" />
+                    <ul class="title">
+                        <li class="main text-overflow">
+                            <?php print $config["contest"]["name"]; ?>
                         </li>
-                        <li id="user_name" class="name text-overflow">
-                            <?php print htmlspecialchars($name); ?>
+                        <li class="sub text-overflow">
+                            <?php print $config["contest"]["description"]; ?>
                         </li>
                     </ul>
-                    <img id="user_avt" class="avatar" src="/api/avatar?u=<?php print $username; ?>" />
-                <?php } ?>
-                <span class="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
                 </span>
-            </span>
+                <span id="userSettingsToggler" class="right">
+                    <?php if ($loggedIn) { ?>
+                        <ul class="info">
+                            <li class="tag text-overflow">
+                                <?php print $username ."#". $id; ?>
+                            </li>
+                            <li id="user_name" class="name text-overflow">
+                                <?php print htmlspecialchars($name); ?>
+                            </li>
+                        </ul>
+                        <img id="userAvatar" class="avatar" src="/api/avatar?u=<?php print $username; ?>" />
+                    <?php } ?>
+                    <span class="hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </span>
+            </div>
+
+            <div id="contestTimer" class="bottom contestTimer">
+                <t id="contestTimeState">IDLE</t>
+                <separator></separator>
+                <timer id="contestTime"><days>00</days>+00:00:00<ms>000</ms></timer>
+                <separator></separator>
+                <span id="contestTimeReload" class="material-icons reload sound" title="Làm mới" data-soundhover data-soundselect>refresh</span>
+
+                <div class="progressBar">
+                    <div class="bar" id="timeProgress"></div>
+                    <t class="left" id="timeStart">--:--</t>
+                    <t class="right" id="timeEnd">--:--</t>
+                </div>
+            </div>
         </div>
 
         <span id="userSettings" class="sound" data-soundtoggle="show">
-
             <div class="main">
                 <div class="container menu">
 
@@ -718,135 +733,119 @@
         </div>
 
         <div id="container">
-            <panel id="uploadp">
-                <div class="head">
-                    <t class="le">Nộp bài</t>
-                    <span class="ri">
-                        <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
-                    </span>
-                </div>
-                <div class="main fileupload-container">
-                    <div id="submitDropzone">
-                        <input type="file" id="submitInput" multiple>
-                        <t class="title">Thả tệp tại đây</t>
-                        <t class="sub">hoặc</t>
-                        <label for="submitInput" class="sq-btn dark sound" data-soundhover data-soundselect>Chọn tệp</label>
-                    </div>
-                    <div class="info">
-                        <t id="submitStatus">null</t>
-                        <t id="submitFileName">null</t>
-                        <div class="progressBar">
-                            <div class="bar" id="submitprogressBar"></div>
-                            <t class="left" id="submitInfoProgress">0%</t>
-                            <t class="right" id="submitInfoSize">00/00</t>
+            <div class="flexRow">
+                <span class="flexColumn large">
+                    <panel id="problemp">
+                        <div class="head">
+                            <t class="le">Đề bài</t>
+                            <span class="ri">
+                                <i class="material-icons bak sound" title="Quay lại" data-soundhover>keyboard_arrow_left</i>
+                                <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
+                                <i class="material-icons clo sound" title="Đóng" data-soundhover data-soundselect>close</i>
+                            </span>
                         </div>
-                    </div>
-                </div>
-            </panel>
+                        <div class="main problem-container">
+                            <ul class="problem-list showEmpty sound" data-soundtoggle="hide" id="problemList">
+                            </ul>
+                            <div class="problem">
+                                <t class="name" id="problem_name"></t>
+                                <t class="point" id="problem_point"></t>
+                                <span class="enlarge" id="problem_enlarge" title="Phóng to"></span>
+                                
+                                <div class="simple-table-wrapper">
+                                    <table class="simple-table type">
+                                        <tr class="filename">
+                                            <td>Tên tệp</td>
+                                            <td id="problem_type_filename"></td>
+                                        </tr>
+                                        <tr class="lang">
+                                            <td>Loại tệp</td>
+                                            <td id="problem_type_lang"></td>
+                                        </tr>
+                                        <tr class="time">
+                                            <td>Thời gian chạy</td>
+                                            <td id="problem_type_time"></td>
+                                        </tr>
+                                        <tr class="inp">
+                                            <td>Dữ liệu vào</td>
+                                            <td id="problem_type_inp"></td>
+                                        </tr>
+                                        <tr class="out">
+                                            <td>Dữ liệu ra</td>
+                                            <td id="problem_type_out"></td>
+                                        </tr>
+                                    </table>
+                                </div>
 
-            <panel id="timep">
-                <div class="head">
-                    <t class="le">Thời gian</t>
-                    <span class="ri">
-                        <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
-                        <i class="material-icons clo sound" title="Đóng" data-soundhover data-soundselect>close</i>
-                    </span>
-                </div>
-                <div class="main time-container">
-                    <t id="timeState">---</t>
+                                <t class="description" id="problem_description"></t>
+                                <div class="lazyload image" id="problem_image"></div>
 
-                    <div class="time">
-                        <t id="timeClock">--:--</t>
-                        <t id="timeClockMs">--</t>
-                    </div>
-                    
-                    <div class="progressBar">
-                        <div class="bar" id="timeProgress"></div>
-                        <t class="left" id="timeStart">--:--</t>
-                        <t class="right" id="timeEnd">--:--</t>
-                    </div>
-                </div>
-            </panel>
+                                <div id="problem_attachment" class="attachment">
+                                    <a id="problem_attachment_link" class="link" href=""></a>
+                                </div>
 
-            <panel id="problemp">
-                <div class="head">
-                    <t class="le">Đề bài</t>
-                    <span class="ri">
-                        <i class="material-icons bak sound" title="Quay lại" data-soundhover>keyboard_arrow_left</i>
-                        <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
-                        <i class="material-icons clo sound" title="Đóng" data-soundhover data-soundselect>close</i>
-                    </span>
-                </div>
-                <div class="main problem-container">
-                    <ul class="problem-list showEmpty sound" data-soundtoggle="hide" id="problemList">
-                    </ul>
-                    <div class="problem">
-                        <t class="name" id="problem_name"></t>
-                        <t class="point" id="problem_point"></t>
-                        <span class="enlarge" id="problem_enlarge" title="Phóng to"></span>
-                        
-                        <div class="simple-table-wrapper">
-                            <table class="simple-table type">
-                                <tr class="filename">
-                                    <td>Tên tệp</td>
-                                    <td id="problem_type_filename"></td>
-                                </tr>
-                                <tr class="lang">
-                                    <td>Loại tệp</td>
-                                    <td id="problem_type_lang"></td>
-                                </tr>
-                                <tr class="time">
-                                    <td>Thời gian chạy</td>
-                                    <td id="problem_type_time"></td>
-                                </tr>
-                                <tr class="inp">
-                                    <td>Dữ liệu vào</td>
-                                    <td id="problem_type_inp"></td>
-                                </tr>
-                                <tr class="out">
-                                    <td>Dữ liệu ra</td>
-                                    <td id="problem_type_out"></td>
-                                </tr>
-                            </table>
+                                <div class="simple-table-wrapper">
+                                    <table class="simple-table test" id="problem_test"></table>
+                                </div>
+                            </div>
                         </div>
+                    </panel>
+                </span>
 
-                        <t class="description" id="problem_description"></t>
-                        <div class="lazyload image" id="problem_image"></div>
-
-                        <div id="problem_attachment" class="attachment">
-                            <a id="problem_attachment_link" class="link" href=""></a>
+                <span class="flexColumn small">
+                    <panel id="uploadp">
+                        <div class="head">
+                            <t class="le">Nộp bài</t>
+                            <span class="ri">
+                                <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
+                            </span>
                         </div>
-
-                        <div class="simple-table-wrapper">
-                            <table class="simple-table test" id="problem_test"></table>
+                        <div class="main fileupload-container">
+                            <div id="submitDropzone">
+                                <input type="file" id="submitInput" multiple>
+                                <t class="title">Thả tệp tại đây</t>
+                                <t class="sub">hoặc</t>
+                                <label for="submitInput" class="sq-btn dark sound" data-soundhover data-soundselect>Chọn tệp</label>
+                            </div>
+                            <div class="info">
+                                <t id="submitStatus">null</t>
+                                <t id="submitFileName">null</t>
+                                <div class="progressBar">
+                                    <div class="bar" id="submitprogressBar"></div>
+                                    <t class="left" id="submitInfoProgress">0%</t>
+                                    <t class="right" id="submitInfoSize">00/00</t>
+                                </div>
+                            </div>
                         </div>
+                    </panel>
+
+                    <panel id="logp">
+                        <div class="head">
+                            <t class="le">Nhật ký</t>
+                            <span class="ri">
+                                <i class="material-icons cus sound" title="Xóa danh sách đang chấm" data-soundhover data-soundselect>gavel</i>
+                                <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
+                            </span>
+                        </div>
+                        <div class="main logItemContainer">
+                            
+                        </div>
+                    </panel>
+                </span>
+            </div>
+
+            <div class="flexRow">
+                <panel id="rankp">
+                    <div class="head">
+                        <t class="le">Xếp hạng</t>
+                        <span class="ri">
+                            <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
+                        </span>
                     </div>
-                </div>
-            </panel>
-
-            <panel id="rankp">
-                <div class="head">
-                    <t class="le">Xếp hạng</t>
-                    <span class="ri">
-                        <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
-                    </span>
-                </div>
-                <div class="main ranking-container">
-                </div>
-            </panel>
-
-            <panel id="logp">
-                <div class="head">
-                    <t class="le">Nhật ký</t>
-                    <span class="ri">
-                        <i class="material-icons cus sound" title="Xóa danh sách đang chấm" data-soundhover data-soundselect>gavel</i>
-                        <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
-                    </span>
-                </div>
-                <div class="main logItemContainer">
-                    
-                </div>
-            </panel>
+                    <div class="main rankingContainer">
+                    </div>
+                </panel>
+            </div>
         </div>
 
         <!-- Session Data -->

@@ -1071,10 +1071,10 @@ const core = {
     },
 
     timer: {
-        timePanel: new regPanel($("#timep")),
-        state: $("#timeState"),
-        time: $("#timeClock"),
-        timeMs: $("#timeClockMs"),
+        container: $("#navBar"),
+        state: $("#contestTimeState"),
+        time: $("#contestTime"),
+        reload: $("#contestTimeReload"),
         bar: $("#timeProgress"),
         start: $("#timeStart"),
         end: $("#timeEnd"),
@@ -1085,11 +1085,7 @@ const core = {
         last: 0,
 
         async init() {
-            this.timePanel.ref.onClick(() => this.fetchTime(true));
-            this.timePanel.clo.onClick(e => this.close());
-
-            if (LOGGED_IN)
-                this.timePanel.clo.hide();
+            this.reload.addEventListener("mouseup", () => this.fetchTime(true));
 
             await this.fetchTime(true);
 
@@ -1097,11 +1093,6 @@ const core = {
                 color: flatc("red"),
                 text: "core.timer"
             });
-        },
-
-        close() {
-            this.reset();
-            this.timePanel.panel.classList.remove("show");
         },
 
         async fetchTime(init = false) {
@@ -1113,7 +1104,7 @@ const core = {
             let data = response.data;
 
             if (data.during <= 0) {
-                $("#timep").classList.remove("show");
+                $("#timep").classList.remove("showBottom");
                 clearInterval(this.interval);
                 clog("info", "Timer Disabled: not in contest mode");
 
@@ -1126,7 +1117,7 @@ const core = {
             this.start.innerText = `${(new Date(data.start * 1000)).toLocaleTimeString()} tới ${(new Date((data.start + data.during) * 1000)).toLocaleTimeString()}`;
 
             if (init) {
-                $("#timep").classList.add("show");
+                this.container.classList.add("showBottom");
                 this.last = 0;
                 this.toggleMs(this.showMs);
             }
@@ -1137,6 +1128,7 @@ const core = {
                 return;
 
             this.timeUpdate();
+            clearInterval(this.interval);
             this.interval = setInterval(() => this.timeUpdate(), time);
         },
 
@@ -1146,20 +1138,18 @@ const core = {
             if (show) {
                 this.startInterval(65);
                 this.showMs = true;
-                this.timePanel.main.classList.add("ms");
                 this.bar.classList.add("noTransition");
             } else {
                 this.startInterval(1000);
                 this.showMs = false;
-                this.timePanel.main.classList.remove("ms");
                 this.bar.classList.remove("noTransition");
             }
         },
 
         reset() {
             clearInterval(this.interval);
-            this.timePanel.main.dataset.color = "red";
-            this.time.innerText = "--:--";
+            this.time.dataset.color = "red";
+            this.time.innerHTML = "<days>--</days>+--:--:--";
             this.bar.style.width = "0%";
             this.bar.dataset.color = "blue";
             this.start.innerText = "--:--:-- - --:--:--";
@@ -1176,7 +1166,8 @@ const core = {
             let t = beginTime - time() + duringTime;
 
             let color = "";
-            let proc = 0;
+            let progress = 0;
+            let blink = "none";
             let end = "";
             let state = "";
 
@@ -1186,7 +1177,7 @@ const core = {
                     this.last = t;
 
                 color = "blue";
-                proc = ((t) / this.last) * 100;
+                progress = ((t) / this.last) * 100;
                 end = parseTime(this.last).str;
                 state = "Bắt đầu kì thi sau";
             } else if (t > 0) {
@@ -1199,33 +1190,37 @@ const core = {
                 }
 
                 color = "green";
-                proc = (t / duringTime) * 100;
+                progress = (t / duringTime) * 100;
                 end = parseTime(duringTime).str;
                 state = "Thời gian làm bài";
             } else if (t > -offsetTime) {
                 t += offsetTime;
                 
-                color = "red";
-                proc = (t / offsetTime) * 100;
+                color = "yellow";
+                progress = (t / offsetTime) * 100;
+                blink = "grow";
                 end = parseTime(offsetTime).str;
                 state = "Thời gian bù";
             } else {
                 t += offsetTime;
 
-                color = "";
-                proc = 0;
+                color = "red";
+                progress = 100;
+                blink = "fade"
                 end = "--:--";
                 state = "ĐÃ HẾT THỜI GIAN LÀM BÀI";
             }
 
-            let tp = parseTime(t);
-            if (this.showMs)
-                this.timeMs.innerText = tp.ms;
-
-            this.timePanel.main.dataset.color = color;
+            let days = Math.floor(t / 86400) + (t < 0 ? 1 : 0);
+            let timeParsed = parseTime(t % 86400, { showPlus: true, forceShowHours: true });
+            this.time.dataset.color = color;
+            this.time.innerHTML = `<days>${days}</days>${timeParsed.str}${this.showMs ? `<ms>${timeParsed.ms}</ms>` : ""}`;
+            
             this.bar.dataset.color = color;
-            this.time.innerText = tp.str;
-            this.bar.style.width = proc + "%";
+            this.bar.dataset.blink = blink;
+            this.bar.dataset.blinkFast = progress < 20 ? true : false;
+            this.bar.style.width = `${progress}%`;
+
             this.end.innerText = end;
             this.state.innerText = state;
         }
@@ -1373,7 +1368,7 @@ const core = {
         },
 
         uname: $("#user_name"),
-        uavt: $("#user_avt"),
+        uavt: $("#userAvatar"),
         avt: $("#usett_avt"),
         avtWrapper: $("#usett_avtw"),
         avtInput: $("#usett_avtinp"),
@@ -1402,7 +1397,7 @@ const core = {
         autoUpdateToggler: $("#usett_enableAutoUpdate"),
         updateDelaySlider: $("#usett_udelay_slider"),
         updateDelayText: $("#usett_udelay_text"),
-        toggler: $("#usett_toggler"),
+        toggler: $("#userSettingsToggler"),
         container: $("#userSettings"),
         adminConfig: $("#usett_adminConfig"),
         panelContainer: $("#usett_panelContainer"),

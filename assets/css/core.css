@@ -12,10 +12,9 @@ body {
     background-color: #666666;
     font-family: "Open Sans", "Segoe UI", "Calibri", Tahoma, Geneva, Verdana, sans-serif;
     margin: 0 0 20px 0;
-    box-sizing: border-box;
     overflow: hidden;
     width: 100vw;
-    height: calc(100vh - 20px);
+    height: 100vh;
 }
 
 /* Change Autocomplete styles in Chrome*/
@@ -78,22 +77,129 @@ input:-webkit-autofill {
 }
 
 body #container {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    position: absolute;
+    display: block;
     width: 100vw;
-    height: calc(100vh - 78px);
-    top: 58px;
+    top: 56px;
+    bottom: 0;
     background-color: #ebebeb;
     box-sizing: border-box;
-    padding: 10px;
+    padding: 5px;
     overflow-x: hidden;
     overflow-y: auto;
     transition:
         transform 0.4s ease,
-        filter 0.4s ease,
-        top 1s cubic-bezier(0.06, 0.81, 0, 0.98);
+        filter 0.4s ease;
+}
+
+body #container .flexRow {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    min-height: 420px;
+}
+
+body #container .flexColumn {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+body #container .flexColumn.large {
+    flex-grow: 1;
+}
+
+body #container .flexColumn.small {
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.navBar.showBottom ~ #userSettings,
+.navBar.showBottom ~ #container {
+    top: 94px;
+}
+
+.contestTimer {
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 4px 0 8px 0;
+}
+
+.navBar.showBottom .contestTimer {
+    display: flex;
+    height: 38px;
+}
+
+.contestTimer::before {
+    content: "";
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 10px;
+    right: 10px;
+    height: 1px;
+    background-color: rgba(122, 122, 122, 0.2);
+}
+
+.contestTimer #contestTimeState {
+    position: relative;
+    font-size: 13px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    color: rgb(90, 90, 90);
+}
+
+.contestTimer .reload {
+    position: relative;
+    display: inline-block;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    color: rgba(98, 98, 98, 0.54);
+    transition: color 0.2s ease;
+}
+
+.contestTimer #contestTimeState,
+.contestTimer .reload,
+.contestTimer separator {
+    margin-top: 4px;
+}
+
+.contestTimer .reload:hover {
+    color: rgba(98, 98, 98, 0.82);
+}
+
+.contestTimer .progressBar {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    margin-top: 28px;
+    height: 5px;
+}
+
+.contestTimer .progressBar > .left,
+.contestTimer .progressBar > .right {
+    transform: translateY(calc(-100% - 4px));
+}
+
+.contestTimer .progressBar > .left {
+    left: 10px;
+}
+
+.contestTimer .progressBar > .right {
+    right: 10px;
+}
+
+@media only screen and (max-width: 800px) {
+    .navBar.showBottom .contestTimer #contestTimeState,
+    .navBar.showBottom .contestTimer #contestTimeState + separator {
+        display: none;
+    }
 }
 
 panel {
@@ -105,7 +211,7 @@ panel {
     height: auto;
     background-color: white;
     box-shadow: 0 0 5px rgba(98, 98, 98, 0.2);
-    margin: 10px;
+    margin: 5px;
     box-sizing: border-box;
 }
 
@@ -145,12 +251,12 @@ panel .head .ri {
 panel .head .ri i {
     position: relative;
     display: inline;
-    color: rgba(98, 98, 98, 0.54);
     font-size: 18px;
     font-weight: bold;
-    transition: color 0.2s ease;
+    color: rgba(98, 98, 98, 0.54);
     padding: 0 2px;
     cursor: pointer;
+    transition: color 0.2s ease;
 }
 
 panel .head .ri i.bak {
@@ -200,38 +306,70 @@ panel .main .showEmpty:empty::after {
     color: rgb(192, 192, 192);
 }
 
-#uploadp {
-    height: 200px;
-    flex-grow: 1;
-    order: 1;
-}
+/** Pannel Layout: Logged in */
 
 #problemp {
-    height: 200px;
-    order: 2;
-}
-
-#timep {
-    height: 200px;
-    display: none;
-    order: 3;
-}
-
-#timep.show {
-    display: block;
-}
-
-#rankp {
-    height: calc(100% - 240px);
-    width: calc(100% - 390px);
-    min-width: 50%;
     flex-grow: 1;
-    order: 4;
+    width: auto;
+}
+
+#uploadp {
+    height: 190px;
 }
 
 #logp {
-    height: calc(100% - 240px);
-    order: 5;
+    flex-grow: 1;
+}
+
+#rankp {
+    flex-grow: 1;
+}
+
+@media only screen and (max-width: 1130px) {
+    body #container .flexRow {
+        flex-wrap: wrap;
+        height: auto;
+    }
+
+    body #container .flexColumn {
+        width: 100%;
+    }
+
+    #uploadp,
+    #logp {
+        width: auto;
+    }
+
+    #logp {
+        max-height: 100%;
+    }
+}
+
+/** Pannel Layout: Guest mode */
+
+body.guest #container {
+    display: flex;
+    flex-direction: column;
+}
+
+body.guest #container > .flexRow:nth-child(1) {
+    order: 2;
+    flex-grow: 0;
+    min-height: 100%;
+}
+
+body.guest #container > .flexRow:nth-child(2) {
+    order: 1;
+    min-height: 100%;
+}
+
+body.guest #problemp {
+    height: 200px;
+    flex-grow: 1;
+}
+
+body.guest #problemp.hide {
+    display: none;
 }
 
 #wrapper {
@@ -272,69 +410,6 @@ panel .main .showEmpty:empty::after {
     max-width: unset;
     max-height: 100%;
     margin: unset;
-}
-
-body.guest #timep.show,
-body.guest #problemp {
-    height: 200px;
-    flex-grow: 1;
-}
-
-body.guest #problemp.hide {
-    display: none;
-}
-
-body.guest #rankp {
-    width: calc(100% - 20px);
-}
-
-body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
-    height: calc(100% - 20px);
-}
-
-@media only screen and (max-width: 1130px) {
-    #problemp,
-    #logp {
-        height: calc(100% - 240px);
-    }
-
-    #timep:not(.show) + #problemp {
-        height: 200px;
-    }
-
-    #timep {
-        order: 2;
-    }
-
-    #problemp {
-        order: 3;
-    }
-
-    #logp {
-        order: 4;
-        flex-grow: 1;
-    }
-
-    #rankp {
-        order: 5;
-        width: calc(100% - 20px);
-        height: calc(100% - 20px);
-    }
-}
-
-@media only screen and (max-width: 765px) {
-    #timep {
-        flex-grow: 1;
-    }
-
-    #problemp {
-        order: 3;
-        flex-grow: 1;
-    }
-
-    #logp {
-        height: calc(100% - 20px);
-    }
 }
 
 #logp div.main:empty::before {
@@ -539,7 +614,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 #uploadp .fileupload-container #submitDropzone .sub {
     color: rgb(128, 128, 128);
     font-size: 12px;
-    margin: 6px 0;
+    margin: 4px 0;
 }
 
 #uploadp .fileupload-container .info {
@@ -1365,22 +1440,22 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     color: rgb(124, 124, 124);
 }
 
-/* *ranking-container */
+/* *rankingContainer */
 
-#rankp div.ranking-container {
+#rankp div.rankingContainer {
     position: relative;
     overflow: auto;
 }
 
-#rankp div.ranking-container:empty::before {
+#rankp div.rankingContainer:empty::before {
     content: "\f02d";
 } 
 
-#rankp div.ranking-container:empty::after {
+#rankp div.rankingContainer:empty::after {
     content: "Không có dữ liệu hoặc đã bị tắt";
 }
 
-#rankp div.ranking-container table {
+#rankp div.rankingContainer table {
     position: relative;
     font-family: "Calibri";
     box-sizing: border-box;
@@ -1389,29 +1464,29 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     min-width: 100%;
 }
 
-#rankp div.ranking-container table tr th:nth-child(1),
-#rankp div.ranking-container table tr td:nth-child(1) {
+#rankp div.rankingContainer table tr th:nth-child(1),
+#rankp div.rankingContainer table tr td:nth-child(1) {
     width: 20px;
     text-align: center;
 }
 
-#rankp div.ranking-container table tr th:nth-child(2),
-#rankp div.ranking-container table tr td:nth-child(2) {
+#rankp div.rankingContainer table tr th:nth-child(2),
+#rankp div.rankingContainer table tr td:nth-child(2) {
     text-align: left;
 }
 
-#rankp div.ranking-container table tr th:nth-child(2) {
+#rankp div.rankingContainer table tr th:nth-child(2) {
     width: 40px;
 }
 
-#rankp div.ranking-container table tr td:nth-child(2) {
+#rankp div.rankingContainer table tr td:nth-child(2) {
     display: flex;
     align-items: center;
     padding: 10px;
     margin: 0 0 0 10px;
 }
 
-#rankp div.ranking-container table tr td:nth-child(2) .avt {
+#rankp div.rankingContainer table tr td:nth-child(2) .avt {
     position: relative;
     display: block;
     width: 40px;
@@ -1419,38 +1494,38 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     border-radius: 50%;
 }
 
-#rankp div.ranking-container table tr td:nth-child(3) .name {
+#rankp div.rankingContainer table tr td:nth-child(3) .name {
     position: relative;
     display: inline-block;
     font-size: 14px;
     letter-spacing: .2px;
 }
 
-#rankp div.ranking-container table tr td.number:nth-child(4) {
+#rankp div.rankingContainer table tr td.number:nth-child(4) {
     color: #3c7be7;
     font-size: 16px;
     font-weight: bold;
 }
 
-#rankp div.ranking-container table thead tr th:nth-child(3) {
+#rankp div.rankingContainer table thead tr th:nth-child(3) {
     text-align: left;
 }
 
-#rankp div.ranking-container table tbody tr[data-rank="1"] {
+#rankp div.rankingContainer table tbody tr[data-rank="1"] {
     background-color: rgba(111, 241, 134, 0.2);
 }
 
-#rankp div.ranking-container table tbody tr[data-rank="2"] {
+#rankp div.rankingContainer table tbody tr[data-rank="2"] {
     background-color: rgba(239, 241, 111, 0.2);
 }
 
-#rankp div.ranking-container table tbody tr[data-rank="3"] {
+#rankp div.rankingContainer table tbody tr[data-rank="3"] {
     background-color: rgba(230, 111, 241, 0.2);
 }
 
-#rankp div.ranking-container table tbody tr[data-rank="1"] td:nth-child(3) .name,
-#rankp div.ranking-container table tbody tr[data-rank="2"] td:nth-child(3) .name,
-#rankp div.ranking-container table tbody tr[data-rank="3"] td:nth-child(3) .name {
+#rankp div.rankingContainer table tbody tr[data-rank="1"] td:nth-child(3) .name,
+#rankp div.rankingContainer table tbody tr[data-rank="2"] td:nth-child(3) .name,
+#rankp div.rankingContainer table tbody tr[data-rank="3"] td:nth-child(3) .name {
     font-weight: bolder;
     font-family: Exo;
     font-size: 14px;
@@ -1458,7 +1533,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     color: rgb(65, 65, 65);
 }
 
-#rankp div.ranking-container table tr th {
+#rankp div.rankingContainer table tr th {
     position: sticky;
     top: 0;
     background-color: #fafafa;
@@ -1469,122 +1544,56 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     z-index: 1;
 }
 
-#rankp div.ranking-container table tr th,
-#rankp div.ranking-container table tr td {
+#rankp div.rankingContainer table tr th,
+#rankp div.rankingContainer table tr td {
     padding: 10px 12px;
 }
 
-#rankp div.ranking-container table tr td {
+#rankp div.rankingContainer table tr td {
     font-size: 13px;
 }
 
-#rankp div.ranking-container table tr td.number {
+#rankp div.rankingContainer table tr td.number {
     font-size: 13px;
     text-align: right;
     color: rgb(172, 172, 172);
 }
 
-#rankp div.ranking-container table tr td.number.link {
+#rankp div.rankingContainer table tr td.number.link {
     cursor: pointer;
 }
 
-#rankp div.ranking-container table tr .number.link,
-#rankp div.ranking-container table tr .number.correct,
-#rankp div.ranking-container table tr .number.passed,
-#rankp div.ranking-container table tr .number.accepted,
-#rankp div.ranking-container table tr .number.failed,
-#rankp div.ranking-container table tr .number.skipped {
+#rankp div.rankingContainer table tr .number.link,
+#rankp div.rankingContainer table tr .number.correct,
+#rankp div.rankingContainer table tr .number.passed,
+#rankp div.rankingContainer table tr .number.accepted,
+#rankp div.rankingContainer table tr .number.failed,
+#rankp div.rankingContainer table tr .number.skipped {
     color: rgb(75, 75, 75);
 }
 
-#rankp div.ranking-container table tr td.number.correct {
+#rankp div.rankingContainer table tr td.number.correct {
     background-color: rgb(147, 243, 158);
 }
 
-#rankp div.ranking-container table tr td.number.passed {
+#rankp div.rankingContainer table tr td.number.passed {
     background-color: rgb(150, 245, 248);
 }
 
-#rankp div.ranking-container table tr td.number.accepted {
+#rankp div.rankingContainer table tr td.number.accepted {
     background-color: rgb(240, 237, 157);
 }
 
-#rankp div.ranking-container table tr td.number.failed {
+#rankp div.rankingContainer table tr td.number.failed {
     background-color: rgb(248, 187, 187)
 }
 
-#rankp div.ranking-container table tr td.number.skipped {
+#rankp div.rankingContainer table tr td.number.skipped {
     background-color: rgb(212, 212, 212);
 }
 
-#rankp div.ranking-container table tr td.number.link:hover {
+#rankp div.rankingContainer table tr td.number.link:hover {
     filter: brightness(1.1);
-}
-
-#timep .time-container {
-    display: flex;
-    justify-content: center;
-}
-
-#timep .time-container #timeState {
-    position: absolute;
-    top: 22px;
-    font-size: 16px;
-    font-weight: 100;
-    text-transform: uppercase;
-    color: rgb(136, 136, 136);
-}
-
-#timep .time-container .time {
-    position: absolute;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    top: 38px;
-}
-
-#timep .time-container .time #timeClock,
-#timep .time-container .time #timeClockMs {
-    position: relative;
-    display: inline-block;
-    flex-grow: 1;
-    font-size: 48px;
-    font-weight: bold;
-    letter-spacing: 1px;
-    opacity: 0.7;
-    transition: color 0.4s ease;
-    color: #34495e;
-}
-
-#timep .time-container .time #timeClockMs {
-    display: none;
-    flex-grow: 0;
-    font-size: 24px;
-    margin-bottom: 6px;
-}
-
-#timep .time-container.ms .time #timeClockMs {
-    display: inline-block;
-}
-
-#timep .time-container .time #timeClockMs::before {
-    content: "."
-}
-
-#timep .time-container[data-color="green"] .time #timeClock,
-#timep .time-container[data-color="green"] .time #timeClockMs {
-    color: #27ae60;
-}
-
-#timep .time-container[data-color="red"] .time #timeClock,
-#timep .time-container[data-color="red"] .time #timeClockMs {
-    color: #c0392b;
-}
-
-#timep .time-container .progressBar {
-    position: absolute;
-    bottom: 24px;
-    width: 90%;
 }
 
 #wrapper #wrapp .main .full {

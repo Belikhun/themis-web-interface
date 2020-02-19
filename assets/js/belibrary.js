@@ -376,6 +376,7 @@ function time(date = new Date()) {
 }
 
 function parseTime(t = 0, {
+	forceShowHours = false,
 	msDigit = 3,
 	showPlus = false
 } = {}) {
@@ -398,7 +399,7 @@ function parseTime(t = 0, {
 		ms: ms,
 		str: d + [h, m, s]
 			.map(v => v < 10 ? "0" + v : v)
-			.filter((v, i) => v !== "00" || i > 0)
+			.filter((v, i) => i > 0 || forceShowHours || v !== "00")
 			.join(":")
 	}
 }

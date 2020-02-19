@@ -87,6 +87,44 @@
     transform: translateY(100%);
 }
 
+.progressBar > .bar[data-blink="grow"] {
+    animation-name: progressBarBlinkGrow;
+    animation-timing-function: ease-in-out;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+.progressBar > .bar[data-blink="fade"] {
+    animation-name: progressBarBlinkFade;
+    animation-timing-function: ease-in-out;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+.progressBar > .bar[data-blink-fast="true"] {
+    animation-duration: 0.5s;
+}
+
+@keyframes progressBarBlinkGrow {
+    0%, 100%, 10%, 90% {
+        filter: brightness(0.95);
+    }
+
+    40%, 50% {
+        filter: brightness(1.3);
+    }
+}
+
+@keyframes progressBarBlinkFade {
+    0%, 100%, 10%, 90% {
+        opacity: 0;
+    }
+
+    40%, 50% {
+        opacity: 1;
+    }
+}
+
 /*? Colors */
 
 .progressBar > .bar[data-color="blue"] {
@@ -94,15 +132,15 @@
 }
 
 .progressBar > .bar[data-color="green"] {
-    background-color: #a3d40e;
+    background-color: #2cd40e;
 }
 
 .progressBar > .bar[data-color="red"] {
-    background-color: #c0392b;
+    background-color: #f36251;
 }
 
 .progressBar > .bar[data-color="yellow"] {
-    background-color: #bbb823;
+    background-color: #d4d23f;
 }
 
 .progressBar > .bar[data-color="pink"] {
@@ -135,7 +173,7 @@ body.dark .progressBar:not(.light) > .bar[data-color="blue"],
 
 body.dark .progressBar:not(.light) > .bar[data-color="green"],
 .progressBar.dark > .bar[data-color="green"] {
-    background-color: #60f15d;
+    background-color: #3fd865;
 }
 
 body.dark .progressBar:not(.light) > .bar[data-color="red"],
@@ -145,7 +183,7 @@ body.dark .progressBar:not(.light) > .bar[data-color="red"],
 
 body.dark .progressBar:not(.light) > .bar[data-color="yellow"],
 .progressBar.dark > .bar[data-color="yellow"] {
-    background-color: #f8f662;
+    background-color: #f1ef50;
 }
 
 body.dark .progressBar:not(.light) > .bar[data-color="pink"],

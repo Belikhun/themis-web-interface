@@ -93,7 +93,7 @@ timer {
     font-weight: bold;
     font-size: 21px;
     letter-spacing: .5px;
-    line-height: 22px;
+    line-height: 21px;
     user-select: none;
 }
 
@@ -105,8 +105,24 @@ body.dark timer[data-color = "red"] {
 	color: rgb(255, 169, 169);
 }
 
+timer[data-color = "green"] {
+	color: rgb(12, 184, 41);
+}
+
+body.dark timer[data-color = "green"] {
+	color: rgb(127, 248, 143);
+}
+
+timer[data-color = "blue"] {
+	color: rgb(35, 146, 236);
+}
+
+body.dark timer[data-color = "blue"] {
+	color: rgb(143, 238, 255);
+}
+
 timer > days {
-    font-size: 23px;
+    font-size: 25px;
 }
 
 timer > ms {
@@ -206,6 +222,19 @@ line {
 
 body.dark line {
 	background-color: rgba(56, 56, 56, 0.6);
+}
+
+separator {
+	position: relative;
+	display: inline-block;
+	width: 2px;
+	height: 16px;
+	margin: 0 8px;
+	background-color: rgba(56, 56, 56, 0.6);
+}
+
+body.dark separator {
+	background-color: rgba(212, 212, 212, 0.6);
 }
 
 .price::after {
@@ -525,6 +554,10 @@ body.dark line {
 }
 
 /* Dark */
+
+body.dark {
+	color: rgb(214, 214, 214);
+}
 
 body.dark a:not(.light) {
 	color: #19c8a5;

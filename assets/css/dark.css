@@ -17,21 +17,21 @@ body.dark #container {
 
 /* Navigation Bar */
 
-body.dark .nav {
+body.dark .navBar {
     background-color: rgb(56, 56, 56);
 }
 
-body.dark .nav .rnav .info .name,
-body.dark .nav .lnav .title .main {
+body.dark .navBar .top .right .info .name,
+body.dark .navBar .top .left .title .main {
     color: rgb(218, 218, 218);
 }
 
-body.dark .nav .rnav .info .tag,
-body.dark .nav .lnav .title .sub {
+body.dark .navBar .top .right .info .tag,
+body.dark .navBar .top .left .title .sub {
     color: rgb(182, 182, 182);
 }
 
-body.dark .nav .rnav .hamburger span {
+body.dark .navBar .top .right .hamburger span {
     background-color: rgb(216, 216, 216);
 }
 
@@ -135,102 +135,91 @@ body.dark .problemEnlarged .bottom .description::before {
 
 /* Time Panel */
 
-body.dark #timep .time-container #timeState {
+body.dark .contestTimer #contestTimeState {
     color: rgb(195, 195, 195);
 }
 
-body.dark #timep .time-container .time #timeClock,
-body.dark #timep .time-container .time #timeClockMs {
-    color: rgb(226, 226, 226);
+body.dark .contestTimer .reload {
+    color: rgba(218, 218, 218, 0.54);
 }
 
-body.dark #timep .time-container[data-color="red"] .time #timeClock,
-body.dark #timep .time-container[data-color="red"] .time #timeClockMs {
-    color: #f17466;
-}
-
-body.dark #timep .time-container[data-color="green"] .time #timeClock,
-body.dark #timep .time-container[data-color="green"] .time #timeClockMs {
-    color: #42ff91;
-}
-
-body.dark #timep .time-container[data-color="red"] #timeProgress {
-    background-color: #e03e2c;
+body.dark .contestTimer .reload:hover {
+    color: rgba(218, 218, 218, 0.82);
 }
 
 /* Rank Panel */
 
-body.dark #rankp div.ranking-container table tbody tr[data-rank="1"] {
+body.dark #rankp div.rankingContainer table tbody tr[data-rank="1"] {
     background-color: rgba(11, 129, 33, 0.2);
 }
 
-body.dark #rankp div.ranking-container table tbody tr[data-rank="2"] {
+body.dark #rankp div.rankingContainer table tbody tr[data-rank="2"] {
     background-color: rgba(136, 138, 15, 0.2);
 }
 
-body.dark #rankp div.ranking-container table tbody tr[data-rank="3"] {
+body.dark #rankp div.rankingContainer table tbody tr[data-rank="3"] {
     background-color: rgba(112, 12, 121, 0.2);
 }
 
-body.dark #rankp div.ranking-container table tbody tr[data-rank="1"] td:nth-child(3) .name,
-body.dark #rankp div.ranking-container table tbody tr[data-rank="2"] td:nth-child(3) .name,
-body.dark #rankp div.ranking-container table tbody tr[data-rank="3"] td:nth-child(3) .name {
+body.dark #rankp div.rankingContainer table tbody tr[data-rank="1"] td:nth-child(3) .name,
+body.dark #rankp div.rankingContainer table tbody tr[data-rank="2"] td:nth-child(3) .name,
+body.dark #rankp div.rankingContainer table tbody tr[data-rank="3"] td:nth-child(3) .name {
     color: rgb(236, 236, 236);
 }
 
-body.dark #rankp div.ranking-container table tr th {
+body.dark #rankp div.rankingContainer table tr th {
     background-color: #303030;
     color: rgb(202, 202, 202);
     border-bottom-color: rgb(88, 88, 88);
 }
 
-body.dark #rankp div.ranking-container table tr th:nth-child(1),
-body.dark #rankp div.ranking-container table tr td:nth-child(1) {
+body.dark #rankp div.rankingContainer table tr th:nth-child(1),
+body.dark #rankp div.rankingContainer table tr td:nth-child(1) {
     color: rgb(184, 184, 184);
 }
 
-body.dark #rankp div.ranking-container table tr td.number {
+body.dark #rankp div.rankingContainer table tr td.number {
     color: rgb(124, 124, 124);
 }
 
-body.dark #rankp div.ranking-container table tr td.number:nth-child(4) {
+body.dark #rankp div.rankingContainer table tr td.number:nth-child(4) {
     color: rgb(98, 202, 246);
 }
 
-body.dark #rankp div.ranking-container table tr .number.link,
-body.dark #rankp div.ranking-container table tr .number.correct,
-body.dark #rankp div.ranking-container table tr .number.passed,
-body.dark #rankp div.ranking-container table tr .number.accepted,
-body.dark #rankp div.ranking-container table tr .number.failed,
-body.dark #rankp div.ranking-container table tr .number.skipped {
+body.dark #rankp div.rankingContainer table tr .number.link,
+body.dark #rankp div.rankingContainer table tr .number.correct,
+body.dark #rankp div.rankingContainer table tr .number.passed,
+body.dark #rankp div.rankingContainer table tr .number.accepted,
+body.dark #rankp div.rankingContainer table tr .number.failed,
+body.dark #rankp div.rankingContainer table tr .number.skipped {
     color: rgb(224, 224, 224);
 }
 
-body.dark #rankp div.ranking-container table tr .number.correct {
+body.dark #rankp div.rankingContainer table tr .number.correct {
     background-color: rgb(19, 148, 34);
 }
 
-body.dark #rankp div.ranking-container table tr .number.passed {
+body.dark #rankp div.rankingContainer table tr .number.passed {
     background-color: rgb(20, 119, 144);
 }
 
-body.dark #rankp div.ranking-container table tr .number.accepted {
+body.dark #rankp div.rankingContainer table tr .number.accepted {
     background-color: rgb(138, 134, 24);
 }
 
-body.dark #rankp div.ranking-container table tr .number.failed {
+body.dark #rankp div.rankingContainer table tr .number.failed {
     background-color: rgb(151, 20, 20);
 }
 
-body.dark #rankp div.ranking-container table tr .number.skipped {
+body.dark #rankp div.rankingContainer table tr .number.skipped {
     background-color: rgb(90, 90, 90);
 }
 
-body.dark #rankp div.ranking-container table tr td:nth-child(3) {
+body.dark #rankp div.rankingContainer table tr td:nth-child(3) {
     color: #6099fb;
 }
 
-body.dark #rankp div.ranking-container table tr:nth-child(3) td:nth-child(2) .name {
+body.dark #rankp div.rankingContainer table tr:nth-child(3) td:nth-child(2) .name {
     background-color: #2b9959;
 }
 
@@ -575,24 +564,24 @@ body.dark .syslogs-settings .logsContainer .log.verb .level {
     color: rgb(217, 153, 246);
 }
 
-body.dark .syslogs-settings .navigation {
+body.dark .syslogs-settings .navBarigation {
     background-color: rgba(65, 65, 65, 0.8);
 }
 
-body.dark .syslogs-settings .navigation .left,
-body.dark .syslogs-settings .navigation .right {
+body.dark .syslogs-settings .navBarigation .left,
+body.dark .syslogs-settings .navBarigation .right {
     color: rgb(204, 204, 204);
 }
 
-body.dark .syslogs-settings .navigation .middle .icon::before {
+body.dark .syslogs-settings .navBarigation .middle .icon::before {
     color: rgb(95, 95, 95);
 }
 
-body.dark .syslogs-settings .navigation .middle .icon:hover::before {
+body.dark .syslogs-settings .navBarigation .middle .icon:hover::before {
     color: #f67fe6;
 }
 
-body.dark .syslogs-settings .navigation .middle .currentPage {
+body.dark .syslogs-settings .navBarigation .middle .currentPage {
     color: rgb(230, 230, 230);
 }
 
