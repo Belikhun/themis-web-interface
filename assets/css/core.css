@@ -179,7 +179,7 @@ body #container .flexColumn.small {
     bottom: 0;
     width: 100%;
     margin-top: 28px;
-    height: 5px;
+    height: 4px;
 }
 
 .contestTimer .progressBar > .left,
@@ -658,12 +658,12 @@ body.guest #problemp.hide {
     transform: translateX(-50%);
 }
 
-.problem-settings {
+.problemSettings {
     padding: unset;
     height: 220px;
 }
 
-.problem-settings .problem-header {
+.problemSettings .header {
     height: 40px;
     background-color: #F5F5F6;
     display: flex;
@@ -671,12 +671,12 @@ body.guest #problemp.hide {
     padding: 0 10px;
 }
 
-.problem-settings .problem-header div span {
+.problemSettings .header div span {
     padding: 0 3px;
     cursor: pointer;
 }
 
-.problem-settings .problem-header div span::before {
+.problemSettings .header div span::before {
     font-family: "Font Awesome 5 Free";
     font-size: 14px;
     font-weight: 600;
@@ -684,45 +684,47 @@ body.guest #problemp.hide {
     transition: color 0.2s ease;
 }
 
-.problem-settings .problem-header div span:hover::before {
+.problemSettings .header div span:hover::before {
     color: rgba(98, 98, 98, 0.82)
 }
 
-.problem-settings .problem-header .left .back::before {
+.problemSettings .header .left .back::before {
     content: "\f104";
 }
 
-.problem-settings .problem-header .right .add::before {
+.problemSettings .header .right .add::before {
     content: "\f067";
     font-size: 12px;
 }
 
-.problem-settings .problem-header .right .check::before {
+.problemSettings .header .right .check::before {
     content: "\f00c";
     font-size: 12px;
 }
 
-.problem-settings .problem-header .title {
+.problemSettings .header .title {
     position: absolute;
     left: 50%;
     color: #a5a5a5;
     transform: translateX(-50%);
 }
 
-.problem-settings .problem-header .right {
+.problemSettings .header .right {
     position: absolute;
     right: 10px;
 }
 
-.problem-settings .problem-container {
+.problemSettings .problemsContainer {
     position: relative;
     height: calc(100% - 46px);
     background-color: transparent;
     overflow: hidden;
 }
 
-.problem-settings .problem-container .problem-list {
+.problemSettings .problemsContainer .problemsList {
     position: relative;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     height: 100%;
     margin: unset;
@@ -733,7 +735,7 @@ body.guest #problemp.hide {
     transition: all 0.4s ease;
 }
 
-.problem-settings .problem-container .problem-list li.item {
+.problemSettings .problemsContainer .problemsList li.item {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -745,15 +747,15 @@ body.guest #problemp.hide {
     border-bottom: unset;
 }
 
-.problem-settings .problem-container .problem-list li.item:hover {
+.problemSettings .problemsContainer .problemsList li.item:hover {
     background-color: rgba(245, 245, 246, 0.4);
 }
 
-.problem-settings .problem-container .problem-list li.item:after {
+.problemSettings .problemsContainer .problemsList li.item:after {
     content: unset;
 }
 
-.problem-settings .problem-container .problem-list li.item .icon {
+.problemSettings .problemsContainer .problemsList li.item .icon {
     position: relative;
     flex-grow: 0;
     flex-shrink: 0;
@@ -763,7 +765,7 @@ body.guest #problemp.hide {
     object-fit: cover;
 }
 
-.problem-settings .problem-container .problem-list li.item .title {
+.problemSettings .problemsContainer .problemsList li.item .title {
     position: relative;
     flex-grow: 1;
     flex-shrink: 1;
@@ -772,30 +774,30 @@ body.guest #problemp.hide {
     padding: 0 0 0 10px;
 }
 
-.problem-settings .problem-container .problem-list li.item .title .id {
+.problemSettings .problemsContainer .problemsList li.item .title .id {
     font-size: 11px;
     color: rgba(73, 73, 73, 0.6);;
     letter-spacing: 0.4px;
 }
 
-.problem-settings .problem-container .problem-list li.item .title .name {
+.problemSettings .problemsContainer .problemsList li.item .title .name {
     font-size: 14px;
     color: #494949;
 }
 
-.problem-settings .problem-container .problem-list li.item .action {
+.problemSettings .problemsContainer .problemsList li.item .action {
     position: relative;
     display: block;
     flex-grow: 0;
     flex-shrink: 0;
 }
 
-.problem-settings .problem-container .problem-list li.item .action span {
+.problemSettings .problemsContainer .problemsList li.item .action span {
     padding: 0 4px;
     cursor: pointer;
 }
 
-.problem-settings .problem-container .problem-list li.item .action span::before {
+.problemSettings .problemsContainer .problemsList li.item .action span::before {
     font-family: "Font Awesome 5 Free";
     font-size: 16px;
     font-weight: 600;
@@ -803,27 +805,27 @@ body.guest #problemp.hide {
     transition: color 0.1s ease;
 }
 
-.problem-settings .problem-container .problem-list li.item .action span.delete::before {
+.problemSettings .problemsContainer .problemsList li.item .action span.delete::before {
     content: "\f1f8";
 }
 
-.problem-settings .problem-container .problem-list li.item .action span.delete:hover::before {
+.problemSettings .problemsContainer .problemsList li.item .action span.delete:hover::before {
     color: #e74c3c;
 }
 
-.problem-settings .problem-container .problem-list li.item .action span.edit::before {
+.problemSettings .problemsContainer .problemsList li.item .action span.edit::before {
     content: "\f304";
 }
 
-.problem-settings .problem-container .problem-list li.item .action span.edit:hover::before {
+.problemSettings .problemsContainer .problemsList li.item .action span.edit:hover::before {
     color: #3498db;
 }
 
-.problem-settings .problem-container .problem-list.hide {
+.problemSettings .problemsContainer .problemsList.hide {
     transform: translateX(-100%);
 }
 
-.problem-settings .problem-container .problem {
+.problemSettings .problemsContainer .problem {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -836,22 +838,22 @@ body.guest #problemp.hide {
     transition: all 0.4s ease;
 }
 
-.problem-settings .problem-container .problem-list.hide + .problem {
+.problemSettings .problemsContainer .problemsList.hide + .problem {
     transform: unset;
 }
 
-.problem-settings .problem-container .problem #problemEdit_desc {
+.problemSettings .problemsContainer .problem #problemEdit_desc {
     resize: none;
     height: 160px;
 }
 
-.problem-settings .problem-container .problem #problemEdit_deleteImage,
-.problem-settings .problem-container .problem #problemEdit_deleteAttachment {
+.problemSettings .problemsContainer .problem #problemEdit_deleteImage,
+.problemSettings .problemsContainer .problem #problemEdit_deleteAttachment {
     width: 100%;
     margin-top: 8px;
 }
 
-.problem-settings .problem-container .problem .test-container {
+.problemSettings .problemsContainer .problem .test-container {
     position: relative;
     margin-bottom: 20px;
     border-bottom: 1px solid rgba(39, 39, 39, 0.4);
@@ -859,12 +861,12 @@ body.guest #problemp.hide {
     transition: 0.3s;
 }
 
-.problem-settings .problem-container .problem .test-container:hover {
+.problemSettings .problemsContainer .problem .test-container:hover {
     border-bottom: 2px solid #4285f4;
     padding-bottom: 0;
 }
 
-.problem-settings .problem-container .problem .test-container .test {
+.problemSettings .problemsContainer .problem .test-container .test {
     display: block;
     font-size: 8px;
     font-weight: 700;
@@ -874,23 +876,23 @@ body.guest #problemp.hide {
     transition: 0.3s;
 }
 
-.problem-settings .problem-container .problem .test-container:hover .test {
+.problemSettings .problemsContainer .problem .test-container:hover .test {
     color: #4285f4;
 }
 
-.problem-settings .problem-container .problem .test-container .test-list {
+.problemSettings .problemsContainer .problem .test-container .test-list {
     position: relative;
     width: 100%;
     box-sizing: border-box;
     display: block;
 }
 
-.problem-settings .problem-container .problem .test-container .test-list .cell {
+.problemSettings .problemsContainer .problem .test-container .test-list .cell {
     position: relative;
     height: 60px;
 }
 
-.problem-settings .problem-container .problem .test-container .test-list .cell textarea {
+.problemSettings .problemsContainer .problem .test-container .test-list .cell textarea {
     position: relative;
     resize: none;
     border: unset;
@@ -902,7 +904,7 @@ body.guest #problemp.hide {
     border-bottom: 1px solid rgba(39, 39, 39, 0.4);
 }
 
-.problem-settings .problem-container .problem .test-container .test-list .cell .delete {
+.problemSettings .problemsContainer .problem .test-container .test-list .cell .delete {
     position: absolute;
     display: block;
     right: 0;
@@ -913,11 +915,11 @@ body.guest #problemp.hide {
     transition: 0.2s;
 }
 
-.problem-settings .problem-container .problem .test-container .test-list .cell .delete:hover {
+.problemSettings .problemsContainer .problem .test-container .test-list .cell .delete:hover {
     background-color: rgba(202, 202, 202, 0.2);
 }
 
-.problem-settings .problem-container .problem .test-container .test-list .cell .delete::before {
+.problemSettings .problemsContainer .problem .test-container .test-list .cell .delete::before {
     content: "\f2ed";
     position: absolute;
     top: 50%;
@@ -930,11 +932,11 @@ body.guest #problemp.hide {
     transition: 0.2s;
 }
 
-.problem-settings .problem-container .problem .test-container .test-list .cell .delete:hover::before {
+.problemSettings .problemsContainer .problem .test-container .test-list .cell .delete:hover::before {
     color: #e74c3c;
 }
 
-.problem-settings .problem-container .problem .test-container .test-add {
+.problemSettings .problemsContainer .problem .test-container .test-add {
     position: relative;
     display: flex;
     align-items: center;
@@ -944,11 +946,11 @@ body.guest #problemp.hide {
     transition: 0.2s;
 }
 
-.problem-settings .problem-container .problem .test-container .test-add:hover {
+.problemSettings .problemsContainer .problem .test-container .test-add:hover {
     background-color: rgba(202, 202, 202, 0.2);
 }
 
-.problem-settings .problem-container .problem .test-container .test-add::after {
+.problemSettings .problemsContainer .problem .test-container .test-add::after {
     content: "\f067";
     font-family: "Font Awesome 5 Free";
     font-size: 18px;
@@ -957,11 +959,11 @@ body.guest #problemp.hide {
     transition: 0.2s;
 }
 
-.problem-settings .problem-container .problem .test-container .test-add:hover::after {
+.problemSettings .problemsContainer .problem .test-container .test-add:hover::after {
     color: #494949;
 }
 
-.problem-settings .problem-container .problem button[type="submit"] {
+.problemSettings .problemsContainer .problem button[type="submit"] {
     display: none;
 }
 
@@ -1239,47 +1241,52 @@ body.guest #problemp.hide {
 }
 
 
-#problemp .problem-container {
+#problemp .problemsContainer {
     overflow: hidden;
 }
 
-#problemp .problem-container .problem-list:empty::before {
+#problemp .problemsContainer .problemsList:empty::before {
     content: "\f51b";
 }
 
-#problemp .problem-container .problem-list:empty::after {
-    content: "Không tìm thấy đề hoặc chưa bắt đầu kì thi.";
+#problemp .problemsContainer .problemsList:empty::after {
+    content: "Không tìm thấy đề hoặc chưa bắt đầu kì thi";
 }
 
-#problemp .problem-container .problem-list {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    margin: unset;
-    padding: unset;
-    list-style: none;
-    overflow-x: hidden;
-    overflow-y: auto;
-    transition: all 0.4s ease;
-}
-
-#problemp .problem-container .problem-list li.item {
+#problemp .problemsContainer .problemsList {
     position: relative;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
-    align-items: center;
+    justify-content: stretch;
     width: 100%;
+    max-height: 100%;
     box-sizing: border-box;
     padding: 10px;
-    cursor: pointer;
-    border-bottom: 1px solid #e6e6e6;
+
+    animation: problemsListShow 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0s 1 normal forwards;
 }
 
-#problemp .problem-container .problem-list li.item:hover {
+#problemp .problemsContainer .problemsList .item {
+    position: relative;
+    display: flex;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-direction: row;
+    align-items: center;
+    box-sizing: border-box;
+    cursor: pointer;
+    margin: 10px;
+    padding: 10px 40px 10px 20px;
+    border-radius: 12px;
+    background-color: rgba(238, 238, 238, 0.6);
+}
+
+#problemp .problemsContainer .problemsList .item:hover {
     background-color: rgba(124, 124, 124, 0.1);
 }
 
-#problemp .problem-container .problem-list li.item:after {
+#problemp .problemsContainer .problemsList .item:after {
     content: "\f105";
     position: absolute;
     font-family: "Font Awesome 5 Free";
@@ -1289,7 +1296,7 @@ body.guest #problemp.hide {
     right: 20px;
 }
 
-#problemp .problem-container .problem-list li.item .icon {
+#problemp .problemsContainer .problemsList .item .icon {
     position: relative;
     display: inline-block;
     flex: 0 0 1;
@@ -1299,7 +1306,7 @@ body.guest #problemp.hide {
     object-fit: cover;
 }
 
-#problemp .problem-container .problem-list li.item .title {
+#problemp .problemsContainer .problemsList .item .title {
     display: inline-block;
     flex: 1 1 0;
     list-style: none;
@@ -1307,7 +1314,7 @@ body.guest #problemp.hide {
     padding: 0 0 0 10px;
 }
 
-#problemp .problem-container .problem-list li.item .title .name {
+#problemp .problemsContainer .problemsList .item .title .name {
     position: relative;
     font-family: Exo;
     font-size: 15px;
@@ -1315,7 +1322,7 @@ body.guest #problemp.hide {
     color: #494949;
 }
 
-#problemp .problem-container .problem-list li.item .title .point {
+#problemp .problemsContainer .problemsList .item .title .point {
     position: relative;
     display: inline-block;
     font-size: 11px;
@@ -1327,7 +1334,7 @@ body.guest #problemp.hide {
     border-radius: 4px;
 }
 
-#problemp .problem-container .problem {
+#problemp .problemsContainer .problem {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -1337,19 +1344,98 @@ body.guest #problemp.hide {
     padding: 10px;
     overflow-x: hidden;
     overflow-y: auto;
-    transform: translateX(100%);
-    transition: all 0.4s ease;
+    background-color: inherit;
+
+    animation: problemViewerHide 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0s 1 normal forwards;
 }
 
-#problemp .problem-container .problem-list.hide {
-    transform: translateX(-100%);
+@keyframes problemsListShow {
+    0% {
+        visibility: hidden;
+    }
+
+    1% {
+        visibility: visible;
+        transform: scale(.9);
+        filter: blur(6px) brightness(.9);
+        opacity: 0;
+    }
+
+    100% {
+        visibility: visible;
+        transform: scale(1);
+        filter: blur(0) brightness(1);
+        opacity: 1;
+    }
 }
 
-#problemp .problem-container .problem-list.hide + .problem {
-    transform: unset;
+@keyframes problemsListHide {
+    0% {
+        transform: scale(1);
+        filter: blur(0) brightness(1);
+        opacity: 1;
+    }
+
+    99% {
+        transform: scale(.9);
+        filter: blur(6px) brightness(.9);
+        opacity: 0;
+    }
+
+    100% {
+        visibility: hidden;
+    }
 }
 
-#problemp .problem-container .problem .name {
+@keyframes problemViewerShow {
+    0% {
+        visibility: hidden;
+        transform: translateX(100%);
+    }
+
+    1% {
+        visibility: visible;
+        transform: scale(1.1);
+        filter: blur(6px) brightness(.9);
+        opacity: 0;
+    }
+
+    100% {
+        visibility: visible;
+        transform: scale(1);
+        filter: blur(0) brightness(1);
+        opacity: 1;
+    }
+}
+
+@keyframes problemViewerHide {
+    0% {
+        transform: scale(1);
+        filter: blur(0) brightness(1);
+        opacity: 1;
+    }
+
+    99% {
+        transform: scale(1.1);
+        filter: blur(6px) brightness(.9);
+        opacity: 0;
+    }
+
+    100% {
+        visibility: hidden;
+        transform: translateX(100%);
+    }
+}
+
+#problemp .problemsContainer .problemsList.hide {
+    animation: problemsListHide 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0s 1 normal forwards;
+}
+
+#problemp .problemsContainer .problemsList.hide + .problem {
+    animation: problemViewerShow 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0s 1 normal forwards;
+}
+
+#problemp .problemsContainer .problem .name {
     display: block;
     text-align: center;
     font-family: Exo;
@@ -1359,7 +1445,7 @@ body.guest #problemp.hide {
     color: #34495e;
 }
 
-#problemp .problem-container .problem .point {
+#problemp .problemsContainer .problem .point {
     display: block;
     text-align: center;
     font-size: 12px;
@@ -1368,14 +1454,16 @@ body.guest #problemp.hide {
     letter-spacing: 0.4px;
 }
 
-#problemp .problem-container .problem .enlarge {
+#problemp .problemsContainer .problem .enlarge,
+#problemp .problemsContainer .problem .close {
     position: absolute;
     display: block;
-    top: 10px;
-    right: 10px;
+    top: 20px;
+    right: 50px;
 }
 
-#problemp .problem-container .problem .enlarge::before {
+#problemp .problemsContainer .problem .enlarge::before,
+#problemp .problemsContainer .problem .close::before {
     content: "\f360";
     position: relative;
     font-family: "Font Awesome 5 Free";
@@ -1385,59 +1473,81 @@ body.guest #problemp.hide {
     color: rgb(92, 92, 92);
 }
 
-#problemp .problem-container .problem .description {
+#problemp .problemsContainer .problem .close {
+    right: 20px;
+}
+
+#problemp .problemsContainer .problem .close::before {
+    content: "\f00d";
+}
+
+#problemp .problemsContainer .problem .info {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 6px 0 20px 0;
+}
+
+#problemp .problemsContainer .problem .info .filename::before {
+    content: "ID: ";
+}
+
+#problemp .problemsContainer .problem .description {
     white-space: pre-wrap;
 }
 
-#problemp .problem-container .problem .description > a,
-#problemp .problem-container .problem .description > table,
-#problemp .problem-container .problem .description > ul {
+#problemp .problemsContainer .problem .description > a,
+#problemp .problemsContainer .problem .description > table,
+#problemp .problemsContainer .problem .description > ul {
     display: block;
 }
 
-#problemp .problem-container .problem .simple-table-wrapper {
-    padding: 10px 0;
-}
-
-#problemp .problem-container .problem .simple-table-wrapper .simple-table {
-    width: 100%;
-}
-
-#problemp .problem-container .problem .simple-table-wrapper .simple-table.test tr td {
-    white-space: pre;
-}
-
-#problemp .problem-container .problem table tr:hover {
+#problemp .problemsContainer .problem table tr:hover {
     background-color: rgba(126, 126, 126, 0.1);
 }
 
-#problemp .problem-container .problem table.test tr td {
+#problemp .problemsContainer .problem table.test tr td {
     font-family: "Consolas";
 }
 
-#problemp .problem-container .problem .image {
+#problemp .problemsContainer .problem .image {
     position: relative;
     width: 100%;
     margin: 10px 0;
     border: 1px solid #ccc;
 }
 
-#problemp .problem-container .problem .attachment {
+#problemp .problemsContainer .problem .attachment {
+    position: relative;
+    display: block;
     margin-top: 10px;
 }
 
-#problemp .problem-container .problem .attachment .link {
+#problemp .problemsContainer .problem .attachment .link {
+    position: relative;
+    display: block;
     font-size: 14px;
 }
 
-#problemp .problem-container .problem .attachment::before {
+#problemp .problemsContainer .problem .attachment .link::before {
     content: "Tệp đính kèm:";
     position: relative;
     display: inline-block;
     font-family: "Calibri";
     font-size: 13px;
     font-weight: bold;
+    user-select: none;
+    margin-right: 4px;
     color: rgb(124, 124, 124);
+}
+
+#problemp .problemsContainer .problem .attachment .embed {
+    width: 100%;
+    height: 0;
+    padding: 10px 0 20px 0;
+    transition: height 0.4s ease-in;
 }
 
 /* *rankingContainer */
@@ -1695,7 +1805,7 @@ body.guest #problemp.hide {
     font-size: 14px;
 }
 
-.problemEnlarged .left .top .simple-table-wrapper .simple-table {
+.problemEnlarged .left .top .simpleTableWrapper .simpleTable {
     width: 100%;
 }
 
@@ -1710,7 +1820,7 @@ body.guest #problemp.hide {
     background-color: rgb(238, 238, 238);
 }
 
-.problemEnlarged .left .bottom .simple-table-wrapper {
+.problemEnlarged .left .bottom .simpleTableWrapper {
     position: relative;
     display: block;
     width: auto;
@@ -1718,7 +1828,7 @@ body.guest #problemp.hide {
     margin-top: 20px;
 }
 
-.problemEnlarged .left .bottom .simple-table-wrapper .simple-table.test tr td {
+.problemEnlarged .left .bottom .simpleTableWrapper .simpleTable.test tr td {
     font-family: "Consolas";
     white-space: pre;
 }
@@ -2359,7 +2469,7 @@ footer .header t.subtitle {
     color: rgb(90, 90, 90);
 }
 
-footer .simple-table {
+footer .simpleTable {
     width: 100%;
     max-width: 220px;
     margin: auto;

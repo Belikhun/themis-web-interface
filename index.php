@@ -522,8 +522,8 @@
                             <span class="sound" data-soundhover data-soundselect></span>
                         </div>
 
-                        <div class="main problem-settings">
-                            <div class="problem-header">
+                        <div class="main problemSettings">
+                            <div class="header">
                                 <div class="left">
                                     <span id="problemEdit_btn_back" class="back sound" data-soundhover></span>
                                 </div>
@@ -533,8 +533,8 @@
                                     <span id="problemEdit_btn_check" class="check sound" data-soundhover></span>
                                 </div>
                             </div>
-                            <div class="problem-container">
-                                <ul id="problemEdit_list" class="problem-list sound" data-soundtoggle="hide"></ul>
+                            <div class="problemsContainer">
+                                <ul id="problemEdit_list" class="problemsList sound" data-soundtoggle="hide"></ul>
                                 <form id="problemEdit_form" class="problem" action="javascript:void(0);" autocomplete="off">
                                     <div class="formGroup blue">
                                         <input id="problemEdit_id" type="text" class="formField sound" placeholder="Tên Tệp" data-soundselectsoft required>
@@ -662,7 +662,7 @@
                                     </div>
                                 </div>
 
-                                <table class="simple-table">
+                                <table class="simpleTable">
                                     <tbody>
                                         <tr>
                                             <th>Local</th>
@@ -744,48 +744,39 @@
                                 <i class="material-icons clo sound" title="Đóng" data-soundhover data-soundselect>close</i>
                             </span>
                         </div>
-                        <div class="main problem-container">
-                            <ul class="problem-list showEmpty sound" data-soundtoggle="hide" id="problemList">
-                            </ul>
+                        <div class="main problemsContainer">
+                            <div class="problemsList showEmpty sound" data-soundtoggle="hide" id="problemsList">
+                            </div>
                             <div class="problem">
                                 <t class="name" id="problem_name"></t>
                                 <t class="point" id="problem_point"></t>
-                                <span class="enlarge" id="problem_enlarge" title="Phóng to"></span>
+                                <span class="enlarge sound" id="problemViewerEnlarge" title="Phóng to" data-soundhoversoft data-soundselectsoft></span>
+                                <span class="close sound" id="problemViewerClose" title="Đóng" data-soundhoversoft data-soundselectsoft></span>
                                 
-                                <div class="simple-table-wrapper">
-                                    <table class="simple-table type">
-                                        <tr class="filename">
-                                            <td>Tên tệp</td>
-                                            <td id="problem_type_filename"></td>
-                                        </tr>
-                                        <tr class="lang">
-                                            <td>Loại tệp</td>
-                                            <td id="problem_type_lang"></td>
-                                        </tr>
-                                        <tr class="time">
-                                            <td>Thời gian chạy</td>
-                                            <td id="problem_type_time"></td>
-                                        </tr>
-                                        <tr class="inp">
-                                            <td>Dữ liệu vào</td>
-                                            <td id="problem_type_inp"></td>
-                                        </tr>
-                                        <tr class="out">
-                                            <td>Dữ liệu ra</td>
-                                            <td id="problem_type_out"></td>
-                                        </tr>
-                                    </table>
+                                <div class="info">
+                                    <t title="Tên tệp" class="filename" id="problemInfoFilename"></t>
+                                    <dot></dot>
+                                    <t title="Loại tệp" id="problemInfoLanguage"></t>
+                                    <dot></dot>
+                                    <t title="Thời gian chạy" id="problemInfoRuntime"></t>
+                                    <dot></dot>
+                                    <t title="Giới hạn bộ nhớ" id="problemInfoMemory">?MB</t>
                                 </div>
 
-                                <t class="description" id="problem_description"></t>
+                                <t class="description" id="problemDescription"></t>
                                 <div class="lazyload image" id="problem_image"></div>
 
-                                <div id="problem_attachment" class="attachment">
-                                    <a id="problem_attachment_link" class="link" href=""></a>
+                                <div id="problemAttachment" class="attachment">
+                                    <a id="problemAttachmentLink" class="link" href=""></a>
+
+                                    <div id="problemAttachmentPreviewWrapper" class="lazyload embed">
+                                        <embed id="problemAttachmentPreview" src=""/>
+                                        <div class="simple-spinner"></div>
+                                    </div>
                                 </div>
 
-                                <div class="simple-table-wrapper">
-                                    <table class="simple-table test" id="problem_test"></table>
+                                <div class="simpleTableWrapper">
+                                    <table class="simpleTable test" id="problemTests"></table>
                                 </div>
                             </div>
                         </div>

@@ -93,27 +93,33 @@ body.dark #uploadp .fileupload-container .info #submitFileName {
 
 /* Problems Panel */
 
-body.dark #problemp .problem-container .problem-list li.item {
+body.dark #problemp .problemsContainer .problemsList .item {
+    background-color: rgb(56, 56, 56);
     border-bottom-color: rgb(88, 88, 88);
 }
 
-body.dark #problemp .problem-container .problem-list li.item .title .name {
+body.dark #problemp .problemsContainer .problemsList .item:hover {
+    background-color: rgb(70, 70, 70);
+}
+
+body.dark #problemp .problemsContainer .problemsList .item .title .name {
     color: rgb(214, 214, 214);
 }
 
-body.dark #problemp .problem-container .problem-list li.item .title .point {
+body.dark #problemp .problemsContainer .problemsList .item .title .point {
     background-color: #269555;
 }
 
-body.dark #problemp .problem-container .problem .name {
+body.dark #problemp .problemsContainer .problem .name {
     color: rgb(216, 216, 216);
 }
 
-body.dark #problemp .problem-container .problem .point {
+body.dark #problemp .problemsContainer .problem .point {
     color: #29db73;
 }
 
-body.dark #problemp .problem-container .problem .enlarge::before {
+body.dark #problemp .problemsContainer .problem .enlarge::before,
+body.dark #problemp .problemsContainer .problem .close::before {
     color: rgb(202, 202, 202);
 }
 
@@ -325,35 +331,35 @@ body.dark #userSettings .main .container .group .item .info .right {
 
 /* Problems Editor */
 
-body.dark .problem-settings .problem-header {
+body.dark .problemSettings .header {
     background-color: rgb(56, 56, 56);
 }
 
-body.dark .problem-settings .problem-header div span::before {
+body.dark .problemSettings .header div span::before {
     color: rgba(190, 190, 190, 0.54);
 }
 
-body.dark .problem-settings .problem-container .problem-list li.item:hover {
+body.dark .problemSettings .problemsContainer.problemsList li.item:hover {
     background-color: rgba(36, 36, 36, 0.4);
 }
 
-body.dark .problem-settings .problem-container .problem-list li.item .title .id {
+body.dark .problemSettings .problemsContainer.problemsList li.item .title .id {
     color: rgb(160, 160, 160);
 }
 
-body.dark .problem-settings .problem-container .problem-list li.item .title .name {
+body.dark .problemSettings .problemsContainer.problemsList li.item .title .name {
     color: rgb(214, 214, 214);
 }
 
-body.dark .problem-settings .problem-container .problem .test-container .test-list .cell textarea {
+body.dark .problemSettings .problemsContainer.problem .test-container .test-list .cell textarea {
     color: rgb(204, 204, 204);
 }
 
-body.dark .problem-settings .problem-container .problem .test-container .test-add:hover {
+body.dark .problemSettings .problemsContainer.problem .test-container .test-add:hover {
     background-color: rgba(202, 202, 202, 0.1);
 }
 
-body.dark .problem-settings .problem-container .problem .test-container .test-add:hover::after {
+body.dark .problemSettings .problemsContainer.problem .test-container .test-add:hover::after {
     color: rgb(204, 204, 204);
 }
 

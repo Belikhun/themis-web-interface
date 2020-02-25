@@ -136,7 +136,7 @@
 }
 
 .splash .middle .tips::before {
-    content: "Tips: ";
+    content: "Tip: ";
     font-weight: bold;
 }
 

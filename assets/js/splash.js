@@ -8,7 +8,8 @@
 class splash {
     get tips() {
         let tips = [
-            "Thử tải lại cứng bằng tổ hợp phím <b>Ctrl + Shift + R</b> hoặc <b>Ctrl + F5</b> nếu có lỗi xảy ra"
+            "Thử tải lại cứng bằng tổ hợp phím <b>Ctrl + Shift + R</b> hoặc <b>Ctrl + F5</b> nếu có lỗi xảy ra",
+            "Bạn có thể bật chế độ ban đêm trong bảng <b>Cài Đặt</b> của Themis Web Interface"
         ]
 
         return tips[randBetween(0, tips.length - 1)];

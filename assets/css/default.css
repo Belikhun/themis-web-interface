@@ -164,7 +164,7 @@ tag {
 	transition: unset;
 }
 
-.lazyload > img {
+.lazyload > :first-child {
 	position: relative;
 	display: block;
 	width: 100%;
@@ -193,7 +193,7 @@ tag {
 	background-color: transparent;
 }
 
-.lazyload[data-loaded] > img {
+.lazyload[data-loaded] > :first-child {
 	opacity: 1;
 }
 

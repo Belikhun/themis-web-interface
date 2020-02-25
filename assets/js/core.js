@@ -804,24 +804,25 @@ const core = {
 
     problems: {
         panel: new regPanel($("#problemp")),
-        list: $("#problemList"),
+        list: $("#problemsList"),
         name: $("#problem_name"),
         point: $("#problem_point"),
-        enlargeBtn: $("#problem_enlarge"),
+        enlargeBtn: $("#problemViewerEnlarge"),
+        closeBtn: $("#problemViewerClose"),
         type: {
-            filename: $("#problem_type_filename"),
-            lang: $("#problem_type_lang"),
-            time: $("#problem_type_time"),
-            inp: $("#problem_type_inp"),
-            out: $("#problem_type_out")
+            filename: $("#problemInfoFilename"),
+            lang: $("#problemInfoLanguage"),
+            time: $("#problemInfoRuntime"),
+            mem: $("#problemInfoMemory")
         },
         image: $("#problem_image"),
-        description: $("#problem_description"),
-        test: $("#problem_test"),
+        description: $("#problemDescription"),
+        test: $("#problemTests"),
         attachment: {
-            me: $("#problem_attachment"),
-            link: $("#problem_attachment_link"),
-            size: $("#problem_attachment_size")
+            container: $("#problemAttachment"),
+            link: $("#problemAttachmentLink"),
+            preview: $("#problemAttachmentPreview"),
+            previewWrapper: $("#problemAttachmentPreviewWrapper")
         },
         loaded: false,
         data: null,
@@ -829,18 +830,20 @@ const core = {
 
         async init(loggedIn = false) {
             this.panel.bak.hide();
-            this.panel.bak.onClick(() => {
-                this.list.classList.remove("hide");
-                this.panel.title = "Đề bài";
-                this.panel.bak.hide();
-            })
+            this.panel.bak.onClick(() => this.closeViewer());
+            this.closeBtn.addEventListener("mouseup", () => this.closeViewer());
 
             if (loggedIn)
                 this.panel.clo.hide();
 
-            this.enlargeBtn.addEventListener("click", () => this.enlargeProblem(this.data));
+            this.enlargeBtn.addEventListener("mouseup", () => this.enlargeProblem(this.data));
             this.panel.ref.onClick(() => this.getList());
             this.panel.clo.onClick(() => this.panel.elem.classList.add("hide"));
+
+            this.attachment.preview.addEventListener("load", e => {
+                this.attachment.previewWrapper.dataset.loaded = 1;
+                this.attachment.previewWrapper.style.height = e.target.clientWidth * 1.314 + "px"
+            })
 
             await this.getList();
 
@@ -882,7 +885,7 @@ const core = {
             let html = "";
             data.forEach(item => {
                 html += `
-                    <li class="item" onClick="core.problems.viewProblem('${item.id}');">
+                    <span class="item" onClick="core.problems.viewProblem('${item.id}');">
                         <div class="lazyload icon">
                             <img onload="this.parentNode.dataset.loaded = 1" src="${item.image}"/>
                             <div class="simple-spinner"></div>
@@ -891,7 +894,7 @@ const core = {
                             <li class="name">${item.name}</li>
                             <li class="point">${item.point} điểm</li>
                         </ul>
-                    </li>
+                    </span>
                 `
             })
             this.list.innerHTML = html;
@@ -904,6 +907,7 @@ const core = {
             });
 
             this.panel.title = "Đang tải...";
+            this.attachment.previewWrapper.removeAttribute("loaded");
 
             let response = await myajax({
                 url: "/api/contest/problems/get",
@@ -928,8 +932,6 @@ const core = {
             this.type.filename.innerText = data.id;
             this.type.lang.innerText = data.accept.join(", ");
             this.type.time.innerText = data.time + " giây";
-            this.type.inp.innerText = data.type.inp;
-            this.type.out.innerText = data.type.out;
 
             if (data.image) {
                 this.image.style.display = "block";
@@ -941,11 +943,17 @@ const core = {
                 this.image.style.display = "none";
 
             if (data.attachment.url) {
-                this.attachment.me.style.display = "block";
+                this.attachment.container.style.display = "block";
                 this.attachment.link.href = data.attachment.url;
                 this.attachment.link.innerText = `${data.attachment.file} (${convertSize(data.attachment.size)})`;
+
+                if (data.attachment.embed) {
+                    this.attachment.preview.display = "block";
+                    this.attachment.preview.src = `${data.attachment.url}&embed=true#toolbar=0&navpanes=0&scrollbar=0&statusbar=0&messages=0&scrollbar=0&page=1&view=FitH`
+                } else
+                    this.attachment.preview.display = "none";
             } else
-                this.attachment.me.style.display = "none";
+                this.attachment.container.style.display = "none";
 
             this.description.innerHTML = data.description;
             testhtml = "";
@@ -964,6 +972,12 @@ const core = {
                     <th>${data.type.out}</th>
                 </tr>
             ` + testhtml;
+        },
+
+        closeViewer() {
+            this.list.classList.remove("hide");
+            this.panel.title = "Đề bài";
+            this.panel.bak.hide();
         },
 
         enlargeProblem(data) {
@@ -990,8 +1004,8 @@ const core = {
                                     <t class="point">${data.point} điểm</t>
                                 </div>
 
-                                <div class="col simple-table-wrapper">
-                                    <table class="simple-table type">
+                                <div class="col simpleTableWrapper">
+                                    <table class="simpleTable type">
                                         <tbody>
                                             <tr class="filename">
                                                 <td>Tên tệp</td>
@@ -1039,8 +1053,8 @@ const core = {
 
                             ${(data.test.length !== 0)
                                 ?   `
-                                    <div class="group simple-table-wrapper">
-                                        <table class="simple-table test">
+                                    <div class="group simpleTableWrapper">
+                                        <table class="simpleTable test">
                                             <tbody>
                                                 <tr>
                                                     <th>${data.type.inp}</th>
@@ -1056,9 +1070,7 @@ const core = {
                     </span>
                     <span class="right">
                         ${(data.attachment.url && data.attachment.embed)
-                            ?   `<object class="embedAttachment" data="${data.attachment.url}&embed=true">
-                                    <embed src="${data.attachment.url}&embed=true"/>
-                                </object>`
+                            ?   `<embed class="embedAttachment" src="${data.attachment.url}&embed=true#toolbar=0&navpanes=0&scrollbar=0&statusbar=0&messages=0&scrollbar=0&page=1&view=FitH"/>`
                             :   ""
                         }
                     </span>
@@ -1104,7 +1116,7 @@ const core = {
             let data = response.data;
 
             if (data.during <= 0) {
-                $("#timep").classList.remove("showBottom");
+                this.container.classList.remove("showBottom");
                 clearInterval(this.interval);
                 clog("info", "Timer Disabled: not in contest mode");
 
