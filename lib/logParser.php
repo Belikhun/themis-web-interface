@@ -165,7 +165,7 @@
                 "test" => null,
                 "point" => 0,
                 "runtime" => 0,
-                "detail" => null,
+                "detail" => Array(),
                 "other" => Array(
                     "output" => null,
                     "answer" => null,
@@ -217,7 +217,7 @@
 
                 else
                     # else is detail, cuz detail have no specific format
-                    $lineData["detail"] = $line;
+                    array_push($lineData["detail"], $line);
             }
 
             if (!empty($lineData))

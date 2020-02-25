@@ -557,7 +557,7 @@ const core = {
                     <div class="line">
                         <span class="left">
                             <t class="testid">${item.test}</t>
-                            <t class="status">${item.detail || "Không rõ"}</t>
+                            <t class="status">${item.detail.length === 0 ? "Không rõ" : item.detail.join("<br>")}</t>
                         </span>
                         <span class="right">
                             <t class="point">${item.point} điểm</t>
