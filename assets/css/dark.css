@@ -155,6 +155,10 @@ body.dark .contestTimer .reload:hover {
 
 /* Rank Panel */
 
+body.dark #rankp div.rankingContainer table tr td:nth-child(3) .username {
+    color: rgb(160, 160, 160);
+}
+
 body.dark #rankp div.rankingContainer table tbody tr[data-rank="1"] {
     background-color: rgba(11, 129, 33, 0.2);
 }

@@ -504,7 +504,10 @@ const core = {
                             <div class="simple-spinner"></div>
                         </div>
                     </td>
-                    <td><t class="name">${escapeHTML(i.name || "u:" + i.username)}</t></td>
+                    <td>
+                        <t class="username">${i.username}</t>
+                        <t class="name">${escapeHTML(i.name || "u:" + i.username)}</t>
+                    </td>
                     <td class="number">${parseFloat(i.total).toFixed(2)}</td>
             `
 
