@@ -1011,6 +1011,7 @@ const popup = {
 	popup: {},
 	popupNode: null,
 	initialized: false,
+	showing: false,
 
 	levelTemplate: {
 		light: {
@@ -1131,6 +1132,7 @@ const popup = {
 			}
 
 			this.popupNode.classList.add("show");
+			this.showing = true;
 
 			if (typeof sounds !== "undefined")
 				sounds.select();
@@ -1139,7 +1141,11 @@ const popup = {
 
 	hide() {
 		this.popupNode.classList.remove("show");
-		this.popup.header.removeChild(fcfn(this.popup.header, "triBgContainer"));
+
+		if (this.showing)
+			this.popup.header.removeChild(fcfn(this.popup.header, "triBgContainer"));
+
+		this.showing = false;
 		emptyNode(this.popup.body.button);
 	}
 }
