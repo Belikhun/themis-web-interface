@@ -2,6 +2,7 @@
     "name": "S\u1ed1 L\u01b0\u1ee3ng",
     "point": "3",
     "time": 1,
+    "memory": 1024,
     "type": {
         "inp": "SOLUONG.INP",
         "out": "SOLUONG.OUT"

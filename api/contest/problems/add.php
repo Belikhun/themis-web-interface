@@ -24,16 +24,11 @@
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
 
     $id = preg_replace("/[^a-zA-Z0-9]/m", "", reqForm("id"));
-    
     $name = reqForm("name");
-    $point = reqForm("point");
-    if (!is_numeric($point))
-        stop(3, "Loại biến không khớp! Yêu cầu form point là number", 400);
-    $point = (float)$point;
-    $time = getForm("time", 1);
-    if (!is_numeric($time))
-        stop(3, "Loại biến không khớp! Yêu cầu form time là number", 400);
-    $time = (float)$time;
+
+    $point = reqType(reqForm("point"), "integer");
+    $time = reqType(getForm("time", 1), "integer");
+    $memLimit = reqType(getForm("memory", 1024), "integer");
     $inpType = getForm("inpType", "Bàn Phím");
     $outType = getForm("outType", "Màn Hình");
     $accept = isset($_POST["acpt"]) ? json_decode($_POST["acpt"], true) : Array("pas", "cpp", "c", "pp", "exe", "class", "py", "java");
@@ -46,6 +41,7 @@
         "name" => $name,
         "point" => $point,
         "time" => $time,
+        "memory" => $memLimit,
         "type" => Array(
             "inp" => $inpType,
             "out" => $outType

@@ -130,6 +130,26 @@
         }
     }
 
+    /**
+     * List of valid type:
+     *  + "boolean"
+     *  + "integer"
+     *  + "double"
+     *  + "string"
+     *  + "array"
+     *  + "object"
+     *  + "resource"
+     *  + "resource (closed)"
+     *  + "NULL"
+     *  + "unknown type"
+     */
+    function reqType($data, $type = "string") {
+        if (!settype($data, $type))
+            stop(3, "Type Mismatch! \"$data\" is not a $type", 400);
+        
+        return $data;
+    }
+
     function getForm(String $key, $isNull = null) {
         return isset($_POST[$key]) ? trim($_POST[$key]) : $isNull;
     }
@@ -149,6 +169,26 @@
                 ? trim($data[$key])
                 : $data[$key]
             : $isNull;
+    }
+
+    /**
+     * List of valid type:
+     *  + "boolean"
+     *  + "integer"
+     *  + "double"
+     *  + "string"
+     *  + "array"
+     *  + "object"
+     *  + "resource"
+     *  + "resource (closed)"
+     *  + "NULL"
+     *  + "unknown type"
+     */
+    function withType($data, $type = "string", $isNot = null) {
+        if (isset($data) && !settype($data, $type))
+            return $isNot;
+        
+        return $data;
     }
 
     /**

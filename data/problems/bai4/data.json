@@ -2,6 +2,7 @@
     "name": "D\u00e3y s\u1ed1 nguy\u00ean t\u1ed1",
     "point": "10",
     "time": 1,
+    "memory": 1024,
     "type": {
         "inp": "B\u00e0n Ph\u00edm",
         "out": "M\u00e0n h\u00ecnh"

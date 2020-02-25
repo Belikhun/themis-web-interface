@@ -553,6 +553,10 @@
                                         <label for="problemEdit_time">Thời gian chạy</label>
                                     </div>
                                     <div class="formGroup blue">
+                                        <input id="problemEdit_mem" type="number" class="formField sound" placeholder="Giới hạn bộ nhớ" value="1024" data-soundselectsoft required>
+                                        <label for="problemEdit_mem">Giới hạn bộ nhớ</label>
+                                    </div>
+                                    <div class="formGroup blue">
                                         <input id="problemEdit_inpType" type="text" class="formField sound" placeholder="Dữ liệu vào" value="Bàn Phím" data-soundselectsoft required>
                                         <label for="problemEdit_inpType">Dữ liệu vào</label>
                                     </div>

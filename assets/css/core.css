@@ -1496,6 +1496,7 @@ body.guest #problemp.hide {
 
 #problemp .problemsContainer .problem .description {
     white-space: pre-wrap;
+    margin: 0 20px;
 }
 
 #problemp .problemsContainer .problem .description > a,
@@ -1546,6 +1547,7 @@ body.guest #problemp.hide {
 #problemp .problemsContainer .problem .attachment .embed {
     width: 100%;
     height: 0;
+    max-height: calc(100vh - 160px);
     padding: 10px 0 20px 0;
     transition: height 0.4s ease-in;
 }

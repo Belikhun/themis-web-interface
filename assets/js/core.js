@@ -840,11 +840,6 @@ const core = {
             this.panel.ref.onClick(() => this.getList());
             this.panel.clo.onClick(() => this.panel.elem.classList.add("hide"));
 
-            this.attachment.preview.addEventListener("load", e => {
-                this.attachment.previewWrapper.dataset.loaded = 1;
-                this.attachment.previewWrapper.style.height = e.target.clientWidth * 1.314 + "px"
-            })
-
             await this.getList();
 
             clog("okay", "Initialised:", {
@@ -908,6 +903,7 @@ const core = {
 
             this.panel.title = "Đang tải...";
             this.attachment.previewWrapper.removeAttribute("loaded");
+            this.attachment.previewWrapper.style.height = "0";
 
             let response = await myajax({
                 url: "/api/contest/problems/get",
@@ -932,6 +928,7 @@ const core = {
             this.type.filename.innerText = data.id;
             this.type.lang.innerText = data.accept.join(", ");
             this.type.time.innerText = data.time + " giây";
+            this.type.mem.innerText = data.memory ? convertSize(data.memory * 1024) : "Không Rõ";
 
             if (data.image) {
                 this.image.style.display = "block";
@@ -948,10 +945,21 @@ const core = {
                 this.attachment.link.innerText = `${data.attachment.file} (${convertSize(data.attachment.size)})`;
 
                 if (data.attachment.embed) {
-                    this.attachment.preview.display = "block";
-                    this.attachment.preview.src = `${data.attachment.url}&embed=true#toolbar=0&navpanes=0&scrollbar=0&statusbar=0&messages=0&scrollbar=0&page=1&view=FitH`
-                } else
-                    this.attachment.preview.display = "none";
+                    let clone = this.attachment.preview.cloneNode();
+                    clone.style.display = "block";
+
+                    clone.addEventListener("load", e => {
+                        this.attachment.previewWrapper.dataset.loaded = 1;
+                        this.attachment.previewWrapper.style.height = this.attachment.previewWrapper.clientWidth * 1.314 + "px";
+                    })
+
+                    clone.src = `${data.attachment.url}&embed=true#toolbar=0&navpanes=0&scrollbar=0&statusbar=0&messages=0&scrollbar=0&page=1&view=FitH`;
+                    
+                    this.attachment.previewWrapper.replaceChild(clone, this.attachment.preview);
+                    this.attachment.preview = clone;
+                } else {
+                    this.attachment.preview.style.display = "none";
+                }
             } else
                 this.attachment.container.style.display = "none";
 
@@ -1942,6 +1950,7 @@ const core = {
                 name: $("#problemEdit_name"),
                 point: $("#problemEdit_point"),
                 time: $("#problemEdit_time"),
+                mem: $("#problemEdit_mem"),
                 inpType: $("#problemEdit_inpType"),
                 outType: $("#problemEdit_outType"),
                 accept: $("#problemEdit_accept"),
@@ -2043,6 +2052,7 @@ const core = {
                 this.form.name.value = "";
                 this.form.point.value = null;
                 this.form.time.value = 1;
+                this.form.mem.value = 1024;
                 this.form.inpType.value = "Bàn Phím";
                 this.form.outType.value = "Màn Hình";
                 this.form.accept.value = Object.keys(core.languages).join("|");
@@ -2085,9 +2095,10 @@ const core = {
                 this.form.id.disabled = true;
                 this.form.name.value = data.name;
                 this.form.point.value = data.point;
-                this.form.time.value = data.time;
-                this.form.inpType.value = data.type.inp;
-                this.form.outType.value = data.type.out;
+                this.form.time.value = data.time || 1;
+                this.form.mem.value = data.memory || 1024;
+                this.form.inpType.value = data.type.inp || "Bàn Phím";
+                this.form.outType.value = data.type.out || "Màn Hình";
                 this.form.accept.value = data.accept.join("|");
                 this.form.image.value = null;
                 this.form.desc.value = data.description;
@@ -2181,6 +2192,7 @@ const core = {
                 data.name = this.form.name.value;
                 data.point = this.form.point.value;
                 data.time = this.form.time.value;
+                data.memory = this.form.mem.value;
                 data.inpType = this.form.inpType.value;
                 data.outType = this.form.outType.value;
                 data.accept = this.form.accept.value.split("|");
@@ -2231,6 +2243,7 @@ const core = {
                         name: data.name,
                         point: data.point,
                         time: data.time,
+                        memory: data.memory,
                         inpType: data.inpType,
                         outType: data.outType,
                         acpt: JSON.stringify(data.accept),

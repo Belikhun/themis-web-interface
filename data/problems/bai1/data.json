@@ -1,7 +1,8 @@
 {
     "name": "\u01af\u1edbc S\u1ed1",
-    "point": "10",
+    "point": 112,
     "time": 1,
+    "memory": 1024,
     "type": {
         "inp": "B\u00e0n Ph\u00edm",
         "out": "M\u00e0n h\u00ecnh"
