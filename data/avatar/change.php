@@ -18,8 +18,8 @@
 
     checkToken();
 
-    if ($config["editInfo"] === false)
-        stop(21, "Thay đổi thông tin đã bị tắt!", 403);
+    if ($config["edit"]["avatar"] === false)
+        stop(21, "Thay đổi Avatar đã bị tắt!", 403);
     
     if (!isset($_FILES["file"]))
         stop(41, "Chưa chọn tệp!", 400);

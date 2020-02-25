@@ -96,7 +96,9 @@
     setting("publish", $rawConfig["publish"], $TYPE_BOOL);
     setting("submit", $rawConfig["submit"], $TYPE_BOOL);
     setting("submitInProblems", $rawConfig["submitInProblems"], $TYPE_BOOL);
-    setting("editInfo", $rawConfig["editInfo"], $TYPE_BOOL);
+    setting("editName", $rawConfig["edit"]["name"], $TYPE_BOOL);
+    setting("editPassword", $rawConfig["edit"]["password"], $TYPE_BOOL);
+    setting("editAvatar", $rawConfig["edit"]["avatar"], $TYPE_BOOL);
     setting("viewRank", $rawConfig["viewRank"], $TYPE_BOOL);
     setting("viewRankTask", $rawConfig["viewRankTask"], $TYPE_BOOL);
     setting("viewLog", $rawConfig["viewLog"], $TYPE_BOOL);

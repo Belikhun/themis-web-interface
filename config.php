@@ -206,10 +206,26 @@
 					</div>
 				</div>
 
-				<div class="item lr sound" data-soundhoversoft title="Cho phép thay đổi Tên, Mật Khẩu và Ảnh Đại Diện">
-					<t class="left">Cho phép thay đổi thông tin</t>
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Cho phép thay đổi tên</t>
 					<label class="sq-checkbox right">
-						<input id="editInfo" type="checkbox" class="sound" data-soundcheck>
+						<input id="editName" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
+				</div>
+
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Cho phép thay đổi mật khẩu</t>
+					<label class="sq-checkbox pink right">
+						<input id="editPassword" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
+				</div>
+
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Cho phép thay đổi Avatar</t>
+					<label class="sq-checkbox right">
+						<input id="editAvatar" type="checkbox" class="sound" data-soundcheck>
 						<span class="checkmark"></span>
 					</label>
 				</div>

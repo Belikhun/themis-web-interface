@@ -21,7 +21,11 @@ var pageTitle = $("#pageTitle");
 var publish = $("#publish");
 var submit = $("#submit");
 var submitInProblems = $("#submitInProblems");
-var editInfo = $("#editInfo");
+var edit = {
+    name: $("#editName"),
+    password: $("#editPassword"),
+    avatar: $("#editAvatar")
+}
 var viewRank = $("#viewRank");
 var viewRankTask = $("#viewRankTask");
 var viewLog = $("#viewLog");
@@ -91,7 +95,9 @@ function update() {
         publish.checked = data.publish;
         submit.checked = data.submit;
         submitInProblems.checked = data.submitInProblems;
-        editInfo.checked = data.editInfo;
+        edit.name.checked = data.edit.name;
+        edit.password.checked = data.edit.password;
+        edit.avatar.checked = data.edit.avatar;
         viewRank.checked = data.viewRank;
         viewRankTask.checked = data.viewRankTask;
         viewLog.checked = data.viewLog;
@@ -164,7 +170,9 @@ $("#formContainer").addEventListener("submit", e => {
             "publish": publish.checked,
             "submit": submit.checked,
             "submitInProblems": submitInProblems.checked,
-            "editInfo": editInfo.checked,
+            "editName": edit.name.checked,
+            "editPassword": edit.password.checked,
+            "editAvatar": edit.avatar.checked,
             "viewRank": viewRank.checked,
             "viewRankTask": viewRankTask.checked,
             "viewLog": viewLog.checked,

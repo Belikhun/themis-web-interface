@@ -20,12 +20,12 @@
     $username = $_SESSION["username"];
     checkToken();
 
-    if ($config["editInfo"] === false && $_SESSION["id"] !== "admin")
-        stop(21, "Thay đổi thông tin đã bị tắt!", 403);
-
     $change = Array();
 
     if (isset($_POST["n"])) {
+        if ($config["edit"]["name"] === false && $_SESSION["id"] !== "admin")
+            stop(21, "Thay đổi tên đã bị tắt!", 403);
+
         $change["name"] = htmlspecialchars(trim($_POST["n"]));
         if (strlen($change["name"]) > 34)
             stop(16, "Tên người dùng không được vượt quá 34 kí tự", 400);
@@ -35,6 +35,9 @@
     $userdata = getUserData($username);
 
     if (isset($_POST["p"])) {
+        if ($config["edit"]["password"] === false && $_SESSION["id"] !== "admin")
+            stop(21, "Thay đổi mật khẩu đã bị tắt!", 403);
+
         $oldpass = $_POST["p"];
 
         if (($resp = simpleLogin($username, $oldpass)) === LOGIN_WRONGPASSWORD)
