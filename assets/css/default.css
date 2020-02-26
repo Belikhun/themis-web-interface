@@ -517,10 +517,18 @@ body.dark separator {
     width: 100%;
 }
 
-.popupContainer .popupWindow .body .buttonGroup .sq-btn {
+.popupContainer .popupWindow .body .buttonGroup > .sq-btn {
     margin: 4px;
 	flex: 1 1 0;
 	min-width: 30%;
+}
+
+.popupContainer .popupWindow .body .buttonGroup > .sq-btn:first-child {
+	margin-left: unset;
+}
+
+.popupContainer .popupWindow .body .buttonGroup > .sq-btn:last-child {
+	margin-right: unset;
 }
 
 .popupContainer .popupWindow .body[theme="dark"] {

@@ -2363,5 +2363,46 @@ const core = {
         hide() {
             this.wrapper.classList.remove("show");
         }
+    },
+
+    /**
+     * ========= BEGIN USELESS CODE 😁 =========
+     */
+    deliveringMeme: false,
+
+    async getRandomMeme() {
+        if (this.deliveringMeme)
+            return;
+
+        this.deliveringMeme = true;
+        let wutMeme = await myajax({
+            url: "https://meme-api.herokuapp.com/gimme",
+            method: "GET"
+        })
+
+        let memeContainer = document.createElement("div");
+        memeContainer.classList.add("lazyload", "image");
+        memeContainer.style.overflow = "auto";
+        memeContainer.innerHTML = `
+            <img src="${wutMeme.url}" onload="this.parentElement.dataset.loaded = 1;"/>
+            <div class="simple-spinner"></div>
+        `;
+
+        let gud = await popup.show({
+            windowTitle: "Memes",
+            title: "got some mweme fow yya",
+            message: `<a href="${wutMeme.postLink}" target="_blank">SAUCE 🔗</a>`,
+            description: wutMeme.title,
+            additionalNode: memeContainer,
+            buttonList: {
+                moar: { text: "Plz I Need Moar", color: "rainbow" },
+                stahp: { text: "Ewnough iwntewwnet fow todayy", color: "dark" }
+            }
+        })
+
+        this.deliveringMeme = false;
+
+        if (gud === "moar")
+            this.getRandomMeme();
     }
 }

@@ -1100,7 +1100,7 @@ const popup = {
 			this.popup.header.text.innerText = title;
 
 			//* BODY
-			this.popup.body.top.message.innerText = message;
+			this.popup.body.top.message.innerHTML = message;
 			this.popup.body.top.description.innerHTML = description;
 
 			additionalNode.classList.add("customNode");

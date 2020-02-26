@@ -663,7 +663,7 @@
                                     <t class="subtitle">Made from scratch, crafted with <font color="red">❤</font> by Belikhun</t>
 
                                     <div class="button">
-                                        <button class="sq-btn rainbow sound" data-soundhover data-soundselect onclick="this.innerText = randBetween(1, 1000)">Click Me!</button>
+                                        <button class="sq-btn rainbow sound" data-soundhover data-soundselect onclick="core.getRandomMeme()">memes uwu</button>
                                         <button class="sq-btn pink sound" data-soundhover data-soundselect>(╯°□°）╯︵ ┻━┻</button>
                                     </div>
                                 </div>
