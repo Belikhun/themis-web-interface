@@ -1437,8 +1437,9 @@ const core = {
         updateDelayText: $("#usett_udelay_text"),
         toggler: $("#userSettingsToggler"),
         container: $("#userSettings"),
-        adminConfig: $("#usett_adminConfig"),
         panelContainer: $("#usett_panelContainer"),
+        panelUnderlay: $("#usett_panelUnderlay"),
+        adminConfig: $("#usett_adminConfig"),
         publicFilesPanel: null,
         publicFilesIframe: null,
         aboutPanel: null,
@@ -1466,7 +1467,8 @@ const core = {
         },
         
         init(loggedIn = true) {
-            this.toggler.addEventListener("click", e => this.toggle(e), false);
+            this.toggler.addEventListener("mouseup", () => this.toggle(), false);
+            this.panelUnderlay.addEventListener("mouseup", () => this.toggle(), false);
 
             this.aboutPanel = new this.panel($("#usett_aboutPanel"));
             this.aboutPanel.toggler = $("#usett_aboutToggler");
@@ -2169,23 +2171,29 @@ const core = {
                     text: id + "."
                 }, "Waiting for confirmation");
 
+                let note = document.createElement("div");
+                note.classList.add("note", "warning");
+                note.innerHTML = `<span class="inner">Hành động này <b>không thể hoàn tác</b> một khi đã thực hiện!</span>`;
+
                 let confirm = await popup.show({
-                    windowTitle: "Xác nhận",
-                    title: `Xóa ${id}`,
-                    description: `Bạn có chắc muốn xóa <i>${id}</i> không?<br>Hành động này <b>không thể hoàn tác</b> một khi đã thực hiện!`,
                     level: "warning",
+                    windowTitle: "Problems Editor",
+                    title: `Xóa \"${id}\"`,
+                    message: `Xác nhận`,
+                    description: `Bạn có chắc muốn xóa đề bài <i>${id}</i> không?`,
+                    additionalNode: note,
                     buttonList: {
-                        yes: { text: "XÓA!!!", color: "pink" },
-                        no: { text:"Không", color: "blue" }
+                        delete: { text: "XÓA!!!", color: "red" },
+                        cancel: { text: "Hủy Bỏ", color: "blue" }
                     }
                 })
 
-                if (confirm !== "yes") {
+                if (confirm !== "delete") {
                     clog("info", "Cancelled deletion of", {
                         color: flatc("yellow"),
                         text: id + "."
                     });
-                    return false;
+                    return;
                 }
 
                 sounds.confirm(1);

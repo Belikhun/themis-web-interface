@@ -285,7 +285,7 @@ const account = {
         let username = targetElement.dataset.editTarget;
         let note = document.createElement("div");
         note.classList.add("note", "warning");
-        note.innerHTML = `<span class="inner">Hành động này không thể hoàn tác một khi đã thực hiện!</span>`;
+        note.innerHTML = `<span class="inner">Hành động này <b>không thể hoàn tác</b> một khi đã thực hiện!</span>`;
 
         let doIt = await popup.show({
             level: "warning",
@@ -295,7 +295,7 @@ const account = {
             description: `Bạn có chắc muốn xóa người dùng ${username} không?`,
             additionalNode: note,
             buttonList: {
-                delete: { text: "XÓA!", color: "red" },
+                delete: { text: "XÓA!!!", color: "red" },
                 cancel: { text: "Hủy Bỏ", color: "blue" }
             }
         });

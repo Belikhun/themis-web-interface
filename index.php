@@ -499,7 +499,10 @@
             </div>
             
             <div id="usett_panelContainer" class="sub">
-            
+                <!-- ========= IMPORTANT: THIS ELEMENT NEED TO BE AT THE TOP OF THIS CONTAINER ========= -->
+                <div id="usett_panelUnderlay" class="underlay"></div>
+                <!-- ========= IMPORTANT: THIS ELEMENT NEED TO BE AT THE TOP OF THIS CONTAINER ========= -->
+
                 <div id="usett_publicFilesPanel" data-soundtoggle="show" class="panel large sound">
                     <div class="container">
                         <div class="btn-group">
@@ -716,7 +719,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
         </span>
