@@ -963,6 +963,8 @@ function clog(level, ...args) {
 
 				if (item.code && item.description)
 					str += `[${item.code}] ${item.description} `;
+				else if (item.name && item.message)
+					str += `${item.name} >>> ${item.message} `;
 				else
 					str += JSON.stringify(item) + " ";
 

@@ -329,6 +329,7 @@ const core = {
             this.settings.adminConfig.appendChild(e);
 
             popup.show({
+                level: "info",
                 windowTitle: "Update Checker",
                 title: "Cập Nhật Hệ Thống",
                 message: `🌿 ${data.target_commitish}`,

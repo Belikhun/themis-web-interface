@@ -288,6 +288,7 @@ const account = {
         note.innerHTML = `<span class="inner">Hành động này không thể hoàn tác một khi đã thực hiện!</span>`;
 
         let doIt = await popup.show({
+            level: "warning",
             windowTitle: "Account Editor",
             title: `Xóa \"${username}\"`,
             message: `Xác nhận`,

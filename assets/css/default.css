@@ -324,7 +324,7 @@ body.dark separator {
 	flex-direction: column;
 
 	width: 100%;
-	max-width: 460px;
+	max-width: 520px;
 	max-height: calc(100% - 40px);
 }
 

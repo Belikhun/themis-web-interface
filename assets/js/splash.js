@@ -9,10 +9,13 @@ class splash {
     get tips() {
         let tips = [
             "Thử tải lại cứng bằng tổ hợp phím <b>Ctrl + Shift + R</b> hoặc <b>Ctrl + F5</b> nếu có lỗi xảy ra",
-            "Bạn có thể bật chế độ ban đêm trong bảng <b>Cài Đặt</b> của Themis Web Interface"
+            "Bạn có thể bật chế độ ban đêm trong bảng <b>Cài Đặt</b> của Themis Web Interface",
+            "Bạn có thể nộp nhiều bài cùng một lúc lên hệ thống",
+            "Bạn có thể tắt hiệu ứng của trang web bằng cách tắt <b>Hiệu ứng</b> trong bảng cài đặt",
+            "Cài đặt <b>Hiển thị millisecond</b> sẽ làm thời gian của cuộc thi được tính chính xác đến hàng phần giây"
         ]
 
-        return tips[randBetween(0, tips.length - 1)];
+        return tips[randBetween(0, tips.length - 1, true)];
     }
 
     constructor(container, name, subname, icon) {
@@ -81,7 +84,7 @@ class splash {
         this.loaded = false;
         this.phase.innerText = "Phase 2/3: Script Initialization";
         this.bar.style.width = `50%`;
-        this.tree.middle.tips.innerHTML = `Thử tải lại cứng bằng tổ hợp phím <b>Ctrl + Shift + R</b> hoặc <b>Ctrl + F5</b> nếu có lỗi xảy ra`;
+        this.tree.middle.tips.innerHTML = this.tips;
 
         await this.init((progress = 0, text = "") => {
             if (!this.preLoaded)
