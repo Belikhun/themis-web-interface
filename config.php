@@ -207,6 +207,14 @@
 				</div>
 
 				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Cho phép đăng kí tài khoản</t>
+					<label class="sq-checkbox right">
+						<input id="allowRegister" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
+				</div>
+
+				<div class="item lr sound" data-soundhoversoft>
 					<t class="left">Cho phép thay đổi tên</t>
 					<label class="sq-checkbox right">
 						<input id="editName" type="checkbox" class="sound" data-soundcheck>

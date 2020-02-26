@@ -26,19 +26,11 @@
     $userdata = null;
     $name = null;
     $id = null;
-    $sessionData = Array(
-        "SERVER_SOFTWARE" => $_SERVER["SERVER_SOFTWARE"],
-        "SERVER_ADDR" => $_SERVER["SERVER_ADDR"],
-        "SERVER_PROTOCOL" => $_SERVER["SERVER_PROTOCOL"],
-        "HTTP_USER_AGENT" => $_SERVER["HTTP_USER_AGENT"],
-        "REMOTE_ADDR" => $_SERVER["REMOTE_ADDR"],
-        "username" => null,
-    );
 
     if (isLogedIn()) {
         require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
         $loggedIn = true;
-        $sessionData["username"] = $username = $_SESSION["username"];
+        $username = $_SESSION["username"];
         $userdata = getUserData($username);
         $name = $userdata["name"];
         $id = $userdata["id"];
@@ -114,17 +106,23 @@
             }
 
             mainSplash.postInit = async set => {
-                set(50, "Đang kiểm tra phiên bản mới...");
+                set(50, "Đang kiểm tra phiên bản mới");
                 await core.checkUpdateAsync(IS_ADMIN);
+
+                set(60, "Setting up statusBar");
+                sbar.additem(SERVER.SERVER_SOFTWARE, "server");
+                sbar.additem(SERVER.SERVER_ADDR, "globe");
+                sbar.additem(SERVER.username ? SERVER.username : "Chưa đăng nhập", "account", {aligin: "right"});
+                sbar.additem(SERVER.REMOTE_ADDR, "desktop", {aligin: "right"});
 
                 set(95, "Sending Analytics Data...");
                 gtag("event", "pageView", {
-                    version: window.serverStatus.version,
+                    version: SERVER.version,
                     hostname: location.hostname,
                     loadtime: ((new Date()).getTime() - window.performance.timing.navigationStart) / 1000,
                     downlink: (navigator && navigator.connection) ? navigator.connection.downlink : 0,
-                    versiontag: window.serverStatus.versionTag,
-                    contestname: window.serverStatus.contestName,
+                    versiontag: SERVER.versionTag,
+                    contestname: SERVER.contestName,
                     platform: (navigator) ? navigator.platform : null,
                     darkmode: cookie.get("__darkMode"),
 
@@ -203,7 +201,7 @@
                             <li class="tag text-overflow">
                                 <?php print $username ."#". $id; ?>
                             </li>
-                            <li id="user_name" class="name text-overflow">
+                            <li id="userName" class="name text-overflow">
                                 <?php print htmlspecialchars($name); ?>
                             </li>
                         </ul>
@@ -848,7 +846,6 @@
             const IS_ADMIN = `<?php print ($id === "admin" ? "true" : "false"); ?>` === "true";
             const LOGGED_IN = `<?php print ($loggedIn === true ? "true" : "false"); ?>` === "true";
             const API_TOKEN = `<?php print isset($_SESSION["apiToken"]) ? $_SESSION["apiToken"] : null; ?>`;
-            const SESSION = <?php print json_encode($sessionData); ?>
         </script>
 
         <script src="/assets/js/statusBar.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
@@ -872,10 +869,6 @@
 
             sbar.__item.warn = sbar.additem("0", "warning", {space: false});
             sbar.__item.errr = sbar.additem("0", "error");
-            sbar.additem(SESSION.SERVER_SOFTWARE, "server");
-            sbar.additem(SESSION.SERVER_ADDR, "globe");
-            sbar.additem(SESSION.username ? SESSION.username : "Chưa đăng nhập", "account", {aligin: "right"});
-            sbar.additem(SESSION.REMOTE_ADDR, "desktop", {aligin: "right"});
         </script>
 
         <!-- Sounds -->

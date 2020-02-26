@@ -21,6 +21,7 @@ var pageTitle = $("#pageTitle");
 var publish = $("#publish");
 var submit = $("#submit");
 var submitInProblems = $("#submitInProblems");
+var allowRegister = $("#allowRegister");
 var edit = {
     name: $("#editName"),
     password: $("#editPassword"),
@@ -95,6 +96,7 @@ function update() {
         publish.checked = data.publish;
         submit.checked = data.submit;
         submitInProblems.checked = data.submitInProblems;
+        allowRegister.checked = data.allowRegister;
         edit.name.checked = data.edit.name;
         edit.password.checked = data.edit.password;
         edit.avatar.checked = data.edit.avatar;
@@ -170,9 +172,10 @@ $("#formContainer").addEventListener("submit", e => {
             "publish": publish.checked,
             "submit": submit.checked,
             "submitInProblems": submitInProblems.checked,
-            "editName": edit.name.checked,
-            "editPassword": edit.password.checked,
-            "editAvatar": edit.avatar.checked,
+            "allowRegister": allowRegister.checked,
+            "edit.name": edit.name.checked,
+            "edit.password": edit.password.checked,
+            "edit.avatar": edit.avatar.checked,
             "viewRank": viewRank.checked,
             "viewRankTask": viewRankTask.checked,
             "viewLog": viewLog.checked,
@@ -183,7 +186,7 @@ $("#formContainer").addEventListener("submit", e => {
             "token": API_TOKEN
         }
     }, () => {
-        clog("okay", "Thay đổi cài đặt thành công.");
+        clog("okay", "Thay đổi cài đặt thành công");
         update();
     })
 }, false);

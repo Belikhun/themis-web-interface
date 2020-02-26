@@ -185,36 +185,38 @@ const core = {
             })
         }
 
-        set(7, "Initializing: core.wrapper");
-        this.wrapper.init();
+        set(10, "Getting Server Config");
+        await this.getServerConfigAsync();
 
-        set(10, "Fetching Rank...");
+        set(15, "Initializing: core.wrapper");
+
+        set(20, "Fetching Rank...");
         await this.fetchRank();
         this.rankPanel.ref.onClick(() => this.fetchRank(true));
         __connection__.onStateChange((s) => { s === "online" ? this.__fetchRank() : null });
         this.__fetchRank();
 
-        set(15, "Initializing: core.timer");
+        set(25, "Initializing: core.timer");
         await this.timer.init();
 
-        set(20, "Initializing: core.userSettings");
+        set(30, "Initializing: core.userSettings");
         this.userSettings.init(LOGGED_IN);
 
-        set(25, "Initializing: sounds");
+        set(35, "Initializing: sounds");
         await sounds.init((p, t) => {
-            set(25 + p*0.5, `Initializing: sounds (${t})`);
+            set(35 + p*0.5, `Initializing: sounds (${t})`);
         });
 
-        set(75, "Initializing: core.problems");
+        set(80, "Initializing: core.problems");
         await this.problems.init();
         
         if (LOGGED_IN) {
             this.problems.panel.clo.hide();
 
-            set(80, "Initializing: core.submit");
+            set(85, "Initializing: core.submit");
             this.submit.init();
 
-            set(85, "Fetching Logs...");
+            set(90, "Fetching Logs...");
             await this.fetchLog();
             this.logPanel.ref.onClick(() => this.__fetchLog(true, false));
             this.logPanel.cus.onClick(() => this.__fetchLog(false, true));
@@ -224,14 +226,11 @@ const core = {
 
             if (IS_ADMIN) {
                 clog("info", "Logged in as Admin.");
-                set(90, "Initializing: core.settings");
+                set(95, "Initializing: core.settings");
                 await this.settings.init();
             }
         } else
             clog("warn", "You are not logged in. Some feature will be disabled.");
-
-        set(95, "Getting Server Status...");
-        await this.getServerStatusAsync();
 
         clog("debg", "Initialisation took:", {
             color: flatc("blue"),
@@ -249,9 +248,9 @@ const core = {
         );
     },
 
-    async getServerStatusAsync() {
+    async getServerConfigAsync() {
         const response = await myajax({
-            url: "/api/status",
+            url: "/api/server",
             method: "GET",
         }).catch(e => {
             clog("WARN", "Error while getting server status:", {
@@ -260,7 +259,7 @@ const core = {
             });
         });
 
-        window.serverStatus = response.data;
+        window.SERVER = response.data;
     },
 
     async checkUpdateAsync(showMsgs = false) {
@@ -1390,11 +1389,11 @@ const core = {
             }
         },
 
-        uname: $("#user_name"),
-        uavt: $("#userAvatar"),
-        avt: $("#usett_avt"),
-        avtWrapper: $("#usett_avtw"),
-        avtInput: $("#usett_avtinp"),
+        userName: $("#userName"),
+        userAvatar: $("#userAvatar"),
+        userSettingAvatar: $("#usett_avt"),
+        userSettingAvatarWrapper: $("#usett_avtw"),
+        userSettingAvatarInput: $("#usett_avtinp"),
         name: $("#usett_name"),
         sub: {
             nameForm: $("#usett_edit_name_form"),
@@ -1621,12 +1620,12 @@ const core = {
                 return;
             }
 
-            this.avtWrapper.addEventListener("dragenter",  e => this.dragEnter(e), false);
-            this.avtWrapper.addEventListener("dragleave", e => this.dragLeave(e), false);
-            this.avtWrapper.addEventListener("dragover", e => this.dragOver(e), false);
-            this.avtWrapper.addEventListener("drop", e => this.fileSelect(e), false);
+            this.userSettingAvatarWrapper.addEventListener("dragenter",  e => this.dragEnter(e), false);
+            this.userSettingAvatarWrapper.addEventListener("dragleave", e => this.dragLeave(e), false);
+            this.userSettingAvatarWrapper.addEventListener("dragover", e => this.dragOver(e), false);
+            this.userSettingAvatarWrapper.addEventListener("drop", e => this.fileSelect(e), false);
 
-            this.avtInput.addEventListener("change", e => this.fileSelect(e, "input"));
+            this.userSettingAvatarInput.addEventListener("change", e => this.fileSelect(e, "input"));
 
             this.sub.nameForm.addEventListener("submit", e => {
                 this.sub.nameForm.getElementsByTagName("button")[0].disabled = true;
@@ -1669,8 +1668,8 @@ const core = {
         },
 
         reset() {
-            this.avtWrapper.classList.remove("drop");
-            this.avtWrapper.classList.remove("load");
+            this.userSettingAvatarWrapper.classList.remove("drop");
+            this.userSettingAvatarWrapper.classList.remove("load");
             this.sub.nameForm.getElementsByTagName("button")[0].disabled = false;
             this.sub.passForm.getElementsByTagName("button")[0].disabled = false;
             this.sub.name.value = null;
@@ -1683,11 +1682,11 @@ const core = {
             switch (reload) {
                 case "avatar":
                     core.fetchRank(true);
-                    this.uavt.src = this.avt.src = `${data.src}&t=${time()}`;
+                    this.userAvatar.src = this.userSettingAvatar.src = `${data.src}&t=${time()}`;
                     break;
             
                 case "name":
-                    this.uname.innerText = this.name.innerText = data.name;
+                    this.userName.innerText = this.name.innerText = data.name;
                     break;
 
                 default:
@@ -1740,12 +1739,12 @@ const core = {
             if (type === "drop") {
                 e.stopPropagation();
                 e.preventDefault();
-                this.avtWrapper.classList.remove("drag");
+                this.userSettingAvatarWrapper.classList.remove("drag");
             }
 
             var file = (type === "drop") ? e.dataTransfer.files[0] : e.target.files[0];
 
-            this.avtWrapper.classList.add("load");
+            this.userSettingAvatarWrapper.classList.add("load");
             sounds.confirm();
             setTimeout(() => this.avtUpload(file), 1000);
         },
@@ -1773,27 +1772,26 @@ const core = {
         dragEnter(e) {
             e.stopPropagation();
             e.preventDefault();
-            this.avtWrapper.classList.add("drag");
+            this.userSettingAvatarWrapper.classList.add("drag");
         },
 
         dragLeave(e) {
             e.stopPropagation();
             e.preventDefault();
-            this.avtWrapper.classList.remove("drag");
+            this.userSettingAvatarWrapper.classList.remove("drag");
         },
 
         dragOver(e) {
             e.stopPropagation();
             e.preventDefault();
             e.dataTransfer.dropEffect = "copy";
-            this.avtWrapper.classList.add("drag");
+            this.userSettingAvatarWrapper.classList.add("drag");
         }
 
     },
 
     settings: {
         main: $("#container"),
-        navcont: $("#usett_left_panel"),
         cPanel: null,
         cPanelIframe: null,
         aPanel: null,

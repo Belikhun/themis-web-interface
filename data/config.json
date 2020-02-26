@@ -34,5 +34,6 @@
         "time": 10,
         "banTime": 30
     },
-    "pageTitle": "%contestName%"
+    "pageTitle": "%contestName%",
+    "allowRegister": false
 }

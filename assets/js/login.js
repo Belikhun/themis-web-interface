@@ -17,14 +17,23 @@ const login = {
 		loginBtn: $("#loginToggler")
 	},
 
+	allowRegister: false,
+
 	async init() {
-		sounds.init();
+		await sounds.init();
+
+		let server = await myajax({ url: "/api/server", method: "GET" });
+		this.allowRegister = server.data.config.allowRegister;
+
 		this.login.init();
-		this.register.init();
+
+		if (this.allowRegister) {
+			this.register.init();
+			this.form.registerBtn.disabled = false;
+		}
 		
 		this.form.title.innerText = "Đăng Nhập";
 		this.form.loginBtn.disabled = false;
-		this.form.registerBtn.disabled = false;
 		this.form.registerBtn.addEventListener("click", () => this.toggleRegister(true));
 		this.form.loginBtn.addEventListener("click", () => this.toggleRegister(false));
 		sounds.select(1);
