@@ -20,7 +20,11 @@
     "publish": true,
     "submit": true,
     "submitInProblems": true,
-    "editInfo": true,
+    "edit": {
+        "name": true,
+        "password": true,
+        "avatar": true
+    },
     "viewRank": true,
     "viewRankTask": true,
     "viewLog": true,
