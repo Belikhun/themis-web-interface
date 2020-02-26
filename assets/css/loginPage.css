@@ -527,6 +527,11 @@ body.dark {
     border-top: 1px solid rgba(47, 47, 47, 0.4);
 }
 
+body.dark .formGroup[data-color = "blue"] .formField,
+body.dark .formGroup[data-color = "purple"] .formField {
+    color: rgb(235, 235, 235);
+}
+
 body.dark .rightPanel {
     background-color: rgb(22, 22, 22);
 }
@@ -543,17 +548,20 @@ body.dark .rightPanel .center .title {
     color: rgb(204, 204, 204);
 }
 
-body.dark .formGroup[data-color = "blue"] .formField,
-body.dark .formGroup[data-color = "purple"] .formField {
-    color: rgb(235, 235, 235);
-}
-
 body.dark .rightPanel .center .message {
     color: #ee6462;
 }
 
 body.dark .rightPanel .center .formBox .inputForm .progress .indicator > .item::before {
     background-color: rgb(56, 56, 56);
+}
+
+body.dark .rightPanel .center .formBox .inputForm .complete .title {
+    color: rgb(218, 218, 218);
+}
+
+body.dark .rightPanel .center .formBox .inputForm .complete .message {
+    color: rgb(204, 204, 204);
 }
 
 body.dark .rightPanel .footer {

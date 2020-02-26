@@ -361,3 +361,7 @@
 body.dark .text-btn {
     color: rgb(67, 246, 82);
 }
+
+body.dark .text-btn:disabled {
+    color: rgb(88, 88, 88);
+}

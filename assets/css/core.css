@@ -22,60 +22,6 @@ input:-webkit-autofill {
     background-color: rgba(0, 0, 0, 0);
 }
 
-.note {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 12px 20px;
-    width: 100%;
-    box-sizing: border-box;
-    text-align: left;
-}
-
-.note::before {
-    position: relative;
-    display: inline-block;
-    font-family: "Font Awesome 5 Free";
-    font-size: 17px;
-    font-weight: 900;
-    padding-right: 12px;
-    color: black;
-}
-
-.note .inner {
-    position: relative;
-    display: inline-block;
-    flex-grow: 1;
-    font-family: Calibri;
-    font-size: 13px;
-    color: #343434;
-}
-
-.note.info {
-    background-color: #cccccc;
-}
-
-.note.info::before {
-    content: "\f05a";
-}
-
-.note.warning {
-    background-color: #fff386;
-}
-
-.note.warning::before {
-    content: "\f071";
-}
-
-.note.okay {
-    background-color: #8fff98;
-}
-
-.note.okay::before {
-    content: "\f14a";
-}
-
 body #container {
     position: absolute;
     display: block;
@@ -2387,6 +2333,7 @@ body.guest #problemp.hide {
     display: flex;
     flex-direction: row;
     align-items: flex-end;
+    justify-content: center;
     font-size: 25px;
     font-weight: bold;
 }
@@ -2400,8 +2347,10 @@ body.guest #problemp.hide {
     display: flex;
     flex-direction: row;
     align-items: flex-end;
+    justify-content: center;
     font-size: 13px;
     font-weight: bold;
+    overflow: hidden;
 }
 
 .disconnectedRetry > .inner {

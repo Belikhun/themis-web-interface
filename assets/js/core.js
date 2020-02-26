@@ -152,6 +152,7 @@ const core = {
             popup.show({
                 windowTitle: "Rate Limited",
                 title: "Oops",
+                message: "Rate Limited",
                 description: `Bạn đã bị cấm yêu cầu tới máy chủ trong vòng <b>${parseInt(o.data.data.reset)} giây</b>!<br>Vui lòng chờ cho tới khi bạn hết bị cấm!`,
                 level: "warning",
                 additionalNode: clock,
@@ -189,6 +190,7 @@ const core = {
         await this.getServerConfigAsync();
 
         set(15, "Initializing: core.wrapper");
+        this.wrapper.init();
 
         set(20, "Fetching Rank...");
         await this.fetchRank();
@@ -263,16 +265,16 @@ const core = {
     },
 
     async checkUpdateAsync(showMsgs = false) {
-        if (!window.serverStatus)
+        if (!SERVER)
             return false;
 
         // Parse local version data
-        var tl = window.serverStatus.version.split(".");
+        var tl = SERVER.version.split(".");
         let data = {}
 
         const localVer = {
             v: parseInt(tl[0])*100 + parseInt(tl[1])*10 + parseInt(tl[2]),
-            s: window.serverStatus.versionTag
+            s: SERVER.versionTag
         }
 
         var tls = `${tl.join(".")}-${localVer.s}`;
@@ -288,7 +290,7 @@ const core = {
             });
 
             data = response;
-        } catch (error) {
+        } catch(error) {
             clog("WARN", "Error Checking for update:", {
                 text: typeof error.data === "undefined" ? error.description : error.data.description,
                 color: flatc("red"),
@@ -311,7 +313,7 @@ const core = {
         // Check for new version
         if (((githubVer.v > localVer.v && ["beta", "indev", "debug", "test"].indexOf(githubVer.s) === -1) || (githubVer.v === localVer.v && githubVer.s !== localVer.s)) && showMsgs === true) {
             clog("WARN", "Hiện đã có phiên bản mới:", tgs);
-            sbar.additem(`Có phiên bản mới: ${tgs}`, "hub", {aligin: "right"});
+            sbar.additem(`Có phiên bản mới: ${tgs}`, "hub", {align: "right"});
 
             let e = document.createElement("div");
             e.classList.add("item", "lr", "warning");
@@ -325,6 +327,17 @@ const core = {
             `
 
             this.settings.adminConfig.appendChild(e);
+
+            popup.show({
+                windowTitle: "Update Checker",
+                title: "Cập Nhật Hệ Thống",
+                message: `🌿 ${data.target_commitish}`,
+                description: `Hiện đã có phiên bản mới: <b>${tgs}</b><br>Vui lòng cập nhật lên phiên bản mới nhất để đảm bảo độ ổn định của hệ thống`,
+                buttonList: {
+                    contact: { text: `${data.tag_name} : ${data.target_commitish}`, color: "dark", resolve: false, onClick: () => window.open(data.html_url, "_blank") },
+                    continue: { text: "Bỏ qua", color: "pink" }
+                }
+            })
         }
     },
 
@@ -336,6 +349,7 @@ const core = {
             if (this.initialized && this.enableAutoUpdate)
                 await this.fetchLog(bypass, clearJudging);
         } catch(e) {
+            //? IGNORE ERROR
             clog("ERRR", e);
         }
         
@@ -350,6 +364,7 @@ const core = {
             if (this.initialized && this.enableAutoUpdate)
                 await this.fetchRank();
         } catch(e) {
+            //? IGNORE ERROR
             clog("ERRR", e);
         }
         
@@ -1401,7 +1416,7 @@ const core = {
             name: $("#usett_edit_name"),
             pass: $("#usett_edit_pass"),
             newPass: $("#usett_edit_npass"),
-            reTypePass: $("#usett_edit_renpass"),
+            reNewPass: $("#usett_edit_renpass"),
         },
         soundsToggler: {
             soundToggle: $("#usett_btn_sound_toggle"),
@@ -1632,9 +1647,17 @@ const core = {
                 this.changeName(this.sub.name.value);
             }, false)
 
+            this.sub.reNewPass.addEventListener("keyup", e => e.target.parentElement.dataset.color = (this.sub.newPass.value === e.target.value) ? "blue" : "red");
             this.sub.passForm.addEventListener("submit", e => {
+                if (this.sub.newPass.value !== this.sub.reNewPass.value) {
+                    sounds.warning();
+                    this.sub.reNewPass.parentElement.dataset.color = "red";
+                    this.sub.reNewPass.focus();
+                    return;
+                }
+
                 this.sub.passForm.getElementsByTagName("button")[0].disabled = true;
-                this.changePassword(this.sub.pass.value, this.sub.newPass.value, this.sub.reTypePass.value);
+                this.changePassword(this.sub.pass.value, this.sub.newPass.value);
             }, false)
 
             this.logoutBtn.addEventListener("click", e => this.logout(e), false);
@@ -1675,7 +1698,8 @@ const core = {
             this.sub.name.value = null;
             this.sub.pass.value = null;
             this.sub.newPass.value = null;
-            this.sub.reTypePass.value = null;
+            this.sub.reNewPass.value = null;
+            this.sub.reNewPass.parentElement.dataset.color = "blue";
         },
 
         reload(data, reload) {
@@ -1715,7 +1739,7 @@ const core = {
             }, () => this.reset());
         },
 
-        async changePassword(pass, newPass, reTypePass) {
+        async changePassword(pass, newPass) {
             sounds.confirm(2);
 
             await myajax({

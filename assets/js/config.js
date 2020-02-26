@@ -107,11 +107,11 @@ function update() {
         ratelimit.maxRequest.value = data.ratelimit.maxRequest;
         ratelimit.time.value = data.ratelimit.time;
         ratelimit.banTime.value = data.ratelimit.banTime;
-    });
+    }, error => errorHandler(error));
 }
 
 const sbar = new statusBar(document.body);
-sbar.additem(USERNAME, "account", {space: false, aligin: "left"});
+sbar.additem(USERNAME, "account", {space: false, align: "left"});
 
 document.__onclog = (type, ts, msg) => {
     type = type.toLowerCase();
@@ -146,6 +146,7 @@ $("body").onload = e => {
     })
 
     sounds.init();
+    popup.init();
     update();
 }
 
@@ -188,5 +189,5 @@ $("#formContainer").addEventListener("submit", e => {
     }, () => {
         clog("okay", "Thay đổi cài đặt thành công");
         update();
-    })
+    }, error => errorHandler(error));
 }, false);

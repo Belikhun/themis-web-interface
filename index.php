@@ -96,6 +96,7 @@
 
         <!-- Init Library and Splash First -->
         <script src="/assets/js/belibrary.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+        <script src="/assets/js/errorHandler.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
         <script type="text/javascript" src="/assets/js/splash.js?v=<?php print VERSION; ?>"></script>
         <script type="text/javascript">
             var mainSplash = new splash(document.body, `<?php print $config["contest"]["name"]; ?>`, `<?php print $stripedContestDescription; ?>`, "/assets/img/icon.webp");
@@ -112,8 +113,8 @@
                 set(60, "Setting up statusBar");
                 sbar.additem(SERVER.SERVER_SOFTWARE, "server");
                 sbar.additem(SERVER.SERVER_ADDR, "globe");
-                sbar.additem(SERVER.username ? SERVER.username : "Chưa đăng nhập", "account", {aligin: "right"});
-                sbar.additem(SERVER.REMOTE_ADDR, "desktop", {aligin: "right"});
+                sbar.additem(SERVER.username ? SERVER.username : "Chưa đăng nhập", "account", {align: "right"});
+                sbar.additem(SERVER.REMOTE_ADDR, "desktop", {align: "right"});
 
                 set(95, "Sending Analytics Data...");
                 gtag("event", "pageView", {
@@ -162,7 +163,7 @@
                                     text: "Báo lỗi",
                                     color: "pink",
                                     resolve: false,
-                                    onClick: () => window.open("<?php print REPORT_ERROR; ?>", "_blank")
+                                    onClick: () => window.open(SERVER.REPORT_ERROR, "_blank")
                                 },
                                 reload: { text: "Tải lại", color: "blue" },
                                 close: { text: "Đóng", color: "dark" }

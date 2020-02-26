@@ -1208,7 +1208,7 @@ const __connection__ = {
 
 					clog("lcnt", "Mất kết nối tới máy chủ.");
 					this.checkCount = 0;
-					this.__sbarItem = (typeof sbar !== "undefined") ? sbar.additem("Đang thử kết nối lại...", "spinner", {aligin: "right"}) : null;
+					this.__sbarItem = (typeof sbar !== "undefined") ? sbar.additem("Đang thử kết nối lại...", "spinner", {align: "right"}) : null;
 
 					// Bind check handler
 					this.onDisconnected({ onCount: (f) => checkerHandler = f });
@@ -1254,7 +1254,7 @@ const __connection__ = {
 
 					clog("lcnt", data.description);
 					this.__checkTime = parseInt(data.data.reset);
-					this.__sbarItem = (sbar) ? sbar.additem(`Kết nối lại sau [${this.__checkTime}] giây`, "spinner", {aligin: "right"}) : null;
+					this.__sbarItem = (sbar) ? sbar.additem(`Kết nối lại sau [${this.__checkTime}] giây`, "spinner", {align: "right"}) : null;
 
 					this.onRatelimited({
 						onCount: (f) => counterer = f,

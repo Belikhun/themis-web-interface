@@ -276,10 +276,11 @@
 		const API_TOKEN = `<?php print isset($_SESSION["apiToken"]) ? $_SESSION["apiToken"] : null; ?>`;
 		const USERNAME = `<?php print $_SESSION["username"]; ?>`;
 	</script>
-	<script src="assets/js/belibrary.js?v=<?php print VERSION; ?>"></script>
-	<script src="assets/js/statusBar.js?v=<?php print VERSION; ?>"></script>
-	<script src="assets/js/sounds.js?v=<?php print VERSION; ?>"></script>
-	<script src="assets/js/config.js?v=<?php print VERSION; ?>"></script>
+	<script src="/assets/js/belibrary.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+	<script src="/assets/js/errorHandler.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+	<script src="/assets/js/statusBar.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+	<script src="/assets/js/sounds.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+	<script src="/assets/js/config.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=<?php print TRACK_ID; ?>"></script>
