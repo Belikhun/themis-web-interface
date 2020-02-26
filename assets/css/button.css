@@ -208,7 +208,7 @@
 
 .sq-btn:disabled {
     filter: brightness(0.6);
-    cursor: default;
+    cursor: not-allowed;
 }
 
 .sq-btn.pink {
@@ -337,4 +337,27 @@
     animation:
         sq-btn-trig-anim 7.6s linear 0s infinite,
         sq-btn-triRainbow2 10s linear 0s infinite;
+}
+
+.text-btn {
+    position: relative;
+    background-color: transparent;
+    border: unset;
+    font-family: Calibri;
+    font-size: 13px;
+    color: rgb(22, 153, 33);
+    cursor: pointer;
+}
+
+.text-btn:hover {
+    text-decoration: underline;
+}
+
+.text-btn:disabled {
+    color: rgb(175, 175, 175);
+    cursor: not-allowed;
+}
+
+body.dark .text-btn {
+    color: rgb(67, 246, 82);
 }

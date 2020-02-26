@@ -106,7 +106,7 @@ function myajax({
 					}
 
 					if (this.status >= 400 || (res.code !== 0 && res.code < 100)) {
-						clog("errr", {
+						clog("ERRR", {
 							color: flatc("magenta"),
 							text: method
 						}, {
@@ -718,7 +718,14 @@ if (typeof $ !== "function")
 	 * @param	{String}	selector	Selector
 	 * @returns	{Element}
 	 */
-	function $ (selector) { return document.querySelector(selector) };
+	function $(query) {
+		let r = document.querySelector(query);
+
+		if (!r)
+			clog("WARN", `Could not find any element with query: ${query}`);
+
+		return r;
+	}
 
 /**
  * Remove all child in a Node
@@ -744,7 +751,8 @@ function createInput({
 	required = false
 } = {}) {
 	let formGroup = document.createElement("div");
-	formGroup.classList.add("formGroup", color);
+	formGroup.classList.add("formGroup");
+	formGroup.dataset.color = color;
 	formGroup.dataset.soundhoversoft = "";
 	formGroup.dataset.soundselectsoft = "";
 

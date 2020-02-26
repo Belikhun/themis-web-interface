@@ -51,6 +51,7 @@
         case 401:
             $error = "Unauthorized";
             $description = "Authentication is required and has failed or has not yet been provided.";
+            $errDetailSub = "Vui lòng đăng nhập để tiếp tục";
             break;
         case 403:
             $error = "Forbidden";

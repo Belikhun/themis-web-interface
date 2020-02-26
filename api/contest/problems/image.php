@@ -49,7 +49,7 @@
             define("PAGE_TYPE", "API");
 
             if (!isLogedIn())
-                stop(11, "Bạn chưa đăng nhập.", 403);
+                stop(11, "Bạn chưa đăng nhập.", 401);
 
             $id = preg_replace("/[.\/\\\\]/m", "", reqHeader("id"));
             
@@ -81,6 +81,6 @@
             // SET PAGE TYPE
             define("PAGE_TYPE", "NORMAL");
 
-            stop(7, "Unknown request method: ". $requestMethod, 400, Array( "method" => $requestMethod ));
+            stop(7, "Unknown request method: ". $requestMethod, 405, Array( "method" => $requestMethod ));
             break;
     }

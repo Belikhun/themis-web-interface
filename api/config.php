@@ -18,7 +18,7 @@
         stop(0, "Thành công!", 200, $rawConfig);
 
     if (!isLogedIn())
-        stop(11, "Bạn chưa đăng nhập.", 403);
+        stop(11, "Bạn chưa đăng nhập.", 401);
         
     checkToken();
 

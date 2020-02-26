@@ -192,10 +192,14 @@
         max-width: unset;
     }
 
+    body:not(.guest) .navBar .top .left .icon {
+        display: none;
+    }
+
     .navBar .top .left .title {
         position: absolute;
         text-align: center;
-        max-width: calc(100% - 140px);
+        max-width: calc(100% - 180px);
         left: 50%;
         transform: translateX(-50%);
     }
@@ -203,6 +207,10 @@
     .navBar .top .right {
         width: 100%;
         justify-content: space-between;
+    }
+
+    body.guest .navBar .top .right {
+        flex-flow: row-reverse;
     }
 
     .navBar .top .right .info {

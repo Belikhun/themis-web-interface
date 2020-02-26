@@ -64,23 +64,23 @@
         
                         <span class="column grow">
                             <div class="row">
-                                <div class="formGroup blue sound userID" data-soundselectsoft>
+                                <div class="formGroup sound userID" data-color="blue" data-soundselectsoft>
                                     <input id="addUserID" type="text" class="formField" autocomplete="off" placeholder="ID" required>
                                     <label for="addUserID">ID</label>
                                 </div>
         
-                                <div class="formGroup blue sound username" data-soundselectsoft>
+                                <div class="formGroup sound username" data-color="blue" data-soundselectsoft>
                                     <input id="addUserUsername" type="text" class="formField" autocomplete="off" placeholder="Tên người dùng" required>
                                     <label for="addUserUsername">Tên người dùng</label>
                                 </div>
                             </div>
                             
-                            <div class="row formGroup blue sound" data-soundselectsoft>
+                            <div class="row formGroup sound" data-color="blue" data-soundselectsoft>
                                 <input id="addUserPassword" type="text" class="formField" autocomplete="off" placeholder="Mật khẩu" required>
                                 <label for="addUserPassword">Mật khẩu</label>
                             </div>
         
-                            <div class="row formGroup blue sound" data-soundselectsoft>
+                            <div class="row formGroup sound" data-color="blue" data-soundselectsoft>
                                 <input id="addUserName" type="text" class="formField" autocomplete="off" placeholder="Tên" required>
                                 <label for="addUserName">Tên</label>
                             </div>

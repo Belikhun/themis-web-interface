@@ -14,7 +14,7 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
 
 	if (!isLogedIn())
-		stop(11, "Bạn chưa đăng nhập.", 403);
+		stop(11, "Bạn chưa đăng nhập.", 401);
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logParser.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";

@@ -15,18 +15,18 @@
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
 
     if (!isLogedIn())
-        stop(11, "Bạn chưa đăng nhập!", 403);
+        stop(11, "Bạn chưa đăng nhập!", 401);
 
     $username = $_SESSION["username"];
     checkToken();
 
     $change = Array();
 
-    if (isset($_POST["n"])) {
+    if (isset($_POST["name"])) {
         if ($config["edit"]["name"] === false && $_SESSION["id"] !== "admin")
             stop(21, "Thay đổi tên đã bị tắt!", 403);
 
-        $change["name"] = htmlspecialchars(trim($_POST["n"]));
+        $change["name"] = htmlspecialchars(trim($_POST["name"]));
         if (strlen($change["name"]) > 34)
             stop(16, "Tên người dùng không được vượt quá 34 kí tự", 400);
     }
@@ -34,23 +34,18 @@
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
     $userdata = getUserData($username);
 
-    if (isset($_POST["p"])) {
+    if (isset($_POST["password"])) {
         if ($config["edit"]["password"] === false && $_SESSION["id"] !== "admin")
             stop(21, "Thay đổi mật khẩu đã bị tắt!", 403);
 
-        $oldpass = $_POST["p"];
+        $oldpass = $_POST["password"];
 
         if (($resp = simpleLogin($username, $oldpass)) === LOGIN_WRONGPASSWORD)
             stop(14, "Sai mật khẩu!", 403);
         elseif ($resp !== LOGIN_SUCCESS)
-            stop(-1, "Sth went soooo wrong.", 500);
+            stop(-1, "Unknown Server error", 500);
 
-        $newpass = reqForm("np");
-        $renewpass = reqForm("rnp");
-
-        if ($newpass !== $renewpass)
-            stop(15, "Mật khẩu mới không khớp!", 400);
-
+        $newpass = reqForm("newPassword");
         $change["password"] = password_hash($newpass, PASSWORD_DEFAULT);
         $change["repass"] = $userdata["repass"] + 1;
     }
@@ -70,6 +65,6 @@
             break;
         case USER_EDIT_ERROR:
             writeLog("ERRR", "Lỗi khi lưu thông tin tài khoản [$id] \"$username\"");
-            stop(-1, "Lỗi không rõ.", 500);
+            stop(-1, "Lỗi không rõ", 500);
             break;
     }

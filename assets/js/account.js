@@ -161,23 +161,23 @@ const account = {
 
                 <span class="column grow">
                     <div class="row">
-                        <div class="formGroup blue sound userID" data-soundselectsoft>
+                        <div class="formGroup sound userID" data-color="blue" data-soundselectsoft>
                             <input id="userID_${username}" type="text" class="formField" autocomplete="off" placeholder="ID" required>
                             <label for="userID_${username}">ID</label>
                         </div>
 
-                        <div class="formGroup blue sound username" data-soundselectsoft>
+                        <div class="formGroup sound username" data-color="blue" data-soundselectsoft>
                             <input id="userUsername_${username}" type="text" class="formField" autocomplete="off" placeholder="Tên người dùng" required>
                             <label for="userUsername_${username}">Tên người dùng</label>
                         </div>
                     </div>
                     
-                    <div class="row formGroup blue sound" data-soundselectsoft>
+                    <div class="row formGroup sound" data-color="blue" data-soundselectsoft>
                         <input id="userPassword_${username}" type="text" class="formField" autocomplete="off" placeholder="Mật khẩu">
                         <label for="userPassword_${username}">Mật khẩu</label>
                     </div>
 
-                    <div class="row formGroup blue sound" data-soundselectsoft>
+                    <div class="row formGroup sound" data-color="blue" data-soundselectsoft>
                         <input id="userName_${username}" type="text" class="formField" autocomplete="off" placeholder="Tên" required>
                         <label for="userName_${username}">Tên</label>
                     </div>

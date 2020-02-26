@@ -1702,7 +1702,7 @@ const core = {
                 url: "/api/edit",
                 method: "POST",
                 form: {
-                    n: name,
+                    name: name,
                     token: API_TOKEN
                 }
             }, response => {
@@ -1723,9 +1723,8 @@ const core = {
                 url: "/api/edit",
                 method: "POST",
                 form: {
-                    p: pass,
-                    np: newPass,
-                    rnp: reTypePass,
+                    password: pass,
+                    newPassword: newPass,
                     token: API_TOKEN
                 }
             }, () => {

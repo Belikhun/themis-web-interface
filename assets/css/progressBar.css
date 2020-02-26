@@ -110,7 +110,7 @@
         filter: brightness(0.95);
     }
 
-    40%, 50% {
+    50% {
         filter: brightness(1.3);
     }
 }
@@ -120,7 +120,7 @@
         opacity: 0;
     }
 
-    40%, 50% {
+    45%, 55% {
         opacity: 1;
     }
 }

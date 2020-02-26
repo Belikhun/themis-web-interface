@@ -251,9 +251,9 @@
 
                     <?php if (!$loggedIn) { ?>
                         <div class="group user">
-                            <t class="title">Đăng Nhập</t>
+                            <t class="title">Tài Khoản</t>
                             <div class="item form">
-                                <button class="sq-btn yellow sound" style="width: 100%;" data-soundhover data-soundselect onclick="window.location.href='/login.php'">Đăng nhập</button>
+                                <button class="sq-btn yellow sound" style="width: 100%;" data-soundhover data-soundselect onclick="window.location.href='/login.php'">Đăng Nhập / Đăng Kí</button>
                             </div>
                         </div>
                     <?php } ?>
@@ -300,7 +300,7 @@
 
                         <div class="item form sound" data-soundhoversoft>
                             <form id="usett_edit_name_form" autocomplete="off" action="javascript:void(0);">
-                                <div class="formGroup blue sound" data-soundselectsoft>
+                                <div class="formGroup sound" data-color="blue" data-soundselectsoft>
                                     <input id="usett_edit_name" type="text" class="formField" placeholder="Tên" maxlength="34" required>
                                     <label for="usett_edit_name">Tên</label>
                                 </div>
@@ -313,15 +313,15 @@
                         <div class="item form sound" data-soundhoversoft>
                             <form id="usett_edit_pass_form" action="javascript:void(0);">
                                 <input type="text" autocomplete="username" value="<?php print $username; ?>" style="display: none">
-                                <div class="formGroup blue sound" data-soundselectsoft>
+                                <div class="formGroup sound" data-color="blue" data-soundselectsoft>
                                     <input id="usett_edit_pass" type="password" autocomplete="current-password" class="formField" placeholder="Mật khẩu" required>
                                     <label for="usett_edit_pass">Mật khẩu</label>
                                 </div>
-                                <div class="formGroup blue sound" data-soundselectsoft>
+                                <div class="formGroup sound" data-color="blue" data-soundselectsoft>
                                     <input id="usett_edit_npass" type="password" autocomplete="new-password" class="formField" placeholder="Mật khẩu mới" required>
                                     <label for="usett_edit_npass">Mật khẩu mới</label>
                                 </div>
-                                <div class="formGroup blue sound" data-soundselectsoft>
+                                <div class="formGroup sound" data-color="blue" data-soundselectsoft>
                                     <input id="usett_edit_renpass" type="password" autocomplete="new-password" class="formField" placeholder="Nhập lại mật khẩu mới" required>
                                     <label for="usett_edit_renpass">Nhập lại mật khẩu mới</label>
                                 </div>
@@ -536,51 +536,51 @@
                             <div class="problemsContainer">
                                 <ul id="problemEdit_list" class="problemsList sound" data-soundtoggle="hide"></ul>
                                 <form id="problemEdit_form" class="problem" action="javascript:void(0);" autocomplete="off">
-                                    <div class="formGroup blue">
+                                    <div class="formGroup" data-color="blue">
                                         <input id="problemEdit_id" type="text" class="formField sound" placeholder="Tên Tệp" data-soundselectsoft required>
                                         <label for="problemEdit_id">Mã Đề</label>
                                     </div>
-                                    <div class="formGroup blue">
+                                    <div class="formGroup" data-color="blue">
                                         <input id="problemEdit_name" type="text" class="formField sound" placeholder="Tên Bài" data-soundselectsoft required>
                                         <label for="problemEdit_name">Tên Bài</label>
                                     </div>
-                                    <div class="formGroup blue">
+                                    <div class="formGroup" data-color="blue">
                                         <input id="problemEdit_point" type="number" class="formField sound" placeholder="Điểm" data-soundselectsoft required>
                                         <label for="problemEdit_point">Điểm</label>
                                     </div>
-                                    <div class="formGroup blue">
+                                    <div class="formGroup" data-color="blue">
                                         <input id="problemEdit_time" type="number" class="formField sound" placeholder="Thời gian chạy" value="1" data-soundselectsoft required>
                                         <label for="problemEdit_time">Thời gian chạy</label>
                                     </div>
-                                    <div class="formGroup blue">
+                                    <div class="formGroup" data-color="blue">
                                         <input id="problemEdit_mem" type="number" class="formField sound" placeholder="Giới hạn bộ nhớ" value="1024" data-soundselectsoft required>
                                         <label for="problemEdit_mem">Giới hạn bộ nhớ</label>
                                     </div>
-                                    <div class="formGroup blue">
+                                    <div class="formGroup" data-color="blue">
                                         <input id="problemEdit_inpType" type="text" class="formField sound" placeholder="Dữ liệu vào" value="Bàn Phím" data-soundselectsoft required>
                                         <label for="problemEdit_inpType">Dữ liệu vào</label>
                                     </div>
-                                    <div class="formGroup blue">
+                                    <div class="formGroup" data-color="blue">
                                         <input id="problemEdit_outType" type="text" class="formField sound" placeholder="Dữ liệu ra" value="Màn Hình" data-soundselectsoft required>
                                         <label for="problemEdit_outType">Dữ liệu ra</label>
                                     </div>
-                                    <div class="formGroup blue">
+                                    <div class="formGroup" data-color="blue">
                                         <input id="problemEdit_accept" type="text" class="formField sound" placeholder="Đuôi tệp" value="pas|py|cpp|java" data-soundselectsoft required>
                                         <label for="problemEdit_accept">Đuôi tệp (dùng | để ngăn cách)</label>
                                     </div>
-                                    <div class="formGroup blue">
+                                    <div class="formGroup" data-color="blue">
                                         <input id="problemEdit_image" type="file" class="formField sound" accept="image/*" placeholder="Ảnh" data-soundselectsoft>
                                         <label for="problemEdit_image">Ảnh đính kèm (tùy chọn)</label>
                                     </div>
                                     <button class="sq-btn pink" id="problemEdit_deleteImage" type="button">Xóa ảnh đính kèm hiện tại</button>
-                                    <div class="formGroup blue">
+                                    <div class="formGroup" data-color="blue">
                                         <textarea id="problemEdit_desc" class="formField sound" placeholder="Nội dung" data-soundselectsoft required></textarea>
                                         <label for="problemEdit_desc">Nội dung</label>
                                     </div>
                                     <div class="note info">
                                         <span class="inner">Nếu tệp đính kèm là <b>pdf</b>, hệ thống sẽ hiển thị tệp đó trong cửa sổ xem đề bài</span>
                                     </div>
-                                    <div class="formGroup blue">
+                                    <div class="formGroup" data-color="blue">
                                         <input id="problemEdit_attachment" type="file" class="formField sound" placeholder="Tệp đính kèm" data-soundselectsoft>
                                         <label for="problemEdit_attachment">Tệp đính kèm (tùy chọn)</label>
                                     </div>

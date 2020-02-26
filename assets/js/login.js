@@ -6,143 +6,455 @@
 //? |-----------------------------------------------------------------------------------------------|
 
 if (cookie.get("__darkMode") === "true")
-    document.body.classList.add("dark");
+	document.body.classList.add("dark");
 
-login = {
-    form: {
-        container: $("#form_container"),
-        username: {
-            container: $("#form_username"),
-            input: $("#form_username_input"),
-            submit: $("#form_username_submit"),
-            message: $("#form_message"),
-        },
-        password: {
-            container: $("#form_password"),
-            avatar: $("#form_avatar"),
-            user: $("#form_user"),
-            input: $("#form_password_input"),
-            submit: $("#form_password_submit")
-        },
-        profile: $("#form_profile")
-    },
-    title: $("#login_title"),
+const login = {
+	container: $("#formContainer"),
+	form: {
+		title: $("#formTitle"),
+		message: $("#formMessage"),
+		registerBtn: $("#registerToggler"),
+		loginBtn: $("#loginToggler")
+	},
 
-    async init() {
-        this.form.username.submit.addEventListener("click", () => this.checkUsername(), false);
-        this.form.username.input.addEventListener("keyup", e => {
-            if (e.keyCode === 13 || e.keyCode === 9) {
-                e.preventDefault();
-                this.checkUsername();
-            }
-        });
+	async init() {
+		sounds.init();
+		this.login.init();
+		this.register.init();
+		
+		this.form.title.innerText = "Đăng Nhập";
+		this.form.loginBtn.disabled = false;
+		this.form.registerBtn.disabled = false;
+		this.form.registerBtn.addEventListener("click", () => this.toggleRegister(true));
+		this.form.loginBtn.addEventListener("click", () => this.toggleRegister(false));
+		sounds.select(1);
+	},
 
-        sounds.init();
+	async toggleRegister(show = true) {
+		if (show) {
+			this.container.classList.add("registerForm");
+			this.form.title.innerText = "Đăng Kí";
+			sounds.toggle(0);
+			await delayAsync(500);
+			await this.register.toggle(true);
+		} else {
+			this.container.classList.remove("registerForm");
+			this.form.title.innerText = "Đăng Nhập";
+			sounds.toggle(1);
+			await this.register.toggle(false);
+		}
+		
+		return show;
+	},
 
-        this.form.container.addEventListener("submit", () => this.submit(), false);
-        this.form.profile.addEventListener("click", () => this.reset(false), false);
-        this.form.username.input.disabled = false;
-        this.form.username.submit.disabled = false;
-        this.title.innerText = "Đăng nhập";
-        this.form.username.input.focus();
-        sounds.select(1);
-    },
+	errored(error) {
+		let e = error.code ? `[${error.code}]` : error.name || error.data.name || `${error.data.data.file}:${error.data.data.line}`;
+		let d = error.description || error.message || error.data.message || error.data.description || error.description;
+	
+		this.form.message.innerHTML = `<b>${e}</b> >>> ${d}`;
+		clog("ERRR", error);
+	},
 
-    async submit() {
-        let data = {}
+	login: {
+		container: $("#loginFormContainer"),
+		username: {
+			container: $("#loginUsername"),
+			input: $("#loginUsernameInput"),
+			submit: $("#loginUsernameSubmit"),
+		},
 
-        this.form.password.input.disabled = true;
-        this.form.password.submit.disabled = true;
-        sounds.confirm(1);
+		password: {
+			container: $("#loginPassword"),
+			profile: $("#loginFormProfile"),
+			avatar: $("#loginFormAvatar"),
+			user: $("#loginFormUser"),
+			input: $("#loginPasswordInput"),
+			submit: $("#loginPasswordSubmit")
+		},
 
-        // Cool down a little bit
-        await delayAsync(500);
-        
-        try {
-            let response = await myajax({
-                url: "/api/login",
-                method: "POST",
-                form: {
-                    u: this.form.username.input.value,
-                    p: this.form.password.input.value
-                }
-            })
+		complete: {
+			message: $("#loginCompleteMessage")
+		},
 
-            data = response.data;
-        } catch(e) {
-            if (e.data.code === 14)
-                this.reset(true);
-            else
-                this.reset(false);
+		init() {
+			this.username.submit.addEventListener("click", () => this.checkUsername(), false);
+			this.username.input.addEventListener("keyup", e => {
+				if (e.keyCode === 13 || e.keyCode === 9) {
+					e.preventDefault();
+					this.checkUsername();
+				}
+			});
 
-            this.form.username.message.innerText = e.data.description;
-            return false;
-        }
+			this.password.avatar.addEventListener("load", e => e.target.parentElement.dataset.loaded = 1);
+			this.container.addEventListener("submit", () => this.login(), false);
+			this.password.profile.addEventListener("click", () => this.reset(false), false);
+			this.username.input.disabled = false;
+			this.username.submit.disabled = false;
+			this.innerText = "Đăng nhập";
+			this.container.dataset.layout = 1;
+			this.username.input.focus();
+		},
 
-        gtag("event", "login");
-        window.location.href = data.redirect;
-    },
+		async checkUsername() {
+			let username = this.username.input.value;
+			let userData = [];
+			
+			if (username === "" || username === null) {
+				this.username.input.focus();
+				return false;
+			}
+			
+			this.password.avatar.onload = null;
+			this.username.input.disabled = true;
+			this.username.submit.disabled = true;
+			sounds.confirm(0);
 
-    async checkUsername() {
-        let username = this.form.username.input.value;
-        let userData = [];
-        
-        if (username === "" || username === null) {
-            login.form.username.input.focus();
-            return false;
-        }
-        
-        this.form.password.avatar.onload = null;
-        this.form.username.input.disabled = true;
-        this.form.username.submit.disabled = true;
-        sounds.confirm(0);
+			try {
+				userData = await myajax({
+					url: "/api/info",
+					method: "GET",
+					query: { u: username }
+				})
+			} catch(e) {
+				// Ignore
+				clog("ERRR", e);
+			}
 
-        try {
-            userData = await myajax({
-                url: "/api/info",
-                method: "GET",
-                query: { u: username }
-            });
-        } catch (e) {
-            // Ignore
-            clog("ERRR", e);
-        }
+			this.password.avatar.parentElement.removeAttribute("data-loaded");
+			this.password.avatar.src = "/api/avatar?u=" + username;
+			this.showPasswordForm(username, userData.data ? userData.data.name : null);
+		},
 
-        this.form.password.avatar.onload = () => this.showPassInp(username, userData.data ? userData.data.name : null);
-        this.form.password.avatar.src = "/api/avatar?u=" + username;
-    },
+		async showPasswordForm(username, name) {
+			this.container.dataset.layout = 2;
+			this.password.user.innerText = name || username;
+			this.password.input.disabled = false;
+			this.password.submit.disabled = false;
 
-    async showPassInp(username, name) {
-        this.form.username.container.classList.add("hide");
-        this.form.password.user.innerText = name || username;
-        this.form.password.input.disabled = false;
-        this.form.password.submit.disabled = false;
+			// Wait for animation
+			await delayAsync(500);
 
-        // Wait for animation
-        await delayAsync(400);
+			this.password.input.focus();
+			sounds.select(1);
+		},
 
-        this.form.password.input.focus();
-        sounds.select(1);
-    },
+		async login() {
+			let data = {}
+			let username = this.username.input.value;
+			let password = this.password.input.value;
 
-    reset(keepUsername = false) {
-        this.form.username.message.innerText = "";
-        this.form.username.input.disabled = false;
-        this.form.username.submit.disabled = false;
-        this.form.password.input.value = "";
+			this.password.input.disabled = true;
+			this.password.submit.disabled = true;
+			sounds.confirm(1);
 
-        if (!keepUsername) {
-            this.form.username.input.value = "";
-            this.form.username.container.classList.remove("hide");
-            this.form.password.avatar.src = "";
-            this.form.password.input.disabled = true;
-            this.form.password.submit.disabled = true;
-            this.form.password.user.innerText = "";
-            this.form.username.input.focus();
-        } else {
-            this.form.password.input.disabled = false;
-            this.form.password.submit.disabled = false;
-            this.form.password.input.focus();
-        }
-    },
+			// Cool down a little bit
+			await delayAsync(500);
+			
+			try {
+				let response = await myajax({
+					url: "/api/login",
+					method: "POST",
+					form: { username, password }
+				})
+
+				data = response.data;
+			} catch(e) {
+				if (e.data.code === 14)
+					this.reset(true);
+				else
+					this.reset(false);
+
+				login.errored(e.data);
+				return false;
+			}
+
+			gtag("event", "login");
+			sounds.toggle(0);
+			this.complete.message.innerHTML = `Xin chào <b>${data.user.name}</b>! Bạn sẽ được chuyến đến trang chủ trong chốc lát...`
+			this.container.dataset.layout = 3;
+
+			await delayAsync(2000);
+			window.location.href = data.redirect;
+		},
+
+		reset(keepUsername = false) {
+			this.username.input.disabled = false;
+			this.username.submit.disabled = false;
+			this.password.input.value = "";
+
+			if (!keepUsername) {
+				this.username.input.value = "";
+				this.container.dataset.layout = 1;
+				this.password.avatar.parentElement.removeAttribute("data-loaded");
+				this.password.avatar.src = "";
+				this.password.input.disabled = true;
+				this.password.submit.disabled = true;
+				this.password.user.innerText = "";
+				this.username.input.focus();
+			} else {
+				this.password.input.disabled = false;
+				this.password.submit.disabled = false;
+				this.password.input.focus();
+			}
+		}
+	},
+
+	register: {
+		container: $("#registerFormContainer"),
+		username: {
+			container: $("#registerUsername"),
+			input: $("#registerUsernameInput"),
+			submit: $("#registerUsernameSubmit"),
+		},
+
+		password: {
+			container: $("#registerPassword"),
+			input: $("#registerPasswordInput"),
+			inputRetype: $("#registerPasswordInputRetype"),
+			captcha: $("#registerCaptcha"),
+			captchaRenew: $("#registerCaptchaRenew"),
+			captchaInput: $("#registerCaptchaInput"),
+			submit: $("#registerPasswordSubmit")
+		},
+
+		complete: {
+			avatarInput: $("#userAvatarInput"),
+			avatar: $("#userAvatar"),
+			nameInput: $("#userNameInput"),
+			submit: $("#editUserConfirm")
+		},
+
+		registerData: {},
+
+		init() {
+			this.username.submit.addEventListener("click", () => this.checkUsername(), false);
+			this.username.input.addEventListener("keyup", e => {
+				if (e.keyCode === 13 || e.keyCode === 9) {
+					e.preventDefault();
+					this.checkUsername();
+				}
+			});
+
+			this.complete.submit.addEventListener("mouseup", async e => {
+				e.target.disabled = true;
+				sounds.confirm(0);
+				await this.updateName(this.complete.nameInput.value);
+				window.location.href = this.registerData.redirect;
+			});
+
+			this.complete.avatarInput.addEventListener("change", e => this.updateAvatar(e.target.files[0]));
+			this.complete.avatar.addEventListener("load", e => e.target.parentElement.dataset.loaded = 1);
+			this.password.inputRetype.addEventListener("keyup", e => e.target.parentElement.dataset.color = (this.password.input.value === e.target.value) ? "blue" : "red");
+			this.password.captcha.addEventListener("load", e => e.target.parentElement.dataset.loaded = 1);
+			this.password.captchaRenew.addEventListener("mouseup", e => this.renewCaptcha());
+			this.container.addEventListener("submit", () => this.register(), false);
+
+			this.container.dataset.layout = 1;
+		},
+
+		async toggle(show = true) {
+			if (show) {
+				this.username.input.disabled = false;
+				this.username.submit.disabled = false;
+				this.username.input.focus();
+			} else {
+				this.username.input.disabled = true;
+				this.username.submit.disabled = true;
+			}
+		},
+
+		async checkUsername() {
+			let username = this.username.input.value;
+			let userData = [];
+			
+			if (username === "" || username === null) {
+				this.username.input.focus();
+				return false;
+			}
+			
+			let usernameExist = true;
+			this.username.input.disabled = true;
+			this.username.submit.disabled = true;
+			sounds.confirm(0);
+			await delayAsync(300);
+
+			try {
+				userData = await myajax({
+					url: "/api/info",
+					method: "GET",
+					query: { u: username }
+				});
+			} catch(e) {
+				if (e.data.code === 13)
+					usernameExist = false;
+				else {
+					login.errored(e.data);
+			
+					this.reset({ username: true });
+					return;
+				}
+			}
+
+			if (usernameExist) {
+				let e = { code: -1, description: `Tên tài khoản "${username}" đã tồn tại!`, data: { username } }
+				login.errored(e);
+			
+				this.reset({ username: true });
+				this.username.input.parentElement.dataset.color = "red";
+				this.username.input.focus();
+				return;
+			}
+			
+			await this.showPasswordForm();
+		},
+
+		renewCaptcha() {
+			this.password.captcha.parentElement.removeAttribute("data-loaded");
+			this.password.captcha.src = "/tool/captcha?generate";
+		},
+
+		async showPasswordForm() {
+			this.container.dataset.layout = 2;
+			this.password.input.disabled = false;
+			this.password.inputRetype.disabled = false;
+			this.password.captchaInput.disabled = false;
+			this.password.submit.disabled = false;
+			
+			// Wait for animation
+			await delayAsync(500);
+			this.renewCaptcha();
+
+			this.password.input.focus();
+			sounds.select(1);
+		},
+
+		async register() {
+			if (this.password.input.value !== this.password.inputRetype.value) {
+				this.password.inputRetype.parentElement.dataset.color = "red";
+				login.errored({ code: 15, description: "Mật khẩu không khớp!" });
+				this.password.inputRetype.focus();
+				return;
+			}
+
+			let data = {}
+			let username = this.username.input.value;
+			let password = this.password.input.value;
+			let captcha = this.password.captchaInput.value;
+			this.password.input.disabled = true;
+			this.password.inputRetype.disabled = true;
+			this.password.captcha.disabled = true;
+			this.password.captchaInput.disabled = true;
+			this.password.captchaRenew.disabled = true;
+			this.password.submit.disabled = true;
+			sounds.confirm(1);
+
+			// Cool down a little bit
+			await delayAsync(500);
+			
+			try {
+				let response = await myajax({
+					url: "/api/register",
+					method: "POST",
+					form: { username, password, captcha }
+				});
+
+				data = response.data;
+			} catch(e) {
+				if (e.data.code === 8)
+					this.reset({ captcha: true });
+				else
+					this.reset({ password: true, captcha: true });
+
+				login.errored(e.data);
+				return;
+			}
+
+			gtag("event", "register");
+			sounds.toggle(0);
+			this.registerData = data;
+			this.registerData.user.username = username;
+			this.container.dataset.layout = 3;
+			this.reset({ avatar: true });
+		},
+
+		async updateAvatar(file) {
+			try {
+				await myajax({
+					url: "/api/avatar",
+					method: "POST",
+					form: {
+						token: this.registerData.token,
+						file: file
+					}
+				})
+			} catch(e) {
+				sounds.warning();
+				login.errored(e.data);
+				this.reset({ avatar: true });
+				return;
+			}
+			
+			this.reset({ avatar: true });
+		},
+
+		async updateName(name) {
+			if (name === "" || name === null)
+				return;
+
+			try {
+				await myajax({
+					url: "/api/edit",
+					method: "POST",
+					form: {
+						name: name,
+						token: this.registerData.token
+					}
+				})
+			} catch(e) {
+				sounds.warning();
+				login.errored(e.data);
+				return;
+			}
+		},
+
+		reset({
+			username = false,
+			password = false,
+			captcha = false,
+			avatar = false
+		} = {}) {
+			if (username) {
+				this.username.input.disabled = false;
+				this.username.submit.disabled = false;
+				this.username.input.parentElement.dataset.color = "blue";
+			}
+
+			if (password) {
+				this.password.input.disabled = false;
+				this.password.inputRetype.disabled = false;
+				this.password.submit.disabled = false;
+			}
+
+			if (captcha) {
+				this.password.captchaInput.disabled = false;
+				this.password.captchaRenew.disabled = false;
+				this.password.submit.disabled = false;
+
+				this.renewCaptcha();
+				this.password.captchaInput.value = "";
+				this.password.captchaInput.focus();
+			}
+
+			if (avatar) {
+				this.complete.avatar.parentElement.removeAttribute("data-loaded");
+				this.complete.avatar.src = `/api/avatar?u=${this.registerData.user.username}`;
+				this.complete.avatarInput.value = "";
+			}
+		}
+	}
 }
+
+window.addEventListener(
+	"DOMContentLoaded",
+	(e) => login.init().catch(console.error)
+);

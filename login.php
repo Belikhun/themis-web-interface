@@ -27,6 +27,7 @@
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/default.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/input.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/progressBar.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollBar.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/spinner.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/loginPage.css?v=<?php print VERSION; ?>" />
@@ -39,9 +40,8 @@
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome.css?v=<?php print VERSION; ?>" />
     </head>
 
-    <body onload="login.init();">
-
-        <div class="left-panel">
+    <body>
+        <div class="leftPanel">
             <div class="lazyload wallpaper">
                 <img onload="this.parentNode.dataset.loaded = 1" src="/assets/img/login-bg.webp"/>
                 <div class="simple-spinner"></div>
@@ -53,7 +53,7 @@
             </ul>
         </div>
 
-        <div class="right-panel">
+        <div class="rightPanel">
             <div class="header">
                 <div class="lazyload icon">
                     <img onload="this.parentNode.dataset.loaded = 1" src="/assets/img/icon.webp"/>
@@ -69,34 +69,137 @@
                 </ul>
             </div>
 
-            <div class="center">
-                <t id="login_title" class="title">Đang tải...</t>
-                <t id="form_message"></t>
+            <div id="formContainer" class="center">
+                <t id="formTitle" class="title">Đang tải...</t>
+                <t id="formMessage" class="message"></t>
 
-                <form id="form_container" action="javascript:void(0);">
-                    <div id="form_username">
-                        <div class="formGroup blue sound" data-soundselectsoft>
-                            <input id="form_username_input" type="text" autocomplete="username" class="formField" autocomplete="off" placeholder="Tên tài khoản" required disabled>
-                            <label for="form_username_input">Tên tài khoản</label>
+                <div class="formBox">
+                    <form class="inputForm" id="loginFormContainer" action="javascript:void(0);">
+                        <div class="progress">
+                            <div class="progressBar"><div class="bar" data-color="blue" data-blink="grow"></div></div>
+                            <div class="indicator">
+                                <span class="item">Tên Tài Khoản</span>
+                                <span class="item">Mật Khẩu</span>
+                                <span class="item">Hoàn Thành</span>
+                            </div>
                         </div>
 
-                        <button id="form_username_submit" type="button" class="sq-btn sound" data-soundhover data-soundselect disabled>Tiếp</button>
-                    </div>
-
-                    <div id="form_password">
-                        <div id="form_profile">
-                            <img alt="avt" src="" id="form_avatar" />
-                            <t id="form_user"></t>
+                        <div class="username" id="loginUsername">
+                            <div class="formGroup sound" data-color="blue" data-soundselectsoft>
+                                <input id="loginUsernameInput" type="text" autocomplete="username" class="formField" autocomplete="off" placeholder="Tên tài khoản" required disabled>
+                                <label for="loginUsernameInput">Tên tài khoản</label>
+                            </div>
+    
+                            <div class="button">
+                                <button id="loginUsernameSubmit" type="button" class="sq-btn sound" data-soundhover data-soundselect disabled>Tiếp</button>
+                                <button id="registerToggler" type="button" class="text-btn register" disabled>Đăng Kí</button>
+                            </div>
+                        </div>
+    
+                        <div class="password" id="loginPassword">
+                            <div id="loginFormProfile">
+                                <div class="lazyload avatar">
+                                    <img id="loginFormAvatar" src=""/>
+                                    <div class="simple-spinner"></div>
+                                </div>
+                                <t id="loginFormUser"></t>
+                            </div>
+    
+                            <div class="formGroup sound" data-color="blue" data-soundselectsoft>
+                                <input id="loginPasswordInput" type="password" autocomplete="current-password" class="formField" autocomplete="off" placeholder="Mật khẩu" required disabled>
+                                <label for="loginPasswordInput">Mật khẩu</label>
+                            </div>
+    
+                            <div class="button">
+                                <button id="loginPasswordSubmit" type="submit" class="sq-btn pink sound" data-soundhover data-soundselect disabled>Đăng Nhập</button>
+                            </div>
                         </div>
 
-                        <div class="formGroup blue sound" data-soundselectsoft>
-                            <input id="form_password_input" type="password" autocomplete="current-password" class="formField" autocomplete="off" placeholder="Mật khẩu" required disabled>
-                            <label for="form_password_input">Mật khẩu</label>
+                        <div class="complete">
+                            <div class="icon"></div>
+                            <t class="title">Đăng nhập thành công</t>
+                            <t id="loginCompleteMessage" class="message"></t>
+                        </div>
+                    </form>
+    
+                    <form class="inputForm" id="registerFormContainer" action="javascript:void(0);">
+                        <div class="progress">
+                            <div class="progressBar"><div class="bar" data-color="blue" data-blink="grow"></div></div>
+                            <div class="indicator">
+                                <span class="item">Tên Tài Khoản</span>
+                                <span class="item">Mật Khẩu</span>
+                                <span class="item">Hoàn Thành</span>
+                            </div>
                         </div>
 
-                        <button id="form_password_submit" type="submit" class="sq-btn pink sound" data-soundhover data-soundselect disabled>Đăng nhập</button>
-                    </div>
-                </form>
+                        <div class="username" id="registerUsername">
+                            <div class="formGroup sound" data-color="blue" data-soundselectsoft>
+                                <input id="registerUsernameInput" type="text" autocomplete="username" class="formField" autocomplete="off" placeholder="Tên tài khoản" required disabled>
+                                <label for="registerUsernameInput">Tên tài khoản</label>
+                            </div>
+    
+                            <div class="button">
+                                <button id="registerUsernameSubmit" type="button" class="sq-btn green sound" data-soundhover data-soundselect disabled>Tiếp</button>
+                                <button id="loginToggler" type="button" class="text-btn register" disabled>< Quay Lại</button>
+                            </div>
+                        </div>
+    
+                        <div class="password" id="registerPassword">
+                            <div class="formGroup sound" data-color="blue" data-soundselectsoft>
+                                <input id="registerPasswordInput" type="password" autocomplete="new-password" class="formField" autocomplete="off" placeholder="Mật khẩu" required disabled>
+                                <label for="registerPasswordInput">Mật khẩu</label>
+                            </div>
+
+                            <div class="formGroup sound" data-color="blue" data-soundselectsoft>
+                                <input id="registerPasswordInputRetype" type="password" autocomplete="new-password" class="formField" autocomplete="off" placeholder="Nhập Lại Mật khẩu" required disabled>
+                                <label for="registerPasswordInputRetype">Nhập Lại Mật khẩu</label>
+                            </div>
+
+                            <div class="captchaContainer">
+                                <t class="info">Vui lòng điền captcha bên dưới</t>
+                                
+                                <div class="row">
+                                    <div class="lazyload captcha">
+                                        <img id="registerCaptcha" src=""/>
+                                        <div class="simple-spinner"></div>
+                                    </div>
+
+                                    <span id="registerCaptchaRenew" class="renew sound" data-soundhoversoft data-soundselectsoft></span>
+                                </div>
+
+                                <div class="formGroup sound" data-color="blue" data-soundselectsoft>
+                                    <input id="registerCaptchaInput" type="password" autocomplete="off" class="formField" autocomplete="off" placeholder="Captcha" required disabled>
+                                    <label for="registerCaptchaInput">Captcha</label>
+                                </div>
+                            </div>
+    
+                            <div class="button">
+                                <button id="registerPasswordSubmit" type="submit" class="sq-btn pink sound" data-soundhover data-soundselect disabled>Đăng Kí</button>
+                            </div>
+                        </div>
+
+                        <div class="complete">
+                            <div class="icon"></div>
+                            <t class="title">Đăng kí thành công</t>
+                            <t class="message">Tài khoản của bạn đã được tạo thành công!</t>
+
+                            <div class="userEdit">
+                                <input type="file" class="avatarInput" id="userAvatarInput" accept="image/*">
+                                <label for="userAvatarInput" class="lazyload avatar sound" data-soundhover data-soundselect>
+                                    <img id="userAvatar" src=""/>
+                                    <div class="simple-spinner"></div>
+                                </label>
+
+                                <div class="formGroup sound nameInput" data-color="purple" data-soundhover data-soundselectsoft>
+                                    <input id="userNameInput" type="text" autocomplete="nickname" class="formField" autocomplete="off" placeholder="Tên">
+                                    <label for="userNameInput">Tên</label>
+                                </div>
+                            </div>
+
+                            <button id="editUserConfirm" type="button" class="sq-btn rainbow sound" data-soundhover data-soundselect>HOÀN THÀNH!</button>
+                        </div>
+                    </form>
+                </div>
             </div>
             
             <div class="footer">
