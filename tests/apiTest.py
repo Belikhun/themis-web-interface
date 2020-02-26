@@ -79,7 +79,7 @@ def testAPI(url = "", method = "GET", json = True, data = {}, files = {}):
 # Login API Test
 apiTest.case (
     "Should be logged in successful with account admin:admin",
-    lambda: testAPI("api/login", "POST", data = { "u": "admin", "p": "admin" })
+    lambda: testAPI("api/login", "POST", data = { "username": "admin", "password": "admin" })
 )
 
 # All GET api test
