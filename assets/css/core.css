@@ -1342,14 +1342,14 @@ body.guest #problemp.hide {
     1% {
         visibility: visible;
         transform: scale(1.1);
-        filter: blur(6px) brightness(.9);
+        filter: brightness(.9);
         opacity: 0;
     }
 
     100% {
         visibility: visible;
         transform: scale(1);
-        filter: blur(0) brightness(1);
+        filter: brightness(1);
         opacity: 1;
     }
 }
@@ -1357,13 +1357,13 @@ body.guest #problemp.hide {
 @keyframes problemViewerHide {
     0% {
         transform: scale(1);
-        filter: blur(0) brightness(1);
+        filter: brightness(1);
         opacity: 1;
     }
 
     99% {
         transform: scale(1.1);
-        filter: blur(6px) brightness(.9);
+        filter: brightness(.9);
         opacity: 0;
     }
 

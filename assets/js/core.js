@@ -920,7 +920,7 @@ const core = {
             });
 
             this.panel.title = "Đang tải...";
-            this.attachment.previewWrapper.removeAttribute("loaded");
+            this.attachment.previewWrapper.removeAttribute("data-loaded");
             this.attachment.previewWrapper.style.height = "0";
 
             let response = await myajax({
@@ -963,18 +963,22 @@ const core = {
                 this.attachment.link.innerText = `${data.attachment.file} (${convertSize(data.attachment.size)})`;
 
                 if (data.attachment.embed) {
-                    let clone = this.attachment.preview.cloneNode();
-                    clone.style.display = "block";
+                    this.attachment.previewWrapper.removeChild(this.attachment.preview);
 
-                    clone.addEventListener("load", e => {
-                        this.attachment.previewWrapper.dataset.loaded = 1;
-                        this.attachment.previewWrapper.style.height = this.attachment.previewWrapper.clientWidth * 1.314 + "px";
-                    })
-
-                    clone.src = `${data.attachment.url}&embed=true#toolbar=0&navpanes=0&scrollbar=0&statusbar=0&messages=0&scrollbar=0&page=1&view=FitH`;
-                    
-                    this.attachment.previewWrapper.replaceChild(clone, this.attachment.preview);
-                    this.attachment.preview = clone;
+                    setTimeout(() => {
+                        let clone = this.attachment.preview.cloneNode();
+                        clone.style.display = "block";
+    
+                        clone.addEventListener("load", e => {
+                            this.attachment.previewWrapper.dataset.loaded = 1;
+                            this.attachment.previewWrapper.style.height = this.attachment.previewWrapper.clientWidth * 1.314 + "px";
+                        })
+    
+                        clone.src = `${data.attachment.url}&embed=true#toolbar=0&navpanes=0&scrollbar=0&statusbar=0&messages=0&scrollbar=0&page=1&view=FitH`;
+                        
+                        this.attachment.previewWrapper.insertBefore(clone, this.attachment.previewWrapper.childNodes[0]);
+                        this.attachment.preview = clone;
+                    }, 500);
                 } else {
                     this.attachment.preview.style.display = "none";
                 }

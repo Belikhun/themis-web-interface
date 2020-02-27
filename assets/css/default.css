@@ -164,7 +164,7 @@ tag {
 	transition: unset;
 }
 
-.lazyload > :first-child {
+.lazyload > :first-child:not(.simple-spinner) {
 	position: relative;
 	display: block;
 	width: 100%;
@@ -193,7 +193,7 @@ tag {
 	background-color: transparent;
 }
 
-.lazyload[data-loaded] > :first-child {
+.lazyload[data-loaded] > :first-child:not(.simple-spinner) {
 	opacity: 1;
 }
 

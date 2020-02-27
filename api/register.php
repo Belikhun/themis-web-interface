@@ -15,6 +15,9 @@
 
 	if (isLogedIn())
 		stop(12, "Đã đăng nhập bằng tài khoản: ". $_SESSION["username"], 400);
+
+	if ($config["allowRegister"] !== true)
+		stop(21, "Đăng kí tài khoản đã bị tắt!", 403);
 	
 	$username = reqForm("username");
 	$password = reqForm("password");
