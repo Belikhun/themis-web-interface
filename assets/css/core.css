@@ -1449,6 +1449,34 @@ body.guest #problemp.hide {
     content: "ID: ";
 }
 
+#problemp .problemsContainer .problem .info.general {
+    margin-bottom: 4px;
+}
+
+#problemp .problemsContainer .problem .info.IO > t {
+    font-family: "Consolas";
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#problemp .problemsContainer .problem .info.IO .input::before,
+#problemp .problemsContainer .problem .info.IO .output::before {
+    position: relative;
+    display: inline-block;
+    font-family: "Open Sans";
+    font-weight: normal;
+    font-size: 13px;
+    margin-right: 6px;
+}
+
+#problemp .problemsContainer .problem .info.IO .input::before {
+    content: "Input:";
+}
+
+#problemp .problemsContainer .problem .info.IO .output::before {
+    content: "Output:";
+}
+
 #problemp .problemsContainer .problem .description {
     white-space: pre-wrap;
     margin: 0 20px;

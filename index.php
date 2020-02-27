@@ -748,7 +748,7 @@
                                 <span class="enlarge sound" id="problemViewerEnlarge" title="Phóng to" data-soundhoversoft data-soundselectsoft></span>
                                 <span class="close sound" id="problemViewerClose" title="Đóng" data-soundhoversoft data-soundselectsoft></span>
                                 
-                                <div class="info">
+                                <div class="info general">
                                     <t title="Tên tệp" class="filename" id="problemInfoFilename"></t>
                                     <dot></dot>
                                     <t title="Loại tệp" id="problemInfoLanguage"></t>
@@ -756,6 +756,12 @@
                                     <t title="Thời gian chạy" id="problemInfoRuntime"></t>
                                     <dot></dot>
                                     <t title="Giới hạn bộ nhớ" id="problemInfoMemory">?MB</t>
+                                </div>
+
+                                <div class="info IO">
+                                    <t title="INPUT" class="input" id="problemInfoInput"></t>
+                                    <dot></dot>
+                                    <t title="OUTPUT" class="output" id="problemInfoOutput"></t>
                                 </div>
 
                                 <t class="description" id="problemDescription"></t>

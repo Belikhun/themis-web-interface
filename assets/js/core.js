@@ -831,7 +831,9 @@ const core = {
             filename: $("#problemInfoFilename"),
             lang: $("#problemInfoLanguage"),
             time: $("#problemInfoRuntime"),
-            mem: $("#problemInfoMemory")
+            mem: $("#problemInfoMemory"),
+            input: $("#problemInfoInput"),
+            output: $("#problemInfoOutput")
         },
         image: $("#problem_image"),
         description: $("#problemDescription"),
@@ -947,6 +949,8 @@ const core = {
             this.type.lang.innerText = data.accept.join(", ");
             this.type.time.innerText = data.time + " giây";
             this.type.mem.innerText = data.memory ? convertSize(data.memory * 1024) : "Không Rõ";
+            this.type.input.innerText = data.type.inp;
+            this.type.output.innerText = data.type.out;
 
             if (data.image) {
                 this.image.style.display = "block";
