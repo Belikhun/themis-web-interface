@@ -15,7 +15,7 @@ body {
 }
 
 body:not(.embeded) {
-    background-color: gray;
+    background-color: rgb(180, 180, 180);
 }
 
 .wrapper {
@@ -125,6 +125,10 @@ body:not(.embeded) {
 
 /* Dark */
 
+body.dark:not(.embeded) {
+    background-color: rgb(0, 0, 0);
+}
+
 body.dark a {
     color: #19c8a5;
 }
@@ -133,16 +137,12 @@ body.dark t {
     color: rgb(212, 212, 212);
 }
 
-body.dark .formGroup.blue .formField {
+body.dark .formGroup[data-color="blue"] .formField {
     color: rgb(204, 204, 204);
 }
 
 body.dark .wrapper #formContainer::before {
     background-color: rgb(56, 56, 56);
-}
-
-body.dark .wrapper #formContainer .group t {
-    color: rgb(178, 178, 178);
 }
 
 body.dark .wrapper #formContainer .group .title {

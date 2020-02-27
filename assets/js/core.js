@@ -243,6 +243,9 @@ const core = {
         clog("okay", "core.js Initialized.");
         this.initialized = true;
 
+        if (location.protocol === "http:")
+            $("#unsecureProtocolWarning").style.display = "flex";
+
         console.log("%cSTOP!", "font-size: 72px; font-weight: 900;");
         console.log(
             "%cThis feature is intended for developers. Pasting something here could give strangers access to your account.",

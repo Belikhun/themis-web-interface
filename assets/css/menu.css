@@ -112,6 +112,10 @@ body.embeded .menu {
     transition: background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+.menu .group .title.small + .item {
+    margin-top: 4px;
+}
+
 .menu .group .item:hover {
     background-color: rgba(245, 245, 246, 0.4);
 }
@@ -234,7 +238,6 @@ body.embeded .menu {
     flex-grow: 0;
     margin-left: 10px;
 }
-
 
 .menu .group .item.lr.okay .right::after,
 .menu .group .item.lr.info .right::after,
@@ -389,6 +392,18 @@ body.dark .menu .group t,
 body.dark .menu .group .item.text,
 body.dark .menu .group .item .text {
     color: rgb(178, 178, 178);
+}
+
+body.dark .menu .group .item.lr:-webkit-any(.okay, .info, .warning) t,
+body.dark .menu .group .item.lr:-webkit-any(.okay, .info, .warning).text,
+body.dark .menu .group .item.lr:-webkit-any(.okay, .info, .warning) .text {
+    color: rgb(82, 82, 82);
+}
+
+body.dark .menu .group .item.lr:-moz-any(.okay, .info, .warning) t,
+body.dark .menu .group .item.lr:-moz-any(.okay, .info, .warning).text,
+body.dark .menu .group .item.lr:-moz-any(.okay, .info, .warning) .text {
+    color: rgb(82, 82, 82);
 }
 
 body.dark .menu .group .title {

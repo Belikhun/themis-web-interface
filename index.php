@@ -234,6 +234,16 @@
                         <t class="title small center">Thay đổi thiết đặt chung tại đây</t>
 
                         <div class="space"></div>
+
+                        <div id="unsecureProtocolWarning" class="item lr warning sound" style="display: none;" data-soundhoversoft>
+                            <t class="left">
+                                Kết nối của bạn tới máy chủ hiện không an toàn vì bạn đang sử dụng phương thức giao tiếp không bảo mật <b>HTTP</b><br>
+                                Người trong cùng mạng của bạn hiện có thể đánh cắp thông tin tài khoản và bài làm của bạn!<br>
+                                <br>
+                                Vui lòng liên hệ <b>Admin</b> để khắc phục lỗi này!
+                            </t>
+                            <div class="right"></div>
+                        </div>
                     </div>
 
                     <div class="group file">
