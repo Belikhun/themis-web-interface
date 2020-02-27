@@ -4,8 +4,8 @@
     "time": 1,
     "memory": 1024,
     "type": {
-        "inp": "SOLUONG.INP",
-        "out": "SOLUONG.OUT"
+        "inp": null,
+        "out": null
     },
     "accept": [
         "pas",
@@ -23,5 +23,6 @@
             "inp": "HOALAN",
             "out": "2"
         }
-    ]
+    ],
+    "disabled": false
 }

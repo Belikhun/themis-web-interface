@@ -98,6 +98,10 @@ body.dark #problemp .problemsContainer .problemsList .item {
     border-bottom-color: rgb(88, 88, 88);
 }
 
+body.dark #problemp .problemsContainer .problemsList .item[disabled="true"] {
+    background-color: rgba(117, 57, 78, 0.6);
+}
+
 body.dark #problemp .problemsContainer .problemsList .item:hover {
     background-color: rgb(70, 70, 70);
 }
@@ -343,15 +347,15 @@ body.dark .problemSettings .header div span::before {
     color: rgba(190, 190, 190, 0.54);
 }
 
-body.dark .problemSettings .problemsContainer.problemsList li.item:hover {
+body.dark .problemSettings .problemsContainer .problemsList li.item:hover {
     background-color: rgba(36, 36, 36, 0.4);
 }
 
-body.dark .problemSettings .problemsContainer.problemsList li.item .title .id {
+body.dark .problemSettings .problemsContainer .problemsList li.item .title .id {
     color: rgb(160, 160, 160);
 }
 
-body.dark .problemSettings .problemsContainer.problemsList li.item .title .name {
+body.dark .problemSettings .problemsContainer .problemsList li.item .title .name {
     color: rgb(214, 214, 214);
 }
 

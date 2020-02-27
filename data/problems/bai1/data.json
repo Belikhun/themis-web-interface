@@ -1,6 +1,6 @@
 {
     "name": "\u01af\u1edbc S\u1ed1",
-    "point": 112,
+    "point": 10,
     "time": 1,
     "memory": 1024,
     "type": {
@@ -22,5 +22,6 @@
             "out": "1 5 107 535"
         }
     ],
-    "attachment": "hello world.pdf"
+    "attachment": "hello world.pdf",
+    "disabled": true
 }

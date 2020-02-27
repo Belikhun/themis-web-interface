@@ -40,6 +40,9 @@
         if (!problemExist($filename))
             stop(44, "Không có đề cho bài này!", 404, Array( "file" => $filename ));
 
+        if (problemDisabled($filename) && $_SESSION["id"] !== "admin")
+            stop(25, "Đề $filename đã bị tắt", 403, Array( "id" => $filename ));
+
         if (!problemCheckExtension($filename, $extension))
             stop(43, "Không chấp nhận tệp!", 415);
     } else

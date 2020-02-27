@@ -505,7 +505,7 @@ body.dark separator {
 .popupContainer .popupWindow .body .customNode {
 	position: relative;
 	flex-shrink: 1;
-    margin: 10px 0;
+	margin: 10px 0;
 	width: 100%;
 }
 

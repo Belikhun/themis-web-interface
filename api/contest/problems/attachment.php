@@ -25,6 +25,12 @@
 
             require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
 
+            if (!problemExist($id))
+                stop(45, "Không tìm thấy đề của id đã cho!", 404, Array( "id" => $id ));
+
+            if (problemDisabled($id) && $_SESSION["id"] !== "admin")
+                stop(25, "Đề $id đã bị tắt", 403, Array( "id" => $id ));
+
             if (problemGetAttachment($id, !getQuery("embed", false)) === PROBLEM_OKAY)
                 writeLog("INFO", "Đã tải tệp đính kèm của bài \"". $_GET["id"] ."\"");
             else

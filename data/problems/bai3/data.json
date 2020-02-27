@@ -26,5 +26,6 @@
             "out": "1"
         }
     ],
-    "image": "prime number chart ii.jpg"
+    "image": "prime number chart ii.jpg",
+    "disabled": false
 }

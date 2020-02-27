@@ -36,6 +36,7 @@
     $attachment = isset($_FILES["attm"]) ? $_FILES["attm"] : null;
     $description = reqForm("desc");
     $test = isset($_POST["test"]) ? json_decode($_POST["test"], true) : Array();
+    $disabled = withType(getForm("disabled"), "boolean", false);
 
     $code = problemAdd($id, Array(
         "name" => $name,
@@ -49,6 +50,7 @@
         "accept" => $accept,
         "description" => $description,
         "test" => $test,
+        "disabled" => $disabled
     ), $image, $attachment);
 
     switch ($code) {

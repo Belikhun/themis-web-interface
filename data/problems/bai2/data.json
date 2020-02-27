@@ -21,5 +21,6 @@
             "inp": "8",
             "out": "0"
         }
-    ]
+    ],
+    "disabled": false
 }

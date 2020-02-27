@@ -24,19 +24,21 @@
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
 
     $id = preg_replace("/[.\/\\\\]/m", "", reqForm("id"));
+    $problem = problemGet($id, true);
 
     $name = getForm("name");
     $description = getForm("desc");
 
-    $point = withType(reqForm("point"), "integer");
+    $point = withType(getForm("point"), "integer");
     $time = withType(getForm("time"), "integer");
     $memLimit = withType(getForm("memory"), "integer");
-    $inpType = getForm("inpType");
-    $outType = getForm("outType");
-    $accept = json_decode(getForm("acpt", Array()), true);
-    $test = json_decode(getForm("test", Array()), true);
+    $inpType = getForm("inpType", $problem["type"]["inp"]);
+    $outType = getForm("outType", $problem["type"]["out"]);
+    $accept = json_decode(getForm("acpt", "[]"), true) ?: null;
+    $test = json_decode(getForm("test", "[]"), true) ?: null;
     $image = isset($_FILES["img"]) ? $_FILES["img"] : null;
     $attachment = isset($_FILES["attm"]) ? $_FILES["attm"] : null;
+    $disabled = withType(getForm("disabled"), "boolean");
 
     $code = problemEdit($id, Array(
         "name" => $name,
@@ -50,6 +52,7 @@
         ),
         "accept" => $accept,
         "test" => $test,
+        "disabled" => $disabled
     ), $image, $attachment);
 
     switch ($code) {

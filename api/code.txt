@@ -25,6 +25,7 @@
 22  file submit disabled
 23  view log disabled
 24	register disabled
+25	problem disabled
 
 // 3x: permission
 31  access denied
@@ -37,7 +38,7 @@
 44  file not found
 45  file exist
 
-// 10x: info
+// 10x: info IGNORED
 101 not in contest mode
 102 modified nothing
 103 contest not started

@@ -32,7 +32,7 @@
         
             require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
         
-            if (!problemExist($id))
+            if (!problemExist($id) || (problemDisabled($id) && $_SESSION["id"] !== "admin"))
                 showImage(PROBLEM_DIR ."/image.default");
         
             if (isset($problemList[$id]["image"])) {

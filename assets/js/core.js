@@ -900,7 +900,7 @@ const core = {
             let html = "";
             data.forEach(item => {
                 html += `
-                    <span class="item" onClick="core.problems.viewProblem('${item.id}');">
+                    <span class="item" onClick="core.problems.viewProblem('${item.id}');" disabled=${item.disabled}>
                         <div class="lazyload icon">
                             <img onload="this.parentNode.dataset.loaded = 1" src="${item.image}"/>
                             <div class="simple-spinner"></div>
@@ -2062,23 +2062,28 @@ const core = {
                 });
 
                 let data = response.data;
-                this.list.innerHTML = "";
-                data.forEach(item => {
-                    html = [
-                        `<li class="item">`,
-                            `<img class="icon" src="${item.image}">`,
-                            `<ul class="title">`,
-                                `<li class="id">${item.id}</li>`,
-                                `<li class="name">${item.name}</li>`,
-                            `</ul>`,
-                            `<div class="action">`,
-                                `<span class="delete" onClick="core.settings.problems.remProblem('${item.id}')"></span>`,
-                                `<span class="edit" onClick="core.settings.problems.editProblem('${item.id}')"></span>`,
-                            `</div>`,
-                        `</li>`,
-                    ].join("\n");
-                    this.list.innerHTML += html;
-                })
+                let html = "";
+                emptyNode(this.list);
+                for (let item of data)
+                    html += `
+                        <li class="item">
+                            <img class="icon" src="${item.image}">
+                            <ul class="title">
+                                <li class="id">${item.id}</li>
+                                <li class="name">${item.name}</li>
+                            </ul>
+                            <div class="action">
+                                <span class="materialSwitch" onclick="core.settings.problems.toggleDisabled('${item.id}', fcfn(this, 'checkbox'))">
+                                    <input class="checkbox" type="checkbox" ${!item.disabled ? "checked" : ""}></input>
+                                    <div class="track"></div>
+                                </span>
+                                <span class="delete" onClick="core.settings.problems.remProblem('${item.id}')"></span>
+                                <span class="edit" onClick="core.settings.problems.editProblem('${item.id}')"></span>
+                            </div>
+                        </li>
+                    `
+
+                this.list.innerHTML = html;
             },
 
             resetForm() {
@@ -2344,6 +2349,23 @@ const core = {
                 })
 
                 return true;
+            },
+
+            async toggleDisabled(id, targetSwitch) {
+                targetSwitch.disabled = true;
+                targetSwitch.checked = !targetSwitch.checked;
+
+                await myajax({
+                    url: "/api/contest/problems/edit",
+                    method: "POST",
+                    form: {
+                        id: id,
+                        disabled: !targetSwitch.checked,
+                        token: API_TOKEN
+                    }
+                })
+
+                targetSwitch.disabled = false;
             }
         }
     },

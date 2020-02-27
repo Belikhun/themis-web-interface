@@ -185,6 +185,11 @@
 	 *  + "unknown type"
 	 */
 	function withType($data, $type = "string", $isNot = null) {
+		if ($type === "boolean")
+			return ($data === "true" || $data === "false" || $data === "0" || $data === "1")
+				? ($data === "true" || $data === "0")
+				: $isNot;
+
 		if (isset($data) && !settype($data, $type))
 			return $isNot;
 		

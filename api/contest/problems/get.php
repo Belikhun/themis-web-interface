@@ -18,7 +18,17 @@
     contest_timeRequire([CONTEST_STARTED], false);
 
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
-    $data = problemGet($id);
+    $data = problemGet($id, $_SESSION["id"] === "admin");
+
+    switch ($data) {
+        case PROBLEM_ERROR_IDREJECT:
+            stop(44, "Không tìm thấy để của id đã cho!", 404, Array( "id" => $id ));
+            break;
+
+        case PROBLEM_ERROR_DISABLED:
+            stop(25, "Đề $id đã bị tắt", 403, Array( "id" => $id ));
+            break;
+    }
 
     if (isset($data["image"]))
         $data["image"] = "/api/contest/problems/image?id=". $id;
@@ -42,7 +52,4 @@
             "embed" => false
         );
 
-    if ($data === PROBLEM_ERROR_IDREJECT)
-        stop(44, "Không tìm thấy để của id đã cho!", 404, Array( "id" => $id ));
-    else
-        stop(0, "Success!", 200, $data);
+    stop(0, "Success!", 200, $data);
