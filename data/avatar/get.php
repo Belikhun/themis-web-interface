@@ -28,7 +28,7 @@
         showAvatar("avt.default");
 
     $username = preg_replace("/[.\/\\\\]/m", "", trim($_GET["u"]));
-    $files = glob($username .".{jpg,png,gif,webp}", GLOB_BRACE);
+    $files = glob($username .".{". join(",", IMAGE_ALLOW) ."}", GLOB_BRACE);
 
     if (count($files) > 0)
         showAvatar($files[0]);

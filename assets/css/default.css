@@ -151,8 +151,8 @@ tag {
 	position: relative;
 	display: inline-block;
 	background-color: rgba(128, 128, 128, 0.2);
-	min-width: 20px;
-	min-height: 20px;
+	min-width: 26px;
+	min-height: 26px;
 	overflow: hidden;
 
 	transition:
@@ -281,7 +281,7 @@ body.dark separator {
 }
 
 .note.info::before {
-    content: "\f05a";
+    content: "\f129";
 }
 
 .note.warning {
@@ -297,7 +297,7 @@ body.dark separator {
 }
 
 .note.okay::before {
-    content: "\f14a";
+    content: "\f00c";
 }
 
 .popupContainer {

@@ -5,6 +5,14 @@
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
+var pageIcon = $("#pageIcon");
+var pageIconInput = $("#pageIconInput");
+var pageIconReset = $("#pageIconReset");
+
+var landingImage = $("#landingImage");
+var landingImageInput = $("#landingImageInput");
+var landingImageReset = $("#landingImageReset");
+
 var contest = {
     name: $("#contest_name"),
     desc: $("#contest_description")
@@ -36,7 +44,6 @@ var ratelimit = {
     time: $("#ratelimit_time"),
     banTime: $("#ratelimit_banTime")
 }
-
 var setTimeToNow = $("#setTimeToNow");
 
 function cvtime(h, m, s) {
@@ -122,7 +129,7 @@ document.__onclog = (type, ts, msg) => {
     sbar.msg(type, msg, {time: ts, lock: (type === "crit" || type === "lcnt") ? true : false});
 }
 
-$("body").onload = e => {
+$("body").onload = () => {
     if (cookie.get("__darkMode") === "true")
         document.body.classList.add("dark");
 
@@ -145,6 +152,85 @@ $("body").onload = e => {
         );
     })
 
+    // =========== IMAGE MODIFY EVENT ===========
+
+    pageIcon.addEventListener("load", e => e.target.parentElement.dataset.loaded = 1);
+    landingImage.addEventListener("load", e => e.target.parentElement.dataset.loaded = 1);
+
+    pageIconInput.addEventListener("change", async e => {
+        sounds.confirm(0);
+        let file = e.target.files[0];
+
+        try {
+            await myajax({
+                url: "/api/images/icon",
+                method: "POST",
+                form: {
+                    token: API_TOKEN,
+                    file: file
+                }
+            })
+        } catch(e) { sounds.warning() }
+
+        e.target.value = "";
+        pageIcon.parentElement.removeAttribute("data-loaded");
+        pageIcon.src = "/api/images/icon";
+    })
+
+    landingImageInput.addEventListener("change", async e => {
+        sounds.confirm(2);
+        let file = e.target.files[0];
+
+        try {
+            await myajax({
+                url: "/api/images/landing",
+                method: "POST",
+                form: {
+                    token: API_TOKEN,
+                    file: file
+                }
+            })
+        } catch(e) { sounds.warning() }
+
+        e.target.value = "";
+        landingImage.parentElement.removeAttribute("data-loaded");
+        landingImage.src = "/api/images/landing";
+    })
+
+    pageIconReset.addEventListener("mouseup", async () => {
+        sounds.notification();
+
+        try {
+            await myajax({
+                url: "/api/images/icon",
+                method: "DELETE",
+                header: { token: API_TOKEN }
+            })
+        } catch(e) { sounds.warning() }
+
+        pageIcon.parentElement.removeAttribute("data-loaded");
+        pageIcon.src = "/api/images/icon";
+    })
+
+    landingImageReset.addEventListener("mouseup", async () => {
+        sounds.notification();
+
+        try {
+            await myajax({
+                url: "/api/images/landing",
+                method: "DELETE",
+                header: { token: API_TOKEN }
+            })
+        } catch(e) { sounds.warning() }
+
+        landingImage.parentElement.removeAttribute("data-loaded");
+        landingImage.src = "/api/images/landing";
+    })
+
+    // =========== END IMAGE MODIFY EVENT ===========
+
+    pageIcon.src = "/api/images/icon";
+    landingImage.src = "/api/images/landing";
     sounds.init();
     popup.init();
     update();

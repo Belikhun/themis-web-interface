@@ -93,7 +93,7 @@
         <script src="/assets/js/errorHandler.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
         <script type="text/javascript" src="/assets/js/splash.js?v=<?php print VERSION; ?>"></script>
         <script type="text/javascript">
-            var mainSplash = new splash(document.body, `<?php print $config["contest"]["name"]; ?>`, `<?php print $stripedContestDescription; ?>`, "/assets/img/icon.webp");
+            var mainSplash = new splash(document.body, `<?php print $config["contest"]["name"]; ?>`, `<?php print $stripedContestDescription; ?>`, "/api/images/icon");
 
             mainSplash.init = async set => {
                 set(0, "Initializing core.js?v=<?php print VERSION; ?>");
@@ -180,7 +180,7 @@
         <div id="navBar" class="navBar showBottom">
             <div class="top">
                 <span class="left">
-                    <img class="icon" src="/assets/img/icon.webp" />
+                    <img class="icon" src="/api/images/icon" />
                     <ul class="title">
                         <li class="main text-overflow">
                             <?php print $config["contest"]["name"]; ?>

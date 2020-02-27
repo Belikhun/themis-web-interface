@@ -25,6 +25,7 @@
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/input.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/switch.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css?v=<?php print VERSION; ?>" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/spinner.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/menu.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/configPage.css?v=<?php print VERSION; ?>" />
 	<!-- Fonts -->
@@ -55,9 +56,84 @@
 							<li><b>%author%</b>: Tên tác giả</li>
 							<li><b>%contestName%</b>: Tên kì thi</li>
 							<li><b>%root%</b>: Thư mục gốc của hệ thống</li>
+							<li><b>%currentDate%</b>: Ngày hiện tại</li>
+							<li><b>%currentTime%</b>: Thời gian hiện tại</li>
 						</ul>
 					</div>
 					<div class="right"></div>
+				</div>
+			</div>
+
+			<div class="group server">
+				<t class="title">Hệ Thống</t>
+
+				<div class="item sound" data-soundhoversoft>
+					<div class="formGroup sound" data-color="blue" data-soundselectsoft>
+						<input id="pageTitle" type="text" class="formField" autocomplete="off" placeholder="Tiêu đề trang" required>
+						<label for="pageTitle">Tiêu đề trang</label>
+					</div>
+				</div>
+
+				<div class="item lr sound imageChanger" data-soundhoversoft>
+					<span class="left">
+						<t class="title small">Icon</t>
+
+						<div class="row">
+							<input type="file" id="pageIconInput" accept="image/*">
+							<label for="pageIconInput" class="lazyload column pageIcon sound" data-soundhover data-soundselect>
+								<img id="pageIcon" src=""/>
+								<div class="simple-spinner"></div>
+							</label>
+
+							<button type="button" id="pageIconReset" class="sq-btn pink sound" data-soundhover data-soundselect>Đặt Lại</button>
+						</div>
+					</span>
+
+					<span class="middle">
+						<t class="title small">Ảnh nền</t>
+
+						<div class="row">
+							<input type="file" id="landingImageInput" accept="image/*">
+							<label for="landingImageInput" class="lazyload column landingImage sound" data-soundhover data-soundselect>
+								<img id="landingImage" src=""/>
+								<div class="simple-spinner"></div>
+							</label>
+
+							<button type="button" id="landingImageReset" class="sq-btn pink sound" data-soundhover data-soundselect>Đặt Lại</button>
+						</div>
+					</span>
+				</div>
+
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Cho phép đăng kí tài khoản</t>
+					<label class="sq-checkbox right">
+						<input id="allowRegister" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
+				</div>
+
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Cho phép thay đổi tên</t>
+					<label class="sq-checkbox right">
+						<input id="editName" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
+				</div>
+
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Cho phép thay đổi mật khẩu</t>
+					<label class="sq-checkbox pink right">
+						<input id="editPassword" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
+				</div>
+
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Cho phép thay đổi Avatar</t>
+					<label class="sq-checkbox right">
+						<input id="editAvatar" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
 				</div>
 			</div>
 
@@ -193,49 +269,6 @@
 						<input id="time_offset" type="number" class="formField" autocomplete="off" placeholder="Thời gian bù" required>
 						<label for="time_offset">Thời gian bù (giây)</label>
 					</div>
-				</div>
-			</div>
-
-			<div class="group star">
-				<t class="title">Khác</t>
-
-				<div class="item sound" data-soundhoversoft>
-					<div class="formGroup sound" data-color="blue" data-soundselectsoft>
-						<input id="pageTitle" type="text" class="formField" autocomplete="off" placeholder="Tiêu đề trang" required>
-						<label for="pageTitle">Tiêu đề trang</label>
-					</div>
-				</div>
-
-				<div class="item lr sound" data-soundhoversoft>
-					<t class="left">Cho phép đăng kí tài khoản</t>
-					<label class="sq-checkbox right">
-						<input id="allowRegister" type="checkbox" class="sound" data-soundcheck>
-						<span class="checkmark"></span>
-					</label>
-				</div>
-
-				<div class="item lr sound" data-soundhoversoft>
-					<t class="left">Cho phép thay đổi tên</t>
-					<label class="sq-checkbox right">
-						<input id="editName" type="checkbox" class="sound" data-soundcheck>
-						<span class="checkmark"></span>
-					</label>
-				</div>
-
-				<div class="item lr sound" data-soundhoversoft>
-					<t class="left">Cho phép thay đổi mật khẩu</t>
-					<label class="sq-checkbox pink right">
-						<input id="editPassword" type="checkbox" class="sound" data-soundcheck>
-						<span class="checkmark"></span>
-					</label>
-				</div>
-
-				<div class="item lr sound" data-soundhoversoft>
-					<t class="left">Cho phép thay đổi Avatar</t>
-					<label class="sq-checkbox right">
-						<input id="editAvatar" type="checkbox" class="sound" data-soundcheck>
-						<span class="checkmark"></span>
-					</label>
 				</div>
 			</div>
 

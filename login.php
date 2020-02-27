@@ -43,7 +43,7 @@
     <body>
         <div class="leftPanel">
             <div class="lazyload wallpaper">
-                <img onload="this.parentNode.dataset.loaded = 1" src="/assets/img/login-bg.webp"/>
+                <img onload="this.parentNode.dataset.loaded = 1" src="/api/images/landing"/>
                 <div class="simple-spinner"></div>
             </div>
             <ul class="footer">
@@ -56,7 +56,7 @@
         <div class="rightPanel">
             <div class="header">
                 <div class="lazyload icon">
-                    <img onload="this.parentNode.dataset.loaded = 1" src="/assets/img/icon.webp"/>
+                    <img onload="this.parentNode.dataset.loaded = 1" src="/api/images/icon"/>
                     <div class="simple-spinner"></div>
                 </div>
                 <ul class="info">

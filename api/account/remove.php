@@ -26,7 +26,7 @@
         stop(31, "Access Denied!", 403);
 
     $imagePath = AVATAR_DIR ."/". $username;
-    $oldFiles = glob($imagePath .".{jpg,png,gif,webp}", GLOB_BRACE);
+    $oldFiles = glob($imagePath .".{". join(",", IMAGE_ALLOW) ."}", GLOB_BRACE);
 
     // Find old avatar files and remove them
     if (count($oldFiles) > 0)

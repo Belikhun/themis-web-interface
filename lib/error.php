@@ -35,7 +35,7 @@
 
         $errCode = $lastError["status"];
         http_response_code($errCode);
-        $errDetail = "<b>Lỗi [". $lastError["code"] ."]:</b> <sg><i>". $lastError["description"] ."</i></sg>". (isset($errData["file"]) ? " tại <i>" . $errData["file"] . "</i> dòng " . $errData["line"] : "");
+        $errDetail = "<b>Lỗi [". $lastError["code"] ."]:</b> <sg><i>". $lastError["description"] ."</i></sg>". (isset($errData["file"]) && isset($errData["line"]) ? (" tại <i>" . $errData["file"] . "</i> dòng " . $errData["line"]) : "");
     }
 
     switch ($errCode) {
