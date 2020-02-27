@@ -57,8 +57,19 @@ const login = {
 	},
 
 	errored(error) {
-		let e = error.code ? `[${error.code}]` : error.name || error.data.name || `${error.data.data.file}:${error.data.data.line}`;
-		let d = error.description || error.message || error.data.message || error.data.description || error.description;
+		let e = (error.code && error.data.code)
+			?	`[${error.code} ${error.data.code}]`
+			:	error.code ? `[${error.code}]`
+			:	error.name
+			||	error.data.name
+			||	`${error.data.data.file}:${error.data.data.line}`
+
+		let d = (error.description && error.data.description)
+			?	`${error.description} (${error.data.description}) ${(error.data.data.file) ? `${error.data.data.file}:${error.data.data.line}` : ""}`
+			:	error.message
+			||	error.data.message
+			||	error.data.description
+			||	error.description
 	
 		this.form.message.innerHTML = `<b>${e}</b> >>> ${d}`;
 		clog("ERRR", error);

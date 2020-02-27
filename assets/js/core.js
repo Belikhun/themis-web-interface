@@ -2255,6 +2255,7 @@ const core = {
                     }
                     test.push(t);
                 }
+                
                 data.test = test;
 
                 await this.submit(this.action, data);
