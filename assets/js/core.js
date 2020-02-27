@@ -2355,6 +2355,7 @@ const core = {
             },
 
             async toggleDisabled(id, targetSwitch) {
+                sounds.select(1);
                 targetSwitch.disabled = true;
                 targetSwitch.checked = !targetSwitch.checked;
 
