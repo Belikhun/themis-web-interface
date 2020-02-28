@@ -57,7 +57,7 @@
 }
 
 .formGroup .formField:focus {
-    padding: 2px 0 6px 0;
+    padding: 2px 0 6px;
     border-bottom: 2px solid rgba(39, 39, 39, 0.8);
 }
 

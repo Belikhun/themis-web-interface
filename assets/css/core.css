@@ -1449,7 +1449,7 @@ body.guest #problemp.hide {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    margin: 6px 0 20px 0;
+    margin: 6px 0 20px;
 }
 
 #problemp .problemsContainer .problem .info .filename::before {
