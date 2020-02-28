@@ -108,8 +108,8 @@ def __avatarAPITest():
 
     if (filecmp.cmp("../data/avatar/admin.jpg", "api/admin.jpg")):
         return True
-    else:
-        return "FileNotMatch"
+    
+    return "FileNotMatch"
         
 apiTest.case (
     "Avatar should be uploaded successfully with \"api/avatar\" API and have no corruption",

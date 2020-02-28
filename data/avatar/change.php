@@ -24,11 +24,12 @@
     if (!isset($_FILES["file"]))
         stop(41, "Chưa chọn tệp!", 400);
 
-    if ($username = getForm("u"))
-        if ($_SESSION["id"] !== "admin")
-            stop(31, "Access Denied!", 403);
+    $username = getForm("username");
 
-    $username = $_SESSION["username"];
+    if (!empty($username) && $_SESSION["id"] !== "admin")
+        stop(31, "Access Denied!", 403);
+    else
+        $username = $_SESSION["username"];
 
     $file = strtolower($_FILES["file"]["name"]);
     $extension = pathinfo($file, PATHINFO_EXTENSION);
