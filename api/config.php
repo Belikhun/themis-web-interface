@@ -109,7 +109,8 @@
 	setting("clientConfig_showMs"		, $rawConfig["clientConfig"]["showMs"]			, $TYPE_BOOL  );
 	setting("clientConfig_transition"	, $rawConfig["clientConfig"]["transition"]		, $TYPE_BOOL  );
 	setting("clientConfig_dialogProblem", $rawConfig["clientConfig"]["dialogProblem"]	, $TYPE_BOOL  );
-	setting("clientConfig_autoUpdate"	, $rawConfig["clientConfig"]["autoUpdate"]		, $TYPE_BOOL  );
+	setting("clientConfig_rankUpdate"	, $rawConfig["clientConfig"]["rankUpdate"]		, $TYPE_BOOL  );
+	setting("clientConfig_logsUpdate"	, $rawConfig["clientConfig"]["logsUpdate"]		, $TYPE_BOOL  );
 	setting("clientConfig_updateDelay"	, $rawConfig["clientConfig"]["updateDelay"]		, $TYPE_NUMBER);
 	setting("ratelimit_maxRequest"		, $rawConfig["ratelimit"]["maxRequest"]			, $TYPE_NUMBER);
 	setting("ratelimit_time"			, $rawConfig["ratelimit"]["time"]				, $TYPE_NUMBER);

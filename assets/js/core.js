@@ -106,7 +106,8 @@ const core = {
     previousRankHash: "",
     updateDelay: 2000,
     initialized: false,
-    enableAutoUpdate: true,
+    enableRankingUpdate: true,
+    enableLogsUpdate: true,
     __logTimeout: null,
     __rankTimeout: null,
 
@@ -350,7 +351,7 @@ const core = {
         var timer = new stopClock();
         
         try {
-            if (this.initialized && this.enableAutoUpdate)
+            if (this.initialized && this.enableLogsUpdate)
                 await this.fetchLog(bypass, clearJudging);
         } catch(e) {
             //? IGNORE ERROR
@@ -365,7 +366,7 @@ const core = {
         var timer = new stopClock();
 
         try {
-            if (this.initialized && this.enableAutoUpdate)
+            if (this.initialized && this.enableRankingUpdate)
                 await this.fetchRank();
         } catch(e) {
             //? IGNORE ERROR
@@ -1385,18 +1386,23 @@ const core = {
         },
 
         toggleSwitch: class {
-            constructor(inputElement, cookieKey, onCheck = () => {}, onUncheck = () => {}, defValue = false) {
+            constructor(inputElement, cookieKey, onCheck = async () => {}, onUncheck = async () => {}, defValue = false) {
                 this.input = inputElement;
                 this.onCheckHandler = onCheck;
                 this.onUnCheckHandler = onUncheck;
 
-                this.input.addEventListener("change", e => {
-                    cookie.set(cookieKey, e.target.checked);
+                this.input.addEventListener("change", async e => {
+                    let r = true;
 
                     if (e.target.checked === true)
-                        this.onCheckHandler(e);
+                        r = await this.onCheckHandler();
                     else
-                        this.onUnCheckHandler(e);
+                        r = await this.onUnCheckHandler();
+
+                    if (r !== false)
+                        cookie.set(cookieKey, e.target.checked);
+                    else
+                        e.target.checked = !e.target.checked;
                 })
                 
                 this.change(cookie.get(cookieKey, defValue) === "true");
@@ -1443,7 +1449,8 @@ const core = {
         transitionToggler: $("#usett_transition"),
         millisecondToggler: $("#usett_millisecond"),
         dialogProblemToggler: $("#usett_dialogProblem"),
-        autoUpdateToggler: $("#usett_enableAutoUpdate"),
+        rankingUpdateToggler: $("#usett_enableRankingUpdate"),
+        logsUpdateToggler: $("#usett_enableLogsUpdate"),
         updateDelaySlider: $("#usett_udelay_slider"),
         updateDelayText: $("#usett_udelay_text"),
         toggler: $("#userSettingsToggler"),
@@ -1476,7 +1483,8 @@ const core = {
             showMs: false,
             transition: true,
             dialogProblem: false,
-            autoUpdate: true,
+            rankUpdate: true,
+            logsUpdate: true,
             updateDelay: 2
         },
 
@@ -1574,7 +1582,7 @@ const core = {
 
                 if (core.settings.aPanelIframe)
                     core.settings.aPanelIframe.contentWindow.document.body.classList.add("dark");
-            }, e => {
+            }, () => {
                 document.body.classList.remove("dark");
 
                 this.publicFilesIframe.contentWindow.document.body.classList.remove("dark");
@@ -1589,37 +1597,41 @@ const core = {
 
             // Millisecond setting
             new this.toggleSwitch(this.millisecondToggler, "__showms",
-                e => core.timer.toggleMs(true),
-                e => core.timer.toggleMs(false),
+                () => core.timer.toggleMs(true),
+                () => core.timer.toggleMs(false),
                 this.default.showMs
             )
             
             // Transition setting
             new this.toggleSwitch(this.transitionToggler, "__transition",
-                e => document.body.classList.remove("disableTransition"),
-                e => document.body.classList.add("disableTransition"),
+                () => document.body.classList.remove("disableTransition"),
+                () => document.body.classList.add("disableTransition"),
                 this.default.transition
             )
 
             // view problem in dialog setting
             new this.toggleSwitch(this.dialogProblemToggler, "__diagprob",
-                e => core.problems.viewInDialog = true,
-                e => core.problems.viewInDialog = false,
+                () => core.problems.viewInDialog = true,
+                () => core.problems.viewInDialog = false,
                 this.default.dialogProblem
             )
 
-            // auto update rank and logs setting
-            new this.toggleSwitch(this.autoUpdateToggler, "__autoupdate",
-                e => {
+            // auto update rank setting
+            new this.toggleSwitch(this.rankingUpdateToggler, "__rankupdate",
+                () => {
                     this.updateDelaySlider.disabled = false;
-                    core.enableAutoUpdate = true;
+                    core.enableRankingUpdate = true;
                 },
-                e => {
-                    this.updateDelaySlider.disabled = true;
-                    core.enableAutoUpdate = false;
+                () => {
+                    if (!this.logsUpdateToggler.checked)
+                        this.updateDelaySlider.disabled = true;
+
+                    core.enableRankingUpdate = false;
                 },
-                this.default.autoUpdate
+                this.default.rankUpdate
             )
+
+            this.logsUpdateToggler.disabled = true;
 
             // Update delay setting
             this.updateDelaySlider.addEventListener("input", e => {
@@ -1664,6 +1676,39 @@ const core = {
                 });
                 return;
             }
+
+            // auto update logs setting
+            this.logsUpdateToggler.disabled = false;
+            new this.toggleSwitch(this.logsUpdateToggler, "__logsupdate",
+                () => {
+                    this.updateDelaySlider.disabled = false;
+                    core.enableLogsUpdate = true;
+                },
+                async () => {
+                    if (cookie.get("__logsupdate") !== "false") {
+                        let response = await popup.show({
+                            windowTitle: "Tự động cập nhật",
+                            title: "Cảnh báo",
+                            message: "Tắt tự động cập nhật nhật ký",
+                            description: "Việc này sẽ làm cho tình trạng nộp bài của bạn không được tự động cập nhật.<br>Bạn có chắc muốn tắt tính năng này không?",
+                            level: "warning",
+                            buttonList: {
+                                turnOff: { text: "Tắt", color: "red" },
+                                cancel: { text: "Hủy", color: "blue" },
+                            }
+                        })
+    
+                        if (response !== "turnOff")
+                            return false;
+                    }
+
+                    if (!this.rankingUpdateToggler.checked)
+                        this.updateDelaySlider.disabled = true;
+
+                    core.enableLogsUpdate = false;
+                },
+                this.default.logsUpdate
+            )
 
             this.userSettingAvatarWrapper.addEventListener("dragenter",  e => this.dragEnter(e), false);
             this.userSettingAvatarWrapper.addEventListener("dragleave", e => this.dragLeave(e), false);

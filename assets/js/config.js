@@ -46,7 +46,8 @@ var clientConfig = {
     showMs: $("#clientShowMs"),
     transition: $("#clientTransition"),
     dialogProblem: $("#clientDialogProblem"),
-    autoUpdate: $("#clientAutoUpdate"),
+    rankUpdate: $("#clientRankUpdate"),
+    logsUpdate: $("#clientLogsUpdate"),
     updateDelay: $("#clientUpdateDelayInput"),
     updateDelayValue: $("#clientUpdateDelayValue")
 }
@@ -128,7 +129,8 @@ function update() {
         clientConfig.showMs.checked = data.clientConfig.showMs;
         clientConfig.transition.checked = data.clientConfig.transition;
         clientConfig.dialogProblem.checked = data.clientConfig.dialogProblem;
-        clientConfig.autoUpdate.checked = data.clientConfig.autoUpdate;
+        clientConfig.rankUpdate.checked = data.clientConfig.rankUpdate;
+        clientConfig.logsUpdate.checked = data.clientConfig.logsUpdate;
         clientConfig.updateDelay.value = data.clientConfig.updateDelay;
         ratelimit.maxRequest.value = data.ratelimit.maxRequest;
         ratelimit.time.value = data.ratelimit.time;
@@ -310,7 +312,8 @@ $("#formContainer").addEventListener("submit", e => {
             "clientConfig.showMs": clientConfig.showMs.checked,
             "clientConfig.transition": clientConfig.transition.checked,
             "clientConfig.dialogProblem": clientConfig.dialogProblem.checked,
-            "clientConfig.autoUpdate": clientConfig.autoUpdate.checked,
+            "clientConfig.rankUpdate": clientConfig.rankUpdate.checked,
+            "clientConfig.logsUpdate": clientConfig.logsUpdate.checked,
             "clientConfig.updateDelay": parseInt(clientConfig.updateDelay.value),
             "ratelimit.maxRequest": parseInt(ratelimit.maxRequest.value),
             "ratelimit.time": parseInt(ratelimit.time.value),

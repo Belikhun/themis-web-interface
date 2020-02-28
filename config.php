@@ -317,9 +317,17 @@
 				</div>
 
 				<div class="item lr sound" data-soundhoversoft>
-					<t class="left">Tự động cập nhật Xếp Hạng và Nhật Kí</t>
+					<t class="left">Tự động cập nhật Xếp Hạng</t>
 					<label class="sq-checkbox blue right">
-						<input id="clientAutoUpdate" type="checkbox" class="sound" data-soundcheck>
+						<input id="clientRankUpdate" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
+				</div>
+
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Tự động cập nhật Nhật Kí</t>
+					<label class="sq-checkbox pink right">
+						<input id="clientLogsUpdate" type="checkbox" class="sound" data-soundcheck>
 						<span class="checkmark"></span>
 					</label>
 				</div>

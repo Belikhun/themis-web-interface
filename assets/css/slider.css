@@ -35,7 +35,7 @@ input[type=range].sq-slider:hover {
 }
 
 input[type=range].sq-slider:hover::-webkit-slider-thumb {
-    background-color: rgb(255, 194, 214);
+    background-color: rgb(255, 138, 190);
 }
 
 input[type=range].sq-slider:active {
@@ -43,7 +43,16 @@ input[type=range].sq-slider:active {
 }
 
 input[type=range].sq-slider:active::-webkit-slider-thumb {
-    background-color: rgb(233, 139, 170);
+    background-color: rgb(236, 116, 156);
+}
+
+input[type=range].sq-slider:disabled {
+    cursor: not-allowed;
+}
+
+input[type=range].sq-slider:disabled:hover::-webkit-slider-thumb {
+    cursor: not-allowed;
+    background-color: rgb(255, 102, 170);
 }
 
 /* Blue */
@@ -52,7 +61,8 @@ input[type=range].sq-slider.blue {
     background-color: rgba(68, 170, 221, 0.6);
 }
 
-input[type=range].sq-slider.blue::-webkit-slider-thumb {
+input[type=range].sq-slider.blue::-webkit-slider-thumb,
+input[type=range].sq-slider.blue:disabled:hover::-webkit-slider-thumb {
     background-color: rgb(68, 170, 221);
 }
 
@@ -61,7 +71,7 @@ input[type=range].sq-slider.blue:hover {
 }
 
 input[type=range].sq-slider.blue:hover::-webkit-slider-thumb {
-    background-color: rgb(160, 220, 250);
+    background-color: rgb(95, 202, 255);
 }
 
 input[type=range].sq-slider.blue:active {
