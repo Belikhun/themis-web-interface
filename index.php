@@ -849,6 +849,7 @@
                     <div class="head">
                         <t class="le">Xếp hạng</t>
                         <span class="ri">
+                            <i class="material-icons cus sound" title="Xuất CSV" data-soundhover data-soundselect>import_export</i>
                             <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
                         </span>
                     </div>

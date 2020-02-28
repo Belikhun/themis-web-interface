@@ -194,7 +194,7 @@ panel .head .ri {
     flex: 0 0 0;
 }
 
-panel .head .ri i {
+panel .head .ri > i {
     position: relative;
     display: inline;
     font-size: 18px;
@@ -205,11 +205,11 @@ panel .head .ri i {
     transition: color 0.2s ease;
 }
 
-panel .head .ri i.bak {
+panel .head .ri > i.bak {
     font-size: 20px;
 }
 
-panel .head .ri i:hover {
+panel .head .ri > i:hover {
     color: rgba(98, 98, 98, 0.82);
 }
 

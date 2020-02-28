@@ -230,6 +230,7 @@
 			"crx" => "application/x-chrome-extension",
 			"flv" => "video/x-flv",
 			"log" => "text/x-log",
+			"csv" => "text/csv",
 	
 			// images
 			"png" => "image/png",

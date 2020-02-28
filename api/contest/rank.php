@@ -6,13 +6,21 @@
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
+    $export = isset($_GET["export"]);
+
     // SET PAGE TYPE
-    define("PAGE_TYPE", "API");
+    define("PAGE_TYPE", $export ? "NORMAL" : "API");
 
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/cache.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
+
+    if ($export && !isLogedIn())
+        stop(11, "Bạn chưa đăng nhập!", 401);
+
+    if ($export && $_SESSION["id"] !== "admin")
+        stop(31, "Access Denied!", 403);
 
     if ($config["publish"] !== true && $_SESSION["id"] !== "admin")
         stop(108, "Thông tin không được công bố", 200, Array(
@@ -32,12 +40,14 @@
             "rank" => Array()
         ));
 
-    $cache = new cache("api.contest.rank");
-    $cache -> setAge($config["cache"]["contestRank"]);
-    
-    if ($cache -> validate()) {
-        $returnData = $cache -> getData();
-        stop(0, "Thành công!", 200, $returnData, true);
+    if (!$export) {
+        $cache = new cache("api.contest.rank");
+        $cache -> setAge($config["cache"]["contestRank"]);
+        
+        if ($cache -> validate()) {
+            $returnData = $cache -> getData();
+            stop(0, "Thành công!", 200, $returnData, true);
+        }
     }
 
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
@@ -89,11 +99,40 @@
         return ($a > $b) ? -1 : 1;
     });
 
-    $returnData = Array (
-        "list" => $list,
-        "nameList" => $nameList,
-        "rank" => $res
-    );
-    
-    $cache -> save($returnData);
-    stop(0, "Thành công!", 200, $returnData, true);
+    if ($export) {
+        $data = Array();
+        $header = Array("#", "username", "name", "total");
+
+        foreach ($list as $id)
+            array_push($header, $nameList[$id] ?: $id);
+        
+        array_push($data, $header);
+
+        foreach ($res as $i => $item) {
+            $line = Array($i + 1, $item["username"], $item["name"], $item["total"]);
+
+            foreach ($list as $id)
+                array_push($line, $item["point"][$id]);
+
+            array_push($data, $line);
+        }
+
+        contentType("csv");
+        header("Content-disposition: attachment; filename=rank.csv");
+        $stream = fopen("php://output", "w");
+        fprintf($stream, chr(0xEF).chr(0xBB).chr(0xBF));
+
+        foreach ($data as $line)
+            fputcsv($stream, $line, ";");
+
+        fclose($stream);
+    } else {
+        $returnData = Array (
+            "list" => $list,
+            "nameList" => $nameList,
+            "rank" => $res
+        );
+        
+        $cache -> save($returnData);
+        stop(0, "Thành công!", 200, $returnData, true);
+    }

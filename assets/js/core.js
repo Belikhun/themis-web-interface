@@ -135,6 +135,7 @@ const core = {
     async init(set) {
         clog("info", "Initializing...");
         var initTime = new stopClock();
+        this.rankPanel.cus.hide(true);
 
         set(0, "Initializing: popup");
         popup.init();
@@ -230,6 +231,9 @@ const core = {
 
             if (IS_ADMIN) {
                 clog("info", "Logged in as Admin.");
+                this.rankPanel.cus.onClick(() => window.open("/api/contest/rank?export"));
+                this.rankPanel.cus.hide(false);
+
                 set(95, "Initializing: core.settings");
                 await this.settings.init();
             }
