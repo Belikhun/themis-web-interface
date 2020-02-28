@@ -15,7 +15,7 @@
     $sv_hs = $_SERVER["HTTP_HOST"];
     $sv_pr = $_SERVER["SERVER_PROTOCOL"];
     $uri = $_SERVER["REQUEST_URI"];
-    $cl_ar = $_SERVER["REMOTE_ADDR"];
+    $cl_ar = getClientIP();
     $cl = $_SERVER["HTTP_USER_AGENT"];
 
     if (isset($_SERVER["REDIRECT_STATUS"]))
