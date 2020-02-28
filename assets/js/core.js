@@ -1470,6 +1470,16 @@ const core = {
             10: 3600000
         },
 
+        default: {
+            sounds: false,
+            nightmode: false,
+            showMs: false,
+            transition: true,
+            dialogProblem: false,
+            autoUpdate: true,
+            updateDelay: 2
+        },
+
         __hideAllPanel() {
             var l = this.panelContainer.getElementsByClassName("show");
 
@@ -1496,8 +1506,14 @@ const core = {
 
             this.adminConfig.style.display = "none";
 
-            // Sounds Toggler Settings
+            // LOAD DEFAULT SETTINGS FROM SERVER
+            if (SERVER && SERVER.clientConfig)
+                for (let key of Object.keys(this.default))
+                    if (typeof SERVER.clientConfig[key] !== "undefined")
+                        this.default[key] = SERVER.clientConfig[key];
 
+
+            // Sounds Toggler Settings
             new this.toggleSwitch(this.soundsToggler.soundToggle, "__s_m", () => {
                 sounds.enable.master = true;
 
@@ -1514,7 +1530,7 @@ const core = {
                 this.soundsToggler.soundOnPanelToggle.disabled = true;
                 this.soundsToggler.soundOthers.disabled = true;
                 this.soundsToggler.soundOnNotification.disabled = true;
-            }, false);
+            }, this.default.sounds);
 
             new this.toggleSwitch(this.soundsToggler.soundOnMouseHover, "__s_mo",
                 () => sounds.enable.mouseOver = true,
@@ -1547,7 +1563,7 @@ const core = {
             );
 
             // Night mode setting
-            let nightMode = new this.toggleSwitch(this.nightModeToggler, "__darkMode", e => {
+            new this.toggleSwitch(this.nightModeToggler, "__darkMode", e => {
                 document.body.classList.add("dark");
 
                 this.publicFilesIframe.contentWindow.document.body.classList.add("dark");
@@ -1569,31 +1585,31 @@ const core = {
 
                 if (core.settings.aPanelIframe)
                     core.settings.aPanelIframe.contentWindow.document.body.classList.remove("dark");
-            }, false);
+            }, this.default.nightmode);
 
             // Millisecond setting
-            let milisecond = new this.toggleSwitch(this.millisecondToggler, "__showms",
+            new this.toggleSwitch(this.millisecondToggler, "__showms",
                 e => core.timer.toggleMs(true),
                 e => core.timer.toggleMs(false),
-                false
+                this.default.showMs
             )
             
             // Transition setting
-            let transition = new this.toggleSwitch(this.transitionToggler, "__transition",
+            new this.toggleSwitch(this.transitionToggler, "__transition",
                 e => document.body.classList.remove("disableTransition"),
                 e => document.body.classList.add("disableTransition"),
-                true
+                this.default.transition
             )
 
             // view problem in dialog setting
-            let dialogProblem = new this.toggleSwitch(this.dialogProblemToggler, "__diagprob",
+            new this.toggleSwitch(this.dialogProblemToggler, "__diagprob",
                 e => core.problems.viewInDialog = true,
                 e => core.problems.viewInDialog = false,
-                false
+                this.default.dialogProblem
             )
 
             // auto update rank and logs setting
-            let autoUpdate = new this.toggleSwitch(this.autoUpdateToggler, "__autoupdate",
+            new this.toggleSwitch(this.autoUpdateToggler, "__autoupdate",
                 e => {
                     this.updateDelaySlider.disabled = false;
                     core.enableAutoUpdate = true;
@@ -1602,7 +1618,7 @@ const core = {
                     this.updateDelaySlider.disabled = true;
                     core.enableAutoUpdate = false;
                 },
-                true
+                this.default.autoUpdate
             )
 
             // Update delay setting
@@ -1629,13 +1645,13 @@ const core = {
                 else
                     e.target.classList.remove("pink") || e.target.classList.add("blue");
 
-                cookie.set("__updateDelay", this.updateDelayOptions[_o] ? _o : 2);
+                cookie.set("__updateDelay", this.updateDelayOptions[_o] ? _o : this.default.updateDelay);
                 core.updateDelay = value;
 
                 clog("OKAY", "Set updateDelay to", `${value} ms/request`);
             })
 
-            this.updateDelaySlider.value = parseInt(cookie.get("__updateDelay", 2));
+            this.updateDelaySlider.value = parseInt(cookie.get("__updateDelay", this.default.updateDelay));
             this.updateDelaySlider.dispatchEvent(new Event("change"));
 
             // If not logged in, Stop here

@@ -123,6 +123,10 @@ body:not(.embeded) {
     z-index: 10000;
 }
 
+#clientUpdateDelayInput {
+    width: 100%;
+}
+
 /* Dark */
 
 body.dark:not(.embeded) {

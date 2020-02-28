@@ -25,6 +25,7 @@
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/input.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/switch.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css?v=<?php print VERSION; ?>" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/slider.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/spinner.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/menu.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/configPage.css?v=<?php print VERSION; ?>" />
@@ -269,6 +270,66 @@
 						<input id="time_offset" type="number" class="formField" autocomplete="off" placeholder="Thời gian bù" required>
 						<label for="time_offset">Thời gian bù (giây)</label>
 					</div>
+				</div>
+			</div>
+
+			<div class="group config">
+				<t class="title">Cài Đặt Mặc Định của Client</t>
+
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Bật tiếng</t>
+					<label class="sq-checkbox pink right">
+						<input id="clientSounds" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
+				</div>
+
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Chế độ ban đêm</t>
+					<label class="sq-checkbox pink right">
+						<input id="clientNightmode" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
+				</div>
+
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Hiển thị millisecond</t>
+					<label class="sq-checkbox pink right">
+						<input id="clientShowMs" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
+				</div>
+
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Hiệu ứng</t>
+					<label class="sq-checkbox blue right">
+						<input id="clientTransition" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
+				</div>
+
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Mở đề bài trong cửa số mới</t>
+					<label class="sq-checkbox pink right">
+						<input id="clientDialogProblem" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
+				</div>
+
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Tự động cập nhật Xếp Hạng và Nhật Kí</t>
+					<label class="sq-checkbox blue right">
+						<input id="clientAutoUpdate" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
+				</div>
+
+				<div class="item sound" data-soundhoversoft>
+					<div class="lr">
+						<t class="left">Thời gian làm mới</t>
+						<t id="clientUpdateDelayValue" class="right">0000 ms/request</t>
+					</div>
+					<input type="range" id="clientUpdateDelayInput" class="sq-slider blue sound" data-soundselectsoft data-soundchange min="1" max="10" step="1">
 				</div>
 			</div>
 

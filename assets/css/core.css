@@ -2405,6 +2405,12 @@ body.guest #problemp.hide {
     line-height: 24px;
 }
 
+#unsecureProtocolWarning > .right::after {
+    content: "\f13e";
+    color: rgb(240, 32, 84);
+    font-size: 24px;
+}
+
 footer {
     position: relative;
     box-sizing: border-box;

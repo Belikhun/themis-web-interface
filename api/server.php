@@ -31,7 +31,8 @@
         "REMOTE_ADDR" => $_SERVER["REMOTE_ADDR"],
         "config" => Array(
             "allowRegister" => $config["allowRegister"]
-        )
+        ),
+        "clientConfig" => $config["clientConfig"]
     ));
 
 ?>

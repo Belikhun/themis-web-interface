@@ -39,6 +39,18 @@ var viewRank = $("#viewRank");
 var viewRankTask = $("#viewRankTask");
 var viewLog = $("#viewLog");
 var viewLogOther = $("#viewLogOther");
+
+var clientConfig = {
+    sounds: $("#clientSounds"),
+    nightmode: $("#clientNightmode"),
+    showMs: $("#clientShowMs"),
+    transition: $("#clientTransition"),
+    dialogProblem: $("#clientDialogProblem"),
+    autoUpdate: $("#clientAutoUpdate"),
+    updateDelay: $("#clientUpdateDelayInput"),
+    updateDelayValue: $("#clientUpdateDelayValue")
+}
+
 var ratelimit = {
     maxRequest: $("#ratelimit_maxRequest"),
     time: $("#ratelimit_time"),
@@ -111,9 +123,18 @@ function update() {
         viewRankTask.checked = data.viewRankTask;
         viewLog.checked = data.viewLog;
         viewLogOther.checked = data.viewLogOther;
+        clientConfig.sounds.checked = data.clientConfig.sounds;
+        clientConfig.nightmode.checked = data.clientConfig.nightmode;
+        clientConfig.showMs.checked = data.clientConfig.showMs;
+        clientConfig.transition.checked = data.clientConfig.transition;
+        clientConfig.dialogProblem.checked = data.clientConfig.dialogProblem;
+        clientConfig.autoUpdate.checked = data.clientConfig.autoUpdate;
+        clientConfig.updateDelay.value = data.clientConfig.updateDelay;
         ratelimit.maxRequest.value = data.ratelimit.maxRequest;
         ratelimit.time.value = data.ratelimit.time;
         ratelimit.banTime.value = data.ratelimit.banTime;
+
+        clientConfig.updateDelay.dispatchEvent(new Event("input"));
     }, error => errorHandler(error));
 }
 
@@ -229,6 +250,23 @@ $("body").onload = () => {
 
     // =========== END IMAGE MODIFY EVENT ===========
 
+    // =========== UPDATE DELAY SLIDER ===========
+
+    clientConfig.updateDelay.addEventListener("input", e => {
+        let _o = parseInt(e.target.value);
+        let v = { 1: 500, 2: 1000, 3: 2000, 4: 10000, 5: 60000, 6: 120000, 7: 240000, 8: 300000, 9: 600000, 10: 3600000 }
+        let value = v[_o] || 2000;
+
+        clientConfig.updateDelayValue.innerText = `${value / 1000} giây/yêu cầu`;
+
+        if (value < 2000)
+            e.target.classList.add("pink") || e.target.classList.remove("blue");
+        else
+            e.target.classList.remove("pink") || e.target.classList.add("blue");
+    })
+
+    // =========== END UPDATE DELAY SLIDER ===========
+
     pageIcon.src = "/api/images/icon";
     landingImage.src = "/api/images/landing";
     sounds.init();
@@ -267,6 +305,13 @@ $("#formContainer").addEventListener("submit", e => {
             "viewRankTask": viewRankTask.checked,
             "viewLog": viewLog.checked,
             "viewLogOther": viewLogOther.checked,
+            "clientConfig.sounds": clientConfig.sounds.checked,
+            "clientConfig.nightmode": clientConfig.nightmode.checked,
+            "clientConfig.showMs": clientConfig.showMs.checked,
+            "clientConfig.transition": clientConfig.transition.checked,
+            "clientConfig.dialogProblem": clientConfig.dialogProblem.checked,
+            "clientConfig.autoUpdate": clientConfig.autoUpdate.checked,
+            "clientConfig.updateDelay": parseInt(clientConfig.updateDelay.value),
             "ratelimit.maxRequest": parseInt(ratelimit.maxRequest.value),
             "ratelimit.time": parseInt(ratelimit.time.value),
             "ratelimit.banTime": parseInt(ratelimit.banTime.value),

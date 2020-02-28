@@ -35,5 +35,14 @@
         "banTime": 30
     },
     "pageTitle": "%contestName%",
-    "allowRegister": true
+    "allowRegister": true,
+    "clientConfig": {
+        "sounds": false,
+        "nightmode": true,
+        "showMs": false,
+        "transition": true,
+        "dialogProblem": false,
+        "autoUpdate": true,
+        "updateDelay": 2
+    }
 }
