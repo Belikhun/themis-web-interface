@@ -1,4 +1,4 @@
-/* 
+/*
 ? |-----------------------------------------------------------------------------------------------|
 ? |  /assets/css/login.css                                                                        |
 ? |                                                                                               |
@@ -80,7 +80,7 @@ body.dark {
     width: 400px;
     height: 100%;
 
-    padding: 20px 20px 0 20px;
+    padding: 20px 20px 0;
     box-sizing: border-box;
     background-color: #f0f0f0;
     overflow: hidden;
@@ -321,6 +321,9 @@ body.dark {
 
 .rightPanel .center .formBox .inputForm .complete {
     right: -200%;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .rightPanel .center .formBox .inputForm[data-layout = "2"] .username,
@@ -332,12 +335,6 @@ body.dark {
 .rightPanel .center .formBox .inputForm[data-layout = "3"] .password,
 .rightPanel .center .formBox .inputForm[data-layout = "3"] .complete {
     transform: translateX(-200%);
-}
-
-.rightPanel .center .formBox .inputForm .complete {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 .rightPanel .center .formBox .inputForm .complete .icon {

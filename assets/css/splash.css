@@ -1,4 +1,4 @@
-/* 
+/*
 ? |-----------------------------------------------------------------------------------------------|
 ? |  /assets/css/splash.css                                                                       |
 ? |                                                                                               |
@@ -83,7 +83,7 @@
     position: relative;
     display: block;
     text-align: center;
-    margin: 4px auto 22px auto;
+    margin: 4px auto 22px;
     color: #40566d;
     font-family: "Open Sans";
     font-size: 11px;

@@ -1,4 +1,4 @@
-/* 
+/*
 ? |-----------------------------------------------------------------------------------------------|
 ? |  /assets/css/userSetting.css                                                                  |
 ? |                                                                                               |
@@ -41,7 +41,7 @@
     scroll-behavior: smooth;
 }
 
-#userSettings .main::-webkit-scrollBar { 
+#userSettings .main::-webkit-scrollBar {
     display: none;
 }
 
@@ -432,7 +432,7 @@
 
 #userSettings .main .container .group .item.form form .formGroup {
     display: block;
-    margin: 0 0 10px 0;
+    margin: 0 0 10px;
 }
 
 #userSettings .main .container .group .item.form form button {

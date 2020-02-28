@@ -1,4 +1,4 @@
-/* 
+/*
 ? |-----------------------------------------------------------------------------------------------|
 ? |  /assets/css/core.css                                                                         |
 ? |                                                                                               |
@@ -11,7 +11,7 @@ body {
     position: relative;
     background-color: #666666;
     font-family: "Open Sans", "Segoe UI", "Calibri", Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0 0 20px 0;
+    margin: 0 0 20px;
     overflow: hidden;
     width: 100vw;
     height: 100vh;
@@ -72,7 +72,7 @@ body #container .flexColumn.small {
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    padding: 4px 0 8px 0;
+    padding: 4px 0 8px;
 }
 
 .navBar.showBottom .contestTimer {
@@ -151,8 +151,7 @@ body #container .flexColumn.small {
 panel {
     position: relative;
     display: flex;
-    flex-direction: column;
-    flex-flow: row wrap;
+    flex-flow: column wrap;
     width: 350px;
     height: auto;
     background-color: white;
@@ -333,7 +332,7 @@ body.guest #problemp.hide {
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    padding: 60px 0 20px 0;
+    padding: 60px 0 20px;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.6);
@@ -585,7 +584,7 @@ body.guest #problemp.hide {
 #uploadp .fileupload-container .info #submitStatus {
     position: relative;
     display: block;
-    padding: 0 0 2px 0;
+    padding-bottom: 2px;
     box-sizing: border-box;
     width: 100%;
     font-size: 20px;
@@ -731,7 +730,7 @@ body.guest #problemp.hide {
 
 .problemSettings .problemsContainer .problemsList li.item .title .id {
     font-size: 11px;
-    color: rgba(73, 73, 73, 0.6);;
+    color: rgba(73, 73, 73, 0.6);
     letter-spacing: 0.4px;
 }
 
@@ -1289,7 +1288,7 @@ body.guest #problemp.hide {
     letter-spacing: 0.4px;
     background-color: #27ae60;
     padding: 2px 6px;
-    margin: 2px 0 0 0;
+    margin-top: 2px;
     border-radius: 4px;
 }
 
@@ -1540,7 +1539,7 @@ body.guest #problemp.hide {
     height: 0;
     min-height: 80px;
     max-height: calc(100vh - 160px);
-    margin: 10px 0 20px 0;
+    margin: 10px 0 20px;
     transition: height 0.4s ease-in;
 }
 
@@ -1553,7 +1552,7 @@ body.guest #problemp.hide {
 
 #rankp div.rankingContainer:empty::before {
     content: "\f02d";
-} 
+}
 
 #rankp div.rankingContainer:empty::after {
     content: "Không có dữ liệu hoặc đã bị tắt";
@@ -1834,7 +1833,7 @@ body.guest #problemp.hide {
     letter-spacing: 0.4px;
     background-color: #1f8d4d;
     padding: 2px 6px;
-    margin: 2px 0 10px 0;
+    margin: 2px 0 10px;
     border-radius: 4px;
 }
 
@@ -1976,7 +1975,7 @@ body.guest #problemp.hide {
 .viewLog-container .header .top {
     position: relative;
     display: flex;
-    padding: 20px 0 10px 0;
+    padding: 20px 0 10px;
     flex-direction: column;
     align-items: center;
     flex-grow: 0;
@@ -2005,7 +2004,7 @@ body.guest #problemp.hide {
     letter-spacing: 0.4px;
     background-color: #27ae60;
     padding: 2px 6px;
-    margin: 2px 0 0 0;
+    margin-top: 2px;
     border-radius: 4px;
 }
 

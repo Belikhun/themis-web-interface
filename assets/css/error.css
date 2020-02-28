@@ -1,4 +1,4 @@
-/* 
+/*
 ? |-----------------------------------------------------------------------------------------------|
 ? |  /assets/css/error.css                                                                        |
 ? |                                                                                               |
@@ -15,7 +15,7 @@ body {
     color: rgb(202, 202, 202);
     width: 100vw;
     height: calc(100vh - 60px);
-    margin: 0 0 60px 0;
+    margin: 0 0 60px;
     overflow: hidden;
 }
 
@@ -129,7 +129,7 @@ body {
     font-family: "Calibri";
     font-size: 15px;
     color: rgb(204, 204, 204);
-    margin: 20px 0 0 0;
+    margin: 20px 0 0;
 }
 
 .container .right .report {
@@ -142,7 +142,7 @@ body {
     font-family: "Consolas";
     font-size: 15px;
     color: rgb(204, 204, 204);
-    margin: 6px 0 0 0;
+    margin: 6px 0 0;
     white-space: pre;
     overflow-wrap: normal;
     overflow-x: scroll;

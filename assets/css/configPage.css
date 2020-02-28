@@ -1,4 +1,4 @@
-/* 
+/*
 ? |-----------------------------------------------------------------------------------------------|
 ? |  /assets/css/configPage.css                                                                   |
 ? |                                                                                               |
@@ -54,7 +54,7 @@ body:not(.embeded) {
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
-    margin: 4px 20px 10px 20px;
+    margin: 4px 20px 10px;
 }
 
 .wrapper .menu .group .imageChanger > span .row > input {

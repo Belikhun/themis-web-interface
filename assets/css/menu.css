@@ -1,4 +1,4 @@
-/* 
+/*
 ? |-----------------------------------------------------------------------------------------------|
 ? |  /assets/css/menu.css                                                                         |
 ? |                                                                                               |
@@ -218,7 +218,7 @@ body.embeded .menu {
     flex-direction: row;
     align-items: center;
     box-sizing: border-box;
-    padding: 0 0;
+    padding: unset;
 }
 
 .menu .group .item.lr .left,
@@ -305,7 +305,7 @@ body.embeded .menu {
     content: "\f2bd";
 }
 
-.menu .group.info::after {
+.menu .group.contact::after {
     content: "\f2c2";
 }
 

@@ -1,6 +1,6 @@
-/* 
+/*
 ? |-----------------------------------------------------------------------------------------------|
-? |  /assets/css/.formField.css                                                                        |
+? |  /assets/css/input.css                                                                        |
 ? |                                                                                               |
 ? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
 ? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
@@ -22,7 +22,7 @@
     font-family: "Open Sans", "Calibri", "Segoe UI", sans-serif;
     font-size: 13px;
     user-select: none;
-    padding: 2px 0 7px 0;
+    padding: 2px 0 7px;
     margin-top: 4px;
     background: transparent;
     transition: border-color 0.5s;
