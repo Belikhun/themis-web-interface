@@ -37,6 +37,7 @@ var edit = {
 }
 var viewRank = $("#viewRank");
 var viewRankTask = $("#viewRankTask");
+var viewRankHideDisabled = $("#viewRankHideDisabled");
 var viewLog = $("#viewLog");
 var viewLogOther = $("#viewLogOther");
 
@@ -127,6 +128,7 @@ function update() {
         edit.avatar.checked = data.edit.avatar;
         viewRank.checked = data.viewRank;
         viewRankTask.checked = data.viewRankTask;
+        viewRankHideDisabled.checked = data.viewRankHideDisabled;
         viewLog.checked = data.viewLog;
         viewLogOther.checked = data.viewLogOther;
         clientConfig.sounds.checked = data.clientConfig.sounds;
@@ -311,6 +313,7 @@ $("#formContainer").addEventListener("submit", e => {
             "edit.avatar": edit.avatar.checked,
             "viewRank": viewRank.checked,
             "viewRankTask": viewRankTask.checked,
+            "viewRankHideDisabled": viewRankHideDisabled.checked,
             "viewLog": viewLog.checked,
             "viewLogOther": viewLogOther.checked,
             "clientConfig.sounds": clientConfig.sounds.checked,

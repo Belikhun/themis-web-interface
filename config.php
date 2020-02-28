@@ -197,10 +197,19 @@
 						<span class="checkmark"></span>
 					</label>
 				</div>
+
 				<div class="item lr sound" data-soundhoversoft>
 					<t class="left">Hiển thị điểm các bài làm trong bảng Xếp Hạng</t>
 					<label class="sq-checkbox right">
 						<input id="viewRankTask" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
+				</div>
+
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Ẩn điểm của đề bài đã bị tắt</t>
+					<label class="sq-checkbox right">
+						<input id="viewRankHideDisabled" type="checkbox" class="sound" data-soundcheck>
 						<span class="checkmark"></span>
 					</label>
 				</div>
@@ -221,7 +230,6 @@
 						<span class="checkmark"></span>
 					</label>
 				</div>
-
 			</div>
 
 			<div class="group folder">

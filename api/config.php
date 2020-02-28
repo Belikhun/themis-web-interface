@@ -102,6 +102,7 @@
 	setting("edit_avatar"				, $rawConfig["edit"]["avatar"]					, $TYPE_BOOL  );
 	setting("viewRank"					, $rawConfig["viewRank"]						, $TYPE_BOOL  );
 	setting("viewRankTask"				, $rawConfig["viewRankTask"]					, $TYPE_BOOL  );
+	setting("viewRankHideDisabled"		, $rawConfig["viewRankHideDisabled"]			, $TYPE_BOOL  );
 	setting("viewLog"					, $rawConfig["viewLog"]							, $TYPE_BOOL  );
 	setting("viewLogOther"				, $rawConfig["viewLogOther"]					, $TYPE_BOOL  );
 	setting("clientConfig_sounds"		, $rawConfig["clientConfig"]["sounds"]			, $TYPE_BOOL  );

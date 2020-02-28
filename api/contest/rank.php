@@ -53,6 +53,9 @@
         $filename = $data["file"]["logFilename"];
         $user = $data["user"];
 
+        if (problemDisabled($data["problem"]) && $config["viewRankHideDisabled"] && $_SESSION["id"] !== "admin")
+            continue;
+
         if ($config["viewRankTask"] === true || $_SESSION["id"] === "admin") {
             $list[$i] = $data["problem"];
             $res[$user]["status"][$data["problem"]] = $data["status"];

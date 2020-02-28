@@ -22,6 +22,7 @@
     "submitInProblems": true,
     "viewRank": true,
     "viewRankTask": true,
+    "viewRankHideDisabled": true,
     "viewLog": true,
     "viewLogOther": true,
     "edit": {
