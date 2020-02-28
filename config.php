@@ -367,6 +367,24 @@
 
 			</div>
 
+			<div class="group file">
+				<t class="title">Cache Age</t>
+
+				<div class="item lr info sound" data-soundhoversoft>
+					<t class="left">
+						Increasing Cache Age will reduce backend calculation. But in return it will delay live data update.
+						<br><b>Only change these value if you know what you are doing!</b></t>
+					<div class="right"></div>
+				</div>
+
+				<div class="item sound" data-soundhoversoft>
+					<div class="formGroup sound" data-color="blue" data-soundselectsoft>
+						<input id="cache_contestRank" type="number" class="formField" autocomplete="off" placeholder="api.contest.rank" required>
+						<label for="cache_contestRank">api.contest.rank</label>
+					</div>
+				</div>
+			</div>
+
 			<div class="footer">
 				<button type="submit" class="sq-btn green sound" data-soundhover data-soundselect>Lưu thay đổi</button>
 			</div>

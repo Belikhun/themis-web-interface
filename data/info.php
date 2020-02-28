@@ -26,3 +26,7 @@
 	// Path
 	define("AVATAR_DIR", $_SERVER["DOCUMENT_ROOT"] ."/data/avatar");
 	define("PROBLEM_DIR", $_SERVER["DOCUMENT_ROOT"] ."/data/problems");
+
+	// CACHE
+	define("CACHE_LOCATION", $_SERVER["DOCUMENT_ROOT"] ."/.cache");
+	define("CACHE_DEFAULT_AGE", 10);

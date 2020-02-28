@@ -45,5 +45,8 @@
         "rankUpdate": true,
         "logsUpdate": true,
         "updateDelay": 2
+    },
+    "cache": {
+        "contestRank": 1
     }
 }

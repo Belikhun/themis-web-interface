@@ -57,6 +57,11 @@ var ratelimit = {
     time: $("#ratelimit_time"),
     banTime: $("#ratelimit_banTime")
 }
+
+var cache = {
+    contestRank: $("#cache_contestRank")
+}
+
 var setTimeToNow = $("#setTimeToNow");
 
 function cvtime(h, m, s) {
@@ -135,6 +140,7 @@ function update() {
         ratelimit.maxRequest.value = data.ratelimit.maxRequest;
         ratelimit.time.value = data.ratelimit.time;
         ratelimit.banTime.value = data.ratelimit.banTime;
+        cache.contestRank.value = data.cache.contestRank;
 
         clientConfig.updateDelay.dispatchEvent(new Event("input"));
     }, error => errorHandler(error));
@@ -318,6 +324,7 @@ $("#formContainer").addEventListener("submit", e => {
             "ratelimit.maxRequest": parseInt(ratelimit.maxRequest.value),
             "ratelimit.time": parseInt(ratelimit.time.value),
             "ratelimit.banTime": parseInt(ratelimit.banTime.value),
+            "cache.contestRank": parseInt(cache.contestRank.value),
             "token": API_TOKEN
         }
     }, () => {

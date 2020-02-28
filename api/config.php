@@ -115,6 +115,7 @@
 	setting("ratelimit_maxRequest"		, $rawConfig["ratelimit"]["maxRequest"]			, $TYPE_NUMBER);
 	setting("ratelimit_time"			, $rawConfig["ratelimit"]["time"]				, $TYPE_NUMBER);
 	setting("ratelimit_banTime"			, $rawConfig["ratelimit"]["banTime"]			, $TYPE_NUMBER);
+	setting("cache_contestRank"			, $rawConfig["cache"]["contestRank"]			, $TYPE_NUMBER);
 
 	if ($rawConfig["publish"] !== true) {
 		$rawConfig["viewRank"] = false;

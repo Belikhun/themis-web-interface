@@ -11,6 +11,7 @@
 
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/cache.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
 
     if ($config["publish"] !== true && $_SESSION["id"] !== "admin")
@@ -30,6 +31,14 @@
             "list" => Array(),
             "rank" => Array()
         ));
+
+    $cache = new cache("api.contest.rank");
+    $cache -> setAge($config["cache"]["contestRank"]);
+    
+    if ($cache -> validate()) {
+        $returnData = $cache -> getData();
+        stop(0, "Thành công!", 200, $returnData, true);
+    }
 
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logParser.php";
@@ -76,9 +85,12 @@
 
         return ($a > $b) ? -1 : 1;
     });
-    
-    stop(0, "Thành công!", 200, $returnData = Array (
+
+    $returnData = Array (
         "list" => $list,
         "nameList" => $nameList,
         "rank" => $res
-    ), true);
+    );
+    
+    $cache -> save($returnData);
+    stop(0, "Thành công!", 200, $returnData, true);
