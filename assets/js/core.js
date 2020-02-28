@@ -108,6 +108,7 @@ const core = {
     initialized: false,
     enableRankingUpdate: true,
     enableLogsUpdate: true,
+    rankFolding: {},
     __logTimeout: null,
     __rankTimeout: null,
 
@@ -490,7 +491,6 @@ const core = {
             return false;
         }
 
-        let list = data.list;
         let out = `
             <table>
                 <thead>
@@ -502,7 +502,11 @@ const core = {
         `
 
         for (let i of data.list)
-            out += `<th>${data.nameList[i] || i}</th>`;
+            out += `
+                <th class="problem" problem-id="${i}" data-folding="${this.rankFolding[i] ? true : false}">
+                    <t class="name">${data.nameList[i] || i}</t>
+                    <span class="toggler" onclick="core.foldRankCol(this.parentElement)"></span>
+                </th>`;
 
         out += "</tr></thead><tbody>";
         let ptotal = 0;
@@ -530,11 +534,13 @@ const core = {
                     <td class="number">${parseFloat(i.total).toFixed(2)}</td>
             `
 
-            for (let j of list)
+            for (let j of data.list)
                 out += `
-                    <td class="number ${i.status[j] || ""}
-                        ${(i.logFile[j]) ? ` link" onClick="core.viewLog('${i.logFile[j]}')` : ""}" >
-                            ${(typeof i.point[j] !== "undefined") ? parseFloat(i.point[j]).toFixed(2) : "X"}</td>`;
+                    <td
+                        class="number ${i.status[j] || ""}${(i.logFile[j]) ? ` link" onClick="core.viewLog('${i.logFile[j]}')` : ""}"
+                        problem-id="${j}"
+                        data-folding="${this.rankFolding[j] ? true : false}"
+                    >${(typeof i.point[j] !== "undefined") ? parseFloat(i.point[j]).toFixed(2) : "X"}</td>`;
             
             out += "</tr>";
         }
@@ -547,6 +553,23 @@ const core = {
             color: flatc("blue"),
             text: updateRankTimer.stop + "s"
         });
+    },
+
+    foldRankCol(target) {
+        let f = (target.dataset.folding === "true");
+        let i = target.getAttribute("problem-id");
+
+        target.dataset.folding = !f;
+        this.rankFolding[i] = !f;
+        //* 👀 💥
+        let pointList = target
+            .parentElement
+            .parentElement
+            .parentElement
+            .querySelectorAll(`tbody > tr > td[problem-id="${i}"]`);
+
+        for (let item of pointList)
+            item.dataset.folding = !f;
     },
 
     async viewLog(file) {

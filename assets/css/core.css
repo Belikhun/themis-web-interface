@@ -1651,7 +1651,55 @@ body.guest #problemp.hide {
     color: rgb(82, 82, 82);
     font-family: Segoe UI;
     font-size: 13px;
+    font-weight: bold;
     z-index: 1;
+}
+
+#rankp div.rankingContainer table tr th.problem > t {
+    display: inline-block;
+    color: rgb(82, 82, 82);
+    font-family: Segoe UI;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+#rankp div.rankingContainer table tr th.problem > .toggler {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    cursor: pointer;
+
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+#rankp div.rankingContainer table tr th.problem > .toggler::after {
+    content: "\f104";
+    position: relative;
+    display: block;
+    font-family: "Font Awesome 5 Free";
+    font-size: 18px;
+    font-weight: 900;
+    transform: translateY(2px);
+}
+
+#rankp div.rankingContainer table tr th.problem[data-folding="true"] {
+    width: 10px;
+}
+
+#rankp div.rankingContainer table tr th.problem[data-folding="true"] > t {
+    display: none;
+}
+
+#rankp div.rankingContainer table tr th.problem[data-folding="true"] > .toggler {
+    transform: rotate(180deg);
+}
+
+#rankp div.rankingContainer table tr th.problem[data-folding="true"] > .toggler::after {
+    transform: unset;
 }
 
 #rankp div.rankingContainer table tr th,
@@ -1667,6 +1715,14 @@ body.guest #problemp.hide {
     font-size: 13px;
     text-align: right;
     color: rgb(172, 172, 172);
+    opacity: 1;
+
+    transition: opacity 0.4s ease;
+}
+
+#rankp div.rankingContainer table tr td.number[data-folding="true"] {
+    font-size: 0;
+    opacity: 0;
 }
 
 #rankp div.rankingContainer table tr td.number.link {

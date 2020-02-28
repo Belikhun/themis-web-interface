@@ -187,6 +187,10 @@ body.dark #rankp div.rankingContainer table tr th {
     border-bottom-color: rgb(88, 88, 88);
 }
 
+body.dark #rankp div.rankingContainer table tr th.problem > t {
+    color: rgb(202, 202, 202);
+}
+
 body.dark #rankp div.rankingContainer table tr th:nth-child(1),
 body.dark #rankp div.rankingContainer table tr td:nth-child(1) {
     color: rgb(184, 184, 184);
