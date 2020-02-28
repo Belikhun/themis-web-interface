@@ -1688,6 +1688,7 @@ body.guest #problemp.hide {
 
 #rankp div.rankingContainer table tr th.problem[data-folding="true"] {
     width: 10px;
+    padding: unset;
 }
 
 #rankp div.rankingContainer table tr th.problem[data-folding="true"] > t {
@@ -1723,6 +1724,7 @@ body.guest #problemp.hide {
 #rankp div.rankingContainer table tr td.number[data-folding="true"] {
     font-size: 0;
     opacity: 0;
+    padding: unset;
 }
 
 #rankp div.rankingContainer table tr td.number.link {

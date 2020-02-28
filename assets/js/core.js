@@ -503,10 +503,15 @@ const core = {
 
         for (let i of data.list)
             out += `
-                <th class="problem" problem-id="${i}" data-folding="${this.rankFolding[i] ? true : false}">
+                <th
+                    class="problem"
+                    title="${data.nameList[i] || i}"
+                    problem-id="${i}"
+                    data-folding="${this.rankFolding[i] ? true : false}"
+                >
                     <t class="name">${data.nameList[i] || i}</t>
                     <span class="toggler" onclick="core.foldRankCol(this.parentElement)"></span>
-                </th>`;
+                </thclass="problem">`;
 
         out += "</tr></thead><tbody>";
         let ptotal = 0;
