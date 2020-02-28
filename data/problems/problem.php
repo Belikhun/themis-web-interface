@@ -277,9 +277,23 @@
             -> write(json_encode($problemList[$id], JSON_PRETTY_PRINT));
     }
 
-    function problemExist(String $id) {
+    function problemExist(String &$filename) {
         global $problemList;
-        return isset($problemList[$id]);
+
+        // TRY LIST
+        $try = Array(
+            $filename,
+            strtoupper($filename),
+            strtolower($filename)
+        );
+
+        foreach ($try as $value)
+            if (isset($problemList[$value])) {
+                $filename = $value;
+                return true;
+            }
+        
+        return false;
     }
 
     function problemDisabled(String $id) {
