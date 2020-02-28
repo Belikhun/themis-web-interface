@@ -9,12 +9,12 @@
         "begin": {
             "seconds": 0,
             "minutes": 0,
-            "hours": 0,
-            "days": 1,
-            "months": 1,
-            "years": 2018
+            "hours": 12,
+            "days": 9,
+            "months": 9,
+            "years": 2019
         },
-        "during": 1,
+        "during": 0,
         "offset": 10
     },
     "publish": true,
@@ -25,6 +25,11 @@
     "viewRankHideDisabled": true,
     "viewLog": true,
     "viewLogOther": true,
+    "edit": {
+        "name": true,
+        "password": true,
+        "avatar": true
+    },
     "ratelimit": {
         "maxRequest": 40,
         "time": 10,

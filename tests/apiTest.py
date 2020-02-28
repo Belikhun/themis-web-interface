@@ -112,7 +112,7 @@ def __avatarAPITest():
         return "FileNotMatch"
         
 apiTest.case (
-    "Avatar should be uploaded successfully with \"api/avatar/change\" API and have no corruption",
+    "Avatar should be uploaded successfully with \"api/avatar\" API and have no corruption",
     __avatarAPITest
 )
 
