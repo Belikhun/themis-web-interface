@@ -32,7 +32,8 @@
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logParser.php";
 
     $logParsed = (new logParser($logPath, LOGPARSER_MODE_FULL)) -> parse();
-    $logParsed["header"]["name"] = getUserData($logParsed["header"]["user"])["name"] ?: null;
+    $userData = getUserData($logParsed["header"]["user"]);
+    $logParsed["header"]["name"] = ($userData && isset($userData["name"])) ? $userData["name"] : null;
 
     stop(0, "Thành công!", 200, $logParsed);
 ?>

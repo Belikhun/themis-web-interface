@@ -62,6 +62,7 @@
 		$data = ((new logParser($log, LOGPARSER_MODE_MINIMAL)) -> parse())["header"];
 		$filename = $data["file"]["logFilename"];
 		$user = $data["user"];
+		$userData = getUserData($user);
 
 		if (problemDisabled($data["problem"]) && $config["viewRankHideDisabled"] && $_SESSION["id"] !== "admin")
 			continue;
@@ -77,7 +78,7 @@
 		}
 
 		$res[$user]["username"] = $user;
-		$res[$user]["name"] = getUserData($user)["name"] ?: null;
+		$res[$user]["name"] = ($userData && isset($userData["name"])) ? $userData["name"] : null;
 
 		if (!isset($res[$user]["lastSubmit"]) || $res[$user]["lastSubmit"] < $data["file"]["lastModify"])
 			$res[$user]["lastSubmit"] = $data["file"]["lastModify"];
@@ -118,7 +119,7 @@
 		$header = Array("#", "username", "name", "total");
 
 		foreach ($list as $id)
-			array_push($header, $nameList[$id] ?: $id);
+			array_push($header, $nameList[$id] || $id);
 		
 		array_push($data, $header);
 
@@ -126,7 +127,7 @@
 			$line = Array($i + 1, $item["username"], $item["name"], $item["total"]);
 
 			foreach ($list as $id)
-				array_push($line, $item["point"][$id]);
+				array_push($line, $item["point"][$id] || null);
 
 			array_push($data, $line);
 		}
