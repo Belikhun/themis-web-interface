@@ -144,9 +144,12 @@
 				$data["file"]["extension"] = $problemFileInfo["extension"];
 			} else {
 				$problemFileInfo = parseLogName($this -> logPath);
-				$data["file"]["base"] = $problemFileInfo["problem"];
-				$data["file"]["name"] = $problemFileInfo["name"];
-				$data["file"]["extension"] = $problemFileInfo["extension"];
+
+				if ($problemFileInfo) {
+					$data["file"]["base"] = $problemFileInfo["problem"];
+					$data["file"]["name"] = $problemFileInfo["name"];
+					$data["file"]["extension"] = $problemFileInfo["extension"];
+				}
 			}
 
 			return $data;
@@ -257,5 +260,5 @@
 			);
 		}
 
-		return false;
+		return null;
 	}
