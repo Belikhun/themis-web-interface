@@ -1715,14 +1715,10 @@ body.guest #problemp.hide {
     font-size: 13px;
     text-align: right;
     color: rgb(172, 172, 172);
-    opacity: 1;
-
-    transition: opacity 0.4s ease;
 }
 
 #rankp div.rankingContainer table tr td.number[data-folding="true"] {
     font-size: 0;
-    opacity: 0;
     padding: unset;
 }
 
@@ -2464,7 +2460,7 @@ body.guest #problemp.hide {
 
 #unsecureProtocolWarning > .right::after {
     content: "\f13e";
-    color: rgb(240, 32, 84);
+    color: rgb(185, 5, 50);
     font-size: 24px;
 }
 
