@@ -1,6 +1,7 @@
 # Change Logs
 
-- [Thay đổi trong v0.5.3](#thay-đổi-trong-v053)
+- [Thay đổi trong v0.6.0](#thay-đổi-trong-v060)
+	- [Thay đổi trong v0.5.3](#thay-đổi-trong-v053)
 	- [Thay đổi trong v0.5.2](#thay-đổi-trong-v052)
 	- [Thay đổi trong v0.5.1](#thay-đổi-trong-v051)
 	- [Thay đổi trong v0.5.0](#thay-đổi-trong-v050)
@@ -27,7 +28,27 @@
 
 ---
 
-## Thay đổi trong v0.5.3
+## Thay đổi trong v0.6.0
+
+* **Bug:** Sửa lỗi module `sounds` không tương thích với trình duyệt khác không chạy nhân `chromium` (1ca99107554bd5d59bf21eae07c179461a906f3f)
+* **Bug:** Sửa lỗi request không được gửi lại sau khi hết `ratelimited` (f78e98f8f5ba43258544a423789fe4d771169c22)
+* **Thêm:** Thêm tính năng đăng kí tài khoản! (a27eafd40de8fedbff0f9c1245c1e47bc7c2183f)
+* **Thêm:** Thêm tính năng bật/tắt đề bài (ad05c23252fdb995f1555c2eec6c317b6554f528)
+* **Thêm:** Thêm tính năng thu gọn cột trong bảng xếp hạng (b0fde080970e207becf3d372ff50351735095e6e)
+* **Thêm:** Thêm tính năng xuất dữ liệu bảng xếp hạng thành tệp `csv` (7bca2aafeda20b516d7714e49e010875e0adb090)
+* **Thêm:** Thêm cài đặt cho phép thay đổi icon và ảnh nền của kì thi (5cbfe4438fb6109b0dd017c4363c221b7112f3b6)
+* **Thêm:** Tự động đóng bảng cài đặt khi nhấn chuột vào khu vực trống (e0a969dac5800c4372fc5f2c767a6766e887f0f7)
+* **Thêm:** Cache API `/api/contest/rank` (dfd38718d1c9ac640a81ba327f3f17b594b5e280)
+* **Thay đổi:** Thiết kế lại giao diện chính và đồng hồ của kì thi (9303a83e2de3b070f658e12f0472c0d475368a52)
+* **Thay đổi:** Thiết kế lại giao diện đề bài (47d851e043910745025de4c2c1e5cfdb875fb2be)
+* **Thay đổi:** Hiển thị nhiều dòng chi tiết của bài được chấm (033b9d52dcd939ad10f8d45a0516f7319e003742)
+* **Thay đổi:** Hiển thị `username` trong bảng xếp hạng (c7adc2b720d0ae437354fede27c15696b55b3ba2)
+* **Thay đổi:** Tách cài đặt **Cho phép thay đổi thông tin** thành **Cho phép thay đổi tên** , **Cho phép thay đổi mật khẩu** và **Cho phép thay đổi Avatar**  (7c46bec98a80731dceed406acde973c18b0cb8d7)
+* **Thay đổi:** Ratelimit và cấm truy cập theo IP thay vì session (c2be547f1dc2825cc3bb961ff1b03ad67b35c9ab)
+* **Loại bỏ:** Ngừng lấy địa chỉ WAN của máy chủ (df5324f69f6e3dba4c54fa483731f26059dc87f1)
+* Sửa một số lỗi khác và thêm một số chức năng nhỏ
+
+### Thay đổi trong v0.5.3
 
 * **Bug:** Sửa lỗi font **Exo** không được tải (#31)
 * **Thêm:** Thêm cài đặt: **Tự động cập nhật Xếp Hạng và Nhật Ký** (#32)
