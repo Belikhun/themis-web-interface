@@ -119,7 +119,7 @@
 		$header = Array("#", "username", "name", "total");
 
 		foreach ($list as $id)
-			array_push($header, $nameList[$id] || $id);
+			array_push($header, isset($nameList[$id]) ? $nameList[$id] : $id);
 		
 		array_push($data, $header);
 
@@ -127,7 +127,7 @@
 			$line = Array($i + 1, $item["username"], $item["name"], $item["total"]);
 
 			foreach ($list as $id)
-				array_push($line, $item["point"][$id] || null);
+				array_push($line, isset($item["point"][$id]) ? $item["point"][$id] : null);
 
 			array_push($data, $line);
 		}
