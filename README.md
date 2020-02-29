@@ -29,7 +29,7 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 - [Contribution](#contribution)
 
 ## Demo
-* **000webhost**: <a href="https://tweb-demo.000webhostapp.com/" target="_blank">https://tweb-demo.000webhostapp.com/</a>
+* **000webhost**: <a href="https://themisdemo.000webhostapp.com/" target="_blank">https://themisdemo.000webhostapp.com/</a>
 
 ### Tài khoản:
 
