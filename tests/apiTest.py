@@ -1,7 +1,7 @@
 #? |-----------------------------------------------------------------------------------------------|
-#? |  /tests/api/contest.py                                                                           |
+#? |  /tests/apiTest.py                                                                            |
 #? |                                                                                               |
-#? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+#? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
 #? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 #? |-----------------------------------------------------------------------------------------------|
 
@@ -79,7 +79,7 @@ def testAPI(url = "", method = "GET", json = True, data = {}, files = {}):
 # Login API Test
 apiTest.case (
     "Should be logged in successful with account admin:admin",
-    lambda: testAPI("api/login", "POST", data = { "u": "admin", "p": "admin" })
+    lambda: testAPI("api/login", "POST", data = { "username": "admin", "password": "admin" })
 )
 
 # All GET api test
@@ -108,11 +108,11 @@ def __avatarAPITest():
 
     if (filecmp.cmp("../data/avatar/admin.jpg", "api/admin.jpg")):
         return True
-    else:
-        return "FileNotMatch"
+    
+    return "FileNotMatch"
         
 apiTest.case (
-    "Avatar should be uploaded successfully with \"api/avatar/change\" API and have no corruption",
+    "Avatar should be uploaded successfully with \"api/avatar\" API and have no corruption",
     __avatarAPITest
 )
 

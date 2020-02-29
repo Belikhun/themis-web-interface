@@ -1,7 +1,7 @@
 //? |-----------------------------------------------------------------------------------------------|
 //? |  /assets/js/sounds.js                                                                         |
 //? |                                                                                               |
-//? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+//? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
@@ -10,15 +10,6 @@ const sounds = {
     initialized: false,
     soundsLoaded: false,
     ROOT_DIR: "/assets/sounds",
-
-    btn: {
-        soundToggle: $("#usett_btn_sound_toggle"),
-        soundOnMouseHover: $("#usett_btn_sound_mouse_hover"),
-        soundOnBtnClick: $("#usett_btn_sound_button_click"),
-        soundOnPanelToggle: $("#usett_btn_sound_panel_toggle"),
-        soundOthers: $("#usett_btn_sound_others"),
-        soundOnNotification: $("#usett_btn_sound_notification"),
-    },
 
     soundList: [{
         key: "checkOff",
@@ -123,7 +114,7 @@ const sounds = {
 
     async __loadSoundAsync(url, volume = 0.6) {
         var sound = new Audio();
-        sound.src = chrome.extension ? chrome.extension.getURL(url) : url;
+        sound.src = (typeof chrome !== "undefined" && chrome.extension) ? chrome.extension.getURL(url) : url;
         clog("DEBG", `Loading sound: ${url}`);
 
         return new Promise((resolve, reject) => {
@@ -143,7 +134,7 @@ const sounds = {
     },
 
     __soundToggle(sound) {
-        if (sound.readyState < 3 || !this.initialized)
+        if (!sound || sound.readyState < 3 || !this.initialized)
             return false;
 
         if (!sound.paused)

@@ -23,16 +23,10 @@ Một mô tả rõ ràng và ngắn gọn về hành vi mà bạn nghĩ sẽ x�
 **Ảnh chụp màn hình**
 Nếu có thể, hãy đính kèm một ảnh chụp màn hình tại đây.
 
-**Desktop (không yêu cầu):**
- - Hệ điều hành: [vd: iOS]
- - Trình duyệt [vd: chrome, safari]
- - Phiên bản [vd: 22]
-
-**Điện thoại (không yêu cầu):**
- - Tên máy: [vd: iPhone6]
- - Hệ điều hành: [vd: iOS8.1]
- - Trình duyệt [vd: stock browser, safari]
- - Phiên bản [vd: 22]
+**Phiên bản:**
+ - Hệ điều hành: [vd: Windows, Ubuntu, MacOS]
+ - Trình duyệt: [vd: Chrome, CocCoc, Safari]
+ - Trình chấm: [vd: Themis v1.9.8 b.2806]
 
 **Thông tin thêm**
 Thêm bất kỳ thông tin nào liên quan đến lỗi tại đây.

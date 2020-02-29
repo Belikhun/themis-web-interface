@@ -2,7 +2,7 @@
     //? |-----------------------------------------------------------------------------------------------|
     //? |  /api/contest/problems/add.php                                                                |
     //? |                                                                                               |
-    //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+    //? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
@@ -14,7 +14,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logs.php";
     
     if (!isLogedIn())
-        stop(11, "Bạn chưa đăng nhập.", 403);
+        stop(11, "Bạn chưa đăng nhập.", 401);
     
     checkToken();
     
@@ -24,16 +24,11 @@
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
 
     $id = preg_replace("/[^a-zA-Z0-9]/m", "", reqForm("id"));
-    
     $name = reqForm("name");
-    $point = reqForm("point");
-    if (!is_numeric($point))
-        stop(3, "Loại biến không khớp! Yêu cầu form point là number", 400);
-    $point = (float)$point;
-    $time = getForm("time", 1);
-    if (!is_numeric($time))
-        stop(3, "Loại biến không khớp! Yêu cầu form time là number", 400);
-    $time = (float)$time;
+
+    $point = reqType(reqForm("point"), "integer");
+    $time = reqType(getForm("time", 1), "integer");
+    $memLimit = reqType(getForm("memory", 1024), "integer");
     $inpType = getForm("inpType", "Bàn Phím");
     $outType = getForm("outType", "Màn Hình");
     $accept = isset($_POST["acpt"]) ? json_decode($_POST["acpt"], true) : Array("pas", "cpp", "c", "pp", "exe", "class", "py", "java");
@@ -41,11 +36,13 @@
     $attachment = isset($_FILES["attm"]) ? $_FILES["attm"] : null;
     $description = reqForm("desc");
     $test = isset($_POST["test"]) ? json_decode($_POST["test"], true) : Array();
+    $disabled = withType(getForm("disabled"), "boolean", false);
 
     $code = problemAdd($id, Array(
         "name" => $name,
         "point" => $point,
         "time" => $time,
+        "memory" => $memLimit,
         "type" => Array(
             "inp" => $inpType,
             "out" => $outType
@@ -53,6 +50,7 @@
         "accept" => $accept,
         "description" => $description,
         "test" => $test,
+        "disabled" => $disabled
     ), $image, $attachment);
 
     switch ($code) {

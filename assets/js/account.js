@@ -1,12 +1,12 @@
 //? |-----------------------------------------------------------------------------------------------|
 //? |  /assets/js/account.js                                                                        |
 //? |                                                                                               |
-//? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+//? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
 const sbar = new statusBar(document.body);
-sbar.additem(USERNAME, "account", {space: false, aligin: "left"});
+sbar.additem(USERNAME, "account", {space: false, align: "left"});
 
 document.__onclog = (type, ts, msg) => {
     type = type.toLowerCase();
@@ -26,6 +26,7 @@ $("body").onload = e => {
 
     account.init()
     sounds.init();
+    popup.init();
 }
 
 const account = {
@@ -161,23 +162,23 @@ const account = {
 
                 <span class="column grow">
                     <div class="row">
-                        <div class="formGroup blue sound userID" data-soundselectsoft>
+                        <div class="formGroup sound userID" data-color="blue" data-soundselectsoft>
                             <input id="userID_${username}" type="text" class="formField" autocomplete="off" placeholder="ID" required>
                             <label for="userID_${username}">ID</label>
                         </div>
 
-                        <div class="formGroup blue sound username" data-soundselectsoft>
+                        <div class="formGroup sound username" data-color="blue" data-soundselectsoft>
                             <input id="userUsername_${username}" type="text" class="formField" autocomplete="off" placeholder="Tên người dùng" required>
                             <label for="userUsername_${username}">Tên người dùng</label>
                         </div>
                     </div>
                     
-                    <div class="row formGroup blue sound" data-soundselectsoft>
+                    <div class="row formGroup sound" data-color="blue" data-soundselectsoft>
                         <input id="userPassword_${username}" type="text" class="formField" autocomplete="off" placeholder="Mật khẩu">
                         <label for="userPassword_${username}">Mật khẩu</label>
                     </div>
 
-                    <div class="row formGroup blue sound" data-soundselectsoft>
+                    <div class="row formGroup sound" data-color="blue" data-soundselectsoft>
                         <input id="userName_${username}" type="text" class="formField" autocomplete="off" placeholder="Tên" required>
                         <label for="userName_${username}">Tên</label>
                     </div>
@@ -282,11 +283,25 @@ const account = {
 
     async delete(targetElement) {
         let username = targetElement.dataset.editTarget;
+        let note = document.createElement("div");
+        note.classList.add("note", "warning");
+        note.innerHTML = `<span class="inner">Hành động này <b>không thể hoàn tác</b> một khi đã thực hiện!</span>`;
 
-        let doIt = confirm(`Bạn có chắc muốn xóa người dùng ${username} không?\nHành động này không thể hoàn tác một khi đã thực hiện!`);
+        let doIt = await popup.show({
+            level: "warning",
+            windowTitle: "Account Editor",
+            title: `Xóa \"${username}\"`,
+            message: `Xác nhận`,
+            description: `Bạn có chắc muốn xóa người dùng ${username} không?`,
+            additionalNode: note,
+            buttonList: {
+                delete: { text: "XÓA!!!", color: "red" },
+                cancel: { text: "Hủy Bỏ", color: "blue" }
+            }
+        });
 
-        if (doIt !== true)
-            return false;
+        if (doIt !== "delete")
+            return;
 
         clog("WARN", "Đang xóa người dùng", {
             text: username,

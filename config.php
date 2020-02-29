@@ -2,7 +2,7 @@
 	//? |-----------------------------------------------------------------------------------------------|
 	//? |  config.php                                                                                   |
 	//? |                                                                                               |
-	//? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+	//? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
 	//? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 	//? |-----------------------------------------------------------------------------------------------|
 	
@@ -25,11 +25,14 @@
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/input.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/switch.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css?v=<?php print VERSION; ?>" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/slider.css?v=<?php print VERSION; ?>" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/spinner.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/menu.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/configPage.css?v=<?php print VERSION; ?>" />
 	<!-- Fonts -->
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/exo.css?v=<?php print VERSION; ?>" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/opensans.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/material-font.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/consolas.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome.css?v=<?php print VERSION; ?>" />
@@ -54,9 +57,84 @@
 							<li><b>%author%</b>: Tên tác giả</li>
 							<li><b>%contestName%</b>: Tên kì thi</li>
 							<li><b>%root%</b>: Thư mục gốc của hệ thống</li>
+							<li><b>%currentDate%</b>: Ngày hiện tại</li>
+							<li><b>%currentTime%</b>: Thời gian hiện tại</li>
 						</ul>
 					</div>
 					<div class="right"></div>
+				</div>
+			</div>
+
+			<div class="group server">
+				<t class="title">Hệ Thống</t>
+
+				<div class="item sound" data-soundhoversoft>
+					<div class="formGroup sound" data-color="blue" data-soundselectsoft>
+						<input id="pageTitle" type="text" class="formField" autocomplete="off" placeholder="Tiêu đề trang" required>
+						<label for="pageTitle">Tiêu đề trang</label>
+					</div>
+				</div>
+
+				<div class="item lr sound imageChanger" data-soundhoversoft>
+					<span class="left">
+						<t class="title small">Icon</t>
+
+						<div class="row">
+							<input type="file" id="pageIconInput" accept="image/*">
+							<label for="pageIconInput" class="lazyload column pageIcon sound" data-soundhover data-soundselect>
+								<img id="pageIcon" src=""/>
+								<div class="simple-spinner"></div>
+							</label>
+
+							<button type="button" id="pageIconReset" class="sq-btn pink sound" data-soundhover data-soundselect>Đặt Lại</button>
+						</div>
+					</span>
+
+					<span class="middle">
+						<t class="title small">Ảnh nền</t>
+
+						<div class="row">
+							<input type="file" id="landingImageInput" accept="image/*">
+							<label for="landingImageInput" class="lazyload column landingImage sound" data-soundhover data-soundselect>
+								<img id="landingImage" src=""/>
+								<div class="simple-spinner"></div>
+							</label>
+
+							<button type="button" id="landingImageReset" class="sq-btn pink sound" data-soundhover data-soundselect>Đặt Lại</button>
+						</div>
+					</span>
+				</div>
+
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Cho phép đăng kí tài khoản</t>
+					<label class="sq-checkbox right">
+						<input id="allowRegister" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
+				</div>
+
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Cho phép thay đổi tên</t>
+					<label class="sq-checkbox right">
+						<input id="editName" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
+				</div>
+
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Cho phép thay đổi mật khẩu</t>
+					<label class="sq-checkbox pink right">
+						<input id="editPassword" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
+				</div>
+
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Cho phép thay đổi Avatar</t>
+					<label class="sq-checkbox right">
+						<input id="editAvatar" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
 				</div>
 			</div>
 
@@ -69,14 +147,14 @@
 				</div>
 
 				<div class="item sound" data-soundhoversoft>
-					<div class="formGroup blue sound" data-soundselectsoft>
+					<div class="formGroup sound" data-color="blue" data-soundselectsoft>
 						<input id="contest_name" type="text" class="formField" autocomplete="off" placeholder="Tên kì thi" required>
 						<label for="contest_name">Tên kì thi</label>
 					</div>
 				</div>
 
 				<div class="item sound" data-soundhoversoft>
-					<div class="formGroup blue sound" data-soundselectsoft>
+					<div class="formGroup sound" data-color="blue" data-soundselectsoft>
 						<input id="contest_description" type="text" class="formField" autocomplete="off" placeholder="Mô tả kì thi" required>
 						<label for="contest_description">Mô tả kì thi</label>
 					</div>
@@ -119,10 +197,19 @@
 						<span class="checkmark"></span>
 					</label>
 				</div>
+
 				<div class="item lr sound" data-soundhoversoft>
 					<t class="left">Hiển thị điểm các bài làm trong bảng Xếp Hạng</t>
 					<label class="sq-checkbox right">
 						<input id="viewRankTask" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
+				</div>
+
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Ẩn điểm của đề bài đã bị tắt</t>
+					<label class="sq-checkbox right">
+						<input id="viewRankHideDisabled" type="checkbox" class="sound" data-soundcheck>
 						<span class="checkmark"></span>
 					</label>
 				</div>
@@ -143,14 +230,13 @@
 						<span class="checkmark"></span>
 					</label>
 				</div>
-
 			</div>
 
 			<div class="group folder">
 				<t class="title">Thư mục</t>
 
 				<div class="item sound" data-soundhoversoft>
-					<div class="formGroup blue sound" data-soundselectsoft>
+					<div class="formGroup sound" data-color="blue" data-soundselectsoft>
 						<input id="uploadDir" type="text" class="formField" autocomplete="off" placeholder="Thư mục lưu bài làm" required>
 						<label for="uploadDir">Thư mục lưu bài làm</label>
 					</div>
@@ -161,17 +247,17 @@
 				<t class="title">Thời gian</t>
 
 				<div class="item sound" data-soundhoversoft>
-					<div class="formGroup blue sound" data-soundselectsoft>
+					<div class="formGroup sound" data-color="blue" data-soundselectsoft>
 						<input id="time_zone" type="text" class="formField" autocomplete="off" placeholder="Khu vực" required>
 						<label for="time_zone">Khu vực</label>
 					</div>
 				</div>
 				<div class="item lr sound" data-soundhoversoft>
-					<div class="left formGroup blue sound" data-soundselectsoft>
+					<div class="left formGroup sound" data-color="blue" data-soundselectsoft>
 						<input id="time_beginDate" type="date" class="formField" autocomplete="off" placeholder="Ngày bắt đầu kì thi" required>
 						<label for="time_beginDate">Ngày bắt đầu kì thi</label>
 					</div>
-					<div class="middle formGroup blue sound" data-soundselectsoft>
+					<div class="middle formGroup sound" data-color="blue" data-soundselectsoft>
 						<input id="time_beginTime" type="time" step="1" class="formField" autocomplete="off" placeholder="Thời gian bắt đầu kì thi" required>
 						<label for="time_beginTime">Thời gian bắt đầu kì thi</label>
 					</div>
@@ -182,35 +268,84 @@
 					<div class="right"></div>
 				</div>
 				<div class="item sound" data-soundhoversoft>
-					<div class="formGroup blue sound" data-soundselectsoft>
+					<div class="formGroup sound" data-color="blue" data-soundselectsoft>
 						<input id="time_during" type="number" class="formField" autocomplete="off" placeholder="Thời gian làm bài" required>
 						<label for="time_during">Thời gian làm bài (phút)</label>
 					</div>
 				</div>
 				<div class="item sound" data-soundhoversoft>
-					<div class="formGroup blue sound" data-soundselectsoft>
+					<div class="formGroup sound" data-color="blue" data-soundselectsoft>
 						<input id="time_offset" type="number" class="formField" autocomplete="off" placeholder="Thời gian bù" required>
 						<label for="time_offset">Thời gian bù (giây)</label>
 					</div>
 				</div>
 			</div>
 
-			<div class="group star">
-				<t class="title">Khác</t>
+			<div class="group config">
+				<t class="title">Cài Đặt Mặc Định của Client</t>
 
-				<div class="item sound" data-soundhoversoft>
-					<div class="formGroup blue sound" data-soundselectsoft>
-						<input id="pageTitle" type="text" class="formField" autocomplete="off" placeholder="Tiêu đề trang" required>
-						<label for="pageTitle">Tiêu đề trang</label>
-					</div>
-				</div>
-
-				<div class="item lr sound" data-soundhoversoft title="Cho phép thay đổi Tên, Mật Khẩu và Ảnh Đại Diện">
-					<t class="left">Cho phép thay đổi thông tin</t>
-					<label class="sq-checkbox right">
-						<input id="editInfo" type="checkbox" class="sound" data-soundcheck>
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Bật tiếng</t>
+					<label class="sq-checkbox pink right">
+						<input id="clientSounds" type="checkbox" class="sound" data-soundcheck>
 						<span class="checkmark"></span>
 					</label>
+				</div>
+
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Chế độ ban đêm</t>
+					<label class="sq-checkbox pink right">
+						<input id="clientNightmode" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
+				</div>
+
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Hiển thị millisecond</t>
+					<label class="sq-checkbox pink right">
+						<input id="clientShowMs" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
+				</div>
+
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Hiệu ứng</t>
+					<label class="sq-checkbox blue right">
+						<input id="clientTransition" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
+				</div>
+
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Mở đề bài trong cửa số mới</t>
+					<label class="sq-checkbox pink right">
+						<input id="clientDialogProblem" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
+				</div>
+
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Tự động cập nhật Xếp Hạng</t>
+					<label class="sq-checkbox blue right">
+						<input id="clientRankUpdate" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
+				</div>
+
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Tự động cập nhật Nhật Kí</t>
+					<label class="sq-checkbox pink right">
+						<input id="clientLogsUpdate" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
+				</div>
+
+				<div class="item sound" data-soundhoversoft>
+					<div class="lr">
+						<t class="left">Thời gian làm mới</t>
+						<t id="clientUpdateDelayValue" class="right">0000 ms/request</t>
+					</div>
+					<input type="range" id="clientUpdateDelayInput" class="sq-slider blue sound" data-soundselectsoft data-soundchange min="1" max="10" step="1">
 				</div>
 			</div>
 
@@ -218,26 +353,44 @@
 				<t class="title">RateLimit</t>
 
 				<div class="item sound" data-soundhoversoft>
-					<div class="formGroup blue sound" data-soundselectsoft>
+					<div class="formGroup sound" data-color="blue" data-soundselectsoft>
 						<input id="ratelimit_maxRequest" type="number" class="formField" autocomplete="off" placeholder="Số yêu cầu tối đa" required>
 						<label for="ratelimit_maxRequest">Số yêu cầu tối đa</label>
 					</div>
 				</div>
 
 				<div class="item sound" data-soundhoversoft>
-					<div class="formGroup blue sound" data-soundselectsoft>
+					<div class="formGroup sound" data-color="blue" data-soundselectsoft>
 						<input id="ratelimit_time" type="number" class="formField" autocomplete="off" placeholder="Thời gian (giây)" required>
 						<label for="ratelimit_time">Thời gian tối đa thực hiện yêu cầu (giây)</label>
 					</div>
 				</div>
 
 				<div class="item sound" data-soundhoversoft>
-					<div class="formGroup blue sound" data-soundselectsoft>
+					<div class="formGroup sound" data-color="blue" data-soundselectsoft>
 						<input id="ratelimit_banTime" type="number" class="formField" autocomplete="off" placeholder="Thời gian cấm yêu cầu (giây)" required>
 						<label for="ratelimit_banTime">Thời gian cấm yêu cầu (giây)</label>
 					</div>
 				</div>
 
+			</div>
+
+			<div class="group file">
+				<t class="title">Cache Age</t>
+
+				<div class="item lr info sound" data-soundhoversoft>
+					<t class="left">
+						Increasing Cache Age will reduce backend calculation. But in return it will delay live data update.
+						<br><b>Only change these value if you know what you are doing!</b></t>
+					<div class="right"></div>
+				</div>
+
+				<div class="item sound" data-soundhoversoft>
+					<div class="formGroup sound" data-color="blue" data-soundselectsoft>
+						<input id="cache_contestRank" type="number" class="formField" autocomplete="off" placeholder="api.contest.rank" required>
+						<label for="cache_contestRank">api.contest.rank</label>
+					</div>
+				</div>
 			</div>
 
 			<div class="footer">
@@ -251,10 +404,11 @@
 		const API_TOKEN = `<?php print isset($_SESSION["apiToken"]) ? $_SESSION["apiToken"] : null; ?>`;
 		const USERNAME = `<?php print $_SESSION["username"]; ?>`;
 	</script>
-	<script src="assets/js/belibrary.js?v=<?php print VERSION; ?>"></script>
-	<script src="assets/js/statusBar.js?v=<?php print VERSION; ?>"></script>
-	<script src="assets/js/sounds.js?v=<?php print VERSION; ?>"></script>
-	<script src="assets/js/config.js?v=<?php print VERSION; ?>"></script>
+	<script src="/assets/js/belibrary.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+	<script src="/assets/js/errorHandler.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+	<script src="/assets/js/statusBar.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+	<script src="/assets/js/sounds.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+	<script src="/assets/js/config.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=<?php print TRACK_ID; ?>"></script>

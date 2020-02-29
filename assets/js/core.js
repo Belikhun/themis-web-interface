@@ -1,7 +1,7 @@
 //? |-----------------------------------------------------------------------------------------------|
 //? |  /assets/js/core.js                                                                           |
 //? |                                                                                               |
-//? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+//? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
@@ -106,7 +106,9 @@ const core = {
     previousRankHash: "",
     updateDelay: 2000,
     initialized: false,
-    enableAutoUpdate: true,
+    enableRankingUpdate: true,
+    enableLogsUpdate: true,
+    rankFolding: {},
     __logTimeout: null,
     __rankTimeout: null,
 
@@ -133,9 +135,10 @@ const core = {
     async init(set) {
         clog("info", "Initializing...");
         var initTime = new stopClock();
+        this.rankPanel.cus.hide(true);
 
-        set(0, "Initializing: core.dialog");
-        this.dialog.init();
+        set(0, "Initializing: popup");
+        popup.init();
 
         set(5, "Applying onRatelimited");
         __connection__.onRatelimited = async o => {
@@ -146,12 +149,13 @@ const core = {
                 clock.innerHTML = `${left}<span class="inner">giây còn lại</span>`;
 
                 if (left <= 0)
-                    core.dialog.hide();
+                    popup.hide();
             })
 
-            core.dialog.show({
-                panelTitle: "Rate Limited",
+            popup.show({
+                windowTitle: "Rate Limited",
                 title: "Oops",
+                message: "Rate Limited",
                 description: `Bạn đã bị cấm yêu cầu tới máy chủ trong vòng <b>${parseInt(o.data.data.reset)} giây</b>!<br>Vui lòng chờ cho tới khi bạn hết bị cấm!`,
                 level: "warning",
                 additionalNode: clock,
@@ -168,13 +172,13 @@ const core = {
 
             o.onCount(tryNth => {
                 if (tryNth === "connected")
-                    core.dialog.hide();
+                    popup.hide();
 
                 retry.innerHTML = `Lần thử<span class="inner">${tryNth}</span>`;
             })
 
-            core.dialog.show({
-                panelTitle: "Disconnected",
+            popup.show({
+                windowTitle: "Disconnected",
                 title: "Oops",
                 description: `Bạn đã bị mất kết nối tới máy chủ!<br><b>Themis Web Interface</b> đang thử kết nối lại!`,
                 level: "error",
@@ -185,36 +189,39 @@ const core = {
             })
         }
 
-        set(7, "Initializing: core.wrapper");
+        set(10, "Getting Server Config");
+        await this.getServerConfigAsync();
+
+        set(15, "Initializing: core.wrapper");
         this.wrapper.init();
 
-        set(10, "Fetching Rank...");
+        set(20, "Fetching Rank...");
         await this.fetchRank();
         this.rankPanel.ref.onClick(() => this.fetchRank(true));
         __connection__.onStateChange((s) => { s === "online" ? this.__fetchRank() : null });
         this.__fetchRank();
 
-        set(15, "Initializing: core.timer");
+        set(25, "Initializing: core.timer");
         await this.timer.init();
 
-        set(20, "Initializing: core.userSettings");
+        set(30, "Initializing: core.userSettings");
         this.userSettings.init(LOGGED_IN);
 
-        set(25, "Initializing: sounds");
+        set(35, "Initializing: sounds");
         await sounds.init((p, t) => {
-            set(25 + p*0.5, `Initializing: sounds (${t})`);
+            set(35 + p*0.5, `Initializing: sounds (${t})`);
         });
 
-        set(75, "Initializing: core.problems");
+        set(80, "Initializing: core.problems");
         await this.problems.init();
         
         if (LOGGED_IN) {
             this.problems.panel.clo.hide();
 
-            set(80, "Initializing: core.submit");
+            set(85, "Initializing: core.submit");
             this.submit.init();
 
-            set(85, "Fetching Logs...");
+            set(90, "Fetching Logs...");
             await this.fetchLog();
             this.logPanel.ref.onClick(() => this.__fetchLog(true, false));
             this.logPanel.cus.onClick(() => this.__fetchLog(false, true));
@@ -224,14 +231,14 @@ const core = {
 
             if (IS_ADMIN) {
                 clog("info", "Logged in as Admin.");
-                set(90, "Initializing: core.settings");
+                this.rankPanel.cus.onClick(() => window.open("/api/contest/rank?export"));
+                this.rankPanel.cus.hide(false);
+
+                set(95, "Initializing: core.settings");
                 await this.settings.init();
             }
         } else
             clog("warn", "You are not logged in. Some feature will be disabled.");
-
-        set(95, "Getting Server Status...");
-        await this.getServerStatusAsync();
 
         clog("debg", "Initialisation took:", {
             color: flatc("blue"),
@@ -242,6 +249,9 @@ const core = {
         clog("okay", "core.js Initialized.");
         this.initialized = true;
 
+        if (location.protocol === "http:")
+            $("#unsecureProtocolWarning").style.display = "flex";
+
         console.log("%cSTOP!", "font-size: 72px; font-weight: 900;");
         console.log(
             "%cThis feature is intended for developers. Pasting something here could give strangers access to your account.",
@@ -249,9 +259,9 @@ const core = {
         );
     },
 
-    async getServerStatusAsync() {
+    async getServerConfigAsync() {
         const response = await myajax({
-            url: "/api/status",
+            url: "/api/server",
             method: "GET",
         }).catch(e => {
             clog("WARN", "Error while getting server status:", {
@@ -260,20 +270,20 @@ const core = {
             });
         });
 
-        window.serverStatus = response.data;
+        window.SERVER = response.data;
     },
 
     async checkUpdateAsync(showMsgs = false) {
-        if (!window.serverStatus)
+        if (!SERVER)
             return false;
 
         // Parse local version data
-        var tl = window.serverStatus.version.split(".");
+        var tl = SERVER.version.split(".");
         let data = {}
 
         const localVer = {
             v: parseInt(tl[0])*100 + parseInt(tl[1])*10 + parseInt(tl[2]),
-            s: window.serverStatus.versionTag
+            s: SERVER.versionTag
         }
 
         var tls = `${tl.join(".")}-${localVer.s}`;
@@ -289,7 +299,7 @@ const core = {
             });
 
             data = response;
-        } catch (error) {
+        } catch(error) {
             clog("WARN", "Error Checking for update:", {
                 text: typeof error.data === "undefined" ? error.description : error.data.description,
                 color: flatc("red"),
@@ -312,7 +322,7 @@ const core = {
         // Check for new version
         if (((githubVer.v > localVer.v && ["beta", "indev", "debug", "test"].indexOf(githubVer.s) === -1) || (githubVer.v === localVer.v && githubVer.s !== localVer.s)) && showMsgs === true) {
             clog("WARN", "Hiện đã có phiên bản mới:", tgs);
-            sbar.additem(`Có phiên bản mới: ${tgs}`, "hub", {aligin: "right"});
+            sbar.additem(`Có phiên bản mới: ${tgs}`, "hub", {align: "right"});
 
             let e = document.createElement("div");
             e.classList.add("item", "lr", "warning");
@@ -326,6 +336,18 @@ const core = {
             `
 
             this.settings.adminConfig.appendChild(e);
+
+            popup.show({
+                level: "info",
+                windowTitle: "Update Checker",
+                title: "Cập Nhật Hệ Thống",
+                message: `🌿 ${data.target_commitish}`,
+                description: `Hiện đã có phiên bản mới: <b>${tgs}</b><br>Vui lòng cập nhật lên phiên bản mới nhất để đảm bảo độ ổn định của hệ thống`,
+                buttonList: {
+                    contact: { text: `${data.tag_name} : ${data.target_commitish}`, color: "dark", resolve: false, onClick: () => window.open(data.html_url, "_blank") },
+                    continue: { text: "Bỏ qua", color: "pink" }
+                }
+            })
         }
     },
 
@@ -334,9 +356,10 @@ const core = {
         var timer = new stopClock();
         
         try {
-            if (this.initialized && this.enableAutoUpdate)
+            if (this.initialized && this.enableLogsUpdate)
                 await this.fetchLog(bypass, clearJudging);
         } catch(e) {
+            //? IGNORE ERROR
             clog("ERRR", e);
         }
         
@@ -348,9 +371,10 @@ const core = {
         var timer = new stopClock();
 
         try {
-            if (this.initialized && this.enableAutoUpdate)
+            if (this.initialized && this.enableRankingUpdate)
                 await this.fetchRank();
         } catch(e) {
+            //? IGNORE ERROR
             clog("ERRR", e);
         }
         
@@ -471,7 +495,6 @@ const core = {
             return false;
         }
 
-        let list = data.list;
         let out = `
             <table>
                 <thead>
@@ -483,7 +506,16 @@ const core = {
         `
 
         for (let i of data.list)
-            out += `<th>${data.nameList[i] || i}</th>`;
+            out += `
+                <th
+                    class="problem"
+                    title="${data.nameList[i] || i}"
+                    problem-id="${i}"
+                    data-folding="${this.rankFolding[i] ? true : false}"
+                >
+                    <t class="name">${data.nameList[i] || i}</t>
+                    <span class="toggler" onclick="core.foldRankCol(this.parentElement)"></span>
+                </thclass="problem">`;
 
         out += "</tr></thead><tbody>";
         let ptotal = 0;
@@ -504,15 +536,20 @@ const core = {
                             <div class="simple-spinner"></div>
                         </div>
                     </td>
-                    <td><t class="name">${escapeHTML(i.name || "u:" + i.username)}</t></td>
+                    <td>
+                        <t class="username">${i.username}</t>
+                        <t class="name">${escapeHTML(i.name || "u:" + i.username)}</t>
+                    </td>
                     <td class="number">${parseFloat(i.total).toFixed(2)}</td>
             `
 
-            for (let j of list)
+            for (let j of data.list)
                 out += `
-                    <td class="number ${i.status[j] || ""}
-                        ${(i.logFile[j]) ? ` link" onClick="core.viewLog('${i.logFile[j]}')` : ""}" >
-                            ${(typeof i.point[j] !== "undefined") ? parseFloat(i.point[j]).toFixed(2) : "X"}</td>`;
+                    <td
+                        class="number ${i.status[j] || ""}${(i.logFile[j]) ? ` link" onClick="core.viewLog('${i.logFile[j]}')` : ""}"
+                        problem-id="${j}"
+                        data-folding="${this.rankFolding[j] ? true : false}"
+                    >${(typeof i.point[j] !== "undefined") ? parseFloat(i.point[j]).toFixed(2) : "X"}</td>`;
             
             out += "</tr>";
         }
@@ -525,6 +562,23 @@ const core = {
             color: flatc("blue"),
             text: updateRankTimer.stop + "s"
         });
+    },
+
+    foldRankCol(target) {
+        let f = (target.dataset.folding === "true");
+        let i = target.getAttribute("problem-id");
+
+        target.dataset.folding = !f;
+        this.rankFolding[i] = !f;
+        //* 👀 💥
+        let pointList = target
+            .parentElement
+            .parentElement
+            .parentElement
+            .querySelectorAll(`tbody > tr > td[problem-id="${i}"]`);
+
+        for (let item of pointList)
+            item.dataset.folding = !f;
     },
 
     async viewLog(file) {
@@ -557,7 +611,7 @@ const core = {
                     <div class="line">
                         <span class="left">
                             <t class="testid">${item.test}</t>
-                            <t class="status">${item.detail || "Không rõ"}</t>
+                            <t class="status">${item.detail.length === 0 ? "Không rõ" : item.detail.join("<br>")}</t>
                         </span>
                         <span class="right">
                             <t class="point">${item.point} điểm</t>
@@ -804,24 +858,27 @@ const core = {
 
     problems: {
         panel: new regPanel($("#problemp")),
-        list: $("#problemList"),
+        list: $("#problemsList"),
         name: $("#problem_name"),
         point: $("#problem_point"),
-        enlargeBtn: $("#problem_enlarge"),
+        enlargeBtn: $("#problemViewerEnlarge"),
+        closeBtn: $("#problemViewerClose"),
         type: {
-            filename: $("#problem_type_filename"),
-            lang: $("#problem_type_lang"),
-            time: $("#problem_type_time"),
-            inp: $("#problem_type_inp"),
-            out: $("#problem_type_out")
+            filename: $("#problemInfoFilename"),
+            lang: $("#problemInfoLanguage"),
+            time: $("#problemInfoRuntime"),
+            mem: $("#problemInfoMemory"),
+            input: $("#problemInfoInput"),
+            output: $("#problemInfoOutput")
         },
         image: $("#problem_image"),
-        description: $("#problem_description"),
-        test: $("#problem_test"),
+        description: $("#problemDescription"),
+        test: $("#problemTests"),
         attachment: {
-            me: $("#problem_attachment"),
-            link: $("#problem_attachment_link"),
-            size: $("#problem_attachment_size")
+            container: $("#problemAttachment"),
+            link: $("#problemAttachmentLink"),
+            preview: $("#problemAttachmentPreview"),
+            previewWrapper: $("#problemAttachmentPreviewWrapper")
         },
         loaded: false,
         data: null,
@@ -829,16 +886,13 @@ const core = {
 
         async init(loggedIn = false) {
             this.panel.bak.hide();
-            this.panel.bak.onClick(() => {
-                this.list.classList.remove("hide");
-                this.panel.title = "Đề bài";
-                this.panel.bak.hide();
-            })
+            this.panel.bak.onClick(() => this.closeViewer());
+            this.closeBtn.addEventListener("mouseup", () => this.closeViewer());
 
             if (loggedIn)
                 this.panel.clo.hide();
 
-            this.enlargeBtn.addEventListener("click", () => this.enlargeProblem(this.data));
+            this.enlargeBtn.addEventListener("mouseup", () => this.enlargeProblem(this.data));
             this.panel.ref.onClick(() => this.getList());
             this.panel.clo.onClick(() => this.panel.elem.classList.add("hide"));
 
@@ -882,7 +936,7 @@ const core = {
             let html = "";
             data.forEach(item => {
                 html += `
-                    <li class="item" onClick="core.problems.viewProblem('${item.id}');">
+                    <span class="item" onClick="core.problems.viewProblem('${item.id}');" disabled=${item.disabled}>
                         <div class="lazyload icon">
                             <img onload="this.parentNode.dataset.loaded = 1" src="${item.image}"/>
                             <div class="simple-spinner"></div>
@@ -891,7 +945,7 @@ const core = {
                             <li class="name">${item.name}</li>
                             <li class="point">${item.point} điểm</li>
                         </ul>
-                    </li>
+                    </span>
                 `
             })
             this.list.innerHTML = html;
@@ -904,6 +958,8 @@ const core = {
             });
 
             this.panel.title = "Đang tải...";
+            this.attachment.previewWrapper.removeAttribute("data-loaded");
+            this.attachment.previewWrapper.style.height = "0";
 
             let response = await myajax({
                 url: "/api/contest/problems/get",
@@ -928,8 +984,9 @@ const core = {
             this.type.filename.innerText = data.id;
             this.type.lang.innerText = data.accept.join(", ");
             this.type.time.innerText = data.time + " giây";
-            this.type.inp.innerText = data.type.inp;
-            this.type.out.innerText = data.type.out;
+            this.type.mem.innerText = data.memory ? convertSize(data.memory * 1024) : "Không Rõ";
+            this.type.input.innerText = data.type.inp;
+            this.type.output.innerText = data.type.out;
 
             if (data.image) {
                 this.image.style.display = "block";
@@ -941,11 +998,32 @@ const core = {
                 this.image.style.display = "none";
 
             if (data.attachment.url) {
-                this.attachment.me.style.display = "block";
+                this.attachment.container.style.display = "block";
                 this.attachment.link.href = data.attachment.url;
                 this.attachment.link.innerText = `${data.attachment.file} (${convertSize(data.attachment.size)})`;
+
+                if (data.attachment.embed) {
+                    this.attachment.previewWrapper.removeChild(this.attachment.preview);
+
+                    setTimeout(() => {
+                        let clone = this.attachment.preview.cloneNode();
+                        clone.style.display = "block";
+    
+                        clone.addEventListener("load", e => {
+                            this.attachment.previewWrapper.dataset.loaded = 1;
+                            this.attachment.previewWrapper.style.height = this.attachment.previewWrapper.clientWidth * 1.314 + "px";
+                        })
+    
+                        clone.src = `${data.attachment.url}&embed=true#toolbar=0&navpanes=0&scrollbar=0&statusbar=0&messages=0&scrollbar=0&page=1&view=FitH`;
+                        
+                        this.attachment.previewWrapper.insertBefore(clone, this.attachment.previewWrapper.childNodes[0]);
+                        this.attachment.preview = clone;
+                    }, 500);
+                } else {
+                    this.attachment.preview.style.display = "none";
+                }
             } else
-                this.attachment.me.style.display = "none";
+                this.attachment.container.style.display = "none";
 
             this.description.innerHTML = data.description;
             testhtml = "";
@@ -964,6 +1042,12 @@ const core = {
                     <th>${data.type.out}</th>
                 </tr>
             ` + testhtml;
+        },
+
+        closeViewer() {
+            this.list.classList.remove("hide");
+            this.panel.title = "Đề bài";
+            this.panel.bak.hide();
         },
 
         enlargeProblem(data) {
@@ -990,8 +1074,8 @@ const core = {
                                     <t class="point">${data.point} điểm</t>
                                 </div>
 
-                                <div class="col simple-table-wrapper">
-                                    <table class="simple-table type">
+                                <div class="col simpleTableWrapper">
+                                    <table class="simpleTable type">
                                         <tbody>
                                             <tr class="filename">
                                                 <td>Tên tệp</td>
@@ -1039,8 +1123,8 @@ const core = {
 
                             ${(data.test.length !== 0)
                                 ?   `
-                                    <div class="group simple-table-wrapper">
-                                        <table class="simple-table test">
+                                    <div class="group simpleTableWrapper">
+                                        <table class="simpleTable test">
                                             <tbody>
                                                 <tr>
                                                     <th>${data.type.inp}</th>
@@ -1056,9 +1140,7 @@ const core = {
                     </span>
                     <span class="right">
                         ${(data.attachment.url && data.attachment.embed)
-                            ?   `<object class="embedAttachment" data="${data.attachment.url}&embed=true">
-                                    <embed src="${data.attachment.url}&embed=true"/>
-                                </object>`
+                            ?   `<embed class="embedAttachment" src="${data.attachment.url}&embed=true#toolbar=0&navpanes=0&scrollbar=0&statusbar=0&messages=0&scrollbar=0&page=1&view=FitH"/>`
                             :   ""
                         }
                     </span>
@@ -1071,10 +1153,10 @@ const core = {
     },
 
     timer: {
-        timePanel: new regPanel($("#timep")),
-        state: $("#timeState"),
-        time: $("#timeClock"),
-        timeMs: $("#timeClockMs"),
+        container: $("#navBar"),
+        state: $("#contestTimeState"),
+        time: $("#contestTime"),
+        reload: $("#contestTimeReload"),
         bar: $("#timeProgress"),
         start: $("#timeStart"),
         end: $("#timeEnd"),
@@ -1085,11 +1167,7 @@ const core = {
         last: 0,
 
         async init() {
-            this.timePanel.ref.onClick(() => this.fetchTime(true));
-            this.timePanel.clo.onClick(e => this.close());
-
-            if (LOGGED_IN)
-                this.timePanel.clo.hide();
+            this.reload.addEventListener("mouseup", () => this.fetchTime(true));
 
             await this.fetchTime(true);
 
@@ -1097,11 +1175,6 @@ const core = {
                 color: flatc("red"),
                 text: "core.timer"
             });
-        },
-
-        close() {
-            this.reset();
-            this.timePanel.panel.classList.remove("show");
         },
 
         async fetchTime(init = false) {
@@ -1113,7 +1186,7 @@ const core = {
             let data = response.data;
 
             if (data.during <= 0) {
-                $("#timep").classList.remove("show");
+                this.container.classList.remove("showBottom");
                 clearInterval(this.interval);
                 clog("info", "Timer Disabled: not in contest mode");
 
@@ -1126,7 +1199,7 @@ const core = {
             this.start.innerText = `${(new Date(data.start * 1000)).toLocaleTimeString()} tới ${(new Date((data.start + data.during) * 1000)).toLocaleTimeString()}`;
 
             if (init) {
-                $("#timep").classList.add("show");
+                this.container.classList.add("showBottom");
                 this.last = 0;
                 this.toggleMs(this.showMs);
             }
@@ -1137,6 +1210,7 @@ const core = {
                 return;
 
             this.timeUpdate();
+            clearInterval(this.interval);
             this.interval = setInterval(() => this.timeUpdate(), time);
         },
 
@@ -1146,20 +1220,18 @@ const core = {
             if (show) {
                 this.startInterval(65);
                 this.showMs = true;
-                this.timePanel.main.classList.add("ms");
                 this.bar.classList.add("noTransition");
             } else {
                 this.startInterval(1000);
                 this.showMs = false;
-                this.timePanel.main.classList.remove("ms");
                 this.bar.classList.remove("noTransition");
             }
         },
 
         reset() {
             clearInterval(this.interval);
-            this.timePanel.main.dataset.color = "red";
-            this.time.innerText = "--:--";
+            this.time.dataset.color = "red";
+            this.time.innerHTML = "<days>--</days>+--:--:--";
             this.bar.style.width = "0%";
             this.bar.dataset.color = "blue";
             this.start.innerText = "--:--:-- - --:--:--";
@@ -1176,7 +1248,8 @@ const core = {
             let t = beginTime - time() + duringTime;
 
             let color = "";
-            let proc = 0;
+            let progress = 0;
+            let blink = "none";
             let end = "";
             let state = "";
 
@@ -1186,7 +1259,7 @@ const core = {
                     this.last = t;
 
                 color = "blue";
-                proc = ((t) / this.last) * 100;
+                progress = ((t) / this.last) * 100;
                 end = parseTime(this.last).str;
                 state = "Bắt đầu kì thi sau";
             } else if (t > 0) {
@@ -1199,33 +1272,37 @@ const core = {
                 }
 
                 color = "green";
-                proc = (t / duringTime) * 100;
+                progress = (t / duringTime) * 100;
                 end = parseTime(duringTime).str;
                 state = "Thời gian làm bài";
             } else if (t > -offsetTime) {
                 t += offsetTime;
                 
-                color = "red";
-                proc = (t / offsetTime) * 100;
+                color = "yellow";
+                progress = (t / offsetTime) * 100;
+                blink = "grow";
                 end = parseTime(offsetTime).str;
                 state = "Thời gian bù";
             } else {
                 t += offsetTime;
 
-                color = "";
-                proc = 0;
+                color = "red";
+                progress = 100;
+                blink = "fade"
                 end = "--:--";
                 state = "ĐÃ HẾT THỜI GIAN LÀM BÀI";
             }
 
-            let tp = parseTime(t);
-            if (this.showMs)
-                this.timeMs.innerText = tp.ms;
-
-            this.timePanel.main.dataset.color = color;
+            let days = Math.floor(t / 86400) + (t < 0 ? 1 : 0);
+            let timeParsed = parseTime(t % 86400, { showPlus: true, forceShowHours: true });
+            this.time.dataset.color = color;
+            this.time.innerHTML = `<days>${days}</days>${timeParsed.str}${this.showMs ? `<ms>${timeParsed.ms}</ms>` : ""}`;
+            
             this.bar.dataset.color = color;
-            this.time.innerText = tp.str;
-            this.bar.style.width = proc + "%";
+            this.bar.dataset.blink = blink;
+            this.bar.dataset.blinkFast = progress < 20 ? true : false;
+            this.bar.style.width = `${progress}%`;
+
             this.end.innerText = end;
             this.state.innerText = state;
         }
@@ -1341,18 +1418,23 @@ const core = {
         },
 
         toggleSwitch: class {
-            constructor(inputElement, cookieKey, onCheck = () => {}, onUncheck = () => {}, defValue = false) {
+            constructor(inputElement, cookieKey, onCheck = async () => {}, onUncheck = async () => {}, defValue = false) {
                 this.input = inputElement;
                 this.onCheckHandler = onCheck;
                 this.onUnCheckHandler = onUncheck;
 
-                this.input.addEventListener("change", e => {
-                    cookie.set(cookieKey, e.target.checked);
+                this.input.addEventListener("change", async e => {
+                    let r = true;
 
                     if (e.target.checked === true)
-                        this.onCheckHandler(e);
+                        r = await this.onCheckHandler();
                     else
-                        this.onUnCheckHandler(e);
+                        r = await this.onUnCheckHandler();
+
+                    if (r !== false)
+                        cookie.set(cookieKey, e.target.checked);
+                    else
+                        e.target.checked = !e.target.checked;
                 })
                 
                 this.change(cookie.get(cookieKey, defValue) === "true");
@@ -1372,11 +1454,11 @@ const core = {
             }
         },
 
-        uname: $("#user_name"),
-        uavt: $("#user_avt"),
-        avt: $("#usett_avt"),
-        avtWrapper: $("#usett_avtw"),
-        avtInput: $("#usett_avtinp"),
+        userName: $("#userName"),
+        userAvatar: $("#userAvatar"),
+        userSettingAvatar: $("#usett_avt"),
+        userSettingAvatarWrapper: $("#usett_avtw"),
+        userSettingAvatarInput: $("#usett_avtinp"),
         name: $("#usett_name"),
         sub: {
             nameForm: $("#usett_edit_name_form"),
@@ -1384,7 +1466,7 @@ const core = {
             name: $("#usett_edit_name"),
             pass: $("#usett_edit_pass"),
             newPass: $("#usett_edit_npass"),
-            reTypePass: $("#usett_edit_renpass"),
+            reNewPass: $("#usett_edit_renpass"),
         },
         soundsToggler: {
             soundToggle: $("#usett_btn_sound_toggle"),
@@ -1399,13 +1481,15 @@ const core = {
         transitionToggler: $("#usett_transition"),
         millisecondToggler: $("#usett_millisecond"),
         dialogProblemToggler: $("#usett_dialogProblem"),
-        autoUpdateToggler: $("#usett_enableAutoUpdate"),
+        rankingUpdateToggler: $("#usett_enableRankingUpdate"),
+        logsUpdateToggler: $("#usett_enableLogsUpdate"),
         updateDelaySlider: $("#usett_udelay_slider"),
         updateDelayText: $("#usett_udelay_text"),
-        toggler: $("#usett_toggler"),
+        toggler: $("#userSettingsToggler"),
         container: $("#userSettings"),
-        adminConfig: $("#usett_adminConfig"),
         panelContainer: $("#usett_panelContainer"),
+        panelUnderlay: $("#usett_panelUnderlay"),
+        adminConfig: $("#usett_adminConfig"),
         publicFilesPanel: null,
         publicFilesIframe: null,
         aboutPanel: null,
@@ -1425,6 +1509,17 @@ const core = {
             10: 3600000
         },
 
+        default: {
+            sounds: false,
+            nightmode: false,
+            showMs: false,
+            transition: true,
+            dialogProblem: false,
+            rankUpdate: true,
+            logsUpdate: true,
+            updateDelay: 2
+        },
+
         __hideAllPanel() {
             var l = this.panelContainer.getElementsByClassName("show");
 
@@ -1433,7 +1528,8 @@ const core = {
         },
         
         init(loggedIn = true) {
-            this.toggler.addEventListener("click", e => this.toggle(e), false);
+            this.toggler.addEventListener("mouseup", () => this.toggle(), false);
+            this.panelUnderlay.addEventListener("mouseup", () => this.toggle(), false);
 
             this.aboutPanel = new this.panel($("#usett_aboutPanel"));
             this.aboutPanel.toggler = $("#usett_aboutToggler");
@@ -1450,8 +1546,14 @@ const core = {
 
             this.adminConfig.style.display = "none";
 
-            // Sounds Toggler Settings
+            // LOAD DEFAULT SETTINGS FROM SERVER
+            if (SERVER && SERVER.clientConfig)
+                for (let key of Object.keys(this.default))
+                    if (typeof SERVER.clientConfig[key] !== "undefined")
+                        this.default[key] = SERVER.clientConfig[key];
 
+
+            // Sounds Toggler Settings
             new this.toggleSwitch(this.soundsToggler.soundToggle, "__s_m", () => {
                 sounds.enable.master = true;
 
@@ -1468,7 +1570,7 @@ const core = {
                 this.soundsToggler.soundOnPanelToggle.disabled = true;
                 this.soundsToggler.soundOthers.disabled = true;
                 this.soundsToggler.soundOnNotification.disabled = true;
-            }, false);
+            }, this.default.sounds);
 
             new this.toggleSwitch(this.soundsToggler.soundOnMouseHover, "__s_mo",
                 () => sounds.enable.mouseOver = true,
@@ -1501,7 +1603,7 @@ const core = {
             );
 
             // Night mode setting
-            let nightMode = new this.toggleSwitch(this.nightModeToggler, "__darkMode", e => {
+            new this.toggleSwitch(this.nightModeToggler, "__darkMode", e => {
                 document.body.classList.add("dark");
 
                 this.publicFilesIframe.contentWindow.document.body.classList.add("dark");
@@ -1512,7 +1614,7 @@ const core = {
 
                 if (core.settings.aPanelIframe)
                     core.settings.aPanelIframe.contentWindow.document.body.classList.add("dark");
-            }, e => {
+            }, () => {
                 document.body.classList.remove("dark");
 
                 this.publicFilesIframe.contentWindow.document.body.classList.remove("dark");
@@ -1523,41 +1625,45 @@ const core = {
 
                 if (core.settings.aPanelIframe)
                     core.settings.aPanelIframe.contentWindow.document.body.classList.remove("dark");
-            }, false);
+            }, this.default.nightmode);
 
             // Millisecond setting
-            let milisecond = new this.toggleSwitch(this.millisecondToggler, "__showms",
-                e => core.timer.toggleMs(true),
-                e => core.timer.toggleMs(false),
-                false
+            new this.toggleSwitch(this.millisecondToggler, "__showms",
+                () => core.timer.toggleMs(true),
+                () => core.timer.toggleMs(false),
+                this.default.showMs
             )
             
             // Transition setting
-            let transition = new this.toggleSwitch(this.transitionToggler, "__transition",
-                e => document.body.classList.remove("disableTransition"),
-                e => document.body.classList.add("disableTransition"),
-                true
+            new this.toggleSwitch(this.transitionToggler, "__transition",
+                () => document.body.classList.remove("disableTransition"),
+                () => document.body.classList.add("disableTransition"),
+                this.default.transition
             )
 
             // view problem in dialog setting
-            let dialogProblem = new this.toggleSwitch(this.dialogProblemToggler, "__diagprob",
-                e => core.problems.viewInDialog = true,
-                e => core.problems.viewInDialog = false,
-                false
+            new this.toggleSwitch(this.dialogProblemToggler, "__diagprob",
+                () => core.problems.viewInDialog = true,
+                () => core.problems.viewInDialog = false,
+                this.default.dialogProblem
             )
 
-            // auto update rank and logs setting
-            let autoUpdate = new this.toggleSwitch(this.autoUpdateToggler, "__autoupdate",
-                e => {
+            // auto update rank setting
+            new this.toggleSwitch(this.rankingUpdateToggler, "__rankupdate",
+                () => {
                     this.updateDelaySlider.disabled = false;
-                    core.enableAutoUpdate = true;
+                    core.enableRankingUpdate = true;
                 },
-                e => {
-                    this.updateDelaySlider.disabled = true;
-                    core.enableAutoUpdate = false;
+                () => {
+                    if (!this.logsUpdateToggler.checked)
+                        this.updateDelaySlider.disabled = true;
+
+                    core.enableRankingUpdate = false;
                 },
-                true
+                this.default.rankUpdate
             )
+
+            this.logsUpdateToggler.disabled = true;
 
             // Update delay setting
             this.updateDelaySlider.addEventListener("input", e => {
@@ -1583,13 +1689,13 @@ const core = {
                 else
                     e.target.classList.remove("pink") || e.target.classList.add("blue");
 
-                cookie.set("__updateDelay", this.updateDelayOptions[_o] ? _o : 2);
+                cookie.set("__updateDelay", this.updateDelayOptions[_o] ? _o : this.default.updateDelay);
                 core.updateDelay = value;
 
                 clog("OKAY", "Set updateDelay to", `${value} ms/request`);
             })
 
-            this.updateDelaySlider.value = parseInt(cookie.get("__updateDelay", 2));
+            this.updateDelaySlider.value = parseInt(cookie.get("__updateDelay", this.default.updateDelay));
             this.updateDelaySlider.dispatchEvent(new Event("change"));
 
             // If not logged in, Stop here
@@ -1603,21 +1709,62 @@ const core = {
                 return;
             }
 
-            this.avtWrapper.addEventListener("dragenter",  e => this.dragEnter(e), false);
-            this.avtWrapper.addEventListener("dragleave", e => this.dragLeave(e), false);
-            this.avtWrapper.addEventListener("dragover", e => this.dragOver(e), false);
-            this.avtWrapper.addEventListener("drop", e => this.fileSelect(e), false);
+            // auto update logs setting
+            this.logsUpdateToggler.disabled = false;
+            new this.toggleSwitch(this.logsUpdateToggler, "__logsupdate",
+                () => {
+                    this.updateDelaySlider.disabled = false;
+                    core.enableLogsUpdate = true;
+                },
+                async () => {
+                    if (cookie.get("__logsupdate") !== "false") {
+                        let response = await popup.show({
+                            windowTitle: "Tự động cập nhật",
+                            title: "Cảnh báo",
+                            message: "Tắt tự động cập nhật nhật ký",
+                            description: "Việc này sẽ làm cho tình trạng nộp bài của bạn không được tự động cập nhật.<br>Bạn có chắc muốn tắt tính năng này không?",
+                            level: "warning",
+                            buttonList: {
+                                turnOff: { text: "Tắt", color: "red" },
+                                cancel: { text: "Hủy", color: "blue" },
+                            }
+                        })
+    
+                        if (response !== "turnOff")
+                            return false;
+                    }
 
-            this.avtInput.addEventListener("change", e => this.fileSelect(e, "input"));
+                    if (!this.rankingUpdateToggler.checked)
+                        this.updateDelaySlider.disabled = true;
+
+                    core.enableLogsUpdate = false;
+                },
+                this.default.logsUpdate
+            )
+
+            this.userSettingAvatarWrapper.addEventListener("dragenter",  e => this.dragEnter(e), false);
+            this.userSettingAvatarWrapper.addEventListener("dragleave", e => this.dragLeave(e), false);
+            this.userSettingAvatarWrapper.addEventListener("dragover", e => this.dragOver(e), false);
+            this.userSettingAvatarWrapper.addEventListener("drop", e => this.fileSelect(e), false);
+
+            this.userSettingAvatarInput.addEventListener("change", e => this.fileSelect(e, "input"));
 
             this.sub.nameForm.addEventListener("submit", e => {
                 this.sub.nameForm.getElementsByTagName("button")[0].disabled = true;
                 this.changeName(this.sub.name.value);
             }, false)
 
+            this.sub.reNewPass.addEventListener("keyup", e => e.target.parentElement.dataset.color = (this.sub.newPass.value === e.target.value) ? "blue" : "red");
             this.sub.passForm.addEventListener("submit", e => {
+                if (this.sub.newPass.value !== this.sub.reNewPass.value) {
+                    sounds.warning();
+                    this.sub.reNewPass.parentElement.dataset.color = "red";
+                    this.sub.reNewPass.focus();
+                    return;
+                }
+
                 this.sub.passForm.getElementsByTagName("button")[0].disabled = true;
-                this.changePassword(this.sub.pass.value, this.sub.newPass.value, this.sub.reTypePass.value);
+                this.changePassword(this.sub.pass.value, this.sub.newPass.value);
             }, false)
 
             this.logoutBtn.addEventListener("click", e => this.logout(e), false);
@@ -1651,25 +1798,26 @@ const core = {
         },
 
         reset() {
-            this.avtWrapper.classList.remove("drop");
-            this.avtWrapper.classList.remove("load");
+            this.userSettingAvatarWrapper.classList.remove("drop");
+            this.userSettingAvatarWrapper.classList.remove("load");
             this.sub.nameForm.getElementsByTagName("button")[0].disabled = false;
             this.sub.passForm.getElementsByTagName("button")[0].disabled = false;
             this.sub.name.value = null;
             this.sub.pass.value = null;
             this.sub.newPass.value = null;
-            this.sub.reTypePass.value = null;
+            this.sub.reNewPass.value = null;
+            this.sub.reNewPass.parentElement.dataset.color = "blue";
         },
 
         reload(data, reload) {
             switch (reload) {
                 case "avatar":
                     core.fetchRank(true);
-                    this.uavt.src = this.avt.src = `${data.src}&t=${time()}`;
+                    this.userAvatar.src = this.userSettingAvatar.src = `${data.src}&t=${time()}`;
                     break;
             
                 case "name":
-                    this.uname.innerText = this.name.innerText = data.name;
+                    this.userName.innerText = this.name.innerText = data.name;
                     break;
 
                 default:
@@ -1684,7 +1832,7 @@ const core = {
                 url: "/api/edit",
                 method: "POST",
                 form: {
-                    n: name,
+                    name: name,
                     token: API_TOKEN
                 }
             }, response => {
@@ -1698,16 +1846,15 @@ const core = {
             }, () => this.reset());
         },
 
-        async changePassword(pass, newPass, reTypePass) {
+        async changePassword(pass, newPass) {
             sounds.confirm(2);
 
             await myajax({
                 url: "/api/edit",
                 method: "POST",
                 form: {
-                    p: pass,
-                    np: newPass,
-                    rnp: reTypePass,
+                    password: pass,
+                    newPassword: newPass,
                     token: API_TOKEN
                 }
             }, () => {
@@ -1723,12 +1870,12 @@ const core = {
             if (type === "drop") {
                 e.stopPropagation();
                 e.preventDefault();
-                this.avtWrapper.classList.remove("drag");
+                this.userSettingAvatarWrapper.classList.remove("drag");
             }
 
             var file = (type === "drop") ? e.dataTransfer.files[0] : e.target.files[0];
 
-            this.avtWrapper.classList.add("load");
+            this.userSettingAvatarWrapper.classList.add("load");
             sounds.confirm();
             setTimeout(() => this.avtUpload(file), 1000);
         },
@@ -1756,27 +1903,26 @@ const core = {
         dragEnter(e) {
             e.stopPropagation();
             e.preventDefault();
-            this.avtWrapper.classList.add("drag");
+            this.userSettingAvatarWrapper.classList.add("drag");
         },
 
         dragLeave(e) {
             e.stopPropagation();
             e.preventDefault();
-            this.avtWrapper.classList.remove("drag");
+            this.userSettingAvatarWrapper.classList.remove("drag");
         },
 
         dragOver(e) {
             e.stopPropagation();
             e.preventDefault();
             e.dataTransfer.dropEffect = "copy";
-            this.avtWrapper.classList.add("drag");
+            this.userSettingAvatarWrapper.classList.add("drag");
         }
 
     },
 
     settings: {
         main: $("#container"),
-        navcont: $("#usett_left_panel"),
         cPanel: null,
         cPanelIframe: null,
         aPanel: null,
@@ -1935,6 +2081,7 @@ const core = {
                 name: $("#problemEdit_name"),
                 point: $("#problemEdit_point"),
                 time: $("#problemEdit_time"),
+                mem: $("#problemEdit_mem"),
                 inpType: $("#problemEdit_inpType"),
                 outType: $("#problemEdit_outType"),
                 accept: $("#problemEdit_accept"),
@@ -2011,23 +2158,28 @@ const core = {
                 });
 
                 let data = response.data;
-                this.list.innerHTML = "";
-                data.forEach(item => {
-                    html = [
-                        `<li class="item">`,
-                            `<img class="icon" src="${item.image}">`,
-                            `<ul class="title">`,
-                                `<li class="id">${item.id}</li>`,
-                                `<li class="name">${item.name}</li>`,
-                            `</ul>`,
-                            `<div class="action">`,
-                                `<span class="delete" onClick="core.settings.problems.remProblem('${item.id}')"></span>`,
-                                `<span class="edit" onClick="core.settings.problems.editProblem('${item.id}')"></span>`,
-                            `</div>`,
-                        `</li>`,
-                    ].join("\n");
-                    this.list.innerHTML += html;
-                })
+                let html = "";
+                emptyNode(this.list);
+                for (let item of data)
+                    html += `
+                        <li class="item">
+                            <img class="icon" src="${item.image}">
+                            <ul class="title">
+                                <li class="id">${item.id}</li>
+                                <li class="name">${item.name}</li>
+                            </ul>
+                            <div class="action">
+                                <span class="materialSwitch" onclick="core.settings.problems.toggleDisabled('${item.id}', fcfn(this, 'checkbox'))">
+                                    <input class="checkbox" type="checkbox" ${!item.disabled ? "checked" : ""}></input>
+                                    <div class="track"></div>
+                                </span>
+                                <span class="delete" onClick="core.settings.problems.remProblem('${item.id}')"></span>
+                                <span class="edit" onClick="core.settings.problems.editProblem('${item.id}')"></span>
+                            </div>
+                        </li>
+                    `
+
+                this.list.innerHTML = html;
             },
 
             resetForm() {
@@ -2036,6 +2188,7 @@ const core = {
                 this.form.name.value = "";
                 this.form.point.value = null;
                 this.form.time.value = 1;
+                this.form.mem.value = 1024;
                 this.form.inpType.value = "Bàn Phím";
                 this.form.outType.value = "Màn Hình";
                 this.form.accept.value = Object.keys(core.languages).join("|");
@@ -2078,9 +2231,10 @@ const core = {
                 this.form.id.disabled = true;
                 this.form.name.value = data.name;
                 this.form.point.value = data.point;
-                this.form.time.value = data.time;
-                this.form.inpType.value = data.type.inp;
-                this.form.outType.value = data.type.out;
+                this.form.time.value = data.time || 1;
+                this.form.mem.value = data.memory || 1024;
+                this.form.inpType.value = data.type.inp || "Bàn Phím";
+                this.form.outType.value = data.type.out || "Màn Hình";
                 this.form.accept.value = data.accept.join("|");
                 this.form.image.value = null;
                 this.form.desc.value = data.description;
@@ -2126,23 +2280,29 @@ const core = {
                     text: id + "."
                 }, "Waiting for confirmation");
 
-                let confirm = await core.dialog.show({
-                    panelTitle: "Xác nhận",
-                    title: `Xóa ${id}`,
-                    description: `Bạn có chắc muốn xóa <i>${id}</i> không?<br>Hành động này <b>không thể hoàn tác</b> một khi đã thực hiện!`,
+                let note = document.createElement("div");
+                note.classList.add("note", "warning");
+                note.innerHTML = `<span class="inner">Hành động này <b>không thể hoàn tác</b> một khi đã thực hiện!</span>`;
+
+                let confirm = await popup.show({
                     level: "warning",
+                    windowTitle: "Problems Editor",
+                    title: `Xóa \"${id}\"`,
+                    message: `Xác nhận`,
+                    description: `Bạn có chắc muốn xóa đề bài <i>${id}</i> không?`,
+                    additionalNode: note,
                     buttonList: {
-                        yes: { text: "XÓA!!!", color: "pink" },
-                        no: { text:"Không", color: "blue" }
+                        delete: { text: "XÓA!!!", color: "red" },
+                        cancel: { text: "Hủy Bỏ", color: "blue" }
                     }
                 })
 
-                if (confirm !== "yes") {
+                if (confirm !== "delete") {
                     clog("info", "Cancelled deletion of", {
                         color: flatc("yellow"),
                         text: id + "."
                     });
-                    return false;
+                    return;
                 }
 
                 sounds.confirm(1);
@@ -2174,6 +2334,7 @@ const core = {
                 data.name = this.form.name.value;
                 data.point = this.form.point.value;
                 data.time = this.form.time.value;
+                data.memory = this.form.mem.value;
                 data.inpType = this.form.inpType.value;
                 data.outType = this.form.outType.value;
                 data.accept = this.form.accept.value.split("|");
@@ -2195,6 +2356,7 @@ const core = {
                     }
                     test.push(t);
                 }
+                
                 data.test = test;
 
                 await this.submit(this.action, data);
@@ -2224,6 +2386,7 @@ const core = {
                         name: data.name,
                         point: data.point,
                         time: data.time,
+                        memory: data.memory,
                         inpType: data.inpType,
                         outType: data.outType,
                         acpt: JSON.stringify(data.accept),
@@ -2247,11 +2410,11 @@ const core = {
                     text: `${id}.`
                 }, "Waiting for confirmation...");
 
-                let action = await core.dialog.show({
-                    panelTitle: "Xác nhận",
+                let action = await popup.show({
+                    windowTitle: "Xác nhận",
                     title: `Xóa ${typeName} của đề "${id}"`,
                     description: `Bạn có chắc muốn xóa ${fileName ? `<br><b>${fileName}</b>` : "không"}?<br>Hành động này không thể hoàn tác một khi đã thực hiện!`,
-                    level: "warn",
+                    level: "warning",
                     buttonList: {
                         delete: { color: "pink", text: "XÓA!!!" },
                         cancel: { color: "blue", text: "Hủy" }
@@ -2282,6 +2445,24 @@ const core = {
                 })
 
                 return true;
+            },
+
+            async toggleDisabled(id, targetSwitch) {
+                sounds.select(1);
+                targetSwitch.disabled = true;
+                targetSwitch.checked = !targetSwitch.checked;
+
+                await myajax({
+                    url: "/api/contest/problems/edit",
+                    method: "POST",
+                    form: {
+                        id: id,
+                        disabled: !targetSwitch.checked,
+                        token: API_TOKEN
+                    }
+                })
+
+                targetSwitch.disabled = false;
             }
         }
     },
@@ -2312,84 +2493,44 @@ const core = {
         }
     },
 
-    dialog: {
-        wrapper: $("#dialogWrapper"),
-        panel: new regPanel($("#dialogPanel")),
-        initialized: false,
+    /**
+     * ========= BEGIN USELESS CODE 😁 =========
+     */
+    deliveringMeme: false,
 
-        init() {
-            this.panel.clo.onClick(() => this.hide());
+    async getRandomMeme() {
+        if (this.deliveringMeme)
+            return;
 
-            this.initialized = true;
-            clog("okay", "Initialised:", {
-                color: flatc("red"),
-                text: "core.dialog"
-            });
-        },
+        this.deliveringMeme = true;
+        let wutMeme = await myajax({
+            url: "https://meme-api.herokuapp.com/gimme",
+            method: "GET"
+        })
 
-        show({
-            panelTitle = "Title",
-            title = "Title",
-            description = "Description",
-            level = "info",
-            additionalNode = null,
-            buttonList = {}
-        } = {}) {
-            return new Promise((resolve) => {
-                this.panel.title = panelTitle;
-                this.panel.main.dataset.level = level;
-                
-                let header = `
-                    <t class="title">${title}</t>
-                    <t class="description">${description}</t>
-                `
-                this.panel.main.innerHTML = header;
-                this.panel.clo.onClick(() => {
-                    resolve("close");
-                    this.hide();
-                });
+        let memeContainer = document.createElement("div");
+        memeContainer.classList.add("lazyload", "image");
+        memeContainer.style.overflow = "auto";
+        memeContainer.innerHTML = `
+            <img src="${wutMeme.url}" onload="this.parentElement.dataset.loaded = 1;"/>
+            <div class="simple-spinner"></div>
+        `;
 
-                if (additionalNode) {
-                    additionalNode.classList.add("additional");
-                    this.panel.main.appendChild(additionalNode);
-                }
+        let gud = await popup.show({
+            windowTitle: "Memes",
+            title: "got some mweme fow yya",
+            message: `<a href="${wutMeme.postLink}" target="_blank">SAUCE 🔗</a>`,
+            description: wutMeme.title,
+            additionalNode: memeContainer,
+            buttonList: {
+                moar: { text: "Plz I Need Moar", color: "rainbow" },
+                stahp: { text: "Ewnough iwntewwnet fow todayy", color: "dark" }
+            }
+        })
 
-                let buttonKeyList = Object.keys(buttonList);
-                if (buttonKeyList.length) {
-                    let btnGroup = document.createElement("span");
-                    btnGroup.classList.add("buttonGroup");
-    
-                    for (let key of buttonKeyList) {
-                        let item = buttonList[key];
-                        let button = document.createElement("button");
+        this.deliveringMeme = false;
 
-                        button.classList.add("sq-btn", item.color || "blue");
-                        button.innerText = item.text || "Text";
-                        button.onclick = item.onClick || null;
-                        button.returnValue = key;
-                        button.dataset.soundhover = "";
-                        button.dataset.soundselect = "";
-                        sounds.applySound(button);
-
-                        if (!(typeof item.resolve === "boolean") || item.resolve !== false)
-                            button.addEventListener("mouseup", e => {
-                                resolve(e.target.returnValue);
-                                this.hide();
-                            });
-
-                        btnGroup.appendChild(button);
-                    }
-    
-                    this.panel.main.appendChild(btnGroup);
-                }
-
-                this.wrapper.classList.add("show");
-                sounds.select();
-            })
-        },
-
-        hide() {
-            this.wrapper.classList.remove("show");
-        }
+        if (gud === "moar")
+            this.getRandomMeme();
     }
 }

@@ -12,23 +12,42 @@
             "hours": 0,
             "days": 1,
             "months": 1,
-            "years": 2018
+            "years": 2020
         },
-        "during": 1,
+        "during": 69420,
         "offset": 10
     },
     "publish": true,
     "submit": true,
     "submitInProblems": true,
-    "editInfo": true,
     "viewRank": true,
     "viewRankTask": true,
+    "viewRankHideDisabled": true,
     "viewLog": true,
     "viewLogOther": true,
-    "ratelimit": {
-        "maxRequest": 999,
-        "time": 1,
-        "banTime": 0
+    "edit": {
+        "name": true,
+        "password": true,
+        "avatar": true
     },
-    "pageTitle": "%contestName%"
+    "ratelimit": {
+        "maxRequest": 40,
+        "time": 10,
+        "banTime": 30
+    },
+    "pageTitle": "%contestName%",
+    "allowRegister": true,
+    "clientConfig": {
+        "sounds": false,
+        "nightmode": false,
+        "showMs": false,
+        "transition": true,
+        "dialogProblem": false,
+        "rankUpdate": true,
+        "logsUpdate": true,
+        "updateDelay": 2
+    },
+    "cache": {
+        "contestRank": 1
+    }
 }

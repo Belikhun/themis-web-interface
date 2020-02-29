@@ -1,9 +1,17 @@
 //? |-----------------------------------------------------------------------------------------------|
 //? |  /assets/js/config.js                                                                         |
 //? |                                                                                               |
-//? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+//? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
+
+var pageIcon = $("#pageIcon");
+var pageIconInput = $("#pageIconInput");
+var pageIconReset = $("#pageIconReset");
+
+var landingImage = $("#landingImage");
+var landingImageInput = $("#landingImageInput");
+var landingImageReset = $("#landingImageReset");
 
 var contest = {
     name: $("#contest_name"),
@@ -21,15 +29,38 @@ var pageTitle = $("#pageTitle");
 var publish = $("#publish");
 var submit = $("#submit");
 var submitInProblems = $("#submitInProblems");
-var editInfo = $("#editInfo");
+var allowRegister = $("#allowRegister");
+var edit = {
+    name: $("#editName"),
+    password: $("#editPassword"),
+    avatar: $("#editAvatar")
+}
 var viewRank = $("#viewRank");
 var viewRankTask = $("#viewRankTask");
+var viewRankHideDisabled = $("#viewRankHideDisabled");
 var viewLog = $("#viewLog");
 var viewLogOther = $("#viewLogOther");
+
+var clientConfig = {
+    sounds: $("#clientSounds"),
+    nightmode: $("#clientNightmode"),
+    showMs: $("#clientShowMs"),
+    transition: $("#clientTransition"),
+    dialogProblem: $("#clientDialogProblem"),
+    rankUpdate: $("#clientRankUpdate"),
+    logsUpdate: $("#clientLogsUpdate"),
+    updateDelay: $("#clientUpdateDelayInput"),
+    updateDelayValue: $("#clientUpdateDelayValue")
+}
+
 var ratelimit = {
     maxRequest: $("#ratelimit_maxRequest"),
     time: $("#ratelimit_time"),
     banTime: $("#ratelimit_banTime")
+}
+
+var cache = {
+    contestRank: $("#cache_contestRank")
 }
 
 var setTimeToNow = $("#setTimeToNow");
@@ -91,19 +122,34 @@ function update() {
         publish.checked = data.publish;
         submit.checked = data.submit;
         submitInProblems.checked = data.submitInProblems;
-        editInfo.checked = data.editInfo;
+        allowRegister.checked = data.allowRegister;
+        edit.name.checked = data.edit.name;
+        edit.password.checked = data.edit.password;
+        edit.avatar.checked = data.edit.avatar;
         viewRank.checked = data.viewRank;
         viewRankTask.checked = data.viewRankTask;
+        viewRankHideDisabled.checked = data.viewRankHideDisabled;
         viewLog.checked = data.viewLog;
         viewLogOther.checked = data.viewLogOther;
+        clientConfig.sounds.checked = data.clientConfig.sounds;
+        clientConfig.nightmode.checked = data.clientConfig.nightmode;
+        clientConfig.showMs.checked = data.clientConfig.showMs;
+        clientConfig.transition.checked = data.clientConfig.transition;
+        clientConfig.dialogProblem.checked = data.clientConfig.dialogProblem;
+        clientConfig.rankUpdate.checked = data.clientConfig.rankUpdate;
+        clientConfig.logsUpdate.checked = data.clientConfig.logsUpdate;
+        clientConfig.updateDelay.value = data.clientConfig.updateDelay;
         ratelimit.maxRequest.value = data.ratelimit.maxRequest;
         ratelimit.time.value = data.ratelimit.time;
         ratelimit.banTime.value = data.ratelimit.banTime;
-    });
+        cache.contestRank.value = data.cache.contestRank;
+
+        clientConfig.updateDelay.dispatchEvent(new Event("input"));
+    }, error => errorHandler(error));
 }
 
 const sbar = new statusBar(document.body);
-sbar.additem(USERNAME, "account", {space: false, aligin: "left"});
+sbar.additem(USERNAME, "account", {space: false, align: "left"});
 
 document.__onclog = (type, ts, msg) => {
     type = type.toLowerCase();
@@ -114,7 +160,7 @@ document.__onclog = (type, ts, msg) => {
     sbar.msg(type, msg, {time: ts, lock: (type === "crit" || type === "lcnt") ? true : false});
 }
 
-$("body").onload = e => {
+$("body").onload = () => {
     if (cookie.get("__darkMode") === "true")
         document.body.classList.add("dark");
 
@@ -137,7 +183,104 @@ $("body").onload = e => {
         );
     })
 
+    // =========== IMAGE MODIFY EVENT ===========
+
+    pageIcon.addEventListener("load", e => e.target.parentElement.dataset.loaded = 1);
+    landingImage.addEventListener("load", e => e.target.parentElement.dataset.loaded = 1);
+
+    pageIconInput.addEventListener("change", async e => {
+        sounds.confirm(0);
+        let file = e.target.files[0];
+
+        try {
+            await myajax({
+                url: "/api/images/icon",
+                method: "POST",
+                form: {
+                    token: API_TOKEN,
+                    file: file
+                }
+            })
+        } catch(e) { sounds.warning() }
+
+        e.target.value = "";
+        pageIcon.parentElement.removeAttribute("data-loaded");
+        pageIcon.src = "/api/images/icon";
+    })
+
+    landingImageInput.addEventListener("change", async e => {
+        sounds.confirm(2);
+        let file = e.target.files[0];
+
+        try {
+            await myajax({
+                url: "/api/images/landing",
+                method: "POST",
+                form: {
+                    token: API_TOKEN,
+                    file: file
+                }
+            })
+        } catch(e) { sounds.warning() }
+
+        e.target.value = "";
+        landingImage.parentElement.removeAttribute("data-loaded");
+        landingImage.src = "/api/images/landing";
+    })
+
+    pageIconReset.addEventListener("mouseup", async () => {
+        sounds.notification();
+
+        try {
+            await myajax({
+                url: "/api/images/icon",
+                method: "DELETE",
+                header: { token: API_TOKEN }
+            })
+        } catch(e) { sounds.warning() }
+
+        pageIcon.parentElement.removeAttribute("data-loaded");
+        pageIcon.src = "/api/images/icon";
+    })
+
+    landingImageReset.addEventListener("mouseup", async () => {
+        sounds.notification();
+
+        try {
+            await myajax({
+                url: "/api/images/landing",
+                method: "DELETE",
+                header: { token: API_TOKEN }
+            })
+        } catch(e) { sounds.warning() }
+
+        landingImage.parentElement.removeAttribute("data-loaded");
+        landingImage.src = "/api/images/landing";
+    })
+
+    // =========== END IMAGE MODIFY EVENT ===========
+
+    // =========== UPDATE DELAY SLIDER ===========
+
+    clientConfig.updateDelay.addEventListener("input", e => {
+        let _o = parseInt(e.target.value);
+        let v = { 1: 500, 2: 1000, 3: 2000, 4: 10000, 5: 60000, 6: 120000, 7: 240000, 8: 300000, 9: 600000, 10: 3600000 }
+        let value = v[_o] || 2000;
+
+        clientConfig.updateDelayValue.innerText = `${value / 1000} giây/yêu cầu`;
+
+        if (value < 2000)
+            e.target.classList.add("pink") || e.target.classList.remove("blue");
+        else
+            e.target.classList.remove("pink") || e.target.classList.add("blue");
+    })
+
+    // =========== END UPDATE DELAY SLIDER ===========
+
+    pageIcon.src = "/api/images/icon";
+    landingImage.src = "/api/images/landing";
     sounds.init();
+    popup.init();
     update();
 }
 
@@ -164,18 +307,31 @@ $("#formContainer").addEventListener("submit", e => {
             "publish": publish.checked,
             "submit": submit.checked,
             "submitInProblems": submitInProblems.checked,
-            "editInfo": editInfo.checked,
+            "allowRegister": allowRegister.checked,
+            "edit.name": edit.name.checked,
+            "edit.password": edit.password.checked,
+            "edit.avatar": edit.avatar.checked,
             "viewRank": viewRank.checked,
             "viewRankTask": viewRankTask.checked,
+            "viewRankHideDisabled": viewRankHideDisabled.checked,
             "viewLog": viewLog.checked,
             "viewLogOther": viewLogOther.checked,
+            "clientConfig.sounds": clientConfig.sounds.checked,
+            "clientConfig.nightmode": clientConfig.nightmode.checked,
+            "clientConfig.showMs": clientConfig.showMs.checked,
+            "clientConfig.transition": clientConfig.transition.checked,
+            "clientConfig.dialogProblem": clientConfig.dialogProblem.checked,
+            "clientConfig.rankUpdate": clientConfig.rankUpdate.checked,
+            "clientConfig.logsUpdate": clientConfig.logsUpdate.checked,
+            "clientConfig.updateDelay": parseInt(clientConfig.updateDelay.value),
             "ratelimit.maxRequest": parseInt(ratelimit.maxRequest.value),
             "ratelimit.time": parseInt(ratelimit.time.value),
             "ratelimit.banTime": parseInt(ratelimit.banTime.value),
+            "cache.contestRank": parseInt(cache.contestRank.value),
             "token": API_TOKEN
         }
     }, () => {
-        clog("okay", "Thay đổi cài đặt thành công.");
+        clog("okay", "Thay đổi cài đặt thành công");
         update();
-    })
+    }, error => errorHandler(error));
 }, false);

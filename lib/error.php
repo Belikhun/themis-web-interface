@@ -2,7 +2,7 @@
     //? |-----------------------------------------------------------------------------------------------|
     //? |  /lib/error.php                                                                               |
     //? |                                                                                               |
-    //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+    //? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
@@ -15,7 +15,7 @@
     $sv_hs = $_SERVER["HTTP_HOST"];
     $sv_pr = $_SERVER["SERVER_PROTOCOL"];
     $uri = $_SERVER["REQUEST_URI"];
-    $cl_ar = $_SERVER["REMOTE_ADDR"];
+    $cl_ar = getClientIP();
     $cl = $_SERVER["HTTP_USER_AGENT"];
 
     if (isset($_SERVER["REDIRECT_STATUS"]))
@@ -35,7 +35,7 @@
 
         $errCode = $lastError["status"];
         http_response_code($errCode);
-        $errDetail = "<b>Lỗi [". $lastError["code"] ."]:</b> <sg><i>". $lastError["description"] ."</i></sg>". (isset($errData["file"]) ? " tại <i>" . $errData["file"] . "</i> dòng " . $errData["line"] : "");
+        $errDetail = "<b>Lỗi [". $lastError["code"] ."]:</b> <sg><i>". $lastError["description"] ."</i></sg>". (isset($errData["file"]) && isset($errData["line"]) ? (" tại <i>" . $errData["file"] . "</i> dòng " . $errData["line"]) : "");
     }
 
     switch ($errCode) {
@@ -51,6 +51,7 @@
         case 401:
             $error = "Unauthorized";
             $description = "Authentication is required and has failed or has not yet been provided.";
+            $errDetailSub = "Vui lòng đăng nhập để tiếp tục";
             break;
         case 403:
             $error = "Forbidden";
@@ -78,6 +79,10 @@
         case 414:
             $error = "URI Too Long";
             $description = "The URI provided was too long for the server to process.";
+            break;
+        case 429:
+            $error = "Too Many Request";
+            $description = "Hey, you! Yes you. Why you spam here?";
             break;
         case 500:
             $error = "Internal Server Error";
@@ -144,6 +149,8 @@
     <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/error.css?v=<?php print VERSION; ?>" />
     <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollBar.css?v=<?php print VERSION; ?>" />
     <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css?v=<?php print VERSION; ?>" />
+    
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/opensans.css?v=<?php print VERSION; ?>" />
     <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri.css?v=<?php print VERSION; ?>" />
 </head>
 
@@ -176,8 +183,6 @@
                 <a href="/"><button class="sq-btn">Về Trang Chủ</button></a>
             </div>
         </div>
-
-
     </div>
 
     <div class="footer">

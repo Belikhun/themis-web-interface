@@ -2,7 +2,7 @@
     //? |-----------------------------------------------------------------------------------------------|
     //? |  /data/config.php                                                                             |
     //? |                                                                                               |
-    //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+    //? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
@@ -14,6 +14,7 @@
 	$rawConfig = $config;
 
 	date_default_timezone_set($config["time"]["zone"]);
+
 	$config["time"]["begin"]["times"] = mktime(
 		$config["time"]["begin"]["hours"],
 		$config["time"]["begin"]["minutes"],
@@ -22,20 +23,25 @@
 		$config["time"]["begin"]["days"],
 		$config["time"]["begin"]["years"]
 	);
+
 	$config["logDir"] = $config["uploadDir"] ."/Logs";
 
+	$customVarList = Array(
+		"name" => APPNAME,
+		"version" => VERSION,
+		"author" => AUTHOR,
+		"contestName" => $config["contest"]["name"],
+		"root" => $_SERVER["DOCUMENT_ROOT"],
+		"currentDate" => date("d/m/Y"),
+		"currentTime" => date("H:i:s")
+	);
+
 	function applyCustomVar(&$string) {
+		global $customVarList;
 		global $config;
 		$s = $string;
-		$list = Array(
-			"name" => APPNAME,
-			"version" => VERSION,
-			"author" => AUTHOR,
-			"contestName" => $config["contest"]["name"],
-			"root" => $_SERVER["DOCUMENT_ROOT"]
-		);
 
-		foreach ($list as $key => $value)
+		foreach ($customVarList as $key => $value)
 			if (!empty($value))
 				$s = str_replace("%". $key ."%", $value, $s);
 

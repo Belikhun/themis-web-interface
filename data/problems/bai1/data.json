@@ -1,7 +1,8 @@
 {
     "name": "\u01af\u1edbc S\u1ed1",
-    "point": "10",
+    "point": 10,
     "time": 1,
+    "memory": 1024,
     "type": {
         "inp": "B\u00e0n Ph\u00edm",
         "out": "M\u00e0n h\u00ecnh"
@@ -21,5 +22,6 @@
             "out": "1 5 107 535"
         }
     ],
-    "attachment": "hello world.pdf"
+    "attachment": "hello world.pdf",
+    "disabled": true
 }

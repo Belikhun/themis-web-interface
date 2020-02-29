@@ -6,7 +6,7 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 
 <img src="https://lh3.googleusercontent.com/SYT2hlU7_rxmCgHz0kt6089Md1V-j-ePWUUQBFtUVF5DTlcSjmGhr14J7Qsgx262KBZuhGKZ4eZD3ChYzdBaFMytEw0aBD3dRLi0bZskyK3-6MQ7rMkDMfcED18JgPyfeZEee50h8g=w2400" width="500px">
 
-[![version](https://img.shields.io/badge/rev1-v0.5.3-brightgreen.svg?longCache=true&style=for-the-badge)](https://github.com/belivipro9x99/themis-webinterface/releases/)
+[![version](https://img.shields.io/badge/release-v0.6.0-brightgreen.svg?longCache=true&style=for-the-badge)](https://github.com/belivipro9x99/themis-webinterface/releases/)
 [![license](https://img.shields.io/badge/license-MIT-orange.svg?longCache=true&style=for-the-badge)](https://github.com/belivipro9x99/themis-web-interface/blob/master/LICENSE)
 [![status](https://img.shields.io/badge/status-near_stable-blue.svg?longCache=true&style=for-the-badge)]()
 [![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface.svg?style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface)
@@ -279,7 +279,7 @@ Toàn bộ **Tài liệu** đều có ở trong [Wiki:API](https://github.com/be
 
 <img align="center" src="https://lh3.googleusercontent.com/VR_H_0ixqmQ69mIqTLVCwOH29hePvEnvyor0oWRB1Yz7aio-ovf-61WrJ2Nd9qZqqGxoqQ6gZ9WO62112bwHTzNvnhPPIOhU8RoNWAMq71cr7E4zHd8XA1UzPgNenu6hQQmjV99xPg=w2400">
 
-## Contribution
+## Contributing
 
 > **⚠ Before you dig into the sourcecode:**「Keep calm and read the code!」 This code is hard to read/understand. Maintain it is a nightmare. Soooo... i'm wordless now
 

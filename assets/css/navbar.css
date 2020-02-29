@@ -1,44 +1,50 @@
-/* 
+/*
 ? |-----------------------------------------------------------------------------------------------|
 ? |  /assets/css/navbar.css                                                                       |
 ? |                                                                                               |
-? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
 ? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 ? |-----------------------------------------------------------------------------------------------|
 */
 
-.nav {
+.navBar {
     position: fixed;
+    display: flex;
+    flex-direction: column;
     top: 0;
     left: 0;
     width: 100%;
-    height: 57px;
     background-color: #ebebeb;
     box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     z-index: 99;
     user-select: none;
 }
 
-.nav .lnav {
+.navBar .top {
     position: relative;
-    height: 100%;
-    max-width: 65%;
-    float: left;
     display: flex;
-    align-items: center;
+    flex-direction: row;
+    height: 56px;
 }
 
-.nav .lnav .icon {
+.navBar .top .left {
+    position: relative;
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    height: 100%;
+}
+
+.navBar .top .left .icon {
     position: relative;
     height: 44px;
     width: 44px;
     border-radius: 100%;
-    margin: 0 10px 0 10px;
+    margin: 0 10px;
     float: left;
 }
 
-.nav .lnav .title {
+.navBar .top .left .title {
     position: relative;
     max-width: calc(100% - 58px);
     padding-left: 0;
@@ -49,7 +55,7 @@
     margin: unset;
 }
 
-.nav .lnav .title .main {
+.navBar .top .left .title .main {
     position: relative;
     font-family: Exo;
     font-size: 18px;
@@ -59,7 +65,7 @@
     white-space: nowrap;
 }
 
-.nav .lnav .title .sub {
+.navBar .top .left .title .sub {
     position: relative;
     font-size: 12px;
     color: #546e7a;
@@ -69,17 +75,17 @@
     white-space: nowrap;
 }
 
-.nav .rnav {
+.navBar .top .right {
     position: relative;
-    height: 100%;
-    max-width: 30%;
-    float: right;
-    cursor: pointer;
     display: flex;
+    flex-grow: 0;
+    flex-shrink: 0;
     align-items: center;
+    height: 100%;
+    cursor: pointer;
 }
 
-.nav .rnav .hamburger {
+.navBar .top .right .hamburger {
     position: relative;
     width: 22px;
     height: 20px;
@@ -90,7 +96,7 @@
     z-index: 2;
 }
 
-.nav .rnav .hamburger span {
+.navBar .top .right .hamburger span {
     position: absolute;
     width: 100%;
     height: 4px;
@@ -108,47 +114,47 @@
             transition-timing-function: ease;
 }
 
-.nav .rnav .hamburger span:nth-child(1) {
+.navBar .top .right .hamburger span:nth-child(1) {
     top: 0;
 }
 
-.nav .rnav .hamburger span:nth-child(2) {
+.navBar .top .right .hamburger span:nth-child(2) {
     top: 50%;
     -webkit-transform: translateY(-50%);
         -ms-transform: translateY(-50%);
             transform: translateY(-50%);
 }
 
-.nav .rnav .hamburger span:nth-child(3) {
+.navBar .top .right .hamburger span:nth-child(3) {
     bottom: 0;
 }
 
-.nav .rnav.active .hamburger span:nth-child(1){
+.navBar .top .right.active .hamburger span:nth-child(1){
     -webkit-transform: translateY(8px) rotate(45deg);
         -ms-transform: translateY(8px) rotate(45deg);
             transform: translateY(8px) rotate(45deg);
 }
 
-.nav .rnav.active .hamburger span:nth-child(2){
+.navBar .top .right.active .hamburger span:nth-child(2){
     opacity: 0;
 }
 
-.nav .rnav.active .hamburger span:nth-child(3){
+.navBar .top .right.active .hamburger span:nth-child(3){
     -webkit-transform: translateY(-8px) rotate(-45deg);
         -ms-transform: translateY(-8px) rotate(-45deg);
             transform: translateY(-8px) rotate(-45deg);
 }
 
-.nav .rnav .avatar {
+.navBar .top .right .avatar {
     position: relative;
     height: 44px;
     width: 44px;
     border-radius: 100%;
-    margin: 0 10px 0 10px;
+    margin: 0 10px;
     object-fit: cover;
 }
 
-.nav .rnav .info {
+.navBar .top .right .info {
     position: relative;
     margin: unset;
     padding: unset;
@@ -158,7 +164,7 @@
     font-weight: bold;
 }
 
-.nav .rnav .info .tag {
+.navBar .top .right .info .tag {
     position: relative;
     font-family: Exo;
     font-size: 12px;
@@ -166,32 +172,48 @@
     color: #546e7a;
 }
 
-.nav .rnav .info .name {
+.navBar .top .right .info .name {
     position: relative;
     font-family: Exo;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
     color: #425161;
 }
 
-@media only screen and (max-width: 700px) {
-    
-    .nav .lnav {
+.navBar .bottom {
+    position: relative;
+}
+
+@media only screen and (max-width: 800px) {
+    .navBar .top .left {
         position: absolute;
         width: 100%;
         height: 100%;
         max-width: unset;
     }
 
-    .nav .lnav .title {
+    body:not(.guest) .navBar .top .left .icon {
+        display: none;
+    }
+
+    .navBar .top .left .title {
         position: absolute;
         text-align: center;
-        max-width: calc(100% - 160px);
+        max-width: calc(100% - 180px);
         left: 50%;
         transform: translateX(-50%);
     }
 
-    .nav .rnav .info {
+    .navBar .top .right {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    body.guest .navBar .top .right {
+        flex-flow: row-reverse;
+    }
+
+    .navBar .top .right .info {
         display: none;
     }
 }

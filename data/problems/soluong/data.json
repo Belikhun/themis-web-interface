@@ -1,10 +1,11 @@
 {
     "name": "S\u1ed1 L\u01b0\u1ee3ng",
-    "point": "3",
+    "point": 3,
     "time": 1,
+    "memory": 1024,
     "type": {
-        "inp": "SOLUONG.INP",
-        "out": "SOLUONG.OUT"
+        "inp": "B\u00e0n Ph\u00edm",
+        "out": "M\u00e0n H\u00ecnh"
     },
     "accept": [
         "pas",
@@ -22,5 +23,6 @@
             "inp": "HOALAN",
             "out": "2"
         }
-    ]
+    ],
+    "disabled": false
 }

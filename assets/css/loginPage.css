@@ -1,8 +1,8 @@
-/* 
+/*
 ? |-----------------------------------------------------------------------------------------------|
 ? |  /assets/css/login.css                                                                        |
 ? |                                                                                               |
-? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
 ? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 ? |-----------------------------------------------------------------------------------------------|
 */
@@ -23,7 +23,7 @@ body.dark {
     background-color: rgb(30, 30, 30);
 }
 
-.left-panel {
+.leftPanel {
     position: relative;
     display: block;
     flex-grow: 1;
@@ -36,14 +36,14 @@ body.dark {
     transition: all 0.2s ease;
 }
 
-.left-panel .wallpaper {
+.leftPanel .wallpaper {
     position: relative;
     width: 100%;
     height: 100%;
     filter: brightness(0.8);
 }
 
-.left-panel .footer {
+.leftPanel .footer {
     position: absolute;
     bottom: 20px;
     left: 30px;
@@ -52,7 +52,7 @@ body.dark {
     padding: unset;
 }
 
-.left-panel .footer .title {
+.leftPanel .footer .title {
     font-family: Exo;
     font-size: 23px;
     font-weight: 400;
@@ -60,45 +60,45 @@ body.dark {
     color: #fff;
 }
 
-.left-panel .footer .sub {
+.leftPanel .footer .sub {
     font-size: 11px;
     color: #fff;
 }
 
-.left-panel .footer .sub2 {
+.leftPanel .footer .sub2 {
     padding-top: 10px;
     font-size: 10px;
     color: rgb(189, 189, 189);
 }
 
-.right-panel {
+.rightPanel {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex-grow: 0;
     right: 0;
     width: 400px;
     height: 100%;
 
-    padding: 20px 20px 0 20px;
+    padding: 20px 20px 0;
     box-sizing: border-box;
     background-color: #f0f0f0;
     overflow: hidden;
     transition: width 0.2s ease;
 }
 
-.right-panel .header {
+.rightPanel .header {
     position: relative;
     display: flex;
-    flex-grow: 0;
-    top: 0;
-    width: 100%;
+    flex-direction: row;
     align-items: center;
+    flex-grow: 0;
+    width: 100%;
+    margin-bottom: 20px;
     font-family: Calibri;
 }
 
-.right-panel .header .icon {
+.rightPanel .header .icon {
     position: relative;
     display: inline-block;
     height: 44px;
@@ -107,7 +107,7 @@ body.dark {
     margin-right: 10px;
 }
 
-.right-panel .header .info {
+.rightPanel .header .info {
     position: relative;
     display: inline-block;
     width: calc(100% - 54px);
@@ -118,7 +118,7 @@ body.dark {
     padding: unset;
 }
 
-.right-panel .header .info .name {
+.rightPanel .header .info .name {
     position: relative;
     font-family: Exo;
     font-size: 16px;
@@ -127,7 +127,7 @@ body.dark {
     white-space: nowrap;
 }
 
-.right-panel .header .info .description {
+.rightPanel .header .info .description {
     position: relative;
     font-size: 12px;
     color: #546e7a;
@@ -136,7 +136,7 @@ body.dark {
     white-space: nowrap;
 }
 
-.right-panel .center {
+.rightPanel .center {
     position: relative;
     display: flex;
     flex-grow: 1;
@@ -151,7 +151,7 @@ body.dark {
     overflow-y: auto;
 }
 
-.right-panel .center .title {
+.rightPanel .center > .title {
     position: relative;
     display: block;
     width: 100%;
@@ -163,69 +163,295 @@ body.dark {
     letter-spacing: 1px;
 }
 
-.right-panel .center #form_container {
-    position: relative;
-    width: 100%;
-    padding-top: 20px;
-    box-sizing: border-box;
-    height: 180px;
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-
-.right-panel .center #form_container div button {
-    margin-top: 30px;
-    margin-right: 10px;
-}
-
-.right-panel .center #form_message {
+.rightPanel .center > .message {
     position: relative;
     display: block;
     width: 100%;
     height: 24px;
-    text-align: left;
-    font-size: 12px;
+    font-family: "Open Sans";
+    font-size: 13px;
     color: #933432;
+    text-align: left;
     padding-top: 10px;
     letter-spacing: 0.01em;
 }
 
-.right-panel .center #form_container #form_username,
-.right-panel .center #form_container #form_password {
+.rightPanel .center .formBox {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 400px;
+    margin-top: 20px;
+    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.rightPanel .center .formBox .inputForm {
     position: absolute;
     display: inline-block;
     width: 100%;
-    transition: transform 0.4s ease;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.right-panel .center #form_container #form_password {
+.rightPanel .center .formBox .inputForm .progress {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 40px;
+    padding-top: 8px;
+}
+
+.rightPanel .center .formBox .inputForm .progress .progressBar {
+    position: relative;
+    width: calc(100% - 100px);
+    height: 4px;
+    margin-top: unset;
+}
+
+.rightPanel .center .formBox .inputForm .progress .indicator {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    top: 0;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.rightPanel .center .formBox .inputForm .progress .indicator > .item {
+    position: relative;
+    display: inline-block;
+    width: 100px;
+    padding-top: 24px;
+    font-family: Exo;
+    font-size: 12px;
+    text-align: center;
+    counter-increment: indicatorItem;
+}
+
+.rightPanel .center .formBox .inputForm .progress .indicator > .item:first-child {
+    left: 50px;
+    transform: translateX(-50%);
+}
+
+.rightPanel .center .formBox .inputForm .progress .indicator > .item:last-child {
+    left: unset;
+    right: 50px;
+    transform: translateX(50%);
+}
+
+.rightPanel .center .formBox .inputForm .progress .indicator > .item::before {
+    content: counter(indicatorItem);
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    transform: translateX(-50%);
+    color: rgb(230, 230, 230);
+    font-family: "Open Sans";
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    background-color: rgb(185, 185, 185);
+    border-radius: 50%;
+
+    transition: all 0.5s ease;
+}
+
+/*? ============= INDICATOR RULES ============= */
+
+.rightPanel .center .formBox .inputForm[data-layout="1"] .progress .indicator > .item:nth-child(1),
+.rightPanel .center .formBox .inputForm[data-layout="2"] .progress .indicator > .item:nth-child(1),
+.rightPanel .center .formBox .inputForm[data-layout="2"] .progress .indicator > .item:nth-child(2),
+.rightPanel .center .formBox .inputForm[data-layout="3"] .progress .indicator > .item:nth-child(1),
+.rightPanel .center .formBox .inputForm[data-layout="3"] .progress .indicator > .item:nth-child(2),
+.rightPanel .center .formBox .inputForm[data-layout="3"] .progress .indicator > .item:nth-child(3) {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.rightPanel .center .formBox .inputForm[data-layout="1"] .progress .indicator > .item:nth-child(1)::before,
+.rightPanel .center .formBox .inputForm[data-layout="2"] .progress .indicator > .item:nth-child(1)::before,
+.rightPanel .center .formBox .inputForm[data-layout="2"] .progress .indicator > .item:nth-child(2)::before,
+.rightPanel .center .formBox .inputForm[data-layout="3"] .progress .indicator > .item:nth-child(1)::before,
+.rightPanel .center .formBox .inputForm[data-layout="3"] .progress .indicator > .item:nth-child(2)::before,
+.rightPanel .center .formBox .inputForm[data-layout="3"] .progress .indicator > .item:nth-child(3)::before {
+    color: rgb(22, 22, 22);
+    background-color: #6dc5ff;
+}
+
+.rightPanel .center .formBox .inputForm[data-layout="2"] .progress .progressBar > .bar {
+    width: 50%;
+}
+
+.rightPanel .center .formBox .inputForm[data-layout="3"] .progress .progressBar > .bar {
+    width: 100%;
+}
+
+/*? ============= END INDICATOR RULES ============= */
+
+.rightPanel .center .formBox .inputForm .username,
+.rightPanel .center .formBox .inputForm .password,
+.rightPanel .center .formBox .inputForm .complete {
+    position: absolute;
+    display: inline-block;
+    width: 100%;
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.rightPanel .center .formBox .inputForm div .button {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.rightPanel .center .formBox .inputForm .password {
     right: -100%;
 }
 
-.right-panel .center #form_container #form_username.hide,
-.right-panel .center #form_container #form_username.hide + #form_password {
+.rightPanel .center .formBox .inputForm .complete {
+    right: -200%;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rightPanel .center .formBox .inputForm[data-layout = "2"] .username,
+.rightPanel .center .formBox .inputForm[data-layout = "2"] .password {
     transform: translateX(-100%);
 }
 
-.right-panel .center #form_container #form_password #form_profile {
+.rightPanel .center .formBox .inputForm[data-layout = "3"] .username,
+.rightPanel .center .formBox .inputForm[data-layout = "3"] .password,
+.rightPanel .center .formBox .inputForm[data-layout = "3"] .complete {
+    transform: translateX(-200%);
+}
+
+.rightPanel .center .formBox .inputForm .complete .icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 20px 0;
+    background-color: rgb(29, 248, 84);
+}
+
+.rightPanel .center .formBox .inputForm .complete .icon::before {
+    content: "\f00c";
+    position: relative;
+    font-family: "Font Awesome 5 Free";
+    font-size: 36px;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+}
+
+.rightPanel .center .formBox .inputForm .complete .title {
+    font-family: Exo;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: .4px;
+    color: rgb(46, 46, 46);
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.rightPanel .center .formBox .inputForm .complete .message {
+    text-align: center;
+    color: rgb(70, 70, 70);
+}
+
+.rightPanel .center .formBox .inputForm .complete .userEdit {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.rightPanel .center .formBox .inputForm .complete .userEdit .avatarInput {
+    display: none;
+}
+
+.rightPanel .center .formBox .inputForm .complete .userEdit .avatar {
+    flex-grow: 0;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.rightPanel .center .formBox .inputForm .complete .userEdit .avatar::after {
+    content: "\f304";
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 22px;
+    opacity: 0;
+    color: #f5f5f5;
+    transition: opacity 0.2s ease;
+}
+
+.rightPanel .center .formBox .inputForm .complete .userEdit .avatar:hover::after {
+    opacity: 1;
+}
+
+.rightPanel .center .formBox .inputForm .complete .userEdit .nameInput {
+    flex-grow: 1;
+    margin-top: unset;
+}
+
+.rightPanel .center .formBox #registerFormContainer {
+    right: -100%;
+}
+
+.rightPanel .center.registerForm .formBox #loginFormContainer,
+.rightPanel .center.registerForm .formBox #registerFormContainer {
+    transform: translateX(-100%);
+}
+
+/* CUSTOM */
+
+.rightPanel .center .formBox #loginFormContainer .password #loginFormProfile {
     display: flex;
     align-items: center;
     cursor: pointer;
 }
 
-.right-panel .center #form_container #form_password #form_profile::after {
-    content: "\f104";
+.rightPanel .center .formBox #loginFormContainer .password #loginFormProfile::after {
+    content: "\f00d";
     position: absolute;
     right: 10px;
     font-family: "Font Awesome 5 Free";
     font-size: 24px;
     font-weight: 600;
     text-align: center;
-    min-width: 18px;
-    min-height: 18px;
 }
 
-.right-panel .center #form_container #form_password #form_profile #form_avatar {
+.rightPanel .center .formBox #loginFormContainer .password #loginFormProfile .avatar {
     position: relative;
     display: inline-block;
     width: 44px;
@@ -235,52 +461,124 @@ body.dark {
     object-fit: cover;
 }
 
-.right-panel .footer {
+.rightPanel .center .formBox #registerFormContainer .password .captchaContainer {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.rightPanel .center .formBox #registerFormContainer .password .captchaContainer .info {
+    margin-bottom: 4px;
+}
+
+.rightPanel .center .formBox #registerFormContainer .password .captchaContainer .row {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.rightPanel .center .formBox #registerFormContainer .password .captchaContainer .row .captcha {
+    min-width: 180px;
+    min-height: 50px;
+}
+
+.rightPanel .center .formBox #registerFormContainer .password .captchaContainer .row .renew {
+    position: relative;
+    cursor: pointer;
+
+    transition: transform 0.2s ease;
+    min-width: 22px;
+    margin: 0 10px;
+}
+
+.rightPanel .center .formBox #registerFormContainer .password .captchaContainer .row .renew::before {
+    content: "\f2f1";
+    position: relative;
+    font-family: "Font Awesome 5 Free";
+    font-size: 20px;
+    font-weight: 600;
+    color: rgb(122, 122, 122);
+
+    transition: color 0.2s ease;
+}
+
+.rightPanel .center .formBox #registerFormContainer .password .captchaContainer .row .renew:hover {
+    transform: rotate(45deg);
+}
+
+.rightPanel .center .formBox #registerFormContainer .password .captchaContainer .row .renew:hover::before {
+    color: rgb(58, 58, 58);
+}
+
+.rightPanel .footer {
+    position: relative;
+    display: inline-block;
     flex-grow: 0;
-    bottom: 20px;
     width: 100%;
+    margin-bottom: 20px;
+    padding-top: 16px;
     font-size: 11px;
     border-top: 1px solid rgba(47, 47, 47, 0.4);
-    padding-top: 16px;
 }
 
-body.dark .right-panel {
-    background-color: rgb(22, 22, 22);
-}
-
-body.dark .right-panel .header .info .name {
-    color: rgb(218, 218, 218);
-}
-
-body.dark .right-panel .header .info .description {
-    color: rgb(182, 182, 182);
-}
-
-body.dark .right-panel .center .title {
-    color: rgb(204, 204, 204);
-}
-
-body.dark .formGroup.blue .formField {
+body.dark .formGroup[data-color = "blue"] .formField,
+body.dark .formGroup[data-color = "purple"] .formField {
     color: rgb(235, 235, 235);
 }
 
-body.dark .right-panel .center #form_message {
+body.dark .rightPanel {
+    background-color: rgb(22, 22, 22);
+}
+
+body.dark .rightPanel .header .info .name {
+    color: rgb(218, 218, 218);
+}
+
+body.dark .rightPanel .header .info .description {
+    color: rgb(182, 182, 182);
+}
+
+body.dark .rightPanel .center .title {
+    color: rgb(204, 204, 204);
+}
+
+body.dark .rightPanel .center .message {
     color: #ee6462;
 }
 
-body.dark .right-panel .footer {
+body.dark .rightPanel .center .formBox .inputForm .progress .indicator > .item::before {
+    background-color: rgb(56, 56, 56);
+}
+
+body.dark .rightPanel .center .formBox .inputForm .complete .title {
+    color: rgb(218, 218, 218);
+}
+
+body.dark .rightPanel .center .formBox .inputForm .complete .message {
+    color: rgb(204, 204, 204);
+}
+
+body.dark .rightPanel .footer {
     border-top-color: rgba(204, 204, 204, 0.4);
     color: rgb(206, 206, 206);
 }
 
 @media only screen and (max-width: 600px) {
-    .left-panel {
+    .leftPanel {
         flex-grow: 0;
         width: 0;
     }
 
-    .right-panel {
+    .rightPanel {
         width: 100%;
+    }
+}
+
+@media only screen and (max-height: 450px) {
+    .rightPanel .footer {
+        display: none;
     }
 }

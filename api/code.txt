@@ -9,6 +9,7 @@
 05  wrong token
 06  error
 07  unknown request method
+08	wrong captcha
 
 // 1x: account
 11  not logged in
@@ -23,6 +24,8 @@
 21  edit info disabled
 22  file submit disabled
 23  view log disabled
+24	register disabled
+25	problem disabled
 
 // 3x: permission
 31  access denied
@@ -35,7 +38,7 @@
 44  file not found
 45  file exist
 
-// 10x: info
+// 10x: info IGNORED
 101 not in contest mode
 102 modified nothing
 103 contest not started

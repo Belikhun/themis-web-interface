@@ -1,21 +1,21 @@
-/* 
+/*
 ? |-----------------------------------------------------------------------------------------------|
 ? |  /assets/css/error.css                                                                        |
 ? |                                                                                               |
-? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
 ? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 ? |-----------------------------------------------------------------------------------------------|
 */
 
 body {
     position: relative;
-    font-family: "Segoe UI", Calibri, Geneva, sans-serif;
+    font-family: "Open Sans", "Segoe UI", Calibri, Geneva, sans-serif;
     font-weight: normal;
     font-size: 20px;
     color: rgb(202, 202, 202);
     width: 100vw;
     height: calc(100vh - 60px);
-    margin: 0 0 60px 0;
+    margin: 0 0 60px;
     overflow: hidden;
 }
 
@@ -114,7 +114,6 @@ body {
 
 .container .right .description {
     position: relative;
-    font-family: "Calibri";
     font-size: 27px;
     color: rgb(230, 230, 230);
 }
@@ -130,7 +129,7 @@ body {
     font-family: "Calibri";
     font-size: 15px;
     color: rgb(204, 204, 204);
-    margin: 20px 0 0 0;
+    margin: 20px 0 0;
 }
 
 .container .right .report {
@@ -143,7 +142,7 @@ body {
     font-family: "Consolas";
     font-size: 15px;
     color: rgb(204, 204, 204);
-    margin: 6px 0 0 0;
+    margin: 6px 0 0;
     white-space: pre;
     overflow-wrap: normal;
     overflow-x: scroll;

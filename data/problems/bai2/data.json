@@ -1,7 +1,8 @@
 {
     "name": "S\u1ed1 Ho\u00e0n Ch\u1ec9nh",
-    "point": "10",
+    "point": 10,
     "time": 1,
+    "memory": 1024,
     "type": {
         "inp": "B\u00e0n Ph\u00edm",
         "out": "M\u00e0n h\u00ecnh"
@@ -20,5 +21,6 @@
             "inp": "8",
             "out": "0"
         }
-    ]
+    ],
+    "disabled": false
 }

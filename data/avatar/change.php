@@ -2,7 +2,7 @@
     //? |-----------------------------------------------------------------------------------------------|
     //? |  /data/avatar/change.php                                                                      |
     //? |                                                                                               |
-    //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+    //? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
@@ -14,21 +14,22 @@
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
 
     if (!isLogedIn())
-        stop(11, "Bạn chưa đăng nhập!", 403);
+        stop(11, "Bạn chưa đăng nhập!", 401);
 
     checkToken();
 
-    if ($config["editInfo"] === false)
-        stop(21, "Thay đổi thông tin đã bị tắt!", 403);
+    if ($config["edit"]["avatar"] === false)
+        stop(21, "Thay đổi Avatar đã bị tắt!", 403);
     
     if (!isset($_FILES["file"]))
         stop(41, "Chưa chọn tệp!", 400);
 
-    if ($username = getForm("u"))
-        if ($_SESSION["id"] !== "admin")
-            stop(31, "Access Denied!", 403);
+    $username = getForm("username");
 
-    $username = $_SESSION["username"];
+    if (!empty($username) && $_SESSION["id"] !== "admin")
+        stop(31, "Access Denied!", 403);
+    else
+        $username = $_SESSION["username"];
 
     $file = strtolower($_FILES["file"]["name"]);
     $extension = pathinfo($file, PATHINFO_EXTENSION);
@@ -46,7 +47,7 @@
         stop(-1, "Lỗi không rõ!", 500);
 
     $imagePath = AVATAR_DIR ."/". $username;
-    $oldFiles = glob($imagePath .".{jpg,png,gif,webp}", GLOB_BRACE);
+    $oldFiles = glob($imagePath .".{". join(",", IMAGE_ALLOW) ."}", GLOB_BRACE);
 
     // Find old avatar files and remove them
     if (count($oldFiles) > 0)

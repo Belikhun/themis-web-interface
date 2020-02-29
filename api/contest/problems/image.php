@@ -2,7 +2,7 @@
     //? |-----------------------------------------------------------------------------------------------|
     //? |  /api/contest/problems/image.php                                                              |
     //? |                                                                                               |
-    //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+    //? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
@@ -32,7 +32,7 @@
         
             require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
         
-            if (!problemExist($id))
+            if (!problemExist($id) || (problemDisabled($id) && $_SESSION["id"] !== "admin"))
                 showImage(PROBLEM_DIR ."/image.default");
         
             if (isset($problemList[$id]["image"])) {
@@ -49,7 +49,7 @@
             define("PAGE_TYPE", "API");
 
             if (!isLogedIn())
-                stop(11, "Bạn chưa đăng nhập.", 403);
+                stop(11, "Bạn chưa đăng nhập.", 401);
 
             $id = preg_replace("/[.\/\\\\]/m", "", reqHeader("id"));
             
@@ -81,6 +81,6 @@
             // SET PAGE TYPE
             define("PAGE_TYPE", "NORMAL");
 
-            stop(7, "Unknown request method: ". $requestMethod, 400, Array( "method" => $requestMethod ));
+            stop(7, "Unknown request method: ". $requestMethod, 405, Array( "method" => $requestMethod ));
             break;
     }

@@ -2,7 +2,7 @@
     //? |-----------------------------------------------------------------------------------------------|
     //? |  /data/avatar/get.php                                                                         |
     //? |                                                                                               |
-    //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+    //? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
@@ -28,7 +28,7 @@
         showAvatar("avt.default");
 
     $username = preg_replace("/[.\/\\\\]/m", "", trim($_GET["u"]));
-    $files = glob($username .".{jpg,png,gif,webp}", GLOB_BRACE);
+    $files = glob($username .".{". join(",", IMAGE_ALLOW) ."}", GLOB_BRACE);
 
     if (count($files) > 0)
         showAvatar($files[0]);

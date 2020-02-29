@@ -1,7 +1,7 @@
 //? |-----------------------------------------------------------------------------------------------|
 //? |  /assets/js/statusBar.js                                                                      |
 //? |                                                                                               |
-//? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+//? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
@@ -54,10 +54,10 @@ class statusBar {
             elem.classList.add(`icon-${icon}`);
     }
 
-    additem(text = null, icon = null, {aligin = "left", space = true} = {}) {
+    additem(text = null, icon = null, {align = "left", space = true} = {}) {
         var item = document.createElement("span");
         var t = document.createElement("text");
-        const aliginlist = ["left", "right"];
+        const alignlist = ["left", "right"];
         item.classList.add("item");
 
         if (text) {
@@ -71,8 +71,8 @@ class statusBar {
         if (!space)
             item.classList.add("no-space");
         
-        if (aliginlist.indexOf(aligin) !== -1)
-            this[aligin].appendChild(item);
+        if (alignlist.indexOf(align) !== -1)
+            this[align].appendChild(item);
 
         return {
             __item: item,

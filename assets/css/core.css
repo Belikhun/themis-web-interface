@@ -1,8 +1,8 @@
-/* 
+/*
 ? |-----------------------------------------------------------------------------------------------|
 ? |  /assets/css/core.css                                                                         |
 ? |                                                                                               |
-? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
 ? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 ? |-----------------------------------------------------------------------------------------------|
 */
@@ -10,12 +10,11 @@
 body {
     position: relative;
     background-color: #666666;
-    font-family: "Segoe UI", "Calibri", Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0 0 20px 0;
-    box-sizing: border-box;
+    font-family: "Open Sans", "Segoe UI", "Calibri", Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0 0 20px;
     overflow: hidden;
     width: 100vw;
-    height: calc(100vh - 20px);
+    height: 100vh;
 }
 
 /* Change Autocomplete styles in Chrome*/
@@ -23,89 +22,141 @@ input:-webkit-autofill {
     background-color: rgba(0, 0, 0, 0);
 }
 
-.note {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 12px 20px;
-    width: 100%;
-    box-sizing: border-box;
-    text-align: left;
-}
-
-.note::before {
-    position: relative;
-    display: inline-block;
-    font-family: "Font Awesome 5 Free";
-    font-size: 17px;
-    font-weight: 900;
-    padding-right: 12px;
-    color: black;
-}
-
-.note .inner {
-    position: relative;
-    display: inline-block;
-    flex-grow: 1;
-    font-family: Calibri;
-    font-size: 13px;
-    color: #343434;
-}
-
-.note.info {
-    background-color: #cccccc;
-}
-
-.note.info::before {
-    content: "\f05a";
-}
-
-.note.warning {
-    background-color: #fff386;
-}
-
-.note.warning::before {
-    content: "\f071";
-}
-
-.note.okay {
-    background-color: #8fff98;
-}
-
-.note.okay::before {
-    content: "\f14a";
-}
-
 body #container {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    position: absolute;
+    display: block;
     width: 100vw;
-    height: calc(100vh - 78px);
-    top: 58px;
+    top: 56px;
+    bottom: 0;
     background-color: #ebebeb;
     box-sizing: border-box;
-    padding: 10px;
+    padding: 5px;
     overflow-x: hidden;
     overflow-y: auto;
     transition:
         transform 0.4s ease,
-        filter 0.4s ease,
-        top 1s cubic-bezier(0.06, 0.81, 0, 0.98);
+        filter 0.4s ease;
+}
+
+body #container .flexRow {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    min-height: 420px;
+}
+
+body #container .flexColumn {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+body #container .flexColumn.large {
+    flex-grow: 1;
+}
+
+body #container .flexColumn.small {
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.navBar.showBottom ~ #userSettings,
+.navBar.showBottom ~ #container {
+    top: 94px;
+}
+
+.contestTimer {
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 4px 0 8px;
+}
+
+.navBar.showBottom .contestTimer {
+    display: flex;
+    height: 38px;
+}
+
+.contestTimer::before {
+    content: "";
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 10px;
+    right: 10px;
+    height: 1px;
+    background-color: rgba(122, 122, 122, 0.2);
+}
+
+.contestTimer #contestTimeState {
+    position: relative;
+    font-size: 13px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    color: rgb(90, 90, 90);
+}
+
+.contestTimer .reload {
+    position: relative;
+    display: inline-block;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    color: rgba(98, 98, 98, 0.54);
+    transition: color 0.2s ease;
+}
+
+.contestTimer #contestTimeState,
+.contestTimer .reload,
+.contestTimer separator {
+    margin-top: 4px;
+}
+
+.contestTimer .reload:hover {
+    color: rgba(98, 98, 98, 0.82);
+}
+
+.contestTimer .progressBar {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    margin-top: 28px;
+    height: 4px;
+}
+
+.contestTimer .progressBar > .left,
+.contestTimer .progressBar > .right {
+    transform: translateY(calc(-100% - 4px));
+}
+
+.contestTimer .progressBar > .left {
+    left: 10px;
+}
+
+.contestTimer .progressBar > .right {
+    right: 10px;
+}
+
+@media only screen and (max-width: 800px) {
+    .navBar.showBottom .contestTimer #contestTimeState,
+    .navBar.showBottom .contestTimer #contestTimeState + separator {
+        display: none;
+    }
 }
 
 panel {
     position: relative;
     display: flex;
-    flex-direction: column;
-    flex-flow: row wrap;
+    flex-flow: column wrap;
     width: 350px;
     height: auto;
     background-color: white;
     box-shadow: 0 0 5px rgba(98, 98, 98, 0.2);
-    margin: 10px;
+    margin: 5px;
     box-sizing: border-box;
 }
 
@@ -142,22 +193,22 @@ panel .head .ri {
     flex: 0 0 0;
 }
 
-panel .head .ri i {
+panel .head .ri > i {
     position: relative;
     display: inline;
-    color: rgba(98, 98, 98, 0.54);
     font-size: 18px;
     font-weight: bold;
-    transition: color 0.2s ease;
+    color: rgba(98, 98, 98, 0.54);
     padding: 0 2px;
     cursor: pointer;
+    transition: color 0.2s ease;
 }
 
-panel .head .ri i.bak {
+panel .head .ri > i.bak {
     font-size: 20px;
 }
 
-panel .head .ri i:hover {
+panel .head .ri > i:hover {
     color: rgba(98, 98, 98, 0.82);
 }
 
@@ -200,60 +251,95 @@ panel .main .showEmpty:empty::after {
     color: rgb(192, 192, 192);
 }
 
-#uploadp {
-    height: 200px;
-    flex-grow: 1;
-    order: 1;
-}
+/** Pannel Layout: Logged in */
 
 #problemp {
-    height: 200px;
-    order: 2;
-}
-
-#timep {
-    height: 200px;
-    display: none;
-    order: 3;
-}
-
-#timep.show {
-    display: block;
-}
-
-#rankp {
-    height: calc(100% - 240px);
-    width: calc(100% - 390px);
-    min-width: 50%;
     flex-grow: 1;
-    order: 4;
+    width: auto;
+    height: 100%;
+}
+
+#uploadp {
+    height: 190px;
 }
 
 #logp {
-    height: calc(100% - 240px);
-    order: 5;
+    flex-grow: 1;
 }
 
-#wrapper,
-#dialogWrapper {
+#rankp {
+    flex-grow: 1;
+}
+
+@media only screen and (max-width: 1130px) {
+    body #container .flexRow {
+        flex-wrap: wrap;
+        height: auto;
+    }
+
+    body #container .flexRow:first-child {
+        min-height: 100%;
+    }
+
+    body #container .flexRow:first-child > .flexColumn.large {
+        min-height: calc(100vh - 90px);
+    }
+
+    body #container .flexColumn {
+        width: 100%;
+    }
+
+    #uploadp,
+    #logp {
+        width: auto;
+    }
+
+    #logp {
+        max-height: 100%;
+    }
+}
+
+/** Pannel Layout: Guest mode */
+
+body.guest #container {
+    display: flex;
+    flex-direction: column;
+}
+
+body.guest #container > .flexRow:nth-child(1) {
+    order: 2;
+    flex-grow: 0;
+    min-height: 100%;
+}
+
+body.guest #container > .flexRow:nth-child(2) {
+    order: 1;
+    min-height: 100%;
+}
+
+body.guest #problemp {
+    height: 200px;
+    flex-grow: 1;
+}
+
+body.guest #problemp.hide {
+    display: none;
+}
+
+#wrapper {
     position: fixed;
     display: none;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    padding: 60px 0 20px 0;
+    padding: 60px 0 20px;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.6);
     z-index: 2;
 }
 
-#dialogWrapper {
-    z-index: 3;
-}
-
-#wrapper.show,
-#dialogWrapper.show {
+#wrapper.show {
     display: flex;
 }
 
@@ -278,146 +364,6 @@ panel .main .showEmpty:empty::after {
     max-width: unset;
     max-height: 100%;
     margin: unset;
-}
-
-#dialogWrapper #dialogPanel {
-    width: unset;
-    min-width: 350px;
-    max-width: 80%;
-}
-
-#dialogWrapper #dialogPanel .main {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 16px;
-}
-
-#dialogWrapper #dialogPanel .main .title {
-    font-family: Exo;
-    font-size: 20px;
-    font-weight: bold;
-    font-style: italic;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: .4px;
-    color: #34495e;
-}
-
-#dialogWrapper #dialogPanel .main[data-level=success] .title {
-    color: rgb(10, 190, 34);
-}
-
-#dialogWrapper #dialogPanel .main[data-level=warning] .title {
-    color: rgb(177, 174, 23);
-}
-
-#dialogWrapper #dialogPanel .main[data-level=warning] .title {
-    color: rgb(177, 174, 23);
-}
-
-#dialogWrapper #dialogPanel .main[data-level=error] .title {
-    color: rgb(226, 21, 21);
-}
-
-#dialogWrapper #dialogPanel .main .description {
-    font-size: 12px;
-    text-align: center;
-    padding-top: 4px;
-}
-
-#dialogWrapper #dialogPanel .main .additional {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    margin: 10px 0;
-    justify-content: center;
-    width: 100%;
-}
-
-#dialogWrapper #dialogPanel .main .buttonGroup {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    margin-top: 20px;
-    width: 100%;
-}
-
-#dialogWrapper #dialogPanel .main .buttonGroup .sq-btn {
-    margin: 0 4px;
-    flex: 1 1 0;
-}
-
-#dialogWrapper #dialogPanel .main .buttonGroup .sq-btn:last-child {
-    margin-right: 0;
-}
-
-#dialogWrapper #dialogPanel .main .buttonGroup .sq-btn:first-child {
-    margin-left: 0;
-}
-
-body.guest #timep.show,
-body.guest #problemp {
-    height: 200px;
-    flex-grow: 1;
-}
-
-body.guest #problemp.hide {
-    display: none;
-}
-
-body.guest #rankp {
-    width: calc(100% - 20px);
-}
-
-body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
-    height: calc(100% - 20px);
-}
-
-@media only screen and (max-width: 1130px) {
-    #problemp,
-    #logp {
-        height: calc(100% - 240px);
-    }
-
-    #timep:not(.show) + #problemp {
-        height: 200px;
-    }
-
-    #timep {
-        order: 2;
-    }
-
-    #problemp {
-        order: 3;
-    }
-
-    #logp {
-        order: 4;
-        flex-grow: 1;
-    }
-
-    #rankp {
-        order: 5;
-        width: calc(100% - 20px);
-        height: calc(100% - 20px);
-    }
-}
-
-@media only screen and (max-width: 765px) {
-    #timep {
-        flex-grow: 1;
-    }
-
-    #problemp {
-        order: 3;
-        flex-grow: 1;
-    }
-
-    #logp {
-        height: calc(100% - 20px);
-    }
 }
 
 #logp div.main:empty::before {
@@ -622,7 +568,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 #uploadp .fileupload-container #submitDropzone .sub {
     color: rgb(128, 128, 128);
     font-size: 12px;
-    margin: 6px 0;
+    margin: 4px 0;
 }
 
 #uploadp .fileupload-container .info {
@@ -638,7 +584,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 #uploadp .fileupload-container .info #submitStatus {
     position: relative;
     display: block;
-    padding: 0 0 2px 0;
+    padding-bottom: 2px;
     box-sizing: border-box;
     width: 100%;
     font-size: 20px;
@@ -666,12 +612,12 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     transform: translateX(-50%);
 }
 
-.problem-settings {
+.problemSettings {
     padding: unset;
     height: 220px;
 }
 
-.problem-settings .problem-header {
+.problemSettings .header {
     height: 40px;
     background-color: #F5F5F6;
     display: flex;
@@ -679,12 +625,12 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     padding: 0 10px;
 }
 
-.problem-settings .problem-header div span {
+.problemSettings .header div span {
     padding: 0 3px;
     cursor: pointer;
 }
 
-.problem-settings .problem-header div span::before {
+.problemSettings .header div span::before {
     font-family: "Font Awesome 5 Free";
     font-size: 14px;
     font-weight: 600;
@@ -692,45 +638,47 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     transition: color 0.2s ease;
 }
 
-.problem-settings .problem-header div span:hover::before {
+.problemSettings .header div span:hover::before {
     color: rgba(98, 98, 98, 0.82)
 }
 
-.problem-settings .problem-header .left .back::before {
+.problemSettings .header .left .back::before {
     content: "\f104";
 }
 
-.problem-settings .problem-header .right .add::before {
+.problemSettings .header .right .add::before {
     content: "\f067";
     font-size: 12px;
 }
 
-.problem-settings .problem-header .right .check::before {
+.problemSettings .header .right .check::before {
     content: "\f00c";
     font-size: 12px;
 }
 
-.problem-settings .problem-header .title {
+.problemSettings .header .title {
     position: absolute;
     left: 50%;
     color: #a5a5a5;
     transform: translateX(-50%);
 }
 
-.problem-settings .problem-header .right {
+.problemSettings .header .right {
     position: absolute;
     right: 10px;
 }
 
-.problem-settings .problem-container {
+.problemSettings .problemsContainer {
     position: relative;
     height: calc(100% - 46px);
     background-color: transparent;
     overflow: hidden;
 }
 
-.problem-settings .problem-container .problem-list {
+.problemSettings .problemsContainer .problemsList {
     position: relative;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     height: 100%;
     margin: unset;
@@ -741,7 +689,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     transition: all 0.4s ease;
 }
 
-.problem-settings .problem-container .problem-list li.item {
+.problemSettings .problemsContainer .problemsList li.item {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -753,15 +701,15 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     border-bottom: unset;
 }
 
-.problem-settings .problem-container .problem-list li.item:hover {
+.problemSettings .problemsContainer .problemsList li.item:hover {
     background-color: rgba(245, 245, 246, 0.4);
 }
 
-.problem-settings .problem-container .problem-list li.item:after {
+.problemSettings .problemsContainer .problemsList li.item:after {
     content: unset;
 }
 
-.problem-settings .problem-container .problem-list li.item .icon {
+.problemSettings .problemsContainer .problemsList li.item .icon {
     position: relative;
     flex-grow: 0;
     flex-shrink: 0;
@@ -771,7 +719,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     object-fit: cover;
 }
 
-.problem-settings .problem-container .problem-list li.item .title {
+.problemSettings .problemsContainer .problemsList li.item .title {
     position: relative;
     flex-grow: 1;
     flex-shrink: 1;
@@ -780,30 +728,30 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     padding: 0 0 0 10px;
 }
 
-.problem-settings .problem-container .problem-list li.item .title .id {
+.problemSettings .problemsContainer .problemsList li.item .title .id {
     font-size: 11px;
-    color: rgba(73, 73, 73, 0.6);;
+    color: rgba(73, 73, 73, 0.6);
     letter-spacing: 0.4px;
 }
 
-.problem-settings .problem-container .problem-list li.item .title .name {
+.problemSettings .problemsContainer .problemsList li.item .title .name {
     font-size: 14px;
     color: #494949;
 }
 
-.problem-settings .problem-container .problem-list li.item .action {
+.problemSettings .problemsContainer .problemsList li.item .action {
     position: relative;
     display: block;
     flex-grow: 0;
     flex-shrink: 0;
 }
 
-.problem-settings .problem-container .problem-list li.item .action span {
+.problemSettings .problemsContainer .problemsList li.item .action span {
     padding: 0 4px;
     cursor: pointer;
 }
 
-.problem-settings .problem-container .problem-list li.item .action span::before {
+.problemSettings .problemsContainer .problemsList li.item .action span::before {
     font-family: "Font Awesome 5 Free";
     font-size: 16px;
     font-weight: 600;
@@ -811,27 +759,27 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     transition: color 0.1s ease;
 }
 
-.problem-settings .problem-container .problem-list li.item .action span.delete::before {
+.problemSettings .problemsContainer .problemsList li.item .action span.delete::before {
     content: "\f1f8";
 }
 
-.problem-settings .problem-container .problem-list li.item .action span.delete:hover::before {
+.problemSettings .problemsContainer .problemsList li.item .action span.delete:hover::before {
     color: #e74c3c;
 }
 
-.problem-settings .problem-container .problem-list li.item .action span.edit::before {
+.problemSettings .problemsContainer .problemsList li.item .action span.edit::before {
     content: "\f304";
 }
 
-.problem-settings .problem-container .problem-list li.item .action span.edit:hover::before {
+.problemSettings .problemsContainer .problemsList li.item .action span.edit:hover::before {
     color: #3498db;
 }
 
-.problem-settings .problem-container .problem-list.hide {
+.problemSettings .problemsContainer .problemsList.hide {
     transform: translateX(-100%);
 }
 
-.problem-settings .problem-container .problem {
+.problemSettings .problemsContainer .problem {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -844,22 +792,22 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     transition: all 0.4s ease;
 }
 
-.problem-settings .problem-container .problem-list.hide + .problem {
+.problemSettings .problemsContainer .problemsList.hide + .problem {
     transform: unset;
 }
 
-.problem-settings .problem-container .problem #problemEdit_desc {
+.problemSettings .problemsContainer .problem #problemEdit_desc {
     resize: none;
     height: 160px;
 }
 
-.problem-settings .problem-container .problem #problemEdit_deleteImage,
-.problem-settings .problem-container .problem #problemEdit_deleteAttachment {
+.problemSettings .problemsContainer .problem #problemEdit_deleteImage,
+.problemSettings .problemsContainer .problem #problemEdit_deleteAttachment {
     width: 100%;
     margin-top: 8px;
 }
 
-.problem-settings .problem-container .problem .test-container {
+.problemSettings .problemsContainer .problem .test-container {
     position: relative;
     margin-bottom: 20px;
     border-bottom: 1px solid rgba(39, 39, 39, 0.4);
@@ -867,12 +815,12 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     transition: 0.3s;
 }
 
-.problem-settings .problem-container .problem .test-container:hover {
+.problemSettings .problemsContainer .problem .test-container:hover {
     border-bottom: 2px solid #4285f4;
     padding-bottom: 0;
 }
 
-.problem-settings .problem-container .problem .test-container .test {
+.problemSettings .problemsContainer .problem .test-container .test {
     display: block;
     font-size: 8px;
     font-weight: 700;
@@ -882,23 +830,23 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     transition: 0.3s;
 }
 
-.problem-settings .problem-container .problem .test-container:hover .test {
+.problemSettings .problemsContainer .problem .test-container:hover .test {
     color: #4285f4;
 }
 
-.problem-settings .problem-container .problem .test-container .test-list {
+.problemSettings .problemsContainer .problem .test-container .test-list {
     position: relative;
     width: 100%;
     box-sizing: border-box;
     display: block;
 }
 
-.problem-settings .problem-container .problem .test-container .test-list .cell {
+.problemSettings .problemsContainer .problem .test-container .test-list .cell {
     position: relative;
     height: 60px;
 }
 
-.problem-settings .problem-container .problem .test-container .test-list .cell textarea {
+.problemSettings .problemsContainer .problem .test-container .test-list .cell textarea {
     position: relative;
     resize: none;
     border: unset;
@@ -910,7 +858,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     border-bottom: 1px solid rgba(39, 39, 39, 0.4);
 }
 
-.problem-settings .problem-container .problem .test-container .test-list .cell .delete {
+.problemSettings .problemsContainer .problem .test-container .test-list .cell .delete {
     position: absolute;
     display: block;
     right: 0;
@@ -921,11 +869,11 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     transition: 0.2s;
 }
 
-.problem-settings .problem-container .problem .test-container .test-list .cell .delete:hover {
+.problemSettings .problemsContainer .problem .test-container .test-list .cell .delete:hover {
     background-color: rgba(202, 202, 202, 0.2);
 }
 
-.problem-settings .problem-container .problem .test-container .test-list .cell .delete::before {
+.problemSettings .problemsContainer .problem .test-container .test-list .cell .delete::before {
     content: "\f2ed";
     position: absolute;
     top: 50%;
@@ -938,11 +886,11 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     transition: 0.2s;
 }
 
-.problem-settings .problem-container .problem .test-container .test-list .cell .delete:hover::before {
+.problemSettings .problemsContainer .problem .test-container .test-list .cell .delete:hover::before {
     color: #e74c3c;
 }
 
-.problem-settings .problem-container .problem .test-container .test-add {
+.problemSettings .problemsContainer .problem .test-container .test-add {
     position: relative;
     display: flex;
     align-items: center;
@@ -952,11 +900,11 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     transition: 0.2s;
 }
 
-.problem-settings .problem-container .problem .test-container .test-add:hover {
+.problemSettings .problemsContainer .problem .test-container .test-add:hover {
     background-color: rgba(202, 202, 202, 0.2);
 }
 
-.problem-settings .problem-container .problem .test-container .test-add::after {
+.problemSettings .problemsContainer .problem .test-container .test-add::after {
     content: "\f067";
     font-family: "Font Awesome 5 Free";
     font-size: 18px;
@@ -965,11 +913,11 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     transition: 0.2s;
 }
 
-.problem-settings .problem-container .problem .test-container .test-add:hover::after {
+.problemSettings .problemsContainer .problem .test-container .test-add:hover::after {
     color: #494949;
 }
 
-.problem-settings .problem-container .problem button[type="submit"] {
+.problemSettings .problemsContainer .problem button[type="submit"] {
     display: none;
 }
 
@@ -1247,47 +1195,56 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 }
 
 
-#problemp .problem-container {
+#problemp .problemsContainer {
     overflow: hidden;
 }
 
-#problemp .problem-container .problem-list:empty::before {
+#problemp .problemsContainer .problemsList:empty::before {
     content: "\f51b";
 }
 
-#problemp .problem-container .problem-list:empty::after {
-    content: "Không tìm thấy đề hoặc chưa bắt đầu kì thi.";
+#problemp .problemsContainer .problemsList:empty::after {
+    content: "Không tìm thấy đề hoặc chưa bắt đầu kì thi";
 }
 
-#problemp .problem-container .problem-list {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    margin: unset;
-    padding: unset;
-    list-style: none;
-    overflow-x: hidden;
-    overflow-y: auto;
-    transition: all 0.4s ease;
-}
-
-#problemp .problem-container .problem-list li.item {
+#problemp .problemsContainer .problemsList {
     position: relative;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
-    align-items: center;
+    justify-content: stretch;
     width: 100%;
+    max-height: 100%;
     box-sizing: border-box;
     padding: 10px;
-    cursor: pointer;
-    border-bottom: 1px solid #e6e6e6;
+
+    animation: problemsListShow 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0s 1 normal forwards;
 }
 
-#problemp .problem-container .problem-list li.item:hover {
+#problemp .problemsContainer .problemsList:empty {
+    height: 100%;
+}
+
+#problemp .problemsContainer .problemsList .item {
+    position: relative;
+    display: flex;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-direction: row;
+    align-items: center;
+    box-sizing: border-box;
+    cursor: pointer;
+    margin: 10px;
+    padding: 10px 40px 10px 20px;
+    border-radius: 12px;
+    background-color: rgba(238, 238, 238, 0.6);
+}
+
+#problemp .problemsContainer .problemsList .item:hover {
     background-color: rgba(124, 124, 124, 0.1);
 }
 
-#problemp .problem-container .problem-list li.item:after {
+#problemp .problemsContainer .problemsList .item:after {
     content: "\f105";
     position: absolute;
     font-family: "Font Awesome 5 Free";
@@ -1297,7 +1254,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     right: 20px;
 }
 
-#problemp .problem-container .problem-list li.item .icon {
+#problemp .problemsContainer .problemsList .item .icon {
     position: relative;
     display: inline-block;
     flex: 0 0 1;
@@ -1307,7 +1264,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     object-fit: cover;
 }
 
-#problemp .problem-container .problem-list li.item .title {
+#problemp .problemsContainer .problemsList .item .title {
     display: inline-block;
     flex: 1 1 0;
     list-style: none;
@@ -1315,7 +1272,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     padding: 0 0 0 10px;
 }
 
-#problemp .problem-container .problem-list li.item .title .name {
+#problemp .problemsContainer .problemsList .item .title .name {
     position: relative;
     font-family: Exo;
     font-size: 15px;
@@ -1323,7 +1280,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     color: #494949;
 }
 
-#problemp .problem-container .problem-list li.item .title .point {
+#problemp .problemsContainer .problemsList .item .title .point {
     position: relative;
     display: inline-block;
     font-size: 11px;
@@ -1331,11 +1288,15 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     letter-spacing: 0.4px;
     background-color: #27ae60;
     padding: 2px 6px;
-    margin: 2px 0 0 0;
+    margin-top: 2px;
     border-radius: 4px;
 }
 
-#problemp .problem-container .problem {
+#problemp .problemsContainer .problemsList .item[disabled="true"] {
+    background-color: rgba(243, 184, 205, 0.6);
+}
+
+#problemp .problemsContainer .problem {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -1345,19 +1306,98 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     padding: 10px;
     overflow-x: hidden;
     overflow-y: auto;
-    transform: translateX(100%);
-    transition: all 0.4s ease;
+    background-color: inherit;
+
+    animation: problemViewerHide 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0s 1 normal forwards;
 }
 
-#problemp .problem-container .problem-list.hide {
-    transform: translateX(-100%);
+@keyframes problemsListShow {
+    0% {
+        visibility: hidden;
+    }
+
+    1% {
+        visibility: visible;
+        transform: scale(.9);
+        filter: blur(6px) brightness(.9);
+        opacity: 0;
+    }
+
+    100% {
+        visibility: visible;
+        transform: scale(1);
+        filter: blur(0) brightness(1);
+        opacity: 1;
+    }
 }
 
-#problemp .problem-container .problem-list.hide + .problem {
-    transform: unset;
+@keyframes problemsListHide {
+    0% {
+        transform: scale(1);
+        filter: blur(0) brightness(1);
+        opacity: 1;
+    }
+
+    99% {
+        transform: scale(.9);
+        filter: blur(6px) brightness(.9);
+        opacity: 0;
+    }
+
+    100% {
+        visibility: hidden;
+    }
 }
 
-#problemp .problem-container .problem .name {
+@keyframes problemViewerShow {
+    0% {
+        visibility: hidden;
+        transform: translateX(100%);
+    }
+
+    1% {
+        visibility: visible;
+        transform: scale(1.1);
+        filter: brightness(.9);
+        opacity: 0;
+    }
+
+    100% {
+        visibility: visible;
+        transform: scale(1);
+        filter: brightness(1);
+        opacity: 1;
+    }
+}
+
+@keyframes problemViewerHide {
+    0% {
+        transform: scale(1);
+        filter: brightness(1);
+        opacity: 1;
+    }
+
+    99% {
+        transform: scale(1.1);
+        filter: brightness(.9);
+        opacity: 0;
+    }
+
+    100% {
+        visibility: hidden;
+        transform: translateX(100%);
+    }
+}
+
+#problemp .problemsContainer .problemsList.hide {
+    animation: problemsListHide 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0s 1 normal forwards;
+}
+
+#problemp .problemsContainer .problemsList.hide + .problem {
+    animation: problemViewerShow 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0s 1 normal forwards;
+}
+
+#problemp .problemsContainer .problem .name {
     display: block;
     text-align: center;
     font-family: Exo;
@@ -1367,7 +1407,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     color: #34495e;
 }
 
-#problemp .problem-container .problem .point {
+#problemp .problemsContainer .problem .point {
     display: block;
     text-align: center;
     font-size: 12px;
@@ -1376,14 +1416,16 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     letter-spacing: 0.4px;
 }
 
-#problemp .problem-container .problem .enlarge {
+#problemp .problemsContainer .problem .enlarge,
+#problemp .problemsContainer .problem .close {
     position: absolute;
     display: block;
-    top: 10px;
-    right: 10px;
+    top: 20px;
+    right: 50px;
 }
 
-#problemp .problem-container .problem .enlarge::before {
+#problemp .problemsContainer .problem .enlarge::before,
+#problemp .problemsContainer .problem .close::before {
     content: "\f360";
     position: relative;
     font-family: "Font Awesome 5 Free";
@@ -1393,77 +1435,130 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     color: rgb(92, 92, 92);
 }
 
-#problemp .problem-container .problem .description {
-    white-space: pre-wrap;
+#problemp .problemsContainer .problem .close {
+    right: 20px;
 }
 
-#problemp .problem-container .problem .description > a,
-#problemp .problem-container .problem .description > table,
-#problemp .problem-container .problem .description > ul {
+#problemp .problemsContainer .problem .close::before {
+    content: "\f00d";
+}
+
+#problemp .problemsContainer .problem .info {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 6px 0 20px;
+}
+
+#problemp .problemsContainer .problem .info .filename::before {
+    content: "ID: ";
+}
+
+#problemp .problemsContainer .problem .info.general {
+    margin-bottom: 4px;
+}
+
+#problemp .problemsContainer .problem .info.IO > t {
+    font-family: "Consolas";
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#problemp .problemsContainer .problem .info.IO .input::before,
+#problemp .problemsContainer .problem .info.IO .output::before {
+    position: relative;
+    display: inline-block;
+    font-family: "Open Sans";
+    font-weight: normal;
+    font-size: 13px;
+    margin-right: 6px;
+}
+
+#problemp .problemsContainer .problem .info.IO .input::before {
+    content: "Input:";
+}
+
+#problemp .problemsContainer .problem .info.IO .output::before {
+    content: "Output:";
+}
+
+#problemp .problemsContainer .problem .description {
+    white-space: pre-wrap;
+    margin: 0 20px;
+}
+
+#problemp .problemsContainer .problem .description > a,
+#problemp .problemsContainer .problem .description > table,
+#problemp .problemsContainer .problem .description > ul {
     display: block;
 }
 
-#problemp .problem-container .problem .simple-table-wrapper {
-    padding: 10px 0;
-}
-
-#problemp .problem-container .problem .simple-table-wrapper .simple-table {
-    width: 100%;
-}
-
-#problemp .problem-container .problem .simple-table-wrapper .simple-table.test tr td {
-    white-space: pre;
-}
-
-#problemp .problem-container .problem table tr:hover {
+#problemp .problemsContainer .problem table tr:hover {
     background-color: rgba(126, 126, 126, 0.1);
 }
 
-#problemp .problem-container .problem table.test tr td {
+#problemp .problemsContainer .problem table.test tr td {
     font-family: "Consolas";
 }
 
-#problemp .problem-container .problem .image {
+#problemp .problemsContainer .problem .image {
     position: relative;
     width: 100%;
     margin: 10px 0;
     border: 1px solid #ccc;
 }
 
-#problemp .problem-container .problem .attachment {
+#problemp .problemsContainer .problem .attachment {
+    position: relative;
+    display: block;
     margin-top: 10px;
 }
 
-#problemp .problem-container .problem .attachment .link {
+#problemp .problemsContainer .problem .attachment .link {
+    position: relative;
+    display: block;
     font-size: 14px;
 }
 
-#problemp .problem-container .problem .attachment::before {
+#problemp .problemsContainer .problem .attachment .link::before {
     content: "Tệp đính kèm:";
     position: relative;
     display: inline-block;
     font-family: "Calibri";
     font-size: 13px;
     font-weight: bold;
+    user-select: none;
+    margin-right: 4px;
     color: rgb(124, 124, 124);
 }
 
-/* *ranking-container */
+#problemp .problemsContainer .problem .attachment .embed {
+    width: 100%;
+    height: 0;
+    min-height: 80px;
+    max-height: calc(100vh - 160px);
+    margin: 10px 0 20px;
+    transition: height 0.4s ease-in;
+}
 
-#rankp div.ranking-container {
+/* *rankingContainer */
+
+#rankp div.rankingContainer {
     position: relative;
     overflow: auto;
 }
 
-#rankp div.ranking-container:empty::before {
+#rankp div.rankingContainer:empty::before {
     content: "\f02d";
-} 
+}
 
-#rankp div.ranking-container:empty::after {
+#rankp div.rankingContainer:empty::after {
     content: "Không có dữ liệu hoặc đã bị tắt";
 }
 
-#rankp div.ranking-container table {
+#rankp div.rankingContainer table {
     position: relative;
     font-family: "Calibri";
     box-sizing: border-box;
@@ -1472,29 +1567,29 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     min-width: 100%;
 }
 
-#rankp div.ranking-container table tr th:nth-child(1),
-#rankp div.ranking-container table tr td:nth-child(1) {
+#rankp div.rankingContainer table tr th:nth-child(1),
+#rankp div.rankingContainer table tr td:nth-child(1) {
     width: 20px;
     text-align: center;
 }
 
-#rankp div.ranking-container table tr th:nth-child(2),
-#rankp div.ranking-container table tr td:nth-child(2) {
+#rankp div.rankingContainer table tr th:nth-child(2),
+#rankp div.rankingContainer table tr td:nth-child(2) {
     text-align: left;
 }
 
-#rankp div.ranking-container table tr th:nth-child(2) {
+#rankp div.rankingContainer table tr th:nth-child(2) {
     width: 40px;
 }
 
-#rankp div.ranking-container table tr td:nth-child(2) {
+#rankp div.rankingContainer table tr td:nth-child(2) {
     display: flex;
     align-items: center;
     padding: 10px;
     margin: 0 0 0 10px;
 }
 
-#rankp div.ranking-container table tr td:nth-child(2) .avt {
+#rankp div.rankingContainer table tr td:nth-child(2) .avt {
     position: relative;
     display: block;
     width: 40px;
@@ -1502,46 +1597,52 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     border-radius: 50%;
 }
 
-#rankp div.ranking-container table tr td:nth-child(3) .name {
-    position: relative;
-    display: inline-block;
-    font-size: 14px;
+#rankp div.rankingContainer table tr td:nth-child(3) .username {
+    font-family: "Open Sans";
+    font-size: 11px;
+    font-style: italic;
+    color: rgb(114, 114, 114);
     letter-spacing: .2px;
 }
 
-#rankp div.ranking-container table tr td.number:nth-child(4) {
+#rankp div.rankingContainer table tr td:nth-child(3) .name {
+    font-size: 15px;
+    letter-spacing: .2px;
+}
+
+#rankp div.rankingContainer table tr td.number:nth-child(4) {
     color: #3c7be7;
     font-size: 16px;
     font-weight: bold;
 }
 
-#rankp div.ranking-container table thead tr th:nth-child(3) {
+#rankp div.rankingContainer table thead tr th:nth-child(3) {
     text-align: left;
 }
 
-#rankp div.ranking-container table tbody tr[data-rank="1"] {
+#rankp div.rankingContainer table tbody tr[data-rank="1"] {
     background-color: rgba(111, 241, 134, 0.2);
 }
 
-#rankp div.ranking-container table tbody tr[data-rank="2"] {
+#rankp div.rankingContainer table tbody tr[data-rank="2"] {
     background-color: rgba(239, 241, 111, 0.2);
 }
 
-#rankp div.ranking-container table tbody tr[data-rank="3"] {
+#rankp div.rankingContainer table tbody tr[data-rank="3"] {
     background-color: rgba(230, 111, 241, 0.2);
 }
 
-#rankp div.ranking-container table tbody tr[data-rank="1"] td:nth-child(3) .name,
-#rankp div.ranking-container table tbody tr[data-rank="2"] td:nth-child(3) .name,
-#rankp div.ranking-container table tbody tr[data-rank="3"] td:nth-child(3) .name {
+#rankp div.rankingContainer table tbody tr[data-rank="1"] td:nth-child(3) .name,
+#rankp div.rankingContainer table tbody tr[data-rank="2"] td:nth-child(3) .name,
+#rankp div.rankingContainer table tbody tr[data-rank="3"] td:nth-child(3) .name {
     font-weight: bolder;
     font-family: Exo;
-    font-size: 14px;
+    font-size: 15px;
     letter-spacing: .2px;
     color: rgb(65, 65, 65);
 }
 
-#rankp div.ranking-container table tr th {
+#rankp div.rankingContainer table tr th {
     position: sticky;
     top: 0;
     background-color: #fafafa;
@@ -1549,125 +1650,113 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     color: rgb(82, 82, 82);
     font-family: Segoe UI;
     font-size: 13px;
+    font-weight: bold;
     z-index: 1;
 }
 
-#rankp div.ranking-container table tr th,
-#rankp div.ranking-container table tr td {
+#rankp div.rankingContainer table tr th.problem > t {
+    display: inline-block;
+    color: rgb(82, 82, 82);
+    font-family: Segoe UI;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+#rankp div.rankingContainer table tr th.problem > .toggler {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    cursor: pointer;
+
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+#rankp div.rankingContainer table tr th.problem > .toggler::after {
+    content: "\f104";
+    position: relative;
+    display: block;
+    font-family: "Font Awesome 5 Free";
+    font-size: 18px;
+    font-weight: 900;
+    transform: translateY(2px);
+}
+
+#rankp div.rankingContainer table tr th.problem[data-folding="true"] {
+    width: 10px;
+    padding: unset;
+}
+
+#rankp div.rankingContainer table tr th.problem[data-folding="true"] > t {
+    display: none;
+}
+
+#rankp div.rankingContainer table tr th.problem[data-folding="true"] > .toggler {
+    transform: rotate(180deg);
+}
+
+#rankp div.rankingContainer table tr th.problem[data-folding="true"] > .toggler::after {
+    transform: unset;
+}
+
+#rankp div.rankingContainer table tr th,
+#rankp div.rankingContainer table tr td {
     padding: 10px 12px;
 }
 
-#rankp div.ranking-container table tr td {
+#rankp div.rankingContainer table tr td {
     font-size: 13px;
 }
 
-#rankp div.ranking-container table tr td.number {
+#rankp div.rankingContainer table tr td.number {
     font-size: 13px;
     text-align: right;
     color: rgb(172, 172, 172);
 }
 
-#rankp div.ranking-container table tr td.number.link {
+#rankp div.rankingContainer table tr td.number[data-folding="true"] {
+    font-size: 0;
+    padding: unset;
+}
+
+#rankp div.rankingContainer table tr td.number.link {
     cursor: pointer;
 }
 
-#rankp div.ranking-container table tr .number.link,
-#rankp div.ranking-container table tr .number.correct,
-#rankp div.ranking-container table tr .number.passed,
-#rankp div.ranking-container table tr .number.accepted,
-#rankp div.ranking-container table tr .number.failed,
-#rankp div.ranking-container table tr .number.skipped {
+#rankp div.rankingContainer table tr .number.link,
+#rankp div.rankingContainer table tr .number.correct,
+#rankp div.rankingContainer table tr .number.passed,
+#rankp div.rankingContainer table tr .number.accepted,
+#rankp div.rankingContainer table tr .number.failed,
+#rankp div.rankingContainer table tr .number.skipped {
     color: rgb(75, 75, 75);
 }
 
-#rankp div.ranking-container table tr td.number.correct {
+#rankp div.rankingContainer table tr td.number.correct {
     background-color: rgb(147, 243, 158);
 }
 
-#rankp div.ranking-container table tr td.number.passed {
+#rankp div.rankingContainer table tr td.number.passed {
     background-color: rgb(150, 245, 248);
 }
 
-#rankp div.ranking-container table tr td.number.accepted {
+#rankp div.rankingContainer table tr td.number.accepted {
     background-color: rgb(240, 237, 157);
 }
 
-#rankp div.ranking-container table tr td.number.failed {
+#rankp div.rankingContainer table tr td.number.failed {
     background-color: rgb(248, 187, 187)
 }
 
-#rankp div.ranking-container table tr td.number.skipped {
+#rankp div.rankingContainer table tr td.number.skipped {
     background-color: rgb(212, 212, 212);
 }
 
-#rankp div.ranking-container table tr td.number.link:hover {
+#rankp div.rankingContainer table tr td.number.link:hover {
     filter: brightness(1.1);
-}
-
-#timep .time-container {
-    display: flex;
-    justify-content: center;
-}
-
-#timep .time-container #timeState {
-    position: absolute;
-    top: 22px;
-    font-size: 16px;
-    font-weight: 100;
-    text-transform: uppercase;
-    color: rgb(136, 136, 136);
-}
-
-#timep .time-container .time {
-    position: absolute;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    top: 38px;
-}
-
-#timep .time-container .time #timeClock,
-#timep .time-container .time #timeClockMs {
-    position: relative;
-    display: inline-block;
-    flex-grow: 1;
-    font-size: 48px;
-    font-weight: bold;
-    letter-spacing: 1px;
-    opacity: 0.7;
-    transition: color 0.4s ease;
-    color: #34495e;
-}
-
-#timep .time-container .time #timeClockMs {
-    display: none;
-    flex-grow: 0;
-    font-size: 24px;
-    margin-bottom: 6px;
-}
-
-#timep .time-container.ms .time #timeClockMs {
-    display: inline-block;
-}
-
-#timep .time-container .time #timeClockMs::before {
-    content: "."
-}
-
-#timep .time-container[data-color="green"] .time #timeClock,
-#timep .time-container[data-color="green"] .time #timeClockMs {
-    color: #27ae60;
-}
-
-#timep .time-container[data-color="red"] .time #timeClock,
-#timep .time-container[data-color="red"] .time #timeClockMs {
-    color: #c0392b;
-}
-
-#timep .time-container .progressBar {
-    position: absolute;
-    bottom: 24px;
-    width: 90%;
 }
 
 #wrapper #wrapp .main .full {
@@ -1740,7 +1829,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     letter-spacing: 0.4px;
     background-color: #1f8d4d;
     padding: 2px 6px;
-    margin: 2px 0 10px 0;
+    margin: 2px 0 10px;
     border-radius: 4px;
 }
 
@@ -1769,7 +1858,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     font-size: 14px;
 }
 
-.problemEnlarged .left .top .simple-table-wrapper .simple-table {
+.problemEnlarged .left .top .simpleTableWrapper .simpleTable {
     width: 100%;
 }
 
@@ -1784,7 +1873,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     background-color: rgb(238, 238, 238);
 }
 
-.problemEnlarged .left .bottom .simple-table-wrapper {
+.problemEnlarged .left .bottom .simpleTableWrapper {
     position: relative;
     display: block;
     width: auto;
@@ -1792,7 +1881,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     margin-top: 20px;
 }
 
-.problemEnlarged .left .bottom .simple-table-wrapper .simple-table.test tr td {
+.problemEnlarged .left .bottom .simpleTableWrapper .simpleTable.test tr td {
     font-family: "Consolas";
     white-space: pre;
 }
@@ -1854,7 +1943,6 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 .viewLog-container {
     position: relative;
     display: flex;
-    font-family: "Calibri", "Segoe UI";
     flex-direction: row;
     width: 100%;
     height: 100%;
@@ -1883,7 +1971,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 .viewLog-container .header .top {
     position: relative;
     display: flex;
-    padding: 20px 0 10px 0;
+    padding: 20px 0 10px;
     flex-direction: column;
     align-items: center;
     flex-grow: 0;
@@ -1912,7 +2000,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     letter-spacing: 0.4px;
     background-color: #27ae60;
     padding: 2px 6px;
-    margin: 2px 0 0 0;
+    margin-top: 2px;
     border-radius: 4px;
 }
 
@@ -2219,7 +2307,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 
 .viewLog-container .testList .item .line .left .testid {
     position: relative;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
     color: #464646;
 }
@@ -2228,13 +2316,13 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     content: "#"counter(testItem);
     position: relative;
     display: inline-block;
-    font-size: 13px;
+    font-size: 11px;
     width: 25px;
 }
 
 .viewLog-container .testList .item .line .left .status {
     position: relative;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .viewLog-container .testList .item .line.detail {
@@ -2270,7 +2358,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
 
 .viewLog-container .testList .item .right .runtime {
     position: relative;
-    font-size: 13px;
+    font-size: 12px;
     color: rgb(114, 114, 114);
 }
 
@@ -2344,6 +2432,7 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     display: flex;
     flex-direction: row;
     align-items: flex-end;
+    justify-content: center;
     font-size: 25px;
     font-weight: bold;
 }
@@ -2357,14 +2446,22 @@ body.guest #timep:not(.show) ~ #problemp.hide ~ #rankp {
     display: flex;
     flex-direction: row;
     align-items: flex-end;
+    justify-content: center;
     font-size: 13px;
     font-weight: bold;
+    overflow: hidden;
 }
 
 .disconnectedRetry > .inner {
     font-size: 25px;
     margin: 0 0 0 4px;
     line-height: 24px;
+}
+
+#unsecureProtocolWarning > .right::after {
+    content: "\f13e";
+    color: rgb(185, 5, 50);
+    font-size: 24px;
 }
 
 footer {
@@ -2434,7 +2531,7 @@ footer .header t.subtitle {
     color: rgb(90, 90, 90);
 }
 
-footer .simple-table {
+footer .simpleTable {
     width: 100%;
     max-width: 220px;
     margin: auto;

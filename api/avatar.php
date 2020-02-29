@@ -2,7 +2,7 @@
     //? |-----------------------------------------------------------------------------------------------|
     //? |  /api/avatar.php                                                                              |
     //? |                                                                                               |
-    //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+    //? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
@@ -20,6 +20,6 @@
             define("PAGE_TYPE", "NORMAL");
             require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
 
-            stop(7, "Unknown request method: ". $requestMethod, 400, Array( "method" => $requestMethod ));
+            stop(7, "Unknown request method: ". $requestMethod, 405, Array( "method" => $requestMethod ));
             break;
     }

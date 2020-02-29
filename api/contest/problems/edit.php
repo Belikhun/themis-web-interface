@@ -2,7 +2,7 @@
     //? |-----------------------------------------------------------------------------------------------|
     //? |  /api/contest/problems/edit.php                                                               |
     //? |                                                                                               |
-    //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+    //? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
@@ -14,7 +14,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logs.php";
     
     if (!isLogedIn())
-        stop(11, "Bạn chưa đăng nhập.", 403);
+        stop(11, "Bạn chưa đăng nhập.", 401);
     
     checkToken();
     
@@ -24,32 +24,35 @@
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
 
     $id = preg_replace("/[.\/\\\\]/m", "", reqForm("id"));
+    $problem = problemGet($id, true);
 
     $name = getForm("name");
     $description = getForm("desc");
-    $point = getForm("point");
-    if (isset($point) && !is_numeric($point))
-        $point = null;
 
-    $time = getForm("time");
-    if (isset($time) && !is_numeric($time))
-        $time = null;
-
-    $inpType = getForm("inpType");
-    $outType = getForm("outType");
-    $accept = json_decode(getForm("acpt", Array()), true);
-    $test = json_decode(getForm("test", Array()), true);
+    $point = withType(getForm("point"), "integer");
+    $time = withType(getForm("time"), "integer");
+    $memLimit = withType(getForm("memory"), "integer");
+    $inpType = getForm("inpType", $problem["type"]["inp"]);
+    $outType = getForm("outType", $problem["type"]["out"]);
+    $accept = json_decode(getForm("acpt", "[]"), true) ?: null;
+    $test = json_decode(getForm("test", "[]"), true) ?: null;
     $image = isset($_FILES["img"]) ? $_FILES["img"] : null;
     $attachment = isset($_FILES["attm"]) ? $_FILES["attm"] : null;
+    $disabled = withType(getForm("disabled"), "boolean");
 
-    //! TD: Add edit for inpType and outType
     $code = problemEdit($id, Array(
         "name" => $name,
         "description" => $description,
         "point" => $point,
         "time" => $time,
+        "memory" => $memLimit,
+        "type" => Array(
+            "inp" => $inpType,
+            "out" => $outType
+        ),
         "accept" => $accept,
         "test" => $test,
+        "disabled" => $disabled
     ), $image, $attachment);
 
     switch ($code) {

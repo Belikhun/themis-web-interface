@@ -1,8 +1,8 @@
-/* 
+/*
 ? |-----------------------------------------------------------------------------------------------|
 ? |  /assets/css/menu.css                                                                         |
 ? |                                                                                               |
-? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
 ? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 ? |-----------------------------------------------------------------------------------------------|
 */
@@ -89,8 +89,8 @@ body.embeded .menu {
 }
 
 .menu .group .title.small {
-    font-family: "Calibri";
-    font-size: 13px;
+    font-family: "Open Sans";
+    font-size: 12px;
     color: rgb(74, 74, 74);
     text-transform: unset;
     font-weight: unset;
@@ -110,6 +110,10 @@ body.embeded .menu {
     overflow: hidden;
 
     transition: background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.menu .group .title + .item {
+    margin-top: 4px;
 }
 
 .menu .group .item:hover {
@@ -214,7 +218,7 @@ body.embeded .menu {
     flex-direction: row;
     align-items: center;
     box-sizing: border-box;
-    padding: 0 0;
+    padding: unset;
 }
 
 .menu .group .item.lr .left,
@@ -235,40 +239,51 @@ body.embeded .menu {
     margin-left: 10px;
 }
 
-.menu .group .item.warning {
-    background-color: rgba(255, 234, 126, 0.4);
-}
-
-.menu .group .item.warning:hover {
-    background-color: rgba(255, 227, 84, 0.4);
-}
-
+.menu .group .item.lr.okay .right::after,
+.menu .group .item.lr.info .right::after,
 .menu .group .item.lr.warning .right::after {
-    content: "";
     position: relative;
-    display: block;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 0 9px 15.6px 9px;
-    border-color: transparent transparent #fcff35 transparent;
+    display: inline-block;
+    font-family: "Font Awesome 5 Free";
+    font-size: 17px;
+    font-weight: 900;
+    color: black;
+}
+
+.menu .group .item.okay {
+    background-color: #a7f5ae;
+}
+
+.menu .group .item.okay:hover {
+    background-color: #b0ffb7;
+}
+
+.menu .group .item.lr.okay .right::after {
+    content: "\f00c";
 }
 
 .menu .group .item.info {
-    background-color: rgba(116, 184, 230, 0.4);
+    background-color: rgba(148, 216, 255, 0.8);
 }
 
 .menu .group .item.info:hover {
-    background-color: rgba(80, 185, 255, 0.4);
+    background-color: rgba(166, 222, 255, 0.8);
 }
 
 .menu .group .item.lr.info .right::after {
-    content: "";
-    position: relative;
-    display: block;
-    width: 16px;
-    height: 16px;
-    background-color: rgb(96, 179, 235);
+    content: "\f129";
+}
+
+.menu .group .item.warning {
+    background-color: #fff386;
+}
+
+.menu .group .item.warning:hover {
+    background-color: #fdf4a1;
+}
+
+.menu .group .item.lr.warning .right::after {
+    content: "\f071";
 }
 
 .menu .group .item.text,
@@ -290,7 +305,7 @@ body.embeded .menu {
     content: "\f2bd";
 }
 
-.menu .group.info::after {
+.menu .group.contact::after {
     content: "\f2c2";
 }
 
@@ -355,6 +370,10 @@ body.embeded .menu {
     content: "\f067";
 }
 
+.menu .group.server::after {
+    content: "\f233";
+}
+
 /* Dark */
 
 body.dark .menu {
@@ -373,6 +392,18 @@ body.dark .menu .group t,
 body.dark .menu .group .item.text,
 body.dark .menu .group .item .text {
     color: rgb(178, 178, 178);
+}
+
+body.dark .menu .group .item.lr:-webkit-any(.okay, .info, .warning) t,
+body.dark .menu .group .item.lr:-webkit-any(.okay, .info, .warning).text,
+body.dark .menu .group .item.lr:-webkit-any(.okay, .info, .warning) .text {
+    color: rgb(82, 82, 82);
+}
+
+body.dark .menu .group .item.lr:-moz-any(.okay, .info, .warning) t,
+body.dark .menu .group .item.lr:-moz-any(.okay, .info, .warning).text,
+body.dark .menu .group .item.lr:-moz-any(.okay, .info, .warning) .text {
+    color: rgb(82, 82, 82);
 }
 
 body.dark .menu .group .title {
@@ -404,30 +435,32 @@ body.dark .menu .group a.item:hover {
     color: #12d6d6;
 }
 
-body.dark .menu .group .item.warning {
-    background-color: rgba(124, 110, 43, 0.4);
+.menu .group .item.lr.okay .left,
+.menu .group .item.lr.info .left,
+.menu .group .item.lr.warning .left {
+    color: #343434;
 }
 
-body.dark .menu .group .item.warning:hover {
-    background-color: rgba(163, 142, 35, 0.4);
+body.dark .menu .group .item.okay {
+    background-color: #77ce7e;
 }
 
-body.dark .menu .group .item.lr.warning .right::after {
-    border-color: transparent transparent #e8eb68 transparent;
+body.dark .menu .group .item.okay:hover {
+    background-color: #84e08b;
 }
 
 body.dark .menu .group .item.info {
-    background-color: rgba(61, 136, 187, 0.4);
+    background-color: #7abce2;
 }
 
 body.dark .menu .group .item.info:hover {
-    background-color: rgba(84, 163, 216, 0.4);
+    background-color: #8dc8eb;
 }
 
-body.dark .menu .group .item.lr.info .right::after {
-    background-color: rgb(116, 184, 230);
+body.dark .menu .group .item.warning {
+    background-color: #e9dd74;
 }
 
-body.dark .menu .group .item .info .right {
-    color: rgb(182, 182, 182);
+body.dark .menu .group .item.warning:hover {
+    background-color: #fbf08b;
 }

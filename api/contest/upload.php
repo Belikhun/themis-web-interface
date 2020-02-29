@@ -2,7 +2,7 @@
     //? |-----------------------------------------------------------------------------------------------|
     //? |  /api/contest/upload.php                                                                      |
     //? |                                                                                               |
-    //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+    //? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
@@ -15,7 +15,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
 
     if (!isLogedIn())
-        stop(11, "Bạn chưa đăng nhập.", 403);
+        stop(11, "Bạn chưa đăng nhập.", 401);
 
     checkToken();
 
@@ -39,6 +39,9 @@
         require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
         if (!problemExist($filename))
             stop(44, "Không có đề cho bài này!", 404, Array( "file" => $filename ));
+
+        if (problemDisabled($filename) && $_SESSION["id"] !== "admin")
+            stop(25, "Đề $filename đã bị tắt", 403, Array( "id" => $filename ));
 
         if (!problemCheckExtension($filename, $extension))
             stop(43, "Không chấp nhận tệp!", 415);

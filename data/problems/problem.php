@@ -2,7 +2,7 @@
     //? |-----------------------------------------------------------------------------------------------|
     //? |  /data/problems/problem.php                                                                                  |
     //? |                                                                                               |
-    //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
+    //? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
     
@@ -22,18 +22,21 @@
     define("PROBLEM_ERROR_FILETOOLARGE", 3);
     define("PROBLEM_ERROR_FILEREJECT", 4);
     define("PROBLEM_ERROR_FILENOTFOUND", 5);
+    define("PROBLEM_ERROR_DISABLED", 6);
     
-    function problemList() {
+    function problemList(Bool $showDisabled = false) {
         global $problemList;
         $list = Array();
         
         foreach($problemList as $i => $item) {
-            array_push($list, Array(
-                "id" => $i,
-                "name" => $item["name"],
-                "point" => $item["point"],
-                "image" => "/api/contest/problems/image?id=". $i
-            ));
+            if ($showDisabled || !$item["disabled"])
+                array_push($list, Array(
+                    "id" => $i,
+                    "name" => $item["name"],
+                    "point" => $item["point"],
+                    "image" => "/api/contest/problems/image?id=". $i,
+                    "disabled" => $item["disabled"]
+                ));
         }
         
         return $list;
@@ -60,14 +63,18 @@
         return $list;
     }
 
-    function problemGet(String $id) {
+    function problemGet(String $id, Bool $bypassDisabled = false) {
         global $problemList;
+
         if (!problemExist($id))
             return PROBLEM_ERROR_IDREJECT;
 
         $data = $problemList[$id];
-        $data["id"] = $id;
 
+        if ($data["disabled"] && !$bypassDisabled)
+            return PROBLEM_ERROR_DISABLED;
+
+        $data["id"] = $id;
         return $data;
     }
 
@@ -270,9 +277,28 @@
             -> write(json_encode($problemList[$id], JSON_PRETTY_PRINT));
     }
 
-    function problemExist(String $id) {
+    function problemExist(String &$filename) {
         global $problemList;
-        return isset($problemList[$id]);
+
+        // TRY LIST
+        $try = Array(
+            $filename,
+            strtoupper($filename),
+            strtolower($filename)
+        );
+
+        foreach ($try as $value)
+            if (isset($problemList[$value])) {
+                $filename = $value;
+                return true;
+            }
+        
+        return false;
+    }
+
+    function problemDisabled(String $id) {
+        global $problemList;
+        return (isset($problemList[$id]["disabled"]) && $problemList[$id]["disabled"]);
     }
 
     function problemCheckExtension(String $id, String $ext) {

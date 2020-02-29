@@ -1,84 +1,152 @@
 <?php
-    //? |-----------------------------------------------------------------------------------------------|
-    //? |  /api/contest/rank.php                                                                        |
-    //? |                                                                                               |
-    //? |  Copyright (c) 2018-2019 Belikhun. All right reserved                                         |
-    //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
-    //? |-----------------------------------------------------------------------------------------------|
+	//? |-----------------------------------------------------------------------------------------------|
+	//? |  /api/contest/rank.php                                                                        |
+	//? |                                                                                               |
+	//? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
+	//? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+	//? |-----------------------------------------------------------------------------------------------|
 
-    // SET PAGE TYPE
-    define("PAGE_TYPE", "API");
+	$export = isset($_GET["export"]);
 
-    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
-    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
-    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
+	// SET PAGE TYPE
+	define("PAGE_TYPE", $export ? "NORMAL" : "API");
 
-    if ($config["publish"] !== true && $_SESSION["id"] !== "admin")
-        stop(108, "Thông tin không được công bố", 200, Array(
-            "list" => Array(),
-            "rank" => Array()
-        ));
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/cache.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
 
-    if ($config["viewRank"] !== true && $_SESSION["id"] !== "admin")
-        stop(107, "Xếp hạng đã bị tắt", 200, Array(
-            "list" => Array(),
-            "rank" => Array()
-        ));
+	if ($export && !isLogedIn())
+		stop(11, "Bạn chưa đăng nhập!", 401);
 
-    if (contest_timeRequire([CONTEST_STARTED], true) !== true)
-        stop(103, "Kì thi chưa bắt đầu", 200, Array(
-            "list" => Array(),
-            "rank" => Array()
-        ));
+	if ($export && $_SESSION["id"] !== "admin")
+		stop(31, "Access Denied!", 403);
 
-    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
-    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logParser.php";
+	if ($config["publish"] !== true && $_SESSION["id"] !== "admin")
+		stop(108, "Thông tin không được công bố", 200, Array(
+			"list" => Array(),
+			"rank" => Array()
+		));
 
-    $logDir = glob($config["logDir"] ."/*.log");
-    $res = Array();
-    $list = Array();
-    $nameList = Array();
+	if ($config["viewRank"] !== true && $_SESSION["id"] !== "admin")
+		stop(107, "Xếp hạng đã bị tắt", 200, Array(
+			"list" => Array(),
+			"rank" => Array()
+		));
 
-    foreach ($logDir as $i => $log) {
-        $data = ((new logParser($log, LOGPARSER_MODE_MINIMAL)) -> parse())["header"];
-        $filename = $data["file"]["logFilename"];
-        $user = $data["user"];
+	if (contest_timeRequire([CONTEST_STARTED], true) !== true)
+		stop(103, "Kì thi chưa bắt đầu", 200, Array(
+			"list" => Array(),
+			"rank" => Array()
+		));
 
-        if ($config["viewRankTask"] === true || $_SESSION["id"] === "admin") {
-            $list[$i] = $data["problem"];
-            $res[$user]["status"][$data["problem"]] = $data["status"];
-            $res[$user]["point"][$data["problem"]] = $data["point"];
-            $res[$user]["logFile"][$data["problem"]] = ($config["viewLog"] === true || $_SESSION["id"] === "admin") ? $filename : null;
+	if (!$export) {
+		$cache = new cache("api.contest.rank");
+		$cache -> setAge($config["cache"]["contestRank"]);
+		
+		if ($cache -> validate()) {
+			$returnData = $cache -> getData();
+			stop(0, "Thành công!", 200, $returnData, true);
+		}
+	}
 
-            if ($data["problemName"])
-                $nameList[$data["problem"]] = $data["problemName"];
-        }
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logParser.php";
 
-        $res[$user]["username"] = $user;
-        $res[$user]["name"] = getUserData($user)["name"] ?: null;
+	$logDir = glob($config["logDir"] ."/*.log");
+	$res = Array();
+	$list = Array();
+	$nameList = Array();
 
-        if (!isset($res[$user]["total"]))
-            $res[$user]["total"] = 0;
-            
-        $res[$user]["total"] += $data["point"];
-    }
+	foreach ($logDir as $i => $log) {
+		$data = ((new logParser($log, LOGPARSER_MODE_MINIMAL)) -> parse())["header"];
+		$filename = $data["file"]["logFilename"];
+		$user = $data["user"];
 
-    $nlr = arrayRemDub($list);
-    $list = ((count($nlr) > 0) ? $nlr : Array());
+		if (problemDisabled($data["problem"]) && $config["viewRankHideDisabled"] && $_SESSION["id"] !== "admin")
+			continue;
 
-    // Sort user by total point
-    usort($res, function($a, $b) {
-        $a = $a["total"];
-        $b = $b["total"];
-    
-        if ($a === $b)
-            return 0;
+		if ($config["viewRankTask"] === true || $_SESSION["id"] === "admin") {
+			$list[$i] = $data["problem"];
+			$res[$user]["status"][$data["problem"]] = $data["status"];
+			$res[$user]["point"][$data["problem"]] = $data["point"];
+			$res[$user]["logFile"][$data["problem"]] = ($config["viewLog"] === true || $_SESSION["id"] === "admin") ? $filename : null;
 
-        return ($a > $b) ? -1 : 1;
-    });
-    
-    stop(0, "Thành công!", 200, $returnData = Array (
-        "list" => $list,
-        "nameList" => $nameList,
-        "rank" => $res
-    ), true);
+			if ($data["problemName"])
+				$nameList[$data["problem"]] = $data["problemName"];
+		}
+
+		$res[$user]["username"] = $user;
+		$res[$user]["name"] = getUserData($user)["name"] ?: null;
+
+		if (!isset($res[$user]["lastSubmit"]) || $res[$user]["lastSubmit"] < $data["file"]["lastModify"])
+			$res[$user]["lastSubmit"] = $data["file"]["lastModify"];
+
+		if (!isset($res[$user]["total"]))
+			$res[$user]["total"] = 0;
+			
+		$res[$user]["total"] += $data["point"];
+	}
+
+	$nlr = arrayRemDub($list);
+	$list = ((count($nlr) > 0) ? $nlr : Array());
+
+	// Sort data by lastSubmit
+	usort($res, function($a, $b) {
+		$a = $a["lastSubmit"];
+		$b = $b["lastSubmit"];
+
+		if ($a === $b)
+			return 0;
+
+		return ($a < $b) ? -1 : 1;
+	});
+
+	// Sort data by total point
+	usort($res, function($a, $b) {
+		$a = $a["total"];
+		$b = $b["total"];
+	
+		if ($a === $b)
+			return 0;
+
+		return ($a > $b) ? -1 : 1;
+	});
+
+	if ($export) {
+		$data = Array();
+		$header = Array("#", "username", "name", "total");
+
+		foreach ($list as $id)
+			array_push($header, $nameList[$id] ?: $id);
+		
+		array_push($data, $header);
+
+		foreach ($res as $i => $item) {
+			$line = Array($i + 1, $item["username"], $item["name"], $item["total"]);
+
+			foreach ($list as $id)
+				array_push($line, $item["point"][$id]);
+
+			array_push($data, $line);
+		}
+
+		contentType("csv");
+		header("Content-disposition: attachment; filename=rank.csv");
+		$stream = fopen("php://output", "w");
+		fprintf($stream, chr(0xEF).chr(0xBB).chr(0xBF));
+
+		foreach ($data as $line)
+			fputcsv($stream, $line, ";");
+
+		fclose($stream);
+	} else {
+		$returnData = Array (
+			"list" => $list,
+			"nameList" => $nameList,
+			"rank" => $res
+		);
+		
+		$cache -> save($returnData);
+		stop(0, "Thành công!", 200, $returnData, true);
+	}
