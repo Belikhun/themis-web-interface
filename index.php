@@ -30,7 +30,7 @@
         $id = $userdata["id"];
     }
 
-    $stripedContestDescription = strip_tags($config["contest"]["description"]);
+    $stripedContestDescription = strip_tags($config["app"]["description"]);
 ?>
 
     <!DOCTYPE html>
@@ -45,17 +45,17 @@
         <title><?php print $config["pageTitle"]; ?> | <?php print APPNAME ." v". VERSION; ?></title>
 
         <!-- Primary Meta Tags -->
-        <meta name="title" content="<?php print $config["contest"]["name"]; ?>">
+        <meta name="title" content="<?php print $config["app"]["title"]; ?>">
         <meta name="description" content="<?php print $stripedContestDescription; ?>">
 
         <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website">
-        <meta property="og:title" content="<?php print $config["contest"]["name"]; ?>">
+        <meta property="og:title" content="<?php print $config["app"]["title"]; ?>">
         <meta property="og:description" content="<?php print $stripedContestDescription; ?>">
 
         <!-- Twitter -->
         <meta property="twitter:card" content="summary_large_image">
-        <meta property="twitter:title" content="<?php print $config["contest"]["name"]; ?>">
+        <meta property="twitter:title" content="<?php print $config["app"]["title"]; ?>">
         <meta property="twitter:description" content="<?php print $stripedContestDescription; ?>">
 
         <!-- Load Library First -->
@@ -93,7 +93,7 @@
         <script src="/assets/js/errorHandler.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
         <script type="text/javascript" src="/assets/js/splash.js?v=<?php print VERSION; ?>"></script>
         <script type="text/javascript">
-            var mainSplash = new splash(document.body, `<?php print $config["contest"]["name"]; ?>`, `<?php print $stripedContestDescription; ?>`, "/api/images/icon");
+            var mainSplash = new splash(document.body, `<?php print $config["app"]["title"]; ?>`, `<?php print $stripedContestDescription; ?>`, "/api/images/icon");
 
             mainSplash.init = async set => {
                 set(0, "Initializing core.js?v=<?php print VERSION; ?>");
@@ -183,10 +183,10 @@
                     <img class="icon" src="/api/images/icon" />
                     <ul class="title">
                         <li class="main text-overflow">
-                            <?php print $config["contest"]["name"]; ?>
+                            <?php print $config["app"]["title"]; ?>
                         </li>
                         <li class="sub text-overflow">
-                            <?php print $config["contest"]["description"]; ?>
+                            <?php print $config["app"]["description"]; ?>
                         </li>
                     </ul>
                 </span>

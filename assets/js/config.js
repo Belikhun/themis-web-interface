@@ -13,9 +13,9 @@ var landingImage = $("#landingImage");
 var landingImageInput = $("#landingImageInput");
 var landingImageReset = $("#landingImageReset");
 
-var contest = {
-    name: $("#contest_name"),
-    desc: $("#contest_description")
+var app = {
+    title: $("#contest_name"),
+    description: $("#contest_description")
 }
 var uploadDir = $("#uploadDir");
 var time = {
@@ -102,8 +102,8 @@ function update() {
     }, response => {
         let data = response.data;
 
-        contest.name.value = data.contest.name;
-        contest.desc.value = data.contest.description;
+        app.title.value = data.app.title;
+        app.description.value = data.app.description;
         uploadDir.value = data.uploadDir;
         time.zone.value = data.time.zone;
         time.beginDate.value = cvdate(
@@ -291,8 +291,8 @@ $("#formContainer").addEventListener("submit", e => {
         url: "/api/config",
         method: "POST",
         form: {
-            "contest.name": contest.name.value,
-            "contest.description": contest.desc.value,
+            "app.title": app.title.value,
+            "app.description": app.description.value,
             "uploadDir": uploadDir.value,
             "time.zone": time.zone.value,
             "time.begin.seconds": bt.s,

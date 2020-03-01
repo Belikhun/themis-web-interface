@@ -1431,7 +1431,7 @@ const core = {
                     else
                         r = await this.onUnCheckHandler();
 
-                    if (r !== false)
+                    if (r !== "cancel")
                         cookie.set(cookieKey, e.target.checked);
                     else
                         e.target.checked = !e.target.checked;
@@ -1731,7 +1731,7 @@ const core = {
                         })
     
                         if (response !== "turnOff")
-                            return false;
+                            return "cancel";
                     }
 
                     if (!this.rankingUpdateToggler.checked)

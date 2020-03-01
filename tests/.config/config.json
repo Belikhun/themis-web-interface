@@ -35,7 +35,7 @@
         "time": 10,
         "banTime": 30
     },
-    "pageTitle": "%contestName%",
+    "pageTitle": "%appTitle%",
     "allowRegister": true,
     "clientConfig": {
         "sounds": false,
