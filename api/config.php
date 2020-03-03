@@ -80,8 +80,8 @@
 				stop(3, "Loại biến không khớp! Yêu cầu form ". $key ." là ". $type["string"], 400);
 	}
 
-	setting("contest_name"				, $rawConfig["contest"]["name"]					, $TYPE_STRING);
-	setting("contest_description"		, $rawConfig["contest"]["description"]			, $TYPE_STRING);
+	setting("app_title"					, $rawConfig["app"]["title"]					, $TYPE_STRING);
+	setting("app_description"			, $rawConfig["app"]["description"]				, $TYPE_STRING);
 	setting("uploadDir"					, $rawConfig["uploadDir"]						, $TYPE_STRING);
 	setting("time_zone"					, $rawConfig["time"]["zone"]					, $TYPE_STRING);
 	setting("time_begin_seconds"		, $rawConfig["time"]["begin"]["seconds"]		, $TYPE_NUMBER);

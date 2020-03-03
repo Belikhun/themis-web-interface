@@ -151,7 +151,7 @@ body #container .flexColumn.small {
 panel {
     position: relative;
     display: flex;
-    flex-flow: column wrap;
+    flex-direction: column;
     width: 350px;
     height: auto;
     background-color: white;
@@ -178,8 +178,9 @@ panel .head .le {
     display: inline-block;
     flex: 1 1 0;
 
-    font-size: 14px;
-    font-weight: 500;
+    font-family: Calibri;
+    font-size: 16px;
+    font-weight: bold;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -256,7 +257,7 @@ panel .main .showEmpty:empty::after {
 #problemp {
     flex-grow: 1;
     width: auto;
-    height: 100%;
+    height: calc(100% - 10px);
 }
 
 #uploadp {
@@ -283,6 +284,14 @@ panel .main .showEmpty:empty::after {
 
     body #container .flexRow:first-child > .flexColumn.large {
         min-height: calc(100vh - 90px);
+    }
+
+    body #container .flexRow:last-child {
+        height: 100%;
+    }
+
+    body #container .flexRow:last-child > #rankp {
+        max-height: calc(100% - 10px);
     }
 
     body #container .flexColumn {
@@ -1217,6 +1226,7 @@ body.guest #problemp.hide {
     max-height: 100%;
     box-sizing: border-box;
     padding: 10px;
+    overflow: auto;
 
     animation: problemsListShow 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0s 1 normal forwards;
 }

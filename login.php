@@ -61,10 +61,10 @@
                 </div>
                 <ul class="info">
                     <li class="name text-overflow">
-                        <?php print $config["contest"]["name"]; ?>
+                        <?php print $config["app"]["title"]; ?>
                     </li>
                     <li class="description text-overflow">
-                        <?php print $config["contest"]["description"]; ?>
+                        <?php print $config["app"]["description"]; ?>
                     </li>
                 </ul>
             </div>

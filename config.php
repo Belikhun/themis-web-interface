@@ -55,7 +55,7 @@
 							<li><b>%name%</b>: Tên dự án</li>
 							<li><b>%version%</b>: Phiên bản</li>
 							<li><b>%author%</b>: Tên tác giả</li>
-							<li><b>%contestName%</b>: Tên kì thi</li>
+							<li><b>%appTitle%</b>: Tên kì thi</li>
 							<li><b>%root%</b>: Thư mục gốc của hệ thống</li>
 							<li><b>%currentDate%</b>: Ngày hiện tại</li>
 							<li><b>%currentTime%</b>: Thời gian hiện tại</li>

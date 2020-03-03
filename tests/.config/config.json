@@ -1,6 +1,6 @@
 {
-    "contest": {
-        "name": "logParser",
+    "app": {
+        "title": "logParser",
         "description": "Config for logParser test"
     },
     "uploadDir": "/home/travis/build/belivipro9x99/themis-web-interface/tests/logParser",
@@ -35,7 +35,7 @@
         "time": 10,
         "banTime": 30
     },
-    "pageTitle": "%contestName%",
+    "pageTitle": "%appTitle%",
     "allowRegister": true,
     "clientConfig": {
         "sounds": false,
