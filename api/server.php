@@ -20,6 +20,7 @@
         "contestName" => $config["app"]["title"],
         "contestDescription" => $config["app"]["description"],
         "username" => $_SESSION["username"] ?: null,
+        "CONTACT" => CONTACT_LINK,
         "API_TOKEN" => isset($_SESSION["apiToken"]) ? $_SESSION["apiToken"] : null,
         "REPO_ADDRESS" => REPO_ADDRESS,
         "REPORT_ERROR" => REPORT_ERROR,
