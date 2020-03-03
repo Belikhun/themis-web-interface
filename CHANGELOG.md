@@ -30,6 +30,11 @@
 
 ## Thay đổi trong v0.6.0
 
+* **Bug:** Sửa lỗi cửa sổ danh sách đề bài không hiển thị thanh trượt khi đề bài tràn ra ngoài cửa số (a3bd9e6e2358dc3850fc82abf4ecb0f122622397)
+* **Bug:** Sửa lỗi `undefined index` ở một số API khi dùng **PHP/7.4** (22f60e20861b38e64e3a5e0a69144ebd35412775)
+* **Bug:** Sửa lỗi không thể bật tắt cài đặt **Mở Đề Bài trong hộp thoại** (d961a4cb9b249a6579a48f297ff9a2560a6b0c94)
+* **Thay đổi:** Thay đổi font của tiêu đề cửa sổ (0c73b0239801080ade3ad876b766b64d205e0361)
+
 * **Bug:** Sửa lỗi module `sounds` không tương thích với trình duyệt khác không chạy nhân `chromium` (1ca99107554bd5d59bf21eae07c179461a906f3f)
 * **Bug:** Sửa lỗi request không được gửi lại sau khi hết `ratelimited` (f78e98f8f5ba43258544a423789fe4d771169c22)
 * **Thêm:** Thêm tính năng đăng kí tài khoản! (a27eafd40de8fedbff0f9c1245c1e47bc7c2183f)
