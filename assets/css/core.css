@@ -266,6 +266,7 @@ panel .main .showEmpty:empty::after {
 
 #logp {
     flex-grow: 1;
+    height: calc(100% - 220px);
 }
 
 #rankp {
@@ -304,7 +305,8 @@ panel .main .showEmpty:empty::after {
     }
 
     #logp {
-        max-height: 100%;
+        height: auto;
+        max-height: calc(100vh - 90px);
     }
 }
 
