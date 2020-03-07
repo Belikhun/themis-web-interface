@@ -72,8 +72,8 @@ body.embeded .menu {
     color: #2980b9;
     font-family: Nunito;
     font-size: 14px;
-    letter-spacing: .4px;
-    font-weight: 700;
+    letter-spacing: .8px;
+    font-weight: 750;
     text-transform: uppercase;
 
     text-overflow: ellipsis;
@@ -82,15 +82,16 @@ body.embeded .menu {
 
 .menu .group .title.big {
     color: #3a5068;
-    font-size: 19px;
-    font-weight: bolder;
+    font-size: 18px;
+    font-weight: 850;
     line-height: 22px;
     margin-top: 4px;
 }
 
 .menu .group .title.small {
     font-family: "Open Sans";
-    font-size: 12px;
+    font-size: 11px;
+    letter-spacing: .2px;
     color: rgb(74, 74, 74);
     text-transform: unset;
     font-weight: unset;

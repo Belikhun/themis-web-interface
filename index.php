@@ -83,6 +83,7 @@
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/nunito/nunito.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/consolas/consolas.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome/fontawesome.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/materialicons/materialicons.css?v=<?php print VERSION; ?>" />
     </head>
 
     <body class="<?php print ($loggedIn ? ($id === 'admin' ? 'admin' : 'user') : 'guest'); ?>">
@@ -214,7 +215,7 @@
                 <separator></separator>
                 <timer id="contestTime"><days>00</days>+00:00:00<ms>000</ms></timer>
                 <separator></separator>
-                <span id="contestTimeReload" class="material-icons reload sound" title="Làm mới" data-soundhover data-soundselect>refresh</span>
+                <span id="contestTimeReload" class="materialIcons reload sound" title="Làm mới" data-soundhover data-soundselect>refresh</span>
 
                 <div class="progressBar">
                     <div class="bar" id="timeProgress"></div>
@@ -735,8 +736,8 @@
                 <div class="head">
                     <t class="le"></t>
                     <span class="ri">
-                        <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
-                        <i class="material-icons clo sound" title="Đóng" data-soundhover data-soundselect>close</i>
+                        <i class="materialIcons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
+                        <i class="materialIcons clo sound" title="Đóng" data-soundhover data-soundselect>close</i>
                     </span>
                 </div>
                 <div class="main">
@@ -751,9 +752,9 @@
                         <div class="head">
                             <t class="le">Đề bài</t>
                             <span class="ri">
-                                <i class="material-icons bak sound" title="Quay lại" data-soundhover>keyboard_arrow_left</i>
-                                <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
-                                <i class="material-icons clo sound" title="Đóng" data-soundhover data-soundselect>close</i>
+                                <i class="materialIcons bak sound" title="Quay lại" data-soundhover>keyboard_arrow_left</i>
+                                <i class="materialIcons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
+                                <i class="materialIcons clo sound" title="Đóng" data-soundhover data-soundselect>close</i>
                             </span>
                         </div>
                         <div class="main problemsContainer">
@@ -806,7 +807,7 @@
                         <div class="head">
                             <t class="le">Nộp bài</t>
                             <span class="ri">
-                                <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
+                                <i class="materialIcons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
                             </span>
                         </div>
                         <div class="main fileupload-container">
@@ -832,8 +833,8 @@
                         <div class="head">
                             <t class="le">Nhật ký</t>
                             <span class="ri">
-                                <i class="material-icons cus sound" title="Xóa danh sách đang chấm" data-soundhover data-soundselect>gavel</i>
-                                <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
+                                <i class="materialIcons cus sound" title="Xóa danh sách đang chấm" data-soundhover data-soundselect>gavel</i>
+                                <i class="materialIcons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
                             </span>
                         </div>
                         <div class="main logItemContainer">
@@ -848,8 +849,8 @@
                     <div class="head">
                         <t class="le">Xếp hạng</t>
                         <span class="ri">
-                            <i class="material-icons cus sound" title="Xuất CSV" data-soundhover data-soundselect>import_export</i>
-                            <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
+                            <i class="materialIcons cus sound" title="Xuất CSV" data-soundhover data-soundselect>import_export</i>
+                            <i class="materialIcons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
                         </span>
                     </div>
                     <div class="main rankingContainer">

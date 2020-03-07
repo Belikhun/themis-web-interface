@@ -59,7 +59,8 @@
     position: relative;
     font-family: Nunito;
     font-size: 18px;
-    font-weight: bold;
+    font-weight: 750;
+    letter-spacing: .8px;
     color: #425161;
     overflow: hidden;
     white-space: nowrap;
@@ -176,7 +177,8 @@
     position: relative;
     font-family: Nunito;
     font-size: 18px;
-    font-weight: bold;
+    font-weight: 750;
+    font-style: italic;
     color: #425161;
 }
 

@@ -451,7 +451,7 @@ body.dark separator {
 
 .popupContainer .popupWindow .header .text {
 	font-family: Nunito;
-	font-weight: bold;
+	font-weight: 800;
 	font-style: italic;
 	font-size: 21px;
 	text-align: center;

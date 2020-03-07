@@ -1287,8 +1287,8 @@ body.guest #problemp.hide {
 #problemp .problemsContainer .problemsList .item .title .name {
     position: relative;
     font-family: Nunito;
-    font-size: 15px;
-    font-weight: bold;
+    font-size: 16px;
+    font-weight: 800;
     color: #494949;
 }
 
@@ -1413,9 +1413,9 @@ body.guest #problemp.hide {
     display: block;
     text-align: center;
     font-family: Nunito;
-    font-size: 18px;
-    font-weight: bold;
-    letter-spacing: .6px;
+    font-size: 19px;
+    font-weight: 900;
+    letter-spacing: .8px;
     color: #34495e;
 }
 
@@ -1647,10 +1647,10 @@ body.guest #problemp.hide {
 #rankp div.rankingContainer table tbody tr[data-rank="1"] td:nth-child(3) .name,
 #rankp div.rankingContainer table tbody tr[data-rank="2"] td:nth-child(3) .name,
 #rankp div.rankingContainer table tbody tr[data-rank="3"] td:nth-child(3) .name {
-    font-weight: bolder;
     font-family: Nunito;
-    font-size: 15px;
-    letter-spacing: .2px;
+    font-size: 16px;
+    font-weight: 850;
+    letter-spacing: .4px;
     color: rgb(65, 65, 65);
 }
 
@@ -1999,9 +1999,10 @@ body.guest #problemp.hide {
 .viewLog-container .header .top .problemName {
     position: relative;
     font-family: Nunito;
-    font-weight: bolder;
+    font-size: 25px;
+    font-weight: 950;
+    letter-spacing: .8px;
     color: rgb(70, 70, 70);
-    font-size: 24px;
     margin-top: 10px;
 }
 
@@ -2231,6 +2232,7 @@ body.guest #problemp.hide {
 }
 
 .viewLog-container .header .bottom .line .right .submitter .info .tag {
+    font-family: "Calibri";
     font-size: 11px;
     letter-spacing: 0.4px;
     color: #546e7a;
@@ -2240,8 +2242,8 @@ body.guest #problemp.hide {
 
 .viewLog-container .header .bottom .line .right .submitter .info .name {
     font-family: Nunito;
-    font-size: 15px;
-    font-weight: bold;
+    font-size: 16px;
+    font-weight: 850;
     color: #425161;
     text-align: right;
 }
@@ -2518,7 +2520,7 @@ footer .header .button button {
     margin: 0 5px;
 }
 
-footer .header t {
+footer .header > t {
     position: relative;
     display: block;
     text-align: center;
@@ -2528,19 +2530,20 @@ footer .header t {
     padding-top: 2px;
 }
 
-footer .header t.title {
-    font-size: 20px;
-    font-weight: bold;
+footer .header > t.title {
+    font-family: "Nunito";
+    font-size: 17px;
+    font-weight: 750;
     text-transform: uppercase;
     color: #4d6783;
 }
 
-footer .header t.version {
+footer .header > t.version {
     font-weight: bold;
     color: #3a5068;
 }
 
-footer .header t.subtitle {
+footer .header > t.subtitle {
     color: rgb(90, 90, 90);
 }
 
