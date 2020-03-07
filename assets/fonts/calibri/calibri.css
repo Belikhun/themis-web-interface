@@ -1,6 +1,6 @@
 /*
 ? |-----------------------------------------------------------------------------------------------|
-? |  /assets/fonts/consolas.css                                                                   |
+? |  /assets/fonts/calibri/calibri.css                                                                    |
 ? |                                                                                               |
 ? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
 ? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
@@ -8,30 +8,25 @@
 */
 
 @font-face {
-    font-family: "Consolas";
-    src: url("Consolas-BoldItalic.woff") format("woff");
-    font-weight: bold;
-    font-style: italic;
-}
-
-@font-face {
-    font-family: "Consolas";
-    src: url("Consolas-Italic.woff") format("woff");
-    font-weight: normal;
-    font-style: italic;
-}
-
-@font-face {
-    font-family: "Consolas";
-    src: url("Consolas.woff") format("woff");
+    font-family: "Calibri";
+    src: local("Calibri"),
+        url("Calibri.woff") format("woff");
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
-    font-family: "Consolas";
-    src: url("Consolas-Bold.woff") format("woff");
-    font-weight: bold;
+    font-family: "Calibri";
+    src: local("Calibri Light"), local("Calibri-Light"),
+        url("Calibri-Light.woff") format("woff");
+    font-weight: 300;
     font-style: normal;
 }
 
+@font-face {
+    font-family: "Calibri";
+    src: local("Calibri Bold"), local("Calibri-Bold"),
+        url("Calibri-Bold.woff") format("woff");
+    font-weight: bold;
+    font-style: normal;
+}
