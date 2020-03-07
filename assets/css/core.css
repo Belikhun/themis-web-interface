@@ -1286,7 +1286,7 @@ body.guest #problemp.hide {
 
 #problemp .problemsContainer .problemsList .item .title .name {
     position: relative;
-    font-family: Exo;
+    font-family: Nunito;
     font-size: 15px;
     font-weight: bold;
     color: #494949;
@@ -1412,7 +1412,7 @@ body.guest #problemp.hide {
 #problemp .problemsContainer .problem .name {
     display: block;
     text-align: center;
-    font-family: Exo;
+    font-family: Nunito;
     font-size: 18px;
     font-weight: bold;
     letter-spacing: .6px;
@@ -1648,7 +1648,7 @@ body.guest #problemp.hide {
 #rankp div.rankingContainer table tbody tr[data-rank="2"] td:nth-child(3) .name,
 #rankp div.rankingContainer table tbody tr[data-rank="3"] td:nth-child(3) .name {
     font-weight: bolder;
-    font-family: Exo;
+    font-family: Nunito;
     font-size: 15px;
     letter-spacing: .2px;
     color: rgb(65, 65, 65);
@@ -1998,7 +1998,7 @@ body.guest #problemp.hide {
 
 .viewLog-container .header .top .problemName {
     position: relative;
-    font-family: Exo;
+    font-family: Nunito;
     font-weight: bolder;
     color: rgb(70, 70, 70);
     font-size: 24px;
@@ -2239,7 +2239,7 @@ body.guest #problemp.hide {
 }
 
 .viewLog-container .header .bottom .line .right .submitter .info .name {
-    font-family: Exo;
+    font-family: Nunito;
     font-size: 15px;
     font-weight: bold;
     color: #425161;
