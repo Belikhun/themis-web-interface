@@ -41,12 +41,12 @@
 		));
 
 	if (!$export) {
-		$cache = new cache("api.contest.rank");
+		$cache = new cache("api.contest.rank.". md5($_SESSION["username"] . $_SESSION["id"]));
 		$cache -> setAge($config["cache"]["contestRank"]);
 		
 		if ($cache -> validate()) {
 			$returnData = $cache -> getData();
-			stop(0, "Thành công!", 200, $returnData, true);
+			stop(0, "Thành công!", 200, $returnData, $returnData["overall"]);
 		}
 	}
 
@@ -55,10 +55,13 @@
 
 	$logDir = glob($config["logDir"] ."/*.log");
 	$res = Array();
+	$_list_ = Array();
 	$list = Array();
 	$nameList = Array();
+	$total = Array();
+	$overall = 0;
 
-	foreach ($logDir as $i => $log) {
+	foreach ($logDir as $log) {
 		$data = ((new logParser($log, LOGPARSER_MODE_MINIMAL)) -> parse())["header"];
 		$filename = $data["file"]["logFilename"];
 		$user = $data["user"];
@@ -68,7 +71,7 @@
 			continue;
 
 		if ($config["viewRankTask"] === true || $_SESSION["id"] === "admin") {
-			$list[$i] = $data["problem"];
+			$_list_[$data["problem"]] = null;
 			$res[$user]["status"][$data["problem"]] = $data["status"];
 			$res[$user]["point"][$data["problem"]] = $data["point"];
 			$res[$user]["logFile"][$data["problem"]] = ($config["viewLog"] === true || $_SESSION["id"] === "admin") ? $filename : null;
@@ -89,8 +92,8 @@
 		$res[$user]["total"] += $data["point"];
 	}
 
-	$nlr = arrayRemDub($list);
-	$list = ((count($nlr) > 0) ? $nlr : Array());
+	foreach ($_list_ as $key => $value)
+		array_push($list, $key);
 
 	// Sort data by lastSubmit
 	usort($res, function($a, $b) {
@@ -113,6 +116,11 @@
 
 		return ($a > $b) ? -1 : 1;
 	});
+
+	foreach ($res as $value) {
+		$total[$user] = $value["total"];
+		$overall += $total[$user];
+	}
 
 	if ($export) {
 		$data = Array();
@@ -145,9 +153,11 @@
 		$returnData = Array (
 			"list" => $list,
 			"nameList" => $nameList,
-			"rank" => $res
+			"total" => $total,
+			"rank" => $res,
+			"overall" => $overall
 		);
 		
 		$cache -> save($returnData);
-		stop(0, "Thành công!", 200, $returnData, true);
+		stop(0, "Thành công!", 200, $returnData, $returnData["overall"]);
 	}

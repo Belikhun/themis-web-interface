@@ -63,7 +63,7 @@
         return $list;
     }
 
-    function problemGet(String $id, Bool $bypassDisabled = false) {
+    function problemGet(String &$id, Bool $bypassDisabled = false) {
         global $problemList;
 
         if (!problemExist($id))
