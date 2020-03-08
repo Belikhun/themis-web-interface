@@ -243,7 +243,7 @@ panel .main .showEmpty:empty::after {
     content: "Không có dữ liệu";
     position: absolute;
     display: block;
-    width: 100%;
+    width: calc(100% - 20px);
     top: 50%;
     transform: translateY(calc(-50% + 38px));
     font-weight: 600;

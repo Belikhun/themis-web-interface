@@ -230,6 +230,16 @@
 						<span class="checkmark"></span>
 					</label>
 				</div>
+
+				<t class="title small">Đề Bài</t>
+
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Cho phép Khách xem đề bài</t>
+					<label class="sq-checkbox right">
+						<input id="publicProblems" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
+				</div>
 			</div>
 
 			<div class="group folder">

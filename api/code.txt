@@ -38,7 +38,7 @@
 44  file not found
 45  file exist
 
-// 10x: info IGNORED
+// 10x: info (IGNORED)
 101 not in contest mode
 102 modified nothing
 103 contest not started
@@ -47,3 +47,4 @@
 106 disconnected
 107 disabled
 108 not published
+109 problems unpublicized

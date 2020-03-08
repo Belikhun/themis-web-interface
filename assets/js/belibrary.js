@@ -105,7 +105,7 @@ function myajax({
 						return;
 					}
 
-					if (this.status >= 400 || (res.code !== 0 && res.code < 100)) {
+					if (this.status >= 400 && (res.code !== 0 && res.code < 100)) {
 						clog("ERRR", {
 							color: flatc("magenta"),
 							text: method

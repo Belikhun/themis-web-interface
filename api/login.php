@@ -13,7 +13,7 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logs.php";
 
-	if (isLogedIn())
+	if (isLoggedIn())
 		stop(12, "Đã đăng nhập bằng username: ". $_SESSION["username"], 400);
 	
 	$username = reqForm("username");

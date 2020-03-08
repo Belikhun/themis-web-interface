@@ -16,7 +16,7 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/cache.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
 
-	if ($export && !isLogedIn())
+	if ($export && !isLoggedIn())
 		stop(11, "Bạn chưa đăng nhập!", 401);
 
 	if ($export && $_SESSION["id"] !== "admin")

@@ -21,7 +21,7 @@
     $name = null;
     $id = null;
 
-    if (isLogedIn()) {
+    if (isLoggedIn()) {
         require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
         $loggedIn = true;
         $username = $_SESSION["username"];

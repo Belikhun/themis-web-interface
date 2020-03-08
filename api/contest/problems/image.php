@@ -28,6 +28,10 @@
             $id = preg_replace("/[.\/\\\\]/m", "", reqQuery("id"));
 
             require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
+
+            if (!isLoggedIn() && $config["publicProblems"] !== true)
+                stop(109, "Vui lòng đăng nhập để xem đề bài!", 403);
+
             contest_timeRequire([CONTEST_STARTED], false, false);
         
             require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
@@ -48,7 +52,7 @@
             // SET PAGE TYPE
             define("PAGE_TYPE", "API");
 
-            if (!isLogedIn())
+            if (!isLoggedIn())
                 stop(11, "Bạn chưa đăng nhập.", 401);
 
             $id = preg_replace("/[.\/\\\\]/m", "", reqHeader("id"));
@@ -81,6 +85,6 @@
             // SET PAGE TYPE
             define("PAGE_TYPE", "NORMAL");
 
-            stop(7, "Unknown request method: ". $requestMethod, 405, Array( "method" => $requestMethod ));
+            stop(7, "Unexpected request method: ". $requestMethod, 405, Array( "method" => $requestMethod ));
             break;
     }

@@ -40,6 +40,7 @@ var viewRankTask = $("#viewRankTask");
 var viewRankHideDisabled = $("#viewRankHideDisabled");
 var viewLog = $("#viewLog");
 var viewLogOther = $("#viewLogOther");
+var publicProblems = $("#publicProblems");
 
 var clientConfig = {
     sounds: $("#clientSounds"),
@@ -131,6 +132,7 @@ function update() {
         viewRankHideDisabled.checked = data.viewRankHideDisabled;
         viewLog.checked = data.viewLog;
         viewLogOther.checked = data.viewLogOther;
+        publicProblems.checked = data.publicProblems;
         clientConfig.sounds.checked = data.clientConfig.sounds;
         clientConfig.nightmode.checked = data.clientConfig.nightmode;
         clientConfig.showMs.checked = data.clientConfig.showMs;
@@ -316,6 +318,7 @@ $("#formContainer").addEventListener("submit", e => {
             "viewRankHideDisabled": viewRankHideDisabled.checked,
             "viewLog": viewLog.checked,
             "viewLogOther": viewLogOther.checked,
+            "publicProblems": publicProblems.checked,
             "clientConfig.sounds": clientConfig.sounds.checked,
             "clientConfig.nightmode": clientConfig.nightmode.checked,
             "clientConfig.showMs": clientConfig.showMs.checked,

@@ -42,7 +42,7 @@
 		}
 	}
 
-	function isLogedIn() {
+	function isLoggedIn() {
 		if (session_status() !== PHP_SESSION_NONE && (isset($_SESSION["username"]) || $_SESSION["username"] !== null))
 			return true;
 		else

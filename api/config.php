@@ -17,7 +17,7 @@
 	if ($_SERVER["REQUEST_METHOD"] === "GET")
 		stop(0, "Thành công!", 200, $rawConfig);
 
-	if (!isLogedIn())
+	if (!isLoggedIn())
 		stop(11, "Bạn chưa đăng nhập.", 401);
 		
 	checkToken();
@@ -105,6 +105,7 @@
 	setting("viewRankHideDisabled"		, $rawConfig["viewRankHideDisabled"]			, $TYPE_BOOL  );
 	setting("viewLog"					, $rawConfig["viewLog"]							, $TYPE_BOOL  );
 	setting("viewLogOther"				, $rawConfig["viewLogOther"]					, $TYPE_BOOL  );
+	setting("publicProblems"			, $rawConfig["publicProblems"]					, $TYPE_BOOL  );
 	setting("clientConfig_sounds"		, $rawConfig["clientConfig"]["sounds"]			, $TYPE_BOOL  );
 	setting("clientConfig_nightmode"	, $rawConfig["clientConfig"]["nightmode"]		, $TYPE_BOOL  );
 	setting("clientConfig_showMs"		, $rawConfig["clientConfig"]["showMs"]			, $TYPE_BOOL  );
