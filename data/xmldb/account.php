@@ -143,10 +143,12 @@
         $newRow = $accountDOM -> createElement("Row");
         $newRow -> setAttribute("ss:AutoFitHeight", "0");
 
-        foreach ($newRowData as $key => $value) {
+        foreach ($accountHeader as $index => $key) {
             $cell = $accountDOM -> createElement("Cell");
             $cell -> setAttribute("ss:StyleID", "s64");
+            $cell -> setAttribute("ss:Index", $index + 1);
 
+            $value = isset($newRowData[$key]) ? $newRowData[$key] : "";
             $data = $accountDOM -> createElement("Data", $value);
             $data -> setAttribute("ss:Type", in_array(gettype($value), ["integer", "double"]) ? "Number" : "String");
 
