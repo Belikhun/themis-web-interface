@@ -6,7 +6,9 @@
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
-	// dont claim it for your own. its not nice
+	//! PLEASE DO NOT CLAIM THIS PROJECT AS YOUR OWN. THAT'S NOT NICE!
+	//! Or At Least DO NOT TOUCH licenseInfo.php, Code Headers AND LICENSE FILE
+
 	define("APPNAME", "Themis Web Interface");
 	define("AUTHOR", "Belikhun");
 	define("VERSION", "0.6.1");

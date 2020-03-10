@@ -82,6 +82,7 @@
         <div class="group file">
             <t class="title">Main</t>
             <t class="title small">MIT (<a href="/LICENSE" target="_blank" rel="noopener">LICENSE</a>) (<a href="https://tldrlegal.com/license/mit-license" target="_blank" rel="noopener">tl;dr</a>)</t>
+            <!-- PLEASE DO NOT CHANGE THIS -->
             <t class="title small">Belikhun</t>
 
             <div class="item lr info">
