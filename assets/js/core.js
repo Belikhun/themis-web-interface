@@ -915,13 +915,23 @@ const core = {
 
                 data = response.data;
             } catch(e) {
-                if (e.data.code === 103) {
-                    clog("WARN", "Kì thi chưa bắt đầu");
-                    this.list.innerHTML = "";
-                } else
-                    console.error(e);
+                switch (e.data.code) {
+                    case 103:
+                        clog("WARN", "Kì thi chưa bắt đầu");
+                        this.list.innerHTML = "";
+                        this.loaded = false;
+                        break;
+                    case 109:
+                        clog("WARN", "Danh sách đề bài bị ẩn vì bạn chưa đăng nhập");
+                        this.list.innerHTML = "";
+                        this.loaded = true;
+                        break;
+                    default:
+                        clog("ERRR", e);
+                        this.loaded = false;
+                        break;
+                }
 
-                this.loaded = false;
                 return false;
             }
 
