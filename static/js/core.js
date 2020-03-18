@@ -2419,22 +2419,27 @@ const core = {
                     throw e;
                 }
             },
-
+            
             async deleteFile(type, id, fileName = null) {
-                if (!["image", "attachment"].includes(type))
+                if (!["thumbnail", "attachment"].includes(type))
                     return false;
 
-                typeName = { image: "Ảnh Đính Kèm", attachment: "Tệp Đính Kèm" }[type]
+                typeName = { thumbnail: "Ảnh Đính Kèm", attachment: "Tệp Đính Kèm" }[type]
 
                 clog("WARN", "Preparing to delete", typeName, "of", {
                     color: flatc("yellow"),
                     text: `${id}.`
                 }, "Waiting for confirmation...");
 
+                let note = document.createElement("div");
+                note.classList.add("note", "warning");
+                note.innerHTML = `<span class="inner">Hành động này <b>không thể hoàn tác</b> một khi đã thực hiện!</span>`;
+
                 let action = await popup.show({
                     windowTitle: "Xác nhận",
                     title: `Xóa ${typeName} của đề "${id}"`,
-                    description: `Bạn có chắc muốn xóa ${fileName ? `<br><b>${fileName}</b>` : "không"}?<br>Hành động này không thể hoàn tác một khi đã thực hiện!`,
+                    description: `Bạn có chắc muốn xóa ${fileName ? `<b>${fileName}</b>` : "không"}?`,
+                    additionalNode: note,
                     level: "warning",
                     buttonList: {
                         delete: { color: "pink", text: "XÓA!!!" },
@@ -2451,14 +2456,19 @@ const core = {
                     return false;
                 }
 
-                await myajax({
-                    url: `/api/contest/problems/${type}`,
-                    method: "DELETE",
-                    header: {
-                        id: id,
-                        token: API_TOKEN
-                    }
-                })
+                try {
+                    await myajax({
+                        url: `/api/problems/${type}`,
+                        method: "DELETE",
+                        header: {
+                            id: id,
+                            token: API_TOKEN
+                        }
+                    })
+                } catch(e) {
+                    errorHandler(e);
+                    throw e;
+                }
 
                 clog("OKAY", "Deleted", typeName, "of", {
                     color: flatc("yellow"),
