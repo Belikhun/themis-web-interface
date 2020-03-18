@@ -1794,7 +1794,13 @@ const core = {
                 form: {
                     token: API_TOKEN
                 }
-            }, () => location.reload());
+            },
+            () => location.reload(),
+            e => {
+                errorHandler(e);
+                sounds.warning();
+                this.reset()
+            })
         },
 
         toggle() {
@@ -1854,7 +1860,11 @@ const core = {
                     color: flatc("pink"),
                     text: response.data.name
                 });
-            }, () => this.reset());
+            }, e => {
+                errorHandler(e);
+                sounds.warning();
+                this.reset()
+            })
         },
 
         async changePassword(pass, newPass) {
@@ -1871,10 +1881,11 @@ const core = {
             }, () => {
                 clog("okay", "Thay đổi mật khẩu thành công!");
                 this.reset();
-            }, () => {
+            }, e => {
+                errorHandler(e);
                 sounds.warning();
-                this.reset();
-            });
+                this.reset()
+            })
         },
 
         fileSelect(e, type = "drop") {
@@ -1905,9 +1916,10 @@ const core = {
                 sounds.notification();
 
                 clog("okay", "Avatar changed.");
-            }, () => {
+            }, e => {
+                errorHandler(e);
                 sounds.warning();
-                this.reset();
+                this.reset()
             })
         },
 
@@ -2125,13 +2137,13 @@ const core = {
                 this.form.form.addEventListener("submit", e => this.postSubmit());
 
                 this.form.testadd.addEventListener("click", e => {
-                    html = [
-                        `<div class="cell">`,
-                            `<textarea placeholder="Input" required></textarea>`,
-                            `<textarea placeholder="Output" required></textarea>`,
-                            `<span class="delete" onClick="core.settings.problems.rmTest(this)"></span>`,
-                        `</div>`
-                    ].join("\n");
+                    html = `
+                        <div class="cell">
+                            <textarea placeholder="Input" required></textarea>
+                            <textarea placeholder="Output" required></textarea>
+                            <span class="delete" onClick="core.settings.problems.rmTest(this)"></span>
+                        </div>`
+
                     this.form.testList.insertAdjacentHTML("beforeend", html);
                 });
 
@@ -2269,16 +2281,15 @@ const core = {
                 } else
                     this.form.deleteAttachment.disabled = true;
 
-                var html = "";
-                data.test.forEach(item => {
-                    html += [
-                        `<div class="cell">`,
-                            `<textarea placeholder="Input" required>${item.inp}</textarea>`,
-                            `<textarea placeholder="Output" required>${item.out}</textarea>`,
-                            `<span class="delete" onClick="core.settings.problems.rmTest(this)"></span>`,
-                        `</div>`
-                    ].join("\n");
-                })
+                let html = "";
+                for (let item of data.test)
+                    html += `
+                    <div class="cell">
+                        <textarea placeholder="Input" required>${item.inp}</textarea>
+                        <textarea placeholder="Output" required>${item.out}</textarea>
+                        <span class="delete" onClick="core.settings.problems.rmTest(this)"></span>
+                    </div>`
+
                 this.form.testList.innerHTML = html;
                 
                 this.hideList();
