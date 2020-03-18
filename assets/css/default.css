@@ -89,7 +89,7 @@ body.dark pre {
 timer {
     position: relative;
     display: inline-block;
-    font-family: Segoe UI;
+    font-family: "Segoe UI", "Calibri";
     font-weight: bold;
     font-size: 21px;
     letter-spacing: .5px;
@@ -103,6 +103,14 @@ timer[data-color = "red"] {
 
 body.dark timer[data-color = "red"] {
 	color: rgb(255, 169, 169);
+}
+
+timer[data-color = "yellow"] {
+	color: rgb(190, 166, 29);
+}
+
+body.dark timer[data-color = "yellow"] {
+	color: rgb(239, 241, 80);
 }
 
 timer[data-color = "green"] {

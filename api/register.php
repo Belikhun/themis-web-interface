@@ -19,7 +19,7 @@
 	if ($config["allowRegister"] !== true)
 		stop(21, "Đăng kí tài khoản đã bị tắt!", 403);
 	
-	$username = reqForm("username");
+	$username = preg_replace("/[^a-zA-Z0-9]+/", "", reqForm("username"));
 	$password = reqForm("password");
 	$captcha = reqForm("captcha");
 

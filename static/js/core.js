@@ -1,5 +1,5 @@
 //? |-----------------------------------------------------------------------------------------------|
-//? |  /assets/js/core.js                                                                           |
+//? |  /static/js/core.js                                                                           |
 //? |                                                                                               |
 //? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
@@ -485,7 +485,8 @@ const core = {
         let updateRankTimer = new stopClock();
 
         if (data.list.length === 0 && data.rank.length === 0) {
-            this.rankPanel.main.innerHTML = "";
+            emptyNode(this.rankPanel);
+            
             this.previousRankHash = hash;
             clog("debg", "Rank Is Empty. Took", {
                 color: flatc("blue"),
@@ -515,7 +516,7 @@ const core = {
                 >
                     <t class="name">${data.nameList[i] || i}</t>
                     <span class="toggler" onclick="core.foldRankCol(this.parentElement)"></span>
-                </thclass="problem">`;
+                </th>`;
 
         out += "</tr></thead><tbody>";
         let ptotal = 0;
@@ -2317,14 +2318,19 @@ const core = {
 
                 sounds.confirm(1);
 
-                await myajax({
-                    url: "/api/contest/problems/remove",
-                    method: "POST",
-                    form: {
-                        id: id,
-                        token: API_TOKEN
-                    }
-                });
+                try {
+                    await myajax({
+                        url: "/api/contest/problems/remove",
+                        method: "POST",
+                        form: {
+                            id: id,
+                            token: API_TOKEN
+                        }
+                    });
+                } catch(e) {
+                    errorHandler(e);
+                    throw e;
+                }
 
                 clog("okay", "Deleted Problem", {
                     color: flatc("yellow"),
@@ -2388,25 +2394,30 @@ const core = {
                     text: data.id
                 });
 
-                await myajax({
-                    url: "/api/contest/problems/" + action,
-                    method: "POST",
-                    form: {
-                        id: data.id,
-                        name: data.name,
-                        point: data.point,
-                        time: data.time,
-                        memory: data.memory,
-                        inpType: data.inpType,
-                        outType: data.outType,
-                        acpt: JSON.stringify(data.accept),
-                        img: data.image,
-                        desc: data.desc,
-                        attm: data.attachment,
-                        test: JSON.stringify(data.test),
-                        token: API_TOKEN
-                    }
-                });
+                try {
+                    await myajax({
+                        url: "/api/contest/problems/" + action,
+                        method: "POST",
+                        form: {
+                            id: data.id,
+                            name: data.name,
+                            point: data.point,
+                            time: data.time,
+                            memory: data.memory,
+                            inpType: data.inpType,
+                            outType: data.outType,
+                            acpt: JSON.stringify(data.accept),
+                            img: data.image,
+                            desc: data.desc,
+                            attm: data.attachment,
+                            test: JSON.stringify(data.test),
+                            token: API_TOKEN
+                        }
+                    });
+                } catch(e) {
+                    errorHandler(e);
+                    throw e;
+                }
             },
 
             async deleteFile(type, id, fileName = null) {

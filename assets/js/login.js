@@ -20,7 +20,8 @@ const login = {
 	allowRegister: false,
 
 	async init() {
-		await sounds.init();
+		if (!(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream))
+			await sounds.init();
 
 		let server = await myajax({ url: "/api/server", method: "GET" });
 		this.allowRegister = server.data.config.allowRegister;

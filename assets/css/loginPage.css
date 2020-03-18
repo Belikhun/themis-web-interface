@@ -148,7 +148,6 @@ body.dark {
 
     width: 100%;
     box-sizing: border-box;
-    padding: 0 20px;
     overflow-x: hidden;
     overflow-y: auto;
 }
@@ -228,7 +227,7 @@ body.dark {
 .rightPanel .center .formBox .inputForm .progress .indicator > .item {
     position: relative;
     display: inline-block;
-    width: 100px;
+    width: 120px;
     padding-top: 24px;
     font-family: Nunito;
     font-size: 12px;

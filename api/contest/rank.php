@@ -118,8 +118,8 @@
 	});
 
 	foreach ($res as $value) {
-		$total[$user] = $value["total"];
-		$overall += $total[$user];
+		$total[$value["username"]] = $value["total"];
+		$overall += $total[$value["username"]];
 	}
 
 	if ($export) {
