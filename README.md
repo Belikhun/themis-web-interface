@@ -10,7 +10,9 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 [![license](https://img.shields.io/badge/license-MIT-orange.svg?longCache=true&style=for-the-badge)](https://github.com/belivipro9x99/themis-web-interface/blob/master/LICENSE)
 [![status](https://img.shields.io/badge/status-near_stable-blue.svg?longCache=true&style=for-the-badge)]()
 [![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface.svg?style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface)
+
 [![codefactor](https://www.codefactor.io/repository/github/belivipro9x99/themis-web-interface/badge/master?style=for-the-badge)](https://www.codefactor.io/repository/github/belivipro9x99/themis-web-interface)
+[![codefactor](https://www.codefactor.io/repository/github/belivipro9x99/themis-web-interface/badge/indev?style=for-the-badge)](https://www.codefactor.io/repository/github/belivipro9x99/themis-web-interface/overview/indev)
 
 [![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface/master.svg?label=master&style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface)
 [![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface/indev.svg?label=indev&style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface)
@@ -236,6 +238,8 @@ Tải về bản mới nhất tại: [releases list](https://github.com/belivipr
 Hướng dẫn cài đặt, sử dụng và nâng cấp hiện có trong [Wiki](https://github.com/belivipro9x99/themis-web-interface/wiki/installation-and-config) của dự án.
 
 ## API Document
+
+> **⚠ Lưu ý:** Thông tin API trong Wiki chưa được cập nhật cho phiên bản mới nhất! Một số thông tin có thể bị sai lệch với phiên bản hiện tại
 
 Toàn bộ **Tài liệu** đều có ở trong [Wiki:API](https://github.com/belivipro9x99/themis-web-interface-reloaded/wiki/Getting-Started-with-API) của dự án.
 
