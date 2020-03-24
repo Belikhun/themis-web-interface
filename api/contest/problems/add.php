@@ -13,7 +13,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logs.php";
     
-    if (!isLogedIn())
+    if (!isLoggedIn())
         stop(11, "Bạn chưa đăng nhập.", 401);
     
     checkToken();

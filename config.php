@@ -28,14 +28,14 @@
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/slider.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/spinner.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/menu.css?v=<?php print VERSION; ?>" />
-	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/configPage.css?v=<?php print VERSION; ?>" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/static/css/configPage.css?v=<?php print VERSION; ?>" />
 	<!-- Fonts -->
-	<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri.css?v=<?php print VERSION; ?>" />
-	<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/exo.css?v=<?php print VERSION; ?>" />
-	<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/opensans.css?v=<?php print VERSION; ?>" />
-	<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/material-font.css?v=<?php print VERSION; ?>" />
-	<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/consolas.css?v=<?php print VERSION; ?>" />
-	<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome.css?v=<?php print VERSION; ?>" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri/calibri.css?v=<?php print VERSION; ?>" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/nunito/nunito.css?v=<?php print VERSION; ?>" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/opensans/opensans.css?v=<?php print VERSION; ?>" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/materialicons/materialicons.css?v=<?php print VERSION; ?>" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/consolas/consolas.css?v=<?php print VERSION; ?>" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome/fontawesome.css?v=<?php print VERSION; ?>" />
 </head>
 
 <body id="container">
@@ -230,6 +230,16 @@
 						<span class="checkmark"></span>
 					</label>
 				</div>
+
+				<t class="title small">Đề Bài</t>
+
+				<div class="item lr sound" data-soundhoversoft>
+					<t class="left">Cho phép Khách xem đề bài</t>
+					<label class="sq-checkbox right">
+						<input id="publicProblems" type="checkbox" class="sound" data-soundcheck>
+						<span class="checkmark"></span>
+					</label>
+				</div>
 			</div>
 
 			<div class="group folder">
@@ -408,7 +418,7 @@
 	<script src="/assets/js/errorHandler.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 	<script src="/assets/js/statusBar.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 	<script src="/assets/js/sounds.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
-	<script src="/assets/js/config.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+	<script src="/static/js/config.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=<?php print TRACK_ID; ?>"></script>

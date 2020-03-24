@@ -6,11 +6,13 @@
     //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
     //? |-----------------------------------------------------------------------------------------------|
 
-	// dont claim it for your own. its not nice
+	//! PLEASE DO NOT CLAIM THIS PROJECT AS YOUR OWN. THAT'S NOT NICE!
+	//! Or At Least DO NOT TOUCH licenseInfo.php, Code Headers AND LICENSE FILE
+
 	define("APPNAME", "Themis Web Interface");
 	define("AUTHOR", "Belikhun");
 	define("VERSION", "0.6.0");
-	define("VERSION_TAG", "rev2");
+	define("VERSION_TAG", "rev3");
 	define("REPO_ADDRESS", "https://github.com/belivipro9x99/themis-web-interface");
 	define("REPORT_ERROR", REPO_ADDRESS . "/issues");
 	define("CONTACT_LINK", "http://m.me/belivipro9x99");

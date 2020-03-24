@@ -49,5 +49,6 @@
     },
     "cache": {
         "contestRank": 1
-    }
+    },
+    "publicProblems": false
 }

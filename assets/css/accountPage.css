@@ -215,7 +215,3 @@ body.dark #accountContainer .accountInfo .info .id {
 body.dark #accountContainer .accountInfo .info .name {
     color: rgb(218, 218, 218);
 }
-
-body.dark .formGroup.blue .formField {
-    color: rgb(204, 204, 204);
-}

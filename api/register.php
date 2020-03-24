@@ -13,13 +13,13 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logs.php";
 
-	if (isLogedIn())
+	if (isLoggedIn())
 		stop(12, "Đã đăng nhập bằng tài khoản: ". $_SESSION["username"], 400);
 
 	if ($config["allowRegister"] !== true)
 		stop(21, "Đăng kí tài khoản đã bị tắt!", 403);
 	
-	$username = reqForm("username");
+	$username = preg_replace("/[^a-zA-Z0-9]+/", "", reqForm("username"));
 	$password = reqForm("password");
 	$captcha = reqForm("captcha");
 
@@ -27,7 +27,7 @@
 		stop(8, "Sai Captcha", 403);
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
-	$res = addUser("registeredUser", $username, $password, $username);
+	$res = addUser(sprintf("r%04d", randBetween(0, 9999)), $username, password_hash($password, PASSWORD_DEFAULT), $username);
 	
 	if ($res === USER_ADD_SUCCESS) {
 		$udata = getUserData($username);

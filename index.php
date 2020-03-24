@@ -21,7 +21,7 @@
     $name = null;
     $id = null;
 
-    if (isLogedIn()) {
+    if (isLoggedIn()) {
         require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
         $loggedIn = true;
         $username = $_SESSION["username"];
@@ -68,22 +68,22 @@
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/table.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/switch.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/slider.css?v=<?php print VERSION; ?>" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/navbar.css?v=<?php print VERSION; ?>" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/userSetting.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/static/css/navbar.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/static/css/userSetting.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/menu.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/spinner.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/statusBar.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollBar.css?v=<?php print VERSION; ?>" />
         <!-- Page Style -->
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/core.css?v=<?php print VERSION; ?>" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/dark.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/static/css/core.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/static/css/dark.css?v=<?php print VERSION; ?>" />
         <!-- Fonts -->
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri.css?v=<?php print VERSION; ?>" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/opensans.css?v=<?php print VERSION; ?>" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/exo.css?v=<?php print VERSION; ?>" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/material-font.css?v=<?php print VERSION; ?>" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/consolas.css?v=<?php print VERSION; ?>" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri/calibri.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/opensans/opensans.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/nunito/nunito.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/consolas/consolas.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome/fontawesome.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/materialicons/materialicons.css?v=<?php print VERSION; ?>" />
     </head>
 
     <body class="<?php print ($loggedIn ? ($id === 'admin' ? 'admin' : 'user') : 'guest'); ?>">
@@ -215,7 +215,7 @@
                 <separator></separator>
                 <timer id="contestTime"><days>00</days>+00:00:00<ms>000</ms></timer>
                 <separator></separator>
-                <span id="contestTimeReload" class="material-icons reload sound" title="Làm mới" data-soundhover data-soundselect>refresh</span>
+                <span id="contestTimeReload" class="materialIcons reload sound" title="Làm mới" data-soundhover data-soundselect>refresh</span>
 
                 <div class="progressBar">
                     <div class="bar" id="timeProgress"></div>
@@ -694,7 +694,6 @@
                                     <img src="/tool/badge?su=license&st=MIT&c=orange">
                                     <img src="/tool/badge?su=status&st=near stable&c=blue">
                                     <img src="/tool/badge?su=author&st=Belikhun&c=red">
-                                    <a href="http://thptlaclongquan.hoabinh.edu.vn" target="_blank" rel="noopener"><img src="/tool/badge?su=school&st=Lac Long Quan High School, Hoa Binh&c=yellow"></a>
                                 </div>
                                 
                                 <t class="description"><b><?php print APPNAME; ?></b> là một dự án mã nguồn mở, phi lợi nhuận với mục đích chính nhằm biến việc quản lí và tổ chức các buổi học lập trình, ôn tập tin học và tổ chức kì thi trở nên dễ dàng hơn.</t>
@@ -736,8 +735,8 @@
                 <div class="head">
                     <t class="le"></t>
                     <span class="ri">
-                        <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
-                        <i class="material-icons clo sound" title="Đóng" data-soundhover data-soundselect>close</i>
+                        <i class="materialIcons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
+                        <i class="materialIcons clo sound" title="Đóng" data-soundhover data-soundselect>close</i>
                     </span>
                 </div>
                 <div class="main">
@@ -752,9 +751,9 @@
                         <div class="head">
                             <t class="le">Đề bài</t>
                             <span class="ri">
-                                <i class="material-icons bak sound" title="Quay lại" data-soundhover>keyboard_arrow_left</i>
-                                <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
-                                <i class="material-icons clo sound" title="Đóng" data-soundhover data-soundselect>close</i>
+                                <i class="materialIcons bak sound" title="Quay lại" data-soundhover>keyboard_arrow_left</i>
+                                <i class="materialIcons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
+                                <i class="materialIcons clo sound" title="Đóng" data-soundhover data-soundselect>close</i>
                             </span>
                         </div>
                         <div class="main problemsContainer">
@@ -807,7 +806,7 @@
                         <div class="head">
                             <t class="le">Nộp bài</t>
                             <span class="ri">
-                                <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
+                                <i class="materialIcons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
                             </span>
                         </div>
                         <div class="main fileupload-container">
@@ -833,8 +832,8 @@
                         <div class="head">
                             <t class="le">Nhật ký</t>
                             <span class="ri">
-                                <i class="material-icons cus sound" title="Xóa danh sách đang chấm" data-soundhover data-soundselect>gavel</i>
-                                <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
+                                <i class="materialIcons cus sound" title="Xóa danh sách đang chấm" data-soundhover data-soundselect>gavel</i>
+                                <i class="materialIcons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
                             </span>
                         </div>
                         <div class="main logItemContainer">
@@ -849,8 +848,8 @@
                     <div class="head">
                         <t class="le">Xếp hạng</t>
                         <span class="ri">
-                            <i class="material-icons cus sound" title="Xuất CSV" data-soundhover data-soundselect>import_export</i>
-                            <i class="material-icons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
+                            <i class="materialIcons cus sound" title="Xuất CSV" data-soundhover data-soundselect>import_export</i>
+                            <i class="materialIcons ref sound" title="Làm mới" data-soundhover data-soundselect>refresh</i>
                         </span>
                     </div>
                     <div class="main rankingContainer">
@@ -893,7 +892,7 @@
         <script src="/assets/js/sounds.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 
         <!-- Core script -->
-        <script src="/assets/js/core.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+        <script src="/static/js/core.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
         
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=<?php print TRACK_ID; ?>"></script>

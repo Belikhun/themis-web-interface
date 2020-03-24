@@ -11,19 +11,19 @@ const errorHandler = async (error, returnable = true) => {
 	if (!popup || !popup.initialized)
 		return;
 
-	let e = (error.code && error.data.code)
+	let e = (error.code && error.data && error.data.code)
 		?	`[${error.code} ${error.data.code}]`
 		:	error.code ? `[${error.code}]`
 		:	error.name
 		||	error.data.name
 		||	`${error.data.data.file}:${error.data.data.line}`
 
-	let d = (error.description && error.data.description)
+	let d = (error.description && error.data && error.data.description)
 		?	`${error.description} (${error.data.description}) ${(error.data.data.file) ? `${error.data.data.file}:${error.data.data.line}` : ""}`
 		:	error.message
+		||	error.description
 		||	error.data.message
 		||	error.data.description
-		||	error.description
 		
 	let returnBtn = {}
 
@@ -31,14 +31,13 @@ const errorHandler = async (error, returnable = true) => {
 		returnBtn.back = { text: "Quay lại", color: "green" }
 
 	let errorBox = document.createElement("pre");
-	errorBox.classList.add("dark", "break");
+	errorBox.classList.add(document.body.classList.contains("dark") ? "dark" : "light", "break");
 	errorBox.innerText = `${e} >>> ${d}`;
 	errorBox.style.fontSize = "16px";
 
-	splash.change({ description: "Lỗi đã sảy ra!" });
 	await popup.show({
 		windowTitle: "Error Handler",
-		title: "Oops!",
+		title: "Toang rồi ông Giáo ạ!",
 		message: "ERROR OCCURED",
 		description: "Một lỗi không mong muốn đã sảy ra!",
 		level: "error",

@@ -1,4 +1,7 @@
 data/logs.json
+data/avatar/*
+!data/avatar/avt.default
+!data/avatar/*.php
 .cache
 
 # Byte-compiled / optimized / DLL files

@@ -1,0 +1,452 @@
+/*
+? |-----------------------------------------------------------------------------------------------|
+? |  /static/css/userSetting.css                                                                  |
+? |                                                                                               |
+? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
+? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+? |-----------------------------------------------------------------------------------------------|
+*/
+
+#userSettings {
+    position: fixed;
+    width: 0;
+    top: 56px;
+    right: 0;
+    bottom: 20px;
+    transition:
+    width 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+    z-index: 2;
+}
+
+#userSettings.show {
+    width: 380px;
+}
+
+#userSettings.subPanel {
+    width: 50px;
+}
+
+#userSettings.show ~ #container {
+    filter: brightness(0.4);
+}
+
+#userSettings .main {
+    position: relative;
+    width: 100%;
+    right: 0;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    direction: rtl;
+    scroll-behavior: smooth;
+}
+
+#userSettings .main::-webkit-scrollBar {
+    display: none;
+}
+
+#userSettings .main .container {
+    position: absolute;
+    width: 100%;
+    min-width: 320px;
+    min-height: 100%;
+    direction: ltr;
+    right: 0;
+}
+
+#userSettings .sub {
+    position: absolute;
+    width: calc(100vw - 100%);
+    height: 100%;
+    top: 0;
+    right: 100%;
+    z-index: 2;
+
+    display: none;
+}
+
+#userSettings .sub > .underlay {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#userSettings.show .sub {
+    display: block;
+}
+
+#userSettings .sub .panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 100%;
+    overflow: hidden;
+
+    transition: width 0.5s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+}
+
+#userSettings .sub .panel.show {
+    width: 400px;
+}
+
+#userSettings .sub .panel .container {
+    position: absolute;
+    display: block;
+    width: 400px;
+    height: 100%;
+    right: 0;
+    padding-right: 50px;
+    box-sizing: border-box;
+    background-color: rgba(245, 245, 246, 0.8);
+    overflow: hidden;
+}
+
+#userSettings .sub .panel.large.show,
+#userSettings .sub .panel.large .container {
+    width: 840px;
+    max-width: calc(100vw - 100px);
+}
+
+@media only screen and (max-width: 740px) {
+    #userSettings.show {
+        width: 100vw;
+    }
+
+    #userSettings.subPanel {
+        width: 50px;
+    }
+
+    #userSettings .main .container {
+        width: 100vw;
+    }
+
+    #userSettings .sub {
+        right: 50px;
+        width: 0;
+    }
+
+    #userSettings .sub .panel.show,
+    #userSettings .sub .panel .container,
+    #userSettings .sub .panel.large.show,
+    #userSettings .sub .panel.large .container {
+        width: calc(100vw - 50px);
+        max-width: unset;
+    }
+}
+
+#userSettings .sub .panel .container .btn-group {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    right: 0;
+    top: 0;
+    width: 50px;
+    height: 100%;
+    background-color: rgba(245, 245, 246, 0.6);
+    z-index: 1;
+    
+    transition:
+        width 0.2s cubic-bezier(0.23, 1, 0.32, 1),
+        background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+    
+#userSettings .sub .panel .container .btn-group:hover {
+    width: 100px;
+    background-color: rgba(245, 245, 246, 1);
+}
+
+#userSettings .sub .panel .container .btn-group span {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    flex-grow: 1;
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1),
+        transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+#userSettings .sub .panel .container .btn-group span::before {
+    content: "\f111";
+    position: relative;
+    display: block;
+    font-family: "Font Awesome 5 Free";
+    font-size: 12px;
+    font-weight: 600;
+    color: gray;
+
+    transition:
+        color 0.2s cubic-bezier(0.23, 1, 0.32, 1),
+        font-size 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+#userSettings .sub .panel .container .btn-group span:hover {
+    background-color: rgba(41, 127, 185, 0.1);
+}
+
+#userSettings .sub .panel .container .btn-group span:active {
+    transform: scale(0.8);
+}
+
+#userSettings .sub .panel .container .btn-group span:hover::before {
+    color: #2980b9;
+}
+
+#userSettings .sub .panel .container .btn-group:hover span::before {
+    font-size: 18px;
+}
+
+#userSettings .sub .panel .container .btn-group .close:hover {
+    background-color: rgba(231, 77, 60, 0.1);
+}
+
+#userSettings .sub .panel .container .btn-group .close::before {
+    content: "\f054";
+}
+
+#userSettings .sub .panel .container .btn-group .close:hover::before {
+    color: #e74c3c;
+}
+
+#userSettings .sub .panel .container .btn-group .reload::before {
+    content: "\f2f1";
+}
+
+#userSettings .sub .panel .container .btn-group .delete::before {
+    content: "\f2ed";
+}
+
+#userSettings .sub .panel .container .btn-group span::after {
+    position: absolute;
+    display: block;
+    left: 50%;
+    top: calc(50% + 30px);
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+    font-family: "Calibri";
+    font-size: 12px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: rgb(98, 98, 98);
+    opacity: 0;
+
+    transition:
+        opacity 0.2s cubic-bezier(0.23, 1, 0.32, 1),
+        color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+#userSettings .sub .panel .container .btn-group:hover span::after {
+    opacity: 1;
+}
+
+#userSettings .sub .panel .container .btn-group span:hover::after {
+    color: #2980b9;
+}
+
+#userSettings .sub .panel .container .btn-group .reload::after {
+    content: "Làm mới";
+}
+
+#userSettings .sub .panel .container .btn-group .close::after {
+    content: "Đóng";
+}
+
+#userSettings .sub .panel .container .btn-group .close:hover::after {
+    color: #e74c3c;
+}
+
+#userSettings .sub .panel .container .btn-group .delete::after {
+    content: "Xóa nhật ký";
+}
+
+#userSettings .sub .panel .container .main {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    direction: ltr;
+    scroll-behavior: smooth;
+
+    transition:
+        transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+#userSettings .sub .panel .container .main:empty::before,
+#userSettings .sub .panel .container .main .showEmpty:empty::before {
+    content: "\f51b";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, calc(-50% - 22px));
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 72px;
+    color: rgb(170, 170, 170);
+}
+
+#userSettings .sub .panel .container .main:empty::after,
+#userSettings .sub .panel .container .main .showEmpty:empty::after {
+    content: "Không có dữ liệu";
+    position: absolute;
+    display: inline-block;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, calc(-50% + 36px));
+    width: unset;
+    height: unset;
+    background-color: unset;
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    color: rgb(124, 124, 124);
+}
+
+/* Element and Stuff */
+
+#userSettings .main .container .group .item #usett_avtinp {
+    display: none;
+}
+
+#userSettings .main .container .group .item .avatar {
+    position: relative;
+    display: block;
+    width: 70px;
+    height: 70px;
+    margin-bottom: 10px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+#userSettings .main .container .group .item .avatar img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#userSettings .main .container .group .item .avatar .wrapper {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    cursor: pointer;
+    opacity: 0;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.4);
+
+    transition: opacity 0.2s ease;
+}
+
+#userSettings .main .container .group .item .avatar .wrapper i {
+    position: absolute;
+    display: inline-block;
+}
+
+#userSettings .main .container .group .item .avatar .wrapper i::before {
+    position: relative;
+    font-family: "Font Awesome 5 Free";
+    font-style: normal;
+    font-weight: 600;
+    visibility: hidden;
+    color: rgb(211, 211, 211);
+}
+
+#userSettings .main .container .group .item .avatar .wrapper i.pencil::before {
+    content: "\f303";
+    font-size: 18px;
+}
+
+#userSettings .main .container .group .item .avatar .wrapper i.drag::before {
+    content: "\f103";
+    font-size: 22px;
+}
+
+#userSettings .main .container .group .item .avatar .wrapper .material-spinner {
+    transform: scale(0.6);
+    filter: brightness(1.4);
+    visibility: hidden;
+}
+
+#userSettings .main .container .group .item .avatar:hover .wrapper.drag .pencil::before,
+#userSettings .main .container .group .item .avatar:hover .wrapper.load .pencil::before {
+    visibility: hidden;
+}
+
+#userSettings .main .container .group .item .avatar:hover .wrapper .pencil::before,
+#userSettings .main .container .group .item .avatar .wrapper.drag i.drag::before,
+#userSettings .main .container .group .item .avatar .wrapper.load .material-spinner {
+    visibility: visible;
+}
+
+#userSettings .main .container .group .item .avatar:hover .wrapper,
+#userSettings .main .container .group .item .avatar .wrapper.drag,
+#userSettings .main .container .group .item .avatar .wrapper.load {
+    opacity: 1;
+}
+
+#userSettings .main .container .group .item .info {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    padding: 4px 0;
+}
+
+#userSettings .main .container .group .item .info .left {
+    position: relative;
+    color: gray;
+    flex-grow: 2;
+    font-weight: normal;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+#userSettings .main .container .group .item .info .right {
+    position: relative;
+    color: rgb(90, 90, 90);
+    flex-grow: 1;
+    text-align: right;
+    font-family: "Calibri";
+}
+
+#userSettings .main .container .group .item.form form {
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+#userSettings .main .container .group .item.form form .formGroup {
+    display: block;
+    margin: 0 0 10px;
+}
+
+#userSettings .main .container .group .item.form form button {
+    display: block;
+    margin: auto;
+}
+
+#userSettings .main .container .group .item.logout .sq-btn {
+    display: block;
+    width: 100%;
+}
+
+#userSettings .main .container .group .item #usett_udelay_slider {
+    position: relative;
+    width: 100%;
+    margin-top: 16px;
+}

@@ -32,12 +32,12 @@
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/spinner.css?v=<?php print VERSION; ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/loginPage.css?v=<?php print VERSION; ?>" />
         <!-- Fonts -->
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri.css?v=<?php print VERSION; ?>" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/exo.css?v=<?php print VERSION; ?>" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/opensans.css?v=<?php print VERSION; ?>" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/material-font.css?v=<?php print VERSION; ?>" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/consolas.css?v=<?php print VERSION; ?>" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri/calibri.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/nunito/nunito.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/opensans/opensans.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/materialicons/materialicons.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/consolas/consolas.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome/fontawesome.css?v=<?php print VERSION; ?>" />
     </head>
 
     <body>
@@ -78,7 +78,7 @@
                         <div class="progress">
                             <div class="progressBar"><div class="bar" data-color="blue" data-blink="grow"></div></div>
                             <div class="indicator">
-                                <span class="item">Tên Tài Khoản</span>
+                                <span class="item">Tên đăng nhập</span>
                                 <span class="item">Mật Khẩu</span>
                                 <span class="item">Hoàn Thành</span>
                             </div>
@@ -86,8 +86,8 @@
 
                         <div class="username" id="loginUsername">
                             <div class="formGroup sound" data-color="blue" data-soundselectsoft>
-                                <input id="loginUsernameInput" type="text" autocomplete="username" class="formField" autocomplete="off" placeholder="Tên tài khoản" required disabled>
-                                <label for="loginUsernameInput">Tên tài khoản</label>
+                                <input id="loginUsernameInput" type="text" autocomplete="username" class="formField" autocomplete="off" placeholder="Tên đăng nhập" required disabled>
+                                <label for="loginUsernameInput">Tên đăng nhập</label>
                             </div>
     
                             <div class="button">
@@ -126,16 +126,20 @@
                         <div class="progress">
                             <div class="progressBar"><div class="bar" data-color="blue" data-blink="grow"></div></div>
                             <div class="indicator">
-                                <span class="item">Tên Tài Khoản</span>
+                                <span class="item">Tên đăng nhập</span>
                                 <span class="item">Mật Khẩu</span>
                                 <span class="item">Hoàn Thành</span>
                             </div>
                         </div>
 
                         <div class="username" id="registerUsername">
+                            <div class="note warning" style="margin-top: 10px;">
+                                <span class="inner">Tên đăng nhập chỉ được phép chứa các kí tự từ <b>a-z, A-Z và 0-9</b></span>
+                            </div>
+
                             <div class="formGroup sound" data-color="blue" data-soundselectsoft>
-                                <input id="registerUsernameInput" type="text" autocomplete="username" class="formField" autocomplete="off" placeholder="Tên tài khoản" required disabled>
-                                <label for="registerUsernameInput">Tên tài khoản</label>
+                                <input id="registerUsernameInput" type="text" autocomplete="username" class="formField" autocomplete="off" placeholder="Tên đăng nhập" required disabled>
+                                <label for="registerUsernameInput">Tên đăng nhập</label>
                             </div>
     
                             <div class="button">
@@ -168,7 +172,7 @@
                                 </div>
 
                                 <div class="formGroup sound" data-color="blue" data-soundselectsoft>
-                                    <input id="registerCaptchaInput" type="password" autocomplete="off" class="formField" autocomplete="off" placeholder="Captcha" required disabled>
+                                    <input id="registerCaptchaInput" type="text" autocomplete="off" class="formField" autocomplete="off" placeholder="Captcha" required disabled>
                                     <label for="registerCaptchaInput">Captcha</label>
                                 </div>
                             </div>

@@ -1,21 +1,7 @@
-# Below is custom site speed items
-# We need to set correct content-type for fonts
-  AddType application/vnd.ms-fontobject .eot 
-  AddType application/x-font-ttf .ttf
-  AddType application/x-font-opentype .otf
-  AddType application/x-font-woff .woff
-  AddType image/svg+xml .svg
-
 # This sets up expire times 
 # BEGIN Expire headers
-<ifModule mod_expires.c>
-  ExpiresActive On
-  ExpiresDefault "access plus 5 seconds"
-# This part sets the expires for the fonts
-  ExpiresByType application/vnd.ms-fontobject "access plus 1 year"
-  ExpiresByType application/x-font-ttf "access plus 1 year"
-  ExpiresByType application/x-font-opentype "access plus 1 year"
-  ExpiresByType application/x-font-woff "access plus 1 year"
-  ExpiresByType image/svg+xml "access plus 1 year"
-</ifModule>
+<IfModule mod_headers.c>
+	# Expire after 1 WEEK
+	Header set Cache-Control "public, max-age=604800"
+</IfModule>
 # END Expire headers

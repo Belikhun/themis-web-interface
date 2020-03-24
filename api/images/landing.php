@@ -48,7 +48,7 @@
 			// SET PAGE TYPE
 			define("PAGE_TYPE", "API");
 
-			if (!isLogedIn())
+			if (!isLoggedIn())
 				stop(11, "Bạn chưa đăng nhập!", 401);
 				
 			checkToken();
@@ -92,7 +92,7 @@
 			// SET PAGE TYPE
             define("PAGE_TYPE", "API");
 
-            if (!isLogedIn())
+            if (!isLoggedIn())
                 stop(11, "Bạn chưa đăng nhập.", 401);
             
             checkToken();
@@ -116,6 +116,6 @@
 			// SET PAGE TYPE
 			define("PAGE_TYPE", "API");
 
-			stop(7, "Unknown request method: ". $requestMethod, 405, Array( "method" => $requestMethod ));
+			stop(7, "Unexpected request method: ". $requestMethod, 405, Array( "method" => $requestMethod ));
 			break;
 	}

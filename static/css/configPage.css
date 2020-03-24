@@ -1,0 +1,175 @@
+/*
+? |-----------------------------------------------------------------------------------------------|
+? |  /static/css/configPage.css                                                                   |
+? |                                                                                               |
+? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
+? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+? |-----------------------------------------------------------------------------------------------|
+*/
+
+body {
+    background-color: transparent;
+    margin: unset;
+    width: 100vw;
+    height: calc(100vh - 20px);
+}
+
+body:not(.embeded) {
+    background-color: rgb(180, 180, 180);
+}
+
+.wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
+
+.wrapper #formContainer {
+    position: relative;
+    padding-bottom: 20px;
+}
+
+.wrapper #formContainer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 50px;
+    background-color: #F5F5F6;
+}
+
+/* IMAGE CHANGER */
+
+.wrapper .menu .group .imageChanger {
+    flex-wrap: wrap;
+}
+
+.wrapper .menu .group .imageChanger > span .row {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 4px 20px 10px;
+}
+
+.wrapper .menu .group .imageChanger > span .row > input {
+    display: none;
+}
+
+.wrapper .menu .group .imageChanger > span .row > .lazyload {
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.wrapper .menu .group .imageChanger > span .row .pageIcon {
+    width: 124px;
+    height: 124px;
+    border-radius: 50%;
+}
+
+.wrapper .menu .group .imageChanger > span .row .landingImage {
+    width: 264px;
+    height: 124px;
+    border-radius: 8px;
+}
+
+.wrapper .menu .group .imageChanger > span .row > .lazyload::after {
+    content: "\f304";
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 22px;
+    opacity: 0;
+    color: #f5f5f5;
+    transition: opacity 0.2s ease;
+}
+
+.wrapper .menu .group .imageChanger > span .row > .lazyload:hover::after {
+    opacity: 1;
+}
+
+.wrapper .menu .group .imageChanger > span .row > button {
+    margin-left: 20px;
+}
+
+/* Extra Stuff */
+
+.wrapper #formContainer .group .item .formGroup {
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+.wrapper #formContainer .footer {
+    position: fixed;
+    display: flex;
+    flex-direction: row-reverse;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10000;
+}
+
+#clientUpdateDelayInput {
+    width: 100%;
+}
+
+/* Dark */
+
+body.dark:not(.embeded) {
+    background-color: rgb(0, 0, 0);
+}
+
+body.dark a {
+    color: #19c8a5;
+}
+
+body.dark t {
+    color: rgb(212, 212, 212);
+}
+
+body.dark .wrapper #formContainer::before {
+    background-color: rgb(56, 56, 56);
+}
+
+body.dark .wrapper #formContainer .group .title {
+    color: #3498db;
+}
+
+body.dark .wrapper #formContainer .group .title.big {
+    color: #e4e4e4;
+}
+
+body.dark .wrapper #formContainer .group .title.small {
+    color: rgb(192, 192, 192);
+}
+
+body.dark .wrapper #formContainer .group a.item,
+body.dark .wrapper #formContainer .group .item.arr {
+    color: rgb(190, 190, 190);
+}
+
+body.dark .wrapper #formContainer .group .item.arr:hover {
+    color: #f67fe6;
+}
+
+body.dark .wrapper #formContainer .group a.item:hover {
+    color: #00b8b8;
+}
+
+body.dark .wrapper #formContainer .group .item .info .right {
+    color: rgb(182, 182, 182);
+}

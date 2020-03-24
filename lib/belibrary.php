@@ -42,7 +42,7 @@
 		}
 	}
 
-	function isLogedIn() {
+	function isLoggedIn() {
 		if (session_status() !== PHP_SESSION_NONE && (isset($_SESSION["username"]) || $_SESSION["username"] !== null))
 			return true;
 		else
@@ -336,8 +336,9 @@
 	 * @return   null
 	 *
 	 */
-	function stop(Int $code = 0, String $description = "", Int $HTTPStatus = 200, Array $data = Array(), Bool $hashData = false) {
+	function stop(Int $code = 0, String $description = "", Int $HTTPStatus = 200, Array $data = Array(), $hashData = false) {
 		global $runtime;
+		$hash = is_bool($hashData) ? ($hashData ? md5(serialize($data)) : null) : md5(serialize($hashData));
 
 		$output = Array(
 			"code" => $code,
@@ -345,7 +346,7 @@
 			"description" => $description,
 			"user" => $_SESSION["username"],
 			"data" => $data,
-			"hash" => $hashData ? md5(serialize($data)) : null,
+			"hash" => $hash,
 			"runtime" => $runtime -> stop()
 		);
 

@@ -9,11 +9,8 @@
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
     
     $problemList = Array();
-
-    foreach(glob(PROBLEM_DIR ."/*", GLOB_ONLYDIR) as $i => $path) {
-        $data = json_decode((new fip($path ."/data.json")) -> read(), true);
-        $problemList[basename($path)] = $data;
-    }
+    foreach(glob(PROBLEM_DIR ."/*", GLOB_ONLYDIR) as $i => $path)
+        $problemList[basename($path)] = json_decode((new fip($path ."/data.json")) -> read(), true);
 
     // Return Code
     define("PROBLEM_OKAY", 0);
@@ -63,7 +60,7 @@
         return $list;
     }
 
-    function problemGet(String $id, Bool $bypassDisabled = false) {
+    function problemGet(String &$id, Bool $bypassDisabled = false) {
         global $problemList;
 
         if (!problemExist($id))

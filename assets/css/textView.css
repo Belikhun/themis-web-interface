@@ -59,6 +59,10 @@
     padding: 1px 10px;
 }
 
+.textView.breakWord > li {
+    word-wrap: break-word;
+}
+
 .textView.noBreakLine > li {
     white-space: pre;
 }

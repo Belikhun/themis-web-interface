@@ -7,6 +7,7 @@
 
 
 const sounds = {
+    disabled: false,
     initialized: false,
     soundsLoaded: false,
     ROOT_DIR: "/assets/sounds",
@@ -78,6 +79,13 @@ const sounds = {
     },
 
     async init(set = () => {}) {
+        if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+            clog("WARN", "Sounds does not support on iPhone devices, disabling...");
+            cookie.set("__s_m", false);
+            this.disabled = true;
+            return false;
+        }
+
         set(0, "Taking Cookies 🍪");
         this.enable.master = cookie.get("__s_m", false) == "true";
         this.enable.mouseOver = cookie.get("__s_mo", true) == "true";
@@ -105,6 +113,9 @@ const sounds = {
     },
 
     async loadSound(set = () => {}) {
+        if (this.disabled)
+            throw { code: -1, description: "Sounds Module Disabled" }
+
         for (var i = 0; i < this.soundList.length; i++) {
             const item = this.soundList[i];
             set((i / (this.soundList.length - 1)) * 100, item.name);
@@ -113,6 +124,9 @@ const sounds = {
     },
 
     async __loadSoundAsync(url, volume = 0.6) {
+        if (this.disabled)
+            throw { code: -1, description: "Sounds Module Disabled" }
+
         var sound = new Audio();
         sound.src = (typeof chrome !== "undefined" && chrome.extension) ? chrome.extension.getURL(url) : url;
         clog("DEBG", `Loading sound: ${url}`);
@@ -146,6 +160,9 @@ const sounds = {
     },
 
     select(variation = 0) {
+        if (this.disabled || !this.initialized)
+            return;
+
         let sound = [
             this.sounds.select,
             this.sounds.selectSoft
@@ -156,6 +173,9 @@ const sounds = {
     },
 
     confirm(variation = 0) {
+        if (this.disabled || !this.initialized)
+            return;
+
         let sound = [
             this.sounds.confirm,
             this.sounds.confirm2,
@@ -167,6 +187,9 @@ const sounds = {
     },
 
     toggle(variation = 0) {
+        if (this.disabled || !this.initialized)
+            return;
+
         let sound = [
             this.sounds.overlayPopIn,
             this.sounds.overlayPopOut
@@ -177,16 +200,25 @@ const sounds = {
     },
 
     notification() {
+        if (this.disabled || !this.initialized)
+            return;
+
         if (this.enable.master && this.enable.notification)
             this.__soundToggle(this.sounds.notification);
     },
 
     warning() {
+        if (this.disabled || !this.initialized)
+            return;
+
         if (this.enable.master && this.enable.others)
             this.__soundToggle(this.sounds.warning);
     },
 
     scan() {
+        if (this.disabled)
+            throw { code: -1, description: "Sounds Module Disabled" }
+
         const list = document.getElementsByClassName("sound");
 
         for (var item of list) {
@@ -202,7 +234,7 @@ const sounds = {
     },
     
     applySound(item) {
-        if (!item.nodeType || item.nodeType <= 0 || item.dataset.soundApplied || !this.soundsLoaded)
+        if (!item.nodeType || item.nodeType <= 0 || item.dataset.soundApplied || !this.soundsLoaded || this.disabled)
             return false;
 
         if (typeof item.dataset.soundhover !== "undefined")

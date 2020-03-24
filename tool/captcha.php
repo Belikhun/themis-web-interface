@@ -12,10 +12,10 @@
         $width = 260;
 		$height = 60;
 		$angle = randBetween(-15, 5);
-		$xPos = (int)($width / 2) - (strlen($text) * randBetween(-2, 14));
-		$yPos = (int)($height / 2) - randBetween(-6, 8);
+		$xPos = (int)($width / 2) + (strlen($text) * randBetween(-16, 0));
+		$yPos = (int)($height / 2) + randBetween(-8, 4);
 		$sT = randBetween(-8, 8);
-        $font = $_SERVER["DOCUMENT_ROOT"] ."/assets/fonts/consolas.ttf";
+        $font = $_SERVER["DOCUMENT_ROOT"] ."/assets/fonts/comicbd.ttf";
 
         //? INIT IMAGE OBJECT
 		$im = imagecreatetruecolor($width, $height);
@@ -49,10 +49,10 @@
         }
 
         //* ADD NOISE - TEXT SHADOW
-        imagettftext($im, 20, $angle, $xPos + $sT, $yPos + $sT, $grey, $font, $text);
+        imagettftext($im, 18, $angle, $xPos + $sT, $yPos + $sT, $grey, $font, $text);
 
         //* TEXT
-        imagettftext($im, 20, $angle, $xPos, $yPos, $black, $font, $text);
+        imagettftext($im, 18, $angle, $xPos, $yPos, $black, $font, $text);
 
 		//* CREATE IMAGE
 		contentType("png");

@@ -175,7 +175,6 @@
 .sq-checkbox input {
     position: absolute;
     display: none;
-    cursor: pointer;
     height: 0;
     width: 0;
 }
@@ -197,20 +196,20 @@
     width: 42px;
 }
 
-.sq-checkbox:hover input ~ .checkmark {
+.sq-checkbox:hover > input ~ .checkmark {
     background-color: rgba(68, 170, 221, 0.4);
     border-color: rgb(160, 220, 250);
 }
 
-.sq-checkbox input:checked ~ .checkmark {
+.sq-checkbox > input:checked ~ .checkmark {
     background-color: rgb(68, 170, 221);
 }
 
-.sq-checkbox:hover input:checked ~ .checkmark {
+.sq-checkbox:hover > input:checked ~ .checkmark {
     background-color: rgb(160, 220, 250);
 }
 
-.sq-checkbox input:disabled ~ .checkmark {
+.sq-checkbox > input:disabled ~ .checkmark {
     filter: brightness(0.8);
     cursor: not-allowed;
 }
@@ -219,15 +218,118 @@
     border-color: rgb(255, 102, 170);
 }
 
-.sq-checkbox.pink:hover input ~ .checkmark {
+.sq-checkbox.pink:hover > input ~ .checkmark {
     background-color: rgba(255, 102, 171, 0.4);
     border-color: rgb(255, 194, 214);
 }
 
-.sq-checkbox.pink input:checked ~ .checkmark {
+.sq-checkbox.pink > input:checked ~ .checkmark {
     background-color: rgb(255, 102, 170);
 }
 
-.sq-checkbox.pink:hover input:checked ~ .checkmark {
+.sq-checkbox.pink:hover > input:checked ~ .checkmark {
     background-color: rgb(255, 194, 214);
+}
+
+.circleCheckbox {
+    position: relative;
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    user-select: none;
+}
+
+.circleCheckbox > input {
+    position: absolute;
+    display: none;
+    height: 0;
+    width: 0;
+}
+
+.circleCheckbox > .checkmark {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid rgb(34, 34, 34);
+    border-radius: 50%;
+    box-sizing: border-box;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+
+    transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.circleCheckbox > input:disabled + .checkmark {
+    cursor: not-allowed;
+}
+
+.circleCheckbox > input:checked + .checkmark,
+.circleCheckbox[data-force="true"] > input + .checkmark {
+    background-color: rgb(34, 34, 34);
+    border-width: 0;
+    color: rgb(228, 228, 228);
+}
+
+.circleCheckbox[data-color="green"] > input:checked + .checkmark,
+.circleCheckbox[data-color="green"][data-force="true"] > input + .checkmark {
+    background-color: rgb(55, 228, 55);
+    color: rgb(44, 44, 44);
+}
+
+.circleCheckbox[data-color="red"] > input:checked + .checkmark,
+.circleCheckbox[data-color="red"][data-force="true"] > input + .checkmark {
+    background-color: rgb(255, 125, 125);
+    color: rgb(44, 44, 44);
+}
+
+.circleCheckbox[data-color="blue"] > input:checked + .checkmark,
+.circleCheckbox[data-color="blue"][data-force="true"] > input + .checkmark {
+    background-color: rgb(44, 224, 248);
+    color: rgb(44, 44, 44);
+}
+
+.circleCheckbox[data-color="yellow"] > input:checked + .checkmark,
+.circleCheckbox[data-color="yellow"][data-force="true"] > input + .checkmark {
+    background-color: rgb(217, 230, 47);
+    color: rgb(44, 44, 44);
+}
+
+body.dark .circleCheckbox > .checkmark {
+    border-color: rgb(65, 65, 65);
+}
+
+body.dark .circleCheckbox > input:checked + .checkmark,
+body.dark .circleCheckbox[data-force="true"] > input + .checkmark {
+    background-color: rgb(168, 168, 168);
+    color: rgb(46, 46, 46);
+}
+
+body.dark .circleCheckbox[data-color="green"] > input:checked + .checkmark,
+body.dark .circleCheckbox[data-color="green"][data-force="true"] > input + .checkmark {
+    background-color: rgb(55, 228, 55);
+    color: rgb(44, 44, 44);
+}
+
+body.dark .circleCheckbox[data-color="red"] > input:checked + .checkmark,
+body.dark .circleCheckbox[data-color="red"][data-force="true"] > input + .checkmark {
+    background-color: rgb(255, 125, 125);
+    color: rgb(44, 44, 44);
+}
+
+body.dark .circleCheckbox[data-color="blue"] > input:checked + .checkmark,
+body.dark .circleCheckbox[data-color="blue"][data-force="true"] > input + .checkmark {
+    background-color: rgb(44, 224, 248);
+    color: rgb(44, 44, 44);
+}
+
+body.dark .circleCheckbox[data-color="yellow"] > input:checked + .checkmark,
+body.dark .circleCheckbox[data-color="yellow"][data-force="true"] > input + .checkmark {
+    background-color: rgb(217, 230, 47);
+    color: rgb(44, 44, 44);
 }
