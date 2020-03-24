@@ -30,10 +30,27 @@
 
 ## Thay đổi trong v0.6.0
 
+### rev3
+
+* **Bug:** Sửa lỗi client spam request lấy danh sách đề bài khi tắt **Công khai đề bài** (ed1462987ca43a4dacdbd5fe48e739df754737d7)
+* **Bug:** Sửa lỗi xung đột cache của `/api/rank` khi có đề bài bị tắt và tài khoản admin đang gửi request tới API này (8eb6a2e0a1649f45a3bbb95ac0819424a0ed6fd1)
+* **Bug:** Sửa lỗi container của wrapper bị lệch khi hiển thị thời gian kì thi (#54)
+* **Bug:** Sửa lỗi màu chữ của các input bị tối khi ở chế độ ban đêm (#53)
+* **Bug:** Sửa lỗi chữ của panel bị trống hiển thị lệch về bên trái (#52)
+* **Thay đổi:** Đổi font `Exo` thành `Nunito` (0c73b0239801080ade3ad876b766b64d205e0361)
+* **Thay đổi:** Sắp xếp lại bố cục thư mục (bff1e668a7716cd70c0f2e03056a48ca22a67550 và 6537b2573bd98e97a04566456b1831fdd6f360da)
+* **Thêm:** Cảnh báo người dùng khi thời gian so với máy chủ bị lệch (10c5a244138b5709559c006dfb7d75f10746510b)
+* **Thêm:** Thêm tính năng bật/tắt công khai đề bài cho khách (aa14b655a47f95cdc468551eb975ab16438dab48)
+* Sửa một số lỗi khác và thêm một số chức năng nhỏ
+
+### rev2
+
 * **Bug:** Sửa lỗi cửa sổ danh sách đề bài không hiển thị thanh trượt khi đề bài tràn ra ngoài cửa số (a3bd9e6e2358dc3850fc82abf4ecb0f122622397)
 * **Bug:** Sửa lỗi `undefined index` ở một số API khi dùng **PHP/7.4** (22f60e20861b38e64e3a5e0a69144ebd35412775)
 * **Bug:** Sửa lỗi không thể bật tắt cài đặt **Mở Đề Bài trong hộp thoại** (d961a4cb9b249a6579a48f297ff9a2560a6b0c94)
 * **Thay đổi:** Thay đổi font của tiêu đề cửa sổ (0c73b0239801080ade3ad876b766b64d205e0361)
+
+### rev1
 
 * **Bug:** Sửa lỗi module `sounds` không tương thích với trình duyệt khác không chạy nhân `chromium` (1ca99107554bd5d59bf21eae07c179461a906f3f)
 * **Bug:** Sửa lỗi request không được gửi lại sau khi hết `ratelimited` (f78e98f8f5ba43258544a423789fe4d771169c22)
