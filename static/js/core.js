@@ -1540,7 +1540,7 @@ const core = {
         
         init(loggedIn = true) {
             this.toggler.addEventListener("mouseup", () => this.toggle(), false);
-            this.panelUnderlay.addEventListener("mouseup", () => this.toggle(), false);
+            this.panelUnderlay.addEventListener("click", () => this.toggle(), false);
 
             this.aboutPanel = new this.panel($("#usett_aboutPanel"));
             this.aboutPanel.toggler = $("#usett_aboutToggler");
