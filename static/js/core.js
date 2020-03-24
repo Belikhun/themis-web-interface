@@ -276,23 +276,18 @@ const core = {
         let deltaT = (response.data.TIME + start.stop) - time();
         clog("DEBG", "🕒 Δt = ", deltaT);
 
-        if (Math.abs(deltaT) >= 10) {
-            let note = document.createElement("div");
-            note.classList.add("note", "warning");
-            note.innerHTML = `<span class="inner">Vui lòng tiến hành cập nhật lại đồng hồ trước khi tham gia làm bài thi!</span>`;
-
-            popup.show({
+        if (Math.abs(deltaT) >= 10)
+            await popup.show({
                 windowTitle: "Time Validator",
                 title: "CẢNH BÁO!",
                 message: "Sai lệch thời gian",
                 description: `Thời gian trên máy bạn hiện đang <b>${deltaT > 0 ? "trễ" : "sớm"}</b> hơn so với máy chủ <b>${Math.abs(deltaT)} giây</b>!`,
-                additionalNode: note,
+                note: `Vui lòng tiến hành cập nhật lại đồng hồ trước khi tham gia làm bài thi!`,
                 level: "warning",
                 buttonList: {
                     close: { text: "Đã Rõ!", color: "dark" }
                 }
             })
-        }
 
         window.SERVER = response.data;
     },
@@ -2326,17 +2321,13 @@ const core = {
                     text: id + "."
                 }, "Waiting for confirmation");
 
-                let note = document.createElement("div");
-                note.classList.add("note", "warning");
-                note.innerHTML = `<span class="inner">Hành động này <b>không thể hoàn tác</b> một khi đã thực hiện!</span>`;
-
                 let confirm = await popup.show({
                     level: "warning",
                     windowTitle: "Problems Editor",
                     title: `Xóa \"${id}\"`,
                     message: `Xác nhận`,
                     description: `Bạn có chắc muốn xóa đề bài <i>${id}</i> không?`,
-                    additionalNode: note,
+                    note: `Hành động này <b>không thể hoàn tác</b> một khi đã thực hiện!`,
                     buttonList: {
                         delete: { text: "XÓA!!!", color: "red" },
                         cancel: { text: "Hủy Bỏ", color: "blue" }
@@ -2466,15 +2457,11 @@ const core = {
                     text: `${id}.`
                 }, "Waiting for confirmation...");
 
-                let note = document.createElement("div");
-                note.classList.add("note", "warning");
-                note.innerHTML = `<span class="inner">Hành động này <b>không thể hoàn tác</b> một khi đã thực hiện!</span>`;
-
                 let action = await popup.show({
                     windowTitle: "Xác nhận",
                     title: `Xóa ${typeName} của đề "${id}"`,
                     description: `Bạn có chắc muốn xóa ${fileName ? `<b>${fileName}</b>` : "không"}?`,
-                    additionalNode: note,
+                    note: `Hành động này <b>không thể hoàn tác</b> một khi đã thực hiện!`,
                     level: "warning",
                     buttonList: {
                         delete: { color: "pink", text: "XÓA!!!" },
