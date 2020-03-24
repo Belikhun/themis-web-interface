@@ -234,7 +234,7 @@ const sounds = {
     },
     
     applySound(item) {
-        if (!item.nodeType || item.nodeType <= 0 || item.dataset.soundApplied || !this.soundsLoaded || this.disabled || !this.initialized)
+        if (!item.nodeType || item.nodeType <= 0 || item.dataset.soundApplied || !this.soundsLoaded || this.disabled)
             return false;
 
         if (typeof item.dataset.soundhover !== "undefined")

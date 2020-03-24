@@ -157,7 +157,9 @@ tag {
 
 .lazyload {
 	position: relative;
-	display: inline-block;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	background-color: rgba(128, 128, 128, 0.2);
 	min-width: 26px;
 	min-height: 26px;
@@ -488,13 +490,14 @@ body.dark separator {
     flex-direction: column;
 	flex-grow: 1;
 	flex-shrink: 1;
-	padding: 10px 20px;
+	padding: 10px;
 	overflow: hidden;
 	background-color: rgb(228, 228, 228);
 }
 
 .popupContainer .popupWindow .body .top {
 	position: relative;
+	margin: 0 10px;
 }
 
 .popupContainer .popupWindow .body .top .message {
@@ -510,11 +513,17 @@ body.dark separator {
 	font-size: 13px;
 }
 
+.popupContainer .popupWindow .body .note {
+	margin: 10px;
+	width: calc(100% - 20px);
+}
+
 .popupContainer .popupWindow .body .customNode {
 	position: relative;
 	flex-shrink: 1;
-	margin: 10px 0;
-	width: 100%;
+	margin: 10px;
+	width: calc(100% - 20px);
+	overflow: auto;
 }
 
 .popupContainer .popupWindow .body .buttonGroup {
@@ -522,21 +531,14 @@ body.dark separator {
     display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-    width: 100%;
+	width: calc(100% - 10px);
+	margin: 0 5px;
 }
 
 .popupContainer .popupWindow .body .buttonGroup > .sq-btn {
-    margin: 4px;
+    margin: 5px;
 	flex: 1 1 0;
 	min-width: 30%;
-}
-
-.popupContainer .popupWindow .body .buttonGroup > .sq-btn:first-child {
-	margin-left: unset;
-}
-
-.popupContainer .popupWindow .body .buttonGroup > .sq-btn:last-child {
-	margin-right: unset;
 }
 
 .popupContainer .popupWindow .body[theme="dark"] {

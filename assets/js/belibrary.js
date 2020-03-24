@@ -18,6 +18,7 @@ function myajax({
 	query = Array(),
 	form = Array(),
 	json = {},
+	raw = null,
 	header = Array(),
 	type = "json",
 	onUpload = () => {},
@@ -56,6 +57,8 @@ function myajax({
 		let queryKey = Object.keys(query);
 		for (let key of queryKey)
 			url += `${(queryKey[0] === key) ? "?" : ""}${key}=${query[key]}${(queryKey[queryKey.length - 1] !== key) ? "&" : ""}`;
+			
+		url = encodeURI(url);
 
 		xhr.upload.addEventListener("progress", e => onUpload(e), false);
 		xhr.addEventListener("progress", e => onDownload(e), false);
@@ -143,9 +146,11 @@ function myajax({
 
 					data = res;
 				} else {
+					var res = this.responseText;
+
 					if (this.status >= 400) {
 						let code = "HTTP" + this.status;
-						let text = this.statusText;
+						let text = (this.statusText === "") ? "!Unknown statusText" : this.statusText;
 						let resData = res;
 
 						let header = this.getResponseHeader("output-json");
@@ -178,7 +183,7 @@ function myajax({
 						return;
 					}
 
-					data = this.responseText;
+					data = res;
 				}
 
 				callout(data);
@@ -189,7 +194,7 @@ function myajax({
 		xhr.open(method, url);
 		xhr.withCredentials = withCredentials;
 
-		let sendData = formData;
+		let sendData = (raw !== null) ? raw : formData;
 
 		for (let key of Object.keys(header))
 			xhr.setRequestHeader(key, header[key]);
@@ -199,6 +204,7 @@ function myajax({
 			xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		}
 
+		xhr.setRequestHeader("Accept", `${type === "json" ? "application/json" : "text/plain"};charset=UTF-8`);
 		xhr.send(sendData);
 	})
 }
@@ -1043,7 +1049,7 @@ const popup = {
 	},
 
 	init() {
-		const tree = [{type:"div",class:"popupWindow",name:"popup",list:[{type:"div",class:"header",name:"header",list:[{type:"span",class:"top",name:"top",list:[{type:"t",class:["windowTitle","text-overflow"],name:"windowTitle"},{type:"span",class:"close",name:"close"}]},{type:"span",class:"icon",name:"icon"},{type:"t",class:"text",name:"text"}]},{type:"div",class:"body",name:"body",list:[{type:"div",class:"top",name:"top",list:[{type:"t",class:"message",name:"message"},{type:"t",class:"description",name:"description"}]},{type:"div",class:"customNode",name:"customNode"},{type:"div",class:"buttonGroup",name:"button"}]}]}];
+		const tree=[{type:"div",class:"popupWindow",name:"popup",list:[{type:"div",class:"header",name:"header",list:[{type:"span",class:"top",name:"top",list:[{type:"t",class:["windowTitle","text-overflow"],name:"windowTitle"},{type:"span",class:"close",name:"close"}]},{type:"span",class:"icon",name:"icon"},{type:"t",class:"text",name:"text"}]},{type:"div",class:"body",name:"body",list:[{type:"div",class:"top",name:"top",list:[{type:"t",class:"message",name:"message"},{type:"t",class:"description",name:"description"}]},{type:"div",class:"note",name:"note",list:[{type:"span",class:"inner",name:"inner"}]},{type:"div",class:"customNode",name:"customNode"},{type:"div",class:"buttonGroup",name:"button"}]}]}];
 
 		this.tree = buildElementTree("div", "popupContainer", tree);
 		this.popupNode = this.tree.tree;
@@ -1052,6 +1058,7 @@ const popup = {
 
 		this.popup.header.top.close.dataset.soundhover = "";
 		this.popup.header.top.close.dataset.soundselect = "";
+		this.popup.body.note.style.display = "none";
 
 		if (typeof sounds !== "undefined")
 			sounds.applySound(this.popup.header.top.close);
@@ -1064,6 +1071,8 @@ const popup = {
 		title = "Title",
 		message = "Message",
 		description = "Description",
+		note = null,
+		noteLevel = null,
 		level = "info",
 		icon = null,
 		bgColor = null,
@@ -1102,6 +1111,13 @@ const popup = {
 			//* BODY
 			this.popup.body.top.message.innerHTML = message;
 			this.popup.body.top.description.innerHTML = description;
+
+			if (note) {
+				this.popup.body.note.style.display = "flex";
+				this.popup.body.note.className = `note ${noteLevel || level}`;
+				this.popup.body.note.inner.innerHTML = note;
+			} else
+				this.popup.body.note.style.display = "none";
 
 			additionalNode.classList.add("customNode");
 			this.popup.body.replaceChild(additionalNode, this.popup.body.customNode);

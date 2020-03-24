@@ -309,3 +309,27 @@ body.dark .circleCheckbox[data-force="true"] > input + .checkmark {
     background-color: rgb(168, 168, 168);
     color: rgb(46, 46, 46);
 }
+
+body.dark .circleCheckbox[data-color="green"] > input:checked + .checkmark,
+body.dark .circleCheckbox[data-color="green"][data-force="true"] > input + .checkmark {
+    background-color: rgb(55, 228, 55);
+    color: rgb(44, 44, 44);
+}
+
+body.dark .circleCheckbox[data-color="red"] > input:checked + .checkmark,
+body.dark .circleCheckbox[data-color="red"][data-force="true"] > input + .checkmark {
+    background-color: rgb(255, 125, 125);
+    color: rgb(44, 44, 44);
+}
+
+body.dark .circleCheckbox[data-color="blue"] > input:checked + .checkmark,
+body.dark .circleCheckbox[data-color="blue"][data-force="true"] > input + .checkmark {
+    background-color: rgb(44, 224, 248);
+    color: rgb(44, 44, 44);
+}
+
+body.dark .circleCheckbox[data-color="yellow"] > input:checked + .checkmark,
+body.dark .circleCheckbox[data-color="yellow"][data-force="true"] > input + .checkmark {
+    background-color: rgb(217, 230, 47);
+    color: rgb(44, 44, 44);
+}
