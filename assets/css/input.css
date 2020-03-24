@@ -13,7 +13,7 @@
     margin-top: 8px;
 }
 
-.formGroup .formField {
+.formGroup > .formField {
     width: 100%;
     border: 0;
     outline: none;
@@ -28,17 +28,17 @@
     transition: border-color 0.5s;
 }
 
-.formGroup .formField::placeholder {
+.formGroup > .formField::placeholder {
     color: transparent;
 }
 
-.formGroup .formField:placeholder-shown + label {
+.formGroup > .formField:placeholder-shown + label {
     font-size: 12px;
     top: 24px;
 }
 
-.formGroup label,
-.formGroup .formField:focus + label {
+.formGroup > label,
+.formGroup > .formField:focus + label {
     position: absolute;
     top: 4px;
     display: block;
@@ -52,34 +52,33 @@
     cursor: text;
 }
 
-.formGroup .formField:focus + label {
+.formGroup > .formField:focus + label {
     color: #5f5f62;
 }
 
-.formGroup .formField:focus {
+.formGroup > .formField:focus {
     padding: 2px 0 6px;
     border-bottom: 2px solid rgba(39, 39, 39, 0.8);
 }
 
-.formGroup .formField:disabled {
+.formGroup > .formField:disabled {
     color: rgb(172, 172, 172);
     background-color: rgba(128, 128, 128, 0.05);
     cursor: not-allowed;
 }
 
-.formGroup .formField:disabled + label {
+.formGroup > .formField:disabled + label {
     cursor: not-allowed;
 }
 
 /* Light Color */
 
 .formGroup[data-color = "light"] .formField {
-    border-bottom: 1px solid rgba(130, 130, 130, 0.4);
+    border-bottom-color: rgba(130, 130, 130, 0.4);
     color: #cecece;
 }
 
-.formGroup[data-color = "light"] label,
-.formGroup[data-color = "light"] .formField:focus + label {
+.formGroup[data-color = "light"] label {
     color: #b1b3b8;
 }
 
@@ -88,18 +87,17 @@
 }
 
 .formGroup[data-color = "light"] .formField:focus {
-    border-bottom: 2px solid rgba(224, 224, 224, 0.8);
+    border-bottom-color: rgba(224, 224, 224, 0.8);
 }
 
 /* Blue */
 
 .formGroup[data-color = "blue"] .formField {
-    border-bottom: 1px solid rgba(130, 130, 130, 0.4);
+    border-bottom-color: rgba(130, 130, 130, 0.4);
     color: #424242;
 }
 
-.formGroup[data-color = "blue"] label,
-.formGroup[data-color = "blue"] .formField:focus + label {
+.formGroup[data-color = "blue"] label {
     color: #8b8b8b;
 }
 
@@ -108,18 +106,34 @@
 }
 
 .formGroup[data-color = "blue"] .formField:focus {
-    border-bottom: 2px solid #4285f4;
+    border-bottom-color: #4285f4;
+}
+
+body.dark .formGroup[data-color = "blue"] .formField {
+    border-bottom-color: rgba(130, 130, 130, 0.4);
+    color: #dddddd;
+}
+
+body.dark .formGroup[data-color = "blue"] label {
+    color: #8b8b8b;
+}
+
+body.dark .formGroup[data-color = "blue"] .formField:focus + label {
+    color: #73a7fa;
+}
+
+body.dark .formGroup[data-color = "blue"] .formField:focus {
+    border-bottom-color: #5591f3;
 }
 
 /* Purple */
 
 .formGroup[data-color = "purple"] .formField {
-    border-bottom: 1px solid rgba(130, 130, 130, 0.4);
+    border-bottom-color: rgba(130, 130, 130, 0.4);
     color: #424242;
 }
 
-.formGroup[data-color = "purple"] label,
-.formGroup[data-color = "purple"] .formField:focus + label {
+.formGroup[data-color = "purple"] label {
     color: #b1b3b8;
 }
 
@@ -128,7 +142,24 @@
 }
 
 .formGroup[data-color = "purple"] .formField:focus {
-    border-bottom: 2px solid #512da8;
+    border-bottom-color: #512da8;
+}
+
+body.dark .formGroup[data-color = "purple"] .formField {
+    border-bottom-color: rgba(130, 130, 130, 0.4);
+    color: #d6d6d6;
+}
+
+body.dark .formGroup[data-color = "purple"] label {
+    color: #b1b3b8;
+}
+
+body.dark .formGroup[data-color = "purple"] .formField:focus + label {
+    color: #c49afa;
+}
+
+body.dark .formGroup[data-color = "purple"] .formField:focus {
+    border-bottom-color: #794edf;
 }
 
 /* Red */
@@ -138,8 +169,7 @@
     color: #ff1c1c;
 }
 
-.formGroup[data-color = "red"] label,
-.formGroup[data-color = "red"] .formField:focus + label {
+.formGroup[data-color = "red"] label {
     color: #ff3333;
 }
 
@@ -148,5 +178,22 @@
 }
 
 .formGroup[data-color = "red"] .formField:focus {
-    border-bottom: 2px solid #d31010;
+    border-bottom-color: #d31010;
+}
+
+body.dark .formGroup[data-color = "red"] .formField {
+    border-bottom: 1px solid rgba(207, 71, 71, 0.4);
+    color: #f1a3a3;
+}
+
+body.dark .formGroup[data-color = "red"] label {
+    color: #c83838;
+}
+
+body.dark .formGroup[data-color = "red"] .formField:focus + label {
+    color: #fa9292;
+}
+
+body.dark .formGroup[data-color = "red"] .formField:focus {
+    border-bottom-color: #fa7171;
 }

@@ -7,10 +7,6 @@
 ? |-----------------------------------------------------------------------------------------------|
 */
 
-body.dark .formGroup[data-color="blue"] .formField {
-    color: rgb(204, 204, 204);
-}
-
 body.dark #container {
     background-color: rgb(30, 30, 30);
 }

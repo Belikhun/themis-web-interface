@@ -141,10 +141,6 @@ body.dark t {
     color: rgb(212, 212, 212);
 }
 
-body.dark .formGroup[data-color="blue"] .formField {
-    color: rgb(204, 204, 204);
-}
-
 body.dark .wrapper #formContainer::before {
     background-color: rgb(56, 56, 56);
 }
