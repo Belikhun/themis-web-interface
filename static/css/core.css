@@ -62,7 +62,8 @@ body #container .flexColumn.small {
 }
 
 .navBar.showBottom ~ #userSettings,
-.navBar.showBottom ~ #container {
+.navBar.showBottom ~ #container,
+.navBar.showBottom ~ #wrapper {
     top: 94px;
 }
 
@@ -342,10 +343,9 @@ body.guest #problemp.hide {
     display: none;
     align-items: center;
     justify-content: center;
-    box-sizing: border-box;
-    padding: 60px 0 20px;
+    top: 60px;
+    bottom: 20px;
     width: 100%;
-    height: 100%;
     background-color: rgba(0, 0, 0, 0.6);
     z-index: 2;
 }
