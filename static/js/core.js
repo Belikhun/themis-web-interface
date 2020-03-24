@@ -260,15 +260,39 @@ const core = {
     },
 
     async getServerConfigAsync() {
-        const response = await myajax({
+        let start = new stopClock();
+        let response = await myajax({
             url: "/api/server",
             method: "GET",
         }).catch(e => {
-            clog("WARN", "Error while getting server status:", {
+            errorHandler(e);
+
+            clog("ERRR", "Error while getting server status:", {
                 text: e.data.description,
                 color: flatc("red"),
             });
         });
+
+        let deltaT = (response.data.TIME + start.stop) - time();
+        clog("DEBG", "🕒 Δt = ", deltaT);
+
+        if (Math.abs(deltaT) >= 10) {
+            let note = document.createElement("div");
+            note.classList.add("note", "warning");
+            note.innerHTML = `<span class="inner">Vui lòng tiến hành cập nhật lại đồng hồ trước khi tham gia làm bài thi!</span>`;
+
+            popup.show({
+                windowTitle: "Time Validator",
+                title: "CẢNH BÁO!",
+                message: "Sai lệch thời gian",
+                description: `Thời gian trên máy bạn hiện đang <b>${deltaT > 0 ? "trễ" : "sớm"}</b> hơn so với máy chủ <b>${Math.abs(deltaT)} giây</b>!`,
+                additionalNode: note,
+                level: "warning",
+                buttonList: {
+                    close: { text: "Đã Rõ!", color: "dark" }
+                }
+            })
+        }
 
         window.SERVER = response.data;
     },

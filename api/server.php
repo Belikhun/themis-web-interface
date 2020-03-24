@@ -30,10 +30,12 @@
         "SERVER_PROTOCOL" => $_SERVER["SERVER_PROTOCOL"],
         "HTTP_USER_AGENT" => $_SERVER["HTTP_USER_AGENT"],
         "REMOTE_ADDR" => $_SERVER["REMOTE_ADDR"],
+        "TIME" => microtime(true),
+
         "config" => Array(
             "allowRegister" => $config["allowRegister"]
         ),
-        "clientConfig" => $config["clientConfig"]
+        "clientConfig" => $config["clientConfig"],
     ));
 
 ?>
