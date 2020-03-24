@@ -129,7 +129,7 @@ Không có dữ liệu nào liên quan đến đề bài bị lộ trước kì 
 
 ---
 
-Không còn phải đau mắt nhìn từng dòng của tệp nhật ký nữa! *Themis Web Interface* hiển thị toàn bộ thông tin của tệp nhật ký dưới dạng **Dao diện người dùng** dễ đọc và đầy đủ.
+Không còn phải đau mắt nhìn từng dòng của tệp nhật ký nữa! *Themis Web Interface* hiển thị toàn bộ thông tin của tệp nhật ký dưới dạng **Giao diện người dùng** dễ đọc và đầy đủ.
 
 </div>
 
