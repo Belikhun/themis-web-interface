@@ -247,6 +247,25 @@ body.dark separator {
 	background-color: rgba(212, 212, 212, 0.6);
 }
 
+.switchContainer {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 6px 0;
+}
+
+.switchContainer > span {
+    position: relative;
+    flex-grow: 1;
+    margin-right: 10px;
+    font-size: 12px;
+    color: #dadada;
+}
+
 .price::after {
 	content: "đ";
 	font-size: 13px;
@@ -457,6 +476,10 @@ body.dark separator {
 	content: "\f084";
 }
 
+.popupContainer .popupWindow .header .icon[data-icon="server"]::before {
+	content: "\f233";
+}
+
 /*? /ICON/ */
 
 .popupContainer .popupWindow .header .text {
@@ -476,7 +499,7 @@ body.dark separator {
 
 .popupContainer .popupWindow .header[theme="light"] .top .close::before,
 .popupContainer .popupWindow .header[theme="light"] .top .close::after {
-	background-color: rgb(204, 204, 204);
+	background-color: rgb(224, 224, 224);
 }
 
 .popupContainer .popupWindow .header[theme="light"] .icon::before,
@@ -539,6 +562,10 @@ body.dark separator {
     margin: 5px;
 	flex: 1 1 0;
 	min-width: 30%;
+}
+
+.popupContainer .popupWindow .body .buttonGroup > .sq-btn.full {
+	min-width: calc(100% - 10px);
 }
 
 .popupContainer .popupWindow .body[theme="dark"] {

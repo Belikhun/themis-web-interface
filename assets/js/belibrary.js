@@ -28,7 +28,7 @@ function myajax({
 	reRequest = true,
 	withCredentials = false,
 }, callout = () => {}, error = () => {}) {
-	var argumentsList = arguments;
+	let argumentsList = arguments;
 
 	return new Promise((resolve, reject) => {
 		if (__connection__.onlineState !== "online" && force === false) {
@@ -48,7 +48,7 @@ function myajax({
 			return;
 		}
 
-		var xhr = new XMLHttpRequest();
+		let xhr = new XMLHttpRequest();
 		let formData = new FormData();
 
 		for (let key of Object.keys(form))
@@ -95,9 +95,11 @@ function myajax({
 					return;
 				}
 
+				let response = null;
+
 				if (type === "json") {
 					try {
-						var res = JSON.parse(this.responseText);
+						response = JSON.parse(this.responseText);
 					} catch (data) {
 						clog("errr", "Lỗi phân tích JSON");
 
@@ -108,7 +110,7 @@ function myajax({
 						return;
 					}
 
-					if (this.status >= 400 && (res.code !== 0 && res.code < 100)) {
+					if (this.status >= 400 && (response.code !== 0 && response.code < 100)) {
 						clog("ERRR", {
 							color: flatc("magenta"),
 							text: method
@@ -118,11 +120,11 @@ function myajax({
 						}, {
 							color: flatc("red"),
 							text: "HTTP " + this.status
-						}, this.statusText, ` >>> ${res.description}`);
+						}, this.statusText, ` >>> ${response.description}`);
 
-						if (this.status === 429 && res.code === 32 && reRequest === true) {
+						if (this.status === 429 && response.code === 32 && reRequest === true) {
 							// Waiting for :?unratelimited:?
-							await __connection__.stateChange("ratelimited", res);
+							await __connection__.stateChange("ratelimited", response);
 
 							clog("debg", "resending request", argumentsList);
 							// Resend previous ajax request
@@ -136,7 +138,7 @@ function myajax({
 
 							return;
 						} else {
-							let errorObj = { code: 3, description: `HTTP ${this.status}: ${this.statusText}`, data: res }
+							let errorObj = { code: 3, description: `HTTP ${this.status}: ${this.statusText}`, data: response }
 							error(errorObj);
 							reject(errorObj);
 
@@ -144,14 +146,14 @@ function myajax({
 						}
 					}
 
-					data = res;
+					data = response;
 				} else {
-					var res = this.responseText;
+					response = this.responseText;
 
 					if (this.status >= 400) {
-						let code = "HTTP" + this.status;
+						let code = `HTTP ${this.status}`;
 						let text = (this.statusText === "") ? "!Unknown statusText" : this.statusText;
-						let resData = res;
+						let resData = response;
 
 						let header = this.getResponseHeader("output-json");
 
@@ -183,7 +185,7 @@ function myajax({
 						return;
 					}
 
-					data = res;
+					data = response;
 				}
 
 				callout(data);
@@ -219,11 +221,11 @@ function delayAsync(time) {
 
 function waitFor(checker = async () => {}, handler = () => {}, retry = 10, timeout = 1000, onFail = () => {}) {
 	return new Promise((resolve, reject) => {
-		var retryNth = 0;
-		var doCheck = true;
+		let retryNth = 0;
+		let doCheck = true;
 
 		const __check = async () => {
-			var result = false;
+			let result = false;
 
 			try {
 				result = await checker(retryNth + 1).catch();
@@ -269,7 +271,7 @@ function escapeHTML(str) {
 	else
 		str = str.toString();
 
-	var map = {
+	let map = {
 		"&": "&amp;",
 		"<": "&lt;",
 		">": "&gt;",
@@ -293,18 +295,18 @@ function fcfn(node, className) {
 }
 
 function buildElementTree(type = "div", __class = [], data = new Array(), __keypath = "") {
-	var tree = document.createElement(type);
+	let tree = document.createElement(type);
 	if (typeof __class == "string")
 		__class = new Array([__class]);
 	tree.classList.add.apply(tree.classList, __class);
-	var objtree = tree;
+	let objtree = tree;
 
 	for (let i = 0; i < data.length; i++) {
 		let d = data[i];
 
 		if (typeof d.list == "object") {
 			let k = __keypath + (__keypath === "" ? "" : ".") + d.name;
-			var t = buildElementTree(d.type, d.class, d.list, k);
+			let t = buildElementTree(d.type, d.class, d.list, k);
 
 			t.tree.dataset.name = d.name;
 			t.tree.dataset.path = k;
@@ -318,7 +320,7 @@ function buildElementTree(type = "div", __class = [], data = new Array(), __keyp
 			Object.assign(objtree[d.name], t.obj);
 		} else {
 			let k = __keypath + (__keypath === "" ? "" : ".") + d.name;
-			var t = document.createElement(d.type);
+			let t = document.createElement(d.type);
 			if (typeof d.class == "string")
 				d.class = new Array([d.class]);
 
@@ -343,8 +345,8 @@ function buildElementTree(type = "div", __class = [], data = new Array(), __keyp
 
 function checkServer(ip, callback = () => {}) {
 	return new Promise((resolve, reject) => {
-		var xhr = new XMLHttpRequest();
-		var pon = {};
+		let xhr = new XMLHttpRequest();
+		let pon = {};
 
 		xhr.addEventListener("readystatechange", function() {
 			if (this.readyState === this.DONE) {
@@ -411,7 +413,7 @@ function parseTime(t = 0, {
 }
 
 function formatTime(seconds, { ended = "Đã kết thúc", endedCallback = () => {} } = {}) {
-	var time = { năm: 31536000, ngày: 86400, giờ: 3600, phút: 60, giây: 1 },
+	let time = { năm: 31536000, ngày: 86400, giờ: 3600, phút: 60, giây: 1 },
 		res = [];
 
 	if (seconds === 0)
@@ -422,9 +424,9 @@ function formatTime(seconds, { ended = "Đã kết thúc", endedCallback = () =>
 		return ended;
 	}
 
-	for (var key in time)
+	for (let key in time)
 		if (seconds >= time[key]) {
-			var val = Math.floor(seconds / time[key]);
+			let val = Math.floor(seconds / time[key]);
 			res.push(val += " " + key);
 			seconds = seconds % time[key];
 		}
@@ -433,7 +435,7 @@ function formatTime(seconds, { ended = "Đã kết thúc", endedCallback = () =>
 }
 
 function liveTime(element, start = time(new Date()), { type = "full", count = "up", prefix = "", surfix = "", ended = "Đã kết thúc", endedCallback = () => {}, interval = 1000 } = {}) {
-	var updateInterval = setInterval(e => {
+	let updateInterval = setInterval(e => {
 		if (!document.body.contains(element)) {
 			clog("DEBG", "Live Time Element does not exist in document. Clearing...");
 			clearInterval(updateInterval);
@@ -491,7 +493,7 @@ function liveTime(element, start = time(new Date()), { type = "full", count = "u
 
 function convertSize(bytes) {
 	let sizes = ["B", "KB", "MB", "GB", "TB"];
-	for (var i = 0; bytes >= 1024 && i < (sizes.length -1 ); i++)
+	for (let i = 0; bytes >= 1024 && i < (sizes.length -1 ); i++)
 		bytes /= 1024;
 
 	return `${round(bytes, 2)} ${sizes[i]}`;
@@ -558,7 +560,7 @@ class ClassWatcher {
 }
 
 function currentScript() {
-	var url = (document.currentScript) ? document.currentScript.src : "unknown";
+	let url = (document.currentScript) ? document.currentScript.src : "unknown";
 	return url.substring(url.lastIndexOf("/") + 1);
 }
 
@@ -710,7 +712,7 @@ function randBetween(min, max, toInt = true) {
 function randString(len = 16, charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789") {
 	let randomString = "";
 
-	for (var i = 0; i < len; i++) {
+	for (let i = 0; i < len; i++) {
 		let p = Math.floor(Math.random() * charSet.length);
 		randomString += charSet.substring(p, p + 1);
 	}
@@ -855,15 +857,15 @@ function createBtn(text, color = "blue") {
 	return btn;
 }
 
-cookie = {
+const cookie = {
 	cookie: null,
 
 	getAll() {
 		const mycookie = document.cookie.split("; ");
-		var dacookie = {};
+		let dacookie = {};
 
-		for (var i = 0; i < mycookie.length; i++) {
-			var t = mycookie[i].split("=");
+		for (let i = 0; i < mycookie.length; i++) {
+			let t = mycookie[i].split("=");
 			dacookie[t[0]] = t[1];
 		}
 
@@ -882,9 +884,9 @@ cookie = {
 	},
 
 	set(key, value = "", days = 0, path = "/") {
-		var exp = "";
+		let exp = "";
 		if (days !== 0 && typeof days === "number") {
-			var date = new Date();
+			let date = new Date();
 			date.setTime(date.getTime() + (days*24*60*60*1000));
 			exp = `; expires=${date.toUTCString()}`;
 		}
@@ -906,9 +908,9 @@ cookie = {
 function clog(level, ...args) {
 	const font = "Calibri";
 	const size = "12";
-	var date = new Date();
+	let date = new Date();
 	const rtime = round(sc.stop, 3).toFixed(3);
-	var str = "";
+	let str = "";
 
 	level = level.toUpperCase();
 	lc = flatc({
@@ -945,8 +947,8 @@ function clog(level, ...args) {
 	]
 
 	text = text.concat(args);
-	var n = 2;
-	var out = new Array();
+	let n = 2;
+	let out = new Array();
 	out[0] = "%c";
 	out[1] = "padding-left: 10px";
 	// i | 1   2   3   4   5     6
@@ -1137,7 +1139,7 @@ const popup = {
 					let item = buttonList[key];
 					let button = document.createElement("button");
 
-					button.classList.add("sq-btn", item.color || "blue");
+					button.classList.add("sq-btn", item.color || "blue", item.full ? "full" : "normal");
 					button.innerText = item.text || "Text";
 					button.onclick = item.onClick || null;
 					button.returnValue = key;
@@ -1222,7 +1224,7 @@ const __connection__ = {
 				case "offline":
 					let checkerHandler = () => {}
 					let checkTimeout = null;
-					var doCheck = true;
+					let doCheck = true;
 
 					clog("lcnt", "Mất kết nối tới máy chủ.");
 					this.checkCount = 0;
@@ -1302,7 +1304,7 @@ const __connection__ = {
 	},
 
 	__triggerOnStateChange(state) {
-		for (var i of this.__listeners)
+		for (let i of this.__listeners)
 			i(state);
 	}
 
@@ -1314,7 +1316,7 @@ const __connection__ = {
 if (typeof document.__onclog === "undefined")
 	document.__onclog = (lv, t, m) => {};
 
-var sc = new stopClock();
+let sc = new stopClock();
 clog("info", "Log started at:", {
 	color: flatc("green"),
 	text: (new Date()).toString()
