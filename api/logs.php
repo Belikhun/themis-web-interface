@@ -34,7 +34,7 @@
         clearLog();
 
     $logs = readLog("json");
-    $logsTotal = count($logs);
+    $logsTotal = max(count($logs), 1);
     $showCount = (int) getForm("show", $logsTotal);
     $maxPage = (int) floor($logsTotal / $showCount) + (($logsTotal % $showCount === 0) ? 0 : 1);
     $pageNth = (int) getForm("page", 1);
