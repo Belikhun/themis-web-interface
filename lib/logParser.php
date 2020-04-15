@@ -230,7 +230,16 @@
 		}
 
 		private function __f($str) {
-			return round((float) str_replace(",", "", $str), 2);
+			if (preg_match("/^(?:.*\.|)\d+\,\d+$/m", $str))
+				//? FORMAT: 000.000,000
+				return round((float) str_replace(",", ".", str_replace(".", "", $str)), 3);
+
+			if (preg_match("/^(?:.*\,|)\d+\.\d+$/m", $str))
+				//? FORMAT: 000,000.000
+				return round((float) str_replace(",", "", $str), 3);
+
+			//! UNKNOWN
+			return round((float) $str, 3);
 		}
 	}
 
