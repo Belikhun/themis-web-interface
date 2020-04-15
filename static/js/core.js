@@ -690,7 +690,7 @@ const core = {
                         </div>
 
                         <div class="line log">
-                            <ul class="textView">${logLine.join("\n")}</ul>
+                            <ul class="textView breakWord">${logLine.join("\n")}</ul>
                         </div>
                     </span>
                 </div>

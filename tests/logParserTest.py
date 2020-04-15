@@ -78,7 +78,7 @@ logParserTest.case("[log:{:<9}] Have 0 accepted/failed tests".format(target), la
 logParserTest.case("[log:{:<9}] Got 30.00 points in total".format(target), lambda: True if (logData["header"]["point"] == 30) else "Point is {}".format(logData["header"]["point"]))
 logParserTest.case("[log:{:<9}] Got 15.00 points in Test0001".format(target), lambda: True if (logData["test"][0]["point"] == 15) else "Test0001 point is {}".format(logData["test"][0]["point"]))
 logParserTest.case("[log:{:<9}] Got  5.00 points in Test0003".format(target), lambda: True if (logData["test"][2]["point"] == 5) else "Test0003 point is {}".format(logData["test"][2]["point"]))
-logParserTest.case("[log:{:<9}] Got a runtime of 0.12 seconds in Test0001".format(target), lambda: True if (logData["test"][0]["runtime"] == 0.12) else "Test0001 runtime is {}".format(logData["test"][0]["runtime"]))
+logParserTest.case("[log:{:<9}] Got a runtime of 0.123 seconds in Test0001".format(target), lambda: True if (logData["test"][0]["runtime"] == 0.123) else "Test0001 runtime is {}".format(logData["test"][0]["runtime"]))
 logParserTest.case("[log:{:<9}] Got an output of 5 in Test0002".format(target), lambda: True if (logData["test"][1]["other"]["output"] == "5") else "Test0002 output is {}".format(logData["test"][1]["other"]["output"]))
 
 #! Test for accepted log
