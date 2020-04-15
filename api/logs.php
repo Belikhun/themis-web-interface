@@ -34,21 +34,27 @@
         clearLog();
 
     $logs = readLog("json");
-    $logsTotal = max(count($logs) - 1, 0);
+    $logsTotal = count($logs);
     $showCount = (int) getForm("show", $logsTotal);
-    $maxPage = (int) $showCount === 0 ? 1 : floor(($logsTotal + 1) / $showCount);
-    $pageNth = (int) getForm("page", 0);
-    $from = max($logsTotal - ($pageNth + 1) * $showCount + 1, 1);
-    $to = $logsTotal - ($pageNth) * $showCount;
+    $maxPage = (int) floor($logsTotal / $showCount) + (($logsTotal % $showCount === 0) ? 0 : 1);
+    $pageNth = (int) getForm("page", 1);
+    $from = ($pageNth - 1) * $showCount;
+    $to = $pageNth * $showCount - 1;
 
-    $slicedLogs = array_reverse(array_slice($logs, $from - 1, $to - $from + 1));
+    if ($pageNth < 1 || $pageNth > $maxPage)
+        stop(6, "Trang bạn yêu cầu không nằm trong khoảng thỏa mãn", 400, Array(
+            "total" => $logsTotal,
+            "maxPage" => $maxPage
+        ));
+
+    $slicedLogs = array_slice(array_reverse($logs), $from, $to - $from + 1);
 
     stop(0, "Success", 200, Array(
         "total" => $logsTotal,
         "perPage" => $showCount,
         "maxPage" => $maxPage,
         "pageNth" => $pageNth,
-        "from" => $from,
-        "to" => $to,
+        "from" => $from + 1,
+        "to" => $to + 1,
         "logs" => $slicedLogs
     ), true);

@@ -2030,9 +2030,9 @@ const core = {
                 right: null
             },
             prevHash: "",
-            showPerPage: 10,
-            currentPage: 0,
-            maxPage: 0,
+            showPerPage: 20,
+            currentPage: 1,
+            maxPage: 1,
 
             async init(panel) {
                 this.panel = panel;
@@ -2050,8 +2050,8 @@ const core = {
                 this.nav.btnLeft.addEventListener("click", e => {
                     this.currentPage--;
 
-                    if (this.currentPage < 0)
-                        this.currentPage = 0;
+                    if (this.currentPage < 1)
+                        this.currentPage = 1;
 
                     this.refresh();
                 });
@@ -2067,16 +2067,31 @@ const core = {
             },
 
             async refresh(clearLogs = false) {
-                let response = await myajax({
-                    url: "/api/logs",
-                    method: "POST",
-                    form: {
-                        token: API_TOKEN,
-                        clear: clearLogs,
-                        show: this.showPerPage,
-                        page: this.currentPage
+                let response = {}
+
+                try {
+                    response = await myajax({
+                        url: "/api/logs",
+                        method: "POST",
+                        form: {
+                            token: API_TOKEN,
+                            clear: clearLogs,
+                            show: this.showPerPage,
+                            page: this.currentPage
+                        }
+                    })
+                } catch(e) {
+                    if (e.data.code === 6) {
+                        clog("WARN", `Không tồn tại trang ${this.currentPage} của nhật ký hệ thống.`, e.data.data);
+                        this.currentPage = 1;
+                        this.maxPage = e.data.data.maxPage;
+                        await this.refresh();
+
+                        return;
                     }
-                });
+
+                    throw e;
+                }
 
                 let data = response.data;
                 let hash = response.hash;
@@ -2085,7 +2100,7 @@ const core = {
 
                 this.prevHash = hash;
                 this.nav.left.innerText = `Hiển thị ${data.from} - ${data.to}`;
-                this.nav.currentPage.innerText = `Trang ${data.pageNth + 1}/${data.maxPage + 1}`;
+                this.nav.currentPage.innerText = `Trang ${data.pageNth}/${data.maxPage}`;
                 this.nav.right.innerText = `Tổng ${data.total}`;
                 this.maxPage = data.maxPage;
                 var html = [];
@@ -2106,7 +2121,7 @@ const core = {
                     `);
                 
                 this.logsContainer.innerHTML = html.join("\n");
-                clog("info", "Refreshed SysLogs.");
+                clog("info", `Refreshed SysLogs [${hash}]`);
             }
         },
 
