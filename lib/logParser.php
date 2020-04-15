@@ -230,7 +230,7 @@
 		}
 
 		private function __f($str) {
-			return round((float) str_replace(",", ".", $str), 2);
+			return round((float) str_replace(",", "", $str), 2);
 		}
 	}
 
