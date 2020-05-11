@@ -207,8 +207,72 @@ tag {
 	opacity: 1;
 }
 
-.lazyload[data-loaded] > .simple-spinner {
+.lazyload[data-loaded] > .simple-spinner,
+.lazyload[data-errored] > .simple-spinner {
 	display: none;
+}
+
+.lazyload::after {
+	content: "\f071";
+    position: absolute;
+	display: none;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 18px;
+	font-style: normal;
+    color: rgb(66, 66, 66);
+}
+
+.lazyload[data-errored]::after {
+	display: block;
+}
+
+.tooltip {
+	position: fixed;
+	display: flex;
+	flex-direction: row;
+	flex-shrink: 0;
+	align-items: center;
+	padding: 4px 6px;
+	border-radius: 4px;
+	background-color: rgba(10, 10, 10, 0.6);
+	backdrop-filter: saturate(80%) blur(6px);
+	white-space: pre;
+	z-index: 9999999;
+
+	font-family: "Segoe UI";
+	font-size: 12px;
+	font-weight: lighter;
+	letter-spacing: .4px;
+	color: white;
+	opacity: 0;
+
+	transform: translate(10px, 20px);
+	transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+
+	animation: tooltip-blink 0.3s linear;
+    animation-fill-mode: forwards;
+}
+
+.tooltip.flip {
+	transform: translate(calc(-100% - 4px), 20px);
+}
+
+.tooltip.show {
+	opacity: 1;
+}
+
+@keyframes tooltip-blink {
+    0% {
+        background-color: rgba(144, 144, 144, 0.8);
+    }
+
+    100% {
+        background-color: rgba(10, 10, 10, 0.6);
+    }
 }
 
 dot {
@@ -520,7 +584,7 @@ body.dark separator {
 
 .popupContainer .popupWindow .body .top {
 	position: relative;
-	margin: 0 10px;
+	margin: 0 10px 2px;
 }
 
 .popupContainer .popupWindow .body .top .message {

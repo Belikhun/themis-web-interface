@@ -151,7 +151,7 @@
                             title: "Oops",
                             description: "Có vẻ như lỗi vẫn đang tiếp diễn!<br>Hãy thử <b>tải lại</b> trang hoặc sử dụng thông tin dưới đây để gửi một báo cáo lỗi:",
                             level: "error",
-                            additionalNode: errorDetail,
+                            customNode: errorDetail,
                             buttonList: {
                                 report: {
                                     text: "Báo lỗi",

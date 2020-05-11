@@ -45,6 +45,7 @@ body.embeded .menu {
     right: 0;
     top: 0;
     color: #a5a5a5;
+    background-color: #F5F5F6;
     line-height: 50px;
     font-family: "Font Awesome 5 Free";
     font-size: 18px;
@@ -385,7 +386,8 @@ body.dark.embeded .menu {
     background-color: transparent;
 }
 
-body.dark .menu::before {
+body.dark .menu::before,
+body.dark .menu .group::after {
     background-color: rgb(56, 56, 56);
 }
 

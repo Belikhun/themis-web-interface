@@ -142,11 +142,7 @@
 	text-align: center;
 	letter-spacing: 0.6px;
 	padding: 8px 20px;
-	border-width: 0;
-	border-style: solid;
-	border-color: rgb(0, 0, 0);
-	border-image: initial;
-	border-radius: 0;
+	border: unset;
 	box-sizing: border-box;
 	cursor: pointer;
 	overflow: hidden;

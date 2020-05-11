@@ -39,7 +39,7 @@
     $maxPage = (int) floor($logsTotal / $showCount) + (($logsTotal % $showCount === 0) ? 0 : 1);
     $pageNth = (int) getForm("page", 1);
     $from = ($pageNth - 1) * $showCount;
-    $to = $pageNth * $showCount - 1;
+    $to = min($pageNth * $showCount - 1, $logsTotal - 1);
 
     if ($pageNth < 1 || $pageNth > $maxPage)
         stop(6, "Trang bạn yêu cầu không nằm trong khoảng thỏa mãn", 400, Array(

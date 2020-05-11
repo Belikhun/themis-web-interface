@@ -293,7 +293,7 @@ const account = {
             title: `Xóa \"${username}\"`,
             message: `Xác nhận`,
             description: `Bạn có chắc muốn xóa người dùng ${username} không?`,
-            additionalNode: note,
+            customNode: note,
             buttonList: {
                 delete: { text: "XÓA!!!", color: "red" },
                 cancel: { text: "Hủy Bỏ", color: "blue" }

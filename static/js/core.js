@@ -158,7 +158,7 @@ const core = {
                 message: "Rate Limited",
                 description: `Bạn đã bị cấm yêu cầu tới máy chủ trong vòng <b>${parseInt(o.data.data.reset)} giây</b>!<br>Vui lòng chờ cho tới khi bạn hết bị cấm!`,
                 level: "warning",
-                additionalNode: clock,
+                customNode: clock,
                 buttonList: {
                     close: { text: "Đã rõ!", color: "dark" }
                 }
@@ -182,7 +182,7 @@ const core = {
                 title: "Oops",
                 description: `Bạn đã bị mất kết nối tới máy chủ!<br><b>Themis Web Interface</b> đang thử kết nối lại!`,
                 level: "error",
-                additionalNode: retry,
+                customNode: retry,
                 buttonList: {
                     close: { text: "Đã rõ!", color: "dark" }
                 }
@@ -2589,7 +2589,7 @@ const core = {
             title: "got some mweme fow yya",
             message: `<a href="${wutMeme.postLink}" target="_blank">SAUCE 🔗</a>`,
             description: wutMeme.title,
-            additionalNode: memeContainer,
+            customNode: memeContainer,
             buttonList: {
                 moar: { text: "Plz I Need Moar", color: "rainbow" },
                 stahp: { text: "Ewnough iwntewwnet fow todayy", color: "dark" }

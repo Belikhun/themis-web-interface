@@ -41,7 +41,7 @@ const errorHandler = async (error, returnable = true) => {
 		message: "ERROR OCCURED",
 		description: "Một lỗi không mong muốn đã sảy ra!",
 		level: "error",
-		additionalNode: errorBox,
+		customNode: errorBox,
 		buttonList: {
 			contact: { text: "Báo Lỗi", color: "pink", resolve: false, onClick: () => window.open(SERVER.REPORT_ERROR, "_blank") },
 			...returnBtn
