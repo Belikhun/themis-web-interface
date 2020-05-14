@@ -512,7 +512,7 @@ function liveTime(element, start = time(new Date()), { type = "full", count = "u
 
 function convertSize(bytes) {
 	let sizes = ["B", "KB", "MB", "GB", "TB"];
-	for (let i = 0; bytes >= 1024 && i < (sizes.length -1 ); i++)
+	for (var i = 0; bytes >= 1024 && i < (sizes.length -1 ); i++)
 		bytes /= 1024;
 
 	return `${round(bytes, 2)} ${sizes[i]}`;
