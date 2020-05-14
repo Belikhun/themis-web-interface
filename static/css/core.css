@@ -61,6 +61,10 @@ body #container .flexColumn.small {
     flex-shrink: 0;
 }
 
+body #userSettings.show ~ #container {
+    transform: translateX(-20px);
+}
+
 .navBar.showBottom ~ #userSettings,
 .navBar.showBottom ~ #container,
 .navBar.showBottom ~ #wrapper {
@@ -155,10 +159,11 @@ panel {
     flex-direction: column;
     width: 350px;
     height: auto;
-    background-color: white;
-    box-shadow: 0 0 5px rgba(98, 98, 98, 0.2);
     margin: 5px;
     box-sizing: border-box;
+    border-radius: 8px;
+    background-color: white;
+    overflow: hidden;
 }
 
 panel .head {
@@ -167,17 +172,18 @@ panel .head {
     flex-direction: row;
     align-items: center;
     width: 100%;
-    height: 40px;
-    padding: 10px 10px 10px 20px;
+    min-height: 36px;
     box-sizing: border-box;
-    background-color: rgb(238, 240, 243);
-    border-bottom: 1px solid #e6e6e6;
+    border-radius: 8px;
+    background-color: #fafafa;
+    overflow: hidden;
 }
 
 panel .head .le {
     position: relative;
     display: inline-block;
     flex: 1 1 0;
+    margin-left: 20px;
 
     font-family: Calibri;
     font-size: 16px;
@@ -197,13 +203,18 @@ panel .head .ri {
 
 panel .head .ri > i {
     position: relative;
-    display: inline;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2px;
+    width: 36px;
+    height: 36px;
+
     font-size: 18px;
     font-weight: bold;
     color: rgba(98, 98, 98, 0.54);
-    padding: 0 2px;
     cursor: pointer;
-    transition: color 0.2s ease;
+    transition: all 0.2s ease;
 }
 
 panel .head .ri > i.bak {
@@ -211,19 +222,29 @@ panel .head .ri > i.bak {
 }
 
 panel .head .ri > i:hover {
-    color: rgba(98, 98, 98, 0.82);
+    color: rgba(24, 24, 24, 0.82);
+    background-color: rgba(116, 116, 116, 0.2);
+}
+
+panel .head .ri > i.ref:hover {
+    color: rgba(14, 123, 212, 0.82);
+    background-color: rgba(66, 136, 248, 0.2);
+}
+
+panel .head .ri > i.clo:hover {
+    color: rgba(214, 26, 26, 0.82);
+    background-color: rgba(235, 77, 77, 0.2);
 }
 
 panel .main {
     position: relative;
     display: inline-block;
+    flex-grow: 1;
     width: 100%;
-    height: calc(100% - 40px);
     margin: unset;
     padding: unset;
     overflow: auto;
     box-sizing: border-box;
-    background-color: #fafafa;
 }
 
 panel .main:empty::before,
@@ -388,9 +409,8 @@ body.guest #problemp.hide {
 #logp .logItemContainer .logItem {
     position: relative;
     box-sizing: border-box;
-    width: calc(100% - 25px);
     height: 48px;
-    margin-left: 25px;
+    margin-left: 20px;
     padding-right: 25px;
 }
 
@@ -402,7 +422,7 @@ body.guest #problemp.hide {
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-    border-bottom: 1px solid #e6e6e6;
+    border-bottom: 1px solid rgba(230, 230, 230, 0.2);
 }
 
 #logp .logItemContainer .logItem .h .l {
@@ -1205,7 +1225,6 @@ body.guest #problemp.hide {
     line-height: 18px;
 }
 
-
 #problemp .problemsContainer {
     overflow: hidden;
 }
@@ -1579,18 +1598,18 @@ body.guest #problemp.hide {
     min-width: 100%;
 }
 
-#rankp div.rankingContainer table tr th:nth-child(1),
+#rankp div.rankingContainer table thead tr th:nth-child(1),
 #rankp div.rankingContainer table tr td:nth-child(1) {
     width: 20px;
     text-align: center;
 }
 
-#rankp div.rankingContainer table tr th:nth-child(2),
+#rankp div.rankingContainer table thead tr th:nth-child(2),
 #rankp div.rankingContainer table tr td:nth-child(2) {
     text-align: left;
 }
 
-#rankp div.rankingContainer table tr th:nth-child(2) {
+#rankp div.rankingContainer table thead tr th:nth-child(2) {
     width: 40px;
 }
 
@@ -1628,10 +1647,6 @@ body.guest #problemp.hide {
     font-weight: bold;
 }
 
-#rankp div.rankingContainer table thead tr th:nth-child(3) {
-    text-align: left;
-}
-
 #rankp div.rankingContainer table tbody tr[data-rank="1"] {
     background-color: rgba(111, 241, 134, 0.2);
 }
@@ -1654,11 +1669,11 @@ body.guest #problemp.hide {
     color: rgb(65, 65, 65);
 }
 
-#rankp div.rankingContainer table tr th {
+#rankp div.rankingContainer table thead tr th {
     position: sticky;
     top: 0;
-    background-color: #fafafa;
-    border-bottom: 1px solid #9b9b9b;
+
+    border-bottom: 1px solid rgba(155, 155, 155, 0.4);
     color: rgb(82, 82, 82);
     font-family: Segoe UI;
     font-size: 13px;
@@ -1666,7 +1681,24 @@ body.guest #problemp.hide {
     z-index: 1;
 }
 
-#rankp div.rankingContainer table tr th.problem > t {
+#rankp div.rankingContainer table thead tr th:first-child::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -10px;
+    width: calc(100vw - 20px);
+    height: 100%;
+
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: saturate(80%) blur(6px);
+    z-index: -1;
+}
+
+#rankp div.rankingContainer table thead tr th:nth-child(3) {
+    text-align: left;
+}
+
+#rankp div.rankingContainer table thead tr th.problem > t {
     display: inline-block;
     color: rgb(82, 82, 82);
     font-family: Segoe UI;
@@ -1674,7 +1706,7 @@ body.guest #problemp.hide {
     font-weight: bold;
 }
 
-#rankp div.rankingContainer table tr th.problem > .toggler {
+#rankp div.rankingContainer table thead tr th.problem > .toggler {
     position: relative;
     display: inline-flex;
     align-items: center;
@@ -1687,7 +1719,7 @@ body.guest #problemp.hide {
     transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-#rankp div.rankingContainer table tr th.problem > .toggler::after {
+#rankp div.rankingContainer table thead tr th.problem > .toggler::after {
     content: "\f104";
     position: relative;
     display: block;
@@ -1697,24 +1729,24 @@ body.guest #problemp.hide {
     transform: translateY(2px);
 }
 
-#rankp div.rankingContainer table tr th.problem[data-folding="true"] {
+#rankp div.rankingContainer table thead tr th.problem[data-folding="true"] {
     width: 10px;
     padding: unset;
 }
 
-#rankp div.rankingContainer table tr th.problem[data-folding="true"] > t {
+#rankp div.rankingContainer table thead tr th.problem[data-folding="true"] > t {
     display: none;
 }
 
-#rankp div.rankingContainer table tr th.problem[data-folding="true"] > .toggler {
+#rankp div.rankingContainer table thead tr th.problem[data-folding="true"] > .toggler {
     transform: rotate(180deg);
 }
 
-#rankp div.rankingContainer table tr th.problem[data-folding="true"] > .toggler::after {
+#rankp div.rankingContainer table thead tr th.problem[data-folding="true"] > .toggler::after {
     transform: unset;
 }
 
-#rankp div.rankingContainer table tr th,
+#rankp div.rankingContainer table thead tr th,
 #rankp div.rankingContainer table tr td {
     padding: 10px 12px;
 }
