@@ -385,25 +385,50 @@
 		die();
 	}
 
-	function convertSize($bytes) {
+	/**
+	 *
+	 * Return Human Readable Size
+	 * 
+	 * @param    bytes			Size in byte
+	 * @return   String
+	 *
+	 */
+	function convertSize(Int $bytes) {
 		$sizes = array("B", "KB", "MB", "GB", "TB");
 		for ($i = 0; $bytes >= 1024 && $i < (count($sizes) -1); $bytes /= 1024, $i++);
 		
 		return (round($bytes, 2 ) . " " . $sizes[$i]);
 	}
 
-	function folderSize($dir) {
+	/**
+	 *
+	 * Return Folder Size
+	 * 
+	 * @param    dir			Target Directory
+	 * @param    recursive		Include Subdirectories Size
+	 * @return   Int
+	 *
+	 */
+	function folderSize($dir, Bool $recursive = false) {
 		$size = 0;
-		foreach (glob($dir ."/*", GLOB_NOSORT) as $i => $file) {
-			//$size += is_file($file) ? filesize($file) : folderSize($file);
-			$size += filesize($file);
-		}
+		foreach (glob($dir ."/*", GLOB_NOSORT) as $i => $file)
+			$size += is_file($file) ? filesize($file) : ($recursive ? folderSize($file) : 0);
+		
 		return $size;
 	}
 
+	/**
+	 *
+	 * Remove Dublication Item In An Array
+	 * 
+	 * @param    inp			The Array Itself
+	 * @return   Array
+	 *
+	 */
 	function arrayRemDub($inp) {
 		$out = Array();
 		$i = 0;
+
 		sort($inp, SORT_NATURAL);
 		foreach($inp as $k => $v)
 			if (!isset($out[$i-1]) || $out[$i-1] !== $v) {
@@ -413,7 +438,15 @@
 		return $out;
 	}
 
-	function arrayremBlk($inp) {
+	/**
+	 *
+	 * Remove Empty Item In An Array
+	 * 
+	 * @param    inp			The Array Itself
+	 * @return   Array
+	 *
+	 */
+	function arrayRemBlk($inp) {
 		$out = Array();
 		foreach($inp as $i => $v)
 			if (isset($v))
@@ -448,17 +481,36 @@
 			?: "UNKNOWN";
 	}
 
+	/**
+	 *
+	 * Recursive and Safe Array Object Merging
+	 * 
+	 * Only merge key in the object that exist in the target
+	 * 
+	 * @param    target			Target Object need to be merged
+	 * @param    object			Array Object need to merge
+	 * @return   Array
+	 *
+	 */
+	function mergeObjectRecursive(Array &$target, Array $object) {
+		foreach ($target as $key => &$value) {
+			if (isset($object[$key]))
+				if (gettype($object[$key]) === "array")
+					mergeObjectRecursive($value, $object[$key]);
+				else
+					$value = $object[$key];
+		}
+	}
+
 	class fip {
 		public $stream;
 		public $path;
 
-		public function __construct(String $path, String $defaultData = "") {
+		public function __construct(String $path, String $defaultData = "", String $defaultType = "text") {
 			$this -> path = $path;
 
-			if (!file_exists($path)) {
-				$this -> fos($path, "x");
-				$this -> write($defaultData);
-			}
+			if (!file_exists($path))
+				$this -> write($defaultData, $defaultType, "x");
 		}
 
 		public function fos(String $path, String $mode) {
@@ -477,7 +529,16 @@
 			fclose($this -> stream);
 		}
 
-		public function read() {
+		/**
+		 *
+		 * Read file
+		 * type: text/json/serialize
+		 * 
+		 * @param    type		File data type
+		 * @return
+		 *
+		 */
+		public function read($type = "text") {
 			$this -> fos($this -> path, "r");
 
 			if (filesize($this -> path) > 0)
@@ -486,11 +547,42 @@
 				$data = null;
 
 			$this -> fcs();
-			return $data;
+
+			switch ($type) {
+				case "json":
+					return json_decode($data, true);
+
+				case "serialize":
+					return unserialize($data);
+				
+				default:
+					return $data;
+			}
 		}
 
-		public function write(String $data = "") {
-			$this -> fos($this -> path, "w");
+		/**
+		 *
+		 * Write data to file
+		 * type: text/json/serialize
+		 * 
+		 * @param    data		Data to write
+		 * @param    type		File data type
+		 * @return
+		 *
+		 */
+		public function write($data = "", String $type = "text", String $mode = "w") {
+			$this -> fos($this -> path, $mode);
+
+			switch ($type) {
+				case "json":
+					$data = json_encode($data, JSON_PRETTY_PRINT);
+					break;
+
+				case "serialize":
+					$data = serialize($data);
+					break;
+			}
+
 			fwrite($this -> stream, $data);
 			$this -> fcs();
 			return true;
