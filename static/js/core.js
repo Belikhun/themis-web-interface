@@ -434,7 +434,7 @@ const core = {
 				<div class="logItem judging">
 					<div class="h">
 						<div class="l">
-							<t class="t">${item.lastmodify}</t>
+							<t class="t">${(new Date(item.lastModify * 1000)).toLocaleString()}</t>
 							<t class="n">${item.problemName || item.problem}</t>
 						</div>
 						<div class="r">
@@ -451,7 +451,7 @@ const core = {
 				<div class="logItem queue">
 					<div class="h">
 						<div class="l">
-							<t class="t">${item.lastmodify}</t>
+							<t class="t">${(new Date(item.lastModify * 1000)).toLocaleString()}</t>
 							<t class="n">${item.problemName || item.problem}</t>
 						</div>
 						<div class="r">
@@ -468,7 +468,7 @@ const core = {
 				<div class="logItem ${item.status}">
 					<div class="h">
 						<div class="l">
-							<t class="t">${item.lastmodify}</t>
+							<t class="t">${(new Date(item.lastModify * 1000)).toLocaleString()}</t>
 							<t class="n">${item.problemName || item.problem}</t>
 						</div>
 						<div class="r">

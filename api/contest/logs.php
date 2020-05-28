@@ -18,24 +18,24 @@
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logParser.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
-	$username = $_SESSION["username"];
-	$updir = glob($config["uploadDir"] ."/*.*");
-	$queues = Array();
-	$queueFiles = Array();
 
-	foreach ($updir as $file) {
+	$username = $_SESSION["username"];
+	$uploadFiles = glob($config["uploadDir"] ."/*.*");
+	$queueFiles = Array();
+	$queues = Array();
+
+	foreach ($uploadFiles as $file) {
 		if (!strpos($file, "[". $username ."]") > 0)
 			continue;
 
 		$data = parseLogName($file);
-		$lastm = date("d/m/Y H:i:s", filemtime($file));
 
 		array_push($queues, Array(
 			"problem" => $data["problem"],
 			"problemName" => $data["problemName"],
 			"problemPoint" => $data["problemPoint"],
 			"extension" => $data["extension"],
-			"lastmodify" => $lastm
+			"lastModify" => filemtime($file)
 		));
 
 		array_push($queueFiles, $file);
@@ -67,8 +67,7 @@
 					"problemPoint" => $data["problemPoint"],
 					"name" => $data["name"],
 					"extension" => $data["extension"],
-					"lastmodify" => date("d/m/Y H:i:s"),
-					"lastmtime" => time(),
+					"lastModify" => time(),
 				));
 			}
 
@@ -79,18 +78,14 @@
 	$logres = Array();
 
 	foreach ($logDir as $log) {
-		if (!strpos($log, "[". $username ."]") > 0 || strpos(strtolower($log), ".log") === -1)
+		if (!(strpos($log, "[". $username ."]") > 0))
 			continue;
 
 		$filename = null;
 		if ($config["viewLog"] === true || $_SESSION["id"] === "admin")
 			$filename = pathinfo($log, PATHINFO_FILENAME);
 
-		$lastmtime = filemtime($log);
-		$lastm = date("d/m/Y H:i:s", $lastmtime);
-
 		$data = ((new logParser($log, LOGPARSER_MODE_MINIMAL)) -> parse())["header"];
-		$point = $data["point"];
 
 		foreach ($judging as $i => $item)
 			if ($item["name"] === $data["file"]["name"] && file_exists($log))
@@ -108,8 +103,7 @@
 			"problemPoint" => $data["problemPoint"],
 			"extension" => $data["file"]["extension"],
 			"point" => $data["point"],
-			"lastmodify" => $lastm,
-			"lastmtime" => $lastmtime,
+			"lastModify" => filemtime($log),
 			"logFile" => $filename
 		));
 	}
