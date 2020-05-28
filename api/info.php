@@ -11,6 +11,7 @@
     
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/module/logParser.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logs.php";
 
     $username = reqQuery("u");

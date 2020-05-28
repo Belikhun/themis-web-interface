@@ -12,6 +12,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/module/contest.php";
 
     if ($config["viewLog"] === false && $_SESSION["id"] !== "admin")
         stop(23, "Xem nhật ký đã bị tắt!", 403);
@@ -29,7 +30,7 @@
         stop(31, "Không cho phép xem tệp nhật kí của người khác!", 403);
 
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
-    require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logParser.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/module/logParser.php";
 
     $logParsed = (new logParser($logPath, LOGPARSER_MODE_FULL)) -> parse();
     $userData = getUserData($logParsed["header"]["user"]);

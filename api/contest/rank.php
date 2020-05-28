@@ -15,6 +15,7 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/cache.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/contest.php";
 
 	if ($export && !isLoggedIn())
 		stop(11, "Bạn chưa đăng nhập!", 401);
@@ -51,7 +52,7 @@
 	}
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logParser.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/logParser.php";
 
 	$logDir = glob($config["logDir"] ."/*.log");
 	$res = Array();
