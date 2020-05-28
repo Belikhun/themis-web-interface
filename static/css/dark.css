@@ -188,9 +188,12 @@ body.dark #rankp div.rankingContainer table tbody tr[data-rank="3"] td:nth-child
 }
 
 body.dark #rankp div.rankingContainer table tr th {
-    background-color: #303030;
     color: rgb(202, 202, 202);
     border-bottom-color: rgb(88, 88, 88);
+}
+
+body.dark #rankp div.rankingContainer table thead tr th:first-child::before {
+    background-color: rgba(48, 48, 48, 0.8);
 }
 
 body.dark #rankp div.rankingContainer table tr th.problem > t {
