@@ -710,7 +710,7 @@ function pleft(inp, length = 0, right = false) {
 /**
  * My color template
  * 
- * Return HEX string color code
+ * Return color in HEX string
  *
  * @param	{string}	color
  * @returns	{String}
@@ -735,7 +735,7 @@ function flatc(color) {
 /**
  * Color template from OSC package
  * 
- * Return HEX string color code
+ * Return color in HEX string
  *
  * @param	{string}	color
  * @returns	{String}

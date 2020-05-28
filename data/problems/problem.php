@@ -9,7 +9,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
     
     $problemList = Array();
-    foreach(glob(PROBLEM_DIR ."/*", GLOB_ONLYDIR) as $i => $path)
+    foreach(glob(PROBLEMS_DIR ."/*", GLOB_ONLYDIR) as $i => $path)
         $problemList[basename($path)] = json_decode((new fip($path ."/data.json")) -> read(), true);
 
     // Return Code
@@ -45,7 +45,7 @@
         
         foreach($problemList as $i => $item)
             if (isset($item["attachment"])) {
-                $f = PROBLEM_DIR ."/". $i ."/". $item["attachment"];
+                $f = PROBLEMS_DIR ."/". $i ."/". $item["attachment"];
 
                 array_push($list, Array(
                     "id" => $i,
@@ -97,10 +97,10 @@
             if ($image["error"] > 0)
                 return PROBLEM_ERROR;
 
-            if (isset($problemList[$id]["image"]) && file_exists(PROBLEM_DIR ."/". $id ."/". $problemList[$id]["image"]))
-                unlink(PROBLEM_DIR ."/". $id ."/". $problemList[$id]["image"]);
+            if (isset($problemList[$id]["image"]) && file_exists(PROBLEMS_DIR ."/". $id ."/". $problemList[$id]["image"]))
+                unlink(PROBLEMS_DIR ."/". $id ."/". $problemList[$id]["image"]);
 
-            move_uploaded_file($image["tmp_name"], PROBLEM_DIR ."/". $id ."/". $imageFile);
+            move_uploaded_file($image["tmp_name"], PROBLEMS_DIR ."/". $id ."/". $imageFile);
 
             $new["image"] = $imageFile;
         }
@@ -115,10 +115,10 @@
             if ($attachment["error"] > 0)
                 return PROBLEM_ERROR;
 
-            if (isset($problemList[$id]["attachment"]) && file_exists(PROBLEM_DIR ."/". $id ."/". $problemList[$id]["attachment"]))
-                unlink(PROBLEM_DIR ."/". $id ."/". $problemList[$id]["attachment"]);
+            if (isset($problemList[$id]["attachment"]) && file_exists(PROBLEMS_DIR ."/". $id ."/". $problemList[$id]["attachment"]))
+                unlink(PROBLEMS_DIR ."/". $id ."/". $problemList[$id]["attachment"]);
 
-            move_uploaded_file($attachment["tmp_name"], PROBLEM_DIR ."/". $id ."/". $attachmentFile);
+            move_uploaded_file($attachment["tmp_name"], PROBLEMS_DIR ."/". $id ."/". $attachmentFile);
 
             $new["attachment"] = $attachmentFile;
         }
@@ -174,14 +174,14 @@
             $problemList[$id]["attachment"] = $attachmentFile;
         }
 
-        mkdir(PROBLEM_DIR. "/" .$id);
+        mkdir(PROBLEMS_DIR. "/" .$id);
         problemSave($id);
 
         if ($moveImage)
-            move_uploaded_file($image["tmp_name"], PROBLEM_DIR ."/". $id ."/". $imageFile);
+            move_uploaded_file($image["tmp_name"], PROBLEMS_DIR ."/". $id ."/". $imageFile);
 
         if ($moveAttachment)
-            move_uploaded_file($attachment["tmp_name"], PROBLEM_DIR ."/". $id ."/". $attachmentFile);
+            move_uploaded_file($attachment["tmp_name"], PROBLEMS_DIR ."/". $id ."/". $attachmentFile);
 
         return PROBLEM_OKAY;
     }
@@ -196,7 +196,7 @@
             return PROBLEM_ERROR;
         
         $i = $problemList[$id]["attachment"];
-        $f = PROBLEM_DIR ."/". $id ."/". $i;
+        $f = PROBLEMS_DIR ."/". $id ."/". $i;
 
         contentType(pathinfo($i, PATHINFO_EXTENSION));
         header("Content-Length: ".filesize($f));
@@ -214,12 +214,12 @@
         if (!problemExist($id))
             return PROBLEM_ERROR_IDREJECT;
 
-        $dir = PROBLEM_DIR ."/". $id;
+        $dir = PROBLEMS_DIR ."/". $id;
 
-        if (!file_exists(PROBLEM_DIR ."/". $id))
+        if (!file_exists(PROBLEMS_DIR ."/". $id))
             return PROBLEM_ERROR;
 
-        rmrf(PROBLEM_DIR ."/". $id);
+        rmrf(PROBLEMS_DIR ."/". $id);
         unset($problemList[$id]);
         return PROBLEM_OKAY;
     }
@@ -234,7 +234,7 @@
             return PROBLEM_ERROR_FILENOTFOUND;
 
         $imageFile = $problemList[$id]["image"];
-        $dir = PROBLEM_DIR ."/". $id;
+        $dir = PROBLEMS_DIR ."/". $id;
         $target = $dir ."/". $imageFile;
         
         if (file_exists($target))
@@ -256,7 +256,7 @@
             return PROBLEM_ERROR_FILENOTFOUND;
 
         $attachmentFile = $problemList[$id]["attachment"];
-        $dir = PROBLEM_DIR ."/". $id;
+        $dir = PROBLEMS_DIR ."/". $id;
         $target = $dir ."/". $attachmentFile;
         
         if (file_exists($target))
@@ -270,7 +270,7 @@
 
     function problemSave(String $id) {
         global $problemList;
-        return (new fip(PROBLEM_DIR ."/". $id ."/data.json"))
+        return (new fip(PROBLEMS_DIR ."/". $id ."/data.json"))
             -> write(json_encode($problemList[$id], JSON_PRETTY_PRINT));
     }
 

@@ -40,7 +40,7 @@
         $data["image"] = null;
 
     if (isset($data["attachment"])) {
-        $f = PROBLEM_DIR ."/". $id ."/". $data["attachment"];
+        $f = PROBLEMS_DIR ."/". $id ."/". $data["attachment"];
 
         $data["attachment"] = Array(
             "file" => $data["attachment"],

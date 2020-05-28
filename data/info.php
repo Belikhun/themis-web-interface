@@ -7,7 +7,7 @@
     //? |-----------------------------------------------------------------------------------------------|
 
 	//! PLEASE DO NOT CLAIM THIS PROJECT AS YOUR OWN. THAT'S NOT NICE!
-	//! Or At Least DO NOT TOUCH licenseInfo.php, Code Headers AND LICENSE FILE
+	//! AND DO NOT TOUCH licenseInfo.php, Code Headers AND LICENSE FILE
 
 	define("APPNAME", "Themis Web Interface");
 	define("AUTHOR", "Belikhun");
@@ -28,7 +28,7 @@
 
 	// Path
 	define("AVATAR_DIR", $_SERVER["DOCUMENT_ROOT"] ."/data/avatar");
-	define("PROBLEM_DIR", $_SERVER["DOCUMENT_ROOT"] ."/data/problems");
+	define("PROBLEMS_DIR", $_SERVER["DOCUMENT_ROOT"] ."/data/problems");
 
 	// CACHE
 	define("CACHE_LOCATION", $_SERVER["DOCUMENT_ROOT"] ."/.cache");

@@ -5,11 +5,6 @@
 	//? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
 	//? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 	//? |-----------------------------------------------------------------------------------------------|
-	/**
-	 * A module to parse Themis generated log files
-	 * 
-	 * @package logParser
-	 */
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
@@ -24,6 +19,11 @@
 	 */
 	define("LOGPARSER_MODE_MINIMAL", "m");
 
+	/**
+	 * A module to parse Themis generated log files
+	 * 
+	 * @package logParser
+	 */
 	class logParser {
 
 		/**
