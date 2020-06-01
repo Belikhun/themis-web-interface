@@ -108,7 +108,7 @@ const login = {
 
 			this.password.avatar.addEventListener("load", e => e.target.parentElement.dataset.loaded = 1);
 			this.container.addEventListener("submit", () => this.login(), false);
-			this.password.profile.addEventListener("click", () => this.reset(false), false);
+			this.password.profile.addEventListener("mouseup", () => this.reset(true), false);
 			this.username.input.disabled = false;
 			this.username.submit.disabled = false;
 			this.innerText = "Đăng nhập";

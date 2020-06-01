@@ -476,7 +476,7 @@ const core = {
 							<t class="l">${this.languages[item.extension] || item.extension}</t>
 						</div>
 					</div>
-					<a class="d${item.logFile ? ` link" onClick="core.viewLog('${item.logFile}')"` : `"`}></a>
+					<a class="d${item.logFile ? ` link" onClick="core.viewLog('${response.user}', '${item.problem}')"` : `"`}></a>
 				</div>
 			`
 
@@ -566,7 +566,8 @@ const core = {
 			for (let j of data.list)
 				out += `
 					<td
-						class="number ${i.status[j] || ""}${(i.logFile[j]) ? ` link" onClick="core.viewLog('${i.logFile[j]}')` : ""}"
+						class="number ${i.status[j] || ""}${(i.logFile[j]) ? ` link"
+						onClick="core.viewLog('${i.username}', '${j}')` : ""}"
 						problem-id="${j}"
 						data-folding="${this.rankFolding[j] ? true : false}"
 					>${(typeof i.point[j] !== "undefined") ? parseFloat(i.point[j]).toFixed(2) : "X"}</td>`;
@@ -601,22 +602,27 @@ const core = {
 			item.dataset.folding = !f;
 	},
 
-	async viewLog(file) {
+	async viewLog(username, id) {
 		clog("info", "Opening log file", {
 			color: flatc("yellow"),
-			text: file
+			text: username
+		}, ":", {
+			color: flatc("red"),
+			text: id
 		});
 
 		let response = await myajax({
 			url: "/api/contest/viewlog",
 			method: "GET",
 			query: {
-				"f": file
+				u: username,
+				id
 			}
 		});
 
 		let data = response.data;
 		let logLine = [];
+
 		if (data.header.error.length !== 0)
 			for (let line of data.header.error)
 				logLine.push(`<li>${line}</li>`);
@@ -685,7 +691,7 @@ const core = {
 									</span>
 								</span>
 
-								<a href="/api/contest/rawlog?f=${data.header.file.logFilename}" class="sq-btn blue" rel="noopener" target="_blank">📄 Raw Log</a>
+								<a href="/api/contest/rawlog?u=${data.header.user}&id=${data.header.problem}" class="sq-btn blue" rel="noopener" target="_blank">📄 Raw Log</a>
 							</span>
 						</div>
 
@@ -699,7 +705,7 @@ const core = {
 		`;
 		
 		this.wrapper.panel.main.innerHTML = template;
-		this.wrapper.show(file);
+		this.wrapper.show(data.header.file.logFilename);
 	},
 
 	submit: {

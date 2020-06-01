@@ -312,11 +312,22 @@
 
 /* Element and Stuff */
 
-#userSettings .main .container .group .item #usett_avtinp {
+#userSettings .main .container .group.userCard {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+}
+
+#userSettings .main .container .group.userCard .left {
+    position: relative;
+}
+
+#userSettings .main .container .group.userCard .left #usett_avatarInput {
     display: none;
 }
 
-#userSettings .main .container .group .item .avatar {
+#userSettings .main .container .group.userCard .left .avatarBox {
     position: relative;
     display: block;
     width: 70px;
@@ -326,14 +337,14 @@
     overflow: hidden;
 }
 
-#userSettings .main .container .group .item .avatar img {
+#userSettings .main .container .group.userCard .left .avatarBox img {
     position: relative;
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-#userSettings .main .container .group .item .avatar .wrapper {
+#userSettings .main .container .group.userCard .left .avatarBox .wrapper {
     position: absolute;
     display: flex;
     align-items: center;
@@ -351,12 +362,12 @@
     transition: opacity 0.2s ease;
 }
 
-#userSettings .main .container .group .item .avatar .wrapper i {
+#userSettings .main .container .group.userCard .left .avatarBox .wrapper i {
     position: absolute;
     display: inline-block;
 }
 
-#userSettings .main .container .group .item .avatar .wrapper i::before {
+#userSettings .main .container .group.userCard .left .avatarBox .wrapper i::before {
     position: relative;
     font-family: "Font Awesome 5 Free";
     font-style: normal;
@@ -365,36 +376,36 @@
     color: rgb(211, 211, 211);
 }
 
-#userSettings .main .container .group .item .avatar .wrapper i.pencil::before {
+#userSettings .main .container .group.userCard .left .avatarBox .wrapper i.pencil::before {
     content: "\f303";
     font-size: 18px;
 }
 
-#userSettings .main .container .group .item .avatar .wrapper i.drag::before {
+#userSettings .main .container .group.userCard .left .avatarBox .wrapper i.drag::before {
     content: "\f103";
     font-size: 22px;
 }
 
-#userSettings .main .container .group .item .avatar .wrapper .material-spinner {
+#userSettings .main .container .group.userCard .left .avatarBox .wrapper .material-spinner {
     transform: scale(0.6);
     filter: brightness(1.4);
     visibility: hidden;
 }
 
-#userSettings .main .container .group .item .avatar:hover .wrapper.drag .pencil::before,
-#userSettings .main .container .group .item .avatar:hover .wrapper.load .pencil::before {
+#userSettings .main .container .group.userCard .left .avatarBox:hover .wrapper.drag .pencil::before,
+#userSettings .main .container .group.userCard .left .avatarBox:hover .wrapper.load .pencil::before {
     visibility: hidden;
 }
 
-#userSettings .main .container .group .item .avatar:hover .wrapper .pencil::before,
-#userSettings .main .container .group .item .avatar .wrapper.drag i.drag::before,
-#userSettings .main .container .group .item .avatar .wrapper.load .material-spinner {
+#userSettings .main .container .group.userCard .left .avatarBox:hover .wrapper .pencil::before,
+#userSettings .main .container .group.userCard .left .avatarBox .wrapper.drag i.drag::before,
+#userSettings .main .container .group.userCard .left .avatarBox .wrapper.load .material-spinner {
     visibility: visible;
 }
 
-#userSettings .main .container .group .item .avatar:hover .wrapper,
-#userSettings .main .container .group .item .avatar .wrapper.drag,
-#userSettings .main .container .group .item .avatar .wrapper.load {
+#userSettings .main .container .group.userCard .left .avatarBox:hover .wrapper,
+#userSettings .main .container .group.userCard .left .avatarBox .wrapper.drag,
+#userSettings .main .container .group.userCard .left .avatarBox .wrapper.load {
     opacity: 1;
 }
 

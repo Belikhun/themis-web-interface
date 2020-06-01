@@ -68,10 +68,7 @@
 			$data = Array(
 				"status" => null,
 				"user" => null,
-				"name" => null,
 				"problem" => null,
-				"problemName" => null,
-				"problemPoint" => null,
 				"point" => 0,
 				"testPassed" => 0,
 				"testFailed" => 0,
@@ -127,15 +124,6 @@
 			//! this is weird. soo weird
 			$data["user"] = trim($l1matches[0][1], " \t\n\r\0\x0B﻿");
 			$data["problem"] = trim($l1matches[0][2], " \t\n\r\0\x0B﻿");
-			$problemData = problemGet($data["problem"], $_SESSION["id"] === "admin");
-			
-			if ($problemData !== PROBLEM_ERROR_IDREJECT && $problemData !== PROBLEM_ERROR_DISABLED) {
-				$data["problemName"] = $problemData["name"];
-				$data["problemPoint"] = $this -> __f($problemData["point"]);
-				
-				if ($data["problemPoint"] <= $data["point"])
-					$data["status"] = "correct";
-			}
 
 			if (isset($file[1])) {
 				$problemFileInfo = pathinfo($file[1]);

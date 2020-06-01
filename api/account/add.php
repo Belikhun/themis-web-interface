@@ -15,7 +15,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
 
     if (!isLoggedIn())
-        stop(11, "Bạn chưa đăng nhập.", 401);
+        stop(11, "Bạn chưa đăng nhập", 401);
         
     checkToken();
 

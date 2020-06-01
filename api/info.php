@@ -23,9 +23,52 @@
     if (!$data = getUserData($username))
         stop(13, "Không tìm thấy tên người dùng \"$username\"!", 404, Array( "username" => $username ));
 
-    $data = getUserData($username);
-    unset($data["password"]);
-    unset($data["repass"]);
+    $userData = getUserData($username);
+    unset($userData["password"]);
+    unset($userData["repass"]);
 
-    stop(0, "Thành công!", 200, $data);
+    $contestData = null;
+
+    if (true) {
+        $contestData = Array(
+            "total" => 0,
+            "correct" => 0,
+            "passed" => 0,
+            "accepted" => 0,
+            "failed" => 0,
+            "skipped" => 0,
+            "scored" => 0,
+            "list" => Array()
+        );
+
+        $logDir = glob($config["logDir"] ."/*.log");
+
+        foreach ($logDir as $log) {
+            if (!(strpos($log, "[". $username ."]") > 0))
+                continue;
+
+            $data = ((new logParser($log, LOGPARSER_MODE_MINIMAL)) -> parse())["header"];
+    
+            if ($config["publish"] !== true && $_SESSION["id"] !== "admin") {
+                $data["status"] = "scored";
+                $data["point"] = null;
+            }
+    
+            $contestData["total"]++;
+            $contestData[$data["status"]]++;
+            
+            array_push($contestData["list"], Array(
+                "status" => $data["status"],
+                "problem" => $data["problem"],
+                "problemName" => $data["problemName"],
+                "problemPoint" => $data["problemPoint"],
+                "extension" => $data["file"]["extension"],
+                "point" => $data["point"],
+                "lastModify" => filemtime($log)
+            ));
+        }
+    }
+
+    $userData["contest"] = $contestData;
+    stop(0, "Thành công!", 200, $userData);
 ?>

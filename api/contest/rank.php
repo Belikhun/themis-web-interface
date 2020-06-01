@@ -53,8 +53,12 @@
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/logParser.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/submissions.php";
 
-	$logDir = glob($config["logDir"] ."/*.log");
+	updateSubmissions();
+
+	//? SUBMISSIONS CALCULATION
+	$usersList = getSubmissionsList();
 	$res = Array();
 	$_list_ = Array();
 	$list = Array();
@@ -62,35 +66,40 @@
 	$total = Array();
 	$overall = 0;
 
-	foreach ($logDir as $log) {
-		$data = ((new logParser($log, LOGPARSER_MODE_MINIMAL)) -> parse())["header"];
-		$filename = $data["file"]["logFilename"];
-		$user = $data["user"];
-		$userData = getUserData($user);
+	foreach ($usersList as $username) {
+		$sub = new submissions($username);
 
-		if (problemDisabled($data["problem"]) && $config["viewRankHideDisabled"] && $_SESSION["id"] !== "admin")
-			continue;
-
-		if ($config["viewRankTask"] === true || $_SESSION["id"] === "admin") {
-			$_list_[$data["problem"]] = null;
-			$res[$user]["status"][$data["problem"]] = $data["status"];
-			$res[$user]["point"][$data["problem"]] = $data["point"];
-			$res[$user]["logFile"][$data["problem"]] = ($config["viewLog"] === true || $_SESSION["id"] === "admin") ? $filename : null;
-
-			if ($data["problemName"])
-				$nameList[$data["problem"]] = $data["problemName"];
+		foreach ($sub -> list() as $id) {
+			$data = $sub -> getData($id)["header"];
+	
+			$filename = $data["file"]["logFilename"];
+			$user = $data["user"];
+			$userData = getUserData($user);
+	
+			if (problemDisabled($data["problem"]) && $config["viewRankHideDisabled"] && $_SESSION["id"] !== "admin")
+				continue;
+	
+			if ($config["viewRankTask"] === true || $_SESSION["id"] === "admin") {
+				$_list_[$data["problem"]] = null;
+				$res[$user]["status"][$data["problem"]] = $data["status"];
+				$res[$user]["point"][$data["problem"]] = $data["point"];
+				$res[$user]["logFile"][$data["problem"]] = ($config["viewLog"] === true || $_SESSION["id"] === "admin") ? $filename : null;
+	
+				if (isset($data["problemName"]))
+					$nameList[$data["problem"]] = $data["problemName"];
+			}
+	
+			$res[$user]["username"] = $user;
+			$res[$user]["name"] = ($userData && isset($userData["name"])) ? $userData["name"] : null;
+	
+			if (!isset($res[$user]["lastSubmit"]) || $res[$user]["lastSubmit"] < $data["file"]["lastModify"])
+				$res[$user]["lastSubmit"] = $data["file"]["lastModify"];
+	
+			if (!isset($res[$user]["total"]))
+				$res[$user]["total"] = 0;
+				
+			$res[$user]["total"] += $data["point"];
 		}
-
-		$res[$user]["username"] = $user;
-		$res[$user]["name"] = ($userData && isset($userData["name"])) ? $userData["name"] : null;
-
-		if (!isset($res[$user]["lastSubmit"]) || $res[$user]["lastSubmit"] < $data["file"]["lastModify"])
-			$res[$user]["lastSubmit"] = $data["file"]["lastModify"];
-
-		if (!isset($res[$user]["total"]))
-			$res[$user]["total"] = 0;
-			
-		$res[$user]["total"] += $data["point"];
 	}
 
 	foreach ($_list_ as $key => $value)

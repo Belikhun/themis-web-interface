@@ -1686,7 +1686,7 @@ body.guest #problemp.hide {
     position: absolute;
     top: 0;
     left: -10px;
-    width: calc(100vw - 20px);
+    width: calc(100vw - 24px);
     height: 100%;
 
     background-color: rgba(255, 255, 255, 0.5);

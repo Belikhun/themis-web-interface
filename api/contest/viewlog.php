@@ -12,6 +12,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/module/submissions.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/module/contest.php";
 
     if ($config["viewLog"] === false && $_SESSION["id"] !== "admin")
@@ -19,22 +20,24 @@
 
     contest_timeRequire([CONTEST_STARTED], false);
 
-    $file = preg_replace("/[\/\\\\]/m", "", reqQuery("f"));
-    $logPath = $config["logDir"] ."/". $file .".log";
+    $username = reqQuery("u");
+    $id = reqQuery("id");
 
-    if (!file_exists($logPath))
-        stop(44, "Không tìm thấy tệp nhật kí ". $file, 404);
+    if (!submissionExist($username))
+        stop(13, "Không tìm thấy tên người dùng \"$username\"!", 404, Array( "username" => $username ));
 
-    $username = $_SESSION["username"];
-    if (!(strpos($file, "[". $username ."]") > 0) && $config["viewLogOther"] == false && $_SESSION["id"] !== "admin")
+    if ($username !== $_SESSION["username"] && $config["viewLogOther"] === false && $_SESSION["id"] !== "admin")
         stop(31, "Không cho phép xem tệp nhật kí của người khác!", 403);
 
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
-    require_once $_SERVER["DOCUMENT_ROOT"] ."/module/logParser.php";
+    
+    $logData = (new submissions($username)) -> getData($id);
 
-    $logParsed = (new logParser($logPath, LOGPARSER_MODE_FULL)) -> parse();
-    $userData = getUserData($logParsed["header"]["user"]);
-    $logParsed["header"]["name"] = ($userData && isset($userData["name"])) ? $userData["name"] : null;
+    if (!$logData)
+        stop(44, "Không tìm thấy dữ liệu", 404, Array( "username" => $username, "id" => $id ));
 
-    stop(0, "Thành công!", 200, $logParsed);
+    $userData = getUserData($logData["header"]["user"]);
+    $logData["header"]["name"] = ($userData && isset($userData["name"])) ? $userData["name"] : null;
+
+    stop(0, "Thành công!", 200, $logData);
 ?>

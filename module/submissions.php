@@ -23,6 +23,10 @@
 		return $dirs;
 	}
 
+	function submissionExist($username) {
+		return in_array($username, getSubmissionsList());
+	}
+
 	/**
 	 * User's Submissions Manager Module
 	 * 
@@ -66,12 +70,16 @@
 			), "json");
 		}
 
+		public function exist(String $id) {
+			return in_array($id, $this -> list());
+		}
+
 		public function getMeta(String $id) {
 			return (new fip($this -> path ."/". $id ."/meta.json", "{}")) -> read("json");
 		}
 
 		public function updateMeta(String $id, Array $data = Array()) {
-			$meta = $this -> getMeta();
+			$meta = $this -> getMeta($id);
 
 			mergeObjectRecursive($meta, $data);
 			(new fip($this -> path ."/". $id ."/meta.json", "{}")) -> write($meta, "json");

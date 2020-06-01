@@ -14,9 +14,10 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
 
 	if (!isLoggedIn())
-		stop(11, "Bạn chưa đăng nhập.", 401);
+		stop(11, "Bạn chưa đăng nhập", 401);
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/logParser.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/submissions.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
 
 	$username = $_SESSION["username"];
@@ -55,6 +56,16 @@
 			if (!in_array($item, $queueFiles)) {
 				$data = parseLogName($item);
 
+				// GET PROBLEM DETAIL
+				$problemData = problemGet($data["problem"], $_SESSION["id"] === "admin");
+				$problemName = null;
+				$problemPoint = null;
+				
+				if ($problemData !== PROBLEM_ERROR_IDREJECT && $problemData !== PROBLEM_ERROR_DISABLED) {
+					$problemName = $problemData["name"];
+					$problemPoint = $problemData["point"];
+				}
+
 				// find and remove old log file
 				$loglist = glob($config["logDir"] ."/*.*");
 				foreach ($loglist as $log)
@@ -63,8 +74,8 @@
 
 				array_push($judging, Array(
 					"problem" => $data["problem"],
-					"problemName" => $data["problemName"],
-					"problemPoint" => $data["problemPoint"],
+					"problemName" => $problemName,
+					"problemPoint" => $problemPoint,
 					"name" => $data["name"],
 					"extension" => $data["extension"],
 					"lastModify" => time(),
@@ -74,21 +85,14 @@
 		$_SESSION["logsData"]["lastQueueFiles"] = $queueFiles;
 	}
 
-	$logDir = glob($config["logDir"] ."/*.log");
-	$logres = Array();
+	$sub = new submissions($username);
+	$logs = Array();
 
-	foreach ($logDir as $log) {
-		if (!(strpos($log, "[". $username ."]") > 0))
-			continue;
-
-		$filename = null;
-		if ($config["viewLog"] === true || $_SESSION["id"] === "admin")
-			$filename = pathinfo($log, PATHINFO_FILENAME);
-
-		$data = ((new logParser($log, LOGPARSER_MODE_MINIMAL)) -> parse())["header"];
+	foreach ($sub -> list() as $id) {
+		$data = $sub -> getData($id)["header"];
 
 		foreach ($judging as $i => $item)
-			if ($item["name"] === $data["file"]["name"] && file_exists($log))
+			if ($item["name"] === $data["file"]["name"])
 				array_splice($judging, $i, 1);
 
 		if ($config["publish"] !== true && $_SESSION["id"] !== "admin") {
@@ -96,15 +100,15 @@
 			$data["point"] = null;
 		}
 
-		array_push($logres, Array(
+		array_push($logs, Array(
 			"status" => $data["status"],
 			"problem" => $data["problem"],
 			"problemName" => $data["problemName"],
 			"problemPoint" => $data["problemPoint"],
 			"extension" => $data["file"]["extension"],
 			"point" => $data["point"],
-			"lastModify" => filemtime($log),
-			"logFile" => $filename
+			"lastModify" => $data["file"]["lastModify"],
+			"logFile" => (($config["viewLog"] === true || $_SESSION["id"] === "admin") && $data["file"]["logFilename"])
 		));
 	}
 
@@ -113,6 +117,6 @@
 	stop(0, "Thành công!", 200, Array(
 		"queues" => $queues,
 		"judging" => $judging,
-		"logs" => $logres,
+		"logs" => $logs,
 	), true);
 ?>

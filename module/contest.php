@@ -9,6 +9,46 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
 
+	function updateSubmissions() {
+		global $config;
+
+		require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
+		require_once $_SERVER["DOCUMENT_ROOT"] ."/module/logParser.php";
+		require_once $_SERVER["DOCUMENT_ROOT"] ."/module/submissions.php";
+
+		//? PARSE LOG FILES
+		$logDir = glob($config["logDir"] ."/*.log");
+
+		foreach ($logDir as $log) {
+			$data = ((new logParser($log, LOGPARSER_MODE_FULL)) -> parse());
+			$id = $data["header"]["problem"];
+
+			$sub = new submissions($data["header"]["user"]);
+
+			if ($sub -> exist($id) && $saved = $sub -> getData($id))
+				if ($saved["header"]["point"] > $data["header"]["point"]) {
+					unlink($log);
+					continue;
+				}
+
+			// GET PROBLEM DETAIL
+			$data["header"]["problemName"] = null;
+			$data["header"]["problemPoint"] = null;
+			$problemData = problemGet($id, $_SESSION["id"] === "admin");
+								
+			if ($problemData !== PROBLEM_ERROR_IDREJECT && $problemData !== PROBLEM_ERROR_DISABLED) {
+				$data["header"]["problemName"] = $problemData["name"];
+				$data["header"]["problemPoint"] = $problemData["point"];
+				
+				if ($data["header"]["problemPoint"] <= $data["header"]["point"])
+					$data["header"]["status"] = "correct";
+			}
+
+			$sub -> saveData($id, $data);
+			$sub -> saveLog($id, $log);
+		}
+	}
+
 	define("CONTEST_STARTED", 1);
 	define("CONTEST_NOTENDED", 2);
 	define("CONTEST_ENDED", 3);

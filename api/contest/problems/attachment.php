@@ -48,7 +48,7 @@
             define("PAGE_TYPE", "API");
 
             if (!isLoggedIn())
-                stop(11, "Bạn chưa đăng nhập.", 401);
+                stop(11, "Bạn chưa đăng nhập", 401);
 
             $id = preg_replace("/[.\/\\\\]/m", "", reqHeader("id"));
             
