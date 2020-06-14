@@ -17,6 +17,7 @@
 		stop(11, "Bạn chưa đăng nhập", 401);
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/logParser.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/contest.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/submissions.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
 
@@ -84,6 +85,8 @@
 
 		$_SESSION["logsData"]["lastQueueFiles"] = $queueFiles;
 	}
+
+	updateSubmissions();
 
 	$sub = new submissions($username);
 	$logs = Array();

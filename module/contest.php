@@ -14,8 +14,6 @@
 	}
 
 	function updateSubmissions() {
-		global $config;
-
 		require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
 		require_once $_SERVER["DOCUMENT_ROOT"] ."/module/logParser.php";
 		require_once $_SERVER["DOCUMENT_ROOT"] ."/module/submissions.php";

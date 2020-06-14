@@ -21,6 +21,8 @@
     $username = reqQuery("u");
     $id = reqQuery("id");
 
+    updateSubmissions();
+
     if (!submissionExist($username))
         stop(13, "Không tìm thấy tên người dùng \"$username\"!", 404, Array( "username" => $username ));
 
