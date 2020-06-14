@@ -1,5 +1,5 @@
 //? |-----------------------------------------------------------------------------------------------|
-//? |  /static/js/config.js                                                                         |
+//? |  /assets/js/config.js                                                                         |
 //? |                                                                                               |
 //? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
@@ -276,7 +276,9 @@ const config = {
 						let value = (item.valueList) ? item.valueList[_o] : _o;
 				
 						previewValue.innerText = `${value} ${item.unit || "ĐV"}`;
-						tooltip.show(previewValue.innerText, e.target);
+
+						if (e.isTrusted)
+							tooltip.show(previewValue.innerText, e.target);
 				
 						if (item.valueWarn) {
 							let _p =

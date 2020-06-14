@@ -145,7 +145,7 @@ const core = {
 
 		set(5, "Applying onRatelimited");
 		__connection__.onRatelimited = async o => {
-			const clock = document.createElement("t");
+			let clock = document.createElement("t");
 			clock.classList.add("rateLimitedClock");
 
 			o.onCount(left => {
@@ -170,7 +170,7 @@ const core = {
 
 		set(6, "Applying onDisconnected");
 		__connection__.onDisconnected = async o => {
-			const retry = document.createElement("t");
+			let retry = document.createElement("t");
 			retry.classList.add("disconnectedRetry");
 
 			o.onCount(tryNth => {

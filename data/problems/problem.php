@@ -174,7 +174,7 @@
             $problemList[$id]["attachment"] = $attachmentFile;
         }
 
-        mkdir(PROBLEMS_DIR. "/" .$id);
+        mkdir(PROBLEMS_DIR. "/" .$id, 0777, true);
         problemSave($id);
 
         if ($moveImage)

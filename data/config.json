@@ -34,7 +34,8 @@
     },
     "folders": {
         "submit": "D:\\Themis\\data\\uploadDir",
-        "submitLogs": "%submitFolder%\/Logs"
+        "submitLogs": "%submitFolder%\/Logs",
+        "submissions": "%submitFolder%\/submissions"
     },
     "time": {
         "zone": "Asia\/Ho_Chi_Minh",

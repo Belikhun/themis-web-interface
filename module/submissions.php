@@ -9,10 +9,10 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
 	
-	define("SUBMISSIONS_DIR", getConfig("folders.submit") ."/submissions");
+	define("SUBMISSIONS_DIR", getConfig("folders.submissions"));
 
 	if (!file_exists(SUBMISSIONS_DIR))
-		mkdir(SUBMISSIONS_DIR);
+		mkdir(SUBMISSIONS_DIR, 0777, true);
 
 	function getSubmissionsList() {
 		$dirs = glob(SUBMISSIONS_DIR ."/*", GLOB_ONLYDIR);
@@ -42,7 +42,7 @@
 			$this -> path = SUBMISSIONS_DIR ."/". $username;
 
 			if (!file_exists($this -> path))
-				mkdir($this -> path);
+				mkdir($this -> path, 0777, true);
 		}
 
 		public function list() {
@@ -55,7 +55,7 @@
 		}
 
 		private function submissionInit(String $id) {
-			mkdir($this -> path ."/". $id);
+			mkdir($this -> path ."/". $id, 0777, true);
 
 			(new fip($this -> path ."/". $id ."/meta.json", "{}")) -> write(Array(
 				"id" => $id,

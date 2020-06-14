@@ -16,7 +16,7 @@
 		define("CACHE_DEFAULT_AGE", 10);
 
 	if (!file_exists(CACHE_LOCATION))
-		mkdir(CACHE_LOCATION);
+		mkdir(CACHE_LOCATION, 0777, true);
 
 	class cache {
 		public $id;

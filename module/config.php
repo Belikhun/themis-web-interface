@@ -207,16 +207,24 @@
 
 			"submit" => Array(
 				"type" => "text",
-				"label" => "Thư mục lưu bài làm",
+				"label" => "Thư mục lưu bài làm của Themis",
 				"color" => "blue",
 				"value" => "D:\Themis\data\uploadDir"
 			),
 
 			"submitLogs" => Array(
 				"type" => "text",
-				"label" => "Thư mục lưu nhật ký",
+				"label" => "Thư mục nhật ký của Themis",
+				"color" => "gray",
+				"value" => "%submitFolder%/Logs",
+				"note" => "⚠ Không nên thay đổi giá trị này"
+			),
+
+			"submissions" => Array(
+				"type" => "text",
+				"label" => "Thư mục lưu dữ liệu chấm",
 				"color" => "blue",
-				"value" => "%submitFolder%/Logs"
+				"value" => "%submitFolder%/submissions"
 			)
 		),
 

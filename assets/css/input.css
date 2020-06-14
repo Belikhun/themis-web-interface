@@ -14,49 +14,25 @@
 }
 
 .formGroup > .formField {
+    position: relative;
+
     width: 100%;
-    border: 0;
-    outline: none;
-    border-bottom: 1px solid rgba(39, 39, 39, 0.4);
-    color: #424242;
-    font-family: "Open Sans", "Calibri", "Segoe UI", sans-serif;
-    font-size: 13px;
-    user-select: none;
-    padding: 2px 0 7px;
     margin-top: 4px;
-    background: transparent;
-    transition: border-color 0.5s;
-}
+    padding: 2px 0 7px;
 
-.formGroup > .formField::placeholder {
-    color: transparent;
-}
+    border: 0;
+    border-bottom: 1px solid rgba(39, 39, 39, 0.4);
+    outline: none;
 
-.formGroup > .formField:placeholder-shown + label {
-    font-size: 12px;
-    top: 24px;
-}
-
-.formGroup > label,
-.formGroup > .formField:focus + label {
-    position: absolute;
-    display: block;
-    top: 4px;
-
-    font-size: 9px;
-    font-family: "Open Sans", "Calibri", "Segoe UI", sans-serif;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #5a5b5f;
+    color: #424242;
+    font-family: "Segoe UI", "Open Sans", "Calibri", "sans-serif";
+    font-size: 14px;
 
     user-select: none;
-    cursor: text;
-
-    transition: 0.3s;
-}
-
-.formGroup > .formField:focus + label {
-    color: #5f5f62;
+    background: transparent;
+    transition:
+        border 0.5s ease,
+        padding 0.5s ease;
 }
 
 .formGroup > .formField:focus {
@@ -64,10 +40,44 @@
     border-bottom: 2px solid rgba(39, 39, 39, 0.8);
 }
 
+.formGroup > .formField::placeholder {
+    color: transparent;
+}
+
 .formGroup > .formField:disabled {
     color: rgb(172, 172, 172);
     background-color: rgba(128, 128, 128, 0.05);
     cursor: not-allowed;
+}
+
+.formGroup > label,
+.formGroup > .formField:focus + label {
+    position: absolute;
+    display: block;
+    top: 2px;
+
+    font-family: "Open Sans", "Calibri", "Segoe UI", "sans-serif";
+    font-size: 11px;
+    font-weight: 700;
+    color: #5a5b5f;
+    
+    text-transform: uppercase;
+    letter-spacing: .1px;
+    user-select: none;
+    cursor: text;
+
+    transition: all 0.3s ease;
+}
+
+.formGroup > .formField:placeholder-shown + label {
+    top: 24px;
+    font-size: 12px;
+}
+
+.formGroup > .formField:focus + label {
+    top: 2px;
+    font-size: 11px;
+    color: #5f5f62;
 }
 
 .formGroup > .formField:disabled + label {
@@ -168,7 +178,7 @@ body.dark .formGroup[data-color = "purple"] .formField:focus {
 /* Red */
 
 .formGroup[data-color = "red"] .formField {
-    border-bottom: 1px solid rgba(255, 0, 0, 0.4);
+    border-bottom-color: rgba(255, 0, 0, 0.4);
     color: #ff1c1c;
 }
 
@@ -185,7 +195,7 @@ body.dark .formGroup[data-color = "purple"] .formField:focus {
 }
 
 body.dark .formGroup[data-color = "red"] .formField {
-    border-bottom: 1px solid rgba(207, 71, 71, 0.4);
+    border-bottom-color: rgba(207, 71, 71, 0.4);
     color: #f1a3a3;
 }
 
