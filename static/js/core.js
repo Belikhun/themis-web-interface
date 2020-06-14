@@ -140,6 +140,9 @@ const core = {
 		set(0, "Initializing: popup");
 		popup.init();
 
+		set(2, "Initializing: tooltip");
+		tooltip.init();
+
 		set(5, "Applying onRatelimited");
 		__connection__.onRatelimited = async o => {
 			const clock = document.createElement("t");

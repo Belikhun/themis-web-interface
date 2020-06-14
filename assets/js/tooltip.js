@@ -52,6 +52,14 @@ const tooltip = {
 			}
 		} else if (event.target.dataset.tip)
 			this.show(event.target.dataset.tip, event.target);
+		else if(event.target.getAttribute("tooltip"))
+			this.show(event.target.getAttribute("tooltip"), event.target);
+		else if (event.target.title) {
+			event.target.setAttribute("tooltip", event.target.title);
+			this.show(event.target.title, event.target);
+			
+			event.target.removeAttribute("title");
+		}
 
 		this.container.style.left = `${event.clientX}px`;
 		this.container.style.top = `${event.clientY}px`;

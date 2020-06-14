@@ -919,8 +919,9 @@
 			sbar.__item.errr = sbar.additem("0", "error");
 		</script>
 
-		<!-- Sounds -->
+		<!-- Library -->
 		<script src="/assets/js/sounds.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+		<script src="/assets/js/tooltip.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 
 		<!-- Core script -->
 		<script src="/static/js/core.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
