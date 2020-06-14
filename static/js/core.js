@@ -1710,6 +1710,7 @@ const core = {
 				let value = this.updateDelayOptions[_o] || 2000;
 
 				this.updateDelayText.innerText = `${value / 1000} giây/yêu cầu`;
+				tooltip.show(this.updateDelayText.innerText, this.updateDelaySlider);
 
 				if (value < 2000)
 					e.target.classList.add("pink") || e.target.classList.remove("blue");

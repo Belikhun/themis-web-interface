@@ -57,7 +57,7 @@ const tooltip = {
 		else if (event.target.title) {
 			event.target.setAttribute("tooltip", event.target.title);
 			this.show(event.target.title, event.target);
-			
+
 			event.target.removeAttribute("title");
 		}
 
@@ -108,7 +108,7 @@ const tooltip = {
 		//? TRIGGER REFLOW TO REPLAY ANIMATION
 		this.container.style.animation = "none";
 
-		setTimeout(() => {
+		requestAnimationFrame(() => {
 			this.container.offsetHeight;
 			this.container.style.animation = null;
 			this.container.style.width = this.content.clientWidth + "px";
