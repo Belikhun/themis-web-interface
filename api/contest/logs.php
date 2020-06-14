@@ -11,7 +11,7 @@
 
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
 
 	if (!isLoggedIn())
 		stop(11, "Bạn chưa đăng nhập", 401);
@@ -21,7 +21,7 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
 
 	$username = $_SESSION["username"];
-	$uploadFiles = glob($config["uploadDir"] ."/*.*");
+	$uploadFiles = glob(getConfig("folders.submit") ."/*.*");
 	$queueFiles = Array();
 	$queues = Array();
 
@@ -67,7 +67,7 @@
 				}
 
 				// find and remove old log file
-				$loglist = glob($config["logDir"] ."/*.*");
+				$loglist = glob(getConfig("folders.submitLogs") ."/*.*");
 				foreach ($loglist as $log)
 					if (strpos($log, $data["problem"]) > 0 && (strpos($log, $username) > 0))
 						unlink($log);
@@ -95,7 +95,7 @@
 			if ($item["name"] === $data["file"]["name"])
 				array_splice($judging, $i, 1);
 
-		if ($config["publish"] !== true && $_SESSION["id"] !== "admin") {
+		if (getConfig("contest.result.publish") !== true && $_SESSION["id"] !== "admin") {
 			$data["status"] = "scored";
 			$data["point"] = null;
 		}
@@ -108,7 +108,7 @@
 			"extension" => $data["file"]["extension"],
 			"point" => $data["point"],
 			"lastModify" => $data["file"]["lastModify"],
-			"logFile" => (($config["viewLog"] === true || $_SESSION["id"] === "admin") && $data["file"]["logFilename"])
+			"logFile" => ((getConfig("contest.log.enabled") === true || $_SESSION["id"] === "admin") && $data["file"]["logFilename"])
 		));
 	}
 

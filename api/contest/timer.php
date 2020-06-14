@@ -11,17 +11,17 @@
 	
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
 
-	if ($config["time"]["during"] <= 0)
+	if (getConfig("time.contest.during") <= 0)
 		stop(101, "Not in Contest mode.", 200, Array(
-			"during" => $config["time"]["during"],
+			"during" => getConfig("time.contest.during"),
 			"phase" => 0
 		));
 
-	$beginTime = $config["time"]["begin"]["times"];
-	$duringTime = $config["time"]["during"] * 60;
-	$offsetTime = $config["time"]["offset"];
+	$beginTime = getConfig("time.contest.begin");
+	$duringTime = getConfig("time.contest.during") * 60;
+	$offsetTime = getConfig("time.contest.offset");
 	$t = $beginTime - microtime(true) + $duringTime;
 
 	if ($t > $duringTime) {

@@ -16,7 +16,7 @@
 	if (isLoggedIn())
 		stop(12, "Đã đăng nhập bằng tài khoản: ". $_SESSION["username"], 400);
 
-	if ($config["allowRegister"] !== true)
+	if (getConfig("system.allowRegister") !== true)
 		stop(21, "Đăng kí tài khoản đã bị tắt!", 403);
 	
 	$username = preg_replace("/[^a-zA-Z0-9]+/", "", reqForm("username"));

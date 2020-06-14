@@ -7,9 +7,9 @@
 	//? |-----------------------------------------------------------------------------------------------|
 	
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
 	
-	define("SUBMISSIONS_DIR", $config["uploadDir"] ."/submissions");
+	define("SUBMISSIONS_DIR", getConfig("folders.submit") ."/submissions");
 
 	if (!file_exists(SUBMISSIONS_DIR))
 		mkdir(SUBMISSIONS_DIR);

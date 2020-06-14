@@ -206,7 +206,7 @@ tag {
 	transition: unset;
 }
 
-.lazyload > :first-child:not(.simple-spinner) {
+.lazyload > :first-child:not(.simpleSpinner) {
 	position: relative;
 	display: block;
 	width: 100%;
@@ -218,7 +218,7 @@ tag {
 		opacity 0.3s cubic-bezier(0.55, 0.055, 0.675, 0.19);
 }
 
-.lazyload > .simple-spinner {
+.lazyload > .simpleSpinner {
 	position: absolute;
 	width: 16px;
 	height: 16px;
@@ -226,7 +226,7 @@ tag {
 	left: calc(50% - 8px);
 }
 
-.lazyload.light > .simple-spinner {
+.lazyload.light > .simpleSpinner {
 	border-color: rgb(214, 214, 214);
 	border-right-color: transparent;
 }
@@ -235,12 +235,12 @@ tag {
 	background-color: transparent;
 }
 
-.lazyload[data-loaded] > :first-child:not(.simple-spinner) {
+.lazyload[data-loaded] > :first-child:not(.simpleSpinner) {
 	opacity: 1;
 }
 
-.lazyload[data-loaded] > .simple-spinner,
-.lazyload[data-errored] > .simple-spinner {
+.lazyload[data-loaded] > .simpleSpinner,
+.lazyload[data-errored] > .simpleSpinner {
 	display: none;
 }
 
@@ -274,6 +274,7 @@ tag {
 	backdrop-filter: saturate(80%) blur(6px);
 	white-space: pre;
 	z-index: 9999999;
+	overflow: hidden;
 
 	font-family: "Segoe UI";
 	font-size: 12px;
@@ -283,10 +284,10 @@ tag {
 	opacity: 0;
 
 	transform: translate(10px, 20px);
-	transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+	transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 
 	animation: tooltip-blink 0.3s linear;
-    animation-fill-mode: forwards;
+	animation-fill-mode: forwards;
 }
 
 .tooltip.flip {
@@ -295,6 +296,10 @@ tag {
 
 .tooltip.show {
 	opacity: 1;
+}
+
+.tooltip > .content {
+	position: absolute;
 }
 
 @keyframes tooltip-blink {
@@ -359,7 +364,11 @@ body.dark separator {
     flex-grow: 1;
     margin-right: 10px;
     font-size: 12px;
-    color: #dadada;
+    color: #2c2c2c;
+}
+
+body.dark .switchContainer > span {
+	color: #dadada;
 }
 
 .price::after {
@@ -620,9 +629,9 @@ body.dark separator {
 }
 
 .popupContainer .popupWindow .body .top .message {
-	font-family: "Open Sans";
-	font-weight: bold;
-	font-size: 15px;
+	font-family: "Calibri";
+	font-weight: 900;
+	font-size: 16px;
 	letter-spacing: .2px;
 	text-transform: uppercase;
 	color: rgb(22, 22, 22);

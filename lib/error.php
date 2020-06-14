@@ -101,7 +101,7 @@
     $errDetail = empty($errDetail) ? $errDetailSub : $errDetail;
     $reportData = null;
 
-    if (isset($lastError) && isset($err) && $errCode >= 500)
+    if (isset($lastError) && $errCode >= 500)
         $reportData = join("\n", Array(
             "----------------BEGIN ERROR REPORT DATA----------------",
             "Protocol       : " . $sv_pr,
@@ -114,7 +114,7 @@
             "Server         : " . $sv,
             "Client         : " . $cl,
             "",
-            "ERROR DATA     : \n" . json_encode($err, JSON_PRETTY_PRINT),
+            "ERROR DATA     : " . json_encode($lastError, JSON_PRETTY_PRINT),
             "-----------------END ERROR REPORT DATA-----------------"
         ));
 
@@ -123,82 +123,80 @@
 
 <!DOCTYPE html>
 <html lang="vi-VN">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title><?php print $errCode ." ". $error; ?> | <?php print APPNAME ." v". VERSION; ?></title>
 
-    <title><?php print $errCode ." ". $error; ?> | <?php print APPNAME ." v". VERSION; ?></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Primary Meta Tags -->
+        <meta name="title" content="<?php print $error; ?>">
+        <meta name="description" content="<?php print $description; ?>">
 
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="<?php print $error; ?>">
-    <meta name="description" content="<?php print $description; ?>">
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="<?php print $error; ?>">
+        <meta property="og:description" content="<?php print $description; ?>">
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="<?php print $error; ?>">
-    <meta property="og:description" content="<?php print $description; ?>">
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:title" content="<?php print $error; ?>">
+        <meta property="twitter:description" content="<?php print $description; ?>">
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:title" content="<?php print $error; ?>">
-    <meta property="twitter:description" content="<?php print $description; ?>">
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/error.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollBar.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css?v=<?php print VERSION; ?>" />
+        
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/opensans/opensans.css?v=<?php print VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri/calibri.css?v=<?php print VERSION; ?>" />
+    </head>
 
-    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/error.css?v=<?php print VERSION; ?>" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollBar.css?v=<?php print VERSION; ?>" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css?v=<?php print VERSION; ?>" />
-    
-    <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/opensans/opensans.css?v=<?php print VERSION; ?>" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri/calibri.css?v=<?php print VERSION; ?>" />
-</head>
+    <body>
+        <div class="background"></div>
+        <div class="container">
+            <div class="left">
+                <span class="protocol"><?php print $sv_pr; ?></span>
+                <p class="code"><?php print $errCode; ?></p>
+                <p class="error"><?php print $error; ?></p>
+            </div>
 
-<body>
-    <div class="background"></div>
-    <div class="container">
-        <div class="left">
-            <span class="protocol"><?php print $sv_pr; ?></span>
-            <p class="code"><?php print $errCode; ?></p>
-            <p class="error"><?php print $error; ?></p>
-        </div>
+            <div class="right">
+                <p class="description"><?php print $description; ?></p>
+                <p class="detail"><?php print $errDetail; ?></p>
 
-        <div class="right">
-            <p class="description"><?php print $description; ?></p>
-            <p class="detail"><?php print $errDetail; ?></p>
+                <?php if (!empty($reportData)) { ?>
+                    <t class="reportIns">Sử dụng thông tin dưới đây để báo cáo lỗi:</t>
+                    <textarea class="report" onclick="this.select()" readonly><?php print $reportData; ?></textarea>
+                <?php } ?>
+                
+                <p class="info">
+                    Client: <?php print $cl; ?><br>
+                    Server: <?php print $sv; ?><br>
+                    Your IP: <?php print $cl_ar; ?><br>
+                </p>
 
-            <?php if (!empty($reportData)) { ?>
-                <t class="reportIns">Sử dụng thông tin dưới đây để báo cáo lỗi:</t>
-                <textarea class="report" onclick="this.select()" readonly><?php print $reportData; ?></textarea>
-            <?php } ?>
-            
-            <p class="info">
-                Client: <?php print $cl; ?><br>
-                Server: <?php print $sv; ?><br>
-                Your IP: <?php print $cl_ar; ?><br>
-            </p>
-
-            <div class="button">
-                <a href="<?php print REPORT_ERROR; ?>" target="_blank" rel="noopener"><button class="sq-btn pink">Báo Lỗi</button></a>
-                <a href="/"><button class="sq-btn">Về Trang Chủ</button></a>
+                <div class="button">
+                    <a href="<?php print REPORT_ERROR; ?>" target="_blank" rel="noopener"><button class="sq-btn pink">Báo Lỗi</button></a>
+                    <a href="/"><button class="sq-btn">Về Trang Chủ</button></a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="footer">
-        <img src="/assets/img/icon.webp" class="icon">
-        <p><?php print APPNAME; ?>. Copyright (c) <?php print AUTHOR; ?>. This project is licensed under the MIT License.</p>
-    </div>
+        <div class="footer">
+            <img src="/assets/img/icon.webp" class="icon">
+            <p><?php print APPNAME; ?>. Copyright (c) <?php print AUTHOR; ?>. This project is licensed under the MIT License.</p>
+        </div>
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=<?php print TRACK_ID; ?>"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments) }
-        gtag("js", new Date());
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=<?php print TRACK_ID; ?>"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments) }
+            gtag("js", new Date());
 
-        gtag("config", `<?php print TRACK_ID; ?>`);
-    </script>
-</body>
-
+            gtag("config", `<?php print TRACK_ID; ?>`);
+        </script>
+    </body>
 </html>

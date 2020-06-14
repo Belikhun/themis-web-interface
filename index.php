@@ -10,7 +10,7 @@
 	define("PAGE_TYPE", "NORMAL");
 	
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
 	header("Cache-Control: max-age=0, must-revalidate", true);
 
 	define("LAN_ADDR", getHostByName(getHostName()));
@@ -30,7 +30,7 @@
 		$id = $userdata["id"];
 	}
 
-	$stripedContestDescription = strip_tags($config["app"]["description"]);
+	$stripedContestDescription = strip_tags(getConfig("contest.description"));
 ?>
 
 	<!DOCTYPE html>
@@ -42,20 +42,20 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<!-- Thay đổi tiêu đề trang hiện đã có trong phần Admin Control Panel -->
-		<title><?php print $config["pageTitle"]; ?> | <?php print APPNAME ." v". VERSION; ?></title>
+		<title><?php print getConfig("contest.name"); ?> | <?php print APPNAME ." v". VERSION; ?></title>
 
 		<!-- Primary Meta Tags -->
-		<meta name="title" content="<?php print $config["app"]["title"]; ?>">
+		<meta name="title" content="<?php print getConfig("contest.name"); ?>">
 		<meta name="description" content="<?php print $stripedContestDescription; ?>">
 
 		<!-- Open Graph / Facebook -->
 		<meta property="og:type" content="website">
-		<meta property="og:title" content="<?php print $config["app"]["title"]; ?>">
+		<meta property="og:title" content="<?php print getConfig("contest.name"); ?>">
 		<meta property="og:description" content="<?php print $stripedContestDescription; ?>">
 
 		<!-- Twitter -->
 		<meta property="twitter:card" content="summary_large_image">
-		<meta property="twitter:title" content="<?php print $config["app"]["title"]; ?>">
+		<meta property="twitter:title" content="<?php print getConfig("contest.name"); ?>">
 		<meta property="twitter:description" content="<?php print $stripedContestDescription; ?>">
 
 		<!-- Load Library First -->
@@ -93,7 +93,7 @@
 		<script src="/assets/js/errorHandler.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 		<script type="text/javascript" src="/assets/js/splash.js?v=<?php print VERSION; ?>"></script>
 		<script type="text/javascript">
-			var mainSplash = new splash(document.body, `<?php print $config["app"]["title"]; ?>`, `<?php print $stripedContestDescription; ?>`, "/api/images/icon");
+			var mainSplash = new splash(document.body, `<?php print getConfig("contest.name"); ?>`, `<?php print $stripedContestDescription; ?>`, "/api/images/icon");
 
 			mainSplash.init = async set => {
 				set(0, "Initializing core.js?v=<?php print VERSION; ?>");
@@ -142,14 +142,15 @@
 								.join("")
 							: `<li>${e} >>> ${d}</li>`;
 						
-						errorDetail.classList.add("textView", "small", "noBreakLine");
+						errorDetail.classList.add("textView", "small");
 						errorDetail.style.flexDirection = "column";
 						errorDetail.innerHTML = errorDetailHtml;
 
 						let action = await popup.show({
 							windowTitle: "Lỗi",
-							title: "Oops",
-							description: "Có vẻ như lỗi vẫn đang tiếp diễn!<br>Hãy thử <b>tải lại</b> trang hoặc sử dụng thông tin dưới đây để gửi một báo cáo lỗi:",
+							title: "Toang rồi ông Giáo ạ!",
+							message: "Lỗi Vẫn Đang Tiếp Diễn",
+							description: "Hãy thử <b>tải lại</b> trang hoặc sử dụng thông tin dưới đây để gửi một báo cáo lỗi:",
 							level: "error",
 							customNode: errorDetail,
 							buttonList: {
@@ -183,10 +184,10 @@
 					<img class="icon" src="/api/images/icon" />
 					<ul class="title">
 						<li class="main text-overflow">
-							<?php print $config["app"]["title"]; ?>
+							<?php print getConfig("contest.name"); ?>
 						</li>
 						<li class="sub text-overflow">
-							<?php print $config["app"]["description"]; ?>
+							<?php print getConfig("contest.description"); ?>
 						</li>
 					</ul>
 				</span>
@@ -228,6 +229,36 @@
 		<span id="userSettings" class="sound" data-soundtoggle="show">
 			<div class="main">
 				<div class="container menu">
+
+					<div class="group user userCard">
+						<style scoped="scoped" onload="triBg(this.parentElement, { color: 'dark' })"></style>
+						<span class="left">
+							<input id="usett_avatarInput" type="file">
+
+							<label for="usett_avatarInput" class="avatarBox sound" data-soundhover data-soundselect title="Nhấn hoặc thả ảnh vào đây để thay đổi ảnh đại diện">
+								<img id="usett_avatar" class="avatar" src="/api/avatar?u=admin" />
+
+								<div id="usett_avatarWrapper" class="wrapper">
+									<i class="pencil"></i>
+									<i class="drag"></i>
+									<div class="material-spinner">
+										<svg><circle cx="50%" cy="50%" r="20" fill="none"/></svg>
+									</div>
+								</div>
+							</label>
+
+							<span class="status" data-status="online">
+								<span class="mark"></span>
+								<t class="statusText">Online</t>
+							</span>
+						</span>
+
+						<span class="right">
+							<t class="name">Sample Name</t>
+							<t class="username">belivipro9x99</t>
+							<separator></separator>
+						</span>
+					</div>
 
 					<div class="group home">
 						<t class="title big center">Cài Đặt</t>
@@ -789,7 +820,7 @@
 
 									<div id="problemAttachmentPreviewWrapper" class="lazyload embed">
 										<embed id="problemAttachmentPreview" src=""/>
-										<div class="simple-spinner"></div>
+										<div class="simpleSpinner"></div>
 									</div>
 								</div>
 

@@ -12,7 +12,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logs.php";
-    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/module/contest.php";
 
     if (!isLoggedIn())
@@ -20,7 +20,7 @@
 
     checkToken();
 
-    if ($config["submit"] === false)
+    if (getConfig("contest.submit.enabled") === false)
         stop(22, "Nộp bài đã bị tắt!", 403);
 
     if (!isset($_FILES["file"]))
@@ -36,7 +36,7 @@
     $filename = pathinfo($file, PATHINFO_FILENAME);
     $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
 
-    if ($config["submitInProblems"] === true) {
+    if (getConfig("contest.submit.inProblemsList") === true) {
         require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
         if (!problemExist($filename))
             stop(44, "Không có đề cho bài này!", 404, Array( "file" => $filename ));
@@ -61,7 +61,7 @@
     if ($_FILES["file"]["error"] > 0)
         stop(-1, "Lỗi không rõ.", 500);
 
-    move_uploaded_file($_FILES["file"]["tmp_name"], $config["uploadDir"] ."/". $userid ."[". $username ."][". $filename ."].". $extension);
+    move_uploaded_file($_FILES["file"]["tmp_name"], getConfig("folders.submit") ."/". $userid ."[". $username ."][". $filename ."].". $extension);
     writeLog("INFO", "Đã tải lên \"$file\"");
     stop(0, "Nộp bài thành công.", 200);
 ?>

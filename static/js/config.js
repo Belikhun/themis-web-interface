@@ -5,151 +5,6 @@
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
-var pageIcon = $("#pageIcon");
-var pageIconInput = $("#pageIconInput");
-var pageIconReset = $("#pageIconReset");
-
-var landingImage = $("#landingImage");
-var landingImageInput = $("#landingImageInput");
-var landingImageReset = $("#landingImageReset");
-
-var app = {
-    title: $("#contest_name"),
-    description: $("#contest_description")
-}
-var uploadDir = $("#uploadDir");
-var time = {
-    zone: $("#time_zone"),
-    beginDate: $("#time_beginDate"),
-    beginTime: $("#time_beginTime"),
-    during: $("#time_during"),
-    offset: $("#time_offset")
-}
-var pageTitle = $("#pageTitle");
-var publish = $("#publish");
-var submit = $("#submit");
-var submitInProblems = $("#submitInProblems");
-var allowRegister = $("#allowRegister");
-var edit = {
-    name: $("#editName"),
-    password: $("#editPassword"),
-    avatar: $("#editAvatar")
-}
-var viewRank = $("#viewRank");
-var viewRankTask = $("#viewRankTask");
-var viewRankHideDisabled = $("#viewRankHideDisabled");
-var viewLog = $("#viewLog");
-var viewLogOther = $("#viewLogOther");
-var publicProblems = $("#publicProblems");
-
-var clientConfig = {
-    sounds: $("#clientSounds"),
-    nightmode: $("#clientNightmode"),
-    showMs: $("#clientShowMs"),
-    transition: $("#clientTransition"),
-    dialogProblem: $("#clientDialogProblem"),
-    rankUpdate: $("#clientRankUpdate"),
-    logsUpdate: $("#clientLogsUpdate"),
-    updateDelay: $("#clientUpdateDelayInput"),
-    updateDelayValue: $("#clientUpdateDelayValue")
-}
-
-var ratelimit = {
-    maxRequest: $("#ratelimit_maxRequest"),
-    time: $("#ratelimit_time"),
-    banTime: $("#ratelimit_banTime")
-}
-
-var cache = {
-    contestRank: $("#cache_contestRank")
-}
-
-var setTimeToNow = $("#setTimeToNow");
-
-function cvtime(h, m, s) {
-    return [h, m, s]
-        .map(v => v < 10 ? "0" + v : v)
-        .join(":");
-}
-
-function cvdate(d, m, y) {
-    return [y, m, d]
-        .map(v => v < 10 ? "0" + v : v)
-        .join("-");
-}
-
-function prdate(inp) {
-    var t = inp.split("-");
-    return {
-        y: parseInt(t[0]),
-        m: parseInt(t[1]),
-        d: parseInt(t[2])
-    }
-}
-
-function prtime(inp) {
-    var t = inp.split(":");
-    return {
-        h: parseInt(t[0] ? t[0] : 0),
-        m: parseInt(t[1] ? t[1] : 0),
-        s: parseInt(t[2] ? t[2] : 0)
-    }
-}
-
-function update() {
-    myajax({
-        url: "/api/config",
-        method: "GET",
-    }, response => {
-        let data = response.data;
-
-        app.title.value = data.app.title;
-        app.description.value = data.app.description;
-        uploadDir.value = data.uploadDir;
-        time.zone.value = data.time.zone;
-        time.beginDate.value = cvdate(
-            data.time.begin.days,
-            data.time.begin.months,
-            data.time.begin.years
-        );
-        time.beginTime.value = cvtime(
-            data.time.begin.hours,
-            data.time.begin.minutes,
-            data.time.begin.seconds
-        );
-        time.during.value = data.time.during;
-        time.offset.value = data.time.offset;
-        pageTitle.value = data.pageTitle;
-        publish.checked = data.publish;
-        submit.checked = data.submit;
-        submitInProblems.checked = data.submitInProblems;
-        allowRegister.checked = data.allowRegister;
-        edit.name.checked = data.edit.name;
-        edit.password.checked = data.edit.password;
-        edit.avatar.checked = data.edit.avatar;
-        viewRank.checked = data.viewRank;
-        viewRankTask.checked = data.viewRankTask;
-        viewRankHideDisabled.checked = data.viewRankHideDisabled;
-        viewLog.checked = data.viewLog;
-        viewLogOther.checked = data.viewLogOther;
-        publicProblems.checked = data.publicProblems;
-        clientConfig.sounds.checked = data.clientConfig.sounds;
-        clientConfig.nightmode.checked = data.clientConfig.nightmode;
-        clientConfig.showMs.checked = data.clientConfig.showMs;
-        clientConfig.transition.checked = data.clientConfig.transition;
-        clientConfig.dialogProblem.checked = data.clientConfig.dialogProblem;
-        clientConfig.rankUpdate.checked = data.clientConfig.rankUpdate;
-        clientConfig.logsUpdate.checked = data.clientConfig.logsUpdate;
-        clientConfig.updateDelay.value = data.clientConfig.updateDelay;
-        ratelimit.maxRequest.value = data.ratelimit.maxRequest;
-        ratelimit.time.value = data.ratelimit.time;
-        ratelimit.banTime.value = data.ratelimit.banTime;
-        cache.contestRank.value = data.cache.contestRank;
-
-        clientConfig.updateDelay.dispatchEvent(new Event("input"));
-    }, error => errorHandler(error));
-}
-
 const sbar = new statusBar(document.body);
 sbar.additem(USERNAME, "account", {space: false, align: "left"});
 
@@ -162,179 +17,434 @@ document.__onclog = (type, ts, msg) => {
     sbar.msg(type, msg, {time: ts, lock: (type === "crit" || type === "lcnt") ? true : false});
 }
 
-$("body").onload = () => {
-    if (cookie.get("__darkMode") === "true")
-        document.body.classList.add("dark");
+popup.init();
 
-    if (window.frameElement)
-        document.body.classList.add("embeded");
+const config = {
+	container: $("#formContainer"),
+	configContainer: $("#configContainer"),
 
-    setTimeToNow.addEventListener("mouseup", e => {
-        let now = new Date();
+	configItem: {},
+	configTree: {},
 
-        time.beginDate.value = cvdate(
-            now.getDate(),
-            now.getMonth() + 1,
-            now.getFullYear()
-        );
+    async init() {
+		if (cookie.get("__darkMode") === "true")
+        	document.body.classList.add("dark");
 
-        time.beginTime.value = cvtime(
-            now.getHours(),
-            now.getMinutes(),
-            now.getSeconds()
-        );
-    })
+		if (window.frameElement)
+			document.body.classList.add("embeded");
 
-    // =========== IMAGE MODIFY EVENT ===========
+		tooltip.init();
+		await sounds.init();
+		await this.render();
 
-    pageIcon.addEventListener("load", e => e.target.parentElement.dataset.loaded = 1);
-    landingImage.addEventListener("load", e => e.target.parentElement.dataset.loaded = 1);
+		this.container.addEventListener("submit", () => this.saveSettings());
+	},
 
-    pageIconInput.addEventListener("change", async e => {
-        sounds.confirm(0);
-        let file = e.target.files[0];
+	__setTreePath(object, path = [], value) {
+		let _p = "";
 
-        try {
-            await myajax({
-                url: "/api/images/icon",
-                method: "POST",
-                form: {
-                    token: API_TOKEN,
-                    file: file
-                }
-            })
-        } catch(e) { sounds.warning() }
+		for (let p of path) {
+			_p += `["${p}"]`;
 
-        e.target.value = "";
-        pageIcon.parentElement.removeAttribute("data-loaded");
-        pageIcon.src = "/api/images/icon";
-    })
+			if (eval(`typeof object${_p} !== "object"`))
+				eval(`object${_p} = {}`);
+		}
 
-    landingImageInput.addEventListener("change", async e => {
-        sounds.confirm(2);
-        let file = e.target.files[0];
+		eval(`object${_p} = value`);
+		return object;
+	},
 
-        try {
-            await myajax({
-                url: "/api/images/landing",
-                method: "POST",
-                form: {
-                    token: API_TOKEN,
-                    file: file
-                }
-            })
-        } catch(e) { sounds.warning() }
+	__render(item, container, path = []) {
+		if (item.type) {
+			let itemData = {}
+			let keyPath = path.join(".");
 
-        e.target.value = "";
-        landingImage.parentElement.removeAttribute("data-loaded");
-        landingImage.src = "/api/images/landing";
-    })
+			switch (item.type) {
+				case "text":
+				case "number": {
+					let textInput = createInput({
+						type: item.type,
+						id: `config.${keyPath}`,
+						label: item.label,
+						value: item.value,
+						color: item.color || "blue",
+						required: item.required || false
+					})
 
-    pageIconReset.addEventListener("mouseup", async () => {
-        sounds.notification();
+					if (item.height)
+						textInput.input.style.height = item.height;
+	
+					if (item.step)
+						textInput.input.step = item.step;
 
-        try {
-            await myajax({
-                url: "/api/images/icon",
-                method: "DELETE",
-                header: { token: API_TOKEN }
-            })
-        } catch(e) { sounds.warning() }
+					textInput.group.classList.add("sound");
+					textInput.group.dataset.soundselectsoft = true;
+					sounds.applySound(textInput.group);
 
-        pageIcon.parentElement.removeAttribute("data-loaded");
-        pageIcon.src = "/api/images/icon";
-    })
+					itemData = {
+						type: item.type,
+						node: textInput.group,
+						setValue: (value) => textInput.input.value = value,
+						getValue: () => (item.type === "number") ? parseInt(textInput.input.value) : textInput.input.value
+					}
 
-    landingImageReset.addEventListener("mouseup", async () => {
-        sounds.notification();
+					break;
+				}
+				
+				case "checkbox": {
+					let switchInput = createSwitch({
+						label: item.label,
+						color: item.color || "blue",
+						value: item.value
+					})
 
-        try {
-            await myajax({
-                url: "/api/images/landing",
-                method: "DELETE",
-                header: { token: API_TOKEN }
-            })
-        } catch(e) { sounds.warning() }
+					itemData = {
+						type: item.type,
+						node: switchInput.group,
+						setValue: (value) => switchInput.input.checked = value,
+						getValue: () => switchInput.input.checked
+					}
 
-        landingImage.parentElement.removeAttribute("data-loaded");
-        landingImage.src = "/api/images/landing";
-    })
+					break;
+				}
 
-    // =========== END IMAGE MODIFY EVENT ===========
+				case "note": {
+					container.classList.add("lr", item.level);
 
-    // =========== UPDATE DELAY SLIDER ===========
+					let node = `
+						<div class="left">${item.text}</div>
+						<div class="right"></div>
+					`
 
-    clientConfig.updateDelay.addEventListener("input", e => {
-        let _o = parseInt(e.target.value);
-        let v = { 1: 500, 2: 1000, 3: 2000, 4: 10000, 5: 60000, 6: 120000, 7: 240000, 8: 300000, 9: 600000, 10: 3600000 }
-        let value = v[_o] || 2000;
+					itemData = {
+						type: item.type,
+						node,
+						ignore: true
+					}
 
-        clientConfig.updateDelayValue.innerText = `${value / 1000} giây/yêu cầu`;
+					break;
+				}
 
-        if (value < 2000)
-            e.target.classList.add("pink") || e.target.classList.remove("blue");
-        else
-            e.target.classList.remove("pink") || e.target.classList.add("blue");
-    })
+				case "image": {
+					let node = document.createElement("div");
+					node.classList.add("configImageInput");
 
-    // =========== END UPDATE DELAY SLIDER ===========
+					let input = document.createElement("input");
+					input.type = "file";
+					input.id = `config.${keyPath}`;
+					input.accept = "image/*";
 
-    pageIcon.src = "/api/images/icon";
-    landingImage.src = "/api/images/landing";
-    sounds.init();
-    popup.init();
-    update();
+					let imageContainer = document.createElement("label");
+					imageContainer.htmlFor = input.id;
+					imageContainer.dataset.soundhover = true;
+					imageContainer.dataset.soundselect = true;
+					sounds.applySound(imageContainer);
+
+					let lazyloadImage = new lazyload({
+						container: imageContainer,
+						source: item.api,
+						classes: ["imageBox", item.display || "square"]
+					});
+
+					let resetButton = document.createElement("button");
+					resetButton.type = "button";
+					resetButton.classList.add("sq-btn", "pink", "sound");
+					resetButton.innerText = "Đặt Lại";
+					resetButton.dataset.soundhover = true;
+					resetButton.dataset.soundselect = true;
+					sounds.applySound(resetButton);
+					
+					input.addEventListener("change", async e => {
+						sounds.confirm(2);
+						let file = e.target.files[0];
+				
+						try {
+							await myajax({
+								url: item.api,
+								method: "POST",
+								form: {
+									token: API_TOKEN,
+									file: file
+								}
+							})
+						} catch(e) { errorHandler(e); sounds.warning() }
+				
+						e.target.value = "";
+						lazyloadImage.src = item.api;
+					})
+				
+					resetButton.addEventListener("mouseup", async () => {
+						sounds.notification();
+				
+						try {
+							await myajax({
+								url: item.api,
+								method: "DELETE",
+								header: { token: API_TOKEN }
+							})
+						} catch(e) { errorHandler(e); sounds.warning() }
+				
+						lazyloadImage.src = item.api;
+					})
+
+					node.append(input, imageContainer, resetButton);
+
+					itemData = {
+						type: item.type,
+						node,
+						ignore: true
+					}
+
+					break;
+				}
+
+				case "datetime": {
+					let node = document.createElement("div");
+					node.classList.add("item", "flex-row");
+
+					let dateInput = createInput({
+						type: "date",
+						id: `config.${keyPath}.date`,
+						label: `Ngày`,
+						color: item.color || "blue"
+					});
+
+					dateInput.group.classList.add("item");
+
+					let timeInput = createInput({
+						type: "time",
+						id: `config.${keyPath}.time`,
+						label: `Thời Gian`,
+						color: item.color || "blue"
+					});
+
+					timeInput.group.classList.add("item");
+					timeInput.input.step = 1;
+
+					let setNow = document.createElement("button");
+					setNow.type = "button";
+					setNow.classList.add("sq-btn", "blue", "sound");
+					setNow.innerText = "🕒 Hiện Tại";
+					setNow.dataset.soundhover = true;
+					setNow.dataset.soundselect = true;
+					sounds.applySound(setNow);
+
+					setNow.addEventListener("mouseup", e => setDateTimeValue(dateInput.input, timeInput.input));
+					setDateTimeValue(dateInput.input, timeInput.input, item.value);
+
+					node.append(dateInput.group, timeInput.group, setNow);
+
+					itemData = {
+						type: item.type,
+						node,
+						setValue: (value) => setDateTimeValue(dateInput.input, timeInput.input, value),
+						getValue: () => getDateTimeValue(dateInput.input, timeInput.input)
+					}
+
+					break;
+				}
+
+				case "range": {
+					let node = document.createElement("div");
+					node.classList.add("configRangeInput");
+					node.dataset.soundhoversoft = true;
+
+					let previewContainer = document.createElement("div");
+					previewContainer.classList.add("lr");
+
+					let previewLabel = document.createElement("t");
+					previewLabel.classList.add("left");
+					previewLabel.innerText = item.label;
+
+					let previewValue = document.createElement("t");
+					previewValue.classList.add("right");
+
+					previewContainer.append(previewLabel, previewValue);
+
+					let input = document.createElement("input");
+					input.type = "range";
+					input.classList.add("sq-slider", "blue");
+					input.min = item.min;
+					input.max = item.max;
+					input.step = (typeof item.step === "number") ? item.step : 1;
+					input.dataset.soundselectsoft = true;
+					input.dataset.soundchange = true;
+					sounds.applySound(input);
+
+					input.addEventListener("input", e => {
+						let _o = parseInt(e.target.value);
+						let value = (item.valueList) ? item.valueList[_o] : _o;
+				
+						previewValue.innerText = `${value} ${item.unit || "ĐV"}`;
+						tooltip.show(previewValue.innerText, e.target);
+				
+						if (item.valueWarn) {
+							let _p =
+								(item.valueWarn.type === "lower")
+									? (value < item.valueWarn.value)
+									: (value > item.valueWarn.value);
+
+							input.className = `sq-slider ${_p ? (item.valueWarn.color || "pink") : "blue"}`;
+						}
+					})
+
+					input.value = item.value;
+					input.dispatchEvent(new Event("input"));
+
+					node.append(previewContainer, input);
+
+					itemData = {
+						type: item.type,
+						node,
+						setValue: (value) => { input.value = value; input.dispatchEvent(new Event("input")); },
+						getValue: () => parseInt(input.value)
+					}
+
+					break;
+				}
+
+				default:
+					itemData = {
+						type: item.type,
+						node: htmlToElement(`<t>Unknown Item Type: ${item.type}</t>`),
+						ignore: true
+					}
+					break;
+			}
+
+			itemData.path = path;
+
+			if (item.note)
+				container.dataset.tip = item.note;
+
+			if (typeof itemData.node === "object" && itemData.node.classList)
+				container.appendChild(itemData.node);
+			else
+				container.innerHTML += itemData.node;
+
+			this.configItem[keyPath] = itemData;
+			this.__setTreePath(this.configTree, path, itemData);
+		} else {
+			let keysList = Object.keys(item).filter(i => i.substr(0, 2) !== "__");
+
+			for (let key of keysList) {
+				let value = item[key];
+				value.__key = key;
+
+				if (typeof value !== "object" || key.substr(0, 2) === "__")
+					continue;
+
+				let _p = [ ...path ];
+				_p.push(key);
+
+				let itemContainer = document.createElement("div");
+				itemContainer.dataset.path = _p.join(".");
+				
+				if (value.__icon && value.__title) {
+					itemContainer.classList.add("group", value.__icon);
+					itemContainer.innerHTML = `<t class="title">${value.__title}</t>`;
+				} else {
+					itemContainer.classList.add("item", "sound");
+					itemContainer.dataset.soundhoversoft = true;
+
+					if (value.__display)
+						itemContainer.classList.add(`flex-${value.__display}`);
+
+					if (value.__title)
+						itemContainer.innerHTML = `<t class="title small">${value.__title}</t>`;
+
+					sounds.applySound(itemContainer);
+				}
+
+				this.__render(value, itemContainer, _p);
+				container.appendChild(itemContainer);
+			}
+		}
+	},
+
+	async render() {
+		let request = await myajax({
+			url: "/api/config",
+			method: "GET",
+			query: {
+				type: "structure"
+			}
+		});
+
+		this.configItem = {}
+		this.configTree = {}
+		emptyNode(this.configContainer);
+
+		this.__render(request.data, this.configContainer);
+		await this.updateSettings();
+	},
+
+	__setSetting(item, path = []) {
+		if (typeof item === "object")
+			for (let key of Object.keys(item)) {
+				let _p = [ ...path ];
+				_p.push(key);
+
+				this.__setSetting(item[key], _p);
+			}
+		else {
+			let keyPath = path.join(".");
+
+			if (this.configItem[keyPath] && !this.configItem[keyPath].ignore)
+				this.configItem[keyPath].setValue(item);
+		}
+	},
+
+	async updateSettings() {
+		clog("DEBG", "Updating Settings");
+
+		let request = await myajax({
+			url: "/api/config",
+			method: "GET"
+		});
+
+		this.__setSetting(request.data);
+	},
+
+	__getSettings(item = this.configTree, path = []) {
+		if (typeof item === "object" && typeof item.getValue !== "function") {
+			let value = {}
+
+			for (let key of Object.keys(item)) {
+				let i = item[key];
+
+				if (i.ignore)
+					continue;
+
+				let _p = [ ...path ];
+				_p.push(key);
+
+				value[key] = this.__getSettings(item[key], _p);
+			}
+
+			return value;
+		} else
+			return item.getValue();
+	},
+
+	async saveSettings() {
+		try {
+			await myajax({
+				url: "/api/config",
+				method: "POST",
+				header: {
+					token: API_TOKEN
+				},
+				json: this.__getSettings()
+			});
+		} catch(e) {
+			errorHandler(e);
+			return;
+		}
+
+		clog("OKAY", "Thay đổi cài đặt thành công");
+		await this.updateSettings();
+	}
 }
 
-$("#formContainer").addEventListener("submit", e => {
-    var bd = prdate(time.beginDate.value);
-    var bt = prtime(time.beginTime.value);
-    myajax({
-        url: "/api/config",
-        method: "POST",
-        form: {
-            "app.title": app.title.value,
-            "app.description": app.description.value,
-            "uploadDir": uploadDir.value,
-            "time.zone": time.zone.value,
-            "time.begin.seconds": bt.s,
-            "time.begin.minutes": bt.m,
-            "time.begin.hours": bt.h,
-            "time.begin.days": bd.d,
-            "time.begin.months": bd.m,
-            "time.begin.years": bd.y,
-            "time.during": time.during.value,
-            "time.offset": time.offset.value,
-            "pageTitle": pageTitle.value,
-            "publish": publish.checked,
-            "submit": submit.checked,
-            "submitInProblems": submitInProblems.checked,
-            "allowRegister": allowRegister.checked,
-            "edit.name": edit.name.checked,
-            "edit.password": edit.password.checked,
-            "edit.avatar": edit.avatar.checked,
-            "viewRank": viewRank.checked,
-            "viewRankTask": viewRankTask.checked,
-            "viewRankHideDisabled": viewRankHideDisabled.checked,
-            "viewLog": viewLog.checked,
-            "viewLogOther": viewLogOther.checked,
-            "publicProblems": publicProblems.checked,
-            "clientConfig.sounds": clientConfig.sounds.checked,
-            "clientConfig.nightmode": clientConfig.nightmode.checked,
-            "clientConfig.showMs": clientConfig.showMs.checked,
-            "clientConfig.transition": clientConfig.transition.checked,
-            "clientConfig.dialogProblem": clientConfig.dialogProblem.checked,
-            "clientConfig.rankUpdate": clientConfig.rankUpdate.checked,
-            "clientConfig.logsUpdate": clientConfig.logsUpdate.checked,
-            "clientConfig.updateDelay": parseInt(clientConfig.updateDelay.value),
-            "ratelimit.maxRequest": parseInt(ratelimit.maxRequest.value),
-            "ratelimit.time": parseInt(ratelimit.time.value),
-            "ratelimit.banTime": parseInt(ratelimit.banTime.value),
-            "cache.contestRank": parseInt(cache.contestRank.value),
-            "token": API_TOKEN
-        }
-    }, () => {
-        clog("okay", "Thay đổi cài đặt thành công");
-        update();
-    }, error => errorHandler(error));
-}, false);
+document.body.onload = () => config.init().catch(e => errorHandler(e));

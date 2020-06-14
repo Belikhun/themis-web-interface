@@ -11,14 +11,14 @@
     
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
-    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
 
     if (!isLoggedIn())
         stop(11, "Bạn chưa đăng nhập!", 401);
 
     checkToken();
 
-    if ($config["edit"]["avatar"] === false)
+    if (getConfig("system.edit.avatar") === false)
         stop(21, "Thay đổi Avatar đã bị tắt!", 403);
     
     if (!isset($_FILES["file"]))

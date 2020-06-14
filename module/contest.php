@@ -7,7 +7,11 @@
 	//? |-----------------------------------------------------------------------------------------------|
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
+
+	function calculateSubmissionPoint() {
+		
+	}
 
 	function updateSubmissions() {
 		global $config;
@@ -17,7 +21,7 @@
 		require_once $_SERVER["DOCUMENT_ROOT"] ."/module/submissions.php";
 
 		//? PARSE LOG FILES
-		$logDir = glob($config["logDir"] ."/*.log");
+		$logDir = glob(getConfig("folders.submitLogs") ."/*.log");
 
 		foreach ($logDir as $log) {
 			$data = ((new logParser($log, LOGPARSER_MODE_FULL)) -> parse());
@@ -57,8 +61,7 @@
 		CONTEST_STARTED,
 		CONTEST_NOTENDED
 	), $justReturn = true, $instantDeath = false, $resCode = 403) {
-		global $config;
-		$duringTime = $config["time"]["during"];
+		$duringTime = getConfig("time.contest.during");
 		if ($duringTime <= 0)
 			return true;
 
@@ -66,8 +69,8 @@
 		if ($_SESSION["username"] !== null && $_SESSION["id"] === "admin")
 			return true;
 
-		$beginTime = $config["time"]["begin"]["times"];
-		$offsetTime = $config["time"]["offset"];
+		$beginTime = getConfig("time.contest.begin");
+		$offsetTime = getConfig("time.contest.offset");
 		$t = $beginTime - microtime(true) + ($duringTime * 60);
 
 		foreach ($req as $key => $value) {

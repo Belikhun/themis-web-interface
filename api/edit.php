@@ -12,7 +12,7 @@
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logs.php";
-    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
 
     if (!isLoggedIn())
         stop(11, "Bạn chưa đăng nhập!", 401);
@@ -23,7 +23,7 @@
     $change = Array();
 
     if (isset($_POST["name"])) {
-        if ($config["edit"]["name"] === false && $_SESSION["id"] !== "admin")
+        if (getConfig("system.edit.name") === false && $_SESSION["id"] !== "admin")
             stop(21, "Thay đổi tên đã bị tắt!", 403);
 
         $change["name"] = htmlspecialchars(trim($_POST["name"]));
@@ -35,7 +35,7 @@
     $userdata = getUserData($username);
 
     if (isset($_POST["password"])) {
-        if ($config["edit"]["password"] === false && $_SESSION["id"] !== "admin")
+        if (getConfig("system.edit.password") === false && $_SESSION["id"] !== "admin")
             stop(21, "Thay đổi mật khẩu đã bị tắt!", 403);
 
         $oldpass = $_POST["password"];

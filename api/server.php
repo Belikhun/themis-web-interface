@@ -11,14 +11,14 @@
     
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
-    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
 
     stop(0, "Success", 200, Array(
         "version" => VERSION,
         "versionTag" => VERSION_TAG,
         "author" => AUTHOR,
-        "contestName" => $config["app"]["title"],
-        "contestDescription" => $config["app"]["description"],
+        "contestName" => getConfig("contest.name"),
+        "contestDescription" => getConfig("contest.description"),
         "username" => $_SESSION["username"] ?: null,
         "CONTACT" => CONTACT_LINK,
         "API_TOKEN" => isset($_SESSION["apiToken"]) ? $_SESSION["apiToken"] : null,
@@ -33,9 +33,9 @@
         "TIME" => microtime(true),
 
         "config" => Array(
-            "allowRegister" => $config["allowRegister"]
+            "allowRegister" => getConfig("system.allowRegister")
         ),
-        "clientConfig" => $config["clientConfig"],
+        "clientConfig" => getConfig("clientSettings"),
     ));
 
 ?>

@@ -19,9 +19,9 @@
             
             $id = reqQuery("id");
             
-            require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
+            require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
             
-            if (!isLoggedIn() && $config["publicProblems"] !== true)
+            if (!isLoggedIn() && getConfig("contest.problem.public") !== true)
                 stop(109, "Vui lòng đăng nhập để xem đề bài!", 403);
             
             contest_timeRequire([CONTEST_STARTED], false, false);

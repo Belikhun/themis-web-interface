@@ -7,7 +7,7 @@
     //? |-----------------------------------------------------------------------------------------------|
     
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
-    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
 
     if ($_SESSION["id"] !== "admin")
         stop(31, "Xin lỗi! Bạn không có quyền để xem trang này.", 403);
@@ -59,7 +59,7 @@
                         <input type="file" class="avatarInput" id="addUserAvatar" accept="image/*">
                         <label id="addAvatarPreviewContainer" class="lazyload column avatar sound" data-soundhover data-soundselect for="addUserAvatar">
                             <img id="addAvatarPreview" onload="this.parentNode.dataset.loaded = 1" src="/api/avatar"/>
-                            <div class="simple-spinner"></div>
+                            <div class="simpleSpinner"></div>
                         </label>
         
                         <span class="column grow">

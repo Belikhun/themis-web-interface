@@ -6,7 +6,7 @@
 	//? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 	//? |-----------------------------------------------------------------------------------------------|
 
-	include_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logs.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logs.php";
 
 	setlocale(LC_TIME, "vi_VN.UTF-8");
 
@@ -364,7 +364,7 @@
 				}
 
 				if ($HTTPStatus >= 300 || $code !== 0)
-					printErrorPage($output, headers_sent());
+					printErrorPage($output, true);
 
 				break;
 			
@@ -487,19 +487,31 @@
 	 * 
 	 * Only merge key in the object that exist in the target
 	 * 
-	 * @param    target			Target Object need to be merged
-	 * @param    object			Array Object need to merge
-	 * @return   Array
+	 * @param    target				Target Object need to be merged
+	 * @param    object				Array Object need to merge
+	 * @param    typeSensitive		Do a type check before merge key. Accept Boolean and Callable
+	 * @return   Number				Number of merged key
 	 *
 	 */
-	function mergeObjectRecursive(Array &$target, Array $object) {
-		foreach ($target as $key => &$value) {
-			if (isset($object[$key]))
+	function mergeObjectRecursive(Array &$target, Array $object, $typeSensitive = true, Int &$counter = 0) {
+		foreach ($target as $key => &$value)
+			if (isset($object[$key])) {
+				if (is_callable($typeSensitive)) {
+					if (!$typeSensitive(gettype($value), gettype($object[$key]), $key))
+						continue;
+				} else
+					if ($typeSensitive && (gettype($value) !== gettype($object[$key])))
+						continue;
+
 				if (gettype($object[$key]) === "array")
-					mergeObjectRecursive($value, $object[$key]);
-				else
+					mergeObjectRecursive($value, $object[$key], $typeSensitive, $counter);
+				else {
 					$value = $object[$key];
-		}
+					$counter++;
+				}
+			}
+
+		return $counter;
 	}
 
 	class fip {
@@ -603,7 +615,9 @@
 
 	function printErrorPage(Array $data, Bool $useIframe = false) {
 		$_SESSION["lastError"] = $data;
-		print (($useIframe) ? "\" />" : "") . "<!-- Output Stopped here. Begin Error Page Element -->";
+		print "<!-- OUTPUT STOPPED HERE -->";
+		print "<!-- ERROR DETAILS: ". json_encode($data, JSON_PRETTY_PRINT) ." -->";
+		print "<!-- BEGIN ERROR PAGE -->";
 		
 		if ($useIframe)
 			print "<iframe src=\"/lib/error.php\" style=\"position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: unset; overflow: auto;\"></iframe>";
@@ -628,8 +642,7 @@
 
 	set_error_handler("errorHandler", E_ALL);
 
-	//? set start time
+	//? START TIME
 	if (!isset($runtime))
 		$runtime = new stopClock();
-
 ?>

@@ -125,7 +125,7 @@ const account = {
                     <div class="item accountInfo">
                         <span class="lazyload avatar">
                             <img onload="this.parentNode.dataset.loaded = 1" src="/api/avatar?u=${userData["username"]}"/>
-                            <div class="simple-spinner"></div>
+                            <div class="simpleSpinner"></div>
                         </span>
                         <ul class="info">
                             <li class="id">${userData["username"]}#${userData["id"]}</li>
@@ -157,7 +157,7 @@ const account = {
                 <input type="file" class="avatarInput" id="userAvatar_${username}" accept="image/*">
                 <label class="lazyload column avatar sound avatarImageContainer" data-soundhover data-soundselect for="userAvatar_${username}">
                     <img class="avatarImage" onload="this.parentNode.dataset.loaded = 1" src="/api/avatar?u=${username}"/>
-                    <div class="simple-spinner"></div>
+                    <div class="simpleSpinner"></div>
                 </label>
 
                 <span class="column grow">

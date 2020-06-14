@@ -11,8 +11,9 @@
     
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
-    require_once $_SERVER["DOCUMENT_ROOT"] ."/module/logParser.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logs.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/module/submissions.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/module/logParser.php";
 
     $username = reqQuery("u");
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
@@ -41,15 +42,17 @@
             "list" => Array()
         );
 
-        $logDir = glob($config["logDir"] ."/*.log");
+        $sub = new submissions($username);
 
-        foreach ($logDir as $log) {
-            if (!(strpos($log, "[". $username ."]") > 0))
+        foreach ($sub -> list() as $id) {
+            $data = $sub -> getData($id);
+
+            if (!$data)
                 continue;
 
-            $data = ((new logParser($log, LOGPARSER_MODE_MINIMAL)) -> parse())["header"];
-    
-            if ($config["publish"] !== true && $_SESSION["id"] !== "admin") {
+            $data = $data["header"];
+
+            if (getConfig("contest.result.publish") !== true && $_SESSION["id"] !== "admin") {
                 $data["status"] = "scored";
                 $data["point"] = null;
             }
@@ -64,7 +67,7 @@
                 "problemPoint" => $data["problemPoint"],
                 "extension" => $data["file"]["extension"],
                 "point" => $data["point"],
-                "lastModify" => filemtime($log)
+                "lastModify" => $data["file"]
             ));
         }
     }

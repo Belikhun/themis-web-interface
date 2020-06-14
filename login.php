@@ -10,7 +10,7 @@
     define("PAGE_TYPE", "NORMAL");
     
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
-    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
     header("Cache-Control: max-age=0, must-revalidate", true);
 
 ?>
@@ -44,7 +44,7 @@
         <div class="leftPanel">
             <div class="lazyload wallpaper">
                 <img onload="this.parentNode.dataset.loaded = 1" src="/api/images/landing"/>
-                <div class="simple-spinner"></div>
+                <div class="simpleSpinner"></div>
             </div>
             <ul class="footer">
                 <li class="title text-overflow">Chương trình chấm điểm <a href="https://dsapblog.wordpress.com/" target="_blank" rel="noopener">Themis</a></li>
@@ -57,14 +57,14 @@
             <div class="header">
                 <div class="lazyload icon">
                     <img onload="this.parentNode.dataset.loaded = 1" src="/api/images/icon"/>
-                    <div class="simple-spinner"></div>
+                    <div class="simpleSpinner"></div>
                 </div>
                 <ul class="info">
                     <li class="name text-overflow">
-                        <?php print $config["app"]["title"]; ?>
+                        <?php print getConfig("contest.name"); ?>
                     </li>
                     <li class="description text-overflow">
-                        <?php print $config["app"]["description"]; ?>
+                        <?php print getConfig("contest.description"); ?>
                     </li>
                 </ul>
             </div>
@@ -100,7 +100,7 @@
                             <div id="loginFormProfile">
                                 <div class="lazyload avatar">
                                     <img id="loginFormAvatar" src=""/>
-                                    <div class="simple-spinner"></div>
+                                    <div class="simpleSpinner"></div>
                                 </div>
                                 <t id="loginFormUser"></t>
                             </div>
@@ -165,7 +165,7 @@
                                 <div class="row">
                                     <div class="lazyload captcha">
                                         <img id="registerCaptcha" src=""/>
-                                        <div class="simple-spinner"></div>
+                                        <div class="simpleSpinner"></div>
                                     </div>
 
                                     <span id="registerCaptchaRenew" class="renew sound" data-soundhoversoft data-soundselectsoft></span>
@@ -191,7 +191,7 @@
                                 <input type="file" class="avatarInput" id="userAvatarInput" accept="image/*">
                                 <label for="userAvatarInput" class="lazyload avatar sound" data-soundhover data-soundselect>
                                     <img id="userAvatar" src=""/>
-                                    <div class="simple-spinner"></div>
+                                    <div class="simpleSpinner"></div>
                                 </label>
 
                                 <div class="formGroup sound nameInput" data-color="purple" data-soundhover data-soundselectsoft>

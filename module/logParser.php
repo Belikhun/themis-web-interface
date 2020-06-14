@@ -37,7 +37,7 @@
 		 */
 		public function __construct(String $logPath, String $mode = LOGPARSER_MODE_MINIMAL) {
 			if (!file_exists($logPath))
-				throw new Error("File not exist", 44);
+				throw new Error("logParser($logPath): File does not exist", 44);
 
 			$this -> logPath = $logPath;
 			$this -> mode = $mode;

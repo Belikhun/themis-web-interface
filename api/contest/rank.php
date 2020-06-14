@@ -14,7 +14,7 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/cache.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/contest.php";
 
 	if ($export && !isLoggedIn())
@@ -23,13 +23,13 @@
 	if ($export && $_SESSION["id"] !== "admin")
 		stop(31, "Access Denied!", 403);
 
-	if ($config["publish"] !== true && $_SESSION["id"] !== "admin")
+	if (getConfig("contest.result.publish") !== true && $_SESSION["id"] !== "admin")
 		stop(108, "Thông tin không được công bố", 200, Array(
 			"list" => Array(),
 			"rank" => Array()
 		));
 
-	if ($config["viewRank"] !== true && $_SESSION["id"] !== "admin")
+	if (getConfig("contest.ranking.enabled") !== true && $_SESSION["id"] !== "admin")
 		stop(107, "Xếp hạng đã bị tắt", 200, Array(
 			"list" => Array(),
 			"rank" => Array()
@@ -42,8 +42,8 @@
 		));
 
 	if (!$export) {
-		$cache = new cache("api.contest.rank.". md5($_SESSION["username"] . $_SESSION["id"]));
-		$cache -> setAge($config["cache"]["contestRank"]);
+		$cache = new cache("contestRank.". md5($_SESSION["username"] . $_SESSION["id"]));
+		$cache -> setAge(getConfig("cache.contestRank"));
 		
 		if ($cache -> validate()) {
 			$returnData = $cache -> getData();
@@ -76,14 +76,14 @@
 			$user = $data["user"];
 			$userData = getUserData($user);
 	
-			if (problemDisabled($data["problem"]) && $config["viewRankHideDisabled"] && $_SESSION["id"] !== "admin")
+			if (problemDisabled($data["problem"]) && getConfig("contest.ranking.hideDisabled") && $_SESSION["id"] !== "admin")
 				continue;
 	
-			if ($config["viewRankTask"] === true || $_SESSION["id"] === "admin") {
+			if (getConfig("contest.ranking.viewTask") === true || $_SESSION["id"] === "admin") {
 				$_list_[$data["problem"]] = null;
 				$res[$user]["status"][$data["problem"]] = $data["status"];
 				$res[$user]["point"][$data["problem"]] = $data["point"];
-				$res[$user]["logFile"][$data["problem"]] = ($config["viewLog"] === true || $_SESSION["id"] === "admin") ? $filename : null;
+				$res[$user]["logFile"][$data["problem"]] = (getConfig("contest.log.enabled") === true || $_SESSION["id"] === "admin") ? $filename : null;
 	
 				if (isset($data["problemName"]))
 					$nameList[$data["problem"]] = $data["problemName"];

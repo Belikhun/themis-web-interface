@@ -510,6 +510,16 @@ function liveTime(element, start = time(new Date()), { type = "full", count = "u
 	}, interval);
 }
 
+function setDateTimeValue(dateNode, timeNode, value = time()) {
+	let date = new Date(value * 1000);
+	dateNode.value = [date.getFullYear(), date.getMonth() + 1, date.getDate()].map(i => pleft(i, 2)).join("-");
+	timeNode.value = [date.getHours(), date.getMinutes(), date.getSeconds()].map(i => pleft(i, 2)).join(":");
+}
+
+function getDateTimeValue(dateNode, timeNode) {
+	return time(new Date(`${dateNode.value}T${timeNode.value}`));
+}
+
 function convertSize(bytes) {
 	let sizes = ["B", "KB", "MB", "GB", "TB"];
 	for (var i = 0; bytes >= 1024 && i < (sizes.length -1 ); i++)
@@ -627,7 +637,154 @@ class pager {
 			if (listData[i])
 				this.renderItemHandler(listData[i], this.container);
 			else
-				clog("DEBG", `pager.render: listData does not contain data in index`, { text: i, color: flatc("red") });
+				clog("DEBG", `pager.render: listData does not contain data at index`, { text: i, color: flatc("red") });
+	}
+}
+
+class lazyload {
+	constructor({
+		container = null,
+		source = null,
+		classes = null
+	}) {
+		if (container && container.classList)
+			this.container = container;
+		else
+			this.container = document.createElement("div");
+
+		let _src = null;
+
+		switch (typeof source) {
+			case "string":
+				// Assume as Image Src
+				this.sourceNode = document.createElement("img");
+				_src = source;
+				break;
+		
+			case "object":
+				if (source.classList)
+					// Source is a Node. We just need to append it in container
+					this.sourceNode = source;
+				else if (source.type && source.src) {
+					switch (source.type) {
+						case "image":
+						case "iframe":
+							this.sourceNode = document.createElement(source.type);
+							_src = source.src;
+							break;
+
+						case "document":
+							this.sourceNode = document.createElement("embed");
+							_src = source.src;
+							break;
+
+						default:
+							throw { code: -1, description: `lazyload: source.type >>> ${source.type} is not a valid type` }
+					}
+				} else
+					throw { code: -1, description: `lazyload: source is not a valid node/object` }
+				break;
+
+			default:
+				throw { code: -1, description: `lazyload: source is not a valid string/node/object, got ${typeof source}` }
+		}
+
+		if (!this.sourceNode || !_src)
+			throw { code: -1, description: `lazyload: an unexpected error occured while creating lazyload object` }
+
+		this.isLoaded = false;
+		this.isErrored = false;
+		this.onLoadedHandler = null;
+		this.onErroredHandler = null;
+
+		container.classList.add("lazyload");
+		switch (typeof classes) {
+			case "object":
+				if (!Array.isArray(classes))
+					throw { code: -1, description: `lazyload: classes is not a valid array` }
+
+				container.classList.add(...classes);
+				break;
+			case "string":
+				container.classList.add(classes);
+				break;
+		}
+
+		this.sourceNode.addEventListener("load", () => this.loaded = true);
+		this.sourceNode.addEventListener("error", () => this.errored = true);
+
+		this.spinner = document.createElement("div");
+		this.spinner.classList.add("simpleSpinner");
+
+		this.container.append(this.sourceNode, this.spinner);
+		this.src = _src;
+	}
+
+	/**
+	 * @param {String} src
+	 */
+	set src(src) {
+		this.loaded = false;
+		this.errored = false;
+		this.sourceNode.src = src;
+	}
+
+	/**
+	 * @param {Boolean} val
+	 */
+	set loaded(val) {
+		if (typeof val !== "boolean")
+			throw { code: -1, description: `lazyload.loaded: not a valid boolean` }
+
+		this.isLoaded = val;
+		this.container.removeAttribute("data-errored");
+
+		this.isLoaded
+			? this.container.dataset.loaded = true
+			: this.container.removeAttribute("data-loaded");
+	}
+
+	get loaded() {
+		return this.isLoaded;
+	}
+
+	/**
+	 * @param {Boolean} val
+	 */
+	set errored(val) {
+		if (typeof val !== "boolean")
+			throw { code: -1, description: `lazyload.errored: not a valid boolean` }
+
+		this.isErrored = val;
+		this.container.removeAttribute("data-loaded");
+
+		this.isErrored
+			? this.container.dataset.errored = true
+			: this.container.removeAttribute("data-errored");
+	}
+
+	get errored() {
+		return this.isErrored;
+	}
+
+	/**
+	 * @param {Function}	f	Handler
+	 */
+	onLoaded(f) {
+		if (typeof f !== "function")
+			throw { code: -1, description: `pager.onLoaded: not a valid function` }
+
+		this.onLoadedHandler = f;
+	}
+
+	/**
+	 * @param {Function}	f	Handler
+	 */
+	onErrored(f) {
+		if (typeof f !== "function")
+			throw { code: -1, description: `lazyload.onErrored: not a valid function` }
+
+		this.onErroredHandler = f;
 	}
 }
 
@@ -678,16 +835,21 @@ function currentScript() {
 }
 
 /**
- * Add padding in the left of input if input length is smaller than function length arg.
+ * Add padding to the left of input
+ * 
+ * Example:
+ * 
+ * + 21 with length 3: 021
+ * + "sample" with length 8: "  sample"
  *
- * @param {string} inp Input in String
- * @param {number} inp Input in Number
- * @param {number} length Length
+ * @param	{string/number}		input Input
+ * @param	{number}			length Length
  */
 function pleft(inp, length = 0, right = false) {
-	type = typeof inp;
+	let type = typeof inp;
+	let padd = "";
+
 	inp = (type === "number") ? inp.toString() : inp;
-	padd = "";
 
 	switch (type) {
 		case "number":
@@ -703,7 +865,7 @@ function pleft(inp, length = 0, right = false) {
 			return false;
 	}
 
-	padd = padd.repeat((length - inp.length < 0) ? 0 : length - inp.length);
+	padd = padd.repeat(Math.max(0, length - inp.length));
 	return (right) ? inp + padd : padd + inp;
 }
 

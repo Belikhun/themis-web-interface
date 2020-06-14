@@ -11,7 +11,6 @@ body {
     background-color: transparent;
     margin: unset;
     width: 100vw;
-    height: calc(100vh - 20px);
 }
 
 body:not(.embeded) {
@@ -42,43 +41,44 @@ body:not(.embeded) {
     background-color: #F5F5F6;
 }
 
-/* IMAGE CHANGER */
-
-.wrapper .menu .group .imageChanger {
-    flex-wrap: wrap;
+.wrapper #configContainer {
+    position: relative;
+    display: contents;
 }
 
-.wrapper .menu .group .imageChanger > span .row {
+/* IMAGE CHANGER */
+
+.configImageInput {
     position: relative;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
-    margin: 4px 20px 10px;
+    margin: 4px 10px 10px;
 }
 
-.wrapper .menu .group .imageChanger > span .row > input {
+.configImageInput > input {
     display: none;
 }
 
-.wrapper .menu .group .imageChanger > span .row > .lazyload {
+.configImageInput > .lazyload {
     cursor: pointer;
     flex-shrink: 0;
 }
 
-.wrapper .menu .group .imageChanger > span .row .pageIcon {
+.configImageInput > .lazyload.circle {
     width: 124px;
     height: 124px;
     border-radius: 50%;
 }
 
-.wrapper .menu .group .imageChanger > span .row .landingImage {
+.configImageInput > .lazyload.square {
     width: 264px;
     height: 124px;
     border-radius: 8px;
 }
 
-.wrapper .menu .group .imageChanger > span .row > .lazyload::after {
+.configImageInput > .lazyload::before {
     content: "\f304";
     position: absolute;
     display: flex;
@@ -88,26 +88,38 @@ body:not(.embeded) {
     left: 0;
     width: 100%;
     height: 100%;
+    z-index: 1;
+
     background-color: rgba(0, 0, 0, 0.4);
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     font-size: 22px;
-    opacity: 0;
     color: #f5f5f5;
+    opacity: 0;
+
     transition: opacity 0.2s ease;
 }
 
-.wrapper .menu .group .imageChanger > span .row > .lazyload:hover::after {
+.configImageInput > .lazyload:hover::before {
     opacity: 1;
 }
 
-.wrapper .menu .group .imageChanger > span .row > button {
+.configImageInput > button {
     margin-left: 20px;
+}
+
+.configRangeInput {
+    position: relative;
+    width: 100%;
+}
+
+.configRangeInput > input[type="range"] {
+    width: 100%;
 }
 
 /* Extra Stuff */
 
-.wrapper #formContainer .group .item .formGroup {
+.wrapper #formContainer .group .item:not(.flex-row) > .formGroup {
     position: relative;
     display: block;
     width: 100%;
@@ -117,7 +129,7 @@ body:not(.embeded) {
     position: fixed;
     display: flex;
     flex-direction: row-reverse;
-    bottom: 25px;
+    bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10000;

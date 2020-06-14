@@ -40,16 +40,19 @@
 .formGroup > label,
 .formGroup > .formField:focus + label {
     position: absolute;
-    top: 4px;
     display: block;
-    transition: 0.3s;
+    top: 4px;
+
     font-size: 9px;
     font-family: "Open Sans", "Calibri", "Segoe UI", sans-serif;
     font-weight: 700;
     text-transform: uppercase;
     color: #5a5b5f;
+
     user-select: none;
     cursor: text;
+
+    transition: 0.3s;
 }
 
 .formGroup > .formField:focus + label {

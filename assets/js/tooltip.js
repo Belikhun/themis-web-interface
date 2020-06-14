@@ -7,18 +7,22 @@
 
 const tooltip = {
 	initialized: false,
-	node: null,
+	container: null,
+	content: null,
 	render: false,
 	prevData: null,
 	nodeToShow: null,
 	hideTimeout: null,
-	hideTime: 1000,
+	hideTime: 300,
 
 	init() {
-		this.node = document.createElement("div");
-		this.node.classList.add("tooltip");
+		this.container = document.createElement("div");
+		this.container.classList.add("tooltip");
+		this.content = document.createElement("div");
+		this.content.classList.add("content");
+		this.container.append(this.content);
 
-		document.body.insertBefore(this.node, document.body.childNodes[0]);
+		document.body.insertBefore(this.container, document.body.childNodes[0]);
 
 		//* EVENTS
 		window.addEventListener("mousemove", e => this.mouseMove(e));
@@ -26,27 +30,39 @@ const tooltip = {
 		this.initialized = true;
 	},
 
+	__checkSameNode(node1, node2) {
+		while (node1) {
+			if (node1.isSameNode(node2))
+				return true;
+
+			node1 = node1.parentElement || null;
+		}
+
+		return false;
+	},
+
 	mouseMove(event) {
-		if (this.nodeToShow)
-			if (event.target.isSameNode(this.nodeToShow)) {
-				clearTimeout(this.hideTimeout);
-				this.node.classList.add("show");
-			} else {
+		if (this.nodeToShow) {
+			clearTimeout(this.hideTimeout);
+			
+			if (!this.__checkSameNode(event.target, this.nodeToShow)) {
 				this.nodeToShow = null;
 				clearTimeout(this.hideTimeout);
-				this.hideTimeout = setTimeout(() => this.node.classList.remove("show"), this.hideTime);
+				this.hideTimeout = setTimeout(() => this.container.classList.remove("show"), this.hideTime);
 			}
+		} else if (event.target.dataset.tip)
+			this.show(event.target.dataset.tip, event.target);
 
-		if (!this.node.classList.contains("show"))
+		this.container.style.left = `${event.clientX}px`;
+		this.container.style.top = `${event.clientY}px`;
+
+		if (!this.container.classList.contains("show"))
 			return;
 
-		this.node.style.left = `${event.clientX}px`;
-		this.node.style.top = `${event.clientY}px`;
-
-		if (event.view.innerWidth / Math.max(event.clientX, 1) < 1.4)
-			this.node.classList.add("flip");
+		if ((event.view.innerWidth - this.content.clientWidth) / Math.max(event.clientX, 1) < 1.4)
+			this.container.classList.add("flip");
 		else
-			this.node.classList.remove("flip");
+			this.container.classList.remove("flip");
 	},
 
 	show(data, showOnNode) {
@@ -56,7 +72,7 @@ const tooltip = {
 		if (showOnNode && showOnNode.classList)
 			this.nodeToShow = showOnNode;
 
-		this.node.classList.add("show");
+		this.container.classList.add("show");
 
 		switch (typeof data) {
 			case "object":
@@ -64,29 +80,31 @@ const tooltip = {
 					if (this.prevData && (this.prevData.innerHTML === data.innerHTML))
 						return;
 
-					emptyNode(this.node);
-					this.node.append(data);
+					emptyNode(this.content);
+					this.content.append(data);
 
 					break;
 				}
 
-				this.node.innerText = JSON.stringify(data, null, 4);
+				this.content.innerText = JSON.stringify(data, null, 4);
 				break;
 
 			default:
 				if (this.prevData === data)
 					return;
 
-				this.node.innerHTML = data;
+				this.content.innerHTML = data;
 				break;
 		}
 
 		//? TRIGGER REFLOW TO REPLAY ANIMATION
-		this.node.style.animation = "none";
+		this.container.style.animation = "none";
 
 		setTimeout(() => {
-			this.node.offsetHeight;
-			this.node.style.animation = null;
+			this.container.offsetHeight;
+			this.container.style.animation = null;
+			this.container.style.width = this.content.clientWidth + "px";
+			this.container.style.height = this.content.clientHeight + "px";
 		})
 
 		this.prevData = data;

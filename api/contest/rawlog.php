@@ -11,11 +11,11 @@
     
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
-    require_once $_SERVER["DOCUMENT_ROOT"] ."/data/config.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/module/submissions.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/module/contest.php";
 
-    if ($config["viewLog"] === false && $_SESSION["id"] !== "admin")
+    if (getConfig("contest.log.enabled") === false && $_SESSION["id"] !== "admin")
         stop(23, "Xem nhật ký đã bị tắt!", 403);
 
     $username = reqQuery("u");
@@ -24,7 +24,7 @@
     if (!submissionExist($username))
         stop(13, "Không tìm thấy tên người dùng \"$username\"!", 404, Array( "username" => $username ));
 
-    if ($username !== $_SESSION["username"] && $config["viewLogOther"] === false && $_SESSION["id"] !== "admin")
+    if ($username !== $_SESSION["username"] && getConfig("contest.log.viewOther") === false && $_SESSION["id"] !== "admin")
         stop(31, "Không cho phép xem tệp nhật kí của người khác!", 403);
 
     require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";

@@ -67,12 +67,15 @@ body.embeded .menu {
 .menu .group .title {
     position: relative;
     display: block;
-    text-align: right;
+
     margin: 0 20px;
     padding: 2px 0;
+    box-sizing: border-box;
+
     color: #2980b9;
     font-family: Nunito;
     font-size: 14px;
+    text-align: right;
     letter-spacing: .8px;
     font-weight: 750;
     text-transform: uppercase;
@@ -107,6 +110,8 @@ body.embeded .menu {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-end;
+    width: 100%;
     box-sizing: border-box;
     padding: 10px 20px;
     overflow: hidden;
@@ -114,8 +119,24 @@ body.embeded .menu {
     transition: background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+.menu .group .item.flex-row {
+    padding: unset;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.menu .group .item.flex-row > .item {
+    flex-grow: 1;
+    width: auto;
+}
+
 .menu .group .title + .item {
     margin-top: 4px;
+}
+
+.menu .group .item > .title {
+    padding: 2px 20px;
+    width: 100%;
 }
 
 .menu .group .item:hover {
@@ -441,6 +462,8 @@ body.dark .menu .group a.item:hover {
 .menu .group .item.lr.okay .left,
 .menu .group .item.lr.info .left,
 .menu .group .item.lr.warning .left {
+    font-family: "Open Sans";
+    font-size: 13px;
     color: #343434;
 }
 

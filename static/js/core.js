@@ -553,7 +553,7 @@ const core = {
 					<td>
 						<div class="lazyload avt">
 							<img onload="this.parentNode.dataset.loaded = 1" src="/api/avatar?u=${i.username}"/>
-							<div class="simple-spinner"></div>
+							<div class="simpleSpinner"></div>
 						</div>
 					</td>
 					<td>
@@ -658,7 +658,7 @@ const core = {
 					<span class="top">
 						<div class="lazyload problemIcon">
 							<img onload="this.parentNode.dataset.loaded = 1" src="/api/contest/problems/image?id=${data.header.problem}"/>
-							<div class="simple-spinner"></div>
+							<div class="simpleSpinner"></div>
 						</div>
 						<t class="problemName">${data.header.problemName || data.header.problem}</t>
 						<t class="point">${data.header.problemPoint ? data.header.problemPoint + " điểm" : "Không rõ"}</t>
@@ -683,7 +683,7 @@ const core = {
 								<span class="submitter">
 									<div class="lazyload avatar">
 										<img onload="this.parentNode.dataset.loaded = 1" src="/api/avatar?u=${data.header.user}"/>
-										<div class="simple-spinner"></div>
+										<div class="simpleSpinner"></div>
 									</div>
 									<span class="info">
 										<t class="tag">Bài làm của</t>
@@ -975,7 +975,7 @@ const core = {
 					<span class="item" onClick="core.problems.viewProblem('${item.id}');" disabled=${item.disabled}>
 						<div class="lazyload icon">
 							<img onload="this.parentNode.dataset.loaded = 1" src="${item.image}"/>
-							<div class="simple-spinner"></div>
+							<div class="simpleSpinner"></div>
 						</div>
 						<ul class="title">
 							<li class="name">${item.name}</li>
@@ -1029,7 +1029,7 @@ const core = {
 				delete this.image.dataset.loaded;
 				this.image.innerHTML = `
 					<img onload="this.parentNode.dataset.loaded = 1" src="${data.image}"/>
-					<div class="simple-spinner"></div>`
+					<div class="simpleSpinner"></div>`
 			} else
 				this.image.style.display = "none";
 
@@ -1152,7 +1152,7 @@ const core = {
 							${(data.image)
 								?   `<div class="lazyload image">
 										<img onload="this.parentNode.dataset.loaded = 1" src="${data.image}"/>
-										<div class="simple-spinner"></div>
+										<div class="simpleSpinner"></div>
 									</div>`
 								:   ""
 							}
@@ -2587,7 +2587,7 @@ const core = {
 		memeContainer.style.overflow = "auto";
 		memeContainer.innerHTML = `
 			<img src="${wutMeme.url}" onload="this.parentElement.dataset.loaded = 1;"/>
-			<div class="simple-spinner"></div>
+			<div class="simpleSpinner"></div>
 		`;
 
 		let gud = await popup.show({
