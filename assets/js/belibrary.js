@@ -1333,6 +1333,7 @@ const popup = {
 		this.popup = this.tree.obj.popup;
 		document.body.insertBefore(this.popupNode, document.body.childNodes[0]);
 
+		this.popup.header.top.close.title = "Đóng";
 		this.popup.header.top.close.dataset.soundhover = "";
 		this.popup.header.top.close.dataset.soundselect = "";
 		this.popup.body.note.style.display = "none";

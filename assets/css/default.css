@@ -322,6 +322,10 @@ dot {
 	margin: 0 8px;
 }
 
+dot.light {
+	background-color: rgb(224, 224, 224);
+}
+
 line {
 	position: relative;
 	display: block;

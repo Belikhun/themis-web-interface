@@ -532,13 +532,13 @@ const core = {
 			out += `
 				<th
 					class="problem"
-					title="${data.nameList[i] || i}"
+					tooltip="<b>${i}</b><dot class='light'></dot>${data.nameList[i] || "?"}"
 					problem-id="${i}"
 					data-folding="${this.rankFolding[i] ? true : false}"
 				>
 					<t class="name">${data.nameList[i] || i}</t>
 					<span class="toggler" onclick="core.foldRankCol(this.parentElement)"></span>
-				</th>`;
+				</th>`; 
 
 		out += "</tr></thead><tbody>";
 		let ptotal = 0;
