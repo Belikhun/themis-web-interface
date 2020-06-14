@@ -30,7 +30,7 @@ body #container {
     bottom: 0;
     background-color: #ebebeb;
     box-sizing: border-box;
-    padding: 5px;
+    padding: 0 5px 5px;
     overflow-x: hidden;
     overflow-y: auto;
     transition:
