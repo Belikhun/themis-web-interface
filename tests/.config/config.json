@@ -1,43 +1,51 @@
 {
-    "app": {
-        "title": "logParser",
-        "description": "Config for logParser test"
+    "system": {
+        "title": "%appTitle%",
+        "image": [],
+        "allowRegister": true,
+        "edit": {
+            "name": true,
+            "password": true,
+            "avatar": true
+        }
     },
-    "uploadDir": "/home/travis/build/belivipro9x99/themis-web-interface/tests/logParser",
+    "contest": {
+        "name": "logParser",
+        "description": "Log Parser Test",
+        "result": {
+            "publish": true
+        },
+        "submit": {
+            "enabled": false,
+            "inProblemsList": true
+        },
+        "ranking": {
+            "enabled": true,
+            "viewTask": true,
+            "hideDisabled": true
+        },
+        "log": {
+            "enabled": true,
+            "viewOther": true
+        },
+        "problem": {
+            "public": true
+        }
+    },
+    "folders": {
+        "submit": "/home/travis/build/belivipro9x99/themis-web-interface/tests/logParser",
+        "submitLogs": "%submitFolder%\/Logs",
+        "submissions": "%submitFolder%\/submissions"
+    },
     "time": {
         "zone": "Asia\/Ho_Chi_Minh",
-        "begin": {
-            "seconds": 0,
-            "minutes": 0,
-            "hours": 0,
-            "days": 1,
-            "months": 1,
-            "years": 2020
-        },
-        "during": 69420,
-        "offset": 10
+        "contest": {
+            "begin": 1592074317,
+            "during": 69420,
+            "offset": 10
+        }
     },
-    "publish": true,
-    "submit": true,
-    "submitInProblems": true,
-    "viewRank": true,
-    "viewRankTask": true,
-    "viewRankHideDisabled": true,
-    "viewLog": true,
-    "viewLogOther": true,
-    "edit": {
-        "name": true,
-        "password": true,
-        "avatar": true
-    },
-    "ratelimit": {
-        "maxRequest": 40,
-        "time": 10,
-        "banTime": 30
-    },
-    "pageTitle": "%appTitle%",
-    "allowRegister": true,
-    "clientConfig": {
+    "clientSettings": {
         "sounds": false,
         "nightmode": false,
         "showMs": false,
@@ -46,6 +54,12 @@
         "rankUpdate": true,
         "logsUpdate": true,
         "updateDelay": 2
+    },
+    "ratelimit": {
+        "enabled": true,
+        "maxRequest": 40,
+        "requestTime": 10,
+        "banTime": 30
     },
     "cache": {
         "contestRank": 1
