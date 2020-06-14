@@ -113,7 +113,7 @@ const account = {
             form: { token: API_TOKEN }
         })
 
-        this.container.innerHTML = "";
+        emptyNode(this.container);
         let html = "";
         let data = response.data;
 

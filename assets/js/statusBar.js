@@ -107,7 +107,7 @@ class statusBar {
             return true;
         }
         
-        this.center.innerHTML = "";
+        emptyNode(this.center);
         type = type.toLowerCase();
         const typeList = ["info", "okay", "warn", "errr", "crit", "lcnt"]
 

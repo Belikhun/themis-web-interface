@@ -414,15 +414,16 @@ const core = {
 		if (hash === this.previousLogHash && !bypass)
 			return false;
 
-		clog("debg", "Updating Log", `[${hash}]`);
+		clog("DEBG", "Updating Log", `[${hash}]`);
 		let updateLogTimer = new stopClock();
 
 		let list = this.logPanel.main;
 
 		if (data.judging.length === 0 && data.logs.length === 0 && data.queues.length === 0) {
-			this.logPanel.main.innerHTML = "";
+			emptyNode(this.logPanel.main);
+
 			this.previousLogHash = hash;
-			clog("debg", "Log Is Empty. Took", {
+			clog("DEBG", "Log Is Empty. Took", {
 				color: flatc("blue"),
 				text: updateLogTimer.stop + "s"
 			});
@@ -503,14 +504,14 @@ const core = {
 		if (hash === this.previousRankHash && !bypass)
 			return false;
 
-		clog("debg", "Updating Rank", `[${hash}]`);
+		clog("DEBG", "Updating Rank", `[${hash}]`);
 		let updateRankTimer = new stopClock();
 
 		if (data.list.length === 0 && data.rank.length === 0) {
-			emptyNode(this.rankPanel);
+			emptyNode(this.rankPanel.main);
 			
 			this.previousRankHash = hash;
-			clog("debg", "Rank Is Empty. Took", {
+			clog("DEBG", "Rank Is Empty. Took", {
 				color: flatc("blue"),
 				text: updateRankTimer.stop + "s"
 			});
@@ -947,12 +948,12 @@ const core = {
 				switch (e.data.code) {
 					case 103:
 						clog("WARN", "Kì thi chưa bắt đầu");
-						this.list.innerHTML = "";
+						emptyNode(this.list);
 						this.loaded = false;
 						break;
 					case 109:
 						clog("WARN", "Danh sách đề bài bị ẩn vì bạn chưa đăng nhập");
-						this.list.innerHTML = "";
+						emptyNode(this.list);
 						this.loaded = true;
 						break;
 					default:
@@ -966,7 +967,7 @@ const core = {
 
 			if (data.length === 0) {
 				this.panel.main.classList.add("blank");
-				this.list.innerHTML = "";
+				emptyNode(this.list);
 				return false;
 			} else
 				this.panel.main.classList.remove("blank");
@@ -2261,7 +2262,7 @@ const core = {
 				this.form.accept.value = Object.keys(core.languages).join("|");
 				this.form.image.value = null;
 				this.form.desc.value = "";
-				this.form.testList.innerHTML = "";
+				emptyNode(this.form.testList);
 			},
 
 			newProblem() {
