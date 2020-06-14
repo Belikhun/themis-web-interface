@@ -54,11 +54,16 @@
 			return $dirs;
 		}
 
-		private function submissionInit(String $id) {
-			mkdir($this -> path ."/". $id, 0777, true);
+		private function __path(String $id) {
+			return $this -> path ."/". strtolower($id);
+		}
 
-			(new fip($this -> path ."/". $id ."/meta.json", "{}")) -> write(Array(
-				"id" => $id,
+		private function submissionInit(String $id) {
+			mkdir($this -> __path($id), 0777, true);
+
+			(new fip($this -> __path($id) ."/meta.json", "{}")) -> write(Array(
+				"id" => strtolower($id),
+				"name" => $id,
 				"username" => $this -> username,
 				"createDate" => time(),
 				"lastModify" => Array(
@@ -75,37 +80,37 @@
 		}
 
 		public function getMeta(String $id) {
-			return (new fip($this -> path ."/". $id ."/meta.json", "{}")) -> read("json");
+			return (new fip($this -> __path($id) ."/meta.json", "{}")) -> read("json");
 		}
 
 		public function updateMeta(String $id, Array $data = Array()) {
 			$meta = $this -> getMeta($id);
 
 			mergeObjectRecursive($meta, $data);
-			(new fip($this -> path ."/". $id ."/meta.json", "{}")) -> write($meta, "json");
+			(new fip($this -> __path($id) ."/meta.json", "{}")) -> write($meta, "json");
 		}
 
 		public function remove(String $id) {
-			unlink($this -> path ."/". $id);
+			unlink($this -> __path($id));
 		}
 
 		//* ====== LOG FILE ======
 
 		public function getLog(String $id) {
-			if (!file_exists($this -> path ."/". $id ."/log.log"))
+			if (!file_exists($this -> __path($id) ."/log.log"))
 				return null;
 
-			return (new fip($this -> path ."/". $id ."/log.log")) -> read();
+			return (new fip($this -> __path($id) ."/log.log")) -> read();
 		}
 
 		public function saveLog(String $id, String $data) {
-			if (!file_exists($this -> path ."/". $id))
+			if (!file_exists($this -> __path($id)))
 				$this -> submissionInit($id);
 
 			if (file_exists($data))
-				rename($data, $this -> path ."/". $id ."/log.log");
+				rename($data, $this -> __path($id) ."/log.log");
 			else
-				(new fip($this -> path ."/". $id ."/log.log")) -> write($data);
+				(new fip($this -> __path($id) ."/log.log")) -> write($data);
 
 			$this -> updateMeta($id, Array(
 				"lastModify" => Array(
@@ -117,17 +122,17 @@
 		//* ====== PARSED DATA FILE ======
 
 		public function getData(String $id) {
-			if (!file_exists($this -> path ."/". $id ."/parsed.data"))
+			if (!file_exists($this -> __path($id) ."/parsed.data"))
 				return null;
 
-			return (new fip($this -> path ."/". $id ."/parsed.data")) -> read("serialize");
+			return (new fip($this -> __path($id) ."/parsed.data")) -> read("serialize");
 		}
 
 		public function saveData(String $id, Array $data) {
-			if (!file_exists($this -> path ."/". $id))
+			if (!file_exists($this -> __path($id)))
 				$this -> submissionInit($id);
 
-			(new fip($this -> path ."/". $id ."/parsed.data")) -> write($data, "serialize");
+			(new fip($this -> __path($id) ."/parsed.data")) -> write($data, "serialize");
 
 			$this -> updateMeta($id, Array(
 				"lastModify" => Array(
@@ -141,24 +146,24 @@
 		public function getCode(String $id) {
 			$meta = $this -> getMeta($id);
 
-			if (!$meta["codeFile"] || !file_exists($this -> path ."/". $id ."/". $meta["codeFile"]))
+			if (!$meta["codeFile"] || !file_exists($this -> __path($id) ."/". $meta["codeFile"]))
 				return null;
 
-			return (new fip($this -> path ."/". $id ."/". $meta["codeFile"])) -> read();
+			return (new fip($this -> __path($id) ."/". $meta["codeFile"])) -> read();
 		}
 
 		public function saveCode(String $id, String $data, String $extension = null) {
-			if (!file_exists($this -> path ."/". $id))
+			if (!file_exists($this -> __path($id)))
 				$this -> submissionInit($id);
 
 			$codeFile = null;
 
 			if (file_exists($data)) {
 				$codeFile = pathinfo($data, PATHINFO_BASENAME);
-				rename($data, $this -> path ."/". $id ."/". $codeFile);
+				rename($data, $this -> __path($id) ."/". $codeFile);
 			} else {
 				$codeFile = "code.". $extension;
-				(new fip($this -> path ."/". $id ."/". $codeFile)) -> write($data);
+				(new fip($this -> __path($id) ."/". $codeFile)) -> write($data);
 			}
 
 			$this -> updateMeta($id, Array(
