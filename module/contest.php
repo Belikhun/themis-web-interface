@@ -9,10 +9,19 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
 
-	function calculateSubmissionPoint($point, $time, $subNth) {
+	/**
+	 * Submission Point v1
+	 * 
+	 * Thử Nghiệm
+	 * @param	Float	$point		Điểm bài làm
+	 * @param	Float	$time		Thời gian trong kì thi
+	 * @param	Int		$subNth		Thứ hạng nộp bài
+	 * @return	Float	Điểm SP
+	 */
+	function calculateSubmissionPoint(Float $point, Float $time, Int $subNth) {
 		// Time Graph
 		// https://www.geogebra.org/graphing/gtcczbqu
-		$timePoint = 0.2 + (0.8 * cos(((($time ** 0.5) * pi()) / 2) - (pi() / 2)));
+		$timePoint = 0.2 + (0.8 * cos(((($time ** 0.5) * pi()) / 2) - (pi() / 2)) ** 2);
 
 		// SubmitNth Graph
 		// https://www.geogebra.org/graphing/e2tt3wab
@@ -20,15 +29,6 @@
 		$submitNthPoint = 1 + ((($subNth ** 0.5) - 1) / (($subNth ** 6) + 2));
 
 		return $point * $timePoint * $submitNthPoint;
-	}
-
-	print "<pre>";
-	for ($i=0;$i < 10; $i++) { 
-		$point = 10;
-		$time = randBetween(0, 1, false);
-		$subNth = randBetween(1, 100);
-		
-		print "$point $time $subNth ". calculateSubmissionPoint($point, $time, $subNth) ."\n";
 	}
 
 	function updateSubmissions() {
@@ -116,7 +116,7 @@
 					break;
 
 				default:
-					trigger_error("Unknown case: ". $code, E_USER_ERROR);
+					trigger_error("Unknown case: $value", E_USER_ERROR);
 					break;
 			}
 

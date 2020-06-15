@@ -51,9 +51,10 @@
 
 	/**
 	 * Kiểm tra token trong session với token được gửi trong form
+	 * @param	String	$token	Token (not required)
 	 */
 	function checkToken(String $token = null) {
-		$sauce = $token ?: getHeader("token") ?: (isset($_POST["token"]) ? $_POST["token"] : null);
+		$sauce = $token ?? getHeader("token") ?? (isset($_POST["token"]) ? $_POST["token"] : null);
 
 		if (empty($sauce))
 			stop(4, "Token please!", 400);
@@ -142,6 +143,10 @@
 	 *  + "resource (closed)"
 	 *  + "NULL"
 	 *  + "unknown type"
+	 * 
+	 * @param	Mixed	$data	Data
+	 * @param	String	$type	Type of Data
+	 * @return	Mixed
 	 */
 	function reqType($data, $type = "string") {
 		if (!settype($data, $type))
@@ -164,11 +169,11 @@
 	}
 
 	function getKey(Array $data, String $key, $isNull = null) {
-		return isset($data[$key])
-			? is_string($data[$key])
+		return (isset($data[$key])
+			? (is_string($data[$key])
 				? trim($data[$key])
-				: $data[$key]
-			: $isNull;
+				: $data[$key])
+			: $isNull);
 	}
 
 	/**
@@ -183,6 +188,10 @@
 	 *  + "resource (closed)"
 	 *  + "NULL"
 	 *  + "unknown type"
+	 * 
+	 * @param	Mixed	$data	Data
+	 * @param	String	$type	Type of Data
+	 * @return	Mixed
 	 */
 	function withType($data, $type = "string", $isNot = null) {
 		if ($type === "boolean")
@@ -197,8 +206,8 @@
 	}
 
 	/**
-	 * Remove the directory and its content (all files and subdirectories).
-	 * @param String path to directory
+	 * Remove the directory and its content recursively (all files and subdirectories)
+	 * @param	String	Path to directory
 	 */
 	function rmrf($dir) {
 		foreach (glob($dir) as $file)
@@ -212,8 +221,9 @@
 	/**
 	 * Thay đổi header Content-Type tương ứng với đuôi tệp
 	 * 
-	 * @param String Đuôi tên tệp
-	 * @return bool true nếu thành công.
+	 * @param	String	$ext		Đuôi tên tệp
+	 * @param	String	$charset
+	 * @return	Bool
 	 * 
 	 */
 	function contentType(String $ext, String $charset = "utf-8") {
@@ -293,12 +303,12 @@
 
 	/**
 	 * Generate Random Number
-	 * @param   min		Minimum Random Number
-	 * @param   max		Maximum Random Number
-	 * @param   toInt	Return an Integer Value
-	 * @return
+	 * @param	Number	$min	Minimum Random Number
+	 * @param	Number	$max	Maximum Random Number
+	 * @param   Bool	$toInt	To return an Integer Value
+	 * @return	Number	Generated number
 	 */
-	function randBetween($min, $max, $toInt = true) {
+	function randBetween($min, $max, Bool $toInt = true) {
 		$rand = (float)(mt_rand() / mt_getrandmax());
 
 		return $toInt
@@ -308,9 +318,9 @@
 
 	/**
 	 * Generate Random String
-	 * @param	len		Length of the randomized string
-	 * @param	charSet
-	 * @return
+	 * @param	Int			$len		Length of the randomized string
+	 * @param	String		$charSet	Charset
+	 * @return	String		Generated String
 	 */
 	function randString($len = 16, $charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789") {
 		$randomString = "";
@@ -328,12 +338,12 @@
 	 * Print out response data, set some header
 	 * and stop script execution!
 	 * 
-	 * @param    code           Response code
-	 * @param    description    Response description
-	 * @param    HTTPStatus     Response HTTP status code
-	 * @param    data           Response data (additional)
-	 * @param    hashData       Hash the data
-	 * @return   null
+	 * @param	Int				$code			Response code
+	 * @param	String			$description	Response description
+	 * @param	Int				$HTTPStatus		Response HTTP status code
+	 * @param	Array			$data			Response data (optional)
+	 * @param	Bool|Mixed		$hashData		To hash the data/Data to hash
+	 * @return	Void
 	 *
 	 */
 	function stop(Int $code = 0, String $description = "", Int $HTTPStatus = 200, Array $data = Array(), $hashData = false) {
@@ -389,8 +399,8 @@
 	 *
 	 * Return Human Readable Size
 	 * 
-	 * @param    bytes			Size in byte
-	 * @return   String
+	 * @param	Int		$bytes		Size in byte
+	 * @return	String	Readable Size
 	 *
 	 */
 	function convertSize(Int $bytes) {
@@ -404,12 +414,12 @@
 	 *
 	 * Return Folder Size
 	 * 
-	 * @param    dir			Target Directory
-	 * @param    recursive		Include Subdirectories Size
-	 * @return   Int
+	 * @param	String		$dir			Target Directory
+	 * @param   Bool		$recursive		Include Subdirectories Size
+	 * @return	Int			Folder Size
 	 *
 	 */
-	function folderSize($dir, Bool $recursive = false) {
+	function folderSize(String $dir, Bool $recursive = false) {
 		$size = 0;
 		foreach (glob($dir ."/*", GLOB_NOSORT) as $i => $file)
 			$size += is_file($file) ? filesize($file) : ($recursive ? folderSize($file) : 0);
@@ -421,11 +431,11 @@
 	 *
 	 * Remove Dublication Item In An Array
 	 * 
-	 * @param    inp			The Array Itself
-	 * @return   Array
+	 * @param	Array	$inp	The Array
+	 * @return	Array	Cleaned Array
 	 *
 	 */
-	function arrayRemDub($inp) {
+	function arrayRemDub(Array $inp) {
 		$out = Array();
 		$i = 0;
 
@@ -442,8 +452,8 @@
 	 *
 	 * Remove Empty Item In An Array
 	 * 
-	 * @param    inp			The Array Itself
-	 * @return   Array
+	 * @param	Array	$inp	The Array
+	 * @return	Array	Cleaned Array
 	 *
 	 */
 	function arrayRemBlk($inp) {
@@ -473,12 +483,12 @@
 
 	function getClientIP() {
 		return getenv("HTTP_CLIENT_IP")
-			?: getenv("HTTP_X_FORWARDED_FOR")
-			?: getenv("HTTP_X_FORWARDED")
-			?: getenv("HTTP_FORWARDED_FOR")
-			?: getenv("HTTP_FORWARDED")
-			?: getenv("REMOTE_ADDR")
-			?: "UNKNOWN";
+			?? getenv("HTTP_X_FORWARDED_FOR")
+			?? getenv("HTTP_X_FORWARDED")
+			?? getenv("HTTP_FORWARDED_FOR")
+			?? getenv("HTTP_FORWARDED")
+			?? getenv("REMOTE_ADDR")
+			?? "UNKNOWN";
 	}
 
 	/**
@@ -487,10 +497,11 @@
 	 * 
 	 * Only merge key in the object that exist in the target
 	 * 
-	 * @param    target				Target Object need to be merged
-	 * @param    object				Array Object need to merge
-	 * @param    typeSensitive		Do a type check before merge key. Accept Boolean and Callable
-	 * @return   Number				Number of merged key
+	 * @param	Array			$target				Target Object need to be merged
+	 * @param	Array			$object				Array Object need to merge
+	 * @param	Bool|Function	$typeSensitive		Do a type check before merging key
+	 * @param	Int				$counter			Number of merged keys
+	 * @return	Number			Number of merged keys
 	 *
 	 */
 	function mergeObjectRecursive(Array &$target, Array $object, $typeSensitive = true, Int &$counter = 0) {
@@ -533,7 +544,7 @@
 					stop(8, "Lỗi[". $e["type"] ."]: ". $e["message"] ." tại ". $e["file"] ." dòng ". $e["line"], 500, $e);
 				}
 			} catch (Exception $e) {
-				stop(8, $e -> getMessage() ." tại ". $e -> getFile() ." dòng ". $e -> getLine(), 500, $e);
+				stop(8, $e -> getMessage() ." tại ". $e -> getFile() ." dòng ". $e -> getLine(), 500, $e -> getTrace());
 			}
 		}
 
@@ -546,8 +557,8 @@
 		 * Read file
 		 * type: text/json/serialize
 		 * 
-		 * @param    type		File data type
-		 * @return
+		 * @param	String	$type	File data type
+		 * @return	String|Array|Object
 		 *
 		 */
 		public function read($type = "text") {
@@ -577,8 +588,8 @@
 		 * Write data to file
 		 * type: text/json/serialize
 		 * 
-		 * @param    data		Data to write
-		 * @param    type		File data type
+		 * @param	String|Array|Object		$data		Data to write
+		 * @param	String					$type		File data type
 		 * @return
 		 *
 		 */
