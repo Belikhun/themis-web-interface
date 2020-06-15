@@ -23,49 +23,49 @@ logParserTest = testFramework("logParser")
 
 # Server Online Test
 def __testServerOnline():
-    global sess
+	global sess
 
-    try:
-        sess.get("http://localhost")
-    except Exception as excp:
-        return repr(excp)
+	try:
+		sess.get("http://localhost")
+	except Exception as excp:
+		return repr(excp)
 
-    return True
+	return True
 
 logParserTest.case("Server should be up and running", __testServerOnline)
 
 def getAPI(url = "", method = "GET", data = {}, files = {}):
-    global sess
+	global sess
 
-    if (method == "GET"):
-        data = sess.get("http://localhost/" + url)
-    else:
-        data = sess.post("http://localhost/" + url, data = data, files = files)
-    
-    json = data.json()
+	if (method == "GET"):
+		data = sess.get("http://localhost/" + url)
+	else:
+		data = sess.post("http://localhost/" + url, data = data, files = files)
+	
+	json = data.json()
 
-    if (json["code"] != 0):
-        raise Exception("[{}] {}".format(json["code"], json["description"]))
-    
-    if (json["status"] >= 300):
-        raise Exception("[{}] {}".format(json["status"], json["description"]))
+	if (json["code"] != 0):
+		raise Exception("[{}] {}".format(json["code"], json["description"]))
+	
+	if (json["status"] >= 300):
+		raise Exception("[{}] {}".format(json["status"], json["description"]))
 
-    if (json["runtime"] > 1):
-        raise Exception("RunTimeOverflow: {}s".format(str(round(json["runtime"], 4))))
+	if (json["runtime"] > 1):
+		raise Exception("RunTimeOverflow: {}s".format(str(round(json["runtime"], 4))))
 
-    return json["data"]
+	return json["data"]
 
 def __getLog():
-    global logData
-    global username
-    global target
+	global logData
+	global username
+	global target
 
-    try:
-        logData = getAPI(f"api/contest/viewlog?u={username}&id={target}", "GET")
-    except Exception as excp:
-        return repr(excp)
+	try:
+		logData = getAPI(f"api/contest/viewlog?u={username}&id={target}", "GET")
+	except Exception as excp:
+		return repr(excp)
 
-    return True
+	return True
 
 #! Test for passed log
 username = "passedtest"

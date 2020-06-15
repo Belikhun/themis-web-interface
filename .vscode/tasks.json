@@ -6,7 +6,7 @@
 		{
 			"label": "Tasks: open Apache Error Log",
 			"type": "shell",
-			"command": "lnav",
+			"command": "wsl lnav",
 			"args": [
 				"../core/apache2/logs/error.log"
 			],

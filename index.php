@@ -721,10 +721,10 @@
 								</table>
 
 								<div class="badge">
-									<a href="<?php print REPO_ADDRESS; ?>/releases/" target="_blank" rel="noopener"><img src="/tool/badge?su=<?php print VERSION_TAG; ?>&st=v<?php print VERSION; ?>&c=brightgreen"></a>
-									<img src="/tool/badge?su=license&st=MIT&c=orange">
-									<img src="/tool/badge?su=status&st=near stable&c=blue">
-									<img src="/tool/badge?su=author&st=Belikhun&c=red">
+									<a href="<?php print REPO_ADDRESS; ?>/releases/" target="_blank" rel="noopener"><img src="/tools/badge?su=<?php print VERSION_TAG; ?>&st=v<?php print VERSION; ?>&c=brightgreen"></a>
+									<img src="/tools/badge?su=license&st=MIT&c=orange">
+									<img src="/tools/badge?su=status&st=near stable&c=blue">
+									<img src="/tools/badge?su=author&st=Belikhun&c=red">
 								</div>
 								
 								<t class="description"><b><?php print APPNAME; ?></b> là một dự án mã nguồn mở, phi lợi nhuận với mục đích chính nhằm biến việc quản lí và tổ chức các buổi học lập trình, ôn tập tin học và tổ chức kì thi trở nên dễ dàng hơn.</t>

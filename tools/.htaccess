@@ -1,0 +1,9 @@
+Options +FollowSymLinks -Indexes
+Order allow,deny
+Allow from all
+Require all granted
+
+# Rewrite url
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ $1.php [NC,L]

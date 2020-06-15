@@ -331,7 +331,7 @@ const login = {
 
 		renewCaptcha() {
 			this.password.captcha.parentElement.removeAttribute("data-loaded");
-			this.password.captcha.src = "/tool/captcha?generate";
+			this.password.captcha.src = "/tools/captcha?generate";
 		},
 
 		async showPasswordForm() {

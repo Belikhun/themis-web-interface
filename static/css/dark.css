@@ -8,209 +8,209 @@
 */
 
 body.dark #container {
-    background-color: rgb(42, 42, 42);
+	background-color: rgb(42, 42, 42);
 }
 
 /* Navigation Bar */
 
 body.dark .navBar {
-    background-color: rgb(42, 42, 42);
+	background-color: rgb(42, 42, 42);
 }
 
 body.dark .navBar .top .right .info .name,
 body.dark .navBar .top .left .title .main {
-    color: rgb(218, 218, 218);
+	color: rgb(218, 218, 218);
 }
 
 body.dark .navBar .top .right .info .tag,
 body.dark .navBar .top .left .title .sub {
-    color: rgb(182, 182, 182);
+	color: rgb(182, 182, 182);
 }
 
 body.dark .navBar .top .right .hamburger span {
-    background-color: rgb(216, 216, 216);
+	background-color: rgb(216, 216, 216);
 }
 
 /* Panel */
 
 body.dark panel {
-    background-color: rgb(48, 48, 48);
-    box-shadow: 0 0 5px rgba(42, 42, 42, 0.2);
+	background-color: rgb(48, 48, 48);
+	box-shadow: 0 0 5px rgba(42, 42, 42, 0.2);
 }
 
 body.dark panel .head {
-    background-color: rgb(40, 40, 40);
+	background-color: rgb(40, 40, 40);
 }
 
 body.dark panel .head .le {
-    color: rgb(216, 216, 216);
+	color: rgb(216, 216, 216);
 }
 
 body.dark panel .head .ri > i {
-    color: rgba(218, 218, 218, 0.54);
+	color: rgba(218, 218, 218, 0.54);
 }
 
 body.dark panel .head .ri > i:hover {
-    color: rgba(218, 218, 218, 0.82);
+	color: rgba(218, 218, 218, 0.82);
 }
 
 body.dark panel .head .ri > i.ref:hover {
-    color: rgba(141, 204, 255, 0.82);
-    background-color: rgba(127, 176, 255, 0.2);
+	color: rgba(141, 204, 255, 0.82);
+	background-color: rgba(127, 176, 255, 0.2);
 }
 
 body.dark panel .head .ri > i.clo:hover {
-    color: rgba(255, 136, 136, 0.82);
-    background-color: rgba(255, 117, 117, 0.2);
+	color: rgba(255, 136, 136, 0.82);
+	background-color: rgba(255, 117, 117, 0.2);
 }
 
 body.dark panel .main {
-    background-color: rgb(48, 48, 48);
+	background-color: rgb(48, 48, 48);
 }
 
 /* File Upload Panel */
 
 body.dark #uploadp .fileupload-container #submitDropzone {
-    border-color: rgb(124, 124, 124);
-    color: rgb(124, 124, 124);
+	border-color: rgb(124, 124, 124);
+	color: rgb(124, 124, 124);
 }
 
 body.dark #uploadp .fileupload-container #submitDropzone.drag {
-    background-color: rgb(98, 98, 98);
-    border-color: rgb(156, 156, 156);
-    color: rgb(156, 156, 156);
+	background-color: rgb(98, 98, 98);
+	border-color: rgb(156, 156, 156);
+	color: rgb(156, 156, 156);
 }
 
 body.dark #uploadp .fileupload-container #submitDropzone .title {
-    color: rgb(180, 180, 180);
+	color: rgb(180, 180, 180);
 }
 
 body.dark #uploadp .fileupload-container #submitDropzone .sub {
-    color: rgb(160, 160, 160);
+	color: rgb(160, 160, 160);
 }
 
 body.dark #uploadp .fileupload-container .info #submitStatus {
-    color: rgb(214, 214, 214);
+	color: rgb(214, 214, 214);
 }
 
 body.dark #uploadp .fileupload-container .info #submitFileName {
-    color: rgb(160, 160, 160);
+	color: rgb(160, 160, 160);
 }
 
 /* Problems Panel */
 
 body.dark #problemp .problemsContainer .problemsList .item {
-    background-color: rgb(56, 56, 56);
-    border-bottom-color: rgb(88, 88, 88);
+	background-color: rgb(56, 56, 56);
+	border-bottom-color: rgb(88, 88, 88);
 }
 
 body.dark #problemp .problemsContainer .problemsList .item[disabled="true"] {
-    background-color: rgba(117, 57, 78, 0.6);
+	background-color: rgba(117, 57, 78, 0.6);
 }
 
 body.dark #problemp .problemsContainer .problemsList .item:hover {
-    background-color: rgb(70, 70, 70);
+	background-color: rgb(70, 70, 70);
 }
 
 body.dark #problemp .problemsContainer .problemsList .item .title .name {
-    color: rgb(214, 214, 214);
+	color: rgb(214, 214, 214);
 }
 
 body.dark #problemp .problemsContainer .problemsList .item .title .point {
-    background-color: #269555;
+	background-color: #269555;
 }
 
 body.dark #problemp .problemsContainer .problem .name {
-    color: rgb(216, 216, 216);
+	color: rgb(216, 216, 216);
 }
 
 body.dark #problemp .problemsContainer .problem .point {
-    color: #29db73;
+	color: #29db73;
 }
 
 body.dark #problemp .problemsContainer .problem .enlarge::before,
 body.dark #problemp .problemsContainer .problem .close::before {
-    color: rgb(202, 202, 202);
+	color: rgb(202, 202, 202);
 }
 
 body.dark .problemEnlarged .top .group .col .name {
-    color: rgb(216, 216, 216);
+	color: rgb(216, 216, 216);
 }
 
 body.dark .problemEnlarged .bottom {
-    background-color: rgb(54, 54, 54);
+	background-color: rgb(54, 54, 54);
 }
 
 body.dark .problemEnlarged .bottom .description {
-    color: rgb(214, 214, 214);
+	color: rgb(214, 214, 214);
 }
 
 body.dark .problemEnlarged .bottom .description::before {
-    color: rgb(216, 216, 216);
+	color: rgb(216, 216, 216);
 }
 
 /* Time Panel */
 
 body.dark .contestTimer #contestTimeState {
-    color: rgb(195, 195, 195);
+	color: rgb(195, 195, 195);
 }
 
 body.dark .contestTimer .reload {
-    color: rgba(218, 218, 218, 0.54);
+	color: rgba(218, 218, 218, 0.54);
 }
 
 body.dark .contestTimer .reload:hover {
-    color: rgba(218, 218, 218, 0.82);
+	color: rgba(218, 218, 218, 0.82);
 }
 
 /* Rank Panel */
 
 body.dark #rankp div.rankingContainer table tr td:nth-child(3) .username {
-    color: rgb(160, 160, 160);
+	color: rgb(160, 160, 160);
 }
 
 body.dark #rankp div.rankingContainer table tbody tr[data-rank="1"] {
-    background-color: rgba(11, 129, 33, 0.2);
+	background-color: rgba(11, 129, 33, 0.2);
 }
 
 body.dark #rankp div.rankingContainer table tbody tr[data-rank="2"] {
-    background-color: rgba(136, 138, 15, 0.2);
+	background-color: rgba(136, 138, 15, 0.2);
 }
 
 body.dark #rankp div.rankingContainer table tbody tr[data-rank="3"] {
-    background-color: rgba(112, 12, 121, 0.2);
+	background-color: rgba(112, 12, 121, 0.2);
 }
 
 body.dark #rankp div.rankingContainer table tbody tr[data-rank="1"] td:nth-child(3) .name,
 body.dark #rankp div.rankingContainer table tbody tr[data-rank="2"] td:nth-child(3) .name,
 body.dark #rankp div.rankingContainer table tbody tr[data-rank="3"] td:nth-child(3) .name {
-    color: rgb(236, 236, 236);
+	color: rgb(236, 236, 236);
 }
 
 body.dark #rankp div.rankingContainer table tr th {
-    color: rgb(202, 202, 202);
-    border-bottom-color: rgb(88, 88, 88);
+	color: rgb(202, 202, 202);
+	border-bottom-color: rgb(88, 88, 88);
 }
 
 body.dark #rankp div.rankingContainer table thead tr th:first-child::before {
-    background-color: rgba(48, 48, 48, 0.8);
+	background-color: rgba(48, 48, 48, 0.8);
 }
 
 body.dark #rankp div.rankingContainer table tr th.problem > t {
-    color: rgb(202, 202, 202);
+	color: rgb(202, 202, 202);
 }
 
 body.dark #rankp div.rankingContainer table tr th:nth-child(1),
 body.dark #rankp div.rankingContainer table tr td:nth-child(1) {
-    color: rgb(184, 184, 184);
+	color: rgb(184, 184, 184);
 }
 
 body.dark #rankp div.rankingContainer table tr td.number {
-    color: rgb(124, 124, 124);
+	color: rgb(124, 124, 124);
 }
 
 body.dark #rankp div.rankingContainer table tr td.number:nth-child(4) {
-    color: rgb(98, 202, 246);
+	color: rgb(98, 202, 246);
 }
 
 body.dark #rankp div.rankingContainer table tr .number.link,
@@ -219,184 +219,184 @@ body.dark #rankp div.rankingContainer table tr .number.passed,
 body.dark #rankp div.rankingContainer table tr .number.accepted,
 body.dark #rankp div.rankingContainer table tr .number.failed,
 body.dark #rankp div.rankingContainer table tr .number.skipped {
-    color: rgb(224, 224, 224);
+	color: rgb(224, 224, 224);
 }
 
 body.dark #rankp div.rankingContainer table tr .number.correct {
-    background-color: rgb(19, 148, 34);
+	background-color: rgb(19, 148, 34);
 }
 
 body.dark #rankp div.rankingContainer table tr .number.passed {
-    background-color: rgb(20, 119, 144);
+	background-color: rgb(20, 119, 144);
 }
 
 body.dark #rankp div.rankingContainer table tr .number.accepted {
-    background-color: rgb(138, 134, 24);
+	background-color: rgb(138, 134, 24);
 }
 
 body.dark #rankp div.rankingContainer table tr .number.failed {
-    background-color: rgb(151, 20, 20);
+	background-color: rgb(151, 20, 20);
 }
 
 body.dark #rankp div.rankingContainer table tr .number.skipped {
-    background-color: rgb(90, 90, 90);
+	background-color: rgb(90, 90, 90);
 }
 
 body.dark #rankp div.rankingContainer table tr td:nth-child(3) {
-    color: #6099fb;
+	color: #6099fb;
 }
 
 body.dark #rankp div.rankingContainer table tr:nth-child(3) td:nth-child(2) .name {
-    background-color: #2b9959;
+	background-color: #2b9959;
 }
 
 /* Log Panel */
 
 body.dark #logp .logItemContainer .logItem .h {
-    border-bottom-color: rgb(88, 88, 88);
+	border-bottom-color: rgb(88, 88, 88);
 }
 
 body.dark #logp .logItemContainer .logItem .h .l .t {
-    color: rgba(216, 216, 216, 0.7);
+	color: rgba(216, 216, 216, 0.7);
 }
 
 body.dark #logp .logItemContainer .logItem .h .r .s {
-    color: rgb(218, 218, 218);
+	color: rgb(218, 218, 218);
 }
 
 body.dark #logp .logItemContainer .logItem .h .r .l {
-    color: rgb(200, 200, 200);
+	color: rgb(200, 200, 200);
 }
 
 body.dark #logp .logItemContainer .logItem .d {
-    background-color: rgb(44, 44, 44);
-    color: #aaaaaa;
+	background-color: rgb(44, 44, 44);
+	color: #aaaaaa;
 }
 
 body.dark #logp .logItemContainer .logItem .d:hover {
-    color: #e0e0e0;
+	color: #e0e0e0;
 }
 
 body.dark #logp .logItemContainer .logItem.queue .h .l .n {
-    color: #bc75fd;
+	color: #bc75fd;
 }
 
 body.dark #logp .logItemContainer .logItem.judging .h .l .n {
-    color: #ff84f5;
+	color: #ff84f5;
 }
 
 body.dark #logp .logItemContainer .logItem .h .l .n {
-    color: rgb(204, 204, 204);
+	color: rgb(204, 204, 204);
 }
 
 body.dark #logp .logItemContainer .logItem.scored .h .l .n {
-    color: #a1a3ff;
+	color: #a1a3ff;
 }
 
 body.dark #logp .logItemContainer .logItem.correct .h .l .n {
-    color: #36f666;
+	color: #36f666;
 }
 
 body.dark #logp .logItemContainer .logItem.passed .h .l .n {
-    color: #2bd1ee;
+	color: #2bd1ee;
 }
 
 body.dark #logp .logItemContainer .logItem.accepted .h .l .n {
-    color: #eedf3c;
+	color: #eedf3c;
 }
 
 body.dark #logp .logItemContainer .logItem.failed .h .l .n {
-    color: #fe8f8f;
+	color: #fe8f8f;
 }
 
 /* userSettings */
 
 body.dark #userSettings .sub .panel .container {
-    background-color: rgba(56, 56, 56, 0.8);
+	background-color: rgba(56, 56, 56, 0.8);
 }
 
 body.dark #userSettings .sub .panel .container .btn-group {
-    background-color: rgba(56, 56, 56, 0.8);
+	background-color: rgba(56, 56, 56, 0.8);
 }
 
 body.dark #userSettings .sub .panel .container .btn-group:hover {
-    background-color: rgb(56, 56, 56);
+	background-color: rgb(56, 56, 56);
 }
 
 body.dark #userSettings .sub .panel .container .btn-group span::before,
 body.dark #userSettings .sub .panel .container .btn-group span::after {
-    color: rgb(192, 192, 192);
+	color: rgb(192, 192, 192);
 }
 
 body.dark #userSettings .sub .panel .container .btn-group span:hover {
-    background-color: rgba(41, 140, 206, 0.2);
+	background-color: rgba(41, 140, 206, 0.2);
 }
 
 body.dark #userSettings .sub .panel .container .btn-group span:hover::before,
 body.dark #userSettings .sub .panel .container .btn-group span:hover::after {
-    color: #67c2ff;
+	color: #67c2ff;
 }
 
 body.dark #userSettings .sub .panel .container .btn-group .close:hover {
-    background-color: rgba(219, 60, 43, 0.2);
+	background-color: rgba(219, 60, 43, 0.2);
 }
 
 body.dark #userSettings .sub .panel .container .btn-group .close:hover::before,
 body.dark #userSettings .sub .panel .container .btn-group .close:hover::after {
-    color: #ff8577;
+	color: #ff8577;
 }
 
 body.dark #userSettings .main .container .group .item .info .right {
-    color: rgb(168, 168, 168);
+	color: rgb(168, 168, 168);
 }
 
 /* Problems Editor */
 
 body.dark .problemSettings .header {
-    background-color: rgb(56, 56, 56);
+	background-color: rgb(56, 56, 56);
 }
 
 body.dark .problemSettings .header div span::before {
-    color: rgba(190, 190, 190, 0.54);
+	color: rgba(190, 190, 190, 0.54);
 }
 
 body.dark .problemSettings .problemsContainer .problemsList li.item:hover {
-    background-color: rgba(36, 36, 36, 0.4);
+	background-color: rgba(36, 36, 36, 0.4);
 }
 
 body.dark .problemSettings .problemsContainer .problemsList li.item .title .id {
-    color: rgb(160, 160, 160);
+	color: rgb(160, 160, 160);
 }
 
 body.dark .problemSettings .problemsContainer .problemsList li.item .title .name {
-    color: rgb(214, 214, 214);
+	color: rgb(214, 214, 214);
 }
 
 body.dark .problemSettings .problemsContainer.problem .test-container .test-list .cell textarea {
-    color: rgb(204, 204, 204);
+	color: rgb(204, 204, 204);
 }
 
 body.dark .problemSettings .problemsContainer.problem .test-container .test-add:hover {
-    background-color: rgba(202, 202, 202, 0.1);
+	background-color: rgba(202, 202, 202, 0.1);
 }
 
 body.dark .problemSettings .problemsContainer.problem .test-container .test-add:hover::after {
-    color: rgb(204, 204, 204);
+	color: rgb(204, 204, 204);
 }
 
 /* Log Viewer */
 
 body.dark .viewLog-container .header .top .problemName {
-    color: rgb(228, 228, 228);
+	color: rgb(228, 228, 228);
 }
 
 body.dark .viewLog-container .header .bottom .line .left .row::before {
-    color: rgb(180, 180, 180);
+	color: rgb(180, 180, 180);
 }
 
 body.dark .viewLog-container .header .bottom .line .left .problemInfo .problemid,
 body.dark .viewLog-container .header .bottom .line .left .problemInfo .language {
-    color: rgb(224, 224, 224);
+	color: rgb(224, 224, 224);
 }
 
 /*? Correct */
@@ -404,11 +404,11 @@ body.dark .viewLog-container .header .bottom .line .left .problemInfo .language 
 body.dark .viewLog-container .header.correct .bottom .line .left .problemInfo .problemid,
 body.dark .viewLog-container .header.correct .bottom .line .left .problemInfo .language,
 body.dark .viewLog-container .header.correct .bottom .line .left .problemInfo::before {
-    color: #38ce5d;
+	color: #38ce5d;
 }
 
 body.dark .viewLog-container .header.correct::before {
-    background-color: #38ce5d;
+	background-color: #38ce5d;
 }
 
 /*? Passed */
@@ -416,11 +416,11 @@ body.dark .viewLog-container .header.correct::before {
 body.dark .viewLog-container .header.passed .bottom .line .left .problemInfo .problemid,
 body.dark .viewLog-container .header.passed .bottom .line .left .problemInfo .language,
 body.dark .viewLog-container .header.passed .bottom .line .left .problemInfo::before {
-    color: #38bdce;
+	color: #38bdce;
 }
 
 body.dark .viewLog-container .header.passed::before {
-    background-color: #38bdce;
+	background-color: #38bdce;
 }
 
 /*? Accepted */
@@ -428,11 +428,11 @@ body.dark .viewLog-container .header.passed::before {
 body.dark .viewLog-container .header.accepted .bottom .line .left .problemInfo .problemid,
 body.dark .viewLog-container .header.accepted .bottom .line .left .problemInfo .language,
 body.dark .viewLog-container .header.accepted .bottom .line .left .problemInfo::before {
-    color: #e4d429;
+	color: #e4d429;
 }
 
 body.dark .viewLog-container .header.accepted::before {
-    background-color: #e4d429;
+	background-color: #e4d429;
 }
 
 /*? Failed */
@@ -440,197 +440,197 @@ body.dark .viewLog-container .header.accepted::before {
 body.dark .viewLog-container .header.failed .bottom .line .left .problemInfo .problemid,
 body.dark .viewLog-container .header.failed .bottom .line .left .problemInfo .language,
 body.dark .viewLog-container .header.failed .bottom .line .left .problemInfo::before {
-    color: #f56a6a;
+	color: #f56a6a;
 }
 
 body.dark .viewLog-container .header.failed::before {
-    background-color: #ee4c4c;
+	background-color: #ee4c4c;
 }
 
 body.dark .viewLog-container .header .bottom .line .left .submitTime,
 body.dark .viewLog-container .header .bottom .line .left .status,
 body.dark .viewLog-container .header .bottom .line .left .result,
 body.dark .viewLog-container .header .bottom .line .left .point {
-    color: rgb(224, 224, 224);
+	color: rgb(224, 224, 224);
 }
 
 
 body.dark .viewLog-container .header .bottom .line .left .result b.green {
-    color: #38ce5d;
+	color: #38ce5d;
 }
 
 body.dark .viewLog-container .header .bottom .line .left .result b.red {
-    color: #f56a6a;
+	color: #f56a6a;
 }
 
 body.dark .viewLog-container .header .bottom .line .right .submitter .info .tag {
-    color: rgb(185, 185, 185);
+	color: rgb(185, 185, 185);
 }
 
 body.dark .viewLog-container .header .bottom .line .right .submitter .info .name {
-    color: rgb(228, 228, 228);
+	color: rgb(228, 228, 228);
 }
 
 body.dark .viewLog-container .header .bottom .line .right > t {
-    color: rgb(250, 250, 250);
+	color: rgb(250, 250, 250);
 }
 
 
 body.dark .viewLog-container .testList .item .line .left .testid {
-    color: rgb(214, 214, 214);
+	color: rgb(214, 214, 214);
 }
 
 body.dark .viewLog-container .testList .item.passed::before {
-    background-color: #38ce5d;
+	background-color: #38ce5d;
 }
 
 body.dark .viewLog-container .testList .item.passed .line .left .testid {
-    color: #38ce5d;
+	color: #38ce5d;
 }
 
 body.dark .viewLog-container .testList .item.accepted::before {
-    background-color: #e4d429;
+	background-color: #e4d429;
 }
 
 body.dark .viewLog-container .testList .item.accepted .line .left .testid {
-    color: #e4d429;
+	color: #e4d429;
 }
 
 body.dark .viewLog-container .testList .item.failed::before {
-    background-color: #ee4c4c;
+	background-color: #ee4c4c;
 }
 
 body.dark .viewLog-container .testList .item.failed .line .left .testid {
-    color: #f56a6a;
+	color: #f56a6a;
 }
 
 body.dark .viewLog-container .testList .item .right .point {
-    color: rgb(204, 204, 204);
+	color: rgb(204, 204, 204);
 }
 
 body.dark .viewLog-container .testList .item .right .runtime {
-    color: rgb(180, 180, 180);
+	color: rgb(180, 180, 180);
 }
 
 body.dark .viewLog-container .testList {
-    background-color: rgb(54, 54, 54);
+	background-color: rgb(54, 54, 54);
 }
 
 body.dark .viewLog-container .testList .item {
-    background-color: rgb(48, 48, 48);
+	background-color: rgb(48, 48, 48);
 }
 
 body.dark .viewLog-container .testList .item:hover {
-    background-color: rgb(60, 60, 60);
+	background-color: rgb(60, 60, 60);
 }
 
 body.dark .viewLog-container .testList .item .line.detail > t {
-    color: rgb(172, 172, 172);
+	color: rgb(172, 172, 172);
 }
 
 /* SysLogs */
 
 body.dark .syslogs-settings .logsContainer .log {
-    background-color: transparent;
+	background-color: transparent;
 }
 
 body.dark .syslogs-settings .logsContainer .log:hover {
-    background-color: rgba(42, 42, 42, 0.8);
+	background-color: rgba(42, 42, 42, 0.8);
 }
 
 body.dark .syslogs-settings .logsContainer .log .level {
-    background-color: rgba(65, 65, 65, 0.8);
-    color: rgb(218, 218, 218);
+	background-color: rgba(65, 65, 65, 0.8);
+	color: rgb(218, 218, 218);
 }
 
 body.dark .syslogs-settings .logsContainer .log.enlarge .level {
-    background-color: rgba(75, 75, 75, 0.8);
+	background-color: rgba(75, 75, 75, 0.8);
 }
 
 body.dark .syslogs-settings .logsContainer .log .detail {
-    border-left: 2px solid rgb(104, 104, 104);
+	border-left: 2px solid rgb(104, 104, 104);
 }
 
 body.dark .syslogs-settings .logsContainer .log .detail .info t {
-    color: rgb(155, 155, 155);
+	color: rgb(155, 155, 155);
 }
 
 body.dark .syslogs-settings .logsContainer .log .detail .text {
-    color: rgb(228, 228, 228);
+	color: rgb(228, 228, 228);
 }
 
 body.dark .syslogs-settings .logsContainer .log.okay .detail {
-    border-left-color: rgb(14, 194, 26);
+	border-left-color: rgb(14, 194, 26);
 }
 
 body.dark .syslogs-settings .logsContainer .log.okay .level {
-    color: rgb(15, 228, 30);
+	color: rgb(15, 228, 30);
 }
 
 body.dark .syslogs-settings .logsContainer .log.warn .detail {
-    border-left-color: rgb(194, 194, 16);
+	border-left-color: rgb(194, 194, 16);
 }
 
 body.dark .syslogs-settings .logsContainer .log.warn .level {
-    color: rgb(224, 224, 20);
+	color: rgb(224, 224, 20);
 }
 
 body.dark .syslogs-settings .logsContainer .log.errr .detail {
-    border-left-color: rgb(241, 80, 80);
+	border-left-color: rgb(241, 80, 80);
 }
 
 body.dark .syslogs-settings .logsContainer .log.errr .level {
-    color: rgb(248, 154, 154);
+	color: rgb(248, 154, 154);
 }
 
 body.dark .syslogs-settings .logsContainer .log.verb .detail {
-    border-left-color: rgb(196, 110, 236);
+	border-left-color: rgb(196, 110, 236);
 }
 
 body.dark .syslogs-settings .logsContainer .log.verb .level {
-    color: rgb(217, 153, 246);
+	color: rgb(217, 153, 246);
 }
 
 body.dark .syslogs-settings .navBarigation {
-    background-color: rgba(65, 65, 65, 0.8);
+	background-color: rgba(65, 65, 65, 0.8);
 }
 
 body.dark .syslogs-settings .navBarigation .left,
 body.dark .syslogs-settings .navBarigation .right {
-    color: rgb(204, 204, 204);
+	color: rgb(204, 204, 204);
 }
 
 body.dark .syslogs-settings .navBarigation .middle .icon::before {
-    color: rgb(95, 95, 95);
+	color: rgb(95, 95, 95);
 }
 
 body.dark .syslogs-settings .navBarigation .middle .icon:hover::before {
-    color: #f67fe6;
+	color: #f67fe6;
 }
 
 body.dark .syslogs-settings .navBarigation .middle .currentPage {
-    color: rgb(230, 230, 230);
+	color: rgb(230, 230, 230);
 }
 
 /* Footer */
 
 body.dark footer .header .title {
-    color: #3498db;
+	color: #3498db;
 }
 
 body.dark footer .header .version {
-    color: rgb(204, 204, 204);
+	color: rgb(204, 204, 204);
 }
 
 body.dark footer .header .subtitle {
-    color: rgb(170, 170, 170);
+	color: rgb(170, 170, 170);
 }
 
 body.dark footer .contact li {
-    color: rgb(228, 228, 228);
+	color: rgb(228, 228, 228);
 }
 
 body.dark footer ul.contact .email::before,
 body.dark footer ul.contact .github::before {
-    color: rgb(180, 180, 180);
+	color: rgb(180, 180, 180);
 }

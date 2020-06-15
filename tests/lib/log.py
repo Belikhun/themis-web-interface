@@ -17,8 +17,8 @@ init(autoreset=True)
 sticks = time.time()
 
 def escape_ansi(line):
-    ansi_escape = re.compile(r"(\x9B|\x1B\[)[0-?]*[ -/]*[@-~]")
-    return ansi_escape.sub("", line)
+	ansi_escape = re.compile(r"(\x9B|\x1B\[)[0-?]*[ -/]*[@-~]")
+	return ansi_escape.sub("", line)
 
 def log(level, *args):
 	level = level.upper()
