@@ -170,9 +170,9 @@ class chart {
 		let yMin = Math.min(...yVal);
 
 		let vStep = this.vStep = this._calcStep_(xMin, xMax, this.size.x, true);
-		let hStep = this.hStep = this._calcStep_(Math.min(yMin, 0), yMax, this.size.y);
+		let hStep = this.hStep = this._calcStep_(yMin, yMax, this.size.y);
 		let xStep = this.xStep = (this.size.x - this.padL) / Math.max(xMax - xMin, 1);
-		let yStep = this.yStep = (this.size.y - this.padB - this.padT) / Math.max(hStep.end - hStep.start, 1);
+		let yStep = this.yStep = (this.size.y - this.padB - this.padT) / (hStep.end - hStep.start);
 
 		//* RENDER AXIS LINE
 		this._set_(this.box.xAxis, {
@@ -276,7 +276,7 @@ class chart {
 
 	// PRIVATE FUNCTION
 	_calcStep_(min, max, size, noPad = false) {
-		let stepList = [1, 2, 4, 5, 10, 15, 20, 25, 30, 40, 50, 60, 70, 80, 90, 100, 150, 200, 500, 1000, 2000, 5000, 10000]
+		let stepList = [0.01, 0.05, 0.1, 0.2, 0.5, 1, 2, 4, 5, 10, 15, 20, 25, 30, 40, 50, 60, 70, 80, 90, 100, 150, 200, 500, 1000, 2000, 5000, 10000]
 		let stepPos = 0;
 		let div = 1;
 
@@ -297,7 +297,7 @@ class chart {
 				if (i % div === 0)
 					data.push(i);
 		} else {
-			while (Math.max(max - min, 1) / stepList[stepPos] > size / 50) {
+			while ((max - min) / stepList[stepPos] > size / 50) {
 				stepPos++;
 	
 				if (!stepList[stepPos])
@@ -306,18 +306,35 @@ class chart {
 	
 			tick = stepList[stepPos];
 	
-			let i = Math.floor(end / tick);
-			while (end <= max) {
-				i++;
-				end = i * tick;
-				data.push(end);
-			}
-	
-			let j = Math.floor(start / tick)
-			while (start > min) {
-				j--;
-				start = j * tick;
-				data.unshift(start);
+			if (tick >= 1) {
+				let i = Math.floor(end / tick);
+				while (end <= max) {
+					i++;
+					end = Math.round(i * tick * 1000) / 1000;
+					data.push(end);
+				}
+		
+				let j = Math.floor(start / tick);
+				while (start > min) {
+					j--;
+					start = Math.round(j * tick * 1000) / 1000;
+					data.unshift(start);
+				}
+			} else {
+				let i = Math.floor(start / tick);
+				let j = i;
+
+				while (end <= max) {
+					end = Math.round(i * tick * 1000) / 1000;
+					data.push(end);
+					i++;
+				}
+
+				while (start > min) {
+					j--;
+					start = Math.round(j * tick * 1000) / 1000;
+					data.unshift(start);
+				}
 			}
 		}
 

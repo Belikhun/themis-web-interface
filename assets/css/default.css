@@ -272,15 +272,8 @@ tag {
 	border-radius: 4px;
 	background-color: rgba(10, 10, 10, 0.6);
 	backdrop-filter: saturate(80%) blur(6px);
-	white-space: pre;
 	z-index: 9999999;
 	overflow: hidden;
-
-	font-family: "Segoe UI";
-	font-size: 12px;
-	font-weight: lighter;
-	letter-spacing: .4px;
-	color: white;
 	opacity: 0;
 
 	transform: translate(10px, 20px);
@@ -300,6 +293,14 @@ tag {
 
 .tooltip > .content {
 	position: absolute;
+	display: flex;
+
+	white-space: pre;
+	font-family: "Segoe UI";
+	font-size: 12px;
+	font-weight: lighter;
+	letter-spacing: .4px;
+	color: white;
 }
 
 @keyframes tooltip-blink {
