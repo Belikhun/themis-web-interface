@@ -92,10 +92,11 @@
 	$logs = Array();
 
 	foreach ($sub -> list() as $id) {
+		$meta = $sub -> getMeta($id);
 		$data = $sub -> getData($id)["header"];
 
 		foreach ($judging as $i => $item)
-			if ($item["name"] === $data["file"]["name"])
+			if ($item["name"] === $data["file"]["name"] && $meta["lastModify"]["data"] > $item["lastModify"])
 				array_splice($judging, $i, 1);
 
 		if (getConfig("contest.result.publish") !== true && $_SESSION["id"] !== "admin") {

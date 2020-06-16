@@ -514,7 +514,7 @@
 					if ($typeSensitive && (gettype($value) !== gettype($object[$key])))
 						continue;
 
-				if (gettype($object[$key]) === "array")
+				if (gettype($object[$key]) === "array" && gettype($value) === "array")
 					mergeObjectRecursive($value, $object[$key], $typeSensitive, $counter);
 				else {
 					$value = $object[$key];
@@ -526,6 +526,7 @@
 	}
 
 	class fip {
+		private $maxTry = 10;
 		public $stream;
 		public $path;
 
@@ -539,12 +540,13 @@
 		public function fos(String $path, String $mode) {
 			try {
 				$this -> stream = fopen($path, $mode);
+
 				if (!$this -> stream) {
 					$e = error_get_last();
-					stop(8, "Lỗi[". $e["type"] ."]: ". $e["message"] ." tại ". $e["file"] ." dòng ". $e["line"], 500, $e);
+					stop(8, "fip -> fos(): [". $e["type"] ."]: ". $e["message"] ." tại ". $e["file"] ." dòng ". $e["line"], 500, $e);
 				}
 			} catch (Exception $e) {
-				stop(8, $e -> getMessage() ." tại ". $e -> getFile() ." dòng ". $e -> getLine(), 500, $e -> getTrace());
+				stop(8, "fip -> fos(): ". $e -> getMessage() ." tại ". $e -> getFile() ." dòng ". $e -> getLine(), 500, $e -> getTrace());
 			}
 		}
 
@@ -594,6 +596,21 @@
 		 *
 		 */
 		public function write($data = "", String $type = "text", String $mode = "w") {
+			if (file_exists($this -> path)) {
+				$tries = 0;
+				
+				while (!is_writable($this -> path)) {
+					$tries++;
+	
+					if ($tries > $this -> maxTry)
+						stop(46, "fip -> write(): Write Timeout: Không có quyền ghi vào file ". basename($this -> path) ." sau $tries lần thử", 408, Array(
+							"path" => $this -> path
+						));
+	
+					usleep(100000);
+				}
+			}
+
 			$this -> fos($this -> path, $mode);
 
 			switch ($type) {

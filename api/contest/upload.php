@@ -14,6 +14,7 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logs.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/contest.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/submissions.php";
 
 	if (!isLoggedIn())
 		stop(11, "Bạn chưa đăng nhập", 401);
@@ -61,6 +62,9 @@
 	if ($_FILES["file"]["error"] > 0)
 		stop(-1, "Lỗi không rõ.", 500);
 
+	$submission = new submissions($username);
+	$submission -> saveCode($filename, $_FILES["file"]["tmp_name"], $extension);
+	
 	move_uploaded_file($_FILES["file"]["tmp_name"], getConfig("folders.submit") ."/". $userid ."[". $username ."][". $filename ."].". $extension);
 	writeLog("INFO", "Đã tải lên \"$file\"");
 	stop(0, "Nộp bài thành công.", 200);

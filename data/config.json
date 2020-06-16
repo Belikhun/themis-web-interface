@@ -16,7 +16,7 @@
             "publish": true
         },
         "submit": {
-            "enabled": false,
+            "enabled": true,
             "inProblemsList": true
         },
         "ranking": {
@@ -40,9 +40,9 @@
     "time": {
         "zone": "Asia\/Ho_Chi_Minh",
         "contest": {
-            "begin": 1592074317,
-            "during": 0,
-            "offset": 0
+            "begin": 1592324688,
+            "during": 30,
+            "offset": 10
         }
     },
     "clientSettings": {

@@ -37,6 +37,7 @@
 43  file not accepted
 44  file not found
 45  file exist
+46	file timeout
 
 // 10x: info (IGNORED)
 101 not in contest mode

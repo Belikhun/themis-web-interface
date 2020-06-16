@@ -9,28 +9,6 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
 
-	/**
-	 * Submission Point v1
-	 * 
-	 * Thử Nghiệm
-	 * @param	Float	$point		Điểm bài làm
-	 * @param	Float	$time		Thời gian trong kì thi
-	 * @param	Int		$subNth		Thứ hạng nộp bài
-	 * @return	Float	Điểm SP
-	 */
-	function calculateSubmissionPoint(Float $point, Float $time, Int $subNth) {
-		// Time Graph
-		// https://www.geogebra.org/graphing/gtcczbqu
-		$timePoint = 0.2 + (0.8 * cos(((($time ** 0.5) * pi()) / 2) - (pi() / 2)) ** 2);
-
-		// SubmitNth Graph
-		// https://www.geogebra.org/graphing/e2tt3wab
-		$subNth = 1 / $subNth;
-		$submitNthPoint = 1 + ((($subNth ** 0.5) - 1) / (($subNth ** 6) + 2));
-
-		return $point * $timePoint * $submitNthPoint;
-	}
-
 	function updateSubmissions() {
 		require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
 		require_once $_SERVER["DOCUMENT_ROOT"] ."/module/logParser.php";

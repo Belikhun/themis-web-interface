@@ -294,6 +294,8 @@ tag {
 .tooltip > .content {
 	position: absolute;
 	display: flex;
+	flex-direction: row;
+	align-items: center;
 
 	white-space: pre;
 	font-family: "Segoe UI";
