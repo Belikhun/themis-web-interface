@@ -76,11 +76,17 @@ const tooltip = {
 		this.hooks.sort((a, b) => (a.priority < b.priority) ? 1 : (a.priority > b.priority) ? -1 : 0);
 	},
 
-	__checkSameNode(node1, node2) {
+	__checkSameNode(node1, node2, maxCheck = 3) {
+		let check = 1;
+
 		while (node1) {
+			if (check > maxCheck)
+				return false;
+
 			if (node1.isSameNode(node2))
 				return true;
 
+			check++;
 			node1 = node1.parentElement || null;
 		}
 

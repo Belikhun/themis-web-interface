@@ -656,16 +656,74 @@ const core = {
 				</div>
 			`);
 
+		let spInfo = (data.meta.sp) ? `
+			<div class="submissionPointPanel">
+				<t class="title">Submission Point</t>
+				<table>
+					<tbody>
+						<tr class="${(data.meta.sp.detail.time > 0.8) ? "green" : ((data.meta.sp.detail.time > 0.6) ? "yellow" : "red")}">
+							<td>Thời gian nộp</td>
+							<td>${parseTime(data.meta.statistic.remainTime).str}</td>
+							<td>${(- ((1 - data.meta.sp.detail.time) * data.meta.point)).toFixed(3)}</td>
+						</tr>
+						<tr class="${["green", "yellow"][data.meta.statistic.reSubmit - 1] ?? "red"}">
+							<td>Chấm lại</td>
+							<td>${data.meta.statistic.reSubmit}</td>
+							<td>${(- ((1 - data.meta.sp.detail.reSubmit) * data.meta.point)).toFixed(3)}</td>
+						</tr>
+						<tr class="${["green", "yellow"][data.meta.statistic.submitNth - 1] ?? "red"}">
+							<td>Thứ Hạng Chấm</td>
+							<td>${data.meta.statistic.submitNth}</td>
+							<td>${(- ((1 - data.meta.sp.detail.submitNth) * data.meta.point)).toFixed(3)}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		` : `Submission Point Không khả dụng cho bài làm này`;
+
 		let template = `
 			<div class="viewLog-container">
 				<div class="header ${data.header.status}">
 					<span class="top">
-						<div class="lazyload problemIcon">
-							<img onload="this.parentNode.dataset.loaded = 1" src="/api/contest/problems/image?id=${data.header.problem}"/>
-							<div class="simpleSpinner"></div>
-						</div>
-						<t class="problemName">${data.header.problemName || data.header.problem}</t>
-						<t class="point">${data.header.problemPoint ? data.header.problemPoint + " điểm" : "Không rõ"}</t>
+						<span class="problem">
+							<div class="lazyload problemIcon">
+								<img onload="this.parentNode.dataset.loaded = 1" src="/api/contest/problems/image?id=${data.header.problem}"/>
+								<div class="simpleSpinner"></div>
+							</div>
+
+							<span class="info">
+								<t class="name">${data.header.problemName || data.header.problem}</t>
+								<t class="point">${data.header.problemPoint ? data.header.problemPoint + " điểm" : "Không rõ"}</t>
+							</span>
+						</span>
+
+						${(data.meta.sp)
+							? `
+								<span class="pointContainer">
+									<span class="pointBox big">
+										<t class="title">SP</t>
+										<span class="point" tooltip='${spInfo}'>${numberFormat(data.meta.sp.point)}</span>
+									</span>
+
+									<span class="pointBox">
+										<t class="title">Điểm</t>
+										<span class="point">${numberFormat(data.header.point)}</span>
+									</span>
+								</span>
+							` : `
+								<span class="pointContainer">
+									<span class="pointBox big">
+										<t class="title">Điểm</t>
+										<span class="point">${numberFormat(data.header.point)}</span>
+									</span>
+
+									<span class="pointBox">
+										<t class="title">SP</t>
+										<span class="point" tooltip='${spInfo}'>---</span>
+									</span>
+								</span>
+							`
+						}
 					</span>
 					<span class="bottom">
 						<div class="line">

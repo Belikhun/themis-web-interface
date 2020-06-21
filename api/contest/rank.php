@@ -70,8 +70,14 @@
 		$sub = new submissions($username);
 
 		foreach ($sub -> list() as $id) {
-			$data = $sub -> getData($id)["header"];
-	
+			$data = $sub -> getData($id);
+
+			if (!$data || !isset($data["header"]))
+				continue;
+
+			$data = $data["header"];
+			//$meta
+
 			$filename = $data["file"]["logFilename"];
 			$user = $data["user"];
 			$userData = getUserData($user);

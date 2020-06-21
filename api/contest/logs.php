@@ -92,8 +92,13 @@
 	$logs = Array();
 
 	foreach ($sub -> list() as $id) {
+		$data = $sub -> getData($id);
+
+		if (!$data || !isset($data["header"]))
+			continue;
+
+		$data = $data["header"];
 		$meta = $sub -> getMeta($id);
-		$data = $sub -> getData($id)["header"];
 
 		foreach ($judging as $i => $item)
 			if ($item["name"] === $data["file"]["name"] && $meta["lastModify"]["data"] > $item["lastModify"])

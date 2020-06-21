@@ -532,6 +532,10 @@ function priceFormat(num) {
 	return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 }
 
+function numberFormat(num) {
+	return new Intl.NumberFormat().format(num);
+}
+
 function round(number, to = 2) {
 	const d = Math.pow(10, to);
 	return Math.round(number * d) / d;

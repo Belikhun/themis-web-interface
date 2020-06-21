@@ -165,7 +165,6 @@
 		}
 
 		//* ====== PARSED DATA FILE ======
-
 		public function getData(String $id) {
 			if (!file_exists($this -> __path($id) ."/parsed.data"))
 				return null;

@@ -33,13 +33,15 @@
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
 	
-	$logData = (new submissions($username)) -> getData($id);
+	$submission = new submissions($username);
+	$logData = $submission -> getData($id);
 
 	if (!$logData)
 		stop(44, "Không tìm thấy dữ liệu", 404, Array( "username" => $username, "id" => $id ));
 
 	$userData = getUserData($logData["header"]["user"]);
 	$logData["header"]["name"] = ($userData && isset($userData["name"])) ? $userData["name"] : null;
+	$logData["meta"] = $submission -> getMeta($id);
 
 	stop(0, "Thành công!", 200, $logData);
 ?>

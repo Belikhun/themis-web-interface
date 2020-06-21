@@ -12,10 +12,10 @@ class splash {
 			"Bạn có thể bật chế độ ban đêm trong bảng <b>Cài Đặt</b> của Themis Web Interface",
 			"Bạn có thể nộp nhiều bài cùng một lúc lên hệ thống",
 			"Bạn có thể tắt hiệu ứng của trang web bằng cách tắt <b>Hiệu ứng</b> trong bảng cài đặt",
-			"Cài đặt <b>Hiển thị millisecond</b> sẽ làm thời gian của cuộc thi được tính chính xác đến hàng phần giây"
+			"Cài đặt <b>Hiển thị millisecond</b> giúp hiển thị thời gian của cuộc thi chính xác hơn"
 		]
 
-		return tips[randBetween(0, tips.length - 1, true)];
+		return tips[randBetween(0, tips.length - 1, true)]
 	}
 
 	constructor(container, name, subname, icon) {

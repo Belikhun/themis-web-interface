@@ -2015,38 +2015,134 @@ body.guest #problemp.hide {
 .viewLog-container .header .top {
 	position: relative;
 	display: flex;
-	padding: 20px 0 10px;
-	flex-direction: column;
+	flex-direction: row;
+	flex-wrap: wrap;
 	align-items: center;
 	flex-grow: 0;
+
+	padding: 20px 0 10px;
 }
 
-.viewLog-container .header .top .problemIcon {
+.viewLog-container .header .top .problem {
 	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	flex-grow: 0;
+
+	margin: 0 20px;
+}
+
+.viewLog-container .header .top .problem .problemIcon {
+	position: relative;
+	flex-shrink: 0;
+
 	width: 92px;
 	height: 92px;
+	margin-right: 20px;
 	border-radius: 50%;
 }
 
-.viewLog-container .header .top .problemName {
+.viewLog-container .header .top .problem .info {
 	position: relative;
+	display: block;
+	flex-shrink: 1;
+}
+
+.viewLog-container .header .top .problem .info .name {
+	position: relative;
+
 	font-family: Nunito;
 	font-size: 25px;
 	font-weight: 950;
 	letter-spacing: .8px;
 	color: rgb(70, 70, 70);
-	margin-top: 10px;
 }
 
-.viewLog-container .header .top .point {
+.viewLog-container .header .top .problem .info .point {
 	position: relative;
+	display: inline-block;
+
+	padding: 2px 6px;
+	margin-top: 2px;
+
 	font-size: 12px;
 	color: #ecf0f1;
 	letter-spacing: 0.4px;
 	background-color: #27ae60;
-	padding: 2px 6px;
-	margin-top: 2px;
 	border-radius: 4px;
+}
+
+.viewLog-container .header .top .pointContainer {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	flex-grow: 1;
+	flex-shrink: 0;
+
+	margin: 20px 20px 0;
+}
+
+.viewLog-container .header .top .pointContainer .pointBox {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	flex-grow: 1;
+	flex-shrink: 0;
+
+	margin: 0 10px;
+}
+
+.viewLog-container .header .top .pointContainer .pointBox .title {
+	position: relative;
+	display: block;
+	background-color: rgba(168, 168, 168, 0.2);
+	padding: 2px 20px;
+	border-radius: 14px;
+
+	font-family: "Calibri";
+	font-size: 16px;
+	font-weight: bold;
+	color: rgb(68, 68, 68);
+	letter-spacing: .4px;
+	text-transform: uppercase;
+}
+
+.viewLog-container .header .top .pointContainer .pointBox .point {
+	margin-top: 2px;
+
+	font-family: "Nunito";
+	font-size: 36px;
+	font-weight: 300;
+}
+
+.viewLog-container .header .top .pointContainer .pointBox.big .point {
+	font-size: 56px;
+	font-weight: 400;
+}
+
+.viewLog-container .header .top .pointContainer .pointBox .help {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	right: -30px;
+	width: 20px;
+	height: 20px;
+	background-color: rgb(88, 88, 88);
+	border-radius: 50%;
+}
+
+.viewLog-container .header .top .pointContainer .pointBox .help::before {
+	content: "\f128";
+	position: relative;
+	
+	font-family: "Font Awesome 5 Free";
+	font-size: 10px;
+	font-weight: bolder;
+	color: white;
 }
 
 .viewLog-container .header .bottom {
@@ -2433,6 +2529,60 @@ body.guest #problemp.hide {
 	color: #c0392b;
 }
 
+/* submissionPointPanel */
+
+.submissionPointPanel {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	margin: 6px 2px;
+}
+
+.submissionPointPanel .title {
+	font-family: "Nunito";
+	font-size: 14px;
+	font-weight: 900;
+	color: white;
+}
+
+.submissionPointPanel table {
+	margin-top: 4px;
+}
+
+.submissionPointPanel table tr td {
+	padding: 2px 6px;
+}
+
+.submissionPointPanel table tr td:nth-child(1) {
+	font-size: 13px;
+}
+
+.submissionPointPanel table tr td:nth-child(2) {
+	font-size: 13px;
+	font-weight: bold;
+
+	text-align: right;
+}
+
+.submissionPointPanel table tr td:nth-child(3) {
+	font-family: "Consolas";
+	font-size: 15px;
+	font-weight: bold;
+
+	text-align: right;
+}
+
+.submissionPointPanel table tr.green td:nth-child(3) {
+	color: rgb(47, 253, 47);
+}
+
+.submissionPointPanel table tr.yellow td:nth-child(3) {
+	color: rgb(238, 255, 87);
+}
+
+.submissionPointPanel table tr.red td:nth-child(3) {
+	color: rgb(255, 169, 169);
+}
 
 /* Mobile Responsive */
 
