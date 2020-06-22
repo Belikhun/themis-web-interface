@@ -50,15 +50,15 @@
 
 		// SubmitNth Graph
 		// https://www.geogebra.org/graphing/e2tt3wab
-		$subNth = 1 / $subNth;
-		$submitNthPoint = 1 + ((($subNth ** 0.5) - 1) / (($subNth ** 6) + 2));
+		$subNth = 1 / ($subNth ** 0.1);
+		$submitNthPoint = (0.7 * ($subNth ** 2) + 0.3) ** 1/3;
 
 		// ReSubmit Graph
 		// https://www.geogebra.org/graphing/kjywvjyp
-		$reSubmitPoint = 1 / ($reSubmit ** 0.3);
+		$reSubmitPoint = 1 / ($reSubmit ** 0.1);
 
 		return Array(
-			"point" => round($point * $timePoint * $submitNthPoint * $reSubmitPoint, 3),
+			"point" => $point * $timePoint * $submitNthPoint * $reSubmitPoint,
 			"detail" => Array(
 				"time" => $timePoint,
 				"submitNth" => $submitNthPoint,
@@ -125,6 +125,9 @@
 		}
 
 		public function getMeta(String $id) {
+			if (!file_exists($this -> __path($id) ."/meta.json"))
+				return null;
+
 			return (new fip($this -> __path($id) ."/meta.json", "{}")) -> read("json");
 		}
 
@@ -201,8 +204,6 @@
 			$globalModify[$id][$this -> username] = $meta["lastModify"]["code"] ?? time();
 			arsort($globalModify, SORT_ASC);
 
-			$globalModifyStream -> write($globalModify, "json");
-
 			//? UPDATE SUBMISSION POINT FOR ALL USERS
 			$beginTime = getConfig("time.contest.begin");
 			$contestTime = $beginTime + (getConfig("time.contest.during") * 60) + getConfig("time.contest.offset");
@@ -213,13 +214,19 @@
 				$rank = 0;
 
 				foreach ($globalModify[$id] as $user => $modified) {
+					$sub = new submissions($user);
+					$meta = $sub -> getMeta($id);
+
+					if (!$meta) {
+						unset($globalModify[$id][$user]);
+						continue;
+					}
+
 					if ($lastm !== $modified) {
 						$rank++;
 						$lastm = $modified;
 					}
 
-					$sub = new submissions($user);
-					$meta = $sub -> getMeta($id);
 					$sp = calculateSubmissionPoint(
 						$meta["point"],
 						($contestTime - $modified) / ($contestTime - $beginTime),
@@ -236,6 +243,8 @@
 					));
 				}
 			}
+
+			$globalModifyStream -> write($globalModify, "json");
 		}
 
 		//* ====== CODE FILE ======
