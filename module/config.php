@@ -115,9 +115,23 @@
 					"value" => true
 				),
 
-				"enableSS" => Array(
+				"enableSP" => Array(
 					"type" => "checkbox",
-					"label" => "Sử dụng SubmissionScore v1 <i>(thử nghiệm)</i>",
+					"label" => "Sử dụng SubmissionPoint v1 <i>(thử nghiệm)</i>",
+					"color" => "blue",
+					"value" => false
+				),
+
+				"spRanking" => Array(
+					"type" => "checkbox",
+					"label" => "Xếp hạng bằng SubmissionPoint",
+					"color" => "blue",
+					"value" => false
+				),
+
+				"spNoTimeWeighting" => Array(
+					"type" => "checkbox",
+					"label" => "Bỏ qua thời gian khi tính điểm SubmissionPoint",
 					"color" => "blue",
 					"value" => false
 				),

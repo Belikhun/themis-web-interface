@@ -1641,10 +1641,17 @@ body.guest #problemp.hide {
 	letter-spacing: .2px;
 }
 
+
 #rankp div.rankingContainer table tr td.number:nth-child(4) {
 	color: #3c7be7;
 	font-size: 16px;
 	font-weight: bold;
+}
+
+#rankp div.rankingContainer table tr td.number:nth-child(5) {
+    color: rgb(100, 62, 202);
+    font-size: 16px;
+    font-weight: bold;
 }
 
 #rankp div.rankingContainer table tbody tr[data-rank="1"] {
@@ -1755,10 +1762,16 @@ body.guest #problemp.hide {
 	font-size: 13px;
 }
 
-#rankp div.rankingContainer table tr td.number {
+#rankp div.rankingContainer table tr td.number,
+#rankp div.rankingContainer table tr td.number > t {
 	font-size: 13px;
 	text-align: right;
 	color: rgb(172, 172, 172);
+}
+
+#rankp div.rankingContainer table tr td.number > t.big {
+	font-size: 16px;
+	font-weight: bold;
 }
 
 #rankp div.rankingContainer table tr td.number[data-folding="true"] {
@@ -1770,12 +1783,12 @@ body.guest #problemp.hide {
 	cursor: pointer;
 }
 
-#rankp div.rankingContainer table tr .number.link,
-#rankp div.rankingContainer table tr .number.correct,
-#rankp div.rankingContainer table tr .number.passed,
-#rankp div.rankingContainer table tr .number.accepted,
-#rankp div.rankingContainer table tr .number.failed,
-#rankp div.rankingContainer table tr .number.skipped {
+#rankp div.rankingContainer table tr .number.link > t,
+#rankp div.rankingContainer table tr .number.correct > t,
+#rankp div.rankingContainer table tr .number.passed > t,
+#rankp div.rankingContainer table tr .number.accepted > t,
+#rankp div.rankingContainer table tr .number.failed > t,
+#rankp div.rankingContainer table tr .number.skipped > t {
 	color: rgb(75, 75, 75);
 }
 
@@ -1801,6 +1814,59 @@ body.guest #problemp.hide {
 
 #rankp div.rankingContainer table tr td.number.link:hover {
 	filter: brightness(1.1);
+}
+
+.rankingCellTooltip {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+}
+
+.rankingCellTooltip > .header {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.rankingCellTooltip > .header t {
+	color: white;
+}
+
+.rankingCellTooltip > .header > .problem {
+	font-family: "Consolas";
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.rankingCellTooltip > .header > .status {
+	font-weight: bold;
+}
+
+.rankingCellTooltip[data-status="correct"] > .header > .status {
+	color: #73ff96;
+}
+
+.rankingCellTooltip[data-status="passed"] > .header > .status {
+	color: #93efff;
+}
+
+.rankingCellTooltip[data-status="accepted"] > .header > .status {
+	color: #fff589;
+}
+
+.rankingCellTooltip[data-status="failed"] > .header > .status {
+	color: #ffbaba;
+}
+
+.rankingCellTooltip > .point > tbody > tr > td:nth-child(1) {
+	font-size: 14px;
+}
+
+.rankingCellTooltip > .point > tbody > tr > td:nth-child(2) {
+	font-family: "Consolas";
+	font-size: 16px;
+	font-weight: bold;
 }
 
 #wrapper #wrapp .main .full {

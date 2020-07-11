@@ -13,7 +13,10 @@
         "name": "\u00d4n t\u1eadp",
         "description": "B\u00e0i l\u00e0m n\u1ed9p l\u00ean \u0111\u01b0\u1ee3c ch\u1ea5m b\u1eb1ng ph\u1ea7n m\u1ec1m <a href=\"http:\/\/dsapblog.wordpress.com\/\" target=\"_blank\" rel=\"noopener\">Themis (L\u00ea Minh Ho\u00e0ng & \u0110\u1ed7 \u0110\u1ee9c \u0110\u00f4ng)<\/a>",
         "result": {
-            "publish": true
+            "publish": true,
+            "enableSP": true,
+            "spNoTimeWeighting": true,
+            "spRanking": true
         },
         "submit": {
             "enabled": true,
@@ -22,11 +25,11 @@
         "ranking": {
             "enabled": true,
             "viewTask": true,
-            "hideDisabled": true
+            "hideDisabled": false
         },
         "log": {
-            "enabled": true,
-            "viewOther": true
+            "enabled": false,
+            "viewOther": false
         },
         "problem": {
             "public": true

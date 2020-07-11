@@ -17,6 +17,9 @@ const tooltip = {
 
 	hooks: [],
 
+	__wait: false,
+	__handlingMouseEvent: false,
+
 	init() {
 		this.container = document.createElement("div");
 		this.container.classList.add("tooltip");
@@ -27,7 +30,18 @@ const tooltip = {
 		document.body.insertBefore(this.container, document.body.childNodes[0]);
 
 		//* EVENTS
-		window.addEventListener("mousemove", e => this.mouseMove(e));
+		window.addEventListener("mousemove", e => {
+			//? THROTTLE MOUSE EVENT
+			if (!this.__wait && !this.__handlingMouseEvent) {
+				this.__handlingMouseEvent = true;
+
+				this.mouseMove(e);
+				this.__wait = true;
+
+				setTimeout(() => this.__wait = false, 50);
+				this.__handlingMouseEvent = false;
+			}
+		});
 
 		//* BUILT IN HOOKS
 		this.addHook({
@@ -58,7 +72,8 @@ const tooltip = {
 		on = null,
 		key = null,
 		handler = ({ target, value }) => value,
-		priority = 1
+		priority = 1,
+		backtrace = 1
 	} = {}) {
 		if (typeof on !== "string" || !["dataset", "attribute"].includes(on))
 			throw { code: -1, description: `tooltip.addHook(): \"on\": unexpected '${on}', expecting 'dataset'/'attribute'` }
@@ -72,7 +87,7 @@ const tooltip = {
 		if (typeof priority !== "number")
 			throw { code: -1, description: `tooltip.addHook(): \"priority\" is not a valid number` }
 
-		this.hooks.push({ on, key, handler, priority });
+		this.hooks.push({ on, key, handler, priority, backtrace });
 		this.hooks.sort((a, b) => (a.priority < b.priority) ? 1 : (a.priority > b.priority) ? -1 : 0);
 	},
 
@@ -94,39 +109,55 @@ const tooltip = {
 	},
 
 	mouseMove(event) {
+		let checkNode = true;
+
 		if (this.nodeToShow) {
 			clearTimeout(this.hideTimeout);
+			checkNode = false;
 			
 			if (!this.__checkSameNode(event.target, this.nodeToShow)) {
 				this.nodeToShow = null;
-				clearTimeout(this.hideTimeout);
+				checkNode = true;
+
 				this.hideTimeout = setTimeout(() => this.container.classList.remove("show"), this.showTime);
 			}
-		} else
-			for (let item of this.hooks) {
-				let _v = null;
+		}
 
-				switch (item.on) {
-					case "dataset":
-						if (typeof event.target.dataset[item.key] === "string")
-							_v = event.target.dataset[item.key];
+		if (checkNode)
+			for (let item of this.hooks) {
+				let _e = event.target;
+				let _v = null;
+				let _t = 0;
+
+				while (_e && _t <= item.backtrace) {
+					switch (item.on) {
+						case "dataset":
+							if (typeof _e.dataset[item.key] === "string")
+								_v = _e.dataset[item.key];
+							break;
+					
+						case "attribute":
+							_v = _e.getAttribute(item.key);
+							break;
+					}
+
+					if (_v)
 						break;
-				
-					case "attribute":
-						_v = event.target.getAttribute(item.key);
-						break;
+					
+					_e = _e.parentElement;
+					_t++;
 				}
 
 				if (!_v)
 					continue;
 
 				let _s = item.handler({
-					target: event.target,
+					target: _e,
 					value: _v
 				});
 
 				if (_s) {
-					this.show(_s, event.target);
+					this.show(_s, _e);
 					break;
 				}
 			}
@@ -137,7 +168,7 @@ const tooltip = {
 		if (!this.container.classList.contains("show"))
 			return;
 
-		if ((event.view.innerWidth - this.content.clientWidth) / Math.max(event.clientX, 1) < 1.4)
+		if ((event.view.innerWidth - this.content.clientWidth) / Math.max(event.clientX, 1) < 1.4 && (tRightPos = event.clientX - this.content.clientWidth))
 			this.container.classList.add("flip");
 		else
 			this.container.classList.remove("flip");
@@ -146,10 +177,11 @@ const tooltip = {
 	show(data, showOnNode) {
 		if (!this.initialized)
 			return false;
-
-		if (showOnNode && showOnNode.classList)
+		
+		if (showOnNode && showOnNode.style)
 			this.nodeToShow = showOnNode;
-
+		
+		clearTimeout(this.hideTimeout);
 		this.container.classList.add("show");
 
 		switch (typeof data) {

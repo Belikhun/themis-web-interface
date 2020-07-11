@@ -1244,13 +1244,13 @@ function clog(level, ...args) {
 			out[n] = `font-size: ${size}px; font-family: ${font}; color: ${flatc("black")}`;
 			n += 1;
 		} else if (typeof item === "object") {
-			if (typeof item.text === "undefined") {
+			if (item === null || item === undefined || typeof item.text === "undefined") {
 				out[n] = item;
 				n += 1;
 
-				if (item.code && item.description)
+				if (item && item.code && item.description)
 					str += `[${item.code}] ${item.description} `;
-				else if (item.name && item.message)
+				else if (item && item.name && item.message)
 					str += `${item.name} >>> ${item.message} `;
 				else
 					str += JSON.stringify(item) + " ";

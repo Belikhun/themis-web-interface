@@ -51,7 +51,7 @@
 		// SubmitNth Graph
 		// https://www.geogebra.org/graphing/e2tt3wab
 		$subNth = 1 / ($subNth ** 0.1);
-		$submitNthPoint = (0.7 * ($subNth ** 2) + 0.3) ** 1/3;
+		$submitNthPoint = pow((0.7 * ($subNth ** 2) + 0.3), 1/3);
 
 		// ReSubmit Graph
 		// https://www.geogebra.org/graphing/kjywvjyp
@@ -209,35 +209,37 @@
 			$contestTime = $beginTime + (getConfig("time.contest.during") * 60) + getConfig("time.contest.offset");
 			$remainTime = $contestTime - microtime(true);
 
-			if ($remainTime > 0) {
+			if (getConfig("contest.result.enableSP")) {
 				$lastm = 0;
 				$rank = 0;
-
+	
 				foreach ($globalModify[$id] as $user => $modified) {
 					$sub = new submissions($user);
 					$meta = $sub -> getMeta($id);
-
+	
 					if (!$meta) {
 						unset($globalModify[$id][$user]);
 						continue;
 					}
-
+	
 					if ($lastm !== $modified) {
 						$rank++;
 						$lastm = $modified;
 					}
-
+	
 					$sp = calculateSubmissionPoint(
 						$meta["point"],
-						($contestTime - $modified) / ($contestTime - $beginTime),
+						getConfig("contest.result.spNoTimeWeighting")
+							? 1
+							: max(($contestTime - $modified) / ($contestTime - $beginTime), 0),
 						$rank,
 						$meta["statistic"]["reSubmit"]
 					);
-
+	
 					$sub -> updateMeta($id, Array(
 						"sp" => $sp,
 						"statistic" => Array(
-							"remainTime" => $remainTime,
+							"remainTime" => getConfig("contest.result.spNoTimeWeighting") ? null : $remainTime,
 							"submitNth" => $rank
 						)
 					));

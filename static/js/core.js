@@ -204,6 +204,50 @@ const core = {
 		__connection__.onStateChange((s) => { s === "online" ? this.__fetchRank() : null });
 		this.__fetchRank();
 
+		// Tooltip Ranking Cell Hook
+		tooltip.addHook({
+			on: "dataset",
+			key: "rankingCell",
+			handler: ({ target, value }) => {
+				let v = value.split("|");
+				clog("DEBG", v);
+				let id = v[0],
+					problem = (v[1] === "undefined") ? null : v[1],
+					status = v[2],
+					point = (v[3] === "undefined") ? null : parseFloat(v[3]),
+					sp = (v[4] === "undefined") ? null : parseFloat(v[4]),
+					username = v[5],
+					name = (v[6] === "null") ? null : v[6]
+
+				return `
+					<div class="rankingCellTooltip" data-status="${status}">
+						<div class="header">
+							<t class="name">${name ?? username}</t>
+							<dot class="light"></dot>
+							<t class="problem">${problem ?? id}</t>
+							<dot class="light"></dot>
+							<t class="status">${this.taskStatus[status] ?? status}</t>
+						</div>
+
+						<table class="point">
+							<tbody>
+								<tr>
+									<td>Điểm</td>
+									<td>${point}</td>
+								</tr>
+								<tr>
+									<td>SP</td>
+									<td>${(sp) ? sp.toFixed(3) : "Không Khả Dụng"}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				`;
+			},
+			priority: 2,
+			backtrace: 2
+		});
+
 		set(25, "Initializing: core.timer");
 		await this.timer.init();
 
@@ -249,7 +293,7 @@ const core = {
 		})
 
 		set(100, "Initialized");
-		clog("okay", "core.js Initialized.");
+		clog("okay", "core.js Initialized");
 		this.initialized = true;
 
 		if (location.protocol === "http:")
@@ -527,6 +571,7 @@ const core = {
 						<th></th>
 						<th>Thí sinh</th>
 						<th>Tổng</th>
+						<th>SP</th>
 		`
 
 		for (let i of data.list)
@@ -542,13 +587,20 @@ const core = {
 				</th>`; 
 
 		out += "</tr></thead><tbody>";
-		let ptotal = 0;
+		let __point = 0;
 		let rank = 0;
 
 		for (let i of data.rank) {
-			if (ptotal !== i.total) {
-				ptotal = i.total;
-				rank++;
+			if (data.spRanking) {
+				if (__point !== i.sp) {
+					__point = i.sp;
+					rank++;
+				}
+			} else {
+				if (__point !== i.total) {
+					__point = i.total;
+					rank++;
+				}
 			}
 
 			out += `
@@ -565,16 +617,28 @@ const core = {
 						<t class="name">${escapeHTML(i.name || "u:" + i.username)}</t>
 					</td>
 					<td class="number">${parseFloat(i.total).toFixed(2)}</td>
+					<td class="number">${parseFloat(i.sp).toFixed(3)}</td>
 			`
 
 			for (let j of data.list)
 				out += `
 					<td
-						class="number ${i.status[j] || ""}${(i.logFile[j]) ? ` link"
-						onClick="core.viewLog('${i.username}', '${j}')` : ""}"
+						class="number ${i.status[j] || ""}${(i.logFile[j]) ? ` link" onClick="core.viewLog('${i.username}', '${j}')` : ""}"
 						problem-id="${j}"
 						data-folding="${this.rankFolding[j] ? true : false}"
-					>${(typeof i.point[j] !== "undefined") ? parseFloat(i.point[j]).toFixed(2) : "X"}</td>`;
+						${(typeof i.point[j] === "number") ? `data-ranking-cell="${j}|${data.nameList[j] ?? "undefined"}|${i.status[j]}|${i.point[j]}|${(i.sps && i.sps[j]) ? i.sps[j] : "undefined"}|${i.username}|${i.name ? escapeHTML(i.name) : null}"` : ""}
+					>
+						${data.spRanking
+							? `
+								<t class="big">${(i.sps && i.sps[j]) ? parseFloat(i.sps[j]).toFixed(3) : "---"}</t>
+								<t>${(typeof i.point[j] !== "undefined") ? parseFloat(i.point[j]).toFixed(2) : "X"}</t>
+							`
+							: `
+								<t class="big">${(typeof i.point[j] !== "undefined") ? parseFloat(i.point[j]).toFixed(2) : "X"}</t>
+								${(i.sps && i.sps[j]) ? `<t>${parseFloat(i.sps[j]).toFixed(3)}</t>` : ""}
+							`
+						}
+					</td>`;
 			
 			out += "</tr>";
 		}
@@ -663,7 +727,10 @@ const core = {
 					<tbody>
 						<tr class="${(data.meta.sp.detail.time > 0.8) ? "green" : ((data.meta.sp.detail.time > 0.6) ? "yellow" : "red")}">
 							<td>Thời gian nộp</td>
-							<td>${parseTime(data.meta.statistic.remainTime).str}</td>
+							<td>${data.meta.statistic.remainTime
+									? parseTime(data.meta.statistic.remainTime).str
+									: "No Weighting"
+								}</td>
 							<td>${(- ((1 - data.meta.sp.detail.time) * data.meta.point)).toFixed(3)}</td>
 						</tr>
 						<tr class="${["green", "yellow"][data.meta.statistic.reSubmit - 1] ?? "red"}">
@@ -803,7 +870,6 @@ const core = {
 				e.target.classList.add("drag");
 			}, false);
 
-
 			this.dropzone.addEventListener("drop", e => this.fileSelect(e), false);
 			this.input.addEventListener("change", e => this.fileSelect(e, "input"));
 			this.panel.ref.onClick(() => this.reset());
@@ -823,8 +889,8 @@ const core = {
 			this.dropzone.classList.remove("hide");
 			this.input.value = "";
 			this.panel.title = "Nộp bài";
-			this.name.innerText = "null";
-			this.state.innerText = "null";
+			this.name.innerText = "Unknown";
+			this.state.innerText = "Unknown";
 			this.size.innerText = "00/00";
 			this.percent.innerText = "0%";
 			this.bar.style.width = "0%";
@@ -898,7 +964,7 @@ const core = {
 					}
 				}, (response) => {
 					if ([103, 104].includes(response.code)) {
-						clog("errr", "Upload Stopped:", {
+						clog("ERRR", "Upload Stopped:", {
 							color: flatc("red"),
 							text: response.description
 						});
@@ -906,13 +972,13 @@ const core = {
 						this.uploading = false;
 						this.input.value = "";
 						this.state.innerText = res.description;
-						this.panel.title = "Nộp bài - Đã dừng.";
-						this.bar.classList.add("red");
+						this.panel.title = "Nộp bài - Đã dừng";
+						this.bar.dataset.color = "red";
 
 						return false;
 					}
 
-					clog("okay", "Uploaded ", {
+					clog("okay", "Uploaded", {
 						color: flatc("yellow"),
 						text: files[i].name
 					});
@@ -925,12 +991,12 @@ const core = {
 						this.upload(files, i + 1);
 					}, this.uploadCoolDown / 2);
 				}, e => {
-					clog("info", "Upload Stopped.");
+					clog("ERRR", "Upload Stopped", e);
 
 					this.uploading = false;
 					this.input.value = "";
 					this.state.innerText = e.data.description;
-					this.panel.title = "Nộp bài - Đã dừng.";
+					this.panel.title = "Nộp bài - Đã dừng";
 					this.bar.dataset.color = "red";
 					sounds.warning();
 

@@ -506,7 +506,7 @@
 	 */
 	function mergeObjectRecursive(Array &$target, Array $object, $typeSensitive = true, Int &$counter = 0) {
 		foreach ($target as $key => &$value)
-			if (isset($object[$key])) {
+			if (array_key_exists($key, $object)) {
 				if (is_callable($typeSensitive)) {
 					if (!$typeSensitive(gettype($value), gettype($object[$key]), $key))
 						continue;

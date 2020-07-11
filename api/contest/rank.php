@@ -64,7 +64,9 @@
 	$list = Array();
 	$nameList = Array();
 	$total = Array();
+	$sp = Array();
 	$overall = 0;
+	$spOverall = 0;
 
 	foreach ($usersList as $username) {
 		$sub = new submissions($username);
@@ -76,7 +78,7 @@
 				continue;
 
 			$data = $data["header"];
-			//$meta
+			$meta = $sub -> getMeta($id);
 
 			$filename = $data["file"]["logFilename"];
 			$user = $data["user"];
@@ -90,7 +92,10 @@
 				$res[$user]["status"][$data["problem"]] = $data["status"];
 				$res[$user]["point"][$data["problem"]] = $data["point"];
 				$res[$user]["logFile"][$data["problem"]] = (getConfig("contest.log.enabled") === true || $_SESSION["id"] === "admin") ? $filename : null;
-	
+
+				if (isset($meta["sp"]))
+					$res[$user]["sps"][$data["problem"]] = $meta["sp"]["point"];
+
 				if (isset($data["problemName"]))
 					$nameList[$data["problem"]] = $data["problemName"];
 			}
@@ -103,8 +108,14 @@
 	
 			if (!isset($res[$user]["total"]))
 				$res[$user]["total"] = 0;
+
+			if (!isset($res[$user]["sp"]))
+				$res[$user]["sp"] = 0;
 				
 			$res[$user]["total"] += $data["point"];
+
+			if (isset($meta["sp"]))
+				$res[$user]["sp"] += $meta["sp"]["point"];
 		}
 	}
 
@@ -122,10 +133,19 @@
 		return ($a < $b) ? -1 : 1;
 	});
 
-	// Sort data by total point
+	$spRanking = getConfig("contest.result.spRanking");
+
+	// Sort data
 	usort($res, function($a, $b) {
-		$a = $a["total"];
-		$b = $b["total"];
+		global $spRanking;
+
+		if ($spRanking) {
+			$a = $a["sp"];
+			$b = $b["sp"];
+		} else {
+			$a = $a["total"];
+			$b = $b["total"];
+		}
 	
 		if ($a === $b)
 			return 0;
@@ -136,6 +156,8 @@
 	foreach ($res as $value) {
 		$total[$value["username"]] = $value["total"];
 		$overall += $total[$value["username"]];
+		$sp[$value["username"]] = $value["sp"];
+		$spOverall += $sp[$value["username"]];
 	}
 
 	if ($export) {
@@ -170,10 +192,13 @@
 			"list" => $list,
 			"nameList" => $nameList,
 			"total" => $total,
+			"sp" => $sp,
 			"rank" => $res,
-			"overall" => $overall
+			"overall" => $overall,
+			"spOverall" => $spOverall,
+			"spRanking" => $spRanking
 		);
 		
 		$cache -> save($returnData);
-		stop(0, "Thành công!", 200, $returnData, $returnData["overall"]);
+		stop(0, "Thành công!", 200, $returnData, ($returnData["overall"] + round($returnData["spOverall"], 3)) . strval($returnData["spRanking"]));
 	}
