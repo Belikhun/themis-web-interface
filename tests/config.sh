@@ -30,6 +30,7 @@ case $1 in
 		# Copy
 		cp -f .config/account.xml ../data/xmldb/account.xml
 		cp -f .config/config.json ../data/config.json
+		chmod 777 ../data/config.json
 
 		;;
 	"--restore")
