@@ -526,7 +526,7 @@
 	}
 
 	class fip {
-		private $maxTry = 10;
+		private $maxTry = 20;
 		public $stream;
 		public $path;
 
@@ -602,12 +602,12 @@
 				while (!is_writable($this -> path)) {
 					$tries++;
 	
-					if ($tries > $this -> maxTry)
+					if ($tries >= $this -> maxTry)
 						stop(46, "fip -> write(): Write Timeout: Không có quyền ghi vào file ". basename($this -> path) ." sau $tries lần thử", 408, Array(
 							"path" => $this -> path
 						));
 	
-					usleep(100000);
+					usleep(200000);
 				}
 			}
 
