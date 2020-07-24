@@ -77,18 +77,18 @@ function myajax({
 				}
 
 				if ((this.responseText === "" || !this.responseText) && this.status >= 400) {
-					clog("errr", {
-						color: flatc("red"),
-						text: `HTTP ${this.status}:`
-					}, this.statusText, {
+					clog("ERRR", {
 						color: flatc("magenta"),
 						text: method
 					}, {
 						color: flatc("pink"),
 						text: url
-					});
+					}, {
+						color: flatc("red"),
+						text: `HTTP ${this.status}:`
+					}, this.statusText);
 
-					let errorObj = { code: 1, description: `HTTP ${this.status}: ${this.statusText}` }
+					let errorObj = { code: 1, description: `HTTP ${this.status}: ${this.statusText} (${method} ${url})`, data: { method, url } }
 					error(errorObj);
 					reject(errorObj);
 
@@ -101,7 +101,7 @@ function myajax({
 					try {
 						response = JSON.parse(this.responseText);
 					} catch (data) {
-						clog("errr", "Lỗi phân tích JSON");
+						clog("ERRR", "Lỗi phân tích JSON");
 
 						let errorObj = { code: 2, description: `Lỗi phân tích JSON`, data: data }
 						error(errorObj);
@@ -119,26 +119,30 @@ function myajax({
 							text: url
 						}, {
 							color: flatc("red"),
-							text: "HTTP " + this.status
+							text: `HTTP ${this.status}:`
 						}, this.statusText, ` >>> ${response.description}`);
 
 						if (this.status === 429 && response.code === 32 && reRequest === true) {
-							// Waiting for :?unratelimited:?
+							// Wait for :?unratelimited:?
 							await __connection__.stateChange("ratelimited", response);
-
-							clog("debg", "resending request", argumentsList);
+							
 							// Resend previous ajax request
-							let r = await myajax(...argumentsList)
-								.catch(d => {
-									reject(d);
-									return;
-								})
+							clog("DEBG", "Resending Request", argumentsList);
+							let r = null;
+
+							try {
+								r = await myajax(...argumentsList);
+							} catch(e) {
+								reject(e);
+								return;
+							}
+
 							// Resolve promise
 							resolve(r);
 
 							return;
 						} else {
-							let errorObj = { code: 3, description: `HTTP ${this.status}: ${this.statusText}`, data: response }
+							let errorObj = { code: 3, description: `HTTP ${this.status}: ${this.statusText} (${method} ${url})`, data: response }
 							error(errorObj);
 							reject(errorObj);
 
@@ -152,7 +156,7 @@ function myajax({
 
 					if (this.status >= 400) {
 						let code = `HTTP ${this.status}`;
-						let text = (this.statusText === "") ? "!Unknown statusText" : this.statusText;
+						let text = (this.statusText === "") ? "?Unknown statusText" : this.statusText;
 						let resData = response;
 
 						let header = this.getResponseHeader("output-json");
@@ -167,18 +171,18 @@ function myajax({
 							text = headerJSON.description;
 						}
 
-						clog("errr", {
-							color: flatc("red"),
-							text: code
-						}, text, {
+						clog("ERRR", {
 							color: flatc("magenta"),
 							text: method
 						}, {
 							color: flatc("pink"),
 							text: url
-						});
+						}, {
+							color: flatc("red"),
+							text: `${code}:`
+						}, text, ` >>> ${response.description}`);
 
-						let errorObj = { code: 3, description: `${code}: ${text}`, data: resData }
+						let errorObj = { code: 3, description: `${code}: ${text} (${method} ${url})`, data: resData }
 						error(errorObj);
 						reject(errorObj);
 

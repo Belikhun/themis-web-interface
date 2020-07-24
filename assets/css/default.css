@@ -283,10 +283,6 @@ tag {
 	animation-fill-mode: forwards;
 }
 
-.tooltip.flip {
-	transform: translate(calc(-100% - 4px), 20px);
-}
-
 .tooltip.show {
 	opacity: 1;
 }

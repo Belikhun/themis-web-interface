@@ -162,16 +162,20 @@ const tooltip = {
 				}
 			}
 
-		this.container.style.left = `${event.clientX}px`;
-		this.container.style.top = `${event.clientY}px`;
+		let xPos = event.clientX;
+		let yPos = event.clientY;
+
+		if ((event.view.innerWidth - this.content.clientWidth) / Math.max(xPos, 1) < 1.4)
+			xPos -= (this.content.clientWidth + 20);
+
+		if ((event.view.innerHeight - this.content.clientHeight) / Math.max(yPos, 1) < 1.1)
+			yPos -= (this.content.clientHeight + 40);
+
+		this.container.style.left = `${xPos}px`;
+		this.container.style.top = `${yPos}px`;
 
 		if (!this.container.classList.contains("show"))
 			return;
-
-		if ((event.view.innerWidth - this.content.clientWidth) / Math.max(event.clientX, 1) < 1.4 && (tRightPos = event.clientX - this.content.clientWidth))
-			this.container.classList.add("flip");
-		else
-			this.container.classList.remove("flip");
 	},
 
 	show(data, showOnNode) {
@@ -187,7 +191,7 @@ const tooltip = {
 		switch (typeof data) {
 			case "object":
 				if (data.classList && data.dataset) {
-					if (this.prevData && (this.prevData.innerHTML === data.innerHTML))
+					if (this.prevData && (this.prevData.innerText === data.innerText))
 						return true;
 
 					emptyNode(this.content);
@@ -211,7 +215,6 @@ const tooltip = {
 		this.container.style.animation = "none";
 
 		requestAnimationFrame(() => {
-			this.container.offsetHeight;
 			this.container.style.animation = null;
 			this.container.style.width = this.content.clientWidth + "px";
 			this.container.style.height = this.content.clientHeight + "px";
