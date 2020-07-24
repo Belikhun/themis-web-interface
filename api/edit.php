@@ -31,8 +31,9 @@
 			stop(16, "Tên người dùng không được vượt quá 34 kí tự", 400);
 	}
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
-	$userdata = getUserData($username);
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/account.php";
+	$acc = new account($username);
+	$userdata = $acc -> data;
 
 	if (isset($_POST["password"])) {
 		if (getConfig("system.edit.password") === false && $_SESSION["id"] !== "admin")
@@ -40,10 +41,8 @@
 
 		$oldpass = $_POST["password"];
 
-		if (($resp = simpleLogin($username, $oldpass)) === LOGIN_WRONGPASSWORD)
+		if ($acc -> auth($oldpass) === ACCOUNT_LOGIN_WRONGPASSWORD)
 			stop(14, "Sai mật khẩu!", 403);
-		elseif ($resp !== LOGIN_SUCCESS)
-			stop(-1, "Unknown Server error", 500);
 
 		$newpass = reqForm("newPassword");
 		$change["password"] = password_hash($newpass, PASSWORD_DEFAULT);
@@ -53,18 +52,14 @@
 	if (empty($change))
 		stop(102, "No action taken.", 200);
 
-	$res = editUser($username, $change);
+	$res = $acc -> update($change);
 
 	switch ($res) {
-		case USER_EDIT_SUCCESS:
+		case ACCOUNT_SUCCESS:
 			writeLog("INFO", "Đã thay đổi ". (isset($change["name"]) ? "tên thành \"". $change["name"] ."\"" : "") . ((isset($change["name"]) && isset($change["password"])) ? " và " : "") . (isset($change["password"]) ? "mật khẩu" : ""));
 			stop(0, "Thay đổi thông tin thành công!", 200, $change);
 			break;
-		case USER_EDIT_WRONGUSERNAME:
+		case ACCOUNT_NOTFOUND:
 			stop(13, "Không tìm thấy tài khoản \"$username\"!", 400, Array( "username" => $username ));
-			break;
-		case USER_EDIT_ERROR:
-			writeLog("ERRR", "Lỗi khi lưu thông tin tài khoản [$id] \"$username\"");
-			stop(-1, "Lỗi không rõ", 500);
 			break;
 	}

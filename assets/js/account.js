@@ -73,9 +73,9 @@ const account = {
 		this.addForm.editor.addEventListener("submit", async e => {
 			let data = {
 				id: this.addForm.userIDInput.value,
-				u: this.addForm.usernameInput.value,
-				n: this.addForm.nameInput.value,
-				p: this.addForm.passwordInput.value
+				username: this.addForm.usernameInput.value,
+				name: this.addForm.nameInput.value,
+				password: this.addForm.passwordInput.value
 			}
 
 			if (this.addForm.avatarInput.files[0])
@@ -219,7 +219,7 @@ const account = {
 			url: "/api/account/get",
 			method: "POST",
 			form: {
-				u: username,
+				username,
 				token: API_TOKEN
 			}
 		})

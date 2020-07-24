@@ -19,17 +19,22 @@
 		
 	checkToken();
 
-	$username = reqForm("u");
+	$username = reqForm("username");
 	$id = getForm("id");
-	$password = getForm("p");
-	$name = getForm("n");
+	$password = getForm("password");
+	$name = getForm("name");
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
-	if (getUserData($_SESSION["username"])["id"] !== "admin")
+	if ($_SESSION["id"] !== "admin")
 		stop(31, "Access Denied!", 403);
 
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/account.php";
+		$acc = new account($username);
+
+	if (!$acc -> dataExist())
+		stop(13, "Tài khoản với tên người dùng \"$username\" không tồn tại!", 404, Array( "username" => $username ));
+
 	// Avatar file process
-	if (isset($_FILES["avatar"]) && isset($accountData[$username])) {
+	if (isset($_FILES["avatar"])) {
 		$file = strtolower($_FILES["avatar"]["name"]);
 		$extension = pathinfo($file, PATHINFO_EXTENSION);
 
@@ -63,18 +68,8 @@
 	$id ? $data["id"] = htmlspecialchars(strip_tags($id)) : null;
 	$password ? $data["password"] = password_hash($password, PASSWORD_DEFAULT) : null;
 	$name ? $data["name"] = htmlspecialchars(strip_tags($name)) : null;
-	$res = editUser($username, $data);
 
-	switch ($res) {
-		case USER_EDIT_SUCCESS:
-			writeLog("OKAY", "Đã chỉnh sửa tài khoản [$id] \"$username\"");
-			stop(0, "Chỉnh sửa tài khoản thành công!", 200, $data);
-			break;
-		case USER_EDIT_WRONGUSERNAME:
-			stop(13, "Không tìm thấy tài khoản \"$username\"!", 400, Array( "username" => $username ));
-			break;
-		case USER_EDIT_ERROR:
-			writeLog("ERRR", "Lỗi khi lưu thông tin tài khoản [$id] \"$username\"");
-			stop(-1, "Lỗi không rõ.", 500);
-			break;
-	}
+	$res = $acc -> update($data);
+
+	writeLog("OKAY", "Đã chỉnh sửa tài khoản [$id] \"$username\"");
+	stop(0, "Chỉnh sửa tài khoản thành công!", 200, $data);

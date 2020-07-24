@@ -22,10 +22,11 @@
 	$id = null;
 
 	if (isLoggedIn()) {
-		require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
+		require_once $_SERVER["DOCUMENT_ROOT"] ."/module/account.php";
 		$loggedIn = true;
 		$username = $_SESSION["username"];
-		$userdata = getUserData($username);
+		
+		$userdata = (new account($username)) -> data;
 		$name = $userdata["name"];
 		$id = $userdata["id"];
 	}

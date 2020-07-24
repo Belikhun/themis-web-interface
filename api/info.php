@@ -16,21 +16,23 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/logParser.php";
 
 	$username = reqQuery("u");
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/account.php";
 
 	if ($username !== preg_replace("/[^a-zA-Z0-9]+/", "", $username))
 		stop(-1, "Tên người dùng chỉ được phép dùng các kí tự trong khoảng a-zA-Z0-9", 400);
 
-	if (!$data = getUserData($username))
+	$acc = new account($username);
+
+	if (!$acc -> dataExist())
 		stop(13, "Không tìm thấy tên người dùng \"$username\"!", 404, Array( "username" => $username ));
 
-	$userData = getUserData($username);
+	$userData = $acc -> data;
 	unset($userData["password"]);
 	unset($userData["repass"]);
 
 	$contestData = null;
 
-	if (true) {
+	if (getConfig("contest.result.publish")) {
 		$contestData = Array(
 			"total" => 0,
 			"correct" => 0,

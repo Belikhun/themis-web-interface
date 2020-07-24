@@ -10,15 +10,29 @@
 	
 	define("ACCOUNTS_DIR", $_SERVER["DOCUMENT_ROOT"] ."/data/accounts");
 
+	if (!file_exists(ACCOUNTS_DIR))
+		mkdir(ACCOUNTS_DIR);
+
+	// CACHE VARIABLE
+	$accountsCache = Array();
+
+	// RETURN VALUE
 	define("ACCOUNT_SUCCESS", 0);
 	define("ACCOUNT_EXIST", 1);
 	define("ACCOUNT_NOTFOUND", 2);
 
 	define("ACCOUNT_LOGIN_WRONGPASSWORD", 3);
 
-	class account {
-		private $data = null;
+	function getAccountsList() {
+		$files = glob(ACCOUNTS_DIR ."/*.json");
+		
+		foreach ($files as &$item)
+			$item = pathinfo($item, PATHINFO_FILENAME);
 
+		return $files;
+	}
+
+	class account {
 		/**
 		 * @param    String		$username	Username
 		 */
@@ -26,9 +40,11 @@
 			$this -> username = $username;
 			$this -> path = ACCOUNTS_DIR ."/". $username .".json";
 
-			$this -> data = file_exists($this -> path)
-				? (new fip($this -> data)) -> read("json")
-				: null;
+			$this -> data = isset($accountsCache[$username])
+				? $accountsCache[$username]
+				: (file_exists($this -> path)
+					? (new fip($this -> path)) -> read("json")
+					: null);
 		}
 
 		public function init($password) {
@@ -44,7 +60,8 @@
 				"lastAccess" => microtime(true)
 			);
 
-			(new fip($this -> path)) -> write($this -> data, "json");
+			$this -> update();
+			return ACCOUNT_SUCCESS;
 		}
 
 		public function dataExist() {
@@ -59,6 +76,9 @@
 			mergeObjectRecursive($this -> data, $data, false);
 
 			(new fip($this -> path, "{}")) -> write($this -> data, "json");
+			$accountsCache[$this -> username] = $this -> data;
+
+			return ACCOUNT_SUCCESS;
 		}
 
 		public function auth($password) {

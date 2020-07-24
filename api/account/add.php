@@ -24,12 +24,17 @@
 	$password = password_hash(reqForm("p"), PASSWORD_DEFAULT);
 	$name = htmlspecialchars(strip_tags(reqForm("n")));
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
-	if (getUserData($_SESSION["username"])["id"] !== "admin")
+	if ($_SESSION["id"] !== "admin")
 		stop(31, "Access Denied!", 403);
 
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/account.php";
+	$acc = new account($username);
+
+	if ($acc -> dataExist())
+		stop(17, "Tài khoản với tên người dùng \"$username\" đã tồn tại!", 400, Array( "username" => $username ));
+
 	// Avatar file process
-	if (isset($_FILES["avatar"]) && !isset($accountData[$username])) {
+	if (isset($_FILES["avatar"])) {
 		$file = strtolower($_FILES["avatar"]["name"]);
 		$extension = pathinfo($file, PATHINFO_EXTENSION);
 
@@ -59,24 +64,16 @@
 		move_uploaded_file($_FILES["avatar"]["tmp_name"], $imagePath .".". $extension);
 	}
 
-	$res = addUser($id, $username, $password, $name);
-	$data = Array(
+	$acc -> init($password);
+	$res = $acc -> update(Array(
+		"id" => $id,
+		"name" => $name
+	));
+
+	writeLog("OKAY", "Đã thêm tài khoản [$id] \"$username\"");
+	stop(0, "Tạo tài khoản thành công!", 200, Array(
 		"id" => $id,
 		"username" => $username,
 		"password" => $password,
 		"name" => $name
-	);
-
-	switch ($res) {
-		case USER_ADD_SUCCESS:
-			writeLog("OKAY", "Đã thêm tài khoản [$id] \"$username\"");
-			stop(0, "Tạo tài khoản thành công!", 200, $data);
-			break;
-		case USER_ADD_USEREXIST:
-			stop(17, "Tài khoản với tên người dùng \"$username\" đã tồn tại!", 400, Array( "username" => $username ));
-			break;
-		case USER_ADD_ERROR:
-			writeLog("ERRR", "Lỗi khi lưu thông tin tài khoản [$id] \"$username\"");
-			stop(-1, "Lỗi không rõ.", 500);
-			break;
-	}
+	));

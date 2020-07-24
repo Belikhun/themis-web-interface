@@ -31,7 +31,7 @@
 	if ($username !== $_SESSION["username"] && getConfig("contest.log.viewOther") === false && $_SESSION["id"] !== "admin")
 		stop(31, "Không cho phép xem tệp nhật kí của người khác!", 403);
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/account.php";
 	
 	$submission = new submissions($username);
 	$logData = $submission -> getData($id);
@@ -39,7 +39,7 @@
 	if (!$logData)
 		stop(44, "Không tìm thấy dữ liệu", 404, Array( "username" => $username, "id" => $id ));
 
-	$userData = getUserData($logData["header"]["user"]);
+	$userData = (new account($logData["header"]["user"])) -> data;
 	$logData["header"]["name"] = ($userData && isset($userData["name"])) ? $userData["name"] : null;
 	$logData["meta"] = $submission -> getMeta($id);
 

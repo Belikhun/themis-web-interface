@@ -28,8 +28,6 @@
 
 	if ($username !== $_SESSION["username"] && getConfig("contest.log.viewOther") === false && $_SESSION["id"] !== "admin")
 		stop(31, "Không cho phép xem tệp nhật kí của người khác!", 403);
-
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
 	
 	$logData = (new submissions($username)) -> getLog($id);
 

@@ -26,29 +26,36 @@
 	if (!isset($_SESSION["captcha"]) || $captcha !== $_SESSION["captcha"])
 		stop(8, "Sai Captcha", 403);
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
-	$res = addUser(sprintf("r%04d", randBetween(0, 9999)), $username, password_hash($password, PASSWORD_DEFAULT), $username);
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/account.php";
+	$acc = new account($username);
 	
-	if ($res === USER_ADD_SUCCESS) {
-		$udata = getUserData($username);
-		$_SESSION["username"] = $username;
-		$_SESSION["id"] = $udata["id"];
-		$_SESSION["name"] = $udata["name"];
-		$_SESSION["apiToken"] = bin2hex(random_bytes(64));
-		session_regenerate_id();
+	switch ($acc -> init($password)) {
+		case ACCOUNT_EXIST:
+			stop(17, "Tài khoản \"$username\" đã tồn tại", 400);
+			break;
+		
+		case ACCOUNT_SUCCESS:
+			$udata = $acc -> data;
 
-		writeLog("OKAY", "Đăng kí thành công [". session_id() ."]");
-		stop(0, "Đăng kí thành công.", 200, Array(
-			"token" => $_SESSION["apiToken"],
-			"sessid" => session_id(),
-			"redirect" => "/",
-			"user" => Array(
-				"id" => $udata["id"],
-				"name" => $udata["name"]
-			)
-		));
+			$_SESSION["username"] = $username;
+			$_SESSION["id"] = $udata["id"];
+			$_SESSION["name"] = $udata["name"];
+			$_SESSION["apiToken"] = bin2hex(random_bytes(64));
+			session_regenerate_id();
+
+			writeLog("OKAY", "Đăng kí thành công '". $udata["name"] ."' [". session_id() ."]");
+			stop(0, "Đăng kí thành công", 200, Array(
+				"token" => $_SESSION["apiToken"],
+				"sessid" => session_id(),
+				"redirect" => "/",
+				"user" => Array(
+					"id" => $udata["id"],
+					"name" => $udata["name"]
+				)
+			));
+			break;
+
+		default:
+			stop(-1, "Lỗi không rõ", 500);
+			break;
 	}
-	else if ($res === USER_ADD_USEREXIST)
-		stop(17, "Tài khoản \"$username\" đã tồn tại", 400);
-	else
-		stop(-1, "Lỗi không rõ.", 500);

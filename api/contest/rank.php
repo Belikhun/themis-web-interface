@@ -47,11 +47,11 @@
 		
 		if ($cache -> validate()) {
 			$returnData = $cache -> getData();
-			stop(0, "Thành công!", 200, $returnData, $returnData["overall"]);
+			stop(0, "Thành công!", 200, $returnData, Array($returnData["spOverall"], $returnData["spRanking"], $returnData["overall"]));
 		}
 	}
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/account.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/logParser.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/submissions.php";
 
@@ -82,7 +82,7 @@
 
 			$filename = $data["file"]["logFilename"];
 			$user = $data["user"];
-			$userData = getUserData($user);
+			$userData = (new account($user)) -> data;
 	
 			if (problemDisabled($data["problem"]) && getConfig("contest.ranking.hideDisabled") && $_SESSION["id"] !== "admin")
 				continue;
@@ -200,5 +200,5 @@
 		);
 		
 		$cache -> save($returnData);
-		stop(0, "Thành công!", 200, $returnData, ($returnData["overall"] + round($returnData["spOverall"], 3)) . strval($returnData["spRanking"]));
+		stop(0, "Thành công!", 200, $returnData, Array($returnData["spOverall"], $returnData["spRanking"], $returnData["overall"]));
 	}

@@ -18,11 +18,26 @@
 		stop(11, "Bạn chưa đăng nhập", 401);
 		
 	checkToken();
+	$username = getForm("username");
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/xmldb/account.php";
-	if (getUserData($_SESSION["username"])["id"] !== "admin")
+	if ($_SESSION["id"] !== "admin")
 		stop(31, "Access Denied!", 403);
 
-	$username = getForm("u");
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/account.php";
 
-	stop(0, "Thành công!", 200, $username ? $accountData[$username] : $accountData);
+	if ($username) {
+		$acc = new account($username);
+
+		if (!$acc -> dataExist())
+			stop(13, "Tài khoản với tên người dùng \"$username\" không tồn tại!", 404, Array( "username" => $username ));
+
+		stop(0, "Success", 200, $acc -> data);
+	} else {
+		$data = Array();
+		$list = getAccountsList();
+
+		foreach ($list as $username)
+			array_push($data, (new account($username)) -> data);
+
+		stop(0, "Thành công!", 200, $data);
+	}
