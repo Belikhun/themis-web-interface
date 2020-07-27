@@ -268,7 +268,6 @@ tag {
 	flex-direction: row;
 	flex-shrink: 0;
 	align-items: center;
-	padding: 4px 6px;
 	border-radius: 4px;
 	background-color: rgba(10, 10, 10, 0.6);
 	backdrop-filter: saturate(80%) blur(6px);
@@ -293,12 +292,18 @@ tag {
 	flex-direction: row;
 	align-items: center;
 
+	padding: 4px 6px;
+
 	white-space: pre;
 	font-family: "Segoe UI";
 	font-size: 12px;
 	font-weight: lighter;
 	letter-spacing: .4px;
 	color: white;
+}
+
+.tooltip > .content[data-no-padding="true"] {
+	padding: unset;
 }
 
 @keyframes tooltip-blink {

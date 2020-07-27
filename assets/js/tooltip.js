@@ -19,6 +19,7 @@ const tooltip = {
 
 	__wait: false,
 	__handlingMouseEvent: false,
+	__sizeOberving: false,
 
 	init() {
 		this.container = document.createElement("div");
@@ -42,6 +43,15 @@ const tooltip = {
 				this.__handlingMouseEvent = false;
 			}
 		});
+
+		if (typeof ResizeObserver === "function") {
+			new ResizeObserver(() => {
+				this.container.style.width = this.content.clientWidth + "px";
+				this.container.style.height = this.content.clientHeight + "px";
+			}).observe(this.content);
+
+			this.__sizeOberving = true;
+		}
 
 		//* BUILT IN HOOKS
 		this.addHook({
@@ -73,7 +83,8 @@ const tooltip = {
 		key = null,
 		handler = ({ target, value }) => value,
 		priority = 1,
-		backtrace = 1
+		backtrace = 1,
+		noPadding = false
 	} = {}) {
 		if (typeof on !== "string" || !["dataset", "attribute"].includes(on))
 			throw { code: -1, description: `tooltip.addHook(): \"on\": unexpected '${on}', expecting 'dataset'/'attribute'` }
@@ -87,7 +98,10 @@ const tooltip = {
 		if (typeof priority !== "number")
 			throw { code: -1, description: `tooltip.addHook(): \"priority\" is not a valid number` }
 
-		this.hooks.push({ on, key, handler, priority, backtrace });
+		if (typeof noPadding !== "boolean")
+			throw { code: -1, description: `tooltip.addHook(): \"noPadding\" is not a valid boolean` }
+
+		this.hooks.push({ on, key, handler, priority, backtrace, noPadding });
 		this.hooks.sort((a, b) => (a.priority < b.priority) ? 1 : (a.priority > b.priority) ? -1 : 0);
 	},
 
@@ -119,7 +133,10 @@ const tooltip = {
 				this.nodeToShow = null;
 				checkNode = true;
 
-				this.hideTimeout = setTimeout(() => this.container.classList.remove("show"), this.showTime);
+				this.hideTimeout = setTimeout(() => {
+					this.prevData = null;
+					this.container.classList.remove("show");
+				}, this.showTime);
 			}
 		}
 
@@ -151,13 +168,19 @@ const tooltip = {
 				if (!_v)
 					continue;
 
+				if (_v === this.prevData)
+					return;
+
+				this.prevData = _v;
+
 				let _s = item.handler({
 					target: _e,
 					value: _v
 				});
 
 				if (_s) {
-					this.show(_s, _e);
+					this.show(_s, _e, item.noPadding);
+
 					break;
 				}
 			}
@@ -178,7 +201,7 @@ const tooltip = {
 			return;
 	},
 
-	show(data, showOnNode) {
+	show(data, showOnNode, noPadding = false) {
 		if (!this.initialized)
 			return false;
 		
@@ -191,12 +214,8 @@ const tooltip = {
 		switch (typeof data) {
 			case "object":
 				if (data.classList && data.dataset) {
-					if (this.prevData && (this.prevData.innerText === data.innerText))
-						return true;
-
 					emptyNode(this.content);
 					this.content.append(data);
-
 					break;
 				}
 
@@ -204,23 +223,22 @@ const tooltip = {
 				break;
 
 			default:
-				if (this.prevData === data)
-					return true;
-
 				this.content.innerHTML = data;
 				break;
 		}
 
+		this.content.dataset.noPadding = noPadding;
+
 		//? TRIGGER REFLOW TO REPLAY ANIMATION
 		this.container.style.animation = "none";
-
 		requestAnimationFrame(() => {
 			this.container.style.animation = null;
-			this.container.style.width = this.content.clientWidth + "px";
-			this.container.style.height = this.content.clientHeight + "px";
-		})
 
-		this.prevData = data;
+			if (!this.__sizeOberving) {
+				this.container.style.width = this.content.clientWidth + "px";
+				this.container.style.height = this.content.clientHeight + "px";
+			}
+		});
 
 		return true;
 	}
