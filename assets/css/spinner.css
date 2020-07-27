@@ -32,7 +32,8 @@
 	animation: simple-rotate 0.75s linear 0s infinite;
 }
 
-body.dark .simpleSpinner {
+body.dark .simpleSpinner,
+.simpleSpinner.light {
 	border-color: rgb(214, 214, 214);
 	border-right-color: transparent;
 }

@@ -16,18 +16,18 @@
 		define("CONFIG_EXCLUDE_TYPE", Array());
 
 	if (!defined("CONFIG_STRUCTURE"))
-	define("CONFIG_STRUCTURE", Array(
-		"system" => Array(
-			"__icon" => "server",
-			"__title" => "Config",
+		define("CONFIG_STRUCTURE", Array(
+			"system" => Array(
+				"__icon" => "server",
+				"__title" => "Config",
 
-			"emptyNote" => Array(
-				"type" => "note",
-				"level" => "info",
-				"text" => "Đây là template mặc định của config. Thay đổi tại /module/config.php"
+				"emptyNote" => Array(
+					"type" => "note",
+					"level" => "info",
+					"text" => "Đây là template mặc định của config. Thay đổi tại /module/config.php"
+				)
 			)
-		)
-	));
+		));
 
 	function generateDefaultConfig($child = CONFIG_STRUCTURE) {
 		$parent = Array();
@@ -105,7 +105,7 @@
 			return $value;
 		}
 
-		trigger_error("getConfig(): Không tìm thấy cài đặt ". implode(".", $path));
+		throw new BLibException(-1, "getConfig(): Không tìm thấy cài đặt ". implode(".", $path), 500, Array( "path" => $path ));
 	}
 
 	function saveConfig(Array $newConfig) {
