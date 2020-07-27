@@ -9,6 +9,7 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
 	
 	define("ACCOUNTS_DIR", $_SERVER["DOCUMENT_ROOT"] ."/data/accounts");
+	define("ACCOUNT_ONLINE_MAXIDLE", 10);
 
 	if (!file_exists(ACCOUNTS_DIR))
 		mkdir(ACCOUNTS_DIR);
@@ -33,18 +34,24 @@
 	}
 
 	class account {
+		public $data;
+
 		/**
 		 * @param    String		$username	Username
 		 */
 		public function __construct(String $username) {
-			$this -> username = $username;
-			$this -> path = ACCOUNTS_DIR ."/". $username .".json";
+			global $accountsCache;
 
-			$this -> data = isset($accountsCache[$username])
+			$this -> username = $username;
+			$this -> path = ACCOUNTS_DIR ."/$username.json";
+
+			$this -> data = (isset($accountsCache[$username]) && !empty($accountsCache[$username]["username"]))
 				? $accountsCache[$username]
-				: (file_exists($this -> path)
+				: (is_readable($this -> path)
 					? (new fip($this -> path)) -> read("json")
 					: null);
+
+			$accountsCache[$this -> username] = $this -> data;
 		}
 
 		public function init($password) {
@@ -57,10 +64,11 @@
 				"password" => password_hash($password, PASSWORD_DEFAULT),
 				"name" => $this -> username,
 				"repass" => 0,
-				"lastAccess" => microtime(true)
+				"lastAccess" => 0
 			);
 
 			$this -> update();
+
 			return ACCOUNT_SUCCESS;
 		}
 
@@ -72,11 +80,23 @@
 			if (!$this -> dataExist())
 				return ACCOUNT_NOTFOUND;
 
-			$data["lastAccess"] = microtime();
-			mergeObjectRecursive($this -> data, $data, false);
+			if (!empty($data))
+				mergeObjectRecursive($this -> data, $data, false);
 
 			(new fip($this -> path, "{}")) -> write($this -> data, "json");
 			$accountsCache[$this -> username] = $this -> data;
+
+			return ACCOUNT_SUCCESS;
+		}
+
+		public function isOnline() {
+			return (microtime(true) - ($this -> data["lastAccess"])) < ACCOUNT_ONLINE_MAXIDLE;
+		}
+
+		public function access() {
+			$this -> update(Array(
+				"lastAccess" => microtime(true)
+			));
 
 			return ACCOUNT_SUCCESS;
 		}
@@ -102,3 +122,7 @@
 			return ACCOUNT_SUCCESS;
 		}
 	}
+
+	// Update Online Status
+	if (isset($_SESSION["username"]))
+		(new account($_SESSION["username"])) -> access();
