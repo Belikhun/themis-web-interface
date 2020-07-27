@@ -396,6 +396,43 @@
 	}
 
 	/**
+	 * belibrary.stop() friendly Exception
+	 */
+	class BLibException extends Exception {
+		public $code;
+		public $status;
+		public $description;
+		public $user;
+		public $data;
+
+		/**
+		 *
+		 * @param	Int				$code			Response code
+		 * @param	String			$description	Response description
+		 * @param	Int				$HTTPStatus		Response HTTP status code
+		 * @param	Array			$data			Response data (optional)
+		 *
+		 */
+		public function __construct(Int $code, String $description, Int $HTTPStatus = 200, Array $data = Array(), Exception $previous = null) {
+			$this -> code = $code;
+			$this -> status = $HTTPStatus;
+			$this -> description = $description;
+			$this -> user = $_SESSION["username"];
+			$this -> data = $data;
+
+			parent::__construct($description, $code, $previous);
+
+			$this -> data["file"] = parent::getFile();
+			$this -> data["line"] = parent::getLine();
+			$this -> data["trace"] = parent::getTrace();
+		}
+		
+		public function __toString() {
+			return __CLASS__ . ": [HTTP {$this -> status}] [{$this -> code}]: {$this -> description} tại {$this -> data["file"]}:{$this -> data["line"]}";
+		}
+	}
+
+	/**
 	 *
 	 * Return Human Readable Size
 	 * 
@@ -538,15 +575,11 @@
 		}
 
 		public function fos(String $path, String $mode) {
-			try {
-				$this -> stream = fopen($path, $mode);
+			$this -> stream = fopen($path, $mode);
 
-				if (!$this -> stream) {
-					$e = error_get_last();
-					stop(8, "fip -> fos(): [". $e["type"] ."]: ". $e["message"] ." tại ". $e["file"] ." dòng ". $e["line"], 500, $e);
-				}
-			} catch (Exception $e) {
-				stop(8, "fip -> fos(): ". $e -> getMessage() ." tại ". $e -> getFile() ." dòng ". $e -> getLine(), 500, $e -> getTrace());
+			if (!$this -> stream) {
+				$e = error_get_last();
+				throw new BLibException(8, "fip -> fos(): [". $e["type"] ."]: ". $e["message"] ." tại ". $e["file"] ." dòng ". $e["line"], 500, $e);
 			}
 		}
 
@@ -564,6 +597,21 @@
 		 *
 		 */
 		public function read($type = "text") {
+			if (file_exists($this -> path)) {
+				$tries = 0;
+				
+				while (!is_readable($this -> path)) {
+					$tries++;
+	
+					if ($tries >= $this -> maxTry)
+						throw new BLibException(46, "fip -> read(): Read Timeout: Không có quyền đọc file ". basename($this -> path) ." sau $tries lần thử", 500, Array(
+							"path" => $this -> path
+						));
+	
+					usleep(200000);
+				}
+			}
+
 			$this -> fos($this -> path, "r");
 
 			if (filesize($this -> path) > 0)
@@ -603,7 +651,7 @@
 					$tries++;
 	
 					if ($tries >= $this -> maxTry)
-						stop(46, "fip -> write(): Write Timeout: Không có quyền ghi vào file ". basename($this -> path) ." sau $tries lần thử", 408, Array(
+						throw new BLibException(46, "fip -> write(): Write Timeout: Không có quyền ghi vào file ". basename($this -> path) ." sau $tries lần thử", 500, Array(
 							"path" => $this -> path
 						));
 	
@@ -668,7 +716,16 @@
 		stop(-1, "Error Occurred: ". $text, 500, $errorData);
 	}
 
+	//! Exception Handler
+	function exceptionHandler(Exception $e) {
+		if ($e -> __CLASS__ === "BLibException")
+			stop($e -> code, $e, $e -> status, $e -> data);
+		else
+			stop(-1, "{$e -> __CLASS__} [{$e -> getCode()}]: {$e -> getMessage()} tại {$e -> getFile()}:{$e -> getLine()}");
+	}
+
 	set_error_handler("errorHandler", E_ALL);
+	set_exception_handler("exceptionHandler");
 
 	//? START TIME
 	if (!isset($runtime))
