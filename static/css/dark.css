@@ -192,7 +192,7 @@ body.dark #rankp div.rankingContainer table tr th {
 	border-bottom-color: rgb(88, 88, 88);
 }
 
-body.dark #rankp div.rankingContainer table thead tr th:first-child::before {
+body.dark #rankp div.rankingContainer table thead tr th {
 	background-color: rgba(48, 48, 48, 0.8);
 }
 

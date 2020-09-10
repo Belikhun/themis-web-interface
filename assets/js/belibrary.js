@@ -15,11 +15,11 @@
 function myajax({
 	url = "/",
 	method = "GET",
-	query = Array(),
-	form = Array(),
+	query = {},
+	form = {},
 	json = {},
 	raw = null,
-	header = Array(),
+	header = {},
 	type = "json",
 	onUpload = () => {},
 	onDownload = () => {},
@@ -27,12 +27,14 @@ function myajax({
 	changeState = true,
 	reRequest = true,
 	withCredentials = false,
+	timeout = 0
 }, callout = () => {}, error = () => {}) {
 	let argumentsList = arguments;
 
 	return new Promise((resolve, reject) => {
 		if (__connection__.onlineState !== "online" && force === false) {
 			let errorObj = {}
+
 			switch (__connection__.onlineState) {
 				case "offline":
 					errorObj = { code: 106, description: "Mất kết nối tới máy chủ" }
@@ -199,6 +201,7 @@ function myajax({
 
 		xhr.open(method, url);
 		xhr.withCredentials = withCredentials;
+		xhr.timeout = timeout;
 
 		let sendData = (raw !== null) ? raw : formData;
 
@@ -303,10 +306,10 @@ function fcfn(node, className) {
  * @return	{Element}
  */
 function htmlToElement(html) {
-    let template = document.createElement("template");
+	let template = document.createElement("template");
 	template.innerHTML = html.trim();
 	
-    return template.content.firstChild;
+	return template.content.firstChild;
 }
 
 function buildElementTree(type = "div", __class = [], data = new Array(), __keypath = "") {
@@ -462,8 +465,6 @@ function liveTime(element, start = time(new Date()), { type = "full", count = "u
 		if (!document.body.contains(element)) {
 			clog("DEBG", "Live Time Element does not exist in document. Clearing...");
 			clearInterval(updateInterval);
-			delete element;
-			delete updateInterval;
 		}
 
 		let t = 0;
@@ -706,17 +707,19 @@ class lazyload {
 		this.onErroredHandler = null;
 
 		container.classList.add("lazyload");
-		switch (typeof classes) {
-			case "object":
-				if (!Array.isArray(classes))
-					throw { code: -1, description: `lazyload: classes is not a valid array` }
 
-				container.classList.add(...classes);
-				break;
-			case "string":
-				container.classList.add(classes);
-				break;
-		}
+		if (classes)
+			switch (typeof classes) {
+				case "object":
+					if (!Array.isArray(classes))
+						throw { code: -1, description: `lazyload: classes is not a valid array` }
+
+					container.classList.add(...classes);
+					break;
+				case "string":
+					container.classList.add(classes);
+					break;
+			}
 
 		this.sourceNode.addEventListener("load", () => this.loaded = true);
 		this.sourceNode.addEventListener("error", () => this.errored = true);
@@ -912,13 +915,21 @@ function flatc(color) {
  */
 function oscColor(color) {
 	const clist = {
-		pink: "#ff66aa",
-		green: "#88b400",
-		blue: "#44aadd",
-		yellow: "#f6c21c",
-		brown: "#231B22",
-		gray: "#485e74",
-		dark: "#042430"
+		pink:			"#ff66aa",
+		green:			"#88b400",
+		blue:			"#44aadd",
+		yellow:			"#f6c21c",
+		orange:			"#ffa502",
+		red:			"#dd2d44",
+		brown:			"#3f313d",
+		gray:			"#485e74",
+		dark:			"#1E1E1E",
+		purple:			"#593790",
+		darkGreen:		"#0c4207",
+		darkBlue:		"#053242",
+		darkYellow:		"#444304",
+		darkRed:		"#440505",
+		navyBlue:		"#333D79",
 	}
 
 	return (clist[color]) ? clist[color] : clist.dark;
@@ -939,10 +950,9 @@ function triBg(element, {
 	triangleCount = 38
 } = {}) {
 	let current = element.querySelector(".triBgContainer");
+
 	if (current)
 		element.removeChild(current);
-
-	delete current;
 
 	element.classList.add("triBg");
 	element.dataset.triColor = color;
@@ -1388,8 +1398,6 @@ const popup = {
 			this.popup.header.setAttribute("theme", (typeof headerTheme === "string") ? headerTheme : template.h);
 			this.popup.body.setAttribute("theme", (typeof bodyTheme === "string") ? bodyTheme : template.b);
 
-			delete template;
-
 			//* HEADER
 			this.popup.header.top.windowTitle.innerText = windowTitle;
 			this.popup.header.text.innerText = title;
@@ -1442,7 +1450,7 @@ const popup = {
 							this.hide();
 						});
 
-						this.popup.body.button.appendChild(button);
+					this.popup.body.button.appendChild(button);
 				}
 			}
 
@@ -1580,7 +1588,7 @@ const __connection__ = {
 							resolve();
 						}
 					}, 1000);
-				break;
+					break;
 			}
 		});
 	},

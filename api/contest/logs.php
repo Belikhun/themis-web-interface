@@ -19,7 +19,7 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/logParser.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/contest.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/submissions.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/problems.php";
 
 	$username = $_SESSION["username"];
 	$uploadFiles = glob(getConfig("folders.submit") ."/*.*");

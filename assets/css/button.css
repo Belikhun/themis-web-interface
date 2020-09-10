@@ -208,45 +208,51 @@
 }
 
 .sq-btn.pink {
-	background-color: rgb(255, 102, 170);
+	background-color: #ff66aa;
 }
 
 .sq-btn.pink::before {
 	border-color: transparent transparent rgb(255, 152, 204);
 	animation-duration: 7.6s;
+	animation-delay: -1s;
 }
 
 .sq-btn.pink::after {
 	border-color: transparent transparent rgb(202, 96, 146);
 	animation-duration: 7.8s;
+	animation-delay: +0.6s;
 }
 
 .sq-btn.green {
-	background-color: rgb(136, 180, 0);
+	background-color: #88b400;
 }
 
 .sq-btn.green::before {
-	border-color: transparent transparent rgb(156, 204, 0);
+	border-color: transparent transparent #a1d408;
 	animation-duration: 8.2s;
+	animation-delay: -1s;
 }
 
 .sq-btn.green::after {
-	border-color: transparent transparent rgb(124, 162, 0);
+	border-color: transparent transparent #6d8f00;
 	animation-duration: 7.7s;
+	animation-delay: -2.3s;
 }
 
 .sq-btn.yellow {
-	background-color: rgb(246, 194, 28);
+	background-color: #f6c21c;
 }
 
 .sq-btn.yellow::before {
-	border-color: transparent transparent rgb(254, 204, 34);
+	border-color: transparent transparent #ffd13a;
 	animation-duration: 7.9s;
+	animation-delay: +0.6s;
 }
 
 .sq-btn.yellow::after {
-	border-color: transparent transparent rgb(240, 178, 14);
+	border-color: transparent transparent #ecb913;
 	animation-duration: 8.1s;
+	animation-delay: -2s;
 }
 
 .sq-btn.dark {
@@ -256,11 +262,13 @@
 .sq-btn.dark::before {
 	border-color: transparent transparent #133947;
 	animation-duration: 7.6s;
+	animation-delay: +0.2s;
 }
 
 .sq-btn.dark::after {
 	border-color: transparent transparent #0b2e3d;
 	animation-duration: 7.8s;
+	animation-delay: -1.3s;
 }
 
 .sq-btn.brown {
@@ -270,11 +278,13 @@
 .sq-btn.brown::before {
 	border-color: transparent transparent rgb(58, 47, 57);
 	animation-duration: 8.3s;
+	animation-delay: -1.6s;
 }
 
 .sq-btn.brown::after {
 	border-color: transparent transparent rgb(20, 16, 20);
 	animation-duration: 8.1s;
+	animation-delay: -0.2s;
 }
 
 .sq-btn.red {
@@ -290,6 +300,7 @@
 .sq-btn.red::after {
 	border-color: transparent transparent rgb(197, 36, 57);
 	animation-duration: 7.7s;
+	animation-delay: -0.3s;
 }
 
 @keyframes sq-btn-bgRainbow {

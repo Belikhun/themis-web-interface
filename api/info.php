@@ -14,9 +14,9 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logs.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/submissions.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/logParser.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/account.php";
 
 	$username = reqQuery("u");
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/account.php";
 
 	if ($username !== preg_replace("/[^a-zA-Z0-9]+/", "", $username))
 		stop(-1, "Tên người dùng chỉ được phép dùng các kí tự trong khoảng a-zA-Z0-9", 400);
@@ -27,20 +27,22 @@
 		stop(13, "Không tìm thấy tên người dùng \"$username\"!", 404, Array( "username" => $username ));
 
 	$userData = $acc -> data;
+	$userData["online"] = $acc -> isOnline();
 	unset($userData["password"]);
 	unset($userData["repass"]);
 
-	$contestData = null;
+	$submissionsData = null;
 
 	if (getConfig("contest.result.publish")) {
-		$contestData = Array(
+		require_once $_SERVER["DOCUMENT_ROOT"] ."/module/account.php";
+
+		$submissionsData = Array(
 			"total" => 0,
 			"correct" => 0,
 			"passed" => 0,
 			"accepted" => 0,
 			"failed" => 0,
 			"skipped" => 0,
-			"scored" => 0,
 			"list" => Array()
 		);
 
@@ -48,32 +50,31 @@
 
 		foreach ($sub -> list() as $id) {
 			$data = $sub -> getData($id);
-
+			
 			if (!$data)
 				continue;
-
-			$data = $data["header"];
-
-			if (getConfig("contest.result.publish") !== true && $_SESSION["id"] !== "admin") {
-				$data["status"] = "scored";
-				$data["point"] = null;
-			}
-	
-			$contestData["total"]++;
-			$contestData[$data["status"]]++;
 			
-			array_push($contestData["list"], Array(
+			$data = $data["header"];
+			$meta = $sub -> getMeta($id);
+
+			$submissionsData["total"]++;
+			$submissionsData[$data["status"]]++;
+			
+			array_push($submissionsData["list"], Array(
 				"status" => $data["status"],
 				"problem" => $data["problem"],
 				"problemName" => $data["problemName"],
 				"problemPoint" => $data["problemPoint"],
 				"extension" => $data["file"]["extension"],
 				"point" => $data["point"],
-				"lastModify" => $data["file"]
+				"sp" => ($meta && isset($meta["sp"])) ? $meta["sp"]["point"] : null,
+				"file" => $data["file"]
 			));
 		}
+
+		$submissionsData["total"] = max($submissionsData["total"], count($problemList));
 	}
 
-	$userData["contest"] = $contestData;
+	$userData["submissions"] = $submissionsData;
 	stop(0, "Thành công!", 200, $userData);
 ?>

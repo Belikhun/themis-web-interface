@@ -7,7 +7,7 @@
 	//? |-----------------------------------------------------------------------------------------------|
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/problems.php";
 
 	/**
 	 * Parse all the log file

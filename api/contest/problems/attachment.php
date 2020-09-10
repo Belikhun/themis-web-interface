@@ -26,7 +26,7 @@
 			
 			contest_timeRequire([CONTEST_STARTED], false, false);
 
-			require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
+			require_once $_SERVER["DOCUMENT_ROOT"] ."/module/problems.php";
 
 			if (!problemExist($id))
 				stop(45, "Không tìm thấy đề của id đã cho!", 404, Array( "id" => $id ));
@@ -57,7 +57,7 @@
 			if ($_SESSION["id"] !== "admin")
 				stop(31, "Access Denied!", 403);
 
-			require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
+			require_once $_SERVER["DOCUMENT_ROOT"] ."/module/problems.php";
 			
 			$code = problemRemoveAttachment($id);
 			

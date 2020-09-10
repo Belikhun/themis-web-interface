@@ -12,7 +12,7 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/problems.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/contest.php";
 
 	$root = str_replace("\\", "/", $_SERVER["DOCUMENT_ROOT"]);

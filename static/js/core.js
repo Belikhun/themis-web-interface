@@ -198,6 +198,141 @@ const core = {
 		set(15, "Initializing: core.wrapper");
 		this.wrapper.init();
 
+		set(18, "Adding UserCard");
+
+		// Tooltip Ranking Cell Hook
+		tooltip.addHook({
+			on: "attribute",
+			key: "username",
+			handler: ({ target, value }) => {
+				let userInfo = buildElementTree("div", "userCard", [
+					{ type: "div", class: "loadingWrapper", name: "loading", list: [
+						{ type: "div", class: ["simpleSpinner", "light"], name: "spinner" },
+						{ type: "t", class: "error", name: "error" }
+					]},
+
+					{ type: "div", class: "header", name: "header", list: [
+						{ type: "span", class: "left", name: "left", list: [
+							{ type: "div", class: ["avatar", "light"], name: "avatar" },
+							{ type: "div", class: "status", name: "status" }
+						]},
+
+						{ type: "div", class: "right", name: "right", list: [
+							{ type: "t", class: "username", name: "username" },
+							{ type: "span", class: "detail", name: "detail", list: [
+								{ type: "t", class: "name", name: "name" },
+								{ type: "t", class: "id", name: "userID" }
+							]},
+							{ type: "t", class: "status", name: "status" }
+						]}
+					]},
+
+					{ type: "div", class: "submissions", name: "submissions", list: [
+						{ type: "div", class: "bar", name: "bar", list: [
+							{ type: "span", class: "inner", name: "inner", list: [
+								{ type: "span", class: "skipped", name: "skipped" },
+								{ type: "span", class: "failed", name: "failed" },
+								{ type: "span", class: "accepted", name: "accepted" },
+								{ type: "span", class: "passed", name: "passed" },
+								{ type: "span", class: "correct", name: "correct" }
+							]}
+						]},
+						{ type: "div", class: "list", name: "list" }
+					]}
+				])
+
+				myajax({
+					url: "/api/info",
+					method: "GET",
+					query: { u: value }
+				}, (response) => {
+					let data = response.data;
+					let e = userInfo.obj;
+
+					e.classList.add("loaded");
+
+					new lazyload({
+						container: e.header.left.avatar,
+						source: `/api/avatar?u=${data.username}`
+					});
+
+					e.header.right.username.innerText = data.username;
+					e.header.right.detail.name.innerText = data.name;
+					e.header.right.detail.userID.innerText = data.id;
+
+					if (data.online) {
+						e.header.right.status.innerText = `Trực Tuyến`;
+						e.header.left.status.dataset.status = "online";
+					} else {
+						e.header.right.status.innerText = `Ngoại Tuyến`
+						e.header.left.status.dataset.status = "offline";
+
+						liveTime(e.header.right.status, data.lastAccess, {
+							prefix: "Truy cập ",
+							surfix: " trước"
+						});
+					}
+
+					for (item of ["skipped", "failed", "accepted", "passed", "correct"]) {
+						if (data.submissions[item] === 0)
+							continue;
+
+						e.submissions.bar.inner[item].style.width = `${(data.submissions[item] / data.submissions.total) * 100}%`;
+						e.submissions.bar.inner[item].innerText = data.submissions[item];
+					}
+
+					requestAnimationFrame(() => e.submissions.bar.inner.style.width = "100%");
+
+					let topSubmissions = data.submissions.list
+						.sort((a, b) => (a.sp && b.sp) ? (b.sp - a.sp) : (b.point - a.point))
+						.slice(0, 5);
+					
+					for (let i = 0; i < topSubmissions.length; i++) {
+						let item = topSubmissions[i];
+
+						let element = htmlToElement(`
+							<div class="item" data-status="${item.status}">
+								<span class="left">
+									<t class="title">${item.problemName || item.problem}</t>
+									<div class="detail">
+										<t class="id">${item.problem}</t>
+										<t class="extension">${core.languages[item.extension]}</t>
+									</div>	
+								</span>
+
+								<span class="right">
+									<t class="point">${item.point}<sub>điểm</sub></t>
+									<t class="sp">${item.sp ? `${item.sp.toFixed(3)}<sub>SP</sub>` : "NA"}</t>
+								</span>
+							</div>
+						`);
+
+						e.submissions.list.appendChild(element);
+						setTimeout(() => element.classList.add("show"), 100 * (i + 1));
+					}
+				}).catch((reason) => {
+					let e = userInfo.obj;
+
+					e.loading.dataset.type = "errored";
+
+					switch (reason.data.code) {
+						case 13:
+							e.loading.error.innerHTML = `Không tìm thấy tài khoản <b>${reason.data.data.username}</b>`;
+							break;
+					
+						default:
+							e.loading.error.innerText = reason.data.description;
+							break;
+					}
+				})
+
+				return userInfo.tree;
+			},
+			priority: 2,
+			backtrace: 3,
+			noPadding: true
+		});
+
 		set(20, "Fetching Rank...");
 		await this.fetchRank();
 		this.rankPanel.ref.onClick(() => this.fetchRank(true));
@@ -210,7 +345,6 @@ const core = {
 			key: "rankingCell",
 			handler: ({ target, value }) => {
 				let v = value.split("|");
-				clog("DEBG", v);
 				let id = v[0],
 					problem = (v[1] === "undefined") ? null : v[1],
 					status = v[2],
@@ -222,11 +356,11 @@ const core = {
 				return `
 					<div class="rankingCellTooltip" data-status="${status}">
 						<div class="header">
-							<t class="name">${name ?? username}</t>
+							<t class="name">${name || username}</t>
 							<dot class="light"></dot>
-							<t class="problem">${problem ?? id}</t>
+							<t class="problem">${problem || id}</t>
 							<dot class="light"></dot>
-							<t class="status">${this.taskStatus[status] ?? status}</t>
+							<t class="status">${this.taskStatus[status] || status}</t>
 						</div>
 
 						<table class="point">
@@ -537,7 +671,7 @@ const core = {
 		});
 	},
 
-	async fetchRank(bypass = false) {
+	async fetchRank(hard = false) {
 		let response = await myajax({
 			url: "/api/contest/rank",
 			method: "GET",
@@ -545,7 +679,7 @@ const core = {
 
 		let data = response.data;
 		let hash = response.hash;
-		if (hash === this.previousRankHash && !bypass)
+		if (hash === this.previousRankHash && !hard)
 			return false;
 
 		clog("DEBG", "Updating Rank", `[${hash}]`);
@@ -612,7 +746,7 @@ const core = {
 							<div class="simpleSpinner"></div>
 						</div>
 					</td>
-					<td>
+					<td username="${i.username}">
 						<t class="username">${i.username}</t>
 						<t class="name">${escapeHTML(i.name || "u:" + i.username)}</t>
 					</td>
@@ -626,7 +760,7 @@ const core = {
 						class="number ${i.status[j] || ""}${(i.logFile[j]) ? ` link" onClick="core.viewLog('${i.username}', '${j}')` : ""}"
 						problem-id="${j}"
 						data-folding="${this.rankFolding[j] ? true : false}"
-						${(typeof i.point[j] === "number") ? `data-ranking-cell="${j}|${data.nameList[j] ?? "undefined"}|${i.status[j]}|${i.point[j]}|${(i.sps && i.sps[j]) ? i.sps[j] : "undefined"}|${i.username}|${i.name ? escapeHTML(i.name) : null}"` : ""}
+						${(typeof i.point[j] === "number") ? `data-ranking-cell="${j}|${data.nameList[j] || "undefined"}|${i.status[j]}|${i.point[j]}|${(i.sps && i.sps[j]) ? i.sps[j] : "undefined"}|${i.username}|${i.name ? escapeHTML(i.name) : null}"` : ""}
 					>
 						${data.spRanking
 							? `
@@ -733,12 +867,12 @@ const core = {
 								}</td>
 							<td>${(- ((1 - data.meta.sp.detail.time) * data.meta.point)).toFixed(3)}</td>
 						</tr>
-						<tr class="${["green", "yellow"][data.meta.statistic.reSubmit - 1] ?? "red"}">
+						<tr class="${["green", "yellow"][data.meta.statistic.reSubmit - 1] || "red"}">
 							<td>Chấm lại</td>
 							<td>${data.meta.statistic.reSubmit}</td>
 							<td>${(- ((1 - data.meta.sp.detail.reSubmit) * data.meta.point)).toFixed(3)}</td>
 						</tr>
-						<tr class="${["green", "yellow"][data.meta.statistic.submitNth - 1] ?? "red"}">
+						<tr class="${["green", "yellow"][data.meta.statistic.submitNth - 1] || "red"}">
 							<td>Thứ Hạng Chấm</td>
 							<td>${data.meta.statistic.submitNth}</td>
 							<td>${(- ((1 - data.meta.sp.detail.submitNth) * data.meta.point)).toFixed(3)}</td>
@@ -809,7 +943,7 @@ const core = {
 								</t>
 							</span>
 							<span class="right">
-								<span class="submitter">
+								<span class="submitter" username="${data.header.user}">
 									<div class="lazyload avatar">
 										<img onload="this.parentNode.dataset.loaded = 1" src="/api/avatar?u=${data.header.user}"/>
 										<div class="simpleSpinner"></div>
@@ -1190,22 +1324,22 @@ const core = {
 				this.attachment.container.style.display = "none";
 
 			this.description.innerHTML = data.description;
-			testhtml = "";
-			data.test.forEach(item => {
-				testhtml += [
-					`<tr>`,
-						`<td>${escapeHTML(item.inp)}</td>`,
-						`<td>${escapeHTML(item.out)}</td>`,
-					`</tr>`
-				].join("\n");
-			})
+
+			let testHtml = data.test
+				.map(item => `
+					<tr>
+						<td>${escapeHTML(item.inp)}</td>
+						<td>${escapeHTML(item.out)}</td>
+					</tr>
+				`)
+				.join("");
 
 			this.test.innerHTML = `
 				<tr>
 					<th>${data.type.inp}</th>
 					<th>${data.type.out}</th>
 				</tr>
-			` + testhtml;
+			${testHtml}`;
 		},
 
 		closeViewer() {

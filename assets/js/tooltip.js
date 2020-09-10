@@ -20,6 +20,7 @@ const tooltip = {
 	__wait: false,
 	__handlingMouseEvent: false,
 	__sizeOberving: false,
+	__backtrace: 1,
 
 	init() {
 		this.container = document.createElement("div");
@@ -105,7 +106,7 @@ const tooltip = {
 		this.hooks.sort((a, b) => (a.priority < b.priority) ? 1 : (a.priority > b.priority) ? -1 : 0);
 	},
 
-	__checkSameNode(node1, node2, maxCheck = 3) {
+	__checkSameNode(node1, node2, maxCheck = this.__backtrace) {
 		let check = 1;
 
 		while (node1) {
@@ -146,7 +147,7 @@ const tooltip = {
 				let _v = null;
 				let _t = 0;
 
-				while (_e && _t <= item.backtrace) {
+				while (_e && (_t <= item.backtrace || _e.getAttribute("tooltip-child"))) {
 					switch (item.on) {
 						case "dataset":
 							if (typeof _e.dataset[item.key] === "string")
@@ -168,8 +169,10 @@ const tooltip = {
 				if (!_v)
 					continue;
 
-				if (_v === this.prevData)
+				if (_v === this.prevData) {
+					this.nodeToShow = _e;
 					return;
+				}
 
 				this.prevData = _v;
 
@@ -179,6 +182,7 @@ const tooltip = {
 				});
 
 				if (_s) {
+					this.__backtrace = item.backtrace;
 					this.show(_s, _e, item.noPadding);
 
 					break;

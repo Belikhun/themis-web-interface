@@ -19,5 +19,5 @@
 
 	contest_timeRequire([CONTEST_STARTED], false);
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/problems.php";
 	stop(0, "Thành công!", 200, problemList($_SESSION["id"] === "admin"));

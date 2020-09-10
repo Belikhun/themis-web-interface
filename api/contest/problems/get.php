@@ -22,7 +22,7 @@
 	
 	contest_timeRequire([CONTEST_STARTED], false);
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/problems/problem.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/problems.php";
 	$data = problemGet($id, $_SESSION["id"] === "admin");
 
 	switch ($data) {

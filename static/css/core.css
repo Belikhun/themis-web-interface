@@ -153,6 +153,414 @@ body #userSettings.show ~ #container {
 	}
 }
 
+.userCard {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+
+	padding: 5px;
+
+	min-width: 200px;
+	min-height: 80px;
+}
+
+.userCard > .loadingWrapper {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+
+	opacity: 1;
+	z-index: 1;
+
+	transition: opacity 0.3s ease;
+}
+
+.userCard.loaded > .loadingWrapper {
+	opacity: 0;
+}
+
+.userCard > .loadingWrapper[data-type="errored"] > .simpleSpinner {
+	display: none;
+}
+
+.userCard > .loadingWrapper[data-type="errored"]::before {
+	content: "\f071";
+    position: relative;
+	display: block;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 18px;
+	font-style: normal;
+    color: rgb(255, 255, 255);
+}
+
+.userCard > .loadingWrapper[data-type="errored"] > .error {
+	font-size: 11px;
+	text-align: center;
+
+	color: white;
+	max-width: 100%;
+
+	padding: 6px 10px 0;
+	box-sizing: border-box;
+	word-wrap: break-word;
+	white-space: normal;
+}
+
+.userCard > .header {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+
+	align-items: center;
+}
+
+.userCard > .header > .left {
+	position: relative;
+	display: block;
+	width: 80px;
+	height: 80px;
+
+	margin: 0 5px;
+}
+
+.userCard > .header > .left > .avatar {
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 100%;
+
+	border-radius: 50%;
+}
+
+.userCard > .header > .left > .status {
+	position: absolute;
+	display: block;
+	bottom: 0;
+	right: 0;
+	width: 16px;
+	height: 16px;
+
+	background-color: rgb(190, 179, 179);
+	border: 3px solid rgb(100, 100, 100);
+	border-radius: 50%;
+}
+
+.userCard > .header > .left > .status[data-status="online"] {
+	background-color: rgb(120, 255, 140);
+}
+
+.userCard > .header > .right {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+
+	margin: 0 5px;
+}
+
+.userCard > .header > .right > .username {
+	color: rgba(255, 255, 255, 0.9);
+	font-family: "Calibri";
+	font-weight: 500;
+	font-size: 13px;
+}
+
+.userCard > .header > .right > .username::before {
+	content: "@";
+}
+
+.userCard > .header > .right > .detail {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+
+	align-items: flex-end;
+}
+
+.userCard > .header > .right > .detail > .name {
+	color: white;
+	font-family: "Nunito";
+	font-weight: 900;
+	font-size: 20px;
+	letter-spacing: .6px;
+}
+
+.userCard > .header > .right > .detail > .id {
+	color: rgba(216, 216, 216, 0.9);
+	font-size: 14px;
+	font-weight: bold;
+
+	margin-bottom: 3px;
+}
+
+.userCard > .header > .right > .detail > .id::before {
+	content: "#";
+}
+
+.userCard > .header > .right > .status {
+	margin-top: 10px;
+
+	color: rgb(224, 224, 224);
+	font-family: "Calibri";
+	font-size: 13px;
+}
+
+.userCard > .submissions {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+}
+
+.userCard > .submissions > .bar {
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 20px;
+
+	margin: 5px 0;
+	background-color: rgba(128, 128, 128, 0.6);
+}
+
+.userCard > .submissions > .bar > .inner {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	width: 0;
+	height: 100%;
+	overflow: hidden;
+
+	transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.userCard > .submissions > .bar > .inner > span {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+
+	height: 100%;
+	font-size: 15px;
+	font-weight: bold;
+	color: rgb(75, 75, 75);
+
+	overflow: hidden;
+}
+
+.userCard > .submissions > .bar > .inner > span.correct {
+	background-color: rgb(147, 243, 158);
+}
+
+.userCard > .submissions > .bar > .inner > span.passed {
+	background-color: rgb(150, 245, 248);
+}
+
+.userCard > .submissions > .bar > .inner > span.accepted {
+	background-color: rgb(240, 237, 157);
+}
+
+.userCard > .submissions > .bar > .inner > span.failed {
+	background-color: rgb(248, 187, 187);
+}
+
+.userCard > .submissions > .bar > .inner > span.skipped {
+	background-color: rgb(212, 212, 212);
+}
+
+.userCard > .submissions > .list {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+}
+
+.userCard > .submissions > .list > .item {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	height: 40px;
+	background-color: rgba(58, 58, 58, 0.8);
+
+	opacity: 0;
+	transform: translateY(20px);
+
+	transition:
+		opacity 0.2s ease-out,
+		transform 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.userCard > .submissions > .list > .item.show {
+	opacity: 1;
+	transform: unset;
+}
+
+.userCard > .submissions > .list > .item > .left {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+
+	padding: 0 10px;
+}
+
+.userCard > .submissions > .list > .item > .left > .title {
+	padding-top: 5px;
+
+	font-family: "Nunito";
+	font-weight: 700;
+	font-size: 15px;
+	line-height: 12px;
+	color: white;
+
+	opacity: 0;
+	transform: translateX(40px);
+
+	transition:
+		opacity 0.2s ease-out 0.1s,
+		transform 0.4s cubic-bezier(0.33, 1, 0.68, 1) 0.1s;
+}
+
+.userCard > .submissions > .list > .item.show > .left > .title {
+	opacity: 1;
+	transform: unset;
+}
+
+.userCard > .submissions > .list > .item[data-status="correct"] > .left > .title {
+	color: rgb(148, 255, 148);
+}
+
+.userCard > .submissions > .list > .item[data-status="passed"] > .left > .title {
+	color: rgb(188, 253, 255);
+}
+
+.userCard > .submissions > .list > .item[data-status="accepted"] > .left > .title {
+	color: rgb(255, 253, 183);
+}
+
+.userCard > .submissions > .list > .item[data-status="failed"] > .left > .title {
+	color: rgb(255, 156, 156);
+}
+
+.userCard > .submissions > .list > .item[data-status="skipped"] > .left > .title {
+	color: rgb(214, 214, 214);
+}
+
+.userCard > .submissions > .list > .item > .left > .detail {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	opacity: 0;
+
+	transition: opacity 0.2s ease-out 0.25s;
+}
+
+.userCard > .submissions > .list > .item.show > .left > .detail {
+	opacity: 1;
+}
+
+.userCard > .submissions > .list > .item > .left > .detail > .id {
+	margin-right: 10px;
+
+	font-size: 12px;
+	color: rgb(251, 189, 107);
+}
+
+.userCard > .submissions > .list > .item > .left > .detail > .extension {
+	font-size: 12px;
+	color: rgba(226, 226, 226, 0.8);
+}
+
+.userCard > .submissions > .list > .item > .right {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	height: 100%;
+	margin-left: 10px;
+	opacity: 0;
+
+	transition: opacity 0.2s ease-out 0.3s;
+}
+
+.userCard > .submissions > .list > .item.show > .right {
+	opacity: 1;
+}
+
+.userCard > .submissions > .list > .item > .right > t > sub {
+	margin-left: 2px;
+
+	vertical-align: baseline;
+	font-family: "Segoe UI";
+	font-size: 13px;
+	color: rgb(184, 184, 184);
+}
+
+.userCard > .submissions > .list > .item > .right > .point {
+	font-family: Calibri;
+	font-size: 19px;
+	font-weight: bold;
+	color: white;
+}
+
+.userCard > .submissions > .list > .item > .right > .sp {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-end;
+
+	min-width: 120px;
+	height: 100%;
+	margin-left: 15px;
+	padding-right: 10px;
+
+	font-family: Nunito;
+	font-size: 24px;
+	font-weight: bold;
+	color: rgb(195, 238, 255);
+
+	background-color: rgba(98, 98, 98, 0.5);
+}
+
+.userCard > .submissions > .list > .item > .right > .sp::before,
+.userCard > .submissions > .list > .item > .right > .sp::after {
+	content: "";
+	position: absolute;
+	display: block;
+	top: 0;
+	left: -15px;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 0 15px 20px 0;
+	border-color: transparent rgba(98, 98, 98, 0.5) transparent transparent;
+}
+
+.userCard > .submissions > .list > .item > .right > .sp::after {
+	top: unset;
+	bottom: 0;
+	border-width: 0 0 20px 15px;
+	border-color: transparent transparent rgba(98, 98, 98, 0.5) transparent;
+}
+
+.userCard > .submissions > .list > .item > .right > .sp > sub {
+	margin-top: 4px;
+	color: rgb(160, 203, 221);
+}
+
+.userCard:not(.loaded) > .header,
+.userCard:not(.loaded) > .submissions {
+	display: none;
+}
+
 panel {
 	position: relative;
 	display: flex;
@@ -1681,24 +2089,14 @@ body.guest #problemp.hide {
 	top: 0;
 
 	border-bottom: 1px solid rgba(155, 155, 155, 0.4);
-	color: rgb(82, 82, 82);
+	background-color: rgba(255, 255, 255, 0.8);
+
 	font-family: Segoe UI;
 	font-size: 13px;
 	font-weight: bold;
+	color: rgb(82, 82, 82);
+
 	z-index: 1;
-}
-
-#rankp div.rankingContainer table thead tr th:first-child::before {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: -10px;
-	width: calc(100vw - 24px);
-	height: 100%;
-
-	background-color: rgba(255, 255, 255, 0.5);
-	backdrop-filter: saturate(80%) blur(6px);
-	z-index: -1;
 }
 
 #rankp div.rankingContainer table thead tr th:nth-child(3) {
@@ -1774,9 +2172,8 @@ body.guest #problemp.hide {
 	font-weight: bold;
 }
 
-#rankp div.rankingContainer table tr td.number[data-folding="true"] {
-	font-size: 0;
-	padding: unset;
+#rankp div.rankingContainer table tr td.number[data-folding="true"] > t {
+	display: none;
 }
 
 #rankp div.rankingContainer table tr td.number.link {

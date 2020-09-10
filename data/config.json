@@ -25,11 +25,11 @@
         "ranking": {
             "enabled": true,
             "viewTask": true,
-            "hideDisabled": false
+            "hideDisabled": true
         },
         "log": {
-            "enabled": false,
-            "viewOther": false
+            "enabled": true,
+            "viewOther": true
         },
         "problem": {
             "public": true
