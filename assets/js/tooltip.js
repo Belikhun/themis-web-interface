@@ -131,10 +131,10 @@ const tooltip = {
 			checkNode = false;
 			
 			if (!this.__checkSameNode(event.target, this.nodeToShow)) {
-				this.nodeToShow = null;
 				checkNode = true;
-
+				
 				this.hideTimeout = setTimeout(() => {
+					this.nodeToShow = null;
 					this.prevData = null;
 					this.container.classList.remove("show");
 				}, this.showTime);
