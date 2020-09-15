@@ -22,6 +22,7 @@
 	--flat-color-pink:			#f368e0;
 
 	/* FROM OSC PACKAGE */
+	--osc-color-whitesmoke:		#f6f6f6;
 	--osc-color-pink:			#ff66aa;
 	--osc-color-green:			#88b400;
 	--osc-color-blue:			#44aadd;
@@ -276,7 +277,7 @@ tag {
 	opacity: 0;
 
 	transform: translate(10px, 20px);
-	transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+	transition: opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 
 	animation: tooltip-blink 0.3s linear;
 	animation-fill-mode: forwards;
@@ -284,6 +285,7 @@ tag {
 
 .tooltip.show {
 	opacity: 1;
+	transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .tooltip > .content {
@@ -725,6 +727,7 @@ body.dark .switchContainer > span {
 	animation-iteration-count: infinite;
 }
 
+.triBg[data-tri-color = "whitesmoke"]	.triBgContainer { background-color: var(--osc-color-whitesmoke);	}
 .triBg[data-tri-color = "pink"]			.triBgContainer { background-color: var(--osc-color-pink);			}
 .triBg[data-tri-color = "green"]		.triBgContainer { background-color: var(--osc-color-green);			}
 .triBg[data-tri-color = "blue"]			.triBgContainer { background-color: var(--osc-color-blue);			}
@@ -741,6 +744,7 @@ body.dark .switchContainer > span {
 .triBg[data-tri-color = "darkRed"]		.triBgContainer { background-color: var(--osc-color-darkRed);		}
 .triBg[data-tri-color = "navyBlue"]		.triBgContainer { background-color: var(--osc-color-navyBlue);		}
 
+.triBg[data-tri-color = "whitesmoke"]	.triBgContainer > span { border-bottom-color: var(--osc-color-whitesmoke);	}
 .triBg[data-tri-color = "pink"]			.triBgContainer > span { border-bottom-color: var(--osc-color-pink);		}
 .triBg[data-tri-color = "green"]		.triBgContainer > span { border-bottom-color: var(--osc-color-green);		}
 .triBg[data-tri-color = "blue"]			.triBgContainer > span { border-bottom-color: var(--osc-color-blue);		}
