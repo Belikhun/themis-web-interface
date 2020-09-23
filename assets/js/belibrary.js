@@ -706,7 +706,7 @@ class lazyload {
 		this.onLoadedHandler = null;
 		this.onErroredHandler = null;
 
-		container.classList.add("lazyload");
+		this.container.classList.add("lazyload");
 
 		if (classes)
 			switch (typeof classes) {
@@ -714,10 +714,11 @@ class lazyload {
 					if (!Array.isArray(classes))
 						throw { code: -1, description: `lazyload: classes is not a valid array` }
 
-					container.classList.add(...classes);
+					this.container.classList.add(...classes);
 					break;
+					
 				case "string":
-					container.classList.add(classes);
+					this.container.classList.add(classes);
 					break;
 			}
 
@@ -960,6 +961,11 @@ function triBg(element, {
 	let container = document.createElement("div");
 	container.classList.add("triBgContainer");
 	container.dataset.count = triangleCount;
+	container.dataset.anim = (scale > 5)
+		? "big"
+		: (scale > 1)
+			? "normal"
+			: "small";
 
 	for (let i = 0; i < triangleCount; i++) {
 		let randScale = randBetween(0.4, 2.0, false);
@@ -981,6 +987,12 @@ function triBg(element, {
 	}
 
 	element.insertBefore(container, element.firstChild);
+
+	return {
+		setColor(color) {
+			element.dataset.triColor = color;
+		}
+	}
 }
 
 /**
@@ -1184,6 +1196,7 @@ function Animator(duration, timingFunction, animate) {
 		}
 	}
 }
+
 /**
  * Generate Random String
  * @param	{Number}	len		Length of the randomized string
@@ -1225,6 +1238,13 @@ if (typeof $ !== "function")
 function emptyNode(node) {
 	while (node.firstChild)
 		node.firstChild.remove();
+}
+
+function sanitizeHTML(html) {
+	let decoder = document.createElement("div");
+	decoder.innerHTML = html;
+	
+	return decoder.textContent;
 }
 
 /**
@@ -1297,7 +1317,8 @@ function createSwitch({
 	title.innerHTML = label;
 
 	let switchLabel = document.createElement("label");
-	switchLabel.classList.add("sq-checkbox", color);
+	switchLabel.classList.add("sq-checkbox");
+	switchLabel.dataset.color = color;
 
 	let input = document.createElement("input");
 	input.type = type;
@@ -1315,7 +1336,84 @@ function createSwitch({
 	container.appendChild(title);
 	container.appendChild(switchLabel);
 
-	return { group: container, input: input }
+	return {
+		group: container,
+		input,
+		title,
+		label: switchLabel
+	}
+}
+
+function createSlider({
+	color = "pink",
+	value = 0,
+	min = 0,
+	max = 10,
+	step = 1
+} = {}) {
+	let container = buildElementTree("div", "osc-slider", [
+		{ type: "input", name: "input" },
+		{ type: "span", class: "leftTrack", name: "left" },
+		{ type: "span", class: "thumb", name: "thumb" },
+		{ type: "span", class: "rightTrack", name: "right" }
+	]);
+
+	let o = container.obj;
+	o.dataset.color = color;
+
+	o.input.type = "range";
+	o.input.min = min;
+	o.input.max = max;
+	o.input.step = step;
+	o.input.value = value;
+
+	const update = (e) => {
+		let width = e.target.offsetWidth;
+		let valP = (e.target.value - min) / (max - min);
+
+		o.thumb.style.left = `${20 + (width - 40) * valP}px`;
+		o.left.style.width = `${(width - 40) * valP}px`;
+		o.right.style.width = `calc(100% - ${(width - 40) * valP + 40}px`;
+
+		if (sounds)
+			if (valP === 0)
+				sounds.slider(2);
+			else if (valP === 1)
+				sounds.slider(1);
+			else
+				sounds.slider(0);
+	}
+
+	requestAnimationFrame(() => update({ target: o.input }));
+
+	let inputHandlers = []
+	let changeHandlers = []
+
+	o.input.addEventListener("input", (e) => {
+		inputHandlers.forEach(f => f(parseFloat(e.target.value), e));
+		update(e);
+	});
+
+	o.input.addEventListener("change", (e) => changeHandlers.forEach(f => f(parseFloat(e.target.value), e)));
+
+	return {
+		group: container.tree,
+		input: o.input,
+
+		onInput(f) {
+			if (!f || typeof f !== "function")
+					throw { code: -1, description: "createSlider().onInput(): not a valid function" }
+
+			inputHandlers.push(f);
+		},
+
+		onChange(f) {
+			if (!f || typeof f !== "function")
+					throw { code: -1, description: "createSlider().onChange(): not a valid function" }
+
+			changeHandlers.push(f);
+		}
+	}
 }
 
 /**
@@ -1326,9 +1424,10 @@ function createSwitch({
  */
 function createBtn(text, color = "blue") {
 	let btn = document.createElement("button");
+	btn.classList.add("sq-btn");
 	btn.type = "button";
 	btn.innerText = text;
-	btn.classList.add("sq-btn", color);
+	btn.dataset.color = color;
 	btn.dataset.soundhover = "";
 	btn.dataset.soundselect = "";
 
@@ -1403,7 +1502,7 @@ function clog(level, ...args) {
 		CRIT: "gray",
 	}[level])
 
-	text = [
+	let text = [
 		{
 			color: flatc("aqua"),
 			text: `${pleft(date.getHours(), 2)}:${pleft(date.getMinutes(), 2)}:${pleft(date.getSeconds(), 2)}`,
