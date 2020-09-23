@@ -1,0 +1,757 @@
+/*
+? |-----------------------------------------------------------------------------------------------|
+? |  /assets/css/smenu.css		                                                                  |
+? |                                                                                               |
+? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
+? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+? |-----------------------------------------------------------------------------------------------|
+*/
+
+.smenuContainer {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	height: 100%;
+
+	background-color: transparent;
+	overflow: hidden;
+
+	transition: background-color 0.6s ease-in-out;
+}
+
+.smenuContainer.show {
+	background-color: rgba(0, 0, 0, 0.2);
+}
+
+.smenuContainer.hide {
+	display: none;
+}
+
+.smenuContainer > .main {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	flex-grow: 0;
+	flex-shrink: 0;
+	order: 1;
+
+	min-height: 100%;
+	padding-left: 380px;
+
+	user-select: none;
+	overflow: hidden;
+	z-index: 1;
+
+	transition:
+		padding-left 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.smenuContainer > .main.collapse {
+	padding-left: 0;
+}
+
+/** ================ CONTAINER ================ **/
+
+.smenuContainer > .main > .wrapper {
+	position: absolute;
+	display: block;
+
+	top: 0;
+	left: 0;
+	width: 380px;
+	height: 100%;
+	transform: translateX(calc(100% + 60px));
+
+	background-color: rgba(245, 245, 246, 0.8);
+	overflow: hidden;
+	opacity: 0;
+
+	transition:
+		background-color 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+		opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+		transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.smenuContainer.show > .main > .wrapper {
+	transform: unset;
+	opacity: 1;
+}
+
+.smenuContainer > .main.collapse > .wrapper {
+	background-color: white;
+}
+
+.smenuContainer > .main > .wrapper > .smenu {
+    position: relative;
+	display: block;
+
+	width: 100%;
+	height: 100%;
+	
+	overflow-x: hidden;
+	overflow-y: auto;
+	opacity: 1;
+
+	transition:
+		opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+}
+
+.smenuContainer > .main.collapse > .wrapper > .smenu {
+	opacity: 0;
+}
+
+.smenuContainer > .main > .wrapper > .smenu::-webkit-scrollbar {
+	display: none;
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .title {
+	margin: 30px 20px 0;
+
+	font-family: Nunito;
+	font-weight: 500;
+	font-size: 32px;
+	line-height: 34px;
+	text-align: right;
+
+	color: rgb(46, 46, 46);
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .description {
+	margin: 0 20px 30px;
+
+	text-align: right;
+	color: rgb(167, 10, 36);
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .searchBox {
+	position: sticky;
+	display: flex;
+	align-items: center;
+
+	top: 0;
+	height: 40px;
+	padding: 20px 0;
+
+	background-color: rgba(245, 245, 246, 0.2);
+	z-index: 1;
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .searchBox > .sq-input {
+	width: calc(100% - 20px);
+	margin: 0 10px;
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .searchBox::after {
+	content: "\f002";
+	position: absolute;
+
+	right: 20px;
+
+    font-family: "Font Awesome 5 Free";
+    font-size: 18px;
+    font-weight: 600;
+	text-align: center;
+	color: rgb(94, 94, 94);
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group {
+    position: relative;
+	display: flex;
+	flex-direction: column;
+	
+	width: 100%;
+	min-height: 50px;
+	margin-bottom: 10px;
+	box-sizing: border-box;
+	
+	border-top: 2px solid white;
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .title {
+	position: relative;
+    display: block;
+
+    margin: 20px 20px 10px;
+    box-sizing: border-box;
+
+    font-family: Nunito;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: right;
+    letter-spacing: .2px;
+    color: #297fb9;
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child,
+.smenuContainer > .main > .wrapper > .smenu > .group > .component {
+	position: relative;
+	display: block;
+
+	text-align: right;
+
+    margin: 10px 20px;
+    box-sizing: border-box;
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child::before {
+	content: "";
+	position: absolute;
+	display: block;
+
+	width: 1px;
+	height: 90%;
+	top: 50%;
+	right: -10px;
+	transform: translateY(-50%);
+
+	background-color: rgba(148, 148, 148, 0.6);
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .title {
+	font-family: Nunito;
+	font-size: 14px;
+	font-weight: 900;
+	text-transform: uppercase;
+	text-align: right;
+	letter-spacing: .4px;
+	color: rgb(44, 44, 44);
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component {
+	position: relative;
+	display: block;
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component::after {
+	content: "";
+	position: absolute;
+	display: block;
+
+	top: 50%;
+	right: -12px;
+	width: 5px;
+	height: 60%;
+	transform: translateY(-50%);
+
+	background-color: #086fb3;
+	border-radius: 16px;
+	opacity: 0;
+
+	transition: opacity 0.2s ease;
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.changed::after {
+	opacity: 1;
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.text {
+	text-align: right;
+	font-size: 14px;
+    color: #2c2c2c;
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.switch > .switchContainer {
+	flex-direction: row-reverse;
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.switch > .switchContainer > span {
+	margin: unset;
+	text-align: right;
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.switch > .switchContainer:hover > .sq-checkbox {
+	width: 36px;
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.slider > .header {
+	position: relative;
+	display: flex;
+	flex-direction: row-reverse;
+	align-items: flex-end;
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.slider > .header > .label {
+	flex-grow: 1;
+	font-size: 12px;
+	text-align: right;
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.slider > .header > .preview {
+	font-family: Consolas;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.button > .sq-btn {
+	width: 100%;
+	margin: 5px 0;
+	padding: 10px 20px;
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.footer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	margin-bottom: 60px;
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.footer > .icon {
+	width: 40px;
+	height: 40px;
+
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.footer > .name {
+	margin-top: 5px;
+
+	font-family: Nunito;
+	font-weight: 900;
+	font-size: 14px;
+	letter-spacing: .4px;
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.footer > .version {
+	font-size: 13px;
+	color: rgb(192, 13, 31);
+}
+
+/** ================ NAVIGATOR ================ **/
+
+.smenuContainer > .main > .navigator {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	flex-grow: 0;
+	flex-shrink: 0;
+
+	width: 60px;
+	transform: translateX(100%);
+	
+	background-color: white;
+	z-index: 2;
+	opacity: 0;
+
+	transition:
+		width 0.4s cubic-bezier(0.33, 1, 0.68, 1),
+		transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+		opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.smenuContainer.show > .main > .navigator {
+	transform: unset;
+	opacity: 1;
+}
+
+.smenuContainer > .main > .navigator.expand {
+	width: 160px;
+}
+
+.smenuContainer > .main > .navigator > .button {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: flex-end;
+
+	width: calc(100% - 2px);
+	height: 58px;
+	margin: 1px;
+	border-radius: 6px;
+	overflow: hidden;
+
+	font-size: 13px;
+	text-align: right;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+
+	box-sizing: border-box;
+	overflow: hidden;
+	cursor: pointer;
+	
+	transition:
+		background-color 0.2s ease-out,
+		transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.smenuContainer > .main > .navigator > .button:hover {
+	background-color: rgba(128, 128, 128, 0.2);
+}
+
+.smenuContainer > .main > .navigator > .button:active {
+	transform: scale(0.9);
+}
+
+.smenuContainer > .main > .navigator > .button::before {
+	content: "";
+	position: absolute;
+	display: none;
+
+	top: 0;
+	left: 0;
+	width: 5px;
+	height: 100%;
+
+	background-color: #086fb3;
+}
+
+.smenuContainer > .main > .navigator > .button.active::before {
+	display: block;
+}
+
+.smenuContainer > .main > .navigator > .button::after {
+	content: "\f111";
+	position: relative;
+	display: flex;
+	flex-grow: 0;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+
+	width: 58px;
+	height: 58px;
+
+    color: #b3b3b3;
+    line-height: 50px;
+    font-family: "Font Awesome 5 Free";
+    font-size: 20px;
+    font-weight: 600;
+	text-align: center;
+
+	transition:
+		color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.smenuContainer > .main > .navigator > .button:hover::after,
+.smenuContainer > .main > .navigator > .button.active::after {
+	color: rgb(46, 46, 46);
+}
+
+.smenuContainer > .main > .navigator > .button[data-icon="user"]::after {
+    content: "\f2bd";
+}
+
+.smenuContainer > .main > .navigator > .button[data-icon="contact"]::after {
+    content: "\f2c2";
+}
+
+.smenuContainer > .main > .navigator > .button[data-icon="key"]::after {
+    content: "\f084";
+}
+
+.smenuContainer > .main > .navigator > .button[data-icon="home"]::after {
+    content: "\f015";
+}
+
+.smenuContainer > .main > .navigator > .button[data-icon="config"]::after {
+    content: "\f013";
+}
+
+.smenuContainer > .main > .navigator > .button[data-icon="report"]::after {
+    content: "\f188";
+}
+
+.smenuContainer > .main > .navigator > .button[data-icon="repo"]::after {
+    content: "\f09b";
+    font-family: "Font Awesome 5 Brands";
+}
+
+.smenuContainer > .main > .navigator > .button[data-icon="wiki"]::after {
+    content: "\f02d";
+}
+
+.smenuContainer > .main > .navigator > .button[data-icon="link"]::after {
+    content: "\f0c1";
+}
+
+.smenuContainer > .main > .navigator > .button[data-icon="info"]::after {
+    content: "\f129";
+}
+
+.smenuContainer > .main > .navigator > .button[data-icon="logout"]::after {
+    content: "\f2f5";
+}
+
+.smenuContainer > .main > .navigator > .button[data-icon="file"]::after {
+    content: "\f15c";
+}
+
+.smenuContainer > .main > .navigator > .button[data-icon="folder"]::after {
+    content: "\f07b";
+}
+
+.smenuContainer > .main > .navigator > .button[data-icon="clock"]::after {
+    content: "\f017";
+}
+
+.smenuContainer > .main > .navigator > .button[data-icon="star"]::after {
+    content: "\f621";
+}
+
+.smenuContainer > .main > .navigator > .button[data-icon="tools"]::after {
+    content: "\f7d9";
+}
+
+.smenuContainer > .main > .navigator > .button[data-icon="plus"]::after {
+    content: "\f067";
+}
+
+.smenuContainer > .main > .navigator > .button[data-icon="server"]::after {
+    content: "\f233";
+}
+
+/** ================ PANELS ================ **/
+
+.smenuContainer > .panels {
+	position: relative;
+	display: flex;
+	flex-grow: 1;
+	order: 0;
+
+	z-index: 0;
+}
+
+.smenuContainer > .panels > .underlay {
+	position: absolute;
+	display: block;
+	
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.smenuContainer > .panels > .panel {
+	position: absolute;
+	display: block;
+	
+    top: 0;
+    right: 0;
+    width: 400px;
+	height: 100%;
+	margin-right: 50px;
+	opacity: 0;
+
+	transition:
+		opacity 0.6s ease;
+}
+
+.smenuContainer > .panels > .panel.show {
+	opacity: 1;
+}
+
+.smenuContainer > .panels > .panel.hide {
+	display: none;
+}
+
+.smenuContainer > .panels > .panel > .buttons {
+    position: absolute;
+    display: flex;
+	flex-direction: column;
+	
+    top: 0;
+    right: -50px;
+    width: 50px;
+	height: 100%;
+	transform: translateX(100%);
+
+    background-color: white;
+    z-index: 1;
+    
+    transition:
+        width 0.2s cubic-bezier(0.23, 1, 0.32, 1),
+		background-color 0.2s ease-out,
+		transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+    
+.smenuContainer > .panels > .panel > .buttons:hover {
+    width: 100px;
+    background-color: rgba(245, 245, 246, 1);
+}
+
+.smenuContainer > .panels > .panel.show > .buttons {
+	transform: unset;
+}
+
+.smenuContainer > .panels > .panel > .buttons > span {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    flex-grow: 1;
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1),
+        transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.smenuContainer > .panels > .panel > .buttons > span::before {
+    content: "\f111";
+    position: relative;
+    display: block;
+    font-family: "Font Awesome 5 Free";
+    font-size: 12px;
+    font-weight: 600;
+    color: gray;
+
+    transition:
+        color 0.2s cubic-bezier(0.23, 1, 0.32, 1),
+        font-size 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.smenuContainer > .panels > .panel > .buttons > span:hover {
+    background-color: rgba(41, 127, 185, 0.1);
+}
+
+.smenuContainer > .panels > .panel > .buttons > span:active {
+    transform: scale(0.8);
+}
+
+.smenuContainer > .panels > .panel > .buttons > span:hover::before {
+    color: #2980b9;
+}
+
+.smenuContainer > .panels > .panel > .buttons:hover > span::before {
+    font-size: 18px;
+}
+
+.smenuContainer > .panels > .panel > .buttons > .close:hover {
+    background-color: rgba(231, 77, 60, 0.1);
+}
+
+.smenuContainer > .panels > .panel > .buttons > .close::before {
+    content: "\f054";
+}
+
+.smenuContainer > .panels > .panel > .buttons > .close:hover::before {
+    color: #e74c3c;
+}
+
+.smenuContainer > .panels > .panel > .buttons > .reload::before {
+    content: "\f2f1";
+}
+
+.smenuContainer > .panels > .panel > .buttons > .delete::before {
+    content: "\f2ed";
+}
+
+.smenuContainer > .panels > .panel > .buttons > span::after {
+    position: absolute;
+    display: block;
+    left: 50%;
+    top: calc(50% + 30px);
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+    font-family: "Calibri";
+    font-size: 12px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: rgb(98, 98, 98);
+    opacity: 0;
+
+    transition:
+        opacity 0.2s cubic-bezier(0.23, 1, 0.32, 1),
+        color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.smenuContainer > .panels > .panel > .buttons:hover > span::after {
+    opacity: 1;
+}
+
+.smenuContainer > .panels > .panel > .buttons > span:hover::after {
+    color: #2980b9;
+}
+
+.smenuContainer > .panels > .panel > .buttons > .reload::after {
+    content: "Làm Mới";
+}
+
+.smenuContainer > .panels > .panel > .buttons > .close::after {
+    content: "Đóng";
+}
+
+.smenuContainer > .panels > .panel > .buttons > .close:hover::after {
+    color: #e74c3c;
+}
+
+.smenuContainer > .panels > .panel > .buttons > .delete::after {
+    content: "Xóa";
+}
+
+.smenuContainer > .panels > .panel > .main {
+    position: absolute;
+	display: block;
+	
+	top: 0;
+	left: 0;
+    width: 100%;
+	height: 100%;
+	transform: translateX(calc(100% + 100px));
+
+    overflow: auto;
+    direction: ltr;
+	scroll-behavior: smooth;
+	
+	background-color: rgba(245, 245, 246, 0.8);
+
+    transition:
+        transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.smenuContainer > .panels > .panel.show > .main {
+	transform: unset;
+}
+
+.smenuContainer > .panels > .panel > .main:empty::before,
+.smenuContainer > .panels > .panel > .main .showEmpty:empty::before {
+    content: "\f51b";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, calc(-50% - 22px));
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 72px;
+    color: rgb(170, 170, 170);
+}
+
+.smenuContainer > .panels > .panel > .main:empty::after,
+.smenuContainer > .panels > .panel > .main .showEmpty:empty::after {
+    content: "Không Có Dữ Liệu";
+    position: absolute;
+    display: inline-block;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, calc(-50% + 36px));
+    width: unset;
+    height: unset;
+    background-color: unset;
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    color: rgb(124, 124, 124);
+}
+
+/*? ================ MOBILE LAYOUT ================ **/
+
+@media only screen and (max-width: 740px) {
+	.smenuContainer > .main {
+		width: 100%;
+	}
+
+	.smenuContainer > .main > .wrapper > .smenu {
+		flex-grow: 1;
+		flex-shrink: 1;
+		width: auto;
+	}
+}
