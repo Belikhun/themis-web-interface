@@ -10,64 +10,28 @@ const sounds = {
 	disabled: false,
 	initialized: false,
 	soundsLoaded: false,
-	ROOT_DIR: "/assets/sounds",
+	LOCATION: "/assets/sounds",
 
-	soundList: [{
-		key: "checkOff",
-		name: "check-off.mp3"
-	}, {
-		key: "checkOn",
-		name: "check-on.mp3"
-	}, {
-		key: "hover",
-		name: "generic-hover.mp3"
-	}, {
-		key: "hoverSoft",
-		name: "generic-hover-soft.mp3"
-	}, {
-		key: "select",
-		name: "generic-select.mp3"
-	}, {
-		key: "selectSoft",
-		name: "generic-select-soft.mp3"
-	}, {
-		key: "overlayPopIn",
-		name: "overlay-pop-in.mp3"
-	}, {
-		key: "overlayPopOut",
-		name: "overlay-pop-out.mp3"
-	}, {
-		key: "confirm",
-		name: "generic-confirm.mp3"
-	}, {
-		key: "confirm2",
-		name: "generic-confirm-2.mp3"
-	}, {
-		key: "confirm3",
-		name: "generic-confirm-3.mp3"
-	}, {
-		key: "warning",
-		name: "generic-warning.mp3"
-	}, {
-		key: "notification",
-		name: "notification.mp3"
-	}, {
-		key: "valueChange",
-		name: "generic-value-change.mp3"
-	}],
-
-	sounds: {
-		checkOff: null,
-		checkOn: null,
-		hover: null,
-		hoverSoft: null,
-		select: null,
-		selectSoft: null,
-		overlayPopIn: null,
-		overlayPopOut: null,
-		confirm: null,
-		notification: null,
+	soundsPath: {
+		checkOff: "check-off.mp3",
+		checkOn: "check-on.mp3",
+		confirm: "generic-confirm.mp3",
+		confirm2: "generic-confirm-2.mp3",
+		confirm3: "generic-confirm-3.mp3",
+		hover: "generic-hover.mp3",
+		hoverSoft: "generic-hover-soft.mp3",
+		notification: "notification.mp3",
+		overlayPopIn: "overlay-pop-in.mp3",
+		overlayPopOut: "overlay-pop-out.mp3",
+		select: "generic-select.mp3",
+		selectSoft: "generic-select-soft.mp3",
+		sliderHigh: "slider-high.mp3",
+		sliderLow: "slider-low.mp3",
+		sliderSlide: "slider-slide.mp3",
+		warning: "generic-warning.mp3"
 	},
+
+	sounds: {},
 	
 	enable: {
 		master: false,
@@ -106,7 +70,8 @@ const sounds = {
 
 		set(100, "Done");
 		this.initialized = true;
-		clog("okay", "Initialised:", {
+
+		clog("OKAY", "Initialised:", {
 			color: flatc("red"),
 			text: "sounds"
 		});
@@ -116,10 +81,14 @@ const sounds = {
 		if (this.disabled)
 			throw { code: -1, description: "Sounds Module Disabled" }
 
-		for (var i = 0; i < this.soundList.length; i++) {
-			const item = this.soundList[i];
-			set((i / (this.soundList.length - 1)) * 100, item.name);
-			this.sounds[item.key] = await this.__loadSoundAsync(`${this.ROOT_DIR}/${item.name}`);
+		let keys = Object.keys(this.soundsPath);
+
+		for (let i = 0; i < keys.length; i++) {
+			let key = keys[i]
+			let item = this.soundsPath[key]
+
+			set((i / (keys.length - 1)) * 100, key);
+			this.sounds[key] = await this.__loadSoundAsync(`${this.LOCATION}/${item}`);
 		}
 	},
 
@@ -127,7 +96,7 @@ const sounds = {
 		if (this.disabled)
 			throw { code: -1, description: "Sounds Module Disabled" }
 
-		var sound = new Audio();
+		let sound = new Audio();
 		sound.src = (typeof chrome !== "undefined" && chrome.extension) ? chrome.extension.getURL(url) : url;
 		clog("DEBG", `Loading sound: ${url}`);
 
@@ -140,15 +109,14 @@ const sounds = {
 			});
 
 			sound.addEventListener("error", e => {
-				clog("ERRR", `Error loading sound: ${url}`);
-				console.log(e);
+				clog("ERRR", `Error loading sound: ${url}`, e);
 				reject(e);
 			})
 		})
 	},
 
 	__soundToggle(sound) {
-		if (!sound || sound.readyState < 3 || !this.initialized)
+		if (!this.enable.master || !sound || sound.readyState < 3 || !this.initialized)
 			return false;
 
 		if (!sound.paused)
@@ -156,7 +124,7 @@ const sounds = {
 
 		sound.currentTime = 0;
 		sound.play()
-			.catch(e => clog("errr", "Error occurred while trying to play sounds."));
+			.catch(e => clog("ERRR", "An error occurred while trying to play sounds", e));
 	},
 
 	select(variation = 0) {
@@ -168,7 +136,7 @@ const sounds = {
 			this.sounds.selectSoft
 		][variation]
 
-		if (this.enable.master && this.enable.others)
+		if (this.enable.others)
 			this.__soundToggle(sound);
 	},
 
@@ -182,7 +150,7 @@ const sounds = {
 			this.sounds.confirm3
 		][variation]
 
-		if (this.enable.master && this.enable.others)
+		if (this.enable.others)
 			this.__soundToggle(sound);
 	},
 
@@ -195,7 +163,7 @@ const sounds = {
 			this.sounds.overlayPopOut
 		][variation]
 
-		if (this.enable.master && this.enable.others)
+		if (this.enable.others)
 			this.__soundToggle(sound);
 	},
 
@@ -203,15 +171,29 @@ const sounds = {
 		if (this.disabled || !this.initialized)
 			return;
 
-		if (this.enable.master && this.enable.notification)
+		if (this.enable.notification)
 			this.__soundToggle(this.sounds.notification);
+	},
+
+	slider(variation = 0) {
+		if (this.disabled || !this.initialized)
+			return;
+
+		let sound = [
+			this.sounds.sliderSlide,
+			this.sounds.sliderHigh,
+			this.sounds.sliderLow
+		][variation]
+
+		if (this.enable.others)
+			this.__soundToggle(sound);
 	},
 
 	warning() {
 		if (this.disabled || !this.initialized)
 			return;
 
-		if (this.enable.master && this.enable.others)
+		if (this.enable.others)
 			this.__soundToggle(this.sounds.warning);
 	},
 
@@ -223,7 +205,7 @@ const sounds = {
 
 		for (var item of list) {
 			if (typeof item.dataset === "undefined") {
-				clog("DEBG", `Unknown element: ${e} in sounds.scan`);
+				clog("DEBG", `sounds.scan(): Unknown element: ${e}`);
 				continue;
 			}
 
@@ -233,43 +215,50 @@ const sounds = {
 		return true;
 	},
 	
-	applySound(item) {
+	/**
+	 * @param {HTMLElement}		item
+	 */
+	applySound(item, flags) {
 		if (!item.nodeType || item.nodeType <= 0 || item.dataset.soundApplied || !this.soundsLoaded || this.disabled)
 			return false;
 
+		if (flags && typeof flags === "array")
+			for (let flag of flags)
+				item.dataset[flag] = true;
+
 		if (typeof item.dataset.soundhover !== "undefined")
 			item.addEventListener("mouseenter", e => {
-				if (this.enable.master && this.enable.mouseOver)
+				if (this.enable.mouseOver)
 					this.__soundToggle(this.sounds.hover);
 			})
 
 		if (typeof item.dataset.soundhoversoft !== "undefined")
 			item.addEventListener("mouseenter", e => {
-				if (this.enable.master && this.enable.mouseOver)
+				if (this.enable.mouseOver)
 					this.__soundToggle(this.sounds.hoverSoft);
 			})
 
 		if (typeof item.dataset.soundselect !== "undefined")
 			item.addEventListener("mousedown", e => {
-				if (this.enable.master && this.enable.btnClick)
+				if (this.enable.btnClick)
 					this.__soundToggle(this.sounds.select);
 			})
 
 		if (typeof item.dataset.soundselectsoft !== "undefined")
 			item.addEventListener("mousedown", e => {
-				if (this.enable.master && this.enable.btnClick)
+				if (this.enable.btnClick)
 					this.__soundToggle(this.sounds.selectSoft);
 			})
 
 		if (typeof item.dataset.soundchange !== "undefined")
 			item.addEventListener("change", e => {
-				if (this.enable.master && this.enable.others)
+				if (this.enable.others)
 					this.__soundToggle(this.sounds.valueChange);
 			})
 
 		if (typeof item.dataset.soundcheck !== "undefined")
 			item.addEventListener("change", e => {
-				if (this.enable.master && this.enable.btnClick)
+				if (this.enable.btnClick)
 					if (e.target.checked === true)
 						this.__soundToggle(this.sounds.checkOn);
 					else
@@ -278,10 +267,10 @@ const sounds = {
 
 		if (typeof item.dataset.soundtoggle === "string")
 			new ClassWatcher(item, item.dataset.soundtoggle, () => {
-				if (this.enable.master && this.enable.panelToggle)
+				if (this.enable.panelToggle)
 					this.__soundToggle(this.sounds.overlayPopIn);
 			}, () => {
-				if (this.enable.master && this.enable.panelToggle)
+				if (this.enable.panelToggle)
 					this.__soundToggle(this.sounds.overlayPopOut);
 			});
 
