@@ -996,6 +996,194 @@ function randBetween(min, max, toInt = true) {
 		: (Math.random() * (max - min) + min)
 }
 
+const Easing = {
+	/**
+	 * @param	{Number}	t	Point [0, 1]
+	 * @return	{Number}		Point [0, 1]
+	 */
+	Linear: t => t,
+
+	/**
+	 * @param	{Number}	t	Point [0, 1]
+	 * @return	{Number}		Point [0, 1]
+	 */
+	InSine: t => 1 - Math.cos((t * Math.PI) / 2),
+
+	/**
+	 * @param	{Number}	t	Point [0, 1]
+	 * @return	{Number}		Point [0, 1]
+	 */
+	OutSine: t => Math.sin((t * Math.PI) / 2),
+
+	/**
+	 * @param	{Number}	t	Point [0, 1]
+	 * @return	{Number}		Point [0, 1]
+	 */
+	InOutSine: t => -(Math.cos(Math.PI * t) - 1) / 2,
+
+	/**
+	 * @param	{Number}	t	Point [0, 1]
+	 * @return	{Number}		Point [0, 1]
+	 */
+	InQuad: t => t*t,
+
+	/**
+	 * @param	{Number}	t	Point [0, 1]
+	 * @return	{Number}		Point [0, 1]
+	 */
+	OutQuad: t => t*(2-t),
+
+	/**
+	 * @param	{Number}	t	Point [0, 1]
+	 * @return	{Number}		Point [0, 1]
+	 */
+	InOutQuad: t => (t < .5) ? 2*t*t : -1+(4-2*t)*t,
+
+	/**
+	 * @param	{Number}	t	Point [0, 1]
+	 * @return	{Number}		Point [0, 1]
+	 */
+	InCubic: t => t*t*t,
+
+	/**
+	 * @param	{Number}	t	Point [0, 1]
+	 * @return	{Number}		Point [0, 1]
+	 */
+	OutCubic: t => (--t)*t*t+1,
+
+	/**
+	 * @param	{Number}	t	Point [0, 1]
+	 * @return	{Number}		Point [0, 1]
+	 */
+	InOutCubic: t => (t < .5) ? 4*t*t*t : (t-1)*(2*t-2)*(2*t-2)+1,
+
+	/**
+	 * @param	{Number}	t	Point [0, 1]
+	 * @return	{Number}		Point [0, 1]
+	 */
+	InExpo: t => t === 0 ? 0 : Math.pow(2, 10 * t - 10),
+
+	/**
+	 * @param	{Number}	t	Point [0, 1]
+	 * @return	{Number}		Point [0, 1]
+	 */
+	OutExpo: t => t === 1 ? 1 : 1 - Math.pow(2, -10 * t),
+
+	/**
+	 * @param	{Number}	t	Point [0, 1]
+	 * @return	{Number}		Point [0, 1]
+	 */
+	InOutExpo: t => t === 0
+				? 0
+				: t === 1
+					? 1
+					: t < 0.5
+						? Math.pow(2, 20 * t - 10) / 2
+						: (2 - Math.pow(2, -20 * t + 10)) / 2,
+
+	/**
+	 * @param	{Number}	t	Point [0, 1]
+	 * @return	{Number}		Point [0, 1]
+	 */
+	InQuart: t => t*t*t*t,
+
+	/**
+	 * @param	{Number}	t	Point [0, 1]
+	 * @return	{Number}		Point [0, 1]
+	 */
+	OutQuart: t => 1-(--t)*t*t*t,
+
+	/**
+	 * @param	{Number}	t	Point [0, 1]
+	 * @return	{Number}		Point [0, 1]
+	 */
+	InOutQuart: t => (t < .5) ? 8*t*t*t*t : 1-8*(--t)*t*t*t,
+
+	/**
+	 * @param	{Number}	t	Point [0, 1]
+	 * @return	{Number}		Point [0, 1]
+	 */
+	InQuint: t => t*t*t*t*t,
+
+	/**
+	 * @param	{Number}	t	Point [0, 1]
+	 * @return	{Number}		Point [0, 1]
+	 */
+	OutQuint: t => 1 - Math.pow(1 - t, 5),
+
+	/**
+	 * @param	{Number}	t	Point [0, 1]
+	 * @return	{Number}		Point [0, 1]
+	 */
+	InOutQuint: t => (t < 0.5) ? 16 * t * t * t * t * t : 1 - Math.pow(-2 * t + 2, 5) / 2,
+
+	/**
+	 * @param	{Number}	t	Point [0, 1]
+	 * @return	{Number}		Point [0, 1]
+	 */
+	InElastic: t => {
+		const c4 = (2 * Math.PI) / 3;
+		
+		return t === 0
+			? 0
+			: t === 1
+				? 1
+				: -Math.pow(2, 10 * t - 10) * Math.sin((t * 10 - 10.75) * c4);
+	},
+
+	/**
+	 * @param	{Number}	t	Point [0, 1]
+	 * @return	{Number}		Point [0, 1]
+	 */
+	OutElastic: t => {
+		const c4 = (2 * Math.PI) / 3;
+
+		return t === 0
+			? 0
+			: t === 1
+				? 1
+				: Math.pow(2, -10 * t) * Math.sin((t * 10 - 0.75) * c4) + 1;
+	}
+}
+
+/**
+ * Animate a value
+ * @param {Number}		duration 			Animation Duration
+ * @param {Function}	timingFunction 		Animation Timing Function
+ * @param {Function}	animate 			Function To Animate
+ */
+function Animator(duration, timingFunction, animate) {
+	let completeHandlers = []
+	let start = time();
+	let rAID = null;
+
+	let update = () => {
+		let tPoint = (time() - start) / duration;
+		animate(Math.min(timingFunction(tPoint), 1));
+
+		if (tPoint <= 1)
+			rAID = requestAnimationFrame(update);
+		else {
+			animate(1);
+			completeHandlers.forEach(f => f());
+		}
+	}
+
+	rAID = requestAnimationFrame(() => update());
+
+	return {
+		cancel() {
+			cancelAnimationFrame(rAID);
+		},
+
+		onComplete(f) {
+			if (!f || typeof f !== "function")
+				throw { code: -1, description: "Animator().onComplete(): not a valid function" }
+
+			completeHandlers.push(f);
+		}
+	}
+}
 /**
  * Generate Random String
  * @param	{Number}	len		Length of the randomized string
