@@ -13,7 +13,7 @@ const tooltip = {
 	prevData: null,
 	nodeToShow: null,
 	hideTimeout: null,
-	showTime: 200,
+	showTime: 100,
 
 	hooks: [],
 
