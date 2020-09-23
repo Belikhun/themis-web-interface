@@ -69,8 +69,7 @@
 		<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/table.css?v=<?php print VERSION; ?>" />
 		<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/switch.css?v=<?php print VERSION; ?>" />
 		<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/slider.css?v=<?php print VERSION; ?>" />
-		<link rel="stylesheet" type="text/css" media="screen" href="/static/css/navbar.css?v=<?php print VERSION; ?>" />
-		<link rel="stylesheet" type="text/css" media="screen" href="/static/css/userSetting.css?v=<?php print VERSION; ?>" />
+		<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/navbar.css?v=<?php print VERSION; ?>" />
 		<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/menu.css?v=<?php print VERSION; ?>" />
 		<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/spinner.css?v=<?php print VERSION; ?>" />
 		<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/statusBar.css?v=<?php print VERSION; ?>" />
@@ -923,6 +922,7 @@
 		<!-- Library -->
 		<script src="/assets/js/sounds.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 		<script src="/assets/js/tooltip.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+		<script src="/assets/js/navbar.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 
 		<!-- Core script -->
 		<script src="/static/js/core.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
