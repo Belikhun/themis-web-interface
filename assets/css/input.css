@@ -210,3 +210,29 @@ body.dark .formGroup[data-color = "red"] .formField:focus + label {
 body.dark .formGroup[data-color = "red"] .formField:focus {
     border-bottom-color: #fa7171;
 }
+
+.sq-input {
+    position: relative;
+    display: block;
+
+    width: auto;
+    height: 30px;
+    padding: 0 10px;
+    box-sizing: border-box;
+
+    font-family: Nunito, "Segoe UI";
+    font-weight: 400;
+    font-size: 14px;
+
+    border: unset;
+    background-color: rgb(245, 245, 245);
+}
+
+.sq-input:focus {
+    outline: none;
+}
+
+.sq-input::placeholder {
+    letter-spacing: .4px;
+    color: rgb(94, 94, 94);
+}

@@ -8,7 +8,7 @@
 /**
  * 📈 chart.js by Belikhun
  */
-class chart {
+class Chart {
 	/**
 	 * @param {HTMLElement} container	chart.js container
 	 */
@@ -101,7 +101,7 @@ class chart {
 	 */
 	set setData(data) {
 		if (typeof data !== "object" || typeof data.length !== "number")
-			throw { code: -1, description: `(set) chart.setData: not a valid array` }
+			throw { code: -1, description: `(set) Chart.setData: not a valid array` }
 
 		this.listData = data;
 		this.render();
@@ -131,7 +131,7 @@ class chart {
 
 	pushPoint(data = {}) {
 		if (typeof data !== "object" || typeof data[this.x.key] !== "number" || typeof data[this.y.key] !== "number")
-			throw { code: -1, description: `chart.pushPoint: not a valid point` }
+			throw { code: -1, description: `Chart.pushPoint: not a valid point` }
 
 		this.listData.push(data);
 

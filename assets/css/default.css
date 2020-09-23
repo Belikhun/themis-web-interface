@@ -188,6 +188,12 @@ tag {
     -webkit-font-smoothing: antialiased;
 }
 
+.scrollable {
+	transition: transform 0.05s linear;
+}
+
+/** ======================== LAZYLOAD BOX ======================== **/
+
 .lazyload {
 	position: relative;
 	display: inline-flex;
@@ -263,6 +269,8 @@ tag {
 	display: block;
 }
 
+/** ======================== TOOLTIP ======================== **/
+
 .tooltip {
 	position: fixed;
 	display: flex;
@@ -297,8 +305,8 @@ tag {
 	padding: 4px 6px;
 
 	white-space: pre;
-	font-family: "Segoe UI";
-	font-size: 12px;
+	font-family: Nunito;
+	font-size: 14px;
 	font-weight: lighter;
 	letter-spacing: .4px;
 	color: white;
@@ -318,6 +326,8 @@ tag {
     }
 }
 
+/** ======================== DOT ======================== **/
+
 dot {
 	position: relative;
 	display: inline-block;
@@ -332,6 +342,8 @@ dot.light {
 	background-color: rgb(224, 224, 224);
 }
 
+/** ======================== LINE ======================== **/
+
 line {
 	position: relative;
 	display: block;
@@ -345,6 +357,8 @@ body.dark line {
 	background-color: rgba(56, 56, 56, 0.6);
 }
 
+/** ======================== SEPARATOR ======================== **/
+
 separator {
 	position: relative;
 	display: inline-block;
@@ -357,6 +371,8 @@ separator {
 body.dark separator {
 	background-color: rgba(212, 212, 212, 0.6);
 }
+
+/** ======================== SWITCH ======================== **/
 
 .switchContainer {
     position: relative;
@@ -381,6 +397,8 @@ body.dark .switchContainer > span {
 	color: #dadada;
 }
 
+/** ======================== PRICE ======================== **/
+
 .price::after {
 	content: "đ";
 	font-size: 13px;
@@ -389,6 +407,85 @@ body.dark .switchContainer > span {
 	text-decoration: underline;
 	padding-left: 2px;
 }
+
+/** ======================== ICON ======================== **/
+
+icon {
+	position: relative;
+	display: inline-block;
+}
+
+icon::before {
+	content: "\f111";
+	position: relative;
+
+    font-family: "Font Awesome 5 Free";
+    font-size: 20px;
+    font-weight: 600;
+	text-align: center;
+	color: #36414B;
+}
+
+icon:focus::before {
+	text-decoration: none;
+}
+
+icon.light::before {
+	color: #dfdfdf;
+}
+
+icon[data-icon="check"]::before {
+	content: "\f00c";
+}
+
+icon[data-icon="exclamation"]::before {
+	content: "\f071";
+}
+
+icon[data-icon="bomb"]::before {
+	content: "\f1e2";
+	margin-left: 12px;
+}
+
+icon[data-icon="unlink"]::before {
+	content: "\f127";
+}
+
+icon[data-icon="question"]::before {
+	content: "\f128";
+}
+
+icon[data-icon="info"]::before {
+	content: "\f129";
+}
+
+icon[data-icon="key"]::before {
+	content: "\f084";
+}
+
+icon[data-icon="server"]::before {
+	content: "\f233";
+}
+
+icon[data-icon="link"]::before {
+	content: "\f0c1";
+}
+
+icon[data-icon="externalLink"]::before {
+	content: "\f35d";
+}
+
+icon[data-icon="arrowLeft"]::before {
+	content: "\f104";
+	font-size: 26px;
+}
+
+icon[data-icon="arrowRight"]::before {
+	content: "\f105";
+	font-size: 26px;
+}
+
+/** ======================== NOTE ======================== **/
 
 .note {
     position: relative;
@@ -443,6 +540,8 @@ body.dark .switchContainer > span {
 .note.okay::before {
     content: "\f00c";
 }
+
+/** ======================== POPUP ======================== **/
 
 .popupContainer {
 	position: absolute;
@@ -560,8 +659,6 @@ body.dark .switchContainer > span {
 	color: #36414B;
 }
 
-/*?  ICON  */
-
 .popupContainer .popupWindow .header .icon[data-icon="check"]::before {
 	content: "\f00c";
 }
@@ -594,8 +691,6 @@ body.dark .switchContainer > span {
 .popupContainer .popupWindow .header .icon[data-icon="server"]::before {
 	content: "\f233";
 }
-
-/*? /ICON/ */
 
 .popupContainer .popupWindow .header .text {
 	font-family: Nunito;
@@ -691,6 +786,8 @@ body.dark .switchContainer > span {
 	color: rgb(238, 238, 238);
 }
 
+/** ======================== TRIBG ======================== **/
+
 .triBg {
 	position: relative;
 }
@@ -725,6 +822,10 @@ body.dark .switchContainer > span {
 	animation-duration: 8s;
 	animation-timing-function: linear;
 	animation-iteration-count: infinite;
+}
+
+.triBg .triBgContainer[data-anim = "small"] > span {
+	animation-name: smolTrigAnim;
 }
 
 .triBg[data-tri-color = "whitesmoke"]	.triBgContainer { background-color: var(--osc-color-whitesmoke);	}
@@ -771,7 +872,17 @@ body.dark .switchContainer > span {
 	}
 }
 
-/* Dark */
+@keyframes smolTrigAnim {
+	0% {
+		top: calc(100% + 80px);
+	}
+
+	100% {
+		top: -80px;
+	}
+}
+
+/** ======================== DARK ======================== **/
 
 body.dark {
 	color: rgb(214, 214, 214);

@@ -132,25 +132,30 @@
 
 .sq-btn {
 	position: relative;
-	display: inline-block;
+	display: inline-flex;
 	flex-shrink: 0;
-	color: rgb(250, 250, 250);
+	align-items: center;
+	justify-content: center;
+	
+	padding: 8px 20px;
+	box-sizing: border-box;
 	background-color: rgb(68, 170, 221);
+	
+	color: white;
 	font-size: 12px;
 	font-family: "Open Sans", "Segoe UI", sans-serif;
-	font-weight: 650;
+	font-weight: 700;
 	text-align: center;
 	letter-spacing: 0.6px;
-	padding: 8px 20px;
+
 	border: unset;
-	box-sizing: border-box;
 	cursor: pointer;
 	overflow: hidden;
 	z-index: 0;
 
 	transition:
 		filter 1s cubic-bezier(0.06, 0.81, 0, 0.98),
-		transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+		transform 1.2s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 .sq-btn::before,
@@ -179,6 +184,34 @@
 	animation-delay: 0.8s;
 }
 
+.sq-btn.triBg::before,
+.sq-btn.triBg::after {
+	content: unset;
+	display: none;
+}
+
+.sq-btn.triBg > .triBgContainer {
+	z-index: -1;
+}
+
+.sq-btn > icon {
+	display: flex;
+	justify-content: flex-end;
+	flex-grow: 1;
+	flex-shrink: 1;
+
+	line-height: 20px;
+}
+
+.sq-btn > icon.left {
+	justify-content: flex-start;
+	order: -1;
+}
+
+.sq-btn > icon::before {
+	color: white;
+}
+
 @keyframes sq-btn-trig-anim {
 	0% {
 		top: 100%;
@@ -198,8 +231,11 @@
 }
 
 .sq-btn:focus {
-	outline: none;
-	text-decoration: underline;
+	outline: solid rgba(36, 36, 36, 0.6) 1px;
+}
+
+body.dark .sq-btn:focus {
+	outline: solid rgba(228, 228, 228, 0.6) 1px;
 }
 
 .sq-btn:disabled {
@@ -207,97 +243,115 @@
 	cursor: not-allowed;
 }
 
-.sq-btn.pink {
+.sq-btn.pink,
+.sq-btn[data-color="pink"] {
 	background-color: #ff66aa;
 }
 
-.sq-btn.pink::before {
+.sq-btn.pink::before,
+.sq-btn[data-color="pink"]::before {
 	border-color: transparent transparent rgb(255, 152, 204);
 	animation-duration: 7.6s;
 	animation-delay: -1s;
 }
 
-.sq-btn.pink::after {
+.sq-btn.pink::after,
+.sq-btn[data-color="pink"]::after {
 	border-color: transparent transparent rgb(202, 96, 146);
 	animation-duration: 7.8s;
 	animation-delay: +0.6s;
 }
 
-.sq-btn.green {
+.sq-btn.green,
+.sq-btn[data-color="green"] {
 	background-color: #88b400;
 }
 
-.sq-btn.green::before {
+.sq-btn.green::before,
+.sq-btn[data-color="green"]::before {
 	border-color: transparent transparent #a1d408;
 	animation-duration: 8.2s;
 	animation-delay: -1s;
 }
 
-.sq-btn.green::after {
+.sq-btn.green::after,
+.sq-btn[data-color="green"]::after {
 	border-color: transparent transparent #6d8f00;
 	animation-duration: 7.7s;
 	animation-delay: -2.3s;
 }
 
-.sq-btn.yellow {
+.sq-btn.yellow,
+.sq-btn[data-color="yellow"] {
 	background-color: #f6c21c;
 }
 
-.sq-btn.yellow::before {
+.sq-btn.yellow::before,
+.sq-btn[data-color="yellow"]::before {
 	border-color: transparent transparent #ffd13a;
 	animation-duration: 7.9s;
 	animation-delay: +0.6s;
 }
 
-.sq-btn.yellow::after {
+.sq-btn.yellow::after,
+.sq-btn[data-color="yellow"]::after {
 	border-color: transparent transparent #ecb913;
 	animation-duration: 8.1s;
 	animation-delay: -2s;
 }
 
-.sq-btn.dark {
+.sq-btn.dark,
+.sq-btn[data-color="dark"] {
 	background-color: #042430;
 }
 
-.sq-btn.dark::before {
+.sq-btn.dark::before,
+.sq-btn[data-color="dark"]::before {
 	border-color: transparent transparent #133947;
 	animation-duration: 7.6s;
 	animation-delay: +0.2s;
 }
 
-.sq-btn.dark::after {
+.sq-btn.dark::after,
+.sq-btn[data-color="dark"]::after {
 	border-color: transparent transparent #0b2e3d;
 	animation-duration: 7.8s;
 	animation-delay: -1.3s;
 }
 
-.sq-btn.brown {
+.sq-btn.brown,
+.sq-btn[data-color="brown"] {
 	background-color: #231B22;
 }
 
-.sq-btn.brown::before {
+.sq-btn.brown::before,
+.sq-btn[data-color="brown"]::before {
 	border-color: transparent transparent rgb(58, 47, 57);
 	animation-duration: 8.3s;
 	animation-delay: -1.6s;
 }
 
-.sq-btn.brown::after {
+.sq-btn.brown::after,
+.sq-btn[data-color="brown"]::after {
 	border-color: transparent transparent rgb(20, 16, 20);
 	animation-duration: 8.1s;
 	animation-delay: -0.2s;
 }
 
-.sq-btn.red {
+.sq-btn.red,
+.sq-btn[data-color="red"] {
 	background-color: rgb(221, 45, 68);
 }
 
-.sq-btn.red::before {
+.sq-btn.red::before,
+.sq-btn[data-color="red"]::before {
 	border-color: transparent transparent rgb(240, 62, 86);
 	animation-duration: 8.1s;
 	animation-delay: 0.3s;
 }
 
-.sq-btn.red::after {
+.sq-btn.red::after,
+.sq-btn[data-color="red"]::after {
 	border-color: transparent transparent rgb(197, 36, 57);
 	animation-duration: 7.7s;
 	animation-delay: -0.3s;
@@ -330,17 +384,20 @@
 	100%    { border-color: transparent transparent rgb(197, 36, 57);       }
 }
 
-.sq-btn.rainbow {
+.sq-btn.rainbow,
+.sq-btn[data-color="rainbow"] {
 	animation: sq-btn-bgRainbow 10s linear 0s infinite;
 }
 
-.sq-btn.rainbow::before {
+.sq-btn.rainbow::before,
+.sq-btn[data-color="rainbow"]::before {
 	animation:
 		sq-btn-trig-anim 8.2s linear 0s infinite,
 		sq-btn-triRainbow1 10s linear 0s infinite;
 }
 
-.sq-btn.rainbow::after {
+.sq-btn.rainbow::after,
+.sq-btn[data-color="rainbow"]::after {
 	animation:
 		sq-btn-trig-anim 7.6s linear 0s infinite,
 		sq-btn-triRainbow2 10s linear 0s infinite;
