@@ -350,9 +350,8 @@ body.dark .lazyload::after {
 	overflow: hidden;
 	opacity: 0;
 
-	transform: translate(10px, 20px);
 	transition: opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-
+	
 	animation: tooltip-blink 0.3s linear;
 	animation-fill-mode: forwards;
 }

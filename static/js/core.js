@@ -2648,6 +2648,7 @@ const twi = {
 			component: navbar.announcement({ level: "info", message: "lorem ipuusj sus sususususu sususu" }),
 
 			init() {
+				return;
 				navbar.insert(this.component, "left");
 			}
 		},

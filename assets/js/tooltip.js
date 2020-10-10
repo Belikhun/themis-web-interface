@@ -7,8 +7,8 @@
 
 const tooltip = {
 	initialized: false,
-	container: null,
-	content: null,
+	container: HTMLDivElement.prototype,
+	content: HTMLDivElement.prototype,
 	render: false,
 	prevData: null,
 	nodeToShow: null,
@@ -189,8 +189,8 @@ const tooltip = {
 				}
 			}
 
-		let xPos = event.clientX;
-		let yPos = event.clientY;
+		let xPos = event.clientX + 20;
+		let yPos = event.clientY + 30;
 
 		if ((event.view.innerWidth - this.content.clientWidth) / Math.max(xPos, 1) < 1.4)
 			xPos -= (this.content.clientWidth + 20);
@@ -198,8 +198,7 @@ const tooltip = {
 		if ((event.view.innerHeight - this.content.clientHeight) / Math.max(yPos, 1) < 1.1)
 			yPos -= (this.content.clientHeight + 40);
 
-		this.container.style.left = `${xPos}px`;
-		this.container.style.top = `${yPos}px`;
+		this.container.style.transform = `translate(${xPos}px, ${yPos}px)`;
 
 		if (!this.container.classList.contains("show"))
 			return;
