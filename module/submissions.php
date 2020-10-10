@@ -12,7 +12,7 @@
 	 * @package submissions
 	 */
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
 	
 	define("SUBMISSIONS_DIR", getConfig("folders.submissions"));

@@ -9,7 +9,7 @@
 	// SET PAGE TYPE
 	define("PAGE_TYPE", "NORMAL");
 	
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
 	header("Cache-Control: max-age=0, must-revalidate", true);
 

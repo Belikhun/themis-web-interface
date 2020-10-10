@@ -405,7 +405,7 @@
 		)
 	));
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/config.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/config.php";
 
 	define("CONFIG_CUSTOM_VAR", Array(
 		"name" => APPNAME,

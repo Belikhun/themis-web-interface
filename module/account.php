@@ -6,7 +6,7 @@
 	//? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 	//? |-----------------------------------------------------------------------------------------------|
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
 	
 	define("ACCOUNTS_DIR", $_SERVER["DOCUMENT_ROOT"] ."/data/accounts");
 	define("ACCOUNT_ONLINE_MAXIDLE", 10);

@@ -11,9 +11,9 @@
 	// SET PAGE TYPE
 	define("PAGE_TYPE", $export ? "NORMAL" : "API");
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/cache.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/ratelimit.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/cache.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/contest.php";
 

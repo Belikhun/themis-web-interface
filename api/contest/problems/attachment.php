@@ -6,8 +6,8 @@
 	//? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 	//? |-----------------------------------------------------------------------------------------------|
 	
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/ratelimit.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/contest.php";
 
 	$requestMethod = $_SERVER["REQUEST_METHOD"];
@@ -34,7 +34,7 @@
 			if (problemDisabled($id) && $_SESSION["id"] !== "admin")
 				stop(25, "Đề $id đã bị tắt", 403, Array( "id" => $id ));
 
-			require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logs.php";
+			require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/logs.php";
 
 			if (problemGetAttachment($id, !getQuery("embed", false)) === PROBLEM_OKAY)
 				writeLog("INFO", "Đã tải tệp đính kèm của bài \"". $_GET["id"] ."\"");

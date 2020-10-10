@@ -18,7 +18,7 @@
 		default:
 			// SET PAGE TYPE
 			define("PAGE_TYPE", "NORMAL");
-			require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
+			require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
 
 			stop(7, "Unexpected request method: ". $requestMethod, 405, Array( "method" => $requestMethod ));
 			break;

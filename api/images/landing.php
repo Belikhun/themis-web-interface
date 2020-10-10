@@ -6,8 +6,8 @@
 	//? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 	//? |-----------------------------------------------------------------------------------------------|
 	
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/ratelimit.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/ratelimit.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
 	
 	define("DEFAULT_IMAGE", $_SERVER["DOCUMENT_ROOT"] ."/assets/img/login-bg.webp");
 	define("MODIFIED_IMAGE_PATH", $_SERVER["DOCUMENT_ROOT"] ."/data/images");

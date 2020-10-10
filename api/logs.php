@@ -6,7 +6,7 @@
 	//? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 	//? |-----------------------------------------------------------------------------------------------|
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/belibrary.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
 
 	// SET PAGE TYPE
 	if (getQuery("output") == "text")
@@ -14,7 +14,7 @@
 	else
 		define("PAGE_TYPE", "API");
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/lib/logs.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/logs.php";
 
 	if (!isLoggedIn())
 		stop(11, "Bạn chưa đăng nhập!", 401);
