@@ -224,6 +224,48 @@ const twi = {
 		init: () => popup.init()
 	},
 
+	performance: {
+		priority: 1,
+		score: null,
+
+		async init(set) {
+			//! THIS MODULE IS TEMPORARY DISABLED DUE TO NO USE
+			//! HOPEFULLY I CAN MAKE USE OF THIS LATER
+			return false;
+
+			let oldResult = parseFloat(localStorage.getItem("performance"));
+
+			if (oldResult > 0) {
+				clog("OKAY", "Found Previous Performance Score");
+				this.score = oldResult;
+			} else {
+				set({ p: 0, d: "Running Performance Test" });
+				clog("INFO", "Running Performance Test");
+
+				this.score = await this.runTest();
+				localStorage.setItem("performance", this.score);
+				set({ p: 0, d: "Performance Test Completed" });
+			}
+
+			clog("OKAY", "Performance Score: ", {
+				text: this.score,
+				color: oscColor("green")
+			});
+		},
+
+		runTest() {
+			return new Promise((resolve) => {
+				let tick = 0;
+				let start = performance.now();
+
+				while (tick < 1000)
+					tick++;
+
+				resolve(1 / (performance.now() - start));
+			});
+		}
+	},
+
 	rank: {
 		priority: 3,
 		container: $("#ranking"),
@@ -1662,6 +1704,14 @@ const twi = {
 					save: "display.notification",
 					defaultValue: false,
 					disabled: true
+				}, display);
+
+				new smenu.components.Checkbox({
+					label: "Super Triangles!",
+					color: "blue",
+					save: "display.triangles",
+					defaultValue: (twi.performance.score > 30),
+					disabled: false
 				}, display);
 			},
 

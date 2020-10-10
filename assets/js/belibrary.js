@@ -1550,10 +1550,10 @@ function createBtn(text, color = "blue", {
 
 	if (complex)
 		triBg(button, {
-			scale: 1.5,
+			scale: 1.6,
 			speed: 12,
 			color: color,
-			triangleCount: 16
+			triangleCount: 8
 		});
 
 	if (sounds)

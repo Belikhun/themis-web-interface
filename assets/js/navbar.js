@@ -523,7 +523,7 @@ const navbar = {
 		// like it. Someone please help
 		let subWindow = new this.SubWindow(container);
 		click.setHandler(() => subWindow.toggle());
-		subWindow.color = "pink";
+		subWindow.color = "blue";
 
 		let subAvatarNode = new lazyload({
 			container: document.createElement("label"),

@@ -440,7 +440,7 @@
 	display: flex;
 	flex-direction: row;
 
-	background: linear-gradient(to right, #642b73, #c6426e);
+	background: linear-gradient(to left, #00b4db, #0083b0);
 	padding: 10px;
 	overflow: hidden;
 }
