@@ -1640,7 +1640,7 @@ const twi = {
 					color: "blue",
 					save: "display.transition",
 					defaultValue: SERVER.clientConfig.transition,
-					onChange: (v) => document.body.classList[v ? "add" : "remove"]("disableTransition")
+					onChange: (v) => document.body.classList[v ? "remove" : "add"]("disableTransition")
 				}, display);
 
 				new smenu.components.Checkbox({

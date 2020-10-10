@@ -48,7 +48,7 @@ body.dark .component.timer > timer {
 }
 
 body.dark .timerDetails > .timeline > .box > .time {
-	color: rgb(61, 58, 59);
+	color: rgb(196, 196, 196);
 }
 
 body.dark .timerDetails > .timeline[data-box="1"] > .box[data-name="begin"] > .time,

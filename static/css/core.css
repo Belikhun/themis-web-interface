@@ -17,6 +17,10 @@ body {
 	height: 100vh;
 }
 
+body.disableTransition * {
+	transition: unset!important;
+}
+
 /* Change Autocomplete styles in Chrome*/
 input:-webkit-autofill {
 	background-color: rgba(0, 0, 0, 0);
@@ -2642,14 +2646,14 @@ panel > .main {
 	font-size: 20px;
 	font-weight: bold;
 	text-align: center;
-	color: rgba(126, 126, 126, 0.6);
+	color: rgba(34, 34, 34, 0.6);
 
 	transition: color 0.3s ease-out;
 }
 
 .timerDetails > .timeline > .box > .date {
 	font-size: 14px;
-	color: rgba(126, 126, 126, 0.6);
+	color: rgba(34, 34, 34, 0.6);
 
 	transition: color 0.3s ease-out;
 }
