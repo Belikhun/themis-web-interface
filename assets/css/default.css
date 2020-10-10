@@ -926,7 +926,7 @@ icon[data-icon="save"]::after {
 	background-color: rgb(44, 44, 44);
 }
 
-.popupContainer > .popupWindow > .body[theme="dark"] > .message {
+.popupContainer > .popupWindow > .body[theme="dark"] > .top > .message {
 	color: rgb(238, 238, 238);
 }
 
