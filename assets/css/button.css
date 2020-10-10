@@ -147,6 +147,7 @@
 	font-weight: 700;
 	text-align: center;
 	letter-spacing: 0.6px;
+	text-decoration: none;
 
 	border: unset;
 	cursor: pointer;
@@ -163,14 +164,18 @@
 	content: "";
 	position: absolute;
 	display: block;
+
 	width: 0;
 	height: 0;
-	right: 5%;
 	top: 100%;
+	right: 5%;
+
 	border-style: solid;
 	border-width: 0 50px 100px;
 	border-color: transparent transparent rgb(102, 204, 255);
 	z-index: -1;
+
+	will-change: transform;
 
 	animation:
 		sq-btn-trig-anim 8s linear 0s infinite;
@@ -208,17 +213,18 @@
 	order: -1;
 }
 
-.sq-btn > icon::before {
+.sq-btn > icon::after,
+body.dark .sq-btn > icon::after {
 	color: white;
 }
 
 @keyframes sq-btn-trig-anim {
 	0% {
-		top: 100%;
+		transform: translateY(0);
 	}
 
 	100% {
-		top: -120px;
+		transform: translateY(-160px);
 	}
 }
 

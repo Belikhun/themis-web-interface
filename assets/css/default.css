@@ -792,7 +792,7 @@ icon[data-icon="arrowRight"]::before {
 	position: relative;
 }
 
-.triBg .triBgContainer {
+.triBg > .triBgContainer {
 	position: absolute;
 	display: block;
 	top: 0;
@@ -805,27 +805,27 @@ icon[data-icon="arrowRight"]::before {
 		background-color 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86);
 }
 
-.triBg .triBgContainer > span {
+.triBg > .triBgContainer > span {
 	position: absolute;
 	display: block;
+
 	width: 0;
 	height: 0;
+	top: 100%;
 	left: 0;
-	top: calc(100% + 200px);
+
 	border-style: solid;
 	border-width: 0 30px 52px;
 	border-color: transparent transparent gray;
+
 	transition:
 		border-bottom-color 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86);
 
+	will-change: transform;
 	animation-name: trigAnim;
 	animation-duration: 8s;
 	animation-timing-function: linear;
 	animation-iteration-count: infinite;
-}
-
-.triBg .triBgContainer[data-anim = "small"] > span {
-	animation-name: smolTrigAnim;
 }
 
 .triBg[data-tri-color = "whitesmoke"]	.triBgContainer { background-color: var(--osc-color-whitesmoke);	}
@@ -864,22 +864,222 @@ icon[data-icon="arrowRight"]::before {
 
 @keyframes trigAnim {
 	0% {
-		top: calc(100% + 200px);
+		transform: translateY(0);
 	}
 
 	100% {
-		top: -200px;
+		transform: translateY(-100vh);
 	}
 }
 
-@keyframes smolTrigAnim {
-	0% {
-		top: calc(100% + 80px);
+/*? TRIGANIM SIZE 50 */
+.triBg > .triBgContainer[data-anim="50"] > span {
+	animation-name: trigAnim50;
+}
+
+@keyframes trigAnim50 {
+	from { transform: translateY(0); }
+	to { transform: translateY(-50px); }
+}
+
+/*? TRIGANIM SIZE 60 */
+.triBg > .triBgContainer[data-anim="60"] > span {
+	animation-name: trigAnim60;
+}
+
+@keyframes trigAnim60 {
+	from { transform: translateY(0); }
+	to { transform: translateY(-60px); }
+}
+
+/*? TRIGANIM SIZE 70 */
+.triBg > .triBgContainer[data-anim="70"] > span {
+	animation-name: trigAnim70;
+}
+
+@keyframes trigAnim70 {
+	from { transform: translateY(0); }
+	to { transform: translateY(-70px); }
+}
+
+/*? TRIGANIM SIZE 80 */
+.triBg > .triBgContainer[data-anim="80"] > span {
+	animation-name: trigAnim80;
+}
+
+@keyframes trigAnim80 {
+	from { transform: translateY(0); }
+	to { transform: translateY(-80px); }
+}
+
+/*? TRIGANIM SIZE 90 */
+.triBg > .triBgContainer[data-anim="90"] > span {
+	animation-name: trigAnim90;
+}
+
+@keyframes trigAnim90 {
+	from { transform: translateY(0); }
+	to { transform: translateY(-90px); }
+}
+
+/*? TRIGANIM SIZE 100 */
+.triBg > .triBgContainer[data-anim="100"] > span {
+	animation-name: trigAnim100;
+}
+
+@keyframes trigAnim100 {
+	from { transform: translateY(0); }
+	to { transform: translateY(-100px); }
+}
+
+/*? TRIGANIM SIZE 120 */
+.triBg > .triBgContainer[data-anim="120"] > span {
+	animation-name: trigAnim120;
+}
+
+@keyframes trigAnim120 {
+	from { transform: translateY(0); }
+	to { transform: translateY(-120px); }
+}
+
+/*? TRIGANIM SIZE 140 */
+.triBg > .triBgContainer[data-anim="140"] > span {
+	animation-name: trigAnim140;
+}
+
+@keyframes trigAnim140 {
+	from { transform: translateY(0); }
+	to { transform: translateY(-140px); }
+}
+
+/*? TRIGANIM SIZE 160 */
+.triBg > .triBgContainer[data-anim="160"] > span {
+	animation-name: trigAnim160;
+}
+
+@keyframes trigAnim160 {
+	from { transform: translateY(0); }
+	to { transform: translateY(-160px); }
+}
+
+/*? TRIGANIM SIZE 180 */
+.triBg > .triBgContainer[data-anim="180"] > span {
+	animation-name: trigAnim180;
+}
+
+@keyframes trigAnim180 {
+	from { transform: translateY(0); }
+	to { transform: translateY(-180px); }
+}
+
+/*? TRIGANIM SIZE 200 */
+.triBg > .triBgContainer[data-anim="200"] > span {
+	animation-name: trigAnim200;
+}
+
+@keyframes trigAnim200 {
+	from { transform: translateY(0); }
+	to { transform: translateY(-200px); }
+}
+
+/*? TRIGANIM SIZE 250 */
+.triBg > .triBgContainer[data-anim="250"] > span {
+	animation-name: trigAnim250;
+}
+
+@keyframes trigAnim250 {
+	from { transform: translateY(0); }
+	to { transform: translateY(-250px); }
+}
+
+/*? TRIGANIM SIZE 300 */
+.triBg > .triBgContainer[data-anim="300"] > span {
+	animation-name: trigAnim300;
+}
+
+@keyframes trigAnim300 {
+	from { transform: translateY(0); }
+	to { transform: translateY(-300px); }
+}
+
+/*? TRIGANIM SIZE 350 */
+.triBg > .triBgContainer[data-anim="350"] > span {
+	animation-name: trigAnim350;
+}
+
+@keyframes trigAnim350 {
+	from { transform: translateY(0); }
+	to { transform: translateY(-350px); }
+}
+
+/*? TRIGANIM SIZE 400 */
+.triBg > .triBgContainer[data-anim="400"] > span {
+	animation-name: trigAnim400;
+}
+
+@keyframes trigAnim400 {
+	from { transform: translateY(0); }
+	to { transform: translateY(-400px); }
+}
+
+/*? TRIGANIM SIZE 500 */
+.triBg > .triBgContainer[data-anim="500"] > span {
+	animation-name: trigAnim500;
+}
+
+@keyframes trigAnim500 {
+	from { transform: translateY(0); }
+	to { transform: translateY(-500px); }
+}
+
+/*? TRIGANIM SIZE 600 */
+.triBg > .triBgContainer[data-anim="600"] > span {
+	animation-name: trigAnim600;
+}
+
+@keyframes trigAnim600 {
+	from { transform: translateY(0); }
+	to { transform: translateY(-600px); }
+}
+
+/*? TRIGANIM SIZE 700 */
+.triBg > .triBgContainer[data-anim="700"] > span {
+	animation-name: trigAnim700;
+}
+
+@keyframes trigAnim700 {
+	from { transform: translateY(0); }
+	to { transform: translateY(-700px); }
+}
+
+/*? TRIGANIM SIZE 800 */
+.triBg > .triBgContainer[data-anim="800"] > span {
+	animation-name: trigAnim800;
+}
+
+@keyframes trigAnim800 {
+	from { transform: translateY(0); }
+	to { transform: translateY(-800px); }
 	}
 
-	100% {
-		top: -80px;
+/*? TRIGANIM SIZE 900 */
+.triBg > .triBgContainer[data-anim="900"] > span {
+	animation-name: trigAnim900;
+}
+
+@keyframes trigAnim900 {
+	from { transform: translateY(0); }
+	to { transform: translateY(-900px); }
 	}
+
+/*? TRIGANIM SIZE 1000 */
+.triBg > .triBgContainer[data-anim="1000"] > span {
+	animation-name: trigAnim1000;
+	}
+
+@keyframes trigAnim1000 {
+	from { transform: translateY(0); }
+	to { transform: translateY(-1000px); }
 }
 
 /** ======================== DARK ======================== **/
