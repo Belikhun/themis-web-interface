@@ -54,9 +54,8 @@
         "showMs": false,
         "transition": true,
         "dialogProblem": false,
-        "rankUpdate": true,
-        "logsUpdate": true,
-        "updateDelay": 2
+        "rankUpdate": 3,
+        "logsUpdate": 3
     },
     "ratelimit": {
         "enabled": true,
