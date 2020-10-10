@@ -14,6 +14,9 @@
 	define("MODIFIED_IMAGE_NAME", "landing");
 	define("MODIFIED_IMAGE", MODIFIED_IMAGE_PATH ."/". MODIFIED_IMAGE_NAME);
 
+	if (!file_exists(MODIFIED_IMAGE_PATH))
+		mkdir(MODIFIED_IMAGE_PATH);
+
 	switch ($_SERVER["REQUEST_METHOD"]) {
 		case "GET":
 			// SET PAGE TYPE

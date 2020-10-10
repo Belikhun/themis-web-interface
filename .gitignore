@@ -5,7 +5,6 @@ data/accounts/*
 data/config.json
 data/images/*
 data/problems/*
-!data/images/.dummy
 !data/avatar/avt.default
 !data/problems/image.default
 
