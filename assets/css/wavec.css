@@ -1,0 +1,299 @@
+/*
+? |-----------------------------------------------------------------------------------------------|
+? |  /assets/css/wavec.css                                                                        |
+? |                                                                                               |
+? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
+? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+? |-----------------------------------------------------------------------------------------------|
+*/
+
+.waveContainer {
+	position: absolute;
+	display: block;
+
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+
+	z-index: 10;
+	overflow: hidden;
+}
+
+.waveContainer.hide {
+	display: none;
+}
+
+.waveContainer > .layer {
+	position: absolute;
+	display: block;
+
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+
+	background-color: transparent;
+	transition: background-color 0.5s ease;
+}
+
+.waveContainer > .layer.show {
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.waveContainer > .container {
+	position: absolute;
+	display: block;
+
+	top: 0;
+	left: 50%;
+	width: calc(100% - 200px);
+	height: 100%;
+	transform: translateX(-50%);
+
+	overflow: hidden;
+}
+
+.waveContainer > .container.hide {
+	display: none;
+}
+
+.waveContainer > .container > .wave {
+	position: absolute;
+	display: block;
+
+	top: 0;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+
+	overflow: hidden;
+
+	transition:
+		bottom 0.5s ease-in;
+}
+
+.waveContainer > .container.show > .wave {
+	transition:
+		bottom 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+
+	bottom: 100%;
+}
+
+.waveContainer > .container > .wave > span {
+	position: absolute;
+
+	top: 100%;
+	left: 0;
+	width: calc(100% * 1.4142);
+	height: 100vh;
+
+	transition:
+		top 0.5s cubic-bezier(0.12, 0, 0.39, 0);
+}
+
+.waveContainer > .container.show > .wave > span {
+	transition:
+		top 0.8s cubic-bezier(0.61, 1, 0.88, 1);
+}
+
+.waveContainer > .container > .wave > span:nth-child(1) {
+	left: unset;
+	right: 0;
+	transform: translateY(82px) rotate(13deg);
+	background-color: var(--osc-color-red);
+}
+
+.waveContainer > .container > .wave > span:nth-child(2) {
+	transform: translateY(40px) rotate(-7deg);
+	background-color: var(--osc-color-green);
+}
+
+.waveContainer > .container > .wave > span:nth-child(3) {
+	left: unset;
+	right: 0;
+	transform: translateY(23px) rotate(4deg);
+	background-color: var(--osc-color-blue);
+}
+
+.waveContainer > .container > .wave > span:nth-child(4) {
+	transform: translateY(8px) rotate(-2deg);
+	background-color: var(--osc-color-pink);
+}
+
+.waveContainer > .container.show > .wave > span:nth-child(1) {
+	top: -930px;
+}
+
+.waveContainer > .container.show > .wave > span:nth-child(2) {
+	top: -560px;
+}
+
+.waveContainer > .container.show > .wave > span:nth-child(3) {
+	top: -390px
+}
+
+.waveContainer > .container.show > .wave > span:nth-child(4) {
+	top: -220px;
+}
+
+.waveContainer > .container > .contentBox {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	transform: translateY(100%);
+	background-color: rgba(255, 255, 255, 0.85);
+
+	transition:
+		transform 0.5s ease-in;
+}
+
+.waveContainer > .container.show > .contentBox {
+	transition:
+		transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+
+	transform: unset;
+}
+
+.waveContainer > .container > .contentBox > .header {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	flex-grow: 0;
+	flex-shrink: 0;
+
+	padding: 40px 50px 20px 50px;
+
+	background: #FFEEEE;
+	background: linear-gradient(to right, #ffefba, #ffffff);
+}
+
+.waveContainer > .container > .contentBox > .header > icon::after {
+	margin: 0 10px;
+
+	font-size: 32px;
+	line-height: 36px;
+}
+
+.waveContainer > .container > .contentBox > .header > .title {
+	flex-grow: 1;
+	margin: 0 10px;
+
+	font-family: Nunito;
+	font-weight: 400;
+	font-size: 18px;
+	letter-spacing: .5px;
+}
+
+.waveContainer > .container > .contentBox > .header > .buttons {
+	position: relative;
+	display: flex;
+	flex-direction: row-reverse;
+}
+
+.waveContainer > .container > .contentBox > .header > .buttons > icon {
+	padding: 0 2px;
+	width: 48px;
+	height: 36px;
+
+	margin: 0 10px;
+	border-radius: 6px;
+	cursor: pointer;
+	background-color: rgba(204, 204, 204, 0.2);
+
+	transition: background-color 0.2s ease;
+}
+
+.waveContainer > .container > .contentBox > .header > .buttons > icon::after {
+	color: rgb(136, 136, 136);
+	transition: color 0.2s ease;
+}
+
+.waveContainer > .container > .contentBox > .header > .buttons > icon:hover {
+	background-color: rgba(116, 116, 116, 0.2);
+}
+
+.waveContainer > .container > .contentBox > .header > .buttons > icon:hover::after {
+	color: rgba(24, 24, 24, 0.82);
+}
+
+.waveContainer > .container > .contentBox > .header > .buttons > .back:hover {
+	background-color: rgba(66, 136, 248, 0.2);
+}
+
+.waveContainer > .container > .contentBox > .header > .buttons > .back:hover::after {
+	color: rgba(14, 123, 212, 0.82);
+}
+
+.waveContainer > .container > .contentBox > .header > .buttons > .close:hover {
+	background-color: rgba(235, 77, 77, 0.2);
+}
+
+.waveContainer > .container > .contentBox > .header > .buttons > .close:hover::after {
+	color: rgba(214, 26, 26, 0.82);
+}
+
+.waveContainer > .container > .contentBox > .content {
+	position: relative;
+	display: block;
+	flex-grow: 1;
+
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+/*? SMALL SCREEN RULES */
+
+@media only screen and (max-width: 1000px) {
+	.waveContainer > .container {
+		width: 100%;
+	}
+}
+
+/** ============================ DARK MODE ============================ **/
+
+body.dark .waveContainer > .container > .contentBox {
+	background-color: rgba(22, 22, 22, 0.85);
+}
+
+body.dark .waveContainer > .container > .contentBox > .header {
+	background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+}
+
+body.dark .waveContainer > .container > .contentBox > .header > .buttons > icon {
+	background-color: rgba(34, 34, 34, 0.2);
+}
+
+body.dark .waveContainer > .container > .contentBox > .header > .buttons > icon::after {
+	color: rgb(170, 170, 170);
+}
+
+body.dark .waveContainer > .container > .contentBox > .header > .buttons > icon:hover {
+	background-color: rgba(112, 112, 112, 0.2);
+}
+
+body.dark .waveContainer > .container > .contentBox > .header > .buttons > icon:hover::after {
+	color: rgba(252, 252, 252, 0.82);
+}
+
+body.dark .waveContainer > .container > .contentBox > .header > .buttons > .back:hover {
+	background-color: rgba(135, 177, 245, 0.2);
+}
+
+body.dark .waveContainer > .container > .contentBox > .header > .buttons > .back:hover::after {
+	color: rgba(131, 199, 255, 0.82);
+}
+
+body.dark .waveContainer > .container > .contentBox > .header > .buttons > .close:hover {
+	background-color: rgba(240, 127, 127, 0.2);
+}
+
+body.dark .waveContainer > .container > .contentBox > .header > .buttons > .close:hover::after {
+	color: rgba(255, 123, 158, 0.82);
+}
