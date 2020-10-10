@@ -6,126 +6,216 @@
 //? |-----------------------------------------------------------------------------------------------|
 
 class splash {
-	get tips() {
+	get tip() {
 		let tips = [
 			"Thử tải lại cứng bằng tổ hợp phím <b>Ctrl + Shift + R</b> hoặc <b>Ctrl + F5</b> nếu có lỗi xảy ra",
-			"Bạn có thể bật chế độ ban đêm trong bảng <b>Cài Đặt</b> của Themis Web Interface",
-			"Bạn có thể nộp nhiều bài cùng một lúc lên hệ thống",
-			"Bạn có thể tắt hiệu ứng của trang web bằng cách tắt <b>Hiệu ứng</b> trong bảng cài đặt",
 			"Cài đặt <b>Hiển thị millisecond</b> giúp hiển thị thời gian của cuộc thi chính xác hơn"
 		]
 
 		return tips[randBetween(0, tips.length - 1, true)]
 	}
 
-	constructor(container, name, subname, icon) {
-		if (!container.classList)
-			return false;
+	constructor({
+		container,
+		name = "Sample App",
+		icon = "/api/images/icon",
+		background = "/api/images/landing",
+		onInit,
+		onPostInit,
+		onError
+	} = {}) {
+		if (!container || !container.classList)
+			throw { code: -1, description: `splash(): container is not a valid Element!` }
 
-		const tree = [{type:"div",class:"middle",name:"middle",list:[{type:"div",class:"logo",name:"logo"},{type:"div",class:"appname",name:"appname"},{type:"div",class:"appsubname",name:"appsubname"},{type:"div",class:"progressBar",name:"progress",list:[{type:"div",class:"bar",name:"bar"}]},{type:"t",class:"phase",name:"phase"},{type:"t",class:"status",name:"status"},{type:"t",class:"errormsg",name:"errorMsg"},{type:"t",class:"tips",name:"tips"}]},{type:"div",class:"footer",name:"footer",list:[{type:"div",class:"icon",name:"icon"},{type:"div",class:"text",name:"text"}]}];
+		/**
+		 * The container will contain splash
+		 * @type {HTMLElement}
+		 */
+		this.container = container;
 
-		this.tree = buildElementTree("div", "splash", tree);
-		this.splash = this.tree.tree;
-		container.insertBefore(this.splash, container.childNodes[0]);
+		let tree = buildElementTree("div", "splash", [
+			{ name: "background", node: new lazyload({
+				source: background,
+				classes: "background"
+			})},
 
-		this.init = async () => {}
-		this.postInit = async () => {}
-		this.onErrored = async () => {}
-		this.preLoaded = false;
-		this.loaded = false;
-		this.tree = this.tree.obj;
-		this.bar = this.tree.middle.progress.bar;
-		this.bar.dataset.color = "blue";
-		this.status = this.tree.middle.status;
-		this.phase = this.tree.middle.phase;
+			{ type: "span", class: "content", name: "content", list: [
+				{ type: "div", class: "logo", name: "logo", list: [
+					{ name: "icon", node: new lazyload({
+						source: icon,
+						classes: "icon"
+					})}
+				]},
 
-		// Middle
-		this.tree.middle.logo.innerHTML = `
-		<div class="lazyload noBackground light inner">
-			<img onload="this.parentNode.dataset.loaded = 1" src="${icon}"/>
-			<div class="simpleSpinner"></div>
-		</div>`
-		this.tree.middle.appname.innerText = name;
-		this.tree.middle.appsubname.innerText = subname;
+				{ type: "t", class: "title", name: "titleNode", text: name },
+				{ type: "t", class: "tip", name: "tip", html: this.tip },
+				{ type: "div", class: "load", name: "load", list: [
+					{ type: "t", class: "phase", name: "phase", text: "Phase 0/0: Init Splash" },
 
-		// Footer
-		this.tree.footer.icon.innerHTML = `
-			<div class="lazyload chrome">
-				<img onload="this.parentNode.dataset.loaded = 1" src="/assets/img/chrome-icon.png"/>
-				<div class="simpleSpinner"></div>
-			</div>
-			<div class="lazyload coccoc">
-				<img onload="this.parentNode.dataset.loaded = 1" src="/assets/img/coccoc-icon.png"/>
-				<div class="simpleSpinner"></div>
-			</div>`
-		this.tree.footer.text.innerText = "Trang web hoạt động tốt nhất trên trình duyệt chrome và coccoc.";
+					{ type: "div", class: "detail", name: "detail", list: [
+						{ type: "t", class: "module", name: "module", text: "splash" },
+						{ type: "t", class: "status", name: "status", text: "Building Up Splash Screen" }
+					]},
+					
+					{ type: "t", class: "error", name: "error" },
+					{ type: "div", class: ["progressBar", "light"], name: "progress", list: [
+						{ type: "div", class: "bar", name: "bar" }
+					]}
+				]}
+			]},
 
-		this.__preLoadInit();
-	}
+			{ type: "span", class: "browsers", name: "browsers", list: [
+				{ type: "div", class: "icons", name: "icons", list: [
+					{ name: "chrome", node: new lazyload({ source: "/assets/img/chrome-icon.webp" }) },
+					{ name: "coccoc", node: new lazyload({ source: "/assets/img/coccoc-icon.webp" }) },
+					{ name: "edge", node: new lazyload({ source: "/assets/img/edge-icon.webp" }) }
+				]},
 
-	__preLoadInit() {
-		this.bar.dataset.slow = 30;
-		this.preLoaded = false;
-		this.status.innerText = "Đang Tải...";
-		this.phase.innerText = "Phase 1/3: Page Initialization";
+				{ type: "t", class: "text", name: "text", html: "trang web hoạt động tốt nhất trên trình duyệt <b>Chrome</b>, <b>Cốc Cốc</b> và <b>Edge</b>" }
+			]}
+		]);
 
-		setTimeout(() => {
-			this.bar.style.width = "50%";
-		}, 200);
+		this.container.insertBefore(tree.tree, this.container.childNodes[0]);
+		this.splash = tree.obj;
 
-		document.body.onload = () => {
-			this.__loadInit();
+		/** @type {HTMLElement} */
+		this.bar = this.splash.content.load.progress.bar;
+
+		/** @type {HTMLElement} */
+		this.phase = this.splash.content.load.phase;
+
+		/** @type {HTMLElement} */
+		this.module = this.splash.content.load.detail.module;
+
+		/** @type {HTMLElement} */
+		this.status = this.splash.content.load.detail.status;
+
+		/** @type {HTMLElement} */
+		this.error = this.splash.content.load.error;
+
+		this.bar.dataset.color = "pink";
+		this.bar.dataset.blink = "grow";
+		this.onInitHandlers = []
+		this.onPostInitHandlers = []
+		this.onErrorHandlers = []
+
+		if (onInit)
+			this.onInit(onInit);
+
+		if (onPostInit)
+			this.onPostInit(onPostInit);
+
+		if (onError)
+			this.onError(onError);
+
+		try {
+			this.preLoad();
+		} catch(e) {
+			this.panic(e);
+			throw e;
 		}
 	}
 
-	async __loadInit() {
-		this.bar.dataset.slow = "";
+	onInit(f) {
+		if (!f || typeof f !== "function")
+			throw { code: -1, description: "splash.onInit(): not a valid function" }
+
+		this.onInitHandlers.push(f);
+	}
+
+	onPostInit(f) {
+		if (!f || typeof f !== "function")
+			throw { code: -1, description: "splash.onPostInit(): not a valid function" }
+
+		this.onPostInitHandlers.push(f);
+	}
+
+	onError(f) {
+		if (!f || typeof f !== "function")
+			throw { code: -1, description: "splash.onError(): not a valid function" }
+
+		this.onErrorHandlers.push(f);
+	}
+
+	preLoad() {
+		this.bar.dataset.slow = 30;
+		this.phase.innerText = "Phase 1/3: Page Initialization";
+		this.status.innerText = "Đang Tải Dữ Liệu";
+
+		requestAnimationFrame(() => this.bar.style.width = "30%");
+
+		if (["complete", "interactive"].includes(document.readyState))
+			this.load();
+		else
+			window.addEventListener("load", () => this.load());
+	}
+
+	async load() {
+		this.bar.removeAttribute("data-slow");
 		this.preLoaded = true;
 		this.loaded = false;
+
 		this.phase.innerText = "Phase 2/3: Script Initialization";
-		this.bar.style.width = `50%`;
-		this.tree.middle.tips.innerHTML = this.tips;
+		this.bar.style.width = `30%`;
+		this.bar.dataset.color = "blue";
 
-		await this.init(({ p, m, d }) => {
-			if (!this.preLoaded)
-				return false;
+		let _mp = 1 / this.onInitHandlers.length;
+		for (let i = 0; i < this.onInitHandlers.length; i++) {
+			let f = this.onInitHandlers[i];
 
-			this.status.innerText = `(${m}) ${d}`;
+			await f(({ p, m, d }) => {
+				if (m)
+					this.module.innerText = m;
+	
+				if (d)
+					this.status.innerText = d;
+	
+				if (p)
+					this.bar.style.width = `${30 + ((i * _mp) + (p / 100) * _mp) * 60}%`;
+			}).catch((e) => this.panic(e));
+		}
 
-			if (p)
-				this.bar.style.width = `${50 + p*0.4}%`;
-		}).catch(e => this.__panic(e));
-
-		this.loaded = true;
-		await this.__postInit();
-
-		this.bar.style.width = `100%`;
-		this.status.innerText = "Đã tải";
-		this.splash.classList.add("done");
+		await this.post();
 	}
 
-	async __postInit() {
+	async post() {
 		this.phase.innerText = "Phase 3/3: Post Initialization";
 		this.bar.style.width = `90%`;
+		this.bar.dataset.color = "green";
 
-		await this.postInit((progress = 0, text = "") => {
-			if (!this.loaded)
-				return false;
+		let _mp = 1 / this.onPostInitHandlers.length;
+		for (let i = 0; i < this.onPostInitHandlers.length; i++) {
+			let f = this.onPostInitHandlers[i];
+
+			await f(({ p, m, d }) => {
+				if (m)
+					this.module.innerText = m;
 	
-			this.status.innerText = `${text} [${progress}%]`;
-			this.bar.style.width = `${90 + progress*0.1}%`;
-		}).catch(async e => await this.__panic(e, false));
+				if (d)
+					this.status.innerText = d;
+	
+				if (p)
+					this.bar.style.width = `${90 + ((i * _mp) + (p / 100) * _mp) * 10}%`;
+			}).catch((e) => this.panic(e, false));
+		}
 
+		this.bar.style.width = `100%`;
+		this.status.innerText = "Tải Hoàn Thành";
 		cookie.set("splashInitSuccess", true, 1);
+		this.splash.classList.add("hide");
 	}
 
-	async __panic(error, stop = true) {
+	async panic(error, stop = true) {
 		let e = parseException(error);
-		this.status.innerText = "Lỗi đã xảy ra";
-		this.tree.middle.errorMsg.innerText = `[${e.code}] >>> ${e.description}`;
+
+		this.status.innerText = "LỖI ĐÃ XẢY RA!";
+		this.error.innerText = `[${e.code}] >>> ${e.description}`;
 		this.bar.dataset.color = "red";
+		this.bar.dataset.blink = "fade";
 		
-		await this.onErrored(error, e.code, e.description);
+		for (let f of this.onErrorHandlers)
+			await f(error, e.code, e.description)
+
 		cookie.set("splashInitSuccess", false, 1);
 		clog("ERRR", error);
 

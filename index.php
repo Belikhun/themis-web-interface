@@ -61,9 +61,12 @@
 		<script src="/assets/js/errorHandler.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 		<script type="text/javascript" src="/assets/js/splash.js?v=<?php print VERSION; ?>"></script>
 		<script type="text/javascript">
-			var mainSplash = new splash(document.body, `Themis Web Interface`, "Sample Text", "/api/images/icon");
+			const mainSplash = new splash({
+				container: document.body,
+				name: `<?php print getConfig("contest.name"); ?>`
+			});
 
-			mainSplash.init = async set => {
+			mainSplash.onInit(async (set) => {
 				set({ p: 0, m: "main", d: "Getting Basic Server Info" });
 				let response = await myajax({ url: "/api/server" });
 				window.SERVER = response.data;
@@ -72,37 +75,9 @@
 
 				set({ p: 0, m: "main", d: "Initializing Themis Web Interface Core" });
 				await twi.init(set);
-			}
+			});
 
-			mainSplash.postInit = async set => {
-				// set(50, "Đang kiểm tra phiên bản mới");
-				// await core.checkUpdateAsync(IS_ADMIN);
-
-				// set(60, "Setting up statusBar");
-				// sbar.additem(SERVER.SERVER_SOFTWARE, "server");
-				// sbar.additem(SERVER.SERVER_ADDR, "globe");
-				// sbar.additem(SERVER.username ? SERVER.username : "Chưa đăng nhập", "account", {align: "right"});
-				// sbar.additem(SERVER.REMOTE_ADDR, "desktop", {align: "right"});
-
-				// set(95, "Sending Analytics Data...");
-				// gtag("event", "pageView", {
-				// 	version: SERVER.version,
-				// 	hostname: location.hostname,
-				// 	loadtime: ((new Date()).getTime() - window.performance.timing.navigationStart) / 1000,
-				// 	downlink: (navigator && navigator.connection) ? navigator.connection.downlink : 0,
-				// 	versiontag: SERVER.versionTag,
-				// 	contestname: SERVER.contestName,
-				// 	platform: (navigator) ? navigator.platform : null,
-				// 	darkmode: cookie.get("__darkMode"),
-
-				// 	event_category: "load",
-				// 	event_label: "scriptInitialized",
-				// 	send_to: "default",
-				// 	event_callback: () => clog("INFO", "Analytics data sent!")
-				// });
-			}
-
-			mainSplash.onErrored = async (error, e, d) => {
+			mainSplash.onError(async (error, e, d) => {
 				if (cookie.get("splashInitSuccess", true) === "false")
 					if (popup.initialized) {
 						let errorDetail = document.createElement("ul");
@@ -147,7 +122,7 @@
 						
 					} else
 						alert(error);
-			}
+			});
 		</script>
 
 		<!--

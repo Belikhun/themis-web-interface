@@ -117,7 +117,9 @@ const twi = {
 			set({ p, m, d });
 		});
 		
+		set({ p: 100, m: "twi", d: "Themis Web Interface Core Loaded" });
 		this.initialized = true;
+
 		clog("OKAY", {
 			color: oscColor("pink"),
 			text: "twi",
@@ -168,7 +170,7 @@ const twi = {
 			let path = `${name}.${item.__NAME__}`;
 			let mP = 5 + (i / modulesList.length) * 95;
 
-			set({ p: mP, m: path, d: `Initializing: ${path}` });
+			set({ p: mP, m: path, d: `Initializing` });
 
 			try {
 				let returnValue = await item.init(({ p, m, d }) => set({

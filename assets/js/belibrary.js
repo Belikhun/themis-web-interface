@@ -356,7 +356,9 @@ function buildElementTree(type = "div", __class = [], data = new Array(), __keyp
 			if (typeof d.node === "object") {
 				let node = (d.node.group && d.node.group.classList)
 					? d.node.group
-					: d.node;
+					: (d.node.container && d.node.container.classList)
+						? d.node.container
+						: d.node;
 
 				node.dataset.name = d.name;
 				node.dataset.path = k;
