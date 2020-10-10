@@ -216,7 +216,7 @@ const twi = {
 
 	sounds: {
 		priority: 1,
-		init: async () => await sounds.init()
+		init: async (set) => await sounds.init(set)
 	},
 
 	popup: {
@@ -2804,6 +2804,195 @@ const twi = {
 				twi.darkmode.onToggle((e) => this.component.set({ color: e ? "darkBlue" : "blue" }));
 				navbar.insert(this.component, "right");
 			}
+		}
+	},
+
+	tooltip: {
+		priority: 4,
+
+		init(set) {
+			set({ p: 0, d: `Initializing Tooltip` });
+			tooltip.init();
+
+			//? ================= USERCARD =================
+			set({ p: 20, d: `Setting Up Usercard` });
+
+			tooltip.addHook({
+				on: "attribute",
+				key: "username",
+				handler: ({ target, value }) => {
+					let userInfo = buildElementTree("div", "userCard", [
+						{ type: "div", class: "loadingWrapper", name: "loading", list: [
+							{ type: "div", class: ["simpleSpinner", "light"], name: "spinner" },
+							{ type: "t", class: "error", name: "error" }
+						]},
+	
+						{ type: "div", class: "header", name: "header", list: [
+							{ type: "span", class: "left", name: "left", list: [
+								{ type: "div", class: ["avatar", "light"], name: "avatar" },
+								{ type: "div", class: "status", name: "status" }
+							]},
+	
+							{ type: "div", class: "right", name: "right", list: [
+								{ type: "t", class: "username", name: "username" },
+								{ type: "span", class: "detail", name: "detail", list: [
+									{ type: "t", class: "name", name: "name" },
+									{ type: "t", class: "id", name: "userID" }
+								]},
+								{ type: "t", class: "status", name: "status" }
+							]}
+						]},
+	
+						{ type: "div", class: "submissions", name: "submissions", list: [
+							{ type: "div", class: "bar", name: "bar", list: [
+								{ type: "span", class: "inner", name: "inner", list: [
+									{ type: "span", class: "skipped", name: "skipped" },
+									{ type: "span", class: "failed", name: "failed" },
+									{ type: "span", class: "accepted", name: "accepted" },
+									{ type: "span", class: "passed", name: "passed" },
+									{ type: "span", class: "correct", name: "correct" }
+								]}
+							]},
+							{ type: "div", class: "list", name: "list" }
+						]}
+					])
+	
+					myajax({
+						url: "/api/info",
+						method: "GET",
+						query: { u: value }
+					}, (response) => {
+						let data = response.data;
+						let e = userInfo.obj;
+	
+						e.classList.add("loaded");
+	
+						new lazyload({
+							container: e.header.left.avatar,
+							source: `/api/avatar?u=${data.username}`
+						});
+	
+						e.header.right.username.innerText = data.username;
+						e.header.right.detail.name.innerText = data.name;
+						e.header.right.detail.userID.innerText = data.id;
+	
+						if (data.online) {
+							e.header.right.status.innerText = `Trực Tuyến`;
+							e.header.left.status.dataset.status = "online";
+						} else {
+							e.header.right.status.innerText = `Ngoại Tuyến`
+							e.header.left.status.dataset.status = "offline";
+	
+							liveTime(e.header.right.status, data.lastAccess, {
+								prefix: "Truy cập ",
+								surfix: " trước"
+							});
+						}
+	
+						for (item of ["skipped", "failed", "accepted", "passed", "correct"]) {
+							if (data.submissions[item] === 0)
+								continue;
+	
+							e.submissions.bar.inner[item].style.width = `${(data.submissions[item] / data.submissions.total) * 100}%`;
+							e.submissions.bar.inner[item].innerText = data.submissions[item];
+						}
+	
+						requestAnimationFrame(() => e.submissions.bar.inner.style.width = "100%");
+	
+						let topSubmissions = data.submissions.list
+							.sort((a, b) => (a.sp && b.sp) ? (b.sp - a.sp) : (b.point - a.point))
+							.slice(0, 5);
+						
+						for (let i = 0; i < topSubmissions.length; i++) {
+							let item = topSubmissions[i];
+	
+							let element = htmlToElement(`
+								<div class="item" data-status="${item.status}">
+									<span class="left">
+										<t class="title">${item.problemName || item.problem}</t>
+										<div class="detail">
+											<t class="id">${item.problem}</t>
+											<t class="extension">${twi.languages[item.extension]}</t>
+										</div>	
+									</span>
+	
+									<span class="right">
+										<t class="point">${item.point}<sub>điểm</sub></t>
+										<t class="sp">${item.sp ? `${item.sp.toFixed(3)}<sub>SP</sub>` : "NA"}</t>
+									</span>
+								</div>
+							`);
+	
+							e.submissions.list.appendChild(element);
+							setTimeout(() => element.classList.add("show"), 100 * (i + 1));
+						}
+					}).catch((reason) => {
+						let e = userInfo.obj;
+	
+						e.loading.dataset.type = "errored";
+	
+						switch (reason.data.code) {
+							case 13:
+								e.loading.error.innerHTML = `Không tìm thấy tài khoản <b>${reason.data.data.username}</b>`;
+								break;
+						
+							default:
+								e.loading.error.innerText = reason.data.description;
+								break;
+						}
+					})
+	
+					return userInfo.tree;
+				},
+				priority: 2,
+				backtrace: 3,
+				noPadding: true
+			});
+
+			//? ================= RANKING CELL =================
+			set({ p: 30, d: `Setting Up Ranking Cell` });
+
+			tooltip.addHook({
+				on: "dataset",
+				key: "rankingCell",
+				handler: ({ target, value }) => {
+					let v = value.split("|");
+					let id = v[0],
+						problem = (v[1] === "undefined") ? null : v[1],
+						status = v[2],
+						point = (v[3] === "undefined") ? null : parseFloat(v[3]),
+						sp = (v[4] === "undefined") ? null : parseFloat(v[4]),
+						username = v[5],
+						name = (v[6] === "null") ? null : v[6]
+	
+					return `
+						<div class="rankingCellTooltip" data-status="${status}">
+							<div class="header">
+								<t class="name">${name || username}</t>
+								<dot class="light"></dot>
+								<t class="problem">${problem || id}</t>
+								<dot class="light"></dot>
+								<t class="status">${twi.taskStatus[status] || status}</t>
+							</div>
+	
+							<table class="point">
+								<tbody>
+									<tr>
+										<td>Điểm</td>
+										<td>${point}</td>
+									</tr>
+									<tr>
+										<td>SP</td>
+										<td>${(sp) ? sp.toFixed(3) : "Không Khả Dụng"}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					`;
+				},
+				priority: 2,
+				backtrace: 2
+			});
 		}
 	},
 
