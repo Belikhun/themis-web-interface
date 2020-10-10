@@ -185,6 +185,7 @@
 .splash > .content > .load > .progressBar {
     width: 420px;
     height: 12px;
+    max-width: 100%;
 
     margin: 10px 0 3px;
     border-radius: 6px;
@@ -216,6 +217,7 @@
 
 .splash > .browsers > .text {
     font-size: 13px;
+    text-align: right;
     letter-spacing: .2px;
     color: white;
 }
@@ -248,5 +250,36 @@
         opacity: 0;
         z-index: -10;
         display: none;
+    }
+}
+
+@media only screen and (max-width: 850px) {
+	.splash {
+        flex-direction: column;
+    }
+
+    .splash > .content {
+        margin: 40px 20px;
+    }
+
+    .splash > .content > .logo {
+        width: 60px;
+        height: 60px;
+    }
+
+    .splash > .content > .title {
+        margin-top: 20px;
+        font-size: 26px;
+    }
+
+    .splash > .browsers {
+        align-items: center;
+        justify-content: center;
+
+        margin: 0 10px 20px;
+    }
+
+    .splash > .browsers > .text {
+        text-align: center;
     }
 }
