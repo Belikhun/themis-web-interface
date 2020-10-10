@@ -7,26 +7,27 @@ assignees: belivipro9x99
 
 ---
 
-**Mô tả lỗi**
+## 🐞 báo cáo lỗi
+---
+### 📃 Mô Tả
 Một mô tả ngắn gọn và rõ ràng về lỗi mà bạn gặp
 
-**Để gây ra lỗi**
-Các bước thực hiện để gây ra lỗi:
+### 🔬 Cách Gây Ra Lỗi
 1. Đi tới '...'
 2. Nhấn vào '....'
 3. Cuộn xuống '....'
 4. Lỗi!!!
 
-**Hành vi dự kiến**
-Một mô tả rõ ràng và ngắn gọn về hành vi mà bạn nghĩ sẽ xảy ra.
+### 🎯 Hành Vi Dự Kiến
+Một mô tả rõ ràng và ngắn gọn về hành vi mà bạn nghĩ nên xảy ra
 
-**Ảnh chụp màn hình**
+### 📷 Ảnh Chụp
 Nếu có thể, hãy đính kèm một ảnh chụp màn hình tại đây.
 
-**Phiên bản:**
+### 🌍 Phiên Bản
  - Hệ điều hành: [vd: Windows, Ubuntu, MacOS]
- - Trình duyệt: [vd: Chrome, CocCoc, Safari]
+ - Trình duyệt: [vd: Chrome, CocCoc, Edge, Safari]
  - Trình chấm: [vd: Themis v1.9.8 b.2806]
 
-**Thông tin thêm**
+#### Thông tin thêm
 Thêm bất kỳ thông tin nào liên quan đến lỗi tại đây.

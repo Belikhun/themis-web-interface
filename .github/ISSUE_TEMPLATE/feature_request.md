@@ -7,14 +7,16 @@ assignees: belivipro9x99
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+## 🎈 góp ý tính năng
+---
+### 📃 Mô Tả
+Một mô tả ngắn gọn và rõ ràng về tính năng mà bạn muốn góp ý
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+### 🐛 Lỗi Liên Quan
+Nếu tính năng này có liên quan tới lỗi nào đó, hãy link vào đây.
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+### ✏ Nội Dung
+Mô tả chi tiết cách mà tính năng bạn góp ý hoạt động
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+#### Thông tin thêm
+Thêm bất kỳ thông tin nào liên quan tại đây.
