@@ -43,7 +43,7 @@ const tooltip = {
 				setTimeout(() => this.__wait = false, 50);
 				this.__handlingMouseEvent = false;
 			}
-		});
+		}, { passive: true });
 
 		if (typeof ResizeObserver === "function") {
 			new ResizeObserver(() => {
