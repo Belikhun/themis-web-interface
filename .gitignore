@@ -1,7 +1,15 @@
+# Data
 data/logs.json
 data/avatar/*
+data/accounts/*
+data/config.json
+data/images/*
+data/problems/*
+!data/images/.dummy
 !data/avatar/avt.default
-!data/avatar/*.php
+!data/problems/image.default
+
+# Cache Folder
 .cache
 
 # Byte-compiled / optimized / DLL files
