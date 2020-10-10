@@ -331,6 +331,10 @@ tag {
 	display: block;
 }
 
+body.dark .lazyload::after {
+	color: rgb(226, 226, 226);
+}
+
 /** ======================== TOOLTIP ======================== **/
 
 .tooltip {

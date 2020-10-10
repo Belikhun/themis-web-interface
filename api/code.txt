@@ -7,7 +7,7 @@
 03  variable type mismatch
 04  missing token
 05  wrong token
-06  error
+06  range error
 07  unknown request method
 08	wrong captcha
 
@@ -38,6 +38,9 @@
 44  file not found
 45  file exist
 46  file timeout
+
+// 5x: server
+50	undefined/missing values
 
 // 10x: info (IGNORED)
 101 not in contest mode

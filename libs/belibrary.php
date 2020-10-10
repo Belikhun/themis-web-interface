@@ -1,6 +1,6 @@
 <?php
 	//? |-----------------------------------------------------------------------------------------------|
-	//? |  /lib/belibrary.php                                                                           |
+	//? |  /libs/belibrary.php                                                                          |
 	//? |                                                                                               |
 	//? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
 	//? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
@@ -428,7 +428,13 @@
 		}
 		
 		public function __toString() {
-			return __CLASS__ . ": [HTTP {$this -> status}] [{$this -> code}]: {$this -> description} tại {$this -> data["file"]}:{$this -> data["line"]}";
+			return get_class($this) .": [HTTP {$this -> status}] [{$this -> code}]: {$this -> description}";
+		}
+	}
+
+	class FileNotFound extends BLibException {
+		public function __construct(String $path) {
+			parent::__construct(44, "File Not Found: {$path}", 500, Array( "path" => $path ));
 		}
 	}
 
@@ -721,10 +727,10 @@
 
 	//! Exception Handler
 	function exceptionHandler(Exception $e) {
-		if ($e -> __CLASS__ === "BLibException")
+		if ($e instanceof BLibException)
 			stop($e -> code, $e, $e -> status, $e -> data);
 		else
-			stop(-1, "{$e -> __CLASS__} [{$e -> getCode()}]: {$e -> getMessage()} tại {$e -> getFile()}:{$e -> getLine()}");
+			stop(-1, get_class($e) ." [{$e -> getCode()}]: {$e -> getMessage()} tại {$e -> getFile()}:{$e -> getLine()}", 500);
 	}
 
 	set_error_handler("errorHandler", E_ALL);

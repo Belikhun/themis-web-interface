@@ -3,13 +3,13 @@ Order allow,deny
 Allow from all
 Require all granted
 
-ErrorDocument 400 /lib/error.php
-ErrorDocument 401 /lib/error.php
-ErrorDocument 403 /lib/error.php
-ErrorDocument 404 /lib/error.php
-ErrorDocument 405 /lib/error.php
-ErrorDocument 406 /lib/error.php
-ErrorDocument 408 /lib/error.php
-ErrorDocument 414 /lib/error.php
-ErrorDocument 500 /lib/error.php
-ErrorDocument 502 /lib/error.php
+ErrorDocument 400 /libs/error.php
+ErrorDocument 401 /libs/error.php
+ErrorDocument 403 /libs/error.php
+ErrorDocument 404 /libs/error.php
+ErrorDocument 405 /libs/error.php
+ErrorDocument 406 /libs/error.php
+ErrorDocument 408 /libs/error.php
+ErrorDocument 414 /libs/error.php
+ErrorDocument 500 /libs/error.php
+ErrorDocument 502 /libs/error.php
