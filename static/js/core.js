@@ -1213,6 +1213,7 @@ const twi = {
 		 */
 		deltaT: 0,
 
+		container: HTMLElement.prototype,
 		navTimer: htmlToElement(`<timer class="small"><days>--</days>+--:--:--</timer>`),
 		navProgress: htmlToElement(`<span class="bar"></span>`),
 		tooltip: navbar.Tooltip.prototype,
@@ -1227,8 +1228,8 @@ const twi = {
 
 		async init(set) {
 			set({ p: 0, d: `Setting Up Timer Component` });
-			let container = document.createElement("span");
-			container.classList.add("component", "timer");
+			this.container = document.createElement("span");
+			this.container.classList.add("component", "timer");
 
 			let icon = document.createElement("icon");
 			icon.dataset.icon = "clock";
@@ -1237,15 +1238,15 @@ const twi = {
 			progressBar.classList.add("progressBar");
 			progressBar.appendChild(this.navProgress);
 
-			container.append(icon, this.navTimer, progressBar);
+			this.container.append(icon, this.navTimer, progressBar);
 
-			this.tooltip = new navbar.Tooltip(container, {
+			this.tooltip = new navbar.Tooltip(this.container, {
 				title: "timer",
 				description: "thời gian của kì thì"
 			});
 
-			let click = new navbar.Clickable(container);
-			let subWindow = new navbar.SubWindow(container);
+			let click = new navbar.Clickable(this.container);
+			let subWindow = new navbar.SubWindow(this.container);
 			subWindow.color = "blue";
 			
 			this.subWindow = buildElementTree("div", "timerDetails", [
@@ -1295,7 +1296,7 @@ const twi = {
 			this.subWindow.timeline.offset.progress.bar.dataset.blink = "grow";
 
 			click.setHandler(() => subWindow.toggle());
-			navbar.insert({ container }, "right");
+			navbar.insert({ container: this.container }, "right");
 
 			set({ p: 0, d: `Starting Timer` });
 			await this.updateData(true);
@@ -1314,13 +1315,15 @@ const twi = {
 				
 				this.enabled = false;
 				clog("INFO", "Timer Disabled: not in contest mode");
+				this.container.style.display = "none";
 
 				return;
 			}
 			
 			this.enabled = true;
 			this.timeData = data;
-
+			
+			this.container.style.display = null;
 			this.subWindow.timeline.dataset.box = 0;
 
 			let start = new Date(this.timeData.start * 1000);
