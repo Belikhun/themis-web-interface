@@ -212,7 +212,7 @@
     border-radius: 10px;
 
     background-color: rgba(160, 220, 250, 0.5);
-    box-shadow: 0px 0px 14px 0px rgba(160, 220, 250, 0.5);
+    box-shadow: 0 0 14px 0 rgba(160, 220, 250, 0.5);
     opacity: 0;
 
     transition:
@@ -249,7 +249,7 @@
 body.dark .sq-checkbox::before,
 body.dark .sq-checkbox[data-color="blue"]::before {
     background-color: rgba(95, 202, 255, 0.5);
-    box-shadow: 0px 0px 14px 0px rgba(95, 202, 255, 0.5);
+    box-shadow: 0 0 14px 0 rgba(95, 202, 255, 0.5);
 }
 
 body.dark .sq-checkbox > .checkmark,
@@ -277,7 +277,7 @@ body.dark .sq-checkbox[data-color="blue"]:hover > input:checked ~ .checkmark {
 .sq-checkbox.pink::before,
 .sq-checkbox[data-color="pink"]::before {
     background-color: rgba(255, 168, 232, 0.6);
-    box-shadow: 0px 0px 14px 0px rgba(255, 168, 232, 0.6);
+    box-shadow: 0 0 14px 0 rgba(255, 168, 232, 0.6);
 }
 
 .sq-checkbox.pink > .checkmark,
@@ -305,7 +305,7 @@ body.dark .sq-checkbox[data-color="blue"]:hover > input:checked ~ .checkmark {
 body.dark .sq-checkbox.pink::before,
 body.dark .sq-checkbox[data-color="pink"]::before {
     background-color: rgba(253, 105, 214, 0.6);
-    box-shadow: 0px 0px 14px 0px rgba(253, 105, 214, 0.6);
+    box-shadow: 0 0 14px 0 rgba(253, 105, 214, 0.6);
 }
 
 body.dark .sq-checkbox.pink > .checkmark,
