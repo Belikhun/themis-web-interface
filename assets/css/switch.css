@@ -405,7 +405,23 @@ body.dark .sq-checkbox[data-color="pink"]:hover > input:checked ~ .checkmark {
 /* BLUE LIGHTER */
 
 body.dark .sq-switch > .track {
+    border: 4px solid rgb(46, 46, 46);
+}
 
+body.dark .sq-switch > .track::before {
+    background-color: #4cb8ee;
+}
+
+body.dark .sq-switch > .track:hover {
+    border-color: rgb(95, 95, 95);
+}
+
+body.dark .sq-switch > input:checked + .track {
+    border-color: #4cb8ee;
+}
+
+body.dark .sq-switch > input:checked + .track:hover {
+    border-color: #86d7ff;
 }
 
 /** CIRCLE CHECKBOX */
