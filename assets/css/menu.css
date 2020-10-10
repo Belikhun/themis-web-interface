@@ -28,7 +28,7 @@ body.embeded .menu {
     background-color: #F5F5F6;
 }
 
-.menu > .group {
+.menu .group {
     position: relative;
     display: block;
     padding: 5px 50px 5px 0;
@@ -37,7 +37,7 @@ body.embeded .menu {
     user-select: none;
 }
 
-.menu > .group::after {
+.menu .group::after {
     content: "\f111";
     position: absolute;
     width: 50px;
@@ -59,12 +59,12 @@ body.embeded .menu {
         color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.menu > .group:hover::after {
+.menu .group:hover::after {
     border-left: 4px solid #3498db;
     color: #3498db;
 }
 
-.menu > .group .title {
+.menu .group .title {
     position: relative;
     display: block;
 
@@ -84,7 +84,7 @@ body.embeded .menu {
     overflow: hidden;
 }
 
-.menu > .group .title.big {
+.menu .group .title.big {
     color: #3a5068;
     font-size: 18px;
     font-weight: 850;
@@ -92,7 +92,7 @@ body.embeded .menu {
     margin-top: 4px;
 }
 
-.menu > .group .title.small {
+.menu .group .title.small {
     font-family: "Open Sans";
     font-size: 11px;
     letter-spacing: .2px;
@@ -101,11 +101,11 @@ body.embeded .menu {
     font-weight: unset;
 }
 
-.menu > .group .title.center {
+.menu .group .title.center {
     text-align: center;
 }
 
-.menu > .group .item {
+.menu .group .item {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -119,35 +119,35 @@ body.embeded .menu {
     transition: background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.menu > .group .item.flex-row {
+.menu .group .item.flex-row {
     padding: unset;
     flex-direction: row;
     flex-wrap: wrap;
 }
 
-.menu > .group .item.flex-row > .item {
+.menu .group .item.flex-row > .item {
     flex-grow: 1;
     width: auto;
 }
 
-.menu > .group .title + .item {
+.menu .group .title + .item {
     margin-top: 4px;
 }
 
-.menu > .group .item > .title {
+.menu .group .item > .title {
     padding: 2px 20px;
     width: 100%;
 }
 
-.menu > .group .item:hover {
+.menu .group .item:hover {
     background-color: rgba(245, 245, 246, 0.4);
 }
 
-.menu > .group .item.line {
+.menu .group .item.line {
     flex-direction: row;
 }
 
-.menu > .group a.item {
+.menu .group a.item {
     display: block;
     width: 100%;
     text-align: right;
@@ -160,7 +160,7 @@ body.embeded .menu {
     transition: color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.menu > .group a.item::before {
+.menu .group a.item::before {
     content: "\f35d";
     position: absolute;
     left: 20px;
@@ -174,15 +174,15 @@ body.embeded .menu {
     transition: color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.menu > .group a.item:hover {
+.menu .group a.item:hover {
     color: #01a3a4;
 }
 
-.menu > .group a.item:hover::before {
+.menu .group a.item:hover::before {
     color: #01a3a4;
 }
 
-.menu > .group .item.arr {
+.menu .group .item.arr {
     display: block;
     width: 100%;
     text-align: right;
@@ -196,7 +196,7 @@ body.embeded .menu {
     transition: color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.menu > .group .item.arr::before {
+.menu .group .item.arr::before {
     content: "\f104";
     position: absolute;
     left: 22px;
@@ -212,29 +212,29 @@ body.embeded .menu {
         transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.menu > .group .item.arr:hover {
+.menu .group .item.arr:hover {
     color: #f368e0;
 }
 
-.menu > .group .item.arr:hover::before {
+.menu .group .item.arr:hover::before {
     color: #f368e0;
 }
 
-.menu > .group .item.arr.active::before {
+.menu .group .item.arr.active::before {
     transform: translateY(-50%) rotate(180deg);
 }
 
-.menu > .group .space {
+.menu .group .space {
     position: relative;
     display: block;
     height: 30px;
 }
 
-.menu > .group .item.lr {
+.menu .group .item.lr {
     flex-direction: row;
 }
 
-.menu > .group .item .lr {
+.menu .group .item .lr {
     position: relative;
     display: flex;
     width: 100%;
@@ -244,27 +244,27 @@ body.embeded .menu {
     padding: unset;
 }
 
-.menu > .group .item.lr .left,
-.menu > .group .item .lr .left {
+.menu .group .item.lr .left,
+.menu .group .item .lr .left {
     flex-grow: 1;
     margin: 0 10px 0 0;
 }
 
-.menu > .group .item.lr .middle,
-.menu > .group .item .lr .middle {
+.menu .group .item.lr .middle,
+.menu .group .item .lr .middle {
     flex-grow: 1;
     margin: 0 5px;
 }
 
-.menu > .group .item.lr .right,
-.menu > .group .item .lr .right {
+.menu .group .item.lr .right,
+.menu .group .item .lr .right {
     flex-grow: 0;
     margin-left: 10px;
 }
 
-.menu > .group .item.lr.okay .right::after,
-.menu > .group .item.lr.info .right::after,
-.menu > .group .item.lr.warning .right::after {
+.menu .group .item.lr.okay .right::after,
+.menu .group .item.lr.info .right::after,
+.menu .group .item.lr.warning .right::after {
     position: relative;
     display: inline-block;
     font-family: "Font Awesome 5 Free";
@@ -273,50 +273,50 @@ body.embeded .menu {
     color: black;
 }
 
-.menu > .group .item.okay {
+.menu .group .item.okay {
     background-color: #a7f5ae;
 }
 
-.menu > .group .item.okay:hover {
+.menu .group .item.okay:hover {
     background-color: #b0ffb7;
 }
 
-.menu > .group .item.lr.okay .right::after {
+.menu .group .item.lr.okay .right::after {
     content: "\f00c";
 }
 
-.menu > .group .item.info {
+.menu .group .item.info {
     background-color: rgba(148, 216, 255, 0.8);
 }
 
-.menu > .group .item.info:hover {
+.menu .group .item.info:hover {
     background-color: rgba(166, 222, 255, 0.8);
 }
 
-.menu > .group .item.lr.info .right::after {
+.menu .group .item.lr.info .right::after {
     content: "\f129";
 }
 
-.menu > .group .item.warning {
+.menu .group .item.warning {
     background-color: #fff386;
 }
 
-.menu > .group .item.warning:hover {
+.menu .group .item.warning:hover {
     background-color: #fdf4a1;
 }
 
-.menu > .group .item.lr.warning .right::after {
+.menu .group .item.lr.warning .right::after {
     content: "\f071";
 }
 
-.menu > .group .item.text,
-.menu > .group .item .text {
+.menu .group .item.text,
+.menu .group .item .text {
     display: block;
 }
 
-.menu > .group t,
-.menu > .group .item.text,
-.menu > .group .item .text {
+.menu .group t,
+.menu .group .item.text,
+.menu .group .item .text {
     color: rgb(82, 82, 82);
     font-family: "Calibri";
     font-size: 13px;
@@ -324,76 +324,76 @@ body.embeded .menu {
 
 /* Group Icon */
 
-.menu > .group.user::after {
+.menu .group.user::after {
     content: "\f2bd";
 }
 
-.menu > .group.contact::after {
+.menu .group.contact::after {
     content: "\f2c2";
 }
 
-.menu > .group.key::after {
+.menu .group.key::after {
     content: "\f084";
 }
 
-.menu > .group.home::after {
+.menu .group.home::after {
     content: "\f015";
 }
 
-.menu > .group.config::after {
+.menu .group.config::after {
     content: "\f013";
 }
 
-.menu > .group.report::after {
+.menu .group.report::after {
     content: "\f188";
 }
 
-.menu > .group.repo::after {
+.menu .group.repo::after {
     content: "\f09b";
     font-family: "Font Awesome 5 Brands";
 }
 
-.menu > .group.wiki::after {
+.menu .group.wiki::after {
     content: "\f02d";
 }
 
-.menu > .group.link::after {
+.menu .group.link::after {
     content: "\f0c1";
 }
 
-.menu > .group.info::after {
+.menu .group.info::after {
     content: "\f129";
 }
 
-.menu > .group.logout::after {
+.menu .group.logout::after {
     content: "\f2f5";
 }
 
-.menu > .group.file::after {
+.menu .group.file::after {
     content: "\f15c";
 }
 
-.menu > .group.folder::after {
+.menu .group.folder::after {
     content: "\f07b";
 }
 
-.menu > .group.clock::after {
+.menu .group.clock::after {
     content: "\f017";
 }
 
-.menu > .group.star::after {
+.menu .group.star::after {
     content: "\f621";
 }
 
-.menu > .group.tools::after {
+.menu .group.tools::after {
     content: "\f7d9";
 }
 
-.menu > .group.plus::after {
+.menu .group.plus::after {
     content: "\f067";
 }
 
-.menu > .group.server::after {
+.menu .group.server::after {
     content: "\f233";
 }
 
@@ -408,85 +408,85 @@ body.dark.embeded .menu {
 }
 
 body.dark .menu::before,
-body.dark .menu > .group::after {
-    background-color: rgb(56, 56, 56);
+body.dark .menu .group::after {
+    background-color: rgb(12, 12, 12);
 }
 
-body.dark .menu > .group t,
-body.dark .menu > .group .item.text,
-body.dark .menu > .group .item .text {
+body.dark .menu .group t,
+body.dark .menu .group .item.text,
+body.dark .menu .group .item .text {
     color: rgb(178, 178, 178);
 }
 
-body.dark .menu > .group .item.lr:-webkit-any(.okay, .info, .warning) t,
-body.dark .menu > .group .item.lr:-webkit-any(.okay, .info, .warning).text,
-body.dark .menu > .group .item.lr:-webkit-any(.okay, .info, .warning) .text {
-    color: rgb(82, 82, 82);
+body.dark .menu .group .item.lr:-webkit-any(.okay, .info, .warning) t,
+body.dark .menu .group .item.lr:-webkit-any(.okay, .info, .warning).text,
+body.dark .menu .group .item.lr:-webkit-any(.okay, .info, .warning) .text {
+    color: rgb(16, 16, 16);
 }
 
-body.dark .menu > .group .item.lr:-moz-any(.okay, .info, .warning) t,
-body.dark .menu > .group .item.lr:-moz-any(.okay, .info, .warning).text,
-body.dark .menu > .group .item.lr:-moz-any(.okay, .info, .warning) .text {
-    color: rgb(82, 82, 82);
+body.dark .menu .group .item.lr:-moz-any(.okay, .info, .warning) t,
+body.dark .menu .group .item.lr:-moz-any(.okay, .info, .warning).text,
+body.dark .menu .group .item.lr:-moz-any(.okay, .info, .warning) .text {
+    color: rgb(44, 44, 44);
 }
 
-body.dark .menu > .group .title {
+body.dark .menu .group .title {
     color: #53b0ee;
 }
 
-body.dark .menu > .group .title.big {
+body.dark .menu .group .title.big {
     color: #e4e4e4;
 }
 
-body.dark .menu > .group .title.small {
+body.dark .menu .group .title.small {
     color: rgb(192, 192, 192);
 }
 
-body.dark .menu > .group .item:hover {
+body.dark .menu .group .item:hover {
     background-color: rgba(26, 26, 26, 0.4);
 }
 
-body.dark .menu > .group a.item,
-body.dark .menu > .group .item.arr {
+body.dark .menu .group a.item,
+body.dark .menu .group .item.arr {
     color: rgb(190, 190, 190);
 }
 
-body.dark .menu > .group .item.arr:hover {
+body.dark .menu .group .item.arr:hover {
     color: #fca4f0;
 }
 
-body.dark .menu > .group a.item:hover {
+body.dark .menu .group a.item:hover {
     color: #12d6d6;
 }
 
-.menu > .group .item.lr.okay .left,
-.menu > .group .item.lr.info .left,
-.menu > .group .item.lr.warning .left {
+.menu .group .item.lr.okay .left,
+.menu .group .item.lr.info .left,
+.menu .group .item.lr.warning .left {
     font-family: "Open Sans";
     font-size: 13px;
     color: #343434;
 }
 
-body.dark .menu > .group .item.okay {
+body.dark .menu .group .item.okay {
     background-color: #77ce7e;
 }
 
-body.dark .menu > .group .item.okay:hover {
+body.dark .menu .group .item.okay:hover {
     background-color: #84e08b;
 }
 
-body.dark .menu > .group .item.info {
+body.dark .menu .group .item.info {
     background-color: #7abce2;
 }
 
-body.dark .menu > .group .item.info:hover {
+body.dark .menu .group .item.info:hover {
     background-color: #8dc8eb;
 }
 
-body.dark .menu > .group .item.warning {
+body.dark .menu .group .item.warning {
     background-color: #e9dd74;
 }
 
-body.dark .menu > .group .item.warning:hover {
+body.dark .menu .group .item.warning:hover {
     background-color: #fbf08b;
 }

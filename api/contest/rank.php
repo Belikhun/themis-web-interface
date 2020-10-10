@@ -42,7 +42,9 @@
 		));
 
 	if (!$export) {
-		$cache = new cache("contestRank.". md5($_SESSION["username"] . $_SESSION["id"]));
+		$cacheName = ($_SESSION["id"] === "admin") ? "contestRank.admin" : "contestRank.user";
+
+		$cache = new cache($cacheName);
 		$cache -> setAge(getConfig("cache.contestRank"));
 		
 		if ($cache -> validate()) {

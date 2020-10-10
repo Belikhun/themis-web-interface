@@ -5,26 +5,31 @@
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
+const parseException = (error) => {
+	return {
+		code: (error.code && error.data && error.data.code)
+			?	`[${error.code} ${error.data.code}]`
+			:	error.code
+			||	error.name
+			||	error.data.name
+			||	`${error.data.data.file}:${error.data.data.line}`,
+	
+		description: (error.description && error.data && error.data.description)
+			?	`${error.description} (${error.data.description}) ${(error.data.data && error.data.data.file) ? `${error.data.data.file}:${error.data.data.line}` : ""}`
+			:	error.message
+			||	error.description
+			||	error.data.message
+			||	error.data.description
+	}
+}
+
 const errorHandler = async (error, returnable = true) => {
 	clog("ERRR", error);
 
 	if (!popup || !popup.initialized)
 		return;
 
-	let e = (error.code && error.data && error.data.code)
-		?	`[${error.code} ${error.data.code}]`
-		:	error.code ? `[${error.code}]`
-		:	error.name
-		||	error.data.name
-		||	`${error.data.data.file}:${error.data.data.line}`
-
-	let d = (error.description && error.data && error.data.description)
-		?	`${error.description} (${error.data.description}) ${(error.data.data.file) ? `${error.data.data.file}:${error.data.data.line}` : ""}`
-		:	error.message
-		||	error.description
-		||	error.data.message
-		||	error.data.description
-		
+	let e = parseException(error);
 	let returnBtn = {}
 
 	if (returnable)
@@ -32,7 +37,7 @@ const errorHandler = async (error, returnable = true) => {
 
 	let errorBox = document.createElement("pre");
 	errorBox.classList.add(document.body.classList.contains("dark") ? "dark" : "light", "break");
-	errorBox.innerText = `${e} >>> ${d}`;
+	errorBox.innerText = `[${e.code}] >>> ${e.description}`;
 	errorBox.style.fontSize = "16px";
 
 	await popup.show({
@@ -51,6 +56,6 @@ const errorHandler = async (error, returnable = true) => {
     gtag("event", "errored", {
         event_category: "error",
         event_label: "exception",
-        value: `${e} >>> ${d}`
+        value: `${e.code} >>> ${e.description}`
     });
 }

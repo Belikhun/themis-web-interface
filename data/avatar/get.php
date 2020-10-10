@@ -63,10 +63,7 @@
 	}
 
 	if (!isset($_GET["u"]) || empty($_GET["u"]))
-		if ($_SESSION["username"])
-			loadAvatar($_SESSION["username"]);
-		else
-			loadAvatar("avt.default");
+		loadAvatar("avt.default");
 
 	$username = preg_replace("/[.\/\\\\]/m", "", trim($_GET["u"]));
 	$files = glob($username .".{". join(",", IMAGE_ALLOW) ."}", GLOB_BRACE);

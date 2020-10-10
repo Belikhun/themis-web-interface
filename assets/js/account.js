@@ -18,7 +18,7 @@ document.__onclog = (type, ts, msg) => {
 }
 
 $("body").onload = e => {
-	if (cookie.get("__darkMode") === "true")
+	if (localStorage.getItem("display.nightmode") === "true")
 		document.body.classList.add("dark");
 
 	if (window.frameElement)

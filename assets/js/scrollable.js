@@ -13,9 +13,9 @@ class Scrollable {
 	 * @param {HTMLElement}		container		Container
 	 */
 	constructor(container, {
-		distance = 100,
+		distance = 60,
 		velocity = 2,
-		clamp = 40,
+		clamp = 20,
 		maxClamp = 400
 	} = {}) {
 		if (typeof container !== "object" || (!container.classList && !container.container))
@@ -52,7 +52,7 @@ class Scrollable {
 
 				ticking = true;
 			}
-		})
+		});
 	}
 
 	update(e) {

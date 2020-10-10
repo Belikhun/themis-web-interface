@@ -22,641 +22,57 @@ input:-webkit-autofill {
 	background-color: rgba(0, 0, 0, 0);
 }
 
-body #container {
+#superContainer {
 	position: absolute;
 	display: block;
+
+	top: 0;
+	left: 0;
 	width: 100vw;
-	top: 56px;
-	bottom: 0;
-	background-color: #ebebeb;
+	height: calc(100vh - 40px);
+	margin-top: 40px;
+
 	box-sizing: border-box;
-	padding: 0 5px 5px;
-	overflow-x: hidden;
-	overflow-y: auto;
+	overflow: hidden;
+	background-color: #f0f0f0;
+
 	transition:
 		transform 0.4s ease,
 		filter 0.4s ease;
 }
 
-body #container .flexRow {
-	position: relative;
-	display: flex;
-	flex-direction: row;
-	height: 100%;
-	min-height: 420px;
-}
-
-body #container .flexColumn {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-}
-
-body #container .flexColumn.large {
-	flex-grow: 1;
-}
-
-body #container .flexColumn.small {
-	flex-grow: 0;
-	flex-shrink: 0;
-}
-
-body #userSettings.show ~ #container {
-	transform: translateX(-20px);
-}
-
-.navBar.showBottom ~ #userSettings,
-.navBar.showBottom ~ #container,
-.navBar.showBottom ~ #wrapper {
-	top: 94px;
-}
-
-.contestTimer {
-	display: none;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
-	box-sizing: border-box;
-	padding: 4px 0 8px;
-}
-
-.navBar.showBottom .contestTimer {
-	display: flex;
-	height: 38px;
-}
-
-.contestTimer::before {
-	content: "";
-	position: absolute;
-	display: block;
-	top: 0;
-	left: 10px;
-	right: 10px;
-	height: 1px;
-	background-color: rgba(122, 122, 122, 0.2);
-}
-
-.contestTimer #contestTimeState {
-	position: relative;
-	font-size: 13px;
-	text-align: center;
-	text-transform: uppercase;
-	letter-spacing: .4px;
-	color: rgb(90, 90, 90);
-}
-
-.contestTimer .reload {
-	position: relative;
-	display: inline-block;
-	font-size: 18px;
-	font-weight: bold;
-	cursor: pointer;
-	color: rgba(98, 98, 98, 0.54);
-	transition: color 0.2s ease;
-}
-
-.contestTimer #contestTimeState,
-.contestTimer .reload,
-.contestTimer separator {
-	margin-top: 4px;
-}
-
-.contestTimer .reload:hover {
-	color: rgba(98, 98, 98, 0.82);
-}
-
-.contestTimer .progressBar {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	margin-top: 28px;
-	height: 4px;
-}
-
-.contestTimer .progressBar > .left,
-.contestTimer .progressBar > .right {
-	transform: translateY(calc(-100% - 4px));
-}
-
-.contestTimer .progressBar > .left {
-	left: 10px;
-}
-
-.contestTimer .progressBar > .right {
-	right: 10px;
-}
-
-@media only screen and (max-width: 800px) {
-	.navBar.showBottom .contestTimer #contestTimeState,
-	.navBar.showBottom .contestTimer #contestTimeState + separator {
-		display: none;
-	}
-}
-
-.userCard {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-
-	padding: 5px;
-
-	min-width: 200px;
-	min-height: 80px;
-}
-
-.userCard > .loadingWrapper {
-	position: absolute;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-
-	opacity: 1;
-	z-index: 1;
-
-	transition: opacity 0.3s ease;
-}
-
-.userCard.loaded > .loadingWrapper {
-	opacity: 0;
-}
-
-.userCard > .loadingWrapper[data-type="errored"] > .simpleSpinner {
+#dummyContainer {
 	display: none;
 }
 
-.userCard > .loadingWrapper[data-type="errored"]::before {
-	content: "\f071";
-    position: relative;
-	display: block;
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    font-size: 18px;
-	font-style: normal;
-    color: rgb(255, 255, 255);
-}
-
-.userCard > .loadingWrapper[data-type="errored"] > .error {
-	font-size: 11px;
-	text-align: center;
-
-	color: white;
-	max-width: 100%;
-
-	padding: 6px 10px 0;
-	box-sizing: border-box;
-	word-wrap: break-word;
-	white-space: normal;
-}
-
-.userCard > .header {
+#content {
 	position: relative;
 	display: flex;
 	flex-direction: row;
 
-	align-items: center;
-}
-
-.userCard > .header > .left {
-	position: relative;
-	display: block;
-	width: 80px;
-	height: 80px;
-
-	margin: 0 5px;
-}
-
-.userCard > .header > .left > .avatar {
-	position: relative;
-	display: block;
 	width: 100%;
 	height: 100%;
-
-	border-radius: 50%;
 }
 
-.userCard > .header > .left > .status {
-	position: absolute;
-	display: block;
-	bottom: 0;
-	right: 0;
-	width: 16px;
-	height: 16px;
-
-	background-color: rgb(190, 179, 179);
-	border: 3px solid rgb(100, 100, 100);
-	border-radius: 50%;
-}
-
-.userCard > .header > .left > .status[data-status="online"] {
-	background-color: rgb(120, 255, 140);
-}
-
-.userCard > .header > .right {
+#content > div {
 	position: relative;
-	display: flex;
-	flex-direction: column;
-	flex-grow: 1;
-
-	margin: 0 5px;
-}
-
-.userCard > .header > .right > .username {
-	color: rgba(255, 255, 255, 0.9);
-	font-family: "Calibri";
-	font-weight: 500;
-	font-size: 13px;
-}
-
-.userCard > .header > .right > .username::before {
-	content: "@";
-}
-
-.userCard > .header > .right > .detail {
-	position: relative;
-	display: flex;
-	flex-direction: row;
-
-	align-items: flex-end;
-}
-
-.userCard > .header > .right > .detail > .name {
-	color: white;
-	font-family: "Nunito";
-	font-weight: 900;
-	font-size: 20px;
-	letter-spacing: .6px;
-}
-
-.userCard > .header > .right > .detail > .id {
-	color: rgba(216, 216, 216, 0.9);
-	font-size: 14px;
-	font-weight: bold;
-
-	margin-bottom: 3px;
-}
-
-.userCard > .header > .right > .detail > .id::before {
-	content: "#";
-}
-
-.userCard > .header > .right > .status {
-	margin-top: 10px;
-
-	color: rgb(224, 224, 224);
-	font-family: "Calibri";
-	font-size: 13px;
-}
-
-.userCard > .submissions {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-}
-
-.userCard > .submissions > .bar {
-	position: relative;
-	display: block;
-	width: 100%;
-	height: 20px;
-
-	margin: 5px 0;
-	background-color: rgba(128, 128, 128, 0.6);
-}
-
-.userCard > .submissions > .bar > .inner {
-	position: relative;
-	display: flex;
-	flex-direction: row;
-	width: 0;
-	height: 100%;
-	overflow: hidden;
-
-	transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.userCard > .submissions > .bar > .inner > span {
-	position: relative;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-
-	height: 100%;
-	font-size: 15px;
-	font-weight: bold;
-	color: rgb(75, 75, 75);
-
-	overflow: hidden;
-}
-
-.userCard > .submissions > .bar > .inner > span.correct {
-	background-color: rgb(147, 243, 158);
-}
-
-.userCard > .submissions > .bar > .inner > span.passed {
-	background-color: rgb(150, 245, 248);
-}
-
-.userCard > .submissions > .bar > .inner > span.accepted {
-	background-color: rgb(240, 237, 157);
-}
-
-.userCard > .submissions > .bar > .inner > span.failed {
-	background-color: rgb(248, 187, 187);
-}
-
-.userCard > .submissions > .bar > .inner > span.skipped {
-	background-color: rgb(212, 212, 212);
-}
-
-.userCard > .submissions > .list {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-}
-
-.userCard > .submissions > .list > .item {
-	position: relative;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-
-	height: 40px;
-	background-color: rgba(58, 58, 58, 0.8);
-
-	opacity: 0;
-	transform: translateY(20px);
-
-	transition:
-		opacity 0.2s ease-out,
-		transform 0.4s cubic-bezier(0.33, 1, 0.68, 1);
-}
-
-.userCard > .submissions > .list > .item.show {
-	opacity: 1;
-	transform: unset;
-}
-
-.userCard > .submissions > .list > .item > .left {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	flex-grow: 1;
-
-	padding: 0 10px;
-}
-
-.userCard > .submissions > .list > .item > .left > .title {
-	padding-top: 5px;
-
-	font-family: "Nunito";
-	font-weight: 800;
-	font-size: 15px;
-	line-height: 12px;
-	color: white;
-
-	opacity: 0;
-	transform: translateX(40px);
-
-	transition:
-		opacity 0.2s ease-out 0.1s,
-		transform 0.4s cubic-bezier(0.33, 1, 0.68, 1) 0.1s;
-}
-
-.userCard > .submissions > .list > .item.show > .left > .title {
-	opacity: 1;
-	transform: unset;
-}
-
-.userCard > .submissions > .list > .item[data-status="correct"] > .left > .title {
-	color: rgb(148, 255, 148);
-}
-
-.userCard > .submissions > .list > .item[data-status="passed"] > .left > .title {
-	color: rgb(188, 253, 255);
-}
-
-.userCard > .submissions > .list > .item[data-status="accepted"] > .left > .title {
-	color: rgb(255, 253, 183);
-}
-
-.userCard > .submissions > .list > .item[data-status="failed"] > .left > .title {
-	color: rgb(255, 156, 156);
-}
-
-.userCard > .submissions > .list > .item[data-status="skipped"] > .left > .title {
-	color: rgb(214, 214, 214);
-}
-
-.userCard > .submissions > .list > .item > .left > .detail {
-	position: relative;
-	display: flex;
-	flex-direction: row;
-	opacity: 0;
-
-	transition: opacity 0.2s ease-out 0.25s;
-}
-
-.userCard > .submissions > .list > .item.show > .left > .detail {
-	opacity: 1;
-}
-
-.userCard > .submissions > .list > .item > .left > .detail > .id {
-	margin-right: 10px;
-
-	font-size: 12px;
-	color: rgb(251, 189, 107);
-}
-
-.userCard > .submissions > .list > .item > .left > .detail > .extension {
-	font-size: 12px;
-	color: rgba(226, 226, 226, 0.8);
-}
-
-.userCard > .submissions > .list > .item > .right {
-	position: relative;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-
-	height: 100%;
-	margin-left: 10px;
-	opacity: 0;
-
-	transition: opacity 0.2s ease-out 0.3s;
-}
-
-.userCard > .submissions > .list > .item.show > .right {
-	opacity: 1;
-}
-
-.userCard > .submissions > .list > .item > .right > t > sub {
-	margin-left: 2px;
-
-	vertical-align: baseline;
-	font-family: "Segoe UI";
-	font-size: 13px;
-	color: rgb(184, 184, 184);
-}
-
-.userCard > .submissions > .list > .item > .right > .point {
-	font-family: Calibri;
-	font-size: 19px;
-	font-weight: bold;
-	color: white;
-}
-
-.userCard > .submissions > .list > .item > .right > .sp {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: flex-end;
-
-	min-width: 120px;
-	height: 100%;
-	margin-left: 15px;
-	padding-right: 10px;
-
-	font-family: Nunito;
-	font-size: 24px;
-	font-weight: bold;
-	color: rgb(195, 238, 255);
-
-	background-color: rgba(98, 98, 98, 0.5);
-}
-
-.userCard > .submissions > .list > .item > .right > .sp::before,
-.userCard > .submissions > .list > .item > .right > .sp::after {
-	content: "";
-	position: absolute;
-	display: block;
-	top: 0;
-	left: -15px;
-	width: 0;
-	height: 0;
-	border-style: solid;
-	border-width: 0 15px 20px 0;
-	border-color: transparent rgba(98, 98, 98, 0.5) transparent transparent;
-}
-
-.userCard > .submissions > .list > .item > .right > .sp::after {
-	top: unset;
-	bottom: 0;
-	border-width: 0 0 20px 15px;
-	border-color: transparent transparent rgba(98, 98, 98, 0.5) transparent;
-}
-
-.userCard > .submissions > .list > .item > .right > .sp > sub {
-	margin-top: 4px;
-	color: rgb(160, 203, 221);
-}
-
-.userCard:not(.loaded) > .header,
-.userCard:not(.loaded) > .submissions {
 	display: none;
-}
 
-panel {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	width: 350px;
-	height: auto;
-	margin: 5px;
-	box-sizing: border-box;
-	border-radius: 8px;
-	background-color: white;
-	overflow: hidden;
-}
-
-panel .head {
-	position: relative;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
 	width: 100%;
-	min-height: 36px;
+	height: 100%;
 	box-sizing: border-box;
-	border-radius: 8px;
-	background-color: #fafafa;
-	overflow: hidden;
+
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 
-panel .head .le {
-	position: relative;
-	display: inline-block;
-	flex: 1 1 0;
-	margin-left: 20px;
-
-	font-family: Calibri;
-	font-size: 16px;
-	font-weight: bold;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	white-space: nowrap;
-	color: rgba(56, 56, 56, 0.8);
-}
-
-panel .head .ri {
-	position: relative;
+#content[data-layout = "1"] > div:nth-child(1),
+#content[data-layout = "2"] > div:nth-child(2) {
 	display: flex;
-	align-items: center;
-	flex: 0 0 0;
 }
 
-panel .head .ri > i {
-	position: relative;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	padding: 0 2px;
-	width: 48px;
-	height: 36px;
-
-	font-size: 18px;
-	font-weight: bold;
-	color: rgba(98, 98, 98, 0.54);
-	cursor: pointer;
-	transition: all 0.2s ease;
-}
-
-panel .head .ri > i.bak {
-	font-size: 20px;
-}
-
-panel .head .ri > i:hover {
-	color: rgba(24, 24, 24, 0.82);
-	background-color: rgba(116, 116, 116, 0.2);
-}
-
-panel .head .ri > i.ref:hover {
-	color: rgba(14, 123, 212, 0.82);
-	background-color: rgba(66, 136, 248, 0.2);
-}
-
-panel .head .ri > i.clo:hover {
-	color: rgba(214, 26, 26, 0.82);
-	background-color: rgba(235, 77, 77, 0.2);
-}
-
-panel .main {
-	position: relative;
-	display: inline-block;
-	flex-grow: 1;
-	width: 100%;
-	margin: unset;
-	padding: unset;
-	overflow: auto;
-	box-sizing: border-box;
-}
-
-panel .main:empty::before,
-panel .main .showEmpty:empty::before {
+#content > div:empty::before,
+#content > div .showEmpty:empty::before {
 	content: "\f51b";
 	position: absolute;
 	left: 50%;
@@ -668,8 +84,8 @@ panel .main .showEmpty:empty::before {
 	color: rgb(192, 192, 192);
 }
 
-panel .main:empty::after,
-panel .main .showEmpty:empty::after {
+#content > div:empty::after,
+#content > div .showEmpty:empty::after {
 	content: "Không có dữ liệu";
 	position: absolute;
 	display: block;
@@ -682,975 +98,172 @@ panel .main .showEmpty:empty::after {
 	color: rgb(192, 192, 192);
 }
 
-/** Panel Layout: Logged in */
+/*? =================== LAYOUT =================== **/
 
-#problemp {
-	flex-grow: 1;
-	width: auto;
-	height: calc(100% - 10px);
+#mainContainer {
+	padding: 5px;
 }
 
-#uploadp {
-	height: 190px;
-}
-
-#logp {
-	flex-grow: 1;
-	height: calc(100% - 220px);
-}
-
-#rankp {
-	flex-grow: 1;
-}
-
-@media only screen and (max-width: 1130px) {
-	body #container .flexRow {
-		flex-wrap: wrap;
-		height: auto;
-	}
-
-	body #container .flexRow:first-child {
-		min-height: 100%;
-	}
-
-	body #container .flexRow:first-child > .flexColumn.large {
-		min-height: calc(100vh - 90px);
-	}
-
-	body #container .flexRow:last-child {
-		height: 100%;
-	}
-
-	body #container .flexRow:last-child > #rankp {
-		max-height: calc(100% - 10px);
-	}
-
-	body #container .flexColumn {
-		width: 100%;
-	}
-
-	#uploadp,
-	#logp {
-		width: auto;
-	}
-
-	#logp {
-		height: auto;
-		max-height: calc(100vh - 90px);
-	}
-}
-
-/** Panel Layout: Guest mode */
-
-body.guest #container {
+#mainContainer > .flexColumn {
+	position: relative;
 	display: flex;
 	flex-direction: column;
 }
 
-body.guest #container > .flexRow:nth-child(1) {
-	order: 2;
-	flex-grow: 0;
-	min-height: 100%;
-}
-
-body.guest #container > .flexRow:nth-child(2) {
-	order: 1;
-	min-height: 100%;
-}
-
-body.guest #problemp {
-	height: 200px;
-	flex-grow: 1;
-}
-
-body.guest #problemp.hide {
-	display: none;
-}
-
-#wrapper {
-	position: fixed;
-	display: none;
-	align-items: center;
-	justify-content: center;
-	top: 60px;
-	bottom: 20px;
-	width: 100%;
-	background-color: rgba(0, 0, 0, 0.6);
-	z-index: 2;
-}
-
-#wrapper.show {
-	display: flex;
-}
-
-#wrapper #wrapperPanel {
-	position: relative;
-	width: calc(100% - 100px);
-	height: calc(100% - 20px);
-	max-width: 1000px;
-	max-height: 640px;
-	margin: unset;
-}
-
-#wrapper #wrapperPanel[data-size="small"] {
-	width: calc(100% - 300px);
-	max-width: 720px;
-	min-width: 420px;
-	margin: unset;
-}
-
-#wrapper #wrapperPanel[data-size="large"] {
-	width: calc(100% - 80px);
-	max-width: unset;
-	max-height: 100%;
-	margin: unset;
-}
-
-#logp div.main:empty::before {
-	content: "\f564";
-}
-
-#logp .logItemContainer {
-	position: relative;
-}
-
-#logp .logItemContainer .logItem {
-	position: relative;
-	box-sizing: border-box;
-	height: 48px;
-	margin-left: 20px;
-	padding-right: 25px;
-}
-
-#logp .logItemContainer .logItem .h {
+#mainContainer > .flexColumn > .flexRow {
 	position: relative;
 	display: flex;
 	flex-direction: row;
-	align-items: center;
-	width: 100%;
-	height: 100%;
-	box-sizing: border-box;
-	border-bottom: 1px solid rgba(230, 230, 230, 0.2);
 }
 
-#logp .logItemContainer .logItem .h .l {
+#mainContainer > .flexColumn.large,
+#mainContainer > .flexColumn > .flexRow.large {
+	flex-grow: 1;
+}
+
+/*? =================== PANEL =================== **/
+
+panel {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	flex-shrink: 1;
+
+	width: 360px;
+	height: calc(100% - 20px);
+	margin: 15px 5px 5px;
+	padding-top: 15px;
+	box-sizing: border-box;
+	
+	overflow: visible;
+	background-color: white;
+	border: 1px solid rgba(85, 85, 85, 0.4);
+}
+
+panel > .header {
+	position: absolute;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	top: 0;
+	width: 100%;
+	height: 30px;
+	transform: translateY(-50%);
+
+	overflow: hidden;
+}
+
+panel > .header > .title {
 	position: relative;
 	display: inline-block;
-	flex-grow: 1;
-	overflow: hidden;
-}
-
-#logp .logItemContainer .logItem .h .l .t {
-	font-size: 10px;
-	font-weight: normal;
-	color: rgba(59, 71, 82, 0.7);
-}
-
-#logp .logItemContainer .logItem .h .l .n {
-	font-size: 13px;
-	font-weight: bold;
-	color: #585858;
-}
-
-#logp .logItemContainer .logItem.scored .h .l .n {
-	color: #1124c8;
-}
-
-#logp .logItemContainer .logItem.correct .h .l .n {
-	color: #39aa56;
-}
-
-#logp .logItemContainer .logItem.passed .h .l .n {
-	color: #0ca3be;
-}
-
-#logp .logItemContainer .logItem.accepted .h .l .n {
-	color: #b9ab14;
-}
-
-#logp .logItemContainer .logItem.failed .h .l .n {
-	color: #db4545;
-}
-
-#logp .logItemContainer .logItem .h .r {
-	position: relative;
-	display: flex;
 	flex-grow: 0;
-	flex-direction: column;
-	align-items: flex-end;
-	justify-content: center;
-	margin-right: 10px;
-}
+	flex-shrink: 1;
 
-#logp .logItemContainer .logItem .h .r t {
-	color: rgba(98, 98, 98, 0.7);
-	font-size: 11px;
-	letter-spacing: 0.01em;
-}
+	height: 26px;
+	margin-left: 10px;
+	padding: 0 10px;
+	border: 1px solid rgba(85, 85, 85, 0.4);
 
-#logp .logItemContainer .logItem .h .r .s {
-	font-weight: bold;
-	color: rgba(82, 82, 82, 0.7);
-	font-size: 11px;
-}
-
-#logp .logItemContainer .logItem .d {
-	position: absolute;
-	right: 0;
-	top: 0;
-	width: 25px;
-	height: 100%;
-	cursor: pointer;
-	background-color: #f8f8f8;
-	color: #c0c0c0;
-	transition: all 0.2s ease;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	text-decoration: none;
-}
-
-#logp .logItemContainer .logItem .d:not(.link) {
-	cursor: not-allowed;
-}
-
-#logp .logItemContainer .logItem .d::before {
-	content: "open_in_browser";
-	font-family: "Material Icons";
-	font-weight: lighter;
+	font-family: Calibri;
 	font-size: 16px;
-}
-
-#logp .logItemContainer .logItem .d:hover {
-	background-color: #f1f1f1;
-	color: #6e6e6e;
-}
-
-#logp .logItemContainer .logItem.queue .h .l .n {
-	color: #8710cc;
-}
-
-#logp .logItemContainer .logItem.queue .d::before {
-	content: "\f2f1";
-	font-family: "Font Awesome 5 Free";
-	animation: spin 1s linear 0s infinite forwards;
-	font-weight: 600;
-	font-size: 12px;
-}
-
-#logp .logItemContainer .logItem.judging .h .l .n {
-	color: #c811c8;
-}
-
-#logp .logItemContainer .logItem.judging .d::before {
-	content: "\f0e3";
-	font-family: "Font Awesome 5 Free";
-	animation: spin 1s linear 0s infinite forwards;
-	font-weight: 600;
-	font-size: 12px;
-}
-
-#logp .logItemContainer .logItem.queue .d,
-#logp .logItemContainer .logItem.judging .d {
-	cursor: default;
-}
-
-#uploadp .fileupload-container {
+	font-weight: bold;
+	color: black;
+	text-overflow: ellipsis;
+	line-height: 26px;
+	white-space: nowrap;
+	
+	background-color: #ffffff;
 	overflow: hidden;
 }
 
-#uploadp .fileupload-container #submitDropzone {
+panel > .header > .buttons {
 	position: absolute;
 	display: flex;
-	flex-direction: column;
+	flex-direction: row-reverse;
 	align-items: center;
-	justify-content: center;
-	margin: 20px;
-	padding: 10px;
-	box-sizing: border-box;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
-	border: 2px dotted #ccc;
-	border-radius: 4px;
-	opacity: 1;
-	z-index: 1;
-	transition: all 0.4s ease;
-	transition-property: color, background-color, opacity;
-}
 
-#uploadp .fileupload-container #submitDropzone.drag {
-	background-color: #ccc;
-	color: white;
-}
-
-#uploadp .fileupload-container #submitDropzone.hide {
-	opacity: 0;
-}
-
-#uploadp .fileupload-container #submitDropzone.hide+.info {
-	opacity: 1;
-}
-
-#uploadp .fileupload-container #submitDropzone #submitInput {
-	display: none;
-}
-
-#uploadp .fileupload-container #submitDropzone .title {
-	color: rgb(104, 104, 104);
-	font-size: 16px;
-	font-weight: bold;
-	text-transform: uppercase;
-}
-
-#uploadp .fileupload-container #submitDropzone .sub {
-	color: rgb(128, 128, 128);
-	font-size: 12px;
-	margin: 4px 0;
-}
-
-#uploadp .fileupload-container .info {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	box-sizing: border-box;
-	padding: 20px;
-	transition: all 0.4s ease;
-	opacity: 0;
-}
-
-#uploadp .fileupload-container .info #submitStatus {
-	position: relative;
-	display: block;
-	padding-bottom: 2px;
-	box-sizing: border-box;
-	width: 100%;
-	font-size: 20px;
-	font-weight: 100;
-	text-align: center;
-	text-transform: uppercase;
-	color: rgb(136, 136, 136);
-}
-
-#uploadp .fileupload-container .info #submitFileName {
-	position: relative;
-	display: block;
-	width: 100%;
-	font-size: 13px;
-	font-weight: 500;
-	text-align: center;
-	color: rgb(93, 93, 93);
-}
-
-#uploadp .fileupload-container .info .progressBar {
-	position: absolute;
-	bottom: 24px;
-	left: 50%;
-	width: 90%;
-	transform: translateX(-50%);
-}
-
-.problemSettings {
-	padding: unset;
-	height: 220px;
-}
-
-.problemSettings .header {
-	height: 40px;
-	background-color: #F5F5F6;
-	display: flex;
-	align-items: center;
-	padding: 0 10px;
-}
-
-.problemSettings .header div span {
-	padding: 0 3px;
-	cursor: pointer;
-}
-
-.problemSettings .header div span::before {
-	font-family: "Font Awesome 5 Free";
-	font-size: 14px;
-	font-weight: 600;
-	color: rgba(98, 98, 98, 0.54);
-	transition: color 0.2s ease;
-}
-
-.problemSettings .header div span:hover::before {
-	color: rgba(98, 98, 98, 0.82)
-}
-
-.problemSettings .header .left .back::before {
-	content: "\f104";
-}
-
-.problemSettings .header .right .add::before {
-	content: "\f067";
-	font-size: 12px;
-}
-
-.problemSettings .header .right .check::before {
-	content: "\f00c";
-	font-size: 12px;
-}
-
-.problemSettings .header .title {
-	position: absolute;
-	left: 50%;
-	color: #a5a5a5;
-	transform: translateX(-50%);
-}
-
-.problemSettings .header .right {
-	position: absolute;
 	right: 10px;
 }
 
-.problemSettings .problemsContainer {
-	position: relative;
-	height: calc(100% - 46px);
-	background-color: transparent;
-	overflow: hidden;
-}
-
-.problemSettings .problemsContainer .problemsList {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	height: 100%;
-	margin: unset;
-	padding: unset;
-	list-style: none;
-	overflow-x: hidden;
-	overflow-y: auto;
-	transition: all 0.4s ease;
-}
-
-.problemSettings .problemsContainer .problemsList li.item {
-	position: relative;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	width: 100%;
-	height: 64px;
-	box-sizing: border-box;
-	padding: 0 10px;
-	border-bottom: unset;
-}
-
-.problemSettings .problemsContainer .problemsList li.item:hover {
-	background-color: rgba(245, 245, 246, 0.4);
-}
-
-.problemSettings .problemsContainer .problemsList li.item:after {
-	content: unset;
-}
-
-.problemSettings .problemsContainer .problemsList li.item .icon {
-	position: relative;
-	flex-grow: 0;
-	flex-shrink: 0;
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
-	object-fit: cover;
-}
-
-.problemSettings .problemsContainer .problemsList li.item .title {
-	position: relative;
-	flex-grow: 1;
-	flex-shrink: 1;
-	list-style: none;
-	margin: unset;
-	padding: 0 0 0 10px;
-}
-
-.problemSettings .problemsContainer .problemsList li.item .title .id {
-	font-size: 11px;
-	color: rgba(73, 73, 73, 0.6);
-	letter-spacing: 0.4px;
-}
-
-.problemSettings .problemsContainer .problemsList li.item .title .name {
-	font-size: 14px;
-	color: #494949;
-}
-
-.problemSettings .problemsContainer .problemsList li.item .action {
-	position: relative;
-	display: block;
-	flex-grow: 0;
-	flex-shrink: 0;
-}
-
-.problemSettings .problemsContainer .problemsList li.item .action span {
-	padding: 0 4px;
-	cursor: pointer;
-}
-
-.problemSettings .problemsContainer .problemsList li.item .action span::before {
-	font-family: "Font Awesome 5 Free";
-	font-size: 16px;
-	font-weight: 600;
-	color: #95a5a6;
-	transition: color 0.1s ease;
-}
-
-.problemSettings .problemsContainer .problemsList li.item .action span.delete::before {
-	content: "\f1f8";
-}
-
-.problemSettings .problemsContainer .problemsList li.item .action span.delete:hover::before {
-	color: #e74c3c;
-}
-
-.problemSettings .problemsContainer .problemsList li.item .action span.edit::before {
-	content: "\f304";
-}
-
-.problemSettings .problemsContainer .problemsList li.item .action span.edit:hover::before {
-	color: #3498db;
-}
-
-.problemSettings .problemsContainer .problemsList.hide {
-	transform: translateX(-100%);
-}
-
-.problemSettings .problemsContainer .problem {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	right: 0;
-	overflow: auto;
-	padding: 0 10px;
-	box-sizing: border-box;
-	transform: translateX(100%);
-	transition: all 0.4s ease;
-}
-
-.problemSettings .problemsContainer .problemsList.hide + .problem {
-	transform: unset;
-}
-
-.problemSettings .problemsContainer .problem #problemEdit_desc {
-	resize: none;
-	height: 160px;
-}
-
-.problemSettings .problemsContainer .problem #problemEdit_deleteImage,
-.problemSettings .problemsContainer .problem #problemEdit_deleteAttachment {
-	width: 100%;
-	margin-top: 8px;
-}
-
-.problemSettings .problemsContainer .problem .test-container {
-	position: relative;
-	margin-bottom: 20px;
-	border-bottom: 1px solid rgba(39, 39, 39, 0.4);
-	padding-bottom: 1px;
-	transition: 0.3s;
-}
-
-.problemSettings .problemsContainer .problem .test-container:hover {
-	border-bottom: 2px solid #4285f4;
-	padding-bottom: 0;
-}
-
-.problemSettings .problemsContainer .problem .test-container .test {
-	display: block;
-	font-size: 8px;
-	font-weight: 700;
-	color: #8b8b8b;
-	text-transform: uppercase;
-	margin: 12px 0;
-	transition: 0.3s;
-}
-
-.problemSettings .problemsContainer .problem .test-container:hover .test {
-	color: #4285f4;
-}
-
-.problemSettings .problemsContainer .problem .test-container .test-list {
-	position: relative;
-	width: 100%;
-	box-sizing: border-box;
-	display: block;
-}
-
-.problemSettings .problemsContainer .problem .test-container .test-list .cell {
-	position: relative;
-	height: 60px;
-}
-
-.problemSettings .problemsContainer .problem .test-container .test-list .cell textarea {
-	position: relative;
-	resize: none;
-	border: unset;
-	background-color: transparent;
-	box-sizing: border-box;
-	width: calc(50% - 15px);
-	height: 100%;
-	font-family: "Consolas";
-	border-bottom: 1px solid rgba(39, 39, 39, 0.4);
-}
-
-.problemSettings .problemsContainer .problem .test-container .test-list .cell .delete {
-	position: absolute;
-	display: block;
-	right: 0;
-	top: 0;
-	width: 24px;
-	height: 100%;
-	cursor: pointer;
-	transition: 0.2s;
-}
-
-.problemSettings .problemsContainer .problem .test-container .test-list .cell .delete:hover {
-	background-color: rgba(202, 202, 202, 0.2);
-}
-
-.problemSettings .problemsContainer .problem .test-container .test-list .cell .delete::before {
-	content: "\f2ed";
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	font-family: "Font Awesome 5 Free";
-	font-size: 14px;
-	font-weight: 600;
-	color: #95a5a6;
-	transition: 0.2s;
-}
-
-.problemSettings .problemsContainer .problem .test-container .test-list .cell .delete:hover::before {
-	color: #e74c3c;
-}
-
-.problemSettings .problemsContainer .problem .test-container .test-add {
-	position: relative;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 60px;
-	cursor: pointer;
-	transition: 0.2s;
-}
-
-.problemSettings .problemsContainer .problem .test-container .test-add:hover {
-	background-color: rgba(202, 202, 202, 0.2);
-}
-
-.problemSettings .problemsContainer .problem .test-container .test-add::after {
-	content: "\f067";
-	font-family: "Font Awesome 5 Free";
-	font-size: 18px;
-	font-weight: 600;
-	color: #95a5a6;
-	transition: 0.2s;
-}
-
-.problemSettings .problemsContainer .problem .test-container .test-add:hover::after {
-	color: #494949;
-}
-
-.problemSettings .problemsContainer .problem button[type="submit"] {
-	display: none;
-}
-
-#userSettings #usett_panelContainer .panel .container .syslogs-settings {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-}
-
-.syslogs-settings .logsContainer {
-	position: relative;
-	flex-grow: 1;
-	overflow-x: hidden;
-	overflow-y: auto;
-}
-
-.syslogs-settings .logsContainer .log {
-	position: relative;
-	display: flex;
-	flex-direction: row;
-	background-color: rgba(224, 224, 224, 0.8);
-	counter-increment: log-item;
-	cursor: pointer;
-
-	transition: background-color 0.3s ease;
-}
-
-.syslogs-settings .logsContainer .log:hover {
-	background-color: rgba(232, 232, 232, 0.8);
-}
-
-.syslogs-settings .logsContainer .log .level {
+panel > .header > .buttons > icon {
 	position: relative;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	flex-grow: 0;
-	color: rgb(82, 82, 82);
-	background-color: rgb(236, 236, 236);
-	min-width: 100px;
-	padding: 0 10px 0 40px;
-	font-size: 14px;
-	font-weight: bold;
-	box-sizing: border-box;
-	overflow: hidden;
-	transition: all 0.3s ease;
-	transition-property: padding, background-color;
-}
 
-.syslogs-settings .logsContainer .log.enlarge .level {
-	padding: 0 20px;
-	background-color: rgb(242, 242, 242);
-}
+	width: 36px;
+	height: 26px;
+	margin-left: 5px;
+	border: 1px solid rgba(85, 85, 85, 0.4);
 
-.syslogs-settings .logsContainer .log .level > i {
-	position: absolute;
-	top: 50%;
-	left: 10px;
-	transform: translateY(-50%);
-	font-weight: bold;
-	font-size: 10px;
-	font-style: normal;
-
-	transition: all 0.3s ease;
-}
-
-.syslogs-settings .logsContainer .log.enlarge .level > i {
-	left: 50%;
-	transform: translate(-50%, calc(-50% + 22px));
-}
-
-.syslogs-settings .logsContainer .log .detail {
-	position: relative;
-	display: inline-block;
-	width: 100%;
-	overflow-x: auto;
-	overflow-y: hidden;
-	padding: 10px 40px 10px 20px;
-	box-sizing: border-box;
-	flex-grow: 2;
-	border-left: 2px solid rgb(165, 165, 165);
-}
-
-.syslogs-settings .logsContainer .log .detail::before {
-	content: "\f107";
-	position: absolute;
-	top: 50%;
-	right: 10px;
-	transform: translateY(-50%);
-	display: inline-block;
-
-	font-family: "Font Awesome 5 Free";
-	font-size: 14px;
-	font-weight: 900;
-	color: rgb(104, 104, 104);
-
-	transition: transform 0.3s ease;
-}
-
-.syslogs-settings .logsContainer .log.enlarge .detail::before {
-	transform: translateY(-50%) rotate(180deg);
-}
-
-.syslogs-settings .logsContainer .log .detail .text {
-	position: relative;
-	display: block;
-	font-family: "Consolas", "Calibri", "Segoe UI";
-	font-size: 15px;
-	font-weight: normal;
-	color: rgb(56, 56, 56);
-}
-
-.syslogs-settings .logsContainer .log .detail .info {
-	position: relative;
-	display: block;
-	width: 100%;
-	height: 0;
-	box-sizing: border-box;
-
-	overflow-x: auto;
-	overflow-y: hidden;
-
-	transition: height 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
-}
-
-.syslogs-settings .logsContainer .log .detail .info::before {
-	content: "";
-	position: relative;
-	display: block;
-	width: 100%;
-	height: 8px;
-}
-
-.syslogs-settings .logsContainer .log.enlarge .detail .info {
-	height: 54px;
-}
-
-.syslogs-settings .logsContainer .log .detail .info t {
-	position: relative;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-
-	font-family: "Calibri", "Segoe UI";
-	font-size: 13px;
-	color: rgb(90, 90, 90);
-}
-
-.syslogs-settings .logsContainer .log .detail .info t::before {
-	content: "\f111";
-	position: relative;
-	display: inline-block;
-	padding-right: 6px;
-
-	font-family: "Font Awesome 5 Free";
-	font-size: 13px;
-	font-weight: 900;
-}
-
-.syslogs-settings .logsContainer .log .detail .info .client {
-	font-weight: bold;
-}
-
-.syslogs-settings .logsContainer .log .detail .info .client::before {
-	content: "\f2bd";
-}
-
-.syslogs-settings .logsContainer .log .detail .info .timestamp::before {
-	content: "\f017";
-}
-
-.syslogs-settings .logsContainer .log .detail .info .module::before {
-	content: "\f466";
-}
-
-.syslogs-settings .logsContainer .log.okay .detail {
-	border-left-color: rgb(124, 194, 129);
-}
-
-.syslogs-settings .logsContainer .log.okay .level {
-	color: rgb(28, 172, 38);
-}
-
-.syslogs-settings .logsContainer .log.warn .detail {
-	border-left-color: rgb(190, 184, 92);
-}
-
-.syslogs-settings .logsContainer .log.warn .level {
-	color: rgb(163, 155, 46);
-}
-
-.syslogs-settings .logsContainer .log.errr .detail {
-	border-left-color: rgb(223, 150, 150);
-}
-
-.syslogs-settings .logsContainer .log.errr .level {
-	color: rgb(233, 67, 67);
-}
-
-.syslogs-settings .logsContainer .log.verb .detail {
-	border-left-color: rgb(191, 149, 211);
-}
-
-.syslogs-settings .logsContainer .log.verb .level {
-	color: rgb(148, 15, 209);
-}
-
-.syslogs-settings .navigation {
-	position: relative;
-	display: flex;
-	align-items: center;
-	flex-grow: 0;
-	flex-direction: row;
-	width: 100%;
-	padding: 10px;
-	box-sizing: border-box;
-	background-color: rgb(242, 242, 242);
-}
-
-.syslogs-settings .navigation .left,
-.syslogs-settings .navigation .right {
-	position: relative;
-	flex: 1 0 0;
-	font-size: 11px;
-}
-
-.syslogs-settings .navigation .right {
-	text-align: right;
-}
-
-.syslogs-settings .navigation .middle {
-	position: relative;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-grow: 2;
-}
-
-.syslogs-settings .navigation .middle .icon {
-	position: relative;
-	display: inline-block;
+	background-color: #ffffff;
 	cursor: pointer;
-	padding: 0 18px;
+
+	transition: background-color 0.2s ease-out;
 }
 
-.syslogs-settings .navigation .middle .icon::before {
-	content: "\f111";
+panel > .header > .buttons > icon::after {
+	font-size: 13px;
+	transition: color 0.2s ease-out;
+}
+
+panel > .header > .buttons > icon:hover {
+	background-color: rgb(82, 82, 82);
+}
+
+panel > .header > .buttons > icon:hover::after {
+	color: rgb(255, 255, 255);
+}
+
+panel > .header > .buttons > icon[data-icon="reload"]:hover {
+	background-color: rgb(38, 131, 218);
+}
+
+panel > .header > .buttons > icon[data-icon="close"]::after {
+	font-size: 17px;
+}
+
+panel > .header > .buttons > icon[data-icon="close"]:hover {
+	background-color: rgb(232, 55, 94);
+}
+
+panel > .main {
 	position: relative;
 	display: inline-block;
+	flex-grow: 1;
 
-	font-family: "Font Awesome 5 Free";
-	font-size: 22px;
-	font-weight: 900;
-	color: rgb(158, 158, 158);
-	transition: color 0.2s ease;
+	width: 100%;
+	margin: unset;
+	padding: unset;
+
+	overflow: auto;
+	box-sizing: border-box;
 }
 
-.syslogs-settings .navigation .middle .icon:hover::before {
-	color: #f368e0;
+/** =================== PROBLEMSLIST =================== **/
+
+#problemsPanel {
+	width: calc(100% - 10px);
 }
 
-.syslogs-settings .navigation .middle .buttonLeft::before {
-	content: "\f104";
-}
-
-.syslogs-settings .navigation .middle .buttonRight::before {
-	content: "\f105";
-}
-
-.syslogs-settings .navigation .middle .currentPage {
-	position: relative;
-	font-size: 13px;
-	font-weight: bold;
-	line-height: 18px;
-}
-
-#problemp .problemsContainer {
+#problemsPanel > .problemsContainer {
 	overflow: hidden;
 }
 
-#problemp .problemsContainer .problemsList:empty::before {
+#problemsPanel > .problemsContainer > .problemsList:empty::before {
 	content: "\f51b";
 }
 
-#problemp .problemsContainer .problemsList:empty::after {
+#problemsPanel > .problemsContainer > .problemsList:empty::after {
 	content: "Không tìm thấy đề hoặc chưa bắt đầu kì thi";
 }
 
-#problemp .problemsContainer .problemsList {
+#problemsPanel > .problemsContainer > .problemsList {
 	position: relative;
-	display: flex;
-	flex-wrap: wrap;
-	flex-direction: row;
-	justify-content: stretch;
+	display: inline-block;
+
 	width: 100%;
 	max-height: 100%;
 	box-sizing: border-box;
@@ -1660,30 +273,30 @@ body.guest #problemp.hide {
 	animation: problemsListShow 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0s 1 normal forwards;
 }
 
-#problemp .problemsContainer .problemsList:empty {
+#problemsPanel > .problemsContainer > .problemsList:empty {
 	height: 100%;
 }
 
-#problemp .problemsContainer .problemsList .item {
+#problemsPanel > .problemsContainer > .problemsList > .item {
 	position: relative;
-	display: flex;
-	flex-grow: 0;
-	flex-shrink: 0;
+	display: inline-flex;
 	flex-direction: row;
 	align-items: center;
-	box-sizing: border-box;
-	cursor: pointer;
+	
 	margin: 10px;
 	padding: 10px 40px 10px 20px;
 	border-radius: 12px;
+	box-sizing: border-box;
+
+	cursor: pointer;
 	background-color: rgba(238, 238, 238, 0.6);
 }
 
-#problemp .problemsContainer .problemsList .item:hover {
+#problemsPanel > .problemsContainer > .problemsList > .item:hover {
 	background-color: rgba(124, 124, 124, 0.1);
 }
 
-#problemp .problemsContainer .problemsList .item:after {
+#problemsPanel > .problemsContainer > .problemsList > .item:after {
 	content: "\f105";
 	position: absolute;
 	font-family: "Font Awesome 5 Free";
@@ -1693,7 +306,7 @@ body.guest #problemp.hide {
 	right: 20px;
 }
 
-#problemp .problemsContainer .problemsList .item .icon {
+#problemsPanel > .problemsContainer > .problemsList > .item > .icon {
 	position: relative;
 	display: inline-block;
 	flex: 0 0 1;
@@ -1703,7 +316,7 @@ body.guest #problemp.hide {
 	object-fit: cover;
 }
 
-#problemp .problemsContainer .problemsList .item .title {
+#problemsPanel > .problemsContainer > .problemsList > .item > .title {
 	display: inline-block;
 	flex: 1 1 0;
 	list-style: none;
@@ -1711,7 +324,7 @@ body.guest #problemp.hide {
 	padding: 0 0 0 10px;
 }
 
-#problemp .problemsContainer .problemsList .item .title .name {
+#problemsPanel > .problemsContainer > .problemsList > .item > .title > .name {
 	position: relative;
 	font-family: Nunito;
 	font-size: 16px;
@@ -1719,7 +332,7 @@ body.guest #problemp.hide {
 	color: #494949;
 }
 
-#problemp .problemsContainer .problemsList .item .title .point {
+#problemsPanel > .problemsContainer > .problemsList > .item > .title > .point {
 	position: relative;
 	display: inline-block;
 	font-size: 11px;
@@ -1731,11 +344,11 @@ body.guest #problemp.hide {
 	border-radius: 4px;
 }
 
-#problemp .problemsContainer .problemsList .item[disabled="true"] {
+#problemsPanel > .problemsContainer > .problemsList > .item[disabled="true"] {
 	background-color: rgba(243, 184, 205, 0.6);
 }
 
-#problemp .problemsContainer .problem {
+#problemsPanel > .problemsContainer .problem {
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -1828,15 +441,15 @@ body.guest #problemp.hide {
 	}
 }
 
-#problemp .problemsContainer .problemsList.hide {
+#problemsPanel > .problemsContainer > .problemsList.hide {
 	animation: problemsListHide 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0s 1 normal forwards;
 }
 
-#problemp .problemsContainer .problemsList.hide + .problem {
+#problemsPanel > .problemsContainer > .problemsList.hide + .problem {
 	animation: problemViewerShow 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0s 1 normal forwards;
 }
 
-#problemp .problemsContainer .problem .name {
+#problemsPanel > .problemsContainer > .problem > .name {
 	display: block;
 	text-align: center;
 	font-family: Nunito;
@@ -1846,7 +459,7 @@ body.guest #problemp.hide {
 	color: #34495e;
 }
 
-#problemp .problemsContainer .problem .point {
+#problemsPanel > .problemsContainer > .problem > .point {
 	display: block;
 	text-align: center;
 	font-size: 12px;
@@ -1855,16 +468,16 @@ body.guest #problemp.hide {
 	letter-spacing: 0.4px;
 }
 
-#problemp .problemsContainer .problem .enlarge,
-#problemp .problemsContainer .problem .close {
+#problemsPanel > .problemsContainer > .problem > .enlarge,
+#problemsPanel > .problemsContainer > .problem > .close {
 	position: absolute;
 	display: block;
 	top: 20px;
 	right: 50px;
 }
 
-#problemp .problemsContainer .problem .enlarge::before,
-#problemp .problemsContainer .problem .close::before {
+#problemsPanel > .problemsContainer > .problem > .enlarge::before,
+#problemsPanel > .problemsContainer > .problem > .close::before {
 	content: "\f360";
 	position: relative;
 	font-family: "Font Awesome 5 Free";
@@ -1874,15 +487,15 @@ body.guest #problemp.hide {
 	color: rgb(92, 92, 92);
 }
 
-#problemp .problemsContainer .problem .close {
+#problemsPanel > .problemsContainer > .problem > .close {
 	right: 20px;
 }
 
-#problemp .problemsContainer .problem .close::before {
+#problemsPanel > .problemsContainer > .problem > .close::before {
 	content: "\f00d";
 }
 
-#problemp .problemsContainer .problem .info {
+#problemsPanel > .problemsContainer > .problem > .info {
 	position: relative;
 	display: flex;
 	flex-direction: row;
@@ -1891,22 +504,22 @@ body.guest #problemp.hide {
 	margin: 6px 0 20px;
 }
 
-#problemp .problemsContainer .problem .info .filename::before {
+#problemsPanel > .problemsContainer > .problem > .info .filename::before {
 	content: "ID: ";
 }
 
-#problemp .problemsContainer .problem .info.general {
+#problemsPanel > .problemsContainer > .problem > .info.general {
 	margin-bottom: 4px;
 }
 
-#problemp .problemsContainer .problem .info.IO > t {
+#problemsPanel > .problemsContainer > .problem > .info.IO > t {
 	font-family: "Consolas";
 	font-weight: bold;
 	font-size: 16px;
 }
 
-#problemp .problemsContainer .problem .info.IO .input::before,
-#problemp .problemsContainer .problem .info.IO .output::before {
+#problemsPanel > .problemsContainer > .problem > .info.IO > .input::before,
+#problemsPanel > .problemsContainer > .problem > .info.IO > .output::before {
 	position: relative;
 	display: inline-block;
 	font-family: "Open Sans";
@@ -1915,53 +528,53 @@ body.guest #problemp.hide {
 	margin-right: 6px;
 }
 
-#problemp .problemsContainer .problem .info.IO .input::before {
+#problemsPanel > .problemsContainer > .problem > .info.IO > .input::before {
 	content: "Input:";
 }
 
-#problemp .problemsContainer .problem .info.IO .output::before {
+#problemsPanel > .problemsContainer > .problem > .info.IO > .output::before {
 	content: "Output:";
 }
 
-#problemp .problemsContainer .problem .description {
+#problemsPanel > .problemsContainer > .problem > .description {
 	white-space: pre-wrap;
 	margin: 0 20px;
 }
 
-#problemp .problemsContainer .problem .description > a,
-#problemp .problemsContainer .problem .description > table,
-#problemp .problemsContainer .problem .description > ul {
+#problemsPanel > .problemsContainer > .problem > .description > a,
+#problemsPanel > .problemsContainer > .problem > .description > table,
+#problemsPanel > .problemsContainer > .problem > .description > ul {
 	display: block;
 }
 
-#problemp .problemsContainer .problem table tr:hover {
+#problemsPanel > .problemsContainer > .problem table tr:hover {
 	background-color: rgba(126, 126, 126, 0.1);
 }
 
-#problemp .problemsContainer .problem table.test tr td {
+#problemsPanel > .problemsContainer > .problem table.test tr td {
 	font-family: "Consolas";
 }
 
-#problemp .problemsContainer .problem .image {
+#problemsPanel > .problemsContainer > .problem > .image {
 	position: relative;
 	width: 100%;
 	margin: 10px 0;
 	border: 1px solid #ccc;
 }
 
-#problemp .problemsContainer .problem .attachment {
+#problemsPanel > .problemsContainer > .problem > .attachment {
 	position: relative;
 	display: block;
 	margin-top: 10px;
 }
 
-#problemp .problemsContainer .problem .attachment .link {
+#problemsPanel > .problemsContainer > .problem > .attachment > .link {
 	position: relative;
 	display: block;
 	font-size: 14px;
 }
 
-#problemp .problemsContainer .problem .attachment .link::before {
+#problemsPanel > .problemsContainer > .problem > .attachment > .link::before {
 	content: "Tệp đính kèm:";
 	position: relative;
 	display: inline-block;
@@ -1973,7 +586,7 @@ body.guest #problemp.hide {
 	color: rgb(124, 124, 124);
 }
 
-#problemp .problemsContainer .problem .attachment .embed {
+#problemsPanel > .problemsContainer > .problem > .attachment > .embed {
 	width: 100%;
 	height: 0;
 	min-height: 80px;
@@ -1982,61 +595,1750 @@ body.guest #problemp.hide {
 	transition: height 0.4s ease-in;
 }
 
-/* *rankingContainer */
+/*? ENLARGED */
 
-#rankp div.rankingContainer {
+.problemEnlarged {
 	position: relative;
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.problemEnlarged > .left {
+	position: relative;
+	display: flex;
+	flex-grow: 1;
+	flex-shrink: 1;
+	flex-direction: column;
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.problemEnlarged > .left > .top {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	flex-shrink: 0;
+	align-items: center;
+	width: 100%;
+	padding: 20px 0;
+	box-sizing: border-box;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.problemEnlarged > .left > .top > .group {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	align-items: center;
+	justify-content: center;
+}
+
+.problemEnlarged > .left > .top > .group > .col {
+	position: relative;
+	display: flex;
+	flex: 1 1 0;
+	flex-direction: column;
+	padding: 0 20px;
+	align-items: center;
+}
+
+.problemEnlarged > .left > .top > .group > .col > .name {
+	font-size: 26px;
+	font-weight: bold;
+	text-align: center;
+	color: #34495e;
+}
+
+.problemEnlarged > .left > .top > .group > .col > .point {
+	font-size: 12px;
+	color: #ecf0f1;
+	letter-spacing: 0.4px;
+	background-color: #1f8d4d;
+	padding: 2px 6px;
+	margin: 2px 0 10px;
+	border-radius: 4px;
+}
+
+.problemEnlarged > .left > .top > .attachment {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+	width: 100%;
+	box-sizing: border-box;
+	padding: 10px 20px;
+}
+
+.problemEnlarged > .left > .top > .attachment::before {
+	content: "Tệp đính kèm:";
+	position: relative;
+	display: inline-block;
+	font-family: "Calibri";
+	font-size: 13px;
+	font-weight: bold;
+	padding-right: 6px;
+	color: rgb(124, 124, 124);
+}
+
+.problemEnlarged > .left > .top > .attachment > .link {
+	font-size: 14px;
+}
+
+.problemEnlarged > .left > .top > .simpleTableWrapper > .simpleTable {
+	width: 100%;
+}
+
+.problemEnlarged > .left > .bottom {
+	position: relative;
+	display: flex;
+	flex-grow: 1;
+	flex-direction: column;
+	align-items: center;
+	padding: 20px;
+	box-sizing: border-box;
+	background-color: rgb(238, 238, 238);
+}
+
+.problemEnlarged > .left > .bottom > .simpleTableWrapper {
+	position: relative;
+	display: block;
+	width: auto;
+	max-width: 100%;
+	margin-top: 20px;
+}
+
+.problemEnlarged > .left > .bottom > .simpleTableWrapper > .simpleTable.test tr td {
+	font-family: "Consolas";
+	white-space: pre;
+}
+
+.problemEnlarged > .left > .bottom > .description {
+	position: relative;
+	width: 100%;
+	box-sizing: border-box;
+	white-space: pre-wrap;
+	line-height: 1.4em;
+}
+
+.problemEnlarged > .left > .bottom > .description > a,
+.problemEnlarged > .left > .bottom > .description > table,
+.problemEnlarged > .left > .bottom > .description > ul {
+	display: block;
+}
+
+.problemEnlarged > .left > .bottom > .image {
+	position: relative;
+	display: block;
+	min-width: 30px;
+	min-height: 30px;
+	width: 100%;
+	flex-shrink: 0;
+	margin-top: 20px;
+	border: 1px solid #ccc;
+}
+
+.problemEnlarged > .right {
+	position: relative;
+	display: none;
+	flex-grow: 2;
+	width: calc(100% - 100px);
+}
+
+#wrapperPanel[data-size="large"] .problemEnlarged > .right {
+	display: block;
+}
+
+.problemEnlarged > .right > .embedAttachment {
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+@media only screen and (max-width: 800px) {
+	.problemEnlarged > {
+		flex-direction: column;
+	}
+
+	.problemEnlarged > .right {
+		width: 100%;
+		height: 50%;
+	}
+}
+
+/** =================== SYSLOGS =================== **/
+
+#syslogs {
+	position: relative;
+    display: flex;
+	flex-direction: column;
+	
+	height: 100%;
+}
+
+#syslogs > .logsContainer {
+	position: relative;
+	flex-grow: 1;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+#syslogs > .logsContainer > .log {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	background-color: rgba(224, 224, 224, 0.8);
+	counter-increment: log-item;
+	cursor: pointer;
+
+	transition: background-color 0.3s ease;
+}
+
+#syslogs > .logsContainer > .log:hover {
+	background-color: rgba(232, 232, 232, 0.8);
+}
+
+#syslogs > .logsContainer > .log > .level {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex-grow: 0;
+
+	color: rgb(82, 82, 82);
+	min-width: 100px;
+	padding: 0 10px 0 40px;
+	
+	font-size: 14px;
+	font-weight: bold;
+	box-sizing: border-box;
+	overflow: hidden;
+	background-color: rgb(236, 236, 236);
+
+	transition: all 0.3s ease;
+	transition-property: padding, background-color;
+}
+
+#syslogs > .logsContainer > .log.enlarge > .level {
+	padding: 0 20px;
+	background-color: rgb(242, 242, 242);
+}
+
+#syslogs > .logsContainer > .log > .level > i {
+	position: absolute;
+	top: 50%;
+	left: 10px;
+	transform: translateY(-50%);
+	font-weight: bold;
+	font-size: 10px;
+	font-style: normal;
+
+	transition: all 0.3s ease;
+}
+
+#syslogs > .logsContainer > .log.enlarge > .level > i {
+	left: 50%;
+	transform: translate(-50%, calc(-50% + 22px));
+}
+
+#syslogs > .logsContainer > .log > .detail {
+	position: relative;
+	display: inline-block;
+	width: 100%;
+	overflow-x: auto;
+	overflow-y: hidden;
+	padding: 10px 40px 10px 20px;
+	box-sizing: border-box;
+	flex-grow: 2;
+	border-left: 2px solid rgb(165, 165, 165);
+}
+
+#syslogs > .logsContainer > .log > .detail::before {
+	content: "\f107";
+	position: absolute;
+	top: 50%;
+	right: 10px;
+	transform: translateY(-50%);
+	display: inline-block;
+
+	font-family: "Font Awesome 5 Free";
+	font-size: 14px;
+	font-weight: 900;
+	color: rgb(104, 104, 104);
+
+	transition: transform 0.3s ease;
+}
+
+#syslogs > .logsContainer > .log.enlarge > .detail::before {
+	transform: translateY(-50%) rotate(180deg);
+}
+
+#syslogs > .logsContainer > .log > .detail > .text {
+	position: relative;
+	display: block;
+	font-family: "Consolas", "Calibri", "Segoe UI";
+	font-size: 15px;
+	font-weight: normal;
+	color: rgb(56, 56, 56);
+}
+
+#syslogs > .logsContainer > .log > .detail > .info {
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 0;
+	box-sizing: border-box;
+
+	overflow-x: auto;
+	overflow-y: hidden;
+
+	transition: height 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+#syslogs > .logsContainer > .log > .detail > .info::before {
+	content: "";
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 8px;
+}
+
+#syslogs > .logsContainer > .log.enlarge > .detail > .info {
+	height: 54px;
+}
+
+#syslogs > .logsContainer > .log > .detail > .info > t {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	font-family: "Calibri", "Segoe UI";
+	font-size: 13px;
+	color: rgb(90, 90, 90);
+}
+
+#syslogs > .logsContainer > .log > .detail > .info > t::before {
+	content: "\f111";
+	position: relative;
+	display: inline-block;
+	padding-right: 6px;
+
+	font-family: "Font Awesome 5 Free";
+	font-size: 13px;
+	font-weight: 900;
+}
+
+#syslogs > .logsContainer > .log > .detail > .info > .client {
+	font-weight: bold;
+}
+
+#syslogs > .logsContainer > .log > .detail > .info > .client::before {
+	content: "\f2bd";
+}
+
+#syslogs > .logsContainer > .log > .detail > .info > .timestamp::before {
+	content: "\f017";
+}
+
+#syslogs > .logsContainer > .log > .detail > .info > .module::before {
+	content: "\f466";
+}
+
+#syslogs > .logsContainer > .log.okay > .detail {
+	border-left-color: rgb(124, 194, 129);
+}
+
+#syslogs > .logsContainer > .log.okay > .level {
+	color: rgb(28, 172, 38);
+}
+
+#syslogs > .logsContainer > .log.warn > .detail {
+	border-left-color: rgb(190, 184, 92);
+}
+
+#syslogs > .logsContainer > .log.warn > .level {
+	color: rgb(163, 155, 46);
+}
+
+#syslogs > .logsContainer > .log.errr > .detail {
+	border-left-color: rgb(223, 150, 150);
+}
+
+#syslogs > .logsContainer > .log.errr > .level {
+	color: rgb(233, 67, 67);
+}
+
+#syslogs > .logsContainer > .log.verb > .detail {
+	border-left-color: rgb(191, 149, 211);
+}
+
+#syslogs > .logsContainer > .log.verb > .level {
+	color: rgb(148, 15, 209);
+}
+
+#syslogs > .navigation {
+	position: relative;
+	display: flex;
+	align-items: center;
+	flex-grow: 0;
+	flex-direction: row;
+	width: 100%;
+	padding: 10px;
+	box-sizing: border-box;
+	background-color: rgb(242, 242, 242);
+}
+
+#syslogs > .navigation > .left,
+#syslogs > .navigation > .right {
+	position: relative;
+	flex: 1 0 0;
+	font-size: 11px;
+}
+
+#syslogs > .navigation > .right {
+	text-align: right;
+}
+
+#syslogs > .navigation > .middle {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-grow: 2;
+}
+
+#syslogs > .navigation > .middle > .icon {
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	padding: 0 18px;
+}
+
+#syslogs > .navigation > .middle > .icon::before {
+	content: "\f111";
+	position: relative;
+	display: inline-block;
+
+	font-family: "Font Awesome 5 Free";
+	font-size: 22px;
+	font-weight: 900;
+	color: rgb(158, 158, 158);
+	transition: color 0.2s ease;
+}
+
+#syslogs > .navigation > .middle > .icon:hover::before {
+	color: #f368e0;
+}
+
+#syslogs > .navigation > .middle > .buttonLeft::before {
+	content: "\f104";
+}
+
+#syslogs > .navigation > .middle > .buttonRight::before {
+	content: "\f105";
+}
+
+#syslogs > .navigation > .middle > .currentPage {
+	position: relative;
+	font-size: 13px;
+	font-weight: bold;
+	line-height: 18px;
+}
+
+/** =================== PROBLEMEDITOR =================== **/
+
+.problemsEditor {
+	height: 100%;
+	padding: unset;
+}
+
+.problemsEditor > .header {
+	height: 40px;
+	background-color: #F5F5F6;
+	display: flex;
+	align-items: center;
+	padding: 0 15px;
+}
+
+.problemsEditor > .header icon {
+	cursor: pointer;
+}
+
+.problemsEditor > .header icon::after {
+	margin: 0 5px;
+
+	font-size: 18px;
+	color: rgb(138, 138, 138);
+
+	transition: color 0.1s ease-out;
+}
+
+.problemsEditor > .header icon:hover::after {
+	color: rgb(55, 55, 55);
+}
+
+.problemsEditor > .header icon[data-icon="arrowLeft"]::after {
+	font-size: 22px;
+}
+
+.problemsEditor > .header > .title {
+	position: absolute;
+
+	left: 50%;
+	transform: translateX(-50%);
+
+	font-family: "Segoe UI";
+	font-size: 14px;
+	font-weight: bold;
+	color: #414141;
+}
+
+.problemsEditor > .header > .right {
+	position: absolute;
+	right: 15px;
+}
+
+.problemsEditor > .main {
+	position: relative;
+	display: block;
+
+	height: calc(100% - 46px);
+	background-color: transparent;
+	overflow: hidden;
+}
+
+.problemsEditor > .main > .list {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	margin: unset;
+	padding: unset;
+	
+	list-style: none;
+	overflow-x: hidden;
+	overflow-y: auto;
+	opacity: 1;
+	transform: unset;
+
+	transition:
+		opacity 0.6s ease,
+		transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.problemsEditor > .main.editor > .list {
+	opacity: 0;
+	transform: translateX(200px);
+}
+
+.problemsEditor > .main > .list > li.item {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	width: 100%;
+	height: 64px;
+
+	padding: 0 10px;
+	box-sizing: border-box;
+	border-bottom: unset;
+}
+
+.problemsEditor > .main > .list > li.item:hover {
+	background-color: rgba(245, 245, 246, 0.4);
+}
+
+.problemsEditor > .main > .list > li.item:after {
+	content: unset;
+}
+
+.problemsEditor > .main > .list > li.item > .icon {
+	position: relative;
+	flex-grow: 0;
+	flex-shrink: 0;
+
+	width: 40px;
+	height: 40px;
+
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.problemsEditor > .main > .list > li.item > .title {
+	position: relative;
+	flex-grow: 1;
+	flex-shrink: 1;
+	list-style: none;
+	margin: unset;
+	padding: 0 0 0 10px;
+}
+
+.problemsEditor > .main > .list > li.item > .title > .id {
+	font-size: 11px;
+	color: rgb(73, 73, 73);
+	letter-spacing: 0.4px;
+}
+
+.problemsEditor > .main > .list > li.item > .title > .name {
+	font-family: Nunito;
+	font-size: 15px;
+	font-weight: bold;
+	color: #494949;
+}
+
+.problemsEditor > .main > .list > li.item > .action {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	flex-grow: 0;
+	flex-shrink: 0;
+}
+
+.problemsEditor > .main > .list > li.item > .action > span {
+	margin: 0 10px;
+	cursor: pointer;
+}
+
+.problemsEditor > .main > .list > li.item > .action > span::before {
+	font-family: "Font Awesome 5 Free";
+	font-size: 20px;
+	font-weight: 600;
+
+	color: #8a8a8a;
+	transition: color 0.1s ease-out;
+}
+
+.problemsEditor > .main > .list > li.item > .action > span.delete::before {
+	content: "\f1f8";
+}
+
+.problemsEditor > .main > .list > li.item > .action > span.delete:hover::before {
+	color: #e74c3c;
+}
+
+.problemsEditor > .main > .list > li.item > .action > span.edit::before {
+	content: "\f304";
+}
+
+.problemsEditor > .main > .list > li.item > .action > span.edit:hover::before {
+	color: #3498db;
+}
+
+.problemsEditor > .main > .editor {
+	position: absolute;
+	
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+
+	padding: 0 10px;
+	box-sizing: border-box;
+
+	overflow-x: hidden;
+	overflow-y: auto;
+	opacity: 0;
+	transform: translateX(100%);
+
+	transition:
+		opacity 0.6s ease,
+		transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.problemsEditor > .main.editor > .editor {
+	opacity: 1;
+	transform: unset;
+}
+
+.problemsEditor > .main.editor > .editor > button {
+	width: 100%;
+	margin: 5px 0;
+}
+
+.problemsEditor > .main.editor > .editor > .formGroup[data-name="description"] > textarea {
+	height: 200px;
+	resize: vertical;
+}
+
+.problemsEditor > .main > .editor > .tests {
+	position: relative;
+
+	margin: 10px 0 20px;
+	padding-bottom: 1px;
+	
+	border-bottom: 1px solid rgba(39, 39, 39, 0.4);
+	transition: 0.3s;
+}
+
+.problemsEditor > .main > .editor > .tests:hover {
+	border-bottom: 2px solid #4285f4;
+	padding-bottom: 0;
+}
+
+.problemsEditor > .main > .editor > .tests > .label {
+	position: relative;
+	display: block;
+	
+    font-family: "Open Sans", "Calibri", "Segoe UI", "sans-serif";
+    font-size: 11px;
+    font-weight: 700;
+	color: #5a5b5f;
+	
+    text-transform: uppercase;
+    letter-spacing: .1px;
+    user-select: none;
+    cursor: text;
+}
+
+.problemsEditor > .main > .editor > .tests:hover .label {
+	color: #4285f4;
+}
+
+.problemsEditor > .main > .editor > .tests > .list {
+	position: relative;
+	display: block;
+	
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.problemsEditor > .main > .editor > .tests > .list > .cell {
+	position: relative;
+	height: 60px;
+}
+
+.problemsEditor > .main > .editor > .tests > .list > .cell > textarea {
+	position: relative;
+	resize: none;
+	border: unset;
+	background-color: transparent;
+	box-sizing: border-box;
+	width: calc(50% - 15px);
+	height: 100%;
+	font-family: "Consolas";
+	border-bottom: 1px solid rgba(39, 39, 39, 0.4);
+}
+
+.problemsEditor > .main > .editor > .tests > .list > .cell > .delete {
+	position: absolute;
+	display: block;
+
+	top: 0;
+	right: 0;
+	width: 24px;
+	height: 100%;
+
+	cursor: pointer;
+	transition: 0.2s;
+}
+
+.problemsEditor > .main > .editor > .tests > .list > .cell > .delete:hover {
+	background-color: rgba(202, 202, 202, 0.2);
+}
+
+.problemsEditor > .main > .editor > .tests > .list > .cell > .delete::before {
+	content: "\f146";
+	position: absolute;
+
+	top: 50%;
+	left: 50%;
+
+	transform: translate(-50%, -50%);
+	font-family: "Font Awesome 5 Free";
+	font-size: 18px;
+	font-weight: 600;
+	color: #95a5a6;
+	transition: 0.2s;
+}
+
+.problemsEditor > .main > .editor > .tests > .list > .cell > .delete:hover::before {
+	color: #e74c3c;
+}
+
+.problemsEditor > .main > .editor > .tests > .add {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 60px;
+	cursor: pointer;
+	transition: 0.2s;
+}
+
+.problemsEditor > .main > .editor > .tests > .add:hover {
+	background-color: rgba(202, 202, 202, 0.2);
+}
+
+.problemsEditor > .main > .editor > .tests > .add::after {
+	content: "\f067";
+	font-family: "Font Awesome 5 Free";
+	font-size: 18px;
+	font-weight: 600;
+	color: #95a5a6;
+	transition: 0.2s;
+}
+
+.problemsEditor > .main > .editor > .tests > .add:hover::after {
+	color: #494949;
+}
+
+/** =================== SUBMIT =================== **/
+
+#submitPanel > .submitContainer {
+	overflow: hidden;
+	height: 160px;
+}
+
+#submitPanel > .submitContainer > #submitDropzone {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	margin: 20px;
+	padding: 10px;
+	box-sizing: border-box;
+
+	border: 2px dotted #ccc;
+	border-radius: 4px;
+
+	opacity: 1;
+	z-index: 1;
+
+	transition: all 0.4s ease;
+	transition-property: color, background-color, opacity;
+}
+
+#submitPanel > .submitContainer > #submitDropzone.drag {
+	background-color: #ccc;
+	color: white;
+}
+
+#submitPanel > .submitContainer > #submitDropzone.hide {
+	opacity: 0;
+}
+
+#submitPanel > .submitContainer > #submitDropzone.hide + .info {
+	opacity: 1;
+}
+
+#submitPanel > .submitContainer > #submitDropzone > #submitInput {
+	display: none;
+}
+
+#submitPanel > .submitContainer > #submitDropzone > .title {
+	color: rgb(104, 104, 104);
+	font-size: 16px;
+	font-weight: bold;
+	text-transform: uppercase;
+	letter-spacing: .6px;
+}
+
+#submitPanel > .submitContainer > #submitDropzone > .sub {
+	color: rgb(128, 128, 128);
+	font-size: 12px;
+	margin: 4px 0;
+}
+
+#submitPanel > .submitContainer > .info {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	padding: 20px;
+	transition: all 0.4s ease;
+	opacity: 0;
+}
+
+#submitPanel > .submitContainer > .info > #submitStatus {
+	position: relative;
+	display: block;
+	padding-bottom: 2px;
+	box-sizing: border-box;
+	width: 100%;
+	font-size: 20px;
+	font-weight: 100;
+	text-align: center;
+	text-transform: uppercase;
+	color: rgb(136, 136, 136);
+}
+
+#submitPanel > .submitContainer > .info > #submitFileName {
+	position: relative;
+	display: block;
+	width: 100%;
+	font-size: 13px;
+	font-weight: 500;
+	text-align: center;
+	color: rgb(93, 93, 93);
+}
+
+#submitPanel > .submitContainer > .info > .progressBar {
+	position: absolute;
+
+	bottom: 24px;
+	left: 50%;
+	width: 90%;
+	height: 8px;
+	
+	transform: translateX(-50%);
+}
+
+/** =================== LOGS =================== **/
+
+#logsPanel > div.main:empty::before {
+	content: "\f564";
+}
+
+#logsPanel > .logsItemContainer {
+	position: relative;
+}
+
+#logsPanel > .logsItemContainer > .logItem {
+	position: relative;
+	
+	height: 48px;
+	margin-left: 20px;
+	padding-right: 36px;
+	box-sizing: border-box;
+}
+
+#logsPanel > .logsItemContainer > .logItem > .h {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	border-bottom: 1px solid rgba(230, 230, 230, 0.2);
+}
+
+#logsPanel > .logsItemContainer > .logItem > .h > .l {
+	position: relative;
+	display: inline-block;
+	flex-grow: 1;
+
+	overflow: hidden;
+}
+
+#logsPanel > .logsItemContainer > .logItem > .h > .l > .t {
+	font-size: 10px;
+	font-weight: normal;
+	color: rgba(59, 71, 82, 0.7);
+}
+
+#logsPanel > .logsItemContainer > .logItem > .h > .l > .n {
+	font-size: 13px;
+	font-weight: bold;
+	color: #585858;
+}
+
+#logsPanel > .logsItemContainer > .logItem.scored > .h > .l > .n {
+	color: #1124c8;
+}
+
+#logsPanel > .logsItemContainer > .logItem.correct > .h > .l > .n {
+	color: #39aa56;
+}
+
+#logsPanel > .logsItemContainer > .logItem.passed > .h > .l > .n {
+	color: #0ca3be;
+}
+
+#logsPanel > .logsItemContainer > .logItem.accepted > .h > .l > .n {
+	color: #b9ab14;
+}
+
+#logsPanel > .logsItemContainer > .logItem.failed > .h > .l > .n {
+	color: #db4545;
+}
+
+#logsPanel > .logsItemContainer > .logItem > .h > .r {
+	position: relative;
+	display: flex;
+	flex-grow: 0;
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: center;
+
+	margin-right: 10px;
+}
+
+#logsPanel > .logsItemContainer > .logItem > .h > .r > t {
+	color: rgba(98, 98, 98, 0.7);
+	font-size: 11px;
+	letter-spacing: 0.01em;
+}
+
+#logsPanel > .logsItemContainer > .logItem > .h > .r > .s {
+	font-weight: bold;
+	color: rgba(82, 82, 82, 0.7);
+	font-size: 11px;
+}
+
+#logsPanel > .logsItemContainer > .logItem > icon {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	right: 0;
+	top: 0;
+	width: 36px;
+	height: 100%;
+
+	cursor: pointer;
+	background-color: #f8f8f8;
+	color: #c0c0c0;
+	text-decoration: none;
+
+	transition: all 0.2s ease;
+}
+
+#logsPanel > .logsItemContainer > .logItem > icon::after {
+	font-size: 16px;
+	color: rgb(84, 84, 84);
+}
+
+#logsPanel > .logsItemContainer > .logItem > icon:not(.link) {
+	cursor: not-allowed;
+}
+
+#logsPanel > .logsItemContainer > .logItem > icon:hover {
+	background-color: #f1f1f1;
+	color: #6e6e6e;
+}
+
+#logsPanel > .logsItemContainer > .logItem.queue > .h > .l > .n {
+	color: #8710cc;
+}
+
+#logsPanel > .logsItemContainer > .logItem.judging > .h > .l > .n {
+	color: #c811c8;
+}
+
+#logsPanel > .logsItemContainer > .logItem.queue > icon::after,
+#logsPanel > .logsItemContainer > .logItem.judging > icon::after {
+	animation: logIconSpin 1s linear 0s infinite forwards;
+}
+
+@keyframes logIconSpin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+/** =================== LOGVIEWER =================== **/
+
+.logViewer {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+
+	width: 100%;
+	height: 100%;
+}
+
+.logViewer > .header {
+	position: relative;
+	display: inline-flex;
+	flex-direction: column;
+	flex-grow: 1;
+	box-sizing: border-box;
+	padding-left: 10px;
+	height: 100%;
+}
+
+.logViewer > .header::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 10px;
+	height: 100%;
+	background-color: #b9b9b9;
+}
+
+.logViewer > .header > .top {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	flex-grow: 0;
+
+	padding: 20px 0 10px;
+}
+
+.logViewer > .header > .top > .problem {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	flex-grow: 0;
+
+	margin: 0 20px;
+}
+
+.logViewer > .header > .top > .problem > .problemIcon {
+	position: relative;
+	flex-shrink: 0;
+
+	width: 92px;
+	height: 92px;
+	margin-right: 20px;
+	border-radius: 50%;
+}
+
+.logViewer > .header > .top > .problem > .info {
+	position: relative;
+	display: block;
+	flex-shrink: 1;
+}
+
+.logViewer > .header > .top > .problem > .info > .name {
+	position: relative;
+
+	font-family: Nunito;
+	font-size: 25px;
+	font-weight: 950;
+	letter-spacing: .8px;
+	color: rgb(70, 70, 70);
+}
+
+.logViewer > .header > .top > .problem > .info > .point {
+	position: relative;
+	display: inline-block;
+
+	padding: 2px 6px;
+	margin-top: 2px;
+
+	font-size: 12px;
+	color: #ecf0f1;
+	letter-spacing: 0.4px;
+	background-color: #27ae60;
+	border-radius: 4px;
+}
+
+.logViewer > .header > .top > .pointContainer {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	flex-grow: 1;
+	flex-shrink: 0;
+
+	margin: 20px 20px 0;
+}
+
+.logViewer > .header > .top > .pointContainer > .pointBox {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	flex-grow: 1;
+	flex-shrink: 0;
+
+	margin: 0 10px;
+}
+
+.logViewer > .header > .top > .pointContainer[data-type="point"] > .pointBox[data-name="point"],
+.logViewer > .header > .top > .pointContainer[data-type="sp"] > .pointBox[data-name="sp"] {
+	order: -1;
+}
+
+.logViewer > .header > .top > .pointContainer > .pointBox > .title {
+	position: relative;
+	display: block;
+	background-color: rgba(168, 168, 168, 0.2);
+	padding: 2px 20px;
+	border-radius: 14px;
+
+	font-family: "Calibri";
+	font-size: 16px;
+	font-weight: bold;
+	color: rgb(68, 68, 68);
+	letter-spacing: .4px;
+	text-transform: uppercase;
+}
+
+.logViewer > .header > .top > .pointContainer > .pointBox > .point {
+	margin-top: 2px;
+
+	font-family: "Nunito";
+	font-size: 36px;
+	font-weight: 300;
+}
+
+.logViewer > .header > .top > .pointContainer[data-type="point"] > .pointBox[data-name="point"] > .point,
+.logViewer > .header > .top > .pointContainer[data-type="sp"] > .pointBox[data-name="sp"] > .point {
+	font-size: 56px;
+	font-weight: 400;
+}
+
+.logViewer > .header > .top > .pointContainer > .pointBox > .help {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	right: -30px;
+	width: 20px;
+	height: 20px;
+	background-color: rgb(88, 88, 88);
+	border-radius: 50%;
+}
+
+.logViewer > .header > .top > .pointContainer > .pointBox > .help::before {
+	content: "\f128";
+	position: relative;
+	
+	font-family: "Font Awesome 5 Free";
+	font-size: 10px;
+	font-weight: bolder;
+	color: white;
+}
+
+.logViewer > .header > .bottom {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.logViewer > .header > .bottom > .line {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	flex-grow: 0;
+	margin: 10px 0;
+}
+
+.logViewer > .header > .bottom > .line > .left {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	box-sizing: border-box;
+	padding: 0 0 0 20px;
+}
+
+.logViewer > .header > .bottom > .line > .left > .row {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin: 1px 0;
+}
+
+.logViewer > .header > .bottom > .line > .left > .row::before {
+	content: "\f111";
+	position: relative;
+	flex-shrink: 0;
+
+	font-family: "Font Awesome 5 Free";
+	font-size: 14px;
+	font-weight: 600;
+	margin-right: 10px;
+	width: 20px;
+	text-align: center;
+	color: rgba(46, 46, 46, 0.5);
+}
+
+.logViewer > .header > .bottom > .line > .left > .problemInfo {
+	margin-bottom: 10px;
+}
+
+.logViewer > .header > .bottom > .line > .left > .problemInfo::before {
+	content: "\f128";
+	color: #464646;
+	font-size: 21px;
+	margin-right: 20px;
+}
+
+.logViewer > .header > .bottom > .line > .left > .problemInfo > .problemID,
+.logViewer > .header > .bottom > .line > .left > .problemInfo > .language {
+	position: relative;
+	font-family: Consolas;
+	font-weight: bold;
+	font-size: 18px;
+	color: #464646;
+}
+
+.logViewer > .header > .bottom > .line > .left > .problemInfo > .language {
+	font-family: Calibri;
+	font-size: 16px;
+	margin-left: 20px;
+}
+
+/*? Correct */
+
+.logViewer > .header[data-level="correct"] > .bottom > .line > .left > .problemInfo > .problemID,
+.logViewer > .header[data-level="correct"] > .bottom > .line > .left > .problemInfo > .language,
+.logViewer > .header[data-level="correct"] > .bottom > .line > .left > .problemInfo::before {
+	color: #39aa56;
+}
+
+.logViewer > .header[data-level="correct"]::before {
+	background-color: #39aa56;
+}
+
+.logViewer > .header[data-level="correct"] > .bottom > .line > .left > .problemInfo::before {
+	content: "\f00c";
+}
+
+/*? Passed */
+
+.logViewer > .header[data-level="passed"] > .bottom > .line > .left > .problemInfo > .problemID,
+.logViewer > .header[data-level="passed"] > .bottom > .line > .left > .problemInfo > .language,
+.logViewer > .header[data-level="passed"] > .bottom > .line > .left > .problemInfo::before {
+	color: #39aaa1;
+}
+
+.logViewer > .header[data-level="passed"]::before {
+	background-color: #39aaa1;
+}
+
+.logViewer > .header[data-level="passed"] > .bottom > .line > .left > .problemInfo::before {
+	content: "\f129";
+}
+
+/*? Accepted */
+
+.logViewer > .header[data-level="accepted"] > .bottom > .line > .left > .problemInfo > .problemID,
+.logViewer > .header[data-level="accepted"] > .bottom > .line > .left > .problemInfo > .language,
+.logViewer > .header[data-level="accepted"] > .bottom > .line > .left > .problemInfo::before {
+	color: #ac7603;
+}
+
+.logViewer > .header[data-level="accepted"]::before {
+	background-color: #edde3f;
+}
+
+.logViewer > .header[data-level="accepted"] > .bottom > .line > .left > .problemInfo::before {
+	content: "\f12a";
+}
+
+/*? Failed */
+
+.logViewer > .header[data-level="failed"] > .bottom > .line > .left > .problemInfo > .problemID,
+.logViewer > .header[data-level="failed"] > .bottom > .line > .left > .problemInfo > .language,
+.logViewer > .header[data-level="failed"] > .bottom > .line > .left > .problemInfo::before {
+	color: #db4545;
+}
+
+.logViewer > .header[data-level="failed"]::before {
+	background-color: #db4545;
+}
+
+.logViewer > .header[data-level="failed"] > .bottom > .line > .left > .problemInfo::before {
+	content: "\f00d";
+}
+
+.logViewer > .header > .bottom > .line > .left > .submitTime,
+.logViewer > .header > .bottom > .line > .left > .status,
+.logViewer > .header > .bottom > .line > .left > .result,
+.logViewer > .header > .bottom > .line > .left > .point {
+	position: relative;
+	font-family: "Calibri", "Segoe UI";
+	font-size: 15px;
+	color: rgb(56, 56, 56);
+}
+
+.logViewer > .header > .bottom > .line > .left > .submitTime::before {
+	content: "\f783";
+}
+
+.logViewer > .header > .bottom > .line > .left > .submitted::before {
+	content: "\f093";
+}
+
+.logViewer > .header > .bottom > .line > .left > .status::before {
+	content: "\f05a";
+}
+
+.logViewer > .header > .bottom > .line > .left > .result::before {
+	content: "\f682";
+}
+
+.logViewer > .header > .bottom > .line > .left > .point::before {
+	content: "\f044";
+}
+
+.logViewer > .header > .bottom > .line > .left > .result b {
+	display: inline;
+	padding: 0 4px;
+}
+
+.logViewer > .header > .bottom > .line > .left > .result b.green {
+	color: #39aa56;
+}
+
+.logViewer > .header > .bottom > .line > .left > .result b.red {
+	color: #db4545;
+}
+
+.logViewer > .header > .bottom > .line > .left > .point {
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.logViewer > .header > .bottom > .line > .right {
+	position: relative;
+	display: inline-flex;
+	flex-direction: column;
+	flex-grow: 0;
+
+	min-width: 140px;
+	margin-right: 20px;
+}
+
+.logViewer > .header > .bottom > .line > .right > .submitter {
+	position: relative;
+	display: flex;
+	flex-direction: row-reverse;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.logViewer > .header > .bottom > .line > .right > .submitter > .avatar {
+	position: relative;
+	flex-shrink: 0;
+
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.logViewer > .header > .bottom > .line > .right > .submitter > .info {
+	position: relative;
+	margin-right: 10px;
+}
+
+.logViewer > .header > .bottom > .line > .right > .submitter > .info > .tag {
+	font-family: "Calibri";
+	font-size: 11px;
+	letter-spacing: 0.4px;
+	color: #546e7a;
+	font-weight: bold;
+	text-align: right;
+}
+
+.logViewer > .header > .bottom > .line > .right > .submitter > .info > .name {
+	font-family: Nunito;
+	font-size: 16px;
+	font-weight: 850;
+	color: #425161;
+	text-align: right;
+}
+
+.logViewer > .header > .bottom > .line.log {
+	flex-direction: column;
+}
+
+.logViewer > .testList {
+	position: relative;
+	display: inline-block;
+	flex-grow: 0;
+	flex-shrink: 0;
+	width: 280px;
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	background-color: rgb(238, 238, 238);
+}
+
+.logViewer > .testList:empty::before {
+	content: "Không tìm thấy test nào cả :(";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	text-align: center;
+	font-family: "Calibri", "Segoe UI";
+	font-weight: bold;
+	font-size: 16px;
+	color: gray;
+}
+
+.logViewer > .testList > .item {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	box-sizing: border-box;
+	padding: 10px 10px 10px 16px;
+	background-color: rgb(245, 245, 245);
+	counter-increment: testItem;
+
+	transition: background-color 0.2s ease;
+}
+
+.logViewer > .testList > .item:hover {
+	background-color: rgb(255, 255, 255);
+}
+
+.logViewer > .testList > .item::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 6px;
+	height: 100%;
+	background-color: #b9b9b9
+}
+
+.logViewer > .testList > .item > .line {
+	position: relative;
+	display: flex;
+	width: 100%;
+	flex-direction: row;
+	align-items: center;
+	flex-grow: 1;
+}
+
+.logViewer > .testList > .item > .line.detail {
+	position: relative;
+	flex-direction: column;
+	align-items: flex-start;
+	margin-top: 10px;
+}
+
+.logViewer > .testList > .item > .line.detail t {
+	display: block;
+	width: 100%;
+	font-size: 13px;
+	white-space: pre-wrap;
+	color: rgb(80, 80, 80);
+}
+
+.logViewer > .testList > .item > .line > .left {
+	position: relative;
+	flex-grow: 1;
+}
+
+.logViewer > .testList > .item > .line > .left > .testID {
+	position: relative;
+	font-size: 15px;
+	font-weight: bold;
+	color: #464646;
+}
+
+.logViewer > .testList > .item > .line > .left > .testID::before {
+	content: "#"counter(testItem);
+	position: relative;
+	display: inline-block;
+	font-size: 11px;
+	width: 25px;
+}
+
+.logViewer > .testList > .item > .line > .left > .status {
+	position: relative;
+	font-size: 12px;
+}
+
+.logViewer > .testList > .item > .line > .right {
+	position: relative;
+	display: inline-flex;
+	flex-direction: column;
+	align-items: flex-end;
+	flex-grow: 0;
+	flex-shrink: 0;
+}
+
+.logViewer > .testList > .item > .line > .right > .point {
+	position: relative;
+	font-size: 13px;
+	font-weight: bold;
+	text-align: right;
+	color: rgb(78, 78, 78);
+}
+
+.logViewer > .testList > .item > > .line .right > .runtime {
+	position: relative;
+	font-size: 12px;
+	color: rgb(114, 114, 114);
+}
+
+.logViewer > .testList > .item.passed::before {
+	background-color: #39aa56;
+}
+
+.logViewer > .testList > .item.passed > .line > .left > .testID {
+	color: #39aa56;
+}
+
+.logViewer > .testList > .item.accepted::before {
+	background-color: #edde3f;
+}
+
+.logViewer > .testList > .item.accepted > .line > .left > .testID {
+	color: #cfc337;
+}
+
+.logViewer > .testList > .item.failed::before {
+	background-color: #c0392b;
+}
+
+.logViewer > .testList > .item.failed > .line > .left > .testID {
+	color: #c0392b;
+}
+
+@media only screen and (max-width: 800px) {
+	.logViewer {
+		height: auto;
+		flex-direction: column;
+	}
+
+	.logViewer > .header {
+		height: unset;
+	}
+
+	.logViewer > .testList {
+		width: 100%;
+		height: unset;
+	}
+
+	.logViewer > .testList > .item {
+		padding-left: 20px;
+	}
+
+	.logViewer > .testList > .item::before {
+		width: 10px;
+	}
+}
+
+/** =================== RANKING =================== **/
+
+.rankingContainer {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+}
+
+.rankingContainer > .header {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	padding: 50px 50px 10px;
+}
+
+.rankingContainer > .header::before {
+	content: "";
+	position: absolute;
+
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 120px;
+
+	background: #7f7fd5;
+	background: linear-gradient(to left, #7f7fd5, #86a8e7, #91eae4);
+}
+
+.rankingContainer > .header > icon::after {
+	font-size: 28px;
+}
+
+.rankingContainer > .header > .title {
+	flex-grow: 1;
+	margin-left: 20px;
+
+	font-family: Nunito;
+	font-weight: 300;
+	font-size: 28px;
+	line-height: 38px;
+}
+
+#ranking {
+	position: relative;
+	display: block;
+	flex-grow: 1;
+	
+	z-index: 1;
 	overflow: auto;
 }
 
-#rankp div.rankingContainer:empty::before {
+.rankingContainer > div#ranking:empty::before {
 	content: "\f02d";
 }
 
-#rankp div.rankingContainer:empty::after {
+.rankingContainer > div#ranking:empty::after {
 	content: "Không có dữ liệu hoặc đã bị tắt";
 }
 
-#rankp div.rankingContainer table {
+#ranking > table {
 	position: relative;
-	font-family: "Calibri";
+
+	min-width: 100%;
+	padding: 0 10px;
 	box-sizing: border-box;
 	border-spacing: 0;
-	padding: 10px;
-	min-width: 100%;
+
+	font-family: "Calibri";
 }
 
-#rankp div.rankingContainer table thead tr th:nth-child(1),
-#rankp div.rankingContainer table tr td:nth-child(1) {
+#ranking > table thead tr th:nth-child(1),
+#ranking > table tr td:nth-child(1) {
 	width: 20px;
 	text-align: center;
 }
 
-#rankp div.rankingContainer table thead tr th:nth-child(2),
-#rankp div.rankingContainer table tr td:nth-child(2) {
+#ranking > table thead tr th:nth-child(2),
+#ranking > table tr td:nth-child(2) {
 	text-align: left;
 }
 
-#rankp div.rankingContainer table thead tr th:nth-child(2) {
+#ranking > table thead tr th:nth-child(2) {
 	width: 40px;
 }
 
-#rankp div.rankingContainer table tr td:nth-child(2) {
+#ranking > table tr td:nth-child(2) {
 	display: flex;
 	align-items: center;
 	padding: 10px;
 	margin: 0 0 0 10px;
 }
 
-#rankp div.rankingContainer table tr td:nth-child(2) .avt {
+#ranking > table tr td:nth-child(2) .avatar {
 	position: relative;
 	display: block;
+
 	width: 40px;
 	height: 40px;
 	border-radius: 50%;
 }
 
-#rankp div.rankingContainer table tr td:nth-child(3) .username {
+#ranking > table tr td:nth-child(3) .username {
 	font-family: "Open Sans";
 	font-size: 11px;
 	font-style: italic;
@@ -2044,39 +2346,39 @@ body.guest #problemp.hide {
 	letter-spacing: .2px;
 }
 
-#rankp div.rankingContainer table tr td:nth-child(3) .name {
+#ranking > table tr td:nth-child(3) .name {
 	font-size: 15px;
 	letter-spacing: .2px;
 }
 
 
-#rankp div.rankingContainer table tr td.number:nth-child(4) {
+#ranking > table tr td.number:nth-child(4) {
 	color: #3c7be7;
 	font-size: 16px;
 	font-weight: bold;
 }
 
-#rankp div.rankingContainer table tr td.number:nth-child(5) {
+#ranking > table tr td.number:nth-child(5) {
     color: rgb(100, 62, 202);
     font-size: 16px;
     font-weight: bold;
 }
 
-#rankp div.rankingContainer table tbody tr[data-rank="1"] {
+#ranking > table tbody tr[data-rank="1"] {
 	background-color: rgba(111, 241, 134, 0.2);
 }
 
-#rankp div.rankingContainer table tbody tr[data-rank="2"] {
+#ranking > table tbody tr[data-rank="2"] {
 	background-color: rgba(239, 241, 111, 0.2);
 }
 
-#rankp div.rankingContainer table tbody tr[data-rank="3"] {
+#ranking > table tbody tr[data-rank="3"] {
 	background-color: rgba(230, 111, 241, 0.2);
 }
 
-#rankp div.rankingContainer table tbody tr[data-rank="1"] td:nth-child(3) .name,
-#rankp div.rankingContainer table tbody tr[data-rank="2"] td:nth-child(3) .name,
-#rankp div.rankingContainer table tbody tr[data-rank="3"] td:nth-child(3) .name {
+#ranking > table tbody tr[data-rank="1"] td:nth-child(3) .name,
+#ranking > table tbody tr[data-rank="2"] td:nth-child(3) .name,
+#ranking > table tbody tr[data-rank="3"] td:nth-child(3) .name {
 	font-family: Nunito;
 	font-size: 16px;
 	font-weight: 850;
@@ -2084,12 +2386,12 @@ body.guest #problemp.hide {
 	color: rgb(65, 65, 65);
 }
 
-#rankp div.rankingContainer table thead tr th {
+#ranking > table thead tr th {
 	position: sticky;
 	top: 0;
 
 	border-bottom: 1px solid rgba(155, 155, 155, 0.4);
-	background-color: rgba(255, 255, 255, 0.8);
+	background-color: white;
 
 	font-family: Segoe UI;
 	font-size: 13px;
@@ -2099,11 +2401,11 @@ body.guest #problemp.hide {
 	z-index: 1;
 }
 
-#rankp div.rankingContainer table thead tr th:nth-child(3) {
+#ranking > table thead tr th:nth-child(3) {
 	text-align: left;
 }
 
-#rankp div.rankingContainer table thead tr th.problem > t {
+#ranking > table thead tr th.problem > t {
 	display: inline-block;
 	color: rgb(82, 82, 82);
 	font-family: Segoe UI;
@@ -2111,7 +2413,7 @@ body.guest #problemp.hide {
 	font-weight: bold;
 }
 
-#rankp div.rankingContainer table thead tr th.problem > .toggler {
+#ranking > table thead tr th.problem > .toggler {
 	position: relative;
 	display: inline-flex;
 	align-items: center;
@@ -2124,7 +2426,7 @@ body.guest #problemp.hide {
 	transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-#rankp div.rankingContainer table thead tr th.problem > .toggler::after {
+#ranking > table thead tr th.problem > .toggler::after {
 	content: "\f104";
 	position: relative;
 	display: block;
@@ -2134,82 +2436,82 @@ body.guest #problemp.hide {
 	transform: translateY(2px);
 }
 
-#rankp div.rankingContainer table thead tr th.problem[data-folding="true"] {
+#ranking > table thead tr th.problem[data-folding="true"] {
 	width: 10px;
 	padding: unset;
 }
 
-#rankp div.rankingContainer table thead tr th.problem[data-folding="true"] > t {
+#ranking > table thead tr th.problem[data-folding="true"] > t {
 	display: none;
 }
 
-#rankp div.rankingContainer table thead tr th.problem[data-folding="true"] > .toggler {
+#ranking > table thead tr th.problem[data-folding="true"] > .toggler {
 	transform: rotate(180deg);
 }
 
-#rankp div.rankingContainer table thead tr th.problem[data-folding="true"] > .toggler::after {
+#ranking > table thead tr th.problem[data-folding="true"] > .toggler::after {
 	transform: unset;
 }
 
-#rankp div.rankingContainer table thead tr th,
-#rankp div.rankingContainer table tr td {
+#ranking > table thead tr th,
+#ranking > table tr td {
 	padding: 10px 12px;
 }
 
-#rankp div.rankingContainer table tr td {
+#ranking > table tr td {
 	font-size: 13px;
 }
 
-#rankp div.rankingContainer table tr td.number,
-#rankp div.rankingContainer table tr td.number > t {
+#ranking > table tr td.number,
+#ranking > table tr td.number > t {
 	font-size: 13px;
 	text-align: right;
 	color: rgb(172, 172, 172);
 }
 
-#rankp div.rankingContainer table tr td.number > t.big {
+#ranking > table tr td.number > t.big {
 	font-size: 16px;
 	font-weight: bold;
 }
 
-#rankp div.rankingContainer table tr td.number[data-folding="true"] > t {
+#ranking > table tr td.number[data-folding="true"] > t {
 	display: none;
 }
 
-#rankp div.rankingContainer table tr td.number.link {
+#ranking > table tr td.number.link {
 	cursor: pointer;
 }
 
-#rankp div.rankingContainer table tr .number.link > t,
-#rankp div.rankingContainer table tr .number.correct > t,
-#rankp div.rankingContainer table tr .number.passed > t,
-#rankp div.rankingContainer table tr .number.accepted > t,
-#rankp div.rankingContainer table tr .number.failed > t,
-#rankp div.rankingContainer table tr .number.skipped > t {
+#ranking > table tr .number.link > t,
+#ranking > table tr .number.correct > t,
+#ranking > table tr .number.passed > t,
+#ranking > table tr .number.accepted > t,
+#ranking > table tr .number.failed > t,
+#ranking > table tr .number.skipped > t {
 	color: rgb(75, 75, 75);
 }
 
-#rankp div.rankingContainer table tr td.number.correct {
+#ranking > table tr td.number.correct {
 	background-color: rgb(147, 243, 158);
 }
 
-#rankp div.rankingContainer table tr td.number.passed {
+#ranking > table tr td.number.passed {
 	background-color: rgb(150, 245, 248);
 }
 
-#rankp div.rankingContainer table tr td.number.accepted {
+#ranking > table tr td.number.accepted {
 	background-color: rgb(240, 237, 157);
 }
 
-#rankp div.rankingContainer table tr td.number.failed {
+#ranking > table tr td.number.failed {
 	background-color: rgb(248, 187, 187)
 }
 
-#rankp div.rankingContainer table tr td.number.skipped {
+#ranking > table tr td.number.skipped {
 	background-color: rgb(212, 212, 212);
 }
 
-#rankp div.rankingContainer table tr td.number.link:hover {
+#ranking > table tr td.number.link:hover {
 	filter: brightness(1.1);
 }
 
@@ -2266,870 +2568,160 @@ body.guest #problemp.hide {
 	font-weight: bold;
 }
 
-#wrapper #wrapp .main .full {
-	display: block;
-	margin: auto;
+/** =================== TIMER =================== **/
+
+.component.timer > icon::after {
+	font-size: 23px;
+	margin-top: 6px;
+	color: rgb(75, 75, 75);
 }
 
-.problemEnlarged  {
-	position: relative;
-	display: flex;
-	flex-direction: row;
-	width: 100%;
-	height: 100%;
-	overflow-x: hidden;
-	overflow-y: auto;
+.component.timer > timer {
+	margin: 6px 0 2px 10px;
 }
 
-.problemEnlarged .left {
-	position: relative;
-	display: flex;
-	flex-grow: 1;
-	flex-shrink: 1;
-	flex-direction: column;
-	height: 100%;
-	overflow-x: hidden;
-	overflow-y: auto;
-}
-
-.problemEnlarged .left .top {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	flex-shrink: 0;
-	align-items: center;
-	width: 100%;
-	padding: 20px 0;
-	box-sizing: border-box;
-	overflow-x: hidden;
-	overflow-y: auto;
-}
-
-.problemEnlarged .left .top .group {
-	position: relative;
-	display: flex;
-	flex-direction: row;
-	width: 100%;
-	align-items: center;
-	justify-content: center;
-}
-
-.problemEnlarged .left .top .group .col {
-	position: relative;
-	display: flex;
-	flex: 1 1 0;
-	flex-direction: column;
-	padding: 0 20px;
-	align-items: center;
-}
-
-.problemEnlarged .left .top .group .col .name {
-	font-size: 26px;
-	font-weight: bold;
-	text-align: center;
-	color: #34495e;
-}
-
-.problemEnlarged .left .top .group .col .point {
-	font-size: 12px;
-	color: #ecf0f1;
-	letter-spacing: 0.4px;
-	background-color: #1f8d4d;
-	padding: 2px 6px;
-	margin: 2px 0 10px;
-	border-radius: 4px;
-}
-
-.problemEnlarged .left .top .attachment {
-	position: relative;
-	display: flex;
-	flex-direction: row;
-	align-items: flex-end;
-	width: 100%;
-	box-sizing: border-box;
-	padding: 10px 20px;
-}
-
-.problemEnlarged .left .top .attachment::before {
-	content: "Tệp đính kèm:";
-	position: relative;
-	display: inline-block;
-	font-family: "Calibri";
-	font-size: 13px;
-	font-weight: bold;
-	padding-right: 6px;
-	color: rgb(124, 124, 124);
-}
-
-.problemEnlarged .left .top .attachment .link {
-	font-size: 14px;
-}
-
-.problemEnlarged .left .top .simpleTableWrapper .simpleTable {
-	width: 100%;
-}
-
-.problemEnlarged .left .bottom {
-	position: relative;
-	display: flex;
-	flex-grow: 1;
-	flex-direction: column;
-	align-items: center;
-	padding: 20px;
-	box-sizing: border-box;
-	background-color: rgb(238, 238, 238);
-}
-
-.problemEnlarged .left .bottom .simpleTableWrapper {
-	position: relative;
-	display: block;
-	width: auto;
-	max-width: 100%;
-	margin-top: 20px;
-}
-
-.problemEnlarged .left .bottom .simpleTableWrapper .simpleTable.test tr td {
-	font-family: "Consolas";
-	white-space: pre;
-}
-
-.problemEnlarged .left .bottom .description {
-	position: relative;
-	width: 100%;
-	box-sizing: border-box;
-	white-space: pre-wrap;
-	line-height: 1.4em;
-}
-
-.problemEnlarged .left .bottom .description > a,
-.problemEnlarged .left .bottom .description > table,
-.problemEnlarged .left .bottom .description > ul {
-	display: block;
-}
-
-.problemEnlarged .left .bottom .image {
-	position: relative;
-	display: block;
-	min-width: 30px;
-	min-height: 30px;
-	width: 100%;
-	flex-shrink: 0;
-	margin-top: 20px;
-	border: 1px solid #ccc;
-}
-
-.problemEnlarged .right {
-	position: relative;
-	display: none;
-	flex-grow: 2;
-	width: calc(100% - 100px);
-}
-
-#wrapperPanel[data-size="large"] .problemEnlarged .right {
-	display: block;
-}
-
-.problemEnlarged .right > .embedAttachment {
-	position: relative;
-	display: block;
-	width: 100%;
-	height: 100%;
-}
-
-@media only screen and (max-width: 800px) {
-	.problemEnlarged {
-		flex-direction: column;
-	}
-
-	.problemEnlarged .right {
-		width: 100%;
-		height: 50%;
-	}
-}
-
-.viewLog-container {
-	position: relative;
-	display: flex;
-	flex-direction: row;
-	width: 100%;
-	height: 100%;
-}
-
-.viewLog-container .header {
-	position: relative;
-	display: inline-flex;
-	flex-direction: column;
-	flex-grow: 1;
-	box-sizing: border-box;
-	padding-left: 10px;
-	height: 100%;
-}
-
-.viewLog-container .header::before {
-	content: "";
+.component.timer > .progressBar {
 	position: absolute;
-	top: 0;
+
+	top: 0px;
 	left: 0;
-	width: 10px;
-	height: 100%;
-	background-color: #b9b9b9;
+	width: 100%;
+	height: 6px;
+	margin-top: unset;
 }
 
-.viewLog-container .header .top {
-	position: relative;
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	align-items: center;
-	flex-grow: 0;
-
-	padding: 20px 0 10px;
+.component.timer.clickable:hover {
+	background-color: rgb(245, 245, 245);
 }
 
-.viewLog-container .header .top .problem {
-	position: relative;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	flex-grow: 0;
-
-	margin: 0 20px;
+.component.timer.clickable.active {
+	background-color: rgb(250, 250, 250);
 }
 
-.viewLog-container .header .top .problem .problemIcon {
-	position: relative;
-	flex-shrink: 0;
-
-	width: 92px;
-	height: 92px;
-	margin-right: 20px;
-	border-radius: 50%;
-}
-
-.viewLog-container .header .top .problem .info {
-	position: relative;
-	display: block;
-	flex-shrink: 1;
-}
-
-.viewLog-container .header .top .problem .info .name {
-	position: relative;
-
-	font-family: Nunito;
-	font-size: 25px;
-	font-weight: 950;
-	letter-spacing: .8px;
-	color: rgb(70, 70, 70);
-}
-
-.viewLog-container .header .top .problem .info .point {
-	position: relative;
-	display: inline-block;
-
-	padding: 2px 6px;
-	margin-top: 2px;
-
-	font-size: 12px;
-	color: #ecf0f1;
-	letter-spacing: 0.4px;
-	background-color: #27ae60;
-	border-radius: 4px;
-}
-
-.viewLog-container .header .top .pointContainer {
-	position: relative;
-	display: flex;
-	flex-direction: row;
-	flex-grow: 1;
-	flex-shrink: 0;
-
-	margin: 20px 20px 0;
-}
-
-.viewLog-container .header .top .pointContainer .pointBox {
+.timerDetails {
 	position: relative;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	flex-grow: 1;
-	flex-shrink: 0;
+}
+
+.timerDetails > timer {
+	display: none;
+	text-align: center;
+	margin-top: 10px;
+}
+
+.timerDetails > .state {
+	margin: 10px 0 0;
+
+	font-size: 18px;
+	text-transform: uppercase;
+	text-align: center;
+	letter-spacing: .4px;
+}
+
+.timerDetails > .timeline {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	margin: 10px 0;
+}
+
+.timerDetails > .timeline > .box {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 
 	margin: 0 10px;
 }
 
-.viewLog-container .header .top .pointContainer .pointBox .title {
-	position: relative;
-	display: block;
-	background-color: rgba(168, 168, 168, 0.2);
-	padding: 2px 20px;
-	border-radius: 14px;
-
-	font-family: "Calibri";
-	font-size: 16px;
+.timerDetails > .timeline > .box > .time {
+	font-size: 20px;
 	font-weight: bold;
-	color: rgb(68, 68, 68);
-	letter-spacing: .4px;
+	text-align: center;
+	color: rgba(126, 126, 126, 0.6);
+
+	transition: color 0.3s ease-out;
+}
+
+.timerDetails > .timeline > .box > .date {
+	font-size: 14px;
+	color: rgba(126, 126, 126, 0.6);
+
+	transition: color 0.3s ease-out;
+}
+
+.timerDetails > .timeline.hideDate > .box > .date {
+	display: none;
+}
+
+.timerDetails > .timeline[data-box="1"] > .box[data-name="begin"] > .time,
+.timerDetails > .timeline[data-box="1"] > .box[data-name="begin"] > .date,
+.timerDetails > .timeline[data-box="2"] > .box[data-name="end"] > .time,
+.timerDetails > .timeline[data-box="2"] > .box[data-name="end"] > .date,
+.timerDetails > .timeline[data-box="3"] > .box[data-name="over"] > .time,
+.timerDetails > .timeline[data-box="3"] > .box[data-name="over"] > .date {
+	color: black;
+}
+
+.timerDetails > .timeline > .line {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	flex-shrink: 1;
+
+	min-width: 140px;
+}
+
+.timerDetails > .timeline > .line > .type {
+	font-size: 12px;
+	font-weight: bold;
 	text-transform: uppercase;
+	letter-spacing: .4px;
+	color: rgba(80, 80, 80, 0.8);
 }
 
-.viewLog-container .header .top .pointContainer .pointBox .point {
-	margin-top: 2px;
-
-	font-family: "Nunito";
-	font-size: 36px;
-	font-weight: 300;
-}
-
-.viewLog-container .header .top .pointContainer .pointBox.big .point {
-	font-size: 56px;
-	font-weight: 400;
-}
-
-.viewLog-container .header .top .pointContainer .pointBox .help {
-	position: absolute;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-
-	right: -30px;
-	width: 20px;
-	height: 20px;
-	background-color: rgb(88, 88, 88);
-	border-radius: 50%;
-}
-
-.viewLog-container .header .top .pointContainer .pointBox .help::before {
-	content: "\f128";
-	position: relative;
-	
-	font-family: "Font Awesome 5 Free";
-	font-size: 10px;
-	font-weight: bolder;
-	color: white;
-}
-
-.viewLog-container .header .bottom {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	flex-grow: 1;
-	overflow-x: hidden;
-	overflow-y: auto;
-}
-
-.viewLog-container .header .bottom .line {
-	position: relative;
-	display: flex;
-	flex-direction: row;
-	flex-grow: 0;
-	margin: 10px 0;
-}
-
-.viewLog-container .header .bottom .line .left {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	flex-grow: 1;
-	box-sizing: border-box;
-	padding: 0 0 0 20px;
-}
-
-.viewLog-container .header .bottom .line .left .row {
-	position: relative;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	margin: 1px 0;
-}
-
-.viewLog-container .header .bottom .line .left .row::before {
-	content: "\f111";
-	position: relative;
-	font-family: "Font Awesome 5 Free";
-	font-size: 14px;
-	font-weight: 600;
-	margin-right: 10px;
-	width: 20px;
-	text-align: center;
-	color: rgba(46, 46, 46, 0.5);
-}
-
-.viewLog-container .header .bottom .line .left .problemInfo {
-	margin-bottom: 10px;
-}
-
-.viewLog-container .header .bottom .line .left .problemInfo::before {
-	content: "\f128";
-	color: #464646;
-	font-size: 21px;
-	margin-right: 20px;
-}
-
-.viewLog-container .header .bottom .line .left .problemInfo .problemid,
-.viewLog-container .header .bottom .line .left .problemInfo .language {
-	position: relative;
-	font-family: Consolas;
-	font-weight: bold;
-	font-size: 18px;
-	color: #464646;
-}
-
-.viewLog-container .header .bottom .line .left .problemInfo .language {
-	font-family: Calibri;
-	font-size: 16px;
-	margin-left: 20px;
-}
-
-/*? Correct */
-
-.viewLog-container .header.correct .bottom .line .left .problemInfo .problemid,
-.viewLog-container .header.correct .bottom .line .left .problemInfo .language,
-.viewLog-container .header.correct .bottom .line .left .problemInfo::before {
-	color: #39aa56;
-}
-
-.viewLog-container .header.correct::before {
-	background-color: #39aa56;
-}
-
-.viewLog-container .header.correct .bottom .line .left .problemInfo::before {
-	content: "\f00c";
-}
-
-/*? Passed */
-
-.viewLog-container .header.passed .bottom .line .left .problemInfo .problemid,
-.viewLog-container .header.passed .bottom .line .left .problemInfo .language,
-.viewLog-container .header.passed .bottom .line .left .problemInfo::before {
-	color: #39aaa1;
-}
-
-.viewLog-container .header.passed::before {
-	background-color: #39aaa1;
-}
-
-.viewLog-container .header.passed .bottom .line .left .problemInfo::before {
-	content: "\f129";
-}
-
-/*? Accepted */
-
-.viewLog-container .header.accepted .bottom .line .left .problemInfo .problemid,
-.viewLog-container .header.accepted .bottom .line .left .problemInfo .language,
-.viewLog-container .header.accepted .bottom .line .left .problemInfo::before {
-	color: #cfc337;
-}
-
-.viewLog-container .header.accepted::before {
-	background-color: #edde3f;
-}
-
-.viewLog-container .header.accepted .bottom .line .left .problemInfo::before {
-	content: "\f12a";
-}
-
-/*? Failed */
-
-.viewLog-container .header.failed .bottom .line .left .problemInfo .problemid,
-.viewLog-container .header.failed .bottom .line .left .problemInfo .language,
-.viewLog-container .header.failed .bottom .line .left .problemInfo::before {
-	color: #db4545;
-}
-
-.viewLog-container .header.failed::before {
-	background-color: #db4545;
-}
-
-.viewLog-container .header.failed .bottom .line .left .problemInfo::before {
-	content: "\f00d";
-}
-
-.viewLog-container .header .bottom .line .left .submitTime,
-.viewLog-container .header .bottom .line .left .status,
-.viewLog-container .header .bottom .line .left .result,
-.viewLog-container .header .bottom .line .left .point {
-	position: relative;
-	font-family: "Calibri", "Segoe UI";
-	font-size: 15px;
-	color: rgb(56, 56, 56);
-}
-
-
-.viewLog-container .header .bottom .line .left .submitTime::before {
-	content: "\f783";
-}
-
-.viewLog-container .header .bottom .line .left .submitted::before {
-	content: "\f093";
-}
-
-.viewLog-container .header .bottom .line .left .status::before {
-	content: "\f05a";
-}
-
-.viewLog-container .header .bottom .line .left .result::before {
-	content: "\f682";
-}
-
-.viewLog-container .header .bottom .line .left .point::before {
-	content: "\f044";
-}
-
-.viewLog-container .header .bottom .line .left .result b {
-	display: inline;
-	padding: 0 4px;
-}
-
-.viewLog-container .header .bottom .line .left .result b.green {
-	color: #39aa56;
-}
-
-.viewLog-container .header .bottom .line .left .result b.red {
-	color: #db4545;
-}
-
-.viewLog-container .header .bottom .line .left .point {
-	font-weight: bold;
-	font-size: 16px;
-}
-
-.viewLog-container .header .bottom .line .right {
-	position: relative;
-	display: inline-flex;
-	flex-direction: column;
-	flex-grow: 0;
-	margin-right: 20px;
-}
-
-.viewLog-container .header .bottom .line .right .submitter {
-	position: relative;
-	display: flex;
-	flex-direction: row-reverse;
-	align-items: center;
-	margin-bottom: 20px;
-}
-
-.viewLog-container .header .bottom .line .right .submitter .avatar {
-	position: relative;
-	width: 50px;
-	height: 50px;
-	border-radius: 50%;
-	object-fit: cover;
-}
-
-.viewLog-container .header .bottom .line .right .submitter .info {
-	position: relative;
-	margin-right: 10px;
-}
-
-.viewLog-container .header .bottom .line .right .submitter .info .tag {
-	font-family: "Calibri";
-	font-size: 11px;
-	letter-spacing: 0.4px;
-	color: #546e7a;
-	font-weight: bold;
-	text-align: right;
-}
-
-.viewLog-container .header .bottom .line .right .submitter .info .name {
-	font-family: Nunito;
-	font-size: 16px;
-	font-weight: 850;
-	color: #425161;
-	text-align: right;
-}
-
-.viewLog-container .header .bottom .line.log {
-	flex-direction: column;
-}
-
-.viewLog-container .testList {
-	position: relative;
-	display: inline-block;
-	flex-grow: 0;
-	flex-shrink: 0;
-	width: 280px;
-	height: 100%;
-	overflow-x: hidden;
-	overflow-y: auto;
-	background-color: rgb(238, 238, 238);
-}
-
-.viewLog-container .testList:empty::before {
-	content: "Không tìm thấy test nào cả :(";
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	text-align: center;
-	font-family: "Calibri", "Segoe UI";
-	font-weight: bold;
-	font-size: 16px;
-	color: gray;
-}
-
-.viewLog-container .testList .item {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+.timerDetails > .timeline > .line > .progressBar {
 	width: 100%;
-	box-sizing: border-box;
-	padding: 10px 10px 10px 16px;
-	background-color: rgb(245, 245, 245);
-	counter-increment: testItem;
+	height: 6px;
+	margin: 2px 0;
 
-	transition: background-color 0.2s ease;
-}
-
-.viewLog-container .testList .item:hover {
-	background-color: rgb(255, 255, 255);
-}
-
-.viewLog-container .testList .item::before {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 6px;
-	height: 100%;
-	background-color: #b9b9b9
-}
-
-.viewLog-container .testList .item .line {
-	position: relative;
-	display: flex;
-	width: 100%;
-	flex-direction: row;
-	align-items: center;
-	flex-grow: 1;
-}
-
-.viewLog-container .testList .item .line .left {
-	position: relative;
-	flex-grow: 1;
-}
-
-.viewLog-container .testList .item .line .left .testid {
-	position: relative;
-	font-size: 15px;
-	font-weight: bold;
-	color: #464646;
-}
-
-.viewLog-container .testList .item .line .left .testid::before {
-	content: "#"counter(testItem);
-	position: relative;
-	display: inline-block;
-	font-size: 11px;
-	width: 25px;
-}
-
-.viewLog-container .testList .item .line .left .status {
-	position: relative;
-	font-size: 12px;
-}
-
-.viewLog-container .testList .item .line.detail {
-	position: relative;
-	flex-direction: column;
-	align-items: flex-start;
-	margin-top: 10px;
-}
-
-.viewLog-container .testList .item .line.detail > t {
-	display: block;
-	width: 100%;
-	font-size: 13px;
-	white-space: pre-wrap;
-	color: rgb(80, 80, 80);
-}
-
-.viewLog-container .testList .item .right {
-	position: relative;
-	display: inline-flex;
-	flex-direction: column;
-	align-items: flex-end;
-	flex-grow: 0;
-	flex-shrink: 0;
-}
-
-.viewLog-container .testList .item .right .point {
-	position: relative;
-	font-size: 13px;
-	font-weight: bold;
-	text-align: right;
-	color: rgb(78, 78, 78);
-}
-
-.viewLog-container .testList .item .right .runtime {
-	position: relative;
-	font-size: 12px;
-	color: rgb(114, 114, 114);
-}
-
-.viewLog-container .testList .item.passed::before {
-	background-color: #39aa56;
-}
-
-.viewLog-container .testList .item.passed .line .left .testid {
-	color: #39aa56;
-}
-
-.viewLog-container .testList .item.accepted::before {
-	background-color: #edde3f;
-}
-
-.viewLog-container .testList .item.accepted .line .left .testid {
-	color: #cfc337;
-}
-
-.viewLog-container .testList .item.failed::before {
-	background-color: #c0392b;
-}
-
-.viewLog-container .testList .item.failed .line .left .testid {
-	color: #c0392b;
-}
-
-/* submissionPointPanel */
-
-.submissionPointPanel {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	margin: 6px 2px;
-}
-
-.submissionPointPanel .title {
-	font-family: "Nunito";
-	font-size: 14px;
-	font-weight: 900;
-	color: white;
-}
-
-.submissionPointPanel table {
-	margin-top: 4px;
-}
-
-.submissionPointPanel table tr td {
-	padding: 2px 6px;
-}
-
-.submissionPointPanel table tr td:nth-child(1) {
-	font-size: 13px;
-}
-
-.submissionPointPanel table tr td:nth-child(2) {
-	font-size: 13px;
-	font-weight: bold;
-
-	text-align: right;
-}
-
-.submissionPointPanel table tr td:nth-child(3) {
-	font-family: "Consolas";
-	font-size: 15px;
-	font-weight: bold;
-
-	text-align: right;
-}
-
-.submissionPointPanel table tr.green td:nth-child(3) {
-	color: rgb(47, 253, 47);
-}
-
-.submissionPointPanel table tr.yellow td:nth-child(3) {
-	color: rgb(238, 255, 87);
-}
-
-.submissionPointPanel table tr.red td:nth-child(3) {
-	color: rgb(255, 169, 169);
-}
-
-/* Mobile Responsive */
-
-@media only screen and (max-width: 800px) {
-	#wrapper #wrapp {
-		width: 100%;
-		height: 100%;
-		max-height: unset;
-	}
-
-	.viewLog-container {
-		flex-direction: column;
-	}
-
-	.viewLog-container .header {
-		height: unset;
-	}
-
-	.viewLog-container .testList {
-		width: 100%;
-		height: unset;
-	}
-
-	.viewLog-container .testList .item {
-		padding-left: 20px;
-	}
-
-	.viewLog-container .testList .item::before {
-		width: 10px;
-	}
-}
-
-.cpanel-container,
-.publicFiles-container {
-	position: relative;
-	display: block;
-	width: 100%;
-	height: 100%;
-	border: unset;
+	border-radius: 4px;
 	overflow: hidden;
 }
 
-.rateLimitedClock {
-	display: flex;
-	flex-direction: row;
-	align-items: flex-end;
-	justify-content: center;
-	font-size: 25px;
-	font-weight: bold;
-}
-
-.rateLimitedClock > .inner {
+.timerDetails > .timeline > .line > .amount {
 	font-size: 13px;
-	margin: 0 0 4px 4px;
 }
 
-.disconnectedRetry {
-	display: flex;
-	flex-direction: row;
-	align-items: flex-end;
-	justify-content: center;
-	font-size: 13px;
-	font-weight: bold;
-	overflow: hidden;
+@media only screen and (max-width: 700px) {
+	.component.timer > timer {
+		display: none;
+	}
+
+	.timerDetails > timer {
+		display: inline-block;
+	}
+
+	.timerDetails > .timeline > .line {
+		min-width: 60px;
+	}
 }
 
-.disconnectedRetry > .inner {
-	font-size: 25px;
-	margin: 0 0 0 4px;
-	line-height: 24px;
-}
-
-#unsecureProtocolWarning > .right::after {
-	content: "\f13e";
-	color: rgb(185, 5, 50);
-	font-size: 24px;
-}
+/** =================== FOOTER =================== **/
 
 footer {
 	position: relative;
-	box-sizing: border-box;
+	display: block;
+
 	width: 100%;
 	padding: 20px;
-	display: block;
+
+	box-sizing: border-box;
 	float: left;
 }
 
@@ -3143,14 +2735,16 @@ footer .header {
 footer .header .logo {
 	position: relative;
 	display: block;
+
+	width: 82px;
+	height: 82px;
 	margin: auto;
 	margin-bottom: 12px;
+
 	background-image: url("/assets/img/icon.webp");
 	background-position: center;
 	background-size: cover;
 	border-radius: 50%;
-	width: 82px;
-	height: 82px;
 }
 
 footer .header .button {
@@ -3273,45 +2867,4 @@ footer ul.contact li.github::before {
 	content: "\f092";
 	font-family: "Font Awesome 5 Brands";
 	color: #2c3e50;
-}
-
-@keyframes spin {
-	0% {
-		transform: rotate(0deg);
-	}
-	100% {
-		transform: rotate(360deg);
-	}
-}
-
-@media only screen and (max-width: 750px) {
-	footer .left {
-		max-width: 100%;
-	}
-
-	footer ul.contact {
-		float: left;
-		max-width: 100%;
-	}
-}
-
-/* Unset all Transition */
-body.disableTransition * {
-	transition: unset!important;
-}
-
-/* Element to hide when user is not admin */
-
-body.user span#user_profile div.body ul#usett_left_panel li.navlink {
-	display: none!important;
-	visibility: hidden!important;
-}
-
-/* Element to hide when user is guest */
-
-body.guest #uploadp,
-body.guest #logp,
-body.guest span#user_profile {
-	display: none!important;
-	visibility: hidden!important;
 }

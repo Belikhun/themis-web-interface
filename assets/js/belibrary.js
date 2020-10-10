@@ -51,10 +51,14 @@ function myajax({
 		}
 
 		let xhr = new XMLHttpRequest();
-		let formData = new FormData();
+		let formData = null;
 
-		for (let key of Object.keys(form))
-			formData.append(key, form[key]);
+		if (method.toUpperCase() === "POST") {
+			formData = new FormData();
+			
+			for (let key of Object.keys(form))
+				formData.append(key, form[key]);
+		}
 
 		let queryKey = Object.keys(query);
 		for (let key of queryKey)
@@ -112,44 +116,46 @@ function myajax({
 						return;
 					}
 
-					if (this.status >= 400 && (response.code !== 0 && response.code < 100)) {
-						clog("ERRR", {
-							color: flatc("magenta"),
-							text: method
-						}, {
-							color: flatc("pink"),
-							text: url
-						}, {
-							color: flatc("red"),
-							text: `HTTP ${this.status}:`
-						}, this.statusText, ` >>> ${response.description}`);
-
-						if (this.status === 429 && response.code === 32 && reRequest === true) {
-							// Wait for :?unratelimited:?
-							await __connection__.stateChange("ratelimited", response);
-							
-							// Resend previous ajax request
-							clog("DEBG", "Resending Request", argumentsList);
-							let r = null;
-
-							try {
-								r = await myajax(...argumentsList);
-							} catch(e) {
-								reject(e);
+					if (this.status >= 400) {
+						if (typeof response.code === "number" && response.code !== 0 && response.code < 100) {
+							clog("ERRR", {
+								color: flatc("magenta"),
+								text: method
+							}, {
+								color: flatc("pink"),
+								text: url
+							}, {
+								color: flatc("red"),
+								text: `HTTP ${this.status}:`
+							}, this.statusText, ` >>> ${response.description}`);
+	
+							if (this.status === 429 && response.code === 32 && reRequest === true) {
+								// Wait for :?unratelimited:?
+								await __connection__.stateChange("ratelimited", response);
+								
+								// Resend previous ajax request
+								clog("DEBG", "Resending Request", argumentsList);
+								let r = null;
+	
+								try {
+									r = await myajax(...argumentsList);
+								} catch(e) {
+									reject(e);
+									return;
+								}
+	
+								// Resolve promise
+								resolve(r);
+	
 								return;
 							}
-
-							// Resolve promise
-							resolve(r);
-
-							return;
-						} else {
-							let errorObj = { code: 3, description: `HTTP ${this.status}: ${this.statusText} (${method} ${url})`, data: response }
-							error(errorObj);
-							reject(errorObj);
-
-							return;
 						}
+
+						let errorObj = { code: 3, description: `HTTP ${this.status}: ${this.statusText} (${method} ${url})`, data: response }
+						error(errorObj);
+						reject(errorObj);
+
+						return;
 					}
 
 					data = response;
@@ -326,9 +332,9 @@ function buildElementTree(type = "div", __class = [], data = new Array(), __keyp
 
 	for (let i = 0; i < data.length; i++) {
 		let d = data[i];
+		let k = __keypath + (__keypath === "" ? "" : ".") + d.name;
 
-		if (typeof d.list == "object") {
-			let k = __keypath + (__keypath === "" ? "" : ".") + d.name;
+		if (typeof d.list === "object") {
 			let t = buildElementTree(d.type, d.class, d.list, k);
 
 			t.tree.dataset.name = d.name;
@@ -336,13 +342,31 @@ function buildElementTree(type = "div", __class = [], data = new Array(), __keyp
 			(d.id) ? t.tree.id = d.id : 0;
 			(d.for) ? t.tree.htmlFor = d.for : 0;
 			(d.inpType) ? t.tree.type = d.inpType : 0;
+			(d.html) ? t.tree.innerHTML = d.html : 0;
 			(d.text) ? t.tree.innerText = d.text : 0;
+
+			if (typeof d.data === "object")
+				for (let key of Object.keys(d.data))
+					t.tree.dataset[key] = d.data[key];
+			
 			tree.appendChild(t.tree);
 
 			objtree[d.name] = t.tree;
-			Object.assign(objtree[d.name], t.obj);
-		} else {
-			let k = __keypath + (__keypath === "" ? "" : ".") + d.name;
+		} else if (typeof d === "object") {
+			if (typeof d.node === "object") {
+				let node = (d.node.group && d.node.group.classList)
+					? d.node.group
+					: d.node;
+
+				node.dataset.name = d.name;
+				node.dataset.path = k;
+
+				tree.appendChild(node);
+				objtree[d.name] = d.node;
+
+				continue;
+			}
+
 			let t = (svgTag.includes(d.type))
 				? document.createElementNS("http://www.w3.org/2000/svg", d.type)
 				: document.createElement(d.type);
@@ -356,7 +380,12 @@ function buildElementTree(type = "div", __class = [], data = new Array(), __keyp
 			(d.id) ? t.id = d.id : 0;
 			(d.for) ? t.htmlFor = d.for : 0;
 			(d.inpType) ? t.type = d.inpType : 0;
+			(d.html) ? t.innerHTML = d.html : 0;
 			(d.text) ? t.innerText = d.text : 0;
+
+			if (typeof d.data === "object")
+				for (let key of Object.keys(d.data))
+					t.dataset[key] = d.data[key];
 
 			tree.appendChild(t);
 			objtree[d.name] = t;
@@ -533,6 +562,41 @@ function convertSize(bytes) {
 	return `${round(bytes, 2)} ${sizes[i]}`;
 }
 
+/**
+ * Compare Version
+ * @param	{String}			localVersion
+ * @param	{String}			remoteVersion
+ * @returns {String}	"major", "minor", "patch", "latest"
+ */
+function versionCompare(localVersion, remoteVersion, {
+	ignoreTest = false
+} = {}) {
+	const regex = /^(?:v|)(\d)\.(\d)\.(\d)\-(.+)$/gm;
+	let testTags = ["beta", "indev", "debug", "test"]
+	let value = "latest";
+
+	let localRe = regex.exec(localVersion); regex.lastIndex = 0;
+	let remoteRe = regex.exec(remoteVersion);
+
+	if (!localRe || !remoteRe)
+		throw { code: -1, description: `versionCompare(${localVersion}, ${remoteVersion}): Invalid version string` }
+
+	let local = { major: parseInt(localRe[1]), minor: parseInt(localRe[2]), patch: parseInt(localRe[3]), tag: localRe[4] }
+	let remote = { major: parseInt(remoteRe[1]), minor: parseInt(remoteRe[2]), patch: parseInt(remoteRe[3]), tag: remoteRe[4] }
+
+	for (let key of ["major", "minor", "patch"])
+		if (remote[key] > local[key]) {
+			value = key;
+			break;
+		} else if (local[key] > remote[key])
+			break;
+
+	if (!ignoreTest && testTags.includes(remote.tag))
+		return "latest";
+
+	return value;
+}
+
 function priceFormat(num) {
 	return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 }
@@ -652,10 +716,10 @@ class pager {
 
 class lazyload {
 	constructor({
-		container = null,
-		source = null,
-		classes = null
-	}) {
+		container = undefined,
+		source = undefined,
+		classes = undefined
+	} = {}) {
 		if (container && container.classList)
 			this.container = container;
 		else
@@ -739,6 +803,13 @@ class lazyload {
 		this.loaded = false;
 		this.errored = false;
 		this.sourceNode.src = src;
+	}
+
+	/**
+	 * @returns {String}
+	 */
+	get src() {
+		return this.sourceNode.src;
 	}
 
 	/**
@@ -945,11 +1016,12 @@ function oscColor(color) {
  * @param	{String}	color	Color
  */
 function triBg(element, {
-	speed = 26,
+	speed = 34,
 	color = "gray",
 	scale = 2,
 	triangleCount = 38
 } = {}) {
+	const DARKCOLOR = ["brown", "dark", "darkRed", "darkGreen", "darkBlue"]
 	let current = element.querySelector(".triBgContainer");
 
 	if (current)
@@ -961,25 +1033,38 @@ function triBg(element, {
 	let container = document.createElement("div");
 	container.classList.add("triBgContainer");
 	container.dataset.count = triangleCount;
-	container.dataset.anim = (scale > 5)
-		? "big"
-		: (scale > 1)
-			? "normal"
-			: "small";
+
+	const updateSize = () => {
+		let scaleStep = [50, 60, 70, 80, 90, 100, 120, 140, 160, 180, 200, 250, 300, 350, 400, 500, 600, 700, 800, 900, 1000]
+
+		for (let i = 0; i < scaleStep.length; i++)
+			if (scaleStep[i] >= (container.offsetHeight + (0.866 * 30 * 2 * scale))) {
+				container.dataset.anim = scaleStep[i];
+				return;
+			}
+
+		container.dataset.anim = "full";
+	}
+
+	(new ResizeObserver(() => updateSize())).observe(container);
+	updateSize();
 
 	for (let i = 0; i < triangleCount; i++) {
-		let randScale = randBetween(0.4, 2.0, false);
-		let randBright = ["brown", "dark"].indexOf(color) !== -1
+		let randScale = randBetween(0.4, 2.0, false) * scale;
+		let width = 15 * randScale;
+		let height = 0.866 * (30 * randScale);
+
+		let randBright = DARKCOLOR.includes(color)
 			? randBetween(1.1, 1.3, false)
 			: randBetween(0.9, 1.2, false)
 
 		let randLeftPos = randBetween(0, 98, false);
-		let delay = randBetween(- speed / 2, speed / 2, false);
+		let delay = randBetween(-speed / 2, speed / 2, false);
 
 		let triangle = document.createElement("span");
 		triangle.style.filter = `brightness(${randBright})`;
-		triangle.style.transform = `translate(-50%, -50%) scale(${randScale * scale})`;
-		triangle.style.left = `${randLeftPos}%`;
+		triangle.style.borderWidth = `0 ${width}px ${height}px`;
+		triangle.style.left = `calc(${randLeftPos}% - ${width}px)`;
 		triangle.style.animationDelay = `${delay}s`;
 		triangle.style.animationDuration = `${speed / randScale}s`;
 
@@ -991,6 +1076,14 @@ function triBg(element, {
 	return {
 		setColor(color) {
 			element.dataset.triColor = color;
+
+			for (let triangle of container.childNodes) {
+				let randBright = DARKCOLOR.includes(color)
+					? randBetween(1.1, 1.3, false)
+					: randBetween(0.9, 1.2, false)
+
+				triangle.style.filter = `brightness(${randBright})`;
+			}
 		}
 	}
 }
@@ -1257,7 +1350,8 @@ function createInput({
 	label = "Sample Input",
 	value = "",
 	color = "default",
-	required = false
+	required = false,
+	autofill = true
 } = {}) {
 	let formGroup = document.createElement("div");
 	formGroup.classList.add("formGroup");
@@ -1273,6 +1367,7 @@ function createInput({
 	formField.id = id;
 	formField.classList.add("formField");
 	formField.placeholder = label;
+	formField.autocomplete = autofill ? "on" : "off";
 	formField.value = value;
 
 	if (required)
@@ -1296,20 +1391,20 @@ function createInput({
 }
 
 /**
- * Create Switch Element, require switch.css
+ * Create Checkbox Element, require switch.css
  * @param	{String}	text		Switch Label
  * @param	{String}	color		Switch Color
  * @param	{String}	value		Switch Value
  * @param	{String}	type		Switch Type
  */
-function createSwitch({
+function createCheckbox({
 	label = "Sample Switch",
 	color = "pink",
 	value = false,
 	type = "checkbox"
 } = {}) {
 	let container = document.createElement("div");
-	container.classList.add("switchContainer");
+	container.classList.add("checkboxContainer");
 	container.dataset.soundhoversoft = "";
 	sounds.applySound(container);
 
@@ -1360,6 +1455,10 @@ function createSlider({
 
 	let o = container.obj;
 	o.dataset.color = color;
+	o.dataset.soundhover = true;
+
+	if (sounds)
+		sounds.applySound(o);
 
 	o.input.type = "range";
 	o.input.min = min;
@@ -1368,14 +1467,13 @@ function createSlider({
 	o.input.value = value;
 
 	const update = (e) => {
-		let width = e.target.offsetWidth;
 		let valP = (e.target.value - min) / (max - min);
 
-		o.thumb.style.left = `${20 + (width - 40) * valP}px`;
-		o.left.style.width = `${(width - 40) * valP}px`;
-		o.right.style.width = `calc(100% - ${(width - 40) * valP + 40}px`;
+		o.thumb.style.left = `calc(20px + (100% - 40px) * ${valP})`;
+		o.left.style.width = `calc((100% - 40px) * ${valP})`;
+		o.right.style.width = `calc(100% - (100% - 40px) * ${valP} - 40px)`;
 
-		if (sounds)
+		if (e.isTrusted && sounds)
 			if (valP === 0)
 				sounds.slider(2);
 			else if (valP === 1)
@@ -1400,18 +1498,25 @@ function createSlider({
 		group: container.tree,
 		input: o.input,
 
+		setValue(value) {
+			o.input.value = value;
+			o.input.dispatchEvent(new Event("input"));
+		},
+
 		onInput(f) {
 			if (!f || typeof f !== "function")
-					throw { code: -1, description: "createSlider().onInput(): not a valid function" }
+				throw { code: -1, description: "createSlider().onInput(): not a valid function" }
 
 			inputHandlers.push(f);
+			f(parseFloat(o.input.value));
 		},
 
 		onChange(f) {
 			if (!f || typeof f !== "function")
-					throw { code: -1, description: "createSlider().onChange(): not a valid function" }
+				throw { code: -1, description: "createSlider().onChange(): not a valid function" }
 
 			changeHandlers.push(f);
+			f(parseFloat(o.input.value));
 		}
 	}
 }
@@ -1422,19 +1527,131 @@ function createSlider({
  * @param	{String}	color		Button Color
  * @returns	{HTMLButtonElement}		Button Element
  */
-function createBtn(text, color = "blue") {
-	let btn = document.createElement("button");
-	btn.classList.add("sq-btn");
-	btn.type = "button";
-	btn.innerText = text;
-	btn.dataset.color = color;
-	btn.dataset.soundhover = "";
-	btn.dataset.soundselect = "";
+function createBtn(text, color = "blue", {
+	element = "button",
+	icon = null,
+	align = "left",
+	complex = false
+} = {}) {
+	let button = document.createElement(element);
+	button.classList.add("sq-btn");
+	button.type = "button";
+	button.innerText = text;
+	button.dataset.color = color;
+	button.dataset.soundhover = "";
+	button.dataset.soundselect = "";
+
+	if (icon)
+		button.innerHTML = `<icon class="${align}" data-icon="${icon}"></icon>${text}`;
+	else
+		button.innerText = text;
+
+	if (complex)
+		triBg(button, {
+			scale: 1.5,
+			speed: 12,
+			color: color,
+			triangleCount: 16
+		});
 
 	if (sounds)
-		sounds.applySound(btn);
+		sounds.applySound(button);
 
-	return btn;
+	return button;
+}
+
+function createImageInput({
+	id = randString(6),
+	label = "Sample Image",
+	resetLabel = "Đặt Lại",
+	accept = "image/*",
+	src = "//:0"
+} = {}) {
+	if (!src)
+		src = "//:0";
+
+	let container = document.createElement("div");
+	container.classList.add("imageInput");
+
+	let input = document.createElement("input");
+	input.type = "file";
+	input.id = id;
+	input.accept = accept;
+
+	let labelNode = document.createElement("t");
+	labelNode.classList.add("label");
+	labelNode.innerText = label;
+
+	let resetHandlers = []
+
+	let imageContainer = document.createElement("label");
+	imageContainer.htmlFor = id;
+	imageContainer.title = "Chọn Ảnh";
+	sounds.applySound(imageContainer, ["soundhover", "soundselect"]);
+
+	let lazyloadImage = new lazyload({
+		container: imageContainer,
+		source: src,
+		classes: ["imageBox", item.display || "square"]
+	});
+
+	let resetButton = document.createElement("button");
+	resetButton.type = "button";
+	resetButton.classList.add("sq-btn", "pink", "sound");
+	resetButton.innerText = resetLabel;
+	sounds.applySound(resetButton, ["soundhover", "soundselect"]);
+	
+	let clearButton = document.createElement("icon");
+	clearButton.classList.add("clear");
+	clearButton.dataset.icon = "close";
+	sounds.applySound(clearButton, ["soundhoversoft", "soundselectsoft"]);
+
+	input.addEventListener("change", (e) => {
+		let file = e.target.files[0];
+
+		if (file) {
+			lazyloadImage.src = URL.createObjectURL(file);
+			clearButton.classList.add("show");
+		} else
+			clearButton.classList.remove("show");
+	});
+
+	clearButton.addEventListener("click", () => {
+		clearButton.classList.remove("show");
+		input.value = null;
+		lazyloadImage.src = src;
+	});
+
+	resetButton.addEventListener("click", async (e) => {
+		resetButton.disabled = true;
+
+		for (let f of resetHandlers)
+			await f(e);
+	});
+
+	input.dispatchEvent(new Event("change"));
+	container.append(input, labelNode, imageContainer, clearButton, resetButton);
+
+	return {
+		group: container,
+		input,
+		image: lazyloadImage,
+
+		src(src = "//:0") {
+			if (!src)
+				src = "//:0";
+
+			lazyloadImage.src = src;
+			resetButton.disabled = (src === "//:0");
+		},
+
+		onReset(f) {
+			if (typeof f !== "function")
+				throw { code: -1, description: `createImageInput().onReset(): not a valid function` }
+
+			resetHandlers.push(f);
+		}
+	}
 }
 
 const cookie = {
@@ -1507,22 +1724,22 @@ function clog(level, ...args) {
 			color: flatc("aqua"),
 			text: `${pleft(date.getHours(), 2)}:${pleft(date.getMinutes(), 2)}:${pleft(date.getSeconds(), 2)}`,
 			padding: 8,
-			seperate: true
+			separate: true
 		}, {
 			color: flatc("blue"),
 			text: rtime,
 			padding: 8,
-			seperate: true
+			separate: true
 		}, {
 			color: flatc("red"),
 			text: window.location.pathname,
 			padding: 16,
-			seperate: true
+			separate: true
 		}, {
 			color: lc,
 			text: level,
 			padding: 6,
-			seperate: true
+			separate: true
 		}
 	]
 
@@ -1565,7 +1782,7 @@ function clog(level, ...args) {
 
 			out[0] += `%c${t}`;
 
-			if (item.seperate) {
+			if (item.separate) {
 				out[0] += "%c| ";
 				out[n] = `font-size: ${size}px; color: ${item.color};`;
 				out[n+1] = `font-size: ${size}px; color: ${item.color}; font-weight: bold;`;
@@ -1631,7 +1848,7 @@ const popup = {
 	},
 
 	init() {
-		const tree=[{type:"div",class:"popupWindow",name:"popup",list:[{type:"div",class:"header",name:"header",list:[{type:"span",class:"top",name:"top",list:[{type:"t",class:["windowTitle","text-overflow"],name:"windowTitle"},{type:"span",class:"close",name:"close"}]},{type:"span",class:"icon",name:"icon"},{type:"t",class:"text",name:"text"}]},{type:"div",class:"body",name:"body",list:[{type:"div",class:"top",name:"top",list:[{type:"t",class:"message",name:"message"},{type:"t",class:"description",name:"description"}]},{type:"div",class:"note",name:"note",list:[{type:"span",class:"inner",name:"inner"}]},{type:"div",class:"customNode",name:"customNode"},{type:"div",class:"buttonGroup",name:"button"}]}]}];
+		const tree = [{type:"div",class:"popupWindow",name:"popup",list:[{type:"div",class:"header",name:"header",list:[{type:"span",class:"top",name:"top",list:[{type:"t",class:["windowTitle","text-overflow"],name:"windowTitle"},{type:"span",class:"close",name:"close"}]},{type:"icon",name:"icon"},{type:"t",class:"text",name:"text"}]},{type:"div",class:"body",name:"body",list:[{type:"div",class:"top",name:"top",list:[{type:"t",class:"message",name:"message"},{type:"t",class:"description",name:"description"}]},{type:"div",class:"note",name:"note",list:[{type:"span",class:"inner",name:"inner"}]},{type:"div",class:"customNode",name:"customNode"},{type:"div",class:"buttonGroup",name:"button"}]}]}];
 
 		this.tree = buildElementTree("div", "popupContainer", tree);
 		this.popupNode = this.tree.tree;
@@ -1680,7 +1897,12 @@ const popup = {
 			else
 				reject({ code: -1, description: `Unknown level: ${level}` })
 
-			triBg(this.popup.header, { color: (typeof bgColor === "string") ? bgColor : template.bg });
+			triBg(this.popup.header, {
+				scale: 4,
+				speed: 64,
+				color: (typeof bgColor === "string") ? bgColor : template.bg
+			});
+
 			this.popup.header.icon.dataset.icon = (typeof icon === "string") ? icon : template.icon;
 			this.popup.header.setAttribute("theme", (typeof headerTheme === "string") ? headerTheme : template.h);
 			this.popup.body.setAttribute("theme", (typeof bodyTheme === "string") ? bodyTheme : template.b);

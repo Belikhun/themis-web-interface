@@ -5,112 +5,79 @@
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
-class regPanel {
-	constructor(elem) {
-		if (elem.tagName !== "PANEL")
-			return false;
+class TWIPanel {
+	/**
+	 * @param {HTMLElement}		container 
+	 */
+	constructor(container) {
+		if (typeof container !== "object" || !container.classList || container.tagName !== "PANEL")
+			throw { code: -1, description: "twi.Panel(): not a valid panel element" }
 
-		this.elem = elem;
-		var ehead = fcfn(elem, "head");
-		this.etitle = fcfn(ehead, "le");
-		var ri = fcfn(ehead, "ri");
-		this.ecus = fcfn(ri, "cus");
-		this.eref = fcfn(ri, "ref");
-		this.ebak = fcfn(ri, "bak");
-		this.eclo = fcfn(ri, "clo");
-		this.emain = fcfn(elem, "main");
+		this.container = container;
+
+		this.titleNode = this.container.querySelector(".header > .title");
+		this.buttonsNode = this.container.querySelector(".header > .buttons");
+		this.mainContent = this.container.querySelector(".main");
+	}
+	
+	/**
+	 * @param {String}		title
+	 */
+	set title(title) {
+		this.titleNode.innerText = title;
 	}
 
 	get panel() {
-		return this.elem;
+		return this.container;
 	}
 
 	get main() {
-		return this.emain;
+		return this.mainContent;
 	}
 
-	get ref() {
-		var t = this;
+	button(icon = "circle", title) {
+		let iconButton = document.createElement("icon");
+		iconButton.dataset.icon = icon;
+		sounds.applySound(iconButton, ["soundhover", "soundselect"]);
+
+		if (title)
+			iconButton.title = title;
+
+		this.buttonsNode.appendChild(iconButton);
+		
 		return {
-			onClick(f = () => {}) {
-				t.eref.addEventListener("click", f, true);
+			button: iconButton,
+
+			set({ icon, title } = {}) {
+				if (icon)
+					iconButton.dataset.icon = icon;
+
+				if (title)
+					iconButton.title = title;
 			},
 
-			hide(h = true) {
-				if (h)
-					t.eref.style.display = "none";
-				else
-					t.eref.style.display = "inline-flex";
-			}
-		}
-	}
-
-	get bak() {
-		var t = this;
-		return {
-			onClick(f = () => {}) {
-				t.ebak.addEventListener("click", f, true);
+			show() {
+				iconButton.style.display = null;
 			},
 
-			hide(h = true) {
-				if (h)
-					t.ebak.style.display = "none";
-				else
-					t.ebak.style.display = "inline-flex";
-			}
-		}
-	}
-
-	get clo() {
-		var t = this;
-		return {
-			onClick(f = () => {}) {
-				t.eclo.addEventListener("click", f, true);
+			hide() {
+				iconButton.style.display = "none";
 			},
 
-			hide(h = true) {
-				if (h)
-					t.eclo.style.display = "none";
-				else
-					t.eclo.style.display = "inline-flex";
+			onClick(f) {
+				if (!f || typeof f !== "function")
+					throw { code: -1, description: `twi.Panel().button(${icon}).onClick(): not a valid function` }
+
+				return iconButton.addEventListener("click", e => f(e));
 			}
 		}
-	}
-
-	get cus() {
-		var t = this;
-		return {
-			onClick(f = () => {}) {
-				t.ecus.addEventListener("click", f, true);
-			},
-
-			hide(h = true) {
-				if (h)
-					t.ecus.style.display = "none";
-				else
-					t.ecus.style.display = "inline-flex";
-			}
-		}
-	}
-
-	set title(str = "") {
-		this.etitle.innerText = str;
 	}
 }
 
-const core = {
-	logPanel: new regPanel($("#logp")),
-	rankPanel: new regPanel($("#rankp")),
-	container: $("#container"),
-	previousLogHash: "",
-	previousRankHash: "",
-	updateDelay: 2000,
+const twi = {
+	container: $("#mainContainer"),
+	content: $("#content"),
 	initialized: false,
-	enableRankingUpdate: true,
-	enableLogsUpdate: true,
-	rankFolding: {},
-	__logTimeout: null,
-	__rankTimeout: null,
 
 	languages: {
 		"pas": "Pascal",
@@ -132,1023 +99,619 @@ const core = {
 		skipped: "Chưa chấm"
 	},
 
-	async init(set) {
-		clog("info", "Initializing...");
-		var initTime = new stopClock();
-		this.rankPanel.cus.hide(true);
+	/**
+	 * Initialize Themis Web Interface
+	 * @param {Function}	set			Report Progress to Initializer
+	 */
+	async init(set = () => {}) {
+		let start = time();
 
-		set(0, "Initializing: popup");
-		popup.init();
+		await this.initGroup(this, "twi", ({ p, m, d }) => {
+			clog("DEBG", {
+				color: oscColor("pink"),
+				text: m,
+				padding: 34,
+				separate: true
+			}, d);
 
-		set(2, "Initializing: tooltip");
-		tooltip.init();
+			set({ p, m, d });
+		});
+		
+		this.initialized = true;
+		clog("OKAY", {
+			color: oscColor("pink"),
+			text: "twi",
+			padding: 34,
+			separate: true
+		}, `Themis Web Interface Core Loaded In ${time() - start}s`);
+	},
 
-		set(5, "Applying onRatelimited");
-		__connection__.onRatelimited = async o => {
-			let clock = document.createElement("t");
-			clock.classList.add("rateLimitedClock");
+	/**
+	 * Initialize A Group Object
+	 * @param {Object}		group			The Target Object
+	 * @param {String}		name			Group Name
+	 * @param {Function}	set				Report Progress to Initializer
+	 */
+	async initGroup(group, name, set = () => {}) {
+		let modulesList = []
 
-			o.onCount(left => {
-				clock.innerHTML = `${left}<span class="inner">giây còn lại</span>`;
+		// Search for modules and initialize it
+		set({ p: 0, m: name, d: name === "twi" ? `Scanning Local Modules` : `Scanning Modules Of ${name}` });
 
-				if (left <= 0)
-					popup.hide();
-			})
+		for (let key of Object.keys(group)) {
+			if (key === "super")
+				continue;
 
-			popup.show({
-				windowTitle: "Rate Limited",
-				title: "Oops",
-				message: "Rate Limited",
-				description: `Bạn đã bị cấm yêu cầu tới máy chủ trong vòng <b>${parseInt(o.data.data.reset)} giây</b>!<br>Vui lòng chờ cho tới khi bạn hết bị cấm!`,
-				level: "warning",
-				customNode: clock,
-				buttonList: {
-					close: { text: "Đã rõ!", color: "dark" }
-				}
-			})
+			let item = group[key];
+			if (item && !item.initialized && typeof item.init === "function") {
+				// Set Up Module Constants
+				item.__NAME__ = key;
+				item.super = group;
+
+				// Push To Queues
+				modulesList.push(item);
+			}
 		}
 
-		set(6, "Applying onDisconnected");
-		__connection__.onDisconnected = async o => {
-			let retry = document.createElement("t");
-			retry.classList.add("disconnectedRetry");
+		if (modulesList.length < 0)
+			return;
 
-			o.onCount(tryNth => {
-				if (tryNth === "connected")
-					popup.hide();
+		// Sort modules by priority
+		// The lower the value is, the higher the priority
+		set({ p: 5, m: name, d: `Sorting Modules By Priority` });
+		modulesList = modulesList.sort((a, b) => (a.priority || 0) - (b.priority || 0));
+		
+		// Inititlize modules
+		for (let i = 0; i < modulesList.length; i++) {
+			let moduleStart = time();
+			let item = modulesList[i];
+			let path = `${name}.${item.__NAME__}`;
+			let mP = 5 + (i / modulesList.length) * 95;
 
-				retry.innerHTML = `Lần thử<span class="inner">${tryNth}</span>`;
-			})
+			set({ p: mP, m: path, d: `Initializing: ${path}` });
 
-			popup.show({
-				windowTitle: "Disconnected",
-				title: "Oops",
-				description: `Bạn đã bị mất kết nối tới máy chủ!<br><b>Themis Web Interface</b> đang thử kết nối lại!`,
-				level: "error",
-				customNode: retry,
-				buttonList: {
-					close: { text: "Đã rõ!", color: "dark" }
+			try {
+				let returnValue = await item.init(({ p, m, d }) => set({
+					p: mP + (p * (1 / modulesList.length) * 0.95),
+					m: (m) ? `${path}.${m}` : path,
+					d
+				}));
+
+				if (returnValue === false) {
+					clog("INFO", {
+						color: oscColor("pink"),
+						text: path,
+						padding: 34,
+						separate: true
+					}, `INITIALIZE STOPPED! Skipping all Submodules`);
+
+					item.initialized = false;
+					continue;
 				}
-			})
+
+				item.initialized = true;
+
+				// Try to find and initialize submodules
+				await this.initGroup(item, path, ({ p, m, d }) => set({ m, d }));
+			} catch(error) {
+				if (error.code === 12)
+					throw error;
+
+				let e = parseException(error);
+				throw { code: 12, description: `twi.initGroup(${path}): ${e.description}`, data: error }
+			}
+
+			clog("OKAY", {
+				color: oscColor("pink"),
+				text: path,
+				padding: 34,
+				separate: true
+			}, `Initialized in ${time() - moduleStart}s`);
 		}
 
-		set(10, "Getting Server Config");
-		await this.getServerConfigAsync();
+		delete modulesList;
+	},
 
-		set(15, "Initializing: core.wrapper");
-		this.wrapper.init();
+	sounds: {
+		priority: 1,
+		init: async () => await sounds.init()
+	},
 
-		set(18, "Adding UserCard");
+	popup: {
+		priority: 1,
+		init: () => popup.init()
+	},
 
-		// Tooltip Ranking Cell Hook
-		tooltip.addHook({
-			on: "attribute",
-			key: "username",
-			handler: ({ target, value }) => {
-				let userInfo = buildElementTree("div", "userCard", [
-					{ type: "div", class: "loadingWrapper", name: "loading", list: [
-						{ type: "div", class: ["simpleSpinner", "light"], name: "spinner" },
-						{ type: "t", class: "error", name: "error" }
-					]},
+	rank: {
+		priority: 3,
+		container: $("#ranking"),
+		refreshButton: $("#rankingRefresh"),
+		heartbeatDot: $("#rankingUpdateHeartbeat"),		
 
-					{ type: "div", class: "header", name: "header", list: [
-						{ type: "span", class: "left", name: "left", list: [
-							{ type: "div", class: ["avatar", "light"], name: "avatar" },
-							{ type: "div", class: "status", name: "status" }
+		folding: {},
+		timeout: null,
+		hash: null,
+
+		enabled: true,
+		updateDelay: 2,
+
+		async init() {
+			this.refreshButton.addEventListener("click", () => this.update(true));
+
+			await this.update();
+			await this.updater();
+		},
+
+		beat({ color = "green", beat = true } = {}) {
+			if (color && typeof color === "string")
+				this.heartbeatDot.dataset.color = color;
+
+			this.heartbeatDot.style.animation = "none";
+			
+			if (beat) {
+				//? Trigger Reflow
+				this.heartbeatDot.offsetHeight;
+				this.heartbeatDot.style.animation = null;
+			}
+		},
+
+		async updater() {
+			clearTimeout(this.timeout);
+			let start = time();
+
+			try {
+				if (twi.initialized && this.enabled)
+					await this.update();
+			} catch(e) {
+				//? IGNORE ERROR
+				clog("ERRR", e);
+			}
+			
+			this.timeout = setTimeout(() => this.updater(), (this.updateDelay - (time() - start)) * 1000);
+		},
+
+		async update(hard = false) {
+			let response = await myajax({
+				url: "/api/contest/rank",
+				method: "GET",
+			});
+	
+			let data = response.data;
+			let hash = response.hash;
+
+			if (hash === this.hash && !hard) {
+				this.beat({ color: "blue" });
+				return false;
+			}
+	
+			clog("DEBG", "Updating Rank", `[${hash}]`);
+			this.beat({ color: "green" });
+			let timer = new stopClock();
+	
+			if (data.list.length === 0 && data.rank.length === 0) {
+				emptyNode(this.container);
+				
+				this.hash = hash;
+				clog("DEBG", "Rank Is Empty. Took", {
+					color: flatc("blue"),
+					text: timer.stop + "s"
+				});
+	
+				return false;
+			}
+	
+			let out = `
+				<table>
+					<thead>
+						<tr>
+							<th>#</th>
+							<th></th>
+							<th>Thí sinh</th>
+							<th>Tổng</th>
+							<th>SP</th>
+			`
+	
+			for (let i of data.list)
+				out += `
+					<th
+						class="problem"
+						tooltip="<b>${i}</b><dot class='light'></dot>${data.nameList[i] || "?"}"
+						problem-id="${i}"
+						data-folding="${this.folding[i] ? true : false}"
+					>
+						<t class="name">${data.nameList[i] || i}</t>
+						<span class="toggler" onclick="twi.rank.foldRankCol(this.parentElement)"></span>
+					</th>`; 
+	
+			out += "</tr></thead><tbody>";
+			let __point = 0;
+			let rank = 0;
+	
+			for (let i of data.rank) {
+				if (data.spRanking) {
+					if (__point !== i.sp) {
+						__point = i.sp;
+						rank++;
+					}
+				} else {
+					if (__point !== i.total) {
+						__point = i.total;
+						rank++;
+					}
+				}
+	
+				out += `
+					<tr data-rank=${rank}>
+						<td>${rank}</td>
+						<td username="${i.username}">
+							<div class="lazyload avatar">
+								<img onload="this.parentNode.dataset.loaded = 1" src="/api/avatar?u=${i.username}"/>
+								<div class="simpleSpinner"></div>
+							</div>
+						</td>
+						<td username="${i.username}">
+							<t class="username">${i.username}</t>
+							<t class="name">${escapeHTML(i.name || "u:" + i.username)}</t>
+						</td>
+						<td class="number">${parseFloat(i.total).toFixed(2)}</td>
+						<td class="number">${parseFloat(i.sp).toFixed(3)}</td>
+				`
+	
+				for (let j of data.list)
+					out += `
+						<td
+							class="number ${i.status[j] || ""}${(i.logFile[j]) ? ` link" onClick="twi.logViewer.view('${i.username}', '${j}')` : ""}"
+							problem-id="${j}"
+							data-folding="${this.folding[j] ? true : false}"
+							${(typeof i.point[j] === "number") ? `data-ranking-cell="${j}|${data.nameList[j] || "undefined"}|${i.status[j]}|${i.point[j]}|${(i.sps && i.sps[j]) ? i.sps[j] : "undefined"}|${i.username}|${i.name ? escapeHTML(i.name) : null}"` : ""}
+						>
+							${data.spRanking
+								? `
+									<t class="big">${(i.sps && i.sps[j]) ? parseFloat(i.sps[j]).toFixed(3) : "---"}</t>
+									<t>${(typeof i.point[j] !== "undefined") ? parseFloat(i.point[j]).toFixed(2) : "X"}</t>
+								`
+								: `
+									<t class="big">${(typeof i.point[j] !== "undefined") ? parseFloat(i.point[j]).toFixed(2) : "X"}</t>
+									${(i.sps && i.sps[j]) ? `<t>${parseFloat(i.sps[j]).toFixed(3)}</t>` : ""}
+								`
+							}
+						</td>`;
+				
+				out += "</tr>";
+			}
+	
+			out += "</tbody></table>";
+			this.container.innerHTML = out;
+			this.hash = hash;
+	
+			clog("DEBG", "Rank Updated. Took", {
+				color: flatc("blue"),
+				text: timer.stop + "s"
+			});
+		},
+
+		foldRankCol(target) {
+			let f = (target.dataset.folding === "true");
+			let i = target.getAttribute("problem-id");
+	
+			target.dataset.folding = !f;
+			this.folding[i] = !f;
+
+			//* 👀 💥
+			let pointList = target
+				.parentElement
+				.parentElement
+				.parentElement
+				.querySelectorAll(`tbody > tr > td[problem-id="${i}"]`);
+	
+			for (let item of pointList)
+				item.dataset.folding = !f;
+		}
+	},
+
+	logs: {
+		priority: 3,
+		container: $("#logsPanel"),
+		panel: TWIPanel.prototype,
+
+		timeout: null,
+		hash: null,
+
+		enabled: true,
+		updateDelay: 2,
+
+		refreshButton: null,
+		clearJudgingButton: null,
+
+		async init() {
+			if (!SESSION || !SESSION.username) {
+				this.container.style.display = "none";
+				return false;
+			}
+
+			this.panel = new TWIPanel(this.container);
+			this.refreshButton = this.panel.button("reload");
+			this.refreshButton.onClick(() => this.update({ bypass: true }));
+
+			this.clearJudgingButton = this.panel.button("gavel");
+			this.clearJudgingButton.onClick(() => this.update({ clearJudging: true }));
+
+			await this.update();
+			await this.updater();
+		},
+
+		async updater() {
+			clearTimeout(this.timeout);
+			let start = time();
+
+			try {
+				if (twi.initialized && this.enabled)
+					await this.update();
+			} catch(e) {
+				//? IGNORE ERROR
+				clog("ERRR", e);
+			}
+			
+			this.timeout = setTimeout(() => this.updater(), (this.updateDelay - (time() - start)) * 1000);
+		},
+
+		async update({
+			bypass = false,
+			clearJudging = false
+		} = {}) {
+			let response = await myajax({
+				url: "/api/contest/logs",
+				method: clearJudging ? "DELETE" : "GET",
+			});
+	
+			let data = response.data;
+			let hash = response.hash;
+
+			if (hash === this.hash && !bypass)
+				return;
+	
+			clog("DEBG", "Updating Logs", `[${hash}]`);
+			let timer = new stopClock();
+	
+			if (data.judging.length === 0 && data.logs.length === 0 && data.queues.length === 0) {
+				emptyNode(this.panel.main);
+	
+				this.hash = hash;
+				clog("DEBG", "Logs Is Empty. Took", {
+					color: flatc("blue"),
+					text: timer.stop + "s"
+				});
+	
+				return;
+			}
+	
+			let out = "";
+			
+			for (let item of data.judging)
+				out += `
+					<div class="logItem judging">
+						<div class="h">
+							<div class="l">
+								<t class="t">${(new Date(item.lastModify * 1000)).toLocaleString()}</t>
+								<t class="n">${item.problemName || item.problem}</t>
+							</div>
+							<div class="r">
+								<t class="s">Đang chấm</t>
+								<t class="l">${twi.languages[item.extension] || item.extension}</t>
+							</div>
+						</div>
+						<icon data-icon="gavel"></icon>
+					</div>
+				`
+	
+			for (let item of data.queues)
+				out += `
+					<div class="logItem queue">
+						<div class="h">
+							<div class="l">
+								<t class="t">${(new Date(item.lastModify * 1000)).toLocaleString()}</t>
+								<t class="n">${item.problemName || item.problem}</t>
+							</div>
+							<div class="r">
+								<t class="s">Đang chờ</t>
+								<t class="l">${twi.languages[item.extension] || item.extension}</t>
+							</div>
+						</div>
+						<icon data-icon="sync"></icon>
+					</div>
+				`
+	
+			for (let item of data.logs)
+				out += `
+					<div class="logItem ${item.status}">
+						<div class="h">
+							<div class="l">
+								<t class="t">${(new Date(item.lastModify * 1000)).toLocaleString()}</t>
+								<t class="n">${item.problemName || item.problem}</t>
+							</div>
+							<div class="r">
+								<t class="s">${item.point ? ((item.problemPoint) ? `${item.point}/${item.problemPoint} điểm` : `${item.point} điểm`) : twi.taskStatus[item.status]}</t>
+								<t class="l">${twi.languages[item.extension] || item.extension}</t>
+							</div>
+						</div>
+						<icon data-icon="envelope" class="${item.logFile ? `link" onClick="twi.logViewer.view('${response.user}', '${item.problem}')"` : `"`}></a>
+					</div>
+				`
+	
+			this.panel.main.innerHTML = out;
+			this.hash = hash;
+	
+			clog("DEBG", "Logs Updated. Took", {
+				color: flatc("blue"),
+				text: timer.stop + "s"
+			});
+		}
+	},
+
+	logViewer: {
+		priority: 3,
+
+		viewLog: wavec.Container.prototype,
+		viewLogNode: null,
+
+		problemIcon: new lazyload({ source: "//:0", classes: "problemIcon" }),
+		submitterAvatar: new lazyload({ source: "//:0", classes: "avatar" }),
+
+		init() {
+			this.viewLogNode = buildElementTree("div", "logViewer", [
+				{ type: "div", class: "header", name: "header", list: [
+					{ type: "span", class: "top", name: "top", list: [
+						{ type: "span", class: "problem", name: "problem", list: [
+							{ name: "icon", node: this.problemIcon.container },
+
+							{ type: "span", class: "info", name: "info", list: [
+								{ type: "t", class: "name", name: "name" },
+								{ type: "t", class: "point", name: "point" }
+							]},
 						]},
 
-						{ type: "div", class: "right", name: "right", list: [
-							{ type: "t", class: "username", name: "username" },
-							{ type: "span", class: "detail", name: "detail", list: [
-								{ type: "t", class: "name", name: "name" },
-								{ type: "t", class: "id", name: "userID" }
+						{ type: "span", class: "pointContainer", name: "pointInfo", list: [
+							{ type: "span", class: "pointBox", name: "point", list: [
+								{ type: "t", class: "title", name: "boxTitle", text: "Điểm" },
+								{ type: "span", class: "point", name: "value", text: "NA" }
 							]},
-							{ type: "t", class: "status", name: "status" }
+
+							{ type: "span", class: "pointBox", name: "sp", list: [
+								{ type: "t", class: "title", name: "boxTitle", text: "SP" },
+								{ type: "span", class: "point", name: "value", text: "NA" }
+							]}
 						]}
 					]},
 
-					{ type: "div", class: "submissions", name: "submissions", list: [
-						{ type: "div", class: "bar", name: "bar", list: [
-							{ type: "span", class: "inner", name: "inner", list: [
-								{ type: "span", class: "skipped", name: "skipped" },
-								{ type: "span", class: "failed", name: "failed" },
-								{ type: "span", class: "accepted", name: "accepted" },
-								{ type: "span", class: "passed", name: "passed" },
-								{ type: "span", class: "correct", name: "correct" }
+					{ type: "span", class: "bottom", name: "bottom", list: [
+						{ type: "div", class: "line", name: "line", list: [
+							{ type: "span", class: "left", name: "left", list: [
+								{ type: "div", class: ["row", "problemInfo"], name: "info", list: [
+									{ type: "t", class: "problemID", name: "problemID" },
+									{ type: "t", class: "language", name: "language" }
+								]},
+	
+								{ type: "t", class: ["row", "point"], name: "point" },
+								{ type: "t", class: ["row", "submitTime"], name: "submitTime" },
+								{ type: "t", class: ["row", "submitted"], name: "submitted" },
+								{ type: "t", class: ["row", "status"], name: "status" },
+								{ type: "t", class: ["row", "result"], name: "result" }
+							]},
+	
+							{ type: "span", class: "right", name: "right", list: [
+								{ type: "span", class: "submitter", name: "submitter", list: [
+									{ name: "avatar", node: this.submitterAvatar.container },
+									{ type: "span", class: "info", name: "info", list: [
+										{ type: "t", class: "tag", name: "tag", text: "Bài làm của" },
+										{ type: "t", class: "name", name: "name" }
+									]}
+								]},
+	
+								{ name: "rawLog", node: createBtn("Raw Log", "blue", { element: "a", complex: true, icon: "scroll" }) },
+								{ name: "reJudge", node: createBtn("Chấm Lại", "pink", { complex: true, icon: "gavel" }) },
+								{ name: "delete", node: createBtn("Xóa Điểm", "red", { complex: true, icon: "trash" }) }
 							]}
 						]},
-						{ type: "div", class: "list", name: "list" }
-					]}
-				])
+	
+						{ type: "ul", class: ["textView", "breakWord", "line", "log"], name: "log" }
+					]},
+				]},
 
-				myajax({
-					url: "/api/info",
-					method: "GET",
-					query: { u: value }
-				}, (response) => {
-					let data = response.data;
-					let e = userInfo.obj;
+				{ type: "div", class: "testList", name: "testList" }
+			]);
 
-					e.classList.add("loaded");
-
-					new lazyload({
-						container: e.header.left.avatar,
-						source: `/api/avatar?u=${data.username}`
-					});
-
-					e.header.right.username.innerText = data.username;
-					e.header.right.detail.name.innerText = data.name;
-					e.header.right.detail.userID.innerText = data.id;
-
-					if (data.online) {
-						e.header.right.status.innerText = `Trực Tuyến`;
-						e.header.left.status.dataset.status = "online";
-					} else {
-						e.header.right.status.innerText = `Ngoại Tuyến`
-						e.header.left.status.dataset.status = "offline";
-
-						liveTime(e.header.right.status, data.lastAccess, {
-							prefix: "Truy cập ",
-							surfix: " trước"
-						});
-					}
-
-					for (item of ["skipped", "failed", "accepted", "passed", "correct"]) {
-						if (data.submissions[item] === 0)
-							continue;
-
-						e.submissions.bar.inner[item].style.width = `${(data.submissions[item] / data.submissions.total) * 100}%`;
-						e.submissions.bar.inner[item].innerText = data.submissions[item];
-					}
-
-					requestAnimationFrame(() => e.submissions.bar.inner.style.width = "100%");
-
-					let topSubmissions = data.submissions.list
-						.sort((a, b) => (a.sp && b.sp) ? (b.sp - a.sp) : (b.point - a.point))
-						.slice(0, 5);
-					
-					for (let i = 0; i < topSubmissions.length; i++) {
-						let item = topSubmissions[i];
-
-						let element = htmlToElement(`
-							<div class="item" data-status="${item.status}">
-								<span class="left">
-									<t class="title">${item.problemName || item.problem}</t>
-									<div class="detail">
-										<t class="id">${item.problem}</t>
-										<t class="extension">${core.languages[item.extension]}</t>
-									</div>	
-								</span>
-
-								<span class="right">
-									<t class="point">${item.point}<sub>điểm</sub></t>
-									<t class="sp">${item.sp ? `${item.sp.toFixed(3)}<sub>SP</sub>` : "NA"}</t>
-								</span>
-							</div>
-						`);
-
-						e.submissions.list.appendChild(element);
-						setTimeout(() => element.classList.add("show"), 100 * (i + 1));
-					}
-				}).catch((reason) => {
-					let e = userInfo.obj;
-
-					e.loading.dataset.type = "errored";
-
-					switch (reason.data.code) {
-						case 13:
-							e.loading.error.innerHTML = `Không tìm thấy tài khoản <b>${reason.data.data.username}</b>`;
-							break;
-					
-						default:
-							e.loading.error.innerText = reason.data.description;
-							break;
-					}
-				})
-
-				return userInfo.tree;
-			},
-			priority: 2,
-			backtrace: 3,
-			noPadding: true
-		});
-
-		set(20, "Fetching Rank...");
-		await this.fetchRank();
-		this.rankPanel.ref.onClick(() => this.fetchRank(true));
-		__connection__.onStateChange((s) => { s === "online" ? this.__fetchRank() : null });
-		this.__fetchRank();
-
-		// Tooltip Ranking Cell Hook
-		tooltip.addHook({
-			on: "dataset",
-			key: "rankingCell",
-			handler: ({ target, value }) => {
-				let v = value.split("|");
-				let id = v[0],
-					problem = (v[1] === "undefined") ? null : v[1],
-					status = v[2],
-					point = (v[3] === "undefined") ? null : parseFloat(v[3]),
-					sp = (v[4] === "undefined") ? null : parseFloat(v[4]),
-					username = v[5],
-					name = (v[6] === "null") ? null : v[6]
-
-				return `
-					<div class="rankingCellTooltip" data-status="${status}">
-						<div class="header">
-							<t class="name">${name || username}</t>
-							<dot class="light"></dot>
-							<t class="problem">${problem || id}</t>
-							<dot class="light"></dot>
-							<t class="status">${this.taskStatus[status] || status}</t>
-						</div>
-
-						<table class="point">
-							<tbody>
-								<tr>
-									<td>Điểm</td>
-									<td>${point}</td>
-								</tr>
-								<tr>
-									<td>SP</td>
-									<td>${(sp) ? sp.toFixed(3) : "Không Khả Dụng"}</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				`;
-			},
-			priority: 2,
-			backtrace: 2
-		});
-
-		set(25, "Initializing: core.timer");
-		await this.timer.init();
-
-		set(30, "Initializing: core.userSettings");
-		this.userSettings.init(LOGGED_IN);
-
-		set(35, "Initializing: sounds");
-		await sounds.init((p, t) => {
-			set(35 + p*0.5, `Initializing: sounds (${t})`);
-		});
-
-		set(80, "Initializing: core.problems");
-		await this.problems.init();
-		
-		if (LOGGED_IN) {
-			this.problems.panel.clo.hide();
-
-			set(85, "Initializing: core.submit");
-			this.submit.init();
-
-			set(90, "Fetching Logs...");
-			await this.fetchLog();
-			this.logPanel.ref.onClick(() => this.__fetchLog(true, false));
-			this.logPanel.cus.onClick(() => this.__fetchLog(false, true));
-			this.submit.onUploadSuccess = () => this.__fetchLog();
-			__connection__.onStateChange((s) => { s === "online" ? this.__fetchLog() : null });
-			this.__fetchLog();
-
-			if (IS_ADMIN) {
-				clog("info", "Logged in as Admin.");
-				this.rankPanel.cus.onClick(() => window.open("/api/contest/rank?export"));
-				this.rankPanel.cus.hide(false);
-
-				set(95, "Initializing: core.settings");
-				await this.settings.init();
-			}
-		} else
-			clog("warn", "You are not logged in. Some feature will be disabled.");
-
-		clog("debg", "Initialisation took:", {
-			color: flatc("blue"),
-			text: initTime.stop + "s"
-		})
-
-		set(100, "Initialized");
-		clog("okay", "core.js Initialized");
-		this.initialized = true;
-
-		if (location.protocol === "http:")
-			$("#unsecureProtocolWarning").style.display = "flex";
-
-		console.log("%cSTOP!", "font-size: 72px; font-weight: 900;");
-		console.log(
-			"%cThis feature is intended for developers. Pasting something here could give strangers access to your account.",
-			"font-size: 18px; font-weight: 700;"
-		);
-	},
-
-	async getServerConfigAsync() {
-		let start = new stopClock();
-		let response = await myajax({
-			url: "/api/server",
-			method: "GET",
-		}).catch(e => {
-			errorHandler(e);
-
-			clog("ERRR", "Error while getting server status:", {
-				text: e.data.description,
-				color: flatc("red"),
+			this.viewLog = new wavec.Container(this.viewLogNode.tree, {
+				icon: "scroll",
+				title: "nhật kí"
 			});
-		});
+			
+			this.viewLogNode = this.viewLogNode.obj;
+			this.viewLogNode.header.bottom.line.right.rawLog.target = "_blank";
+			sounds.applySound(this.viewLogNode.header.bottom.line.right.rawLog, ["soundhover", "soundactive"]);
+		},
 
-		let deltaT = (response.data.TIME + start.stop) - time();
-		clog("DEBG", "🕒 Δt = ", deltaT);
-
-		if (Math.abs(deltaT) >= 10)
-			await popup.show({
-				windowTitle: "Time Validator",
-				title: "CẢNH BÁO!",
-				message: "Sai lệch thời gian",
-				description: `Thời gian trên máy bạn hiện đang <b>${deltaT > 0 ? "trễ" : "sớm"}</b> hơn so với máy chủ <b>${Math.abs(deltaT)} giây</b>!`,
-				note: `Vui lòng tiến hành cập nhật lại đồng hồ trước khi tham gia làm bài thi!`,
-				level: "warning",
-				buttonList: {
-					close: { text: "Đã Rõ!", color: "dark" }
-				}
-			})
-
-		window.SERVER = response.data;
-	},
-
-	async checkUpdateAsync(showMsgs = false) {
-		if (!SERVER)
-			return false;
-
-		// Parse local version data
-		var tl = SERVER.version.split(".");
-		let data = {}
-
-		const localVer = {
-			v: parseInt(tl[0])*100 + parseInt(tl[1])*10 + parseInt(tl[2]),
-			s: SERVER.versionTag
-		}
-
-		var tls = `${tl.join(".")}-${localVer.s}`;
-		clog("info", "Local version:", { text: tls, color: flatc("blue") })
-		$("#about_localVersion").innerText = tls;
-
-		try {
+		async view(username, id) {
+			clog("INFO", "Opening log file", {
+				color: flatc("yellow"),
+				text: username
+			}, ":", {
+				color: flatc("red"),
+				text: id
+			});
+	
 			let response = await myajax({
-				url: "https://api.github.com/repos/belivipro9x99/themis-web-interface/releases/latest",
+				url: "/api/contest/viewlog",
 				method: "GET",
-				changeState: false,
-				reRequest: false
-			});
-
-			data = response;
-		} catch(error) {
-			clog("WARN", "Error Checking for update:", {
-				text: typeof error.data === "undefined" ? error.description : error.data.description,
-				color: flatc("red"),
-			});
-
-			return;
-		}
-
-		// Parse lastest github release data
-		var tg = data.tag_name.split("-")[0].replace("v", "").split(".");
-		const githubVer = {
-			v: parseInt(tg[0])*100 + parseInt(tg[1])*10 + parseInt(tg[2]),
-			s: data.tag_name.split("-")[1]
-		}
-
-		var tgs = `${tg.join(".")}-${githubVer.s}`;
-		clog("info", "Github latest release:", { text: tgs, color: flatc("blue") })
-		$("#about_githubVersion").innerText = tgs;
-		
-		// Check for new version
-		if (((githubVer.v > localVer.v && ["beta", "indev", "debug", "test"].indexOf(githubVer.s) === -1) || (githubVer.v === localVer.v && githubVer.s !== localVer.s)) && showMsgs === true) {
-			clog("WARN", "Hiện đã có phiên bản mới:", tgs);
-			sbar.additem(`Có phiên bản mới: ${tgs}`, "hub", {align: "right"});
-
-			let e = document.createElement("div");
-			e.classList.add("item", "lr", "warning");
-			e.innerHTML = `
-				<div class="left">
-					<t>Hiện đã có phiên bản mới: <b>${tgs}</b></t>
-					<t>Nhấn vào nút dưới đây để đi tới trang tải xuống:</t>
-					<a href="${data.html_url}" target="_blank" rel="noopener" class="sq-btn dark" style="margin-top: 10px; width: 100%;">${data.tag_name} : ${data.target_commitish}</a>
-				</div>
-				<div class="right"></div>
-			`
-
-			this.settings.adminConfig.appendChild(e);
-
-			popup.show({
-				level: "info",
-				windowTitle: "Update Checker",
-				title: "Cập Nhật Hệ Thống",
-				message: `🌿 ${data.target_commitish}`,
-				description: `Hiện đã có phiên bản mới: <b>${tgs}</b><br>Vui lòng cập nhật lên phiên bản mới nhất để đảm bảo độ ổn định của hệ thống`,
-				buttonList: {
-					contact: { text: `${data.tag_name} : ${data.target_commitish}`, color: "dark", resolve: false, onClick: () => window.open(data.html_url, "_blank") },
-					continue: { text: "Bỏ qua", color: "pink" }
+				query: {
+					u: username,
+					id
 				}
-			})
-		}
-	},
-
-	async __fetchLog(bypass = false, clearJudging = false) {
-		clearTimeout(this.__logTimeout);
-		var timer = new stopClock();
-		
-		try {
-			if (this.initialized && this.enableLogsUpdate)
-				await this.fetchLog(bypass, clearJudging);
-		} catch(e) {
-			//? IGNORE ERROR
-			clog("ERRR", e);
-		}
-		
-		this.__logTimeout = setTimeout(() => this.__fetchLog(), this.updateDelay - timer.stop*1000);
-	},
-
-	async __fetchRank() {
-		clearTimeout(this.__rankTimeout);
-		var timer = new stopClock();
-
-		try {
-			if (this.initialized && this.enableRankingUpdate)
-				await this.fetchRank();
-		} catch(e) {
-			//? IGNORE ERROR
-			clog("ERRR", e);
-		}
-		
-		this.__rankTimeout = setTimeout(() => this.__fetchRank(), this.updateDelay - timer.stop*1000);
-	},
-
-	async fetchLog(bypass = false, clearJudging = false) {
-		let response = await myajax({
-			url: "/api/contest/logs",
-			method: clearJudging ? "DELETE" : "GET",
-		});
-
-		let data = response.data;
-		let hash = response.hash;
-		if (hash === this.previousLogHash && !bypass)
-			return false;
-
-		clog("DEBG", "Updating Log", `[${hash}]`);
-		let updateLogTimer = new stopClock();
-
-		let list = this.logPanel.main;
-
-		if (data.judging.length === 0 && data.logs.length === 0 && data.queues.length === 0) {
-			emptyNode(this.logPanel.main);
-
-			this.previousLogHash = hash;
-			clog("DEBG", "Log Is Empty. Took", {
-				color: flatc("blue"),
-				text: updateLogTimer.stop + "s"
 			});
+	
+			let data = response.data;
+			let logLine = [];
+	
+			if (data.header.error.length !== 0)
+				for (let line of data.header.error)
+					logLine.push(`<li>${line}</li>`);
+			else
+				for (let line of data.header.description)
+					logLine.push(`<li>${line}</li>`);
 
-			return false;
-		}
-
-		let out = "";
-		
-		for (let item of data.judging)
-			out += `
-				<div class="logItem judging">
-					<div class="h">
-						<div class="l">
-							<t class="t">${(new Date(item.lastModify * 1000)).toLocaleString()}</t>
-							<t class="n">${item.problemName || item.problem}</t>
-						</div>
-						<div class="r">
-							<t class="s">Đang chấm</t>
-							<t class="l">${this.languages[item.extension] || item.extension}</t>
-						</div>
-					</div>
-					<a class="d"></a>
-				</div>
-			`
-
-		for (let item of data.queues)
-			out += `
-				<div class="logItem queue">
-					<div class="h">
-						<div class="l">
-							<t class="t">${(new Date(item.lastModify * 1000)).toLocaleString()}</t>
-							<t class="n">${item.problemName || item.problem}</t>
-						</div>
-						<div class="r">
-							<t class="s">Đang chờ</t>
-							<t class="l">${this.languages[item.extension] || item.extension}</t>
-						</div>
-					</div>
-					<a class="d"></a>
-				</div>
-			`
-
-		for (let item of data.logs)
-			out += `
-				<div class="logItem ${item.status}">
-					<div class="h">
-						<div class="l">
-							<t class="t">${(new Date(item.lastModify * 1000)).toLocaleString()}</t>
-							<t class="n">${item.problemName || item.problem}</t>
-						</div>
-						<div class="r">
-							<t class="s">${item.point ? ((item.problemPoint) ? `${item.point}/${item.problemPoint} điểm` : `${item.point} điểm`) : core.taskStatus[item.status]}</t>
-							<t class="l">${this.languages[item.extension] || item.extension}</t>
-						</div>
-					</div>
-					<a class="d${item.logFile ? ` link" onClick="core.viewLog('${response.user}', '${item.problem}')"` : `"`}></a>
-				</div>
-			`
-
-		list.innerHTML = out;
-		this.previousLogHash = hash;
-
-		clog("debg", "Log Updated. Took", {
-			color: flatc("blue"),
-			text: updateLogTimer.stop + "s"
-		});
-	},
-
-	async fetchRank(hard = false) {
-		let response = await myajax({
-			url: "/api/contest/rank",
-			method: "GET",
-		});
-
-		let data = response.data;
-		let hash = response.hash;
-		if (hash === this.previousRankHash && !hard)
-			return false;
-
-		clog("DEBG", "Updating Rank", `[${hash}]`);
-		let updateRankTimer = new stopClock();
-
-		if (data.list.length === 0 && data.rank.length === 0) {
-			emptyNode(this.rankPanel.main);
-			
-			this.previousRankHash = hash;
-			clog("DEBG", "Rank Is Empty. Took", {
-				color: flatc("blue"),
-				text: updateRankTimer.stop + "s"
-			});
-
-			return false;
-		}
-
-		let out = `
-			<table>
-				<thead>
-					<tr>
-						<th>#</th>
-						<th></th>
-						<th>Thí sinh</th>
-						<th>Tổng</th>
-						<th>SP</th>
-		`
-
-		for (let i of data.list)
-			out += `
-				<th
-					class="problem"
-					tooltip="<b>${i}</b><dot class='light'></dot>${data.nameList[i] || "?"}"
-					problem-id="${i}"
-					data-folding="${this.rankFolding[i] ? true : false}"
-				>
-					<t class="name">${data.nameList[i] || i}</t>
-					<span class="toggler" onclick="core.foldRankCol(this.parentElement)"></span>
-				</th>`; 
-
-		out += "</tr></thead><tbody>";
-		let __point = 0;
-		let rank = 0;
-
-		for (let i of data.rank) {
-			if (data.spRanking) {
-				if (__point !== i.sp) {
-					__point = i.sp;
-					rank++;
-				}
-			} else {
-				if (__point !== i.total) {
-					__point = i.total;
-					rank++;
-				}
-			}
-
-			out += `
-				<tr data-rank=${rank}>
-					<td>${rank}</td>
-					<td>
-						<div class="lazyload avt">
-							<img onload="this.parentNode.dataset.loaded = 1" src="/api/avatar?u=${i.username}"/>
-							<div class="simpleSpinner"></div>
-						</div>
-					</td>
-					<td username="${i.username}">
-						<t class="username">${i.username}</t>
-						<t class="name">${escapeHTML(i.name || "u:" + i.username)}</t>
-					</td>
-					<td class="number">${parseFloat(i.total).toFixed(2)}</td>
-					<td class="number">${parseFloat(i.sp).toFixed(3)}</td>
-			`
-
-			for (let j of data.list)
-				out += `
-					<td
-						class="number ${i.status[j] || ""}${(i.logFile[j]) ? ` link" onClick="core.viewLog('${i.username}', '${j}')` : ""}"
-						problem-id="${j}"
-						data-folding="${this.rankFolding[j] ? true : false}"
-						${(typeof i.point[j] === "number") ? `data-ranking-cell="${j}|${data.nameList[j] || "undefined"}|${i.status[j]}|${i.point[j]}|${(i.sps && i.sps[j]) ? i.sps[j] : "undefined"}|${i.username}|${i.name ? escapeHTML(i.name) : null}"` : ""}
-					>
-						${data.spRanking
-							? `
-								<t class="big">${(i.sps && i.sps[j]) ? parseFloat(i.sps[j]).toFixed(3) : "---"}</t>
-								<t>${(typeof i.point[j] !== "undefined") ? parseFloat(i.point[j]).toFixed(2) : "X"}</t>
-							`
-							: `
-								<t class="big">${(typeof i.point[j] !== "undefined") ? parseFloat(i.point[j]).toFixed(2) : "X"}</t>
-								${(i.sps && i.sps[j]) ? `<t>${parseFloat(i.sps[j]).toFixed(3)}</t>` : ""}
-							`
-						}
-					</td>`;
-			
-			out += "</tr>";
-		}
-
-		out += "</tbody></table>";
-		this.rankPanel.main.innerHTML = out;
-		this.previousRankHash = hash;
-
-		clog("debg", "Rank Updated. Took", {
-			color: flatc("blue"),
-			text: updateRankTimer.stop + "s"
-		});
-	},
-
-	foldRankCol(target) {
-		let f = (target.dataset.folding === "true");
-		let i = target.getAttribute("problem-id");
-
-		target.dataset.folding = !f;
-		this.rankFolding[i] = !f;
-		//* 👀 💥
-		let pointList = target
-			.parentElement
-			.parentElement
-			.parentElement
-			.querySelectorAll(`tbody > tr > td[problem-id="${i}"]`);
-
-		for (let item of pointList)
-			item.dataset.folding = !f;
-	},
-
-	async viewLog(username, id) {
-		clog("info", "Opening log file", {
-			color: flatc("yellow"),
-			text: username
-		}, ":", {
-			color: flatc("red"),
-			text: id
-		});
-
-		let response = await myajax({
-			url: "/api/contest/viewlog",
-			method: "GET",
-			query: {
-				u: username,
-				id
-			}
-		});
-
-		let data = response.data;
-		let logLine = [];
-
-		if (data.header.error.length !== 0)
-			for (let line of data.header.error)
-				logLine.push(`<li>${line}</li>`);
-		else
-			for (let line of data.header.description)
-				logLine.push(`<li>${line}</li>`);
-
-		let testList = [];
-		for (let item of data.test)
-			testList.push(`
-				<div class="item ${item.status}">
-					<div class="line">
-						<span class="left">
-							<t class="testid">${item.test}</t>
-							<t class="status">${item.detail.length === 0 ? "Không rõ" : item.detail.join("<br>")}</t>
-						</span>
-						<span class="right">
-							<t class="point">${item.point} điểm</t>
-							<t class="runtime">${item.runtime.toFixed(3)}s</t>
-						</span>
-					</div>
-					${((item.other.output) && (item.other.answer)) || (item.other.error) ? `<div class="line detail">
-						${(item.other.output) ? `<t>Output: ${item.other.output}</t>` : ""}
-						${(item.other.answer) ? `<t>Answer: ${item.other.answer}</t>` : ""}
-						${(item.other.error) ? `<t>${item.other.error}</t>` : ""}
-					</div>` : ""}
-				</div>
-			`);
-
-		let spInfo = (data.meta.sp) ? `
-			<div class="submissionPointPanel">
-				<t class="title">Submission Point</t>
-				<table>
-					<tbody>
-						<tr class="${(data.meta.sp.detail.time > 0.8) ? "green" : ((data.meta.sp.detail.time > 0.6) ? "yellow" : "red")}">
-							<td>Thời gian nộp</td>
-							<td>${data.meta.statistic.remainTime
-									? parseTime(data.meta.statistic.remainTime).str
-									: "No Weighting"
-								}</td>
-							<td>${(- ((1 - data.meta.sp.detail.time) * data.meta.point)).toFixed(3)}</td>
-						</tr>
-						<tr class="${["green", "yellow"][data.meta.statistic.reSubmit - 1] || "red"}">
-							<td>Chấm lại</td>
-							<td>${data.meta.statistic.reSubmit}</td>
-							<td>${(- ((1 - data.meta.sp.detail.reSubmit) * data.meta.point)).toFixed(3)}</td>
-						</tr>
-						<tr class="${["green", "yellow"][data.meta.statistic.submitNth - 1] || "red"}">
-							<td>Thứ Hạng Chấm</td>
-							<td>${data.meta.statistic.submitNth}</td>
-							<td>${(- ((1 - data.meta.sp.detail.submitNth) * data.meta.point)).toFixed(3)}</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		` : `Submission Point Không khả dụng cho bài làm này`;
-
-		let template = `
-			<div class="viewLog-container">
-				<div class="header ${data.header.status}">
-					<span class="top">
-						<span class="problem">
-							<div class="lazyload problemIcon">
-								<img onload="this.parentNode.dataset.loaded = 1" src="/api/contest/problems/image?id=${data.header.problem}"/>
-								<div class="simpleSpinner"></div>
-							</div>
-
-							<span class="info">
-								<t class="name">${data.header.problemName || data.header.problem}</t>
-								<t class="point">${data.header.problemPoint ? data.header.problemPoint + " điểm" : "Không rõ"}</t>
-							</span>
-						</span>
-
-						${(data.meta.sp)
-							? `
-								<span class="pointContainer">
-									<span class="pointBox big">
-										<t class="title">SP</t>
-										<span class="point" tooltip='${spInfo}'>${numberFormat(data.meta.sp.point)}</span>
-									</span>
-
-									<span class="pointBox">
-										<t class="title">Điểm</t>
-										<span class="point">${numberFormat(data.header.point)}</span>
-									</span>
-								</span>
-							` : `
-								<span class="pointContainer">
-									<span class="pointBox big">
-										<t class="title">Điểm</t>
-										<span class="point">${numberFormat(data.header.point)}</span>
-									</span>
-
-									<span class="pointBox">
-										<t class="title">SP</t>
-										<span class="point" tooltip='${spInfo}'>---</span>
-									</span>
-								</span>
-							`
-						}
-					</span>
-					<span class="bottom">
+			let testList = [];
+			for (let item of data.test)
+				testList.push(`
+					<div class="item ${item.status}">
 						<div class="line">
 							<span class="left">
-								<div class="row problemInfo">
-									<t class="problemid">${data.header.problem}</t>
-									<t class="language">${this.languages[data.header.file.extension] || "Không rõ ngôn ngữ"}</t>
-								</div>
-								
-								<t class="row point">${data.header.point} điểm</t>
-								<t class="row submitTime">${(new Date(data.header.file.lastModify * 1000)).toLocaleString()}</t>
-								<t class="row submitted">${formatTime(time() - data.header.file.lastModify)} trước</t>
-								<t class="row status">${core.taskStatus[data.header.status]}</t>
-								<t class="row result">
-									Đúng <b class="green">${data.header.testPassed}/${data.header.testPassed + data.header.testFailed}</b> test, <b class="red">${data.header.testFailed}</b> test sai
-								</t>
+								<t class="testID">${item.test}</t>
+								<t class="status">${item.detail.length === 0 ? "Không rõ" : item.detail.join("<br>")}</t>
 							</span>
 							<span class="right">
-								<span class="submitter" username="${data.header.user}">
-									<div class="lazyload avatar">
-										<img onload="this.parentNode.dataset.loaded = 1" src="/api/avatar?u=${data.header.user}"/>
-										<div class="simpleSpinner"></div>
-									</div>
-									<span class="info">
-										<t class="tag">Bài làm của</t>
-										<t class="name">${data.header.name || "u:" + data.header.user}</t>
-									</span>
-								</span>
-
-								<a href="/api/contest/rawlog?u=${data.header.user}&id=${data.header.problem}" class="sq-btn blue" rel="noopener" target="_blank">📄 Raw Log</a>
+								<t class="point">${item.point} điểm</t>
+								<t class="runtime">${item.runtime.toFixed(3)}s</t>
 							</span>
 						</div>
+						${((item.other.output) && (item.other.answer)) || (item.other.error) ? `<div class="line detail">
+							${(item.other.output) ? `<t>Output: ${item.other.output}</t>` : ""}
+							${(item.other.answer) ? `<t>Answer: ${item.other.answer}</t>` : ""}
+							${(item.other.error) ? `<t>${item.other.error}</t>` : ""}
+						</div>` : ""}
+					</div>
+				`);
 
-						<div class="line log">
-							<ul class="textView breakWord">${logLine.join("\n")}</ul>
-						</div>
-					</span>
-				</div>
-				<div class="testList">${testList.join("\n")}</div>
-			</div>
-		`;
-		
-		this.wrapper.panel.main.innerHTML = template;
-		this.wrapper.show(data.header.file.logFilename);
-	},
+			// NIGHTMARE \/
+			this.viewLogNode.header.dataset.level = data.header.status;
+			this.problemIcon.src = `/api/contest/problems/image?id=${data.header.problem}`;
+			this.viewLogNode.header.top.problem.info.name.innerText = data.header.problemName || data.header.problem;
+			this.viewLogNode.header.top.problem.info.point.innerText = data.header.problemPoint ? data.header.problemPoint + " điểm" : "Không rõ";
+			this.viewLogNode.header.top.pointInfo.dataset.type = (data.meta.sp) ? "sp" : "point";
+			this.viewLogNode.header.top.pointInfo.point.value.innerText = numberFormat(data.header.point);
+			this.viewLogNode.header.top.pointInfo.sp.value.innerText = (data.meta.sp) ? numberFormat(data.meta.sp.point) : "---";
+			this.viewLogNode.header.bottom.line.left.info.problemID.innerText = data.header.problem;
+			this.viewLogNode.header.bottom.line.left.info.language.innerText = twi.languages[data.header.file.extension] || data.header.file.extension;
+			this.viewLogNode.header.bottom.line.left.point.innerText = `${data.header.point} điểm`;
+			this.viewLogNode.header.bottom.line.left.submitTime.innerText = (new Date(data.header.file.lastModify * 1000)).toLocaleString();
+			this.viewLogNode.header.bottom.line.left.submitted.innerText = `${formatTime(time() - data.header.file.lastModify)} trước`;
+			this.viewLogNode.header.bottom.line.left.status.innerText = twi.taskStatus[data.header.status];
+			this.viewLogNode.header.bottom.line.left.result.innerHTML = `Đúng <b class="green">${data.header.testPassed}/${data.header.testPassed + data.header.testFailed}</b> test, <b class="red">${data.header.testFailed}</b> test sai`;
+			this.submitterAvatar.src = `/api/avatar?u=${data.header.user}`;
+			this.viewLogNode.header.bottom.line.right.submitter.info.name.innerText = data.header.name || "u:" + data.header.user;
+			this.viewLogNode.header.bottom.line.right.rawLog.href = `/api/contest/rawlog?u=${data.header.user}&id=${data.header.problem}`;
+			this.viewLogNode.header.bottom.log.innerHTML = logLine.join("\n");
+			this.viewLogNode.testList.innerHTML = testList.join("\n");
 
-	submit: {
-		dropzone: $("#submitDropzone"),
-		input: $("#submitInput"),
-		state: $("#submitStatus"),
-		name: $("#submitFileName"),
-		bar: $("#submitprogressBar"),
-		percent: $("#submitInfoProgress"),
-		size: $("#submitInfoSize"),
-		panel: new regPanel($("#uploadp")),
-		uploadCoolDown: 1000,
-		uploading: false,
-		onUploadSuccess() {},
-
-		init() {
-			this.dropzone.addEventListener("dragenter", e => {
-				e.stopPropagation();
-				e.preventDefault();
-				e.target.classList.add("drag");
-			}, false);
-
-			this.dropzone.addEventListener("dragleave", e => {
-				e.stopPropagation();
-				e.preventDefault();
-				e.target.classList.remove("drag");
-			}, false);
-
-			this.dropzone.addEventListener("dragover", e => {
-				e.stopPropagation();
-				e.preventDefault();
-				e.dataTransfer.dropEffect = "copy";
-				e.target.classList.add("drag");
-			}, false);
-
-			this.dropzone.addEventListener("drop", e => this.fileSelect(e), false);
-			this.input.addEventListener("change", e => this.fileSelect(e, "input"));
-			this.panel.ref.onClick(() => this.reset());
-
-			this.panel.title = "Nộp bài";
-
-			clog("okay", "Initialised:", {
-				color: flatc("red"),
-				text: "core.submit"
-			});
-		},
-
-		reset() {
-			if (this.uploading)
-				return false;
-
-			this.dropzone.classList.remove("hide");
-			this.input.value = "";
-			this.panel.title = "Nộp bài";
-			this.name.innerText = "Unknown";
-			this.state.innerText = "Unknown";
-			this.size.innerText = "00/00";
-			this.percent.innerText = "0%";
-			this.bar.style.width = "0%";
-			this.bar.dataset.color = "";
-		},
-
-		fileSelect(e, type = "drop") {
-			if (type === "drop") {
-				e.stopPropagation();
-				e.preventDefault();
-				e.target.classList.remove("drag");
-			}
-
-			if (this.uploading)
-				return;
-
-			var files = (type === "drop") ? e.dataTransfer.files : e.target.files;
-			this.dropzone.classList.add("hide");
-
-			clog("info", "Started uploading", {
-				color: flatc("blue"),
-				text: files.length
-			}, "files");
-
-			sounds.confirm();
-
-			this.state.innerText = "Chuẩn bị tải lên " + files.length + " tệp...";
-			this.size.innerText = "00/00";
-			this.percent.innerText = "0%";
-			this.bar.style.width = "0%";
-			this.bar.dataset.color = "aqua";
-			setTimeout(() => this.upload(files), 1000);
-		},
-
-		upload(files, i = 0) {
-			if (i > files.length - 1) {
-				this.uploading = false;
-				this.reset();
-				return;
-			}
-
-			clog("info", "Uploading", {
-				color: flatc("yellow"),
-				text: files[i].name
-			});
-
-			let p = (i / files.length) * 100;
-
-			this.uploading = true;
-			this.name.innerText = files[i].name;
-			this.state.innerText = "Đang tải lên...";
-			this.panel.title = "Nộp bài - Đang tải lên " + (i + 1) + "/" + files.length +"...";
-			this.size.innerText = "00/00";
-			this.percent.innerText = `${p.toFixed(0)}%`;
-			this.bar.style.width = `${p}%`;
-
-			setTimeout(() => {
-				myajax({
-					url: "/api/contest/upload",
-					method: "POST",
-					form: {
-						"token": API_TOKEN,
-						file: files[i]
-					},
-					onUpload: e => {
-						let p = (100 * ((e.loaded / e.total) + i)) / files.length;
-
-						this.size.innerText = e.loaded + "/" + e.total;
-						this.percent.innerText = `${p.toFixed(0)}%`;
-						this.bar.style.width = `${p}%`;
-					}
-				}, (response) => {
-					if ([103, 104].includes(response.code)) {
-						clog("ERRR", "Upload Stopped:", {
-							color: flatc("red"),
-							text: response.description
-						});
-
-						this.uploading = false;
-						this.input.value = "";
-						this.state.innerText = res.description;
-						this.panel.title = "Nộp bài - Đã dừng";
-						this.bar.dataset.color = "red";
-
-						return false;
-					}
-
-					clog("okay", "Uploaded", {
-						color: flatc("yellow"),
-						text: files[i].name
-					});
-
-					this.state.innerText = `Tải lên thành công! ${(i + 1)}/${files.length}`;
-					sounds.notification();
-					this.onUploadSuccess();
-					
-					setTimeout(() => {
-						this.upload(files, i + 1);
-					}, this.uploadCoolDown / 2);
-				}, e => {
-					clog("ERRR", "Upload Stopped", e);
-
-					this.uploading = false;
-					this.input.value = "";
-					this.state.innerText = e.data.description;
-					this.panel.title = "Nộp bài - Đã dừng";
-					this.bar.dataset.color = "red";
-					sounds.warning();
-
-					switch(e.data.code) {
-						case 44:
-							this.name.innerText = e.data.data.file;
-							break;
-					}
-				})
-			}, this.uploadCoolDown / 2);
-		},
+			this.viewLog.set({ title: data.header.file.logFilename });
+			this.viewLog.show();
+		}
 	},
 
 	problems: {
-		panel: new regPanel($("#problemp")),
+		priority: 3,
+		container: $("#problemsPanel"),
 		list: $("#problemsList"),
-		name: $("#problem_name"),
-		point: $("#problem_point"),
+		name: $("#problemName"),
+		point: $("#problemPoint"),
 		enlargeBtn: $("#problemViewerEnlarge"),
 		closeBtn: $("#problemViewerClose"),
 		type: {
@@ -1159,7 +722,7 @@ const core = {
 			input: $("#problemInfoInput"),
 			output: $("#problemInfoOutput")
 		},
-		image: $("#problem_image"),
+		image: lazyload.prototype,
 		description: $("#problemDescription"),
 		test: $("#problemTests"),
 		attachment: {
@@ -1168,31 +731,49 @@ const core = {
 			preview: $("#problemAttachmentPreview"),
 			previewWrapper: $("#problemAttachmentPreviewWrapper")
 		},
-		loaded: false,
+
 		data: null,
+		loaded: false,
+		problemImage: lazyload.prototype,
+
+		/**
+		 * @type {TWIPanel}
+		 */
+		panel: null,
+		backButton: null,
+		reloadButton: null,
 		viewInDialog: false,
 
-		async init(loggedIn = false) {
-			this.panel.bak.hide();
-			this.panel.bak.onClick(() => this.closeViewer());
+		wavec: wavec.Container.prototype,
+
+		async init() {
+			this.panel = new TWIPanel(this.container);
+
+			this.reloadButton = this.panel.button("reload");
+			this.reloadButton.onClick(() => this.updateLists());
+
+			this.backButton = this.panel.button("close");
+			this.backButton.onClick(() => this.closeViewer());
+			this.backButton.hide();
+			
 			this.closeBtn.addEventListener("mouseup", () => this.closeViewer());
-
-			if (loggedIn)
-				this.panel.clo.hide();
-
 			this.enlargeBtn.addEventListener("mouseup", () => this.enlargeProblem(this.data));
-			this.panel.ref.onClick(() => this.getList());
-			this.panel.clo.onClick(() => this.panel.elem.classList.add("hide"));
 
-			await this.getList();
-
-			clog("okay", "Initialised:", {
-				color: flatc("red"),
-				text: "core.problems"
+			this.image = new lazyload({
+				container: $("#problemImage"),
+				source: "//:0",
+				classes: "image"
 			});
+
+			this.wavec = new wavec.Container(undefined, {
+				icon: "book",
+				title: "Đề Bài"
+			});
+
+			await this.updateLists();
 		},
 
-		async getList() {
+		async updateLists() {
 			let data = {}
 
 			try {
@@ -1223,18 +804,12 @@ const core = {
 				return false;
 			}
 
-			if (data.length === 0) {
-				this.panel.main.classList.add("blank");
-				emptyNode(this.list);
-				return false;
-			} else
-				this.panel.main.classList.remove("blank");
-
 			this.loaded = true;
+
 			let html = "";
 			data.forEach(item => {
 				html += `
-					<span class="item" onClick="core.problems.viewProblem('${item.id}');" disabled=${item.disabled}>
+					<span class="item" onClick="twi.problems.viewProblem('${item.id}');" disabled=${item.disabled}>
 						<div class="lazyload icon">
 							<img onload="this.parentNode.dataset.loaded = 1" src="${item.image}"/>
 							<div class="simpleSpinner"></div>
@@ -1245,12 +820,13 @@ const core = {
 						</ul>
 					</span>
 				`
-			})
+			});
+
 			this.list.innerHTML = html;
 		},
 
 		async viewProblem(id) {
-			clog("info", "Opening problem", {
+			clog("INFO", "Opening problem", {
 				color: flatc("yellow"),
 				text: id
 			});
@@ -1267,7 +843,7 @@ const core = {
 
 			let data = response.data;
 			this.data = data;
-			this.panel.title = "Đề bài - " + data.name;
+			this.panel.title = `Đề bài - ${data.name}`;
 
 			if (this.viewInDialog) {
 				this.enlargeProblem(this.data);
@@ -1275,7 +851,7 @@ const core = {
 			}
 
 			this.list.classList.add("hide");
-			this.panel.bak.hide(false);
+			this.backButton.show();
 
 			this.name.innerText = data.name;
 			this.point.innerText = data.point + " điểm";
@@ -1287,13 +863,10 @@ const core = {
 			this.type.output.innerText = data.type.out;
 
 			if (data.image) {
-				this.image.style.display = "block";
-				delete this.image.dataset.loaded;
-				this.image.innerHTML = `
-					<img onload="this.parentNode.dataset.loaded = 1" src="${data.image}"/>
-					<div class="simpleSpinner"></div>`
+				this.image.container.style.display = null;
+				this.image.src = data.image;
 			} else
-				this.image.style.display = "none";
+				this.image.container.style.display = "none";
 
 			if (data.attachment.url) {
 				this.attachment.container.style.display = "block";
@@ -1345,7 +918,7 @@ const core = {
 		closeViewer() {
 			this.list.classList.remove("hide");
 			this.panel.title = "Đề bài";
-			this.panel.bak.hide();
+			this.backButton.hide();
 		},
 
 		enlargeProblem(data) {
@@ -1445,37 +1018,290 @@ const core = {
 				</div>
 			`;
 
-			core.wrapper.panel.main.innerHTML = html;
-			core.wrapper.show("Đề bài - " + data.name, (data.attachment.url && data.attachment.embed) ? "large" : "small");
+			this.wavec.set({ title: "Đề bài - " + data.name })
+			this.wavec.content = html;
+			this.wavec.show();
 		}
 	},
 
+	submit: {
+		priority: 3,
+
+		container: $("#submitPanel"),
+		dropzone: $("#submitDropzone"),
+		input: $("#submitInput"),
+		state: $("#submitStatus"),
+		name: $("#submitFileName"),
+		bar: $("#submitprogressBar"),
+		percent: $("#submitInfoProgress"),
+		size: $("#submitInfoSize"),
+
+		panel: TWIPanel.prototype,
+		submitCooldown: 1000,
+		uploading: false,
+
+		reloadButton: null,
+
+		init() {
+			if (!SESSION || !SESSION.username) {
+				this.container.style.display = "none";
+				return false;
+			}
+
+			this.dropzone.addEventListener("dragenter", e => {
+				e.stopPropagation();
+				e.preventDefault();
+				e.target.classList.add("drag");
+			}, false);
+
+			this.dropzone.addEventListener("dragleave", e => {
+				e.stopPropagation();
+				e.preventDefault();
+				e.target.classList.remove("drag");
+			}, false);
+
+			this.dropzone.addEventListener("dragover", e => {
+				e.stopPropagation();
+				e.preventDefault();
+				e.dataTransfer.dropEffect = "copy";
+				e.target.classList.add("drag");
+			}, false);
+
+			this.panel = new TWIPanel(this.container);
+			this.reloadButton = this.panel.button("reload");
+			this.reloadButton.onClick(() => this.reset());
+
+			this.dropzone.addEventListener("drop", e => this.fileSelect(e), false);
+			this.input.addEventListener("change", e => this.fileSelect(e, "input"));
+			this.panel.title = "Nộp bài";
+		},
+
+		reset() {
+			if (this.uploading)
+				return;
+
+			this.dropzone.classList.remove("hide");
+			this.input.value = "";
+			this.panel.title = "Nộp bài";
+			this.name.innerText = "Unknown";
+			this.state.innerText = "Unknown";
+			this.size.innerText = "00B/00B";
+			this.percent.innerText = "0%";
+			this.bar.style.width = "0%";
+			this.bar.dataset.color = "";
+		},
+
+		fileSelect(e, type = "drop") {
+			if (type === "drop") {
+				e.stopPropagation();
+				e.preventDefault();
+				e.target.classList.remove("drag");
+			}
+
+			if (this.uploading)
+				return;
+
+			var files = (type === "drop") ? e.dataTransfer.files : e.target.files;
+			this.dropzone.classList.add("hide");
+
+			clog("info", "Started uploading", {
+				color: flatc("blue"),
+				text: files.length
+			}, "files");
+
+			sounds.confirm();
+
+			this.state.innerText = "Chuẩn bị tải lên " + files.length + " tệp...";
+			this.size.innerText = "00B/00B";
+			this.percent.innerText = "0%";
+			this.bar.style.width = "0%";
+			this.bar.dataset.color = "aqua";
+			setTimeout(() => this.upload(files), 1000);
+		},
+
+		upload(files, i = 0) {
+			if (i > files.length - 1) {
+				this.uploading = false;
+				this.reset();
+				return;
+			}
+
+			clog("INFO", "Uploading", {
+				color: flatc("yellow"),
+				text: files[i].name
+			});
+
+			let p = (i / files.length) * 100;
+
+			this.uploading = true;
+			this.name.innerText = files[i].name;
+			this.state.innerText = "Đang tải lên";
+			this.panel.title = "Nộp bài - Đang tải lên " + (i + 1) + "/" + files.length;
+			this.size.innerText = "00B/00B";
+			this.percent.innerText = `${p.toFixed(0)}%`;
+			this.bar.style.width = `${p}%`;
+
+			setTimeout(() => {
+				myajax({
+					url: "/api/contest/upload",
+					method: "POST",
+					form: {
+						"token": API_TOKEN,
+						file: files[i]
+					},
+					onUpload: e => {
+						let p = (100 * ((e.loaded / e.total) + i)) / files.length;
+
+						this.size.innerText = `${convertSize(e.loaded)}/${convertSize(e.total)}`;
+						this.percent.innerText = `${p.toFixed(0)}%`;
+						this.bar.style.width = `${p}%`;
+					}
+				}, (response) => {
+					if ([103, 104].includes(response.code)) {
+						clog("ERRR", "Upload Stopped:", {
+							color: flatc("red"),
+							text: response.description
+						});
+
+						this.uploading = false;
+						this.input.value = "";
+						this.state.innerText = res.description;
+						this.panel.title = "Nộp bài - ĐÃ XẢY RA LỖI!";
+						this.bar.dataset.color = "red";
+
+						return false;
+					}
+
+					clog("okay", "Uploaded", {
+						color: flatc("yellow"),
+						text: files[i].name
+					});
+
+					this.state.innerText = `Tải lên thành công! ${(i + 1)}/${files.length}`;
+					sounds.notification();
+					this.onUploadSuccess();
+					
+					setTimeout(() => {
+						this.upload(files, i + 1);
+					}, this.uploadCoolDown / 2);
+				}, e => {
+					clog("ERRR", "Upload Stopped", e);
+
+					this.uploading = false;
+					this.input.value = "";
+					this.state.innerText = e.data.description;
+					this.panel.title = "Nộp bài - ĐÃ XẢY RA LỖI!";
+					this.bar.dataset.color = "red";
+					sounds.warning();
+
+					switch(e.data.code) {
+						case 44:
+							this.name.innerText = e.data.data.file;
+							break;
+					}
+				})
+			}, this.uploadCoolDown / 2);
+		},
+	},
+
 	timer: {
-		container: $("#navBar"),
-		state: $("#contestTimeState"),
-		time: $("#contestTime"),
-		reload: $("#contestTimeReload"),
-		bar: $("#timeProgress"),
-		start: $("#timeStart"),
-		end: $("#timeEnd"),
-		timeData: Array(),
-		enabled: true,
-		interval: null,
+		priority: 3,
+		enabled: false,
+
+		/**
+		 * Time Difference between Client and Server
+		 */
+		deltaT: 0,
+
+		navTimer: htmlToElement(`<timer class="small"><days>--</days>+--:--:--</timer>`),
+		navProgress: htmlToElement(`<span class="bar"></span>`),
+		tooltip: navbar.Tooltip.prototype,
+
+		timeData: {},
+		timeout: null,
+		subWindow: null,
+		interval: 1,
+
 		showMs: false,
 		last: 0,
 
-		async init() {
-			this.reload.addEventListener("mouseup", () => this.fetchTime(true));
+		async init(set) {
+			set({ p: 0, d: `Setting Up Timer Component` });
+			let container = document.createElement("span");
+			container.classList.add("component", "timer");
 
-			await this.fetchTime(true);
+			let icon = document.createElement("icon");
+			icon.dataset.icon = "clock";
+			
+			let progressBar = document.createElement("div");
+			progressBar.classList.add("progressBar");
+			progressBar.appendChild(this.navProgress);
 
-			clog("okay", "Initialised:", {
-				color: flatc("red"),
-				text: "core.timer"
+			container.append(icon, this.navTimer, progressBar);
+
+			this.tooltip = new navbar.Tooltip(container, {
+				title: "timer",
+				description: "thời gian của kì thì"
 			});
+
+			let click = new navbar.Clickable(container);
+			let subWindow = new navbar.SubWindow(container);
+			subWindow.color = "blue";
+			
+			this.subWindow = buildElementTree("div", "timerDetails", [
+				{ type: "timer", class: "big", name: "timer", html: "<days>0</days>+00:00:00" },
+				{ type: "t", class: "state", name: "state", text: "Đang Khởi Động Đồng Hồ" },
+				{ type: "div", class: "timeline", name: "timeline", list: [
+					{ type: "span", class: "box", name: "begin", list: [
+						{ type: "t", class: "time", name: "time", text: "00:00:00" },
+						{ type: "t", class: "date", name: "date", text: "00/00/0000" }
+					]},
+
+					{ type: "span", class: "line", name: "during", list: [
+						{ type: "t", class: "type", name: "type", text: "Làm Bài" },
+						{ type: "div", class: "progressBar", name: "progress", list: [
+							{ type: "div", class: "bar", name: "bar" }
+						]},
+
+						{ type: "t", class: "amount", name: "amount", text: "0 phút" }
+					]},
+
+					{ type: "span", class: "box", name: "end", list: [
+						{ type: "t", class: "time", name: "time", text: "00:00:00" },
+						{ type: "t", class: "date", name: "date", text: "00/00/0000" }
+					]},
+
+					{ type: "span", class: "line", name: "offset", list: [
+						{ type: "t", class: "type", name: "type", text: "Bù Giờ" },
+						{ type: "div", class: "progressBar", name: "progress", list: [
+							{ type: "div", class: "bar", name: "bar" }
+						]},
+
+						{ type: "t", class: "amount", name: "amount", text: "0 phút" }
+					]},
+
+					{ type: "span", class: "box", name: "over", list: [
+						{ type: "t", class: "time", name: "time", text: "00:00:00" },
+						{ type: "t", class: "date", name: "date", text: "00/00/0000" }
+					]},
+				]}
+			]);
+
+			subWindow.content = this.subWindow.tree;
+			this.subWindow = this.subWindow.obj;
+
+			this.subWindow.timeline.during.progress.bar.dataset.color = "green";
+			this.subWindow.timeline.offset.progress.bar.dataset.color = "red";
+			this.subWindow.timeline.offset.progress.bar.dataset.blink = "grow";
+
+			click.setHandler(() => subWindow.toggle());
+			navbar.insert({ container }, "right");
+
+			set({ p: 0, d: `Starting Timer` });
+			await this.updateData(true);
 		},
 
-		async fetchTime(init = false) {
+		async updateData(reload = false) {
 			let response = await myajax({
 				url: "/api/contest/timer",
 				method: "GET",
@@ -1484,62 +1310,71 @@ const core = {
 			let data = response.data;
 
 			if (data.during <= 0) {
-				this.container.classList.remove("showBottom");
 				clearInterval(this.interval);
-				clog("info", "Timer Disabled: not in contest mode");
-
+				
 				this.enabled = false;
+				clog("INFO", "Timer Disabled: not in contest mode");
+
 				return;
 			}
 			
 			this.enabled = true;
 			this.timeData = data;
-			this.start.innerText = `${(new Date(data.start * 1000)).toLocaleTimeString()} tới ${(new Date((data.start + data.during) * 1000)).toLocaleTimeString()}`;
 
-			if (init) {
-				this.container.classList.add("showBottom");
+			this.subWindow.timeline.dataset.box = 0;
+
+			let start = new Date(this.timeData.start * 1000);
+			this.subWindow.timeline.begin.time.innerText = start.toLocaleTimeString();
+			this.subWindow.timeline.begin.date.innerText = start.toLocaleDateString();
+
+			let end = new Date((this.timeData.start + this.timeData.during) * 1000);
+			this.subWindow.timeline.end.time.innerText = end.toLocaleTimeString();
+			this.subWindow.timeline.end.date.innerText = end.toLocaleDateString();
+
+			let over = new Date((this.timeData.start + this.timeData.during + this.timeData.offset) * 1000);
+			this.subWindow.timeline.over.time.innerText = over.toLocaleTimeString();
+			this.subWindow.timeline.over.date.innerText = over.toLocaleDateString();
+
+			this.subWindow.timeline.during.amount.innerText = `${Math.round(this.timeData.during / 60 * 100) / 100} phút`;
+			this.subWindow.timeline.offset.amount.innerText = `${Math.round(this.timeData.offset / 60 * 100) / 100} phút`;
+
+			if (start.toDateString() == end.toDateString())
+				this.subWindow.timeline.classList.add("hideDate");
+			else
+				this.subWindow.timeline.classList.remove("hideDate");
+
+			if (reload) {
 				this.last = 0;
-				this.toggleMs(this.showMs);
+				this.updater();
 			}
 		},
 
-		startInterval(time = 1000) {
-			if (!this.enabled)
-				return;
+		updater() {
+			clearTimeout(this.timeout);
+			let start = time();
 
 			this.timeUpdate();
-			clearInterval(this.interval);
-			this.interval = setInterval(() => this.timeUpdate(), time);
+			this.timeout = setTimeout(() => this.updater(), (this.interval - (time() - start)) * 1000);
 		},
 
-		toggleMs(show = true) {
+		toggleMs(show) {
 			clearInterval(this.interval);
 
 			if (show) {
-				this.startInterval(65);
 				this.showMs = true;
-				this.bar.classList.add("noTransition");
+				this.interval = 0.065;
+				this.navProgress.classList.add("noTransition");
 			} else {
-				this.startInterval(1000);
 				this.showMs = false;
-				this.bar.classList.remove("noTransition");
+				this.interval = 1;
+				this.navProgress.classList.remove("noTransition");
 			}
 		},
 
-		reset() {
-			clearInterval(this.interval);
-			this.time.dataset.color = "red";
-			this.time.innerHTML = "<days>--</days>+--:--:--";
-			this.bar.style.width = "0%";
-			this.bar.dataset.color = "blue";
-			this.start.innerText = "--:--:-- - --:--:--";
-			this.end.innerText = "--:--";
-			this.state.innerText = "---";
-			this.last = 0;
-			this.timeData.phase = 0;
-		},
-
 		timeUpdate() {
+			if (!this.enabled)
+				return;
+
 			let beginTime = this.timeData.start;
 			let duringTime = this.timeData.during;
 			let offsetTime = this.timeData.offset;
@@ -1548,7 +1383,6 @@ const core = {
 			let color = "";
 			let progress = 0;
 			let blink = "none";
-			let end = "";
 			let state = "";
 
 			if (t > duringTime) {
@@ -1558,1275 +1392,1413 @@ const core = {
 
 				color = "blue";
 				progress = ((t) / this.last) * 100;
-				end = parseTime(this.last).str;
-				state = "Bắt đầu kì thi sau";
-			} else if (t > 0) {
-				if (!core.problems.loaded) {
-					clog("INFO", "Reloading problems list and public files list");
-					core.problems.getList();
+				state = "Kì Thi Sắp Bắt Đầu";
 
-					if (core.userSettings.publicFilesIframe)
-						core.userSettings.publicFilesIframe.contentWindow.location.reload();
-				}
+				this.subWindow.timeline.dataset.box = 0;
+				this.subWindow.timeline.during.progress.bar.style.width = null;
+				this.subWindow.timeline.offset.progress.bar.style.width = null;
+			} else if (t > 0) {
+				// if (!twi.problems.loaded) {
+				// 	clog("INFO", "Reloading problems list and public files list");
+					
+				// }
 
 				color = "green";
 				progress = (t / duringTime) * 100;
-				end = parseTime(duringTime).str;
-				state = "Thời gian làm bài";
+				state = "Thời Gian Làm Bài";
+
+				this.subWindow.timeline.dataset.box = 1;
+				this.subWindow.timeline.during.progress.bar.style.width = `${100 - progress}%`;
+				this.subWindow.timeline.offset.progress.bar.style.width = null;
 			} else if (t > -offsetTime) {
 				t += offsetTime;
 				
 				color = "yellow";
 				progress = (t / offsetTime) * 100;
 				blink = "grow";
-				end = parseTime(offsetTime).str;
-				state = "Thời gian bù";
+				state = "Thời Gian Bù";
+
+				this.subWindow.timeline.dataset.box = 2;
+				this.subWindow.timeline.during.progress.bar.style.width = `100%`;
+				this.subWindow.timeline.offset.progress.bar.style.width = `${100 - progress}%`;
 			} else {
 				t += offsetTime;
 
 				color = "red";
 				progress = 100;
 				blink = "fade"
-				end = "--:--";
 				state = "ĐÃ HẾT THỜI GIAN LÀM BÀI";
+
+				this.subWindow.timeline.dataset.box = 3;
+				this.subWindow.timeline.during.progress.bar.style.width = `100%`;
+				this.subWindow.timeline.offset.progress.bar.style.width = `100%`;
 			}
 
 			let days = Math.floor(t / 86400) + (t < 0 ? 1 : 0);
-			let timeParsed = parseTime(t % 86400, { showPlus: true, forceShowHours: true });
-			this.time.dataset.color = color;
-			this.time.innerHTML = `<days>${days}</days>${timeParsed.str}${this.showMs ? `<ms>${timeParsed.ms}</ms>` : ""}`;
+			let timeParsed = parseTime(t % 86400, { showPlus: (days !== 0), forceShowHours: true });
+			this.subWindow.timer.dataset.color = this.navTimer.dataset.color = color;
+			this.subWindow.timer.innerHTML = this.navTimer.innerHTML = `${days !== 0 ? `<days>${days}</days>` : ""}${timeParsed.str}${this.showMs ? `<ms>${timeParsed.ms}</ms>` : ""}`;
 			
-			this.bar.dataset.color = color;
-			this.bar.dataset.blink = blink;
-			this.bar.dataset.blinkFast = progress < 20 ? true : false;
-			this.bar.style.width = `${progress}%`;
+			this.navProgress.dataset.color = color;
+			this.navProgress.dataset.blink = blink;
+			this.navProgress.dataset.blinkFast = progress < 20 ? true : false;
+			this.navProgress.style.width = `${progress}%`;
 
-			this.end.innerText = end;
-			this.state.innerText = state;
+			this.subWindow.state.innerText = state;
+		}
+	},
+
+	updateChecker: {
+		priority: 5,
+
+		optInBeta: false,
+
+		async init() {
+			if (SESSION.id !== "admin")
+				return;
+
+			await this.check();
+		},
+
+		async check(set = () => {}) {
+			if (!SERVER)
+				throw { code: -1, description: `SERVER Data Not Found!` }
+			
+			let localVersion = `${SERVER.version}-${SERVER.versionTag}`;
+			twi.userSettings.admin.localVersion.content = `Phiên Bản Hiện Tại: <b>${localVersion}</b>`;
+
+			let remoteData = null;
+			let remoteVersion = `0.0.0-unknown`;
+			twi.userSettings.admin.remoteVersion.content = `Phiên Bản Mới Nhất: <b>${remoteVersion}</b>`;
+
+			try {
+				let response = await myajax({
+					url: "https://api.github.com/repos/belivipro9x99/themis-web-interface/releases/latest",
+					method: "GET",
+					changeState: false,
+					reRequest: false
+				});
+	
+				remoteData = response;
+			} catch(error) {
+				clog("WARN", "Error Checking for update:", error);
+				return;
+			}
+
+			remoteVersion = remoteData.tag_name;
+			twi.userSettings.admin.remoteVersion.content = `Phiên Bản Mới Nhất: <b>${remoteVersion}</b>`;
+			let state = versionCompare(localVersion, "1.0.1-release", { ignoreTest: this.optInBeta });
+
+			switch (state) {
+				case "latest":
+					twi.userSettings.admin.updateNote.set({
+						level: "okay",
+						message: "Phiên bản hiện tại là phiên bản mới nhất!"
+					});
+
+					break;
+
+				case "major":
+					twi.userSettings.admin.updateNote.set({
+						level: "warning",
+						message: `
+							<t>Hiện đã có một bản cập nhật LỚN: <b>${remoteVersion}</b></t>
+							<t>Nhấn vào nút dưới đây để đi tới trang tải xuống:</t>
+							<a href="${remoteData.html_url}" target="_blank" rel="noopener" class="sq-btn dark" style="margin-top: 10px; width: 100%;">${remoteData.tag_name} : ${remoteData.target_commitish}</a>
+						`
+					});
+
+					sounds.warning();
+					popup.show({
+						level: "warning",
+						windowTitle: "Update Checker",
+						title: "Cập Nhật Hệ Thống",
+						message: `Major Update`,
+						description: `Hiện đã có một bản cập nhật LỚN! <b>${remoteVersion}</b><br>Vui lòng cập nhật lên phiên bản mới nhất để đảm bảo độ ổn định của hệ thống`,
+						buttonList: {
+							contact: { text: `${remoteData.tag_name} : ${remoteData.target_commitish}`, color: "dark", resolve: false, onClick: () => window.open(remoteData.html_url, "_blank") },
+							continue: { text: "Bỏ qua", color: "pink" }
+						}
+					});
+
+					break;
+			
+				case "minor":
+					twi.userSettings.admin.updateNote.set({
+						level: "warning",
+						message: `
+							<t>Hiện đã có một bản cập nhật: <b>${remoteVersion}</b></t>
+							<t>Nhấn vào nút dưới đây để đi tới trang tải xuống:</t>
+							<a href="${remoteData.html_url}" target="_blank" rel="noopener" class="sq-btn dark" style="margin-top: 10px; width: 100%;">${remoteData.tag_name} : ${remoteData.target_commitish}</a>
+						`
+					});
+
+					break;
+
+				case "patch":
+					twi.userSettings.admin.updateNote.set({
+						level: "info",
+						message: `
+							<t>Hiện đã có một bản vá lỗi: <b>${remoteVersion}</b></t>
+							<t>Nhấn vào nút dưới đây để đi tới trang tải xuống:</t>
+							<a href="${remoteData.html_url}" target="_blank" rel="noopener" class="sq-btn dark" style="margin-top: 10px; width: 100%;">${remoteData.tag_name} : ${remoteData.target_commitish}</a>
+						`
+					});
+
+					break;
+
+				default:
+					twi.userSettings.admin.updateNote.set({
+						level: "error",
+						message: `Unknown Version: ${state}`
+					});
+
+					break;
+			}
 		}
 	},
 
 	userSettings: {
-		panel: class {
-			constructor(elem) {
-				if (!elem.classList.contains("panel"))
-					return false;
-		
-				this.container = $("#userSettings");
+		priority: 2,
 
-				this.elem = elem;
-				this.eToggle = null;
-				this.btn_group = fcfn(elem, "btn-group");
-				this.btn_reload = fcfn(this.btn_group, "reload");
-				this.btn_close = fcfn(this.btn_group, "close");
-				this.btn_custom = fcfn(this.btn_group, "custom")
-				this.emain = fcfn(elem, "main");
-				this.funcOnToggle = () => {};
-
-				this.btn_close.addEventListener("click", () => this.hide());
-			}
-		
-			hide() {
-				this.elem.classList.remove("show");
-				this.container.classList.remove("subPanel");
-
-				if (this.eToggle)
-					this.eToggle.classList.remove("active");
-
-				this.funcOnToggle("hide");
-			}
-
-			show() {
-				this.__hideActive();
-				this.elem.classList.add("show");
-				this.container.classList.add("subPanel");
-
-				if (this.eToggle)
-					this.eToggle.classList.add("active");
-
-				this.funcOnToggle("show");
-			}
-
-			toggle() {
-				let c = !this.elem.classList.contains("show");
-				this.__hideActive();
-				this.container.classList[c ? "add" : "remove"]("subPanel");
- 
-				if (c)
-					this.elem.classList.add("show");
-
-				if (this.eToggle)
-					this.eToggle.classList[c ? "add" : "remove"]("active");
-
-				this.funcOnToggle(c ? "show" : "hide");                
-			}
-
-			__hideActive() {
-				var l = this.elem.parentElement.getElementsByClassName("show");
-
-				for (var i = 0; i < l.length; i++)
-					l[i].classList.remove("show");
-				
-			}
-
-			set toggler(e) {
-				this.eToggle = e;
-				e.addEventListener("click", e => this.toggle(e));
-			}
-
-			set onToggle(f) {
-				this.funcOnToggle = f;
-			}
-
-			get main() {
-				return this.emain;
-			}
-
-			get ref() {
-				var t = this;
-				return {
-					onClick(f = () => {}) {
-						t.btn_reload.addEventListener("click", f, true);
-					},
-		
-					hide(h = true) {
-						if (h)
-							t.btn_reload.style.display = "none";
-						else
-							t.btn_reload.style.display = "block";
-					}
-				}
-			}
-
-			get cus() {
-				var t = this;
-				return {
-					onClick(f = () => {}) {
-						t.btn_custom.addEventListener("click", f, true);
-					},
-		
-					hide(h = true) {
-						if (h)
-							t.btn_custom.style.display = "none";
-						else
-							t.btn_custom.style.display = "block";
-					}
-				}
-			}
-		},
-
-		toggleSwitch: class {
-			constructor(inputElement, cookieKey, onCheck = async () => {}, onUncheck = async () => {}, defValue = false) {
-				this.input = inputElement;
-				this.onCheckHandler = onCheck;
-				this.onUnCheckHandler = onUncheck;
-
-				this.input.addEventListener("change", async e => {
-					let r = true;
-
-					if (e.target.checked === true)
-						r = await this.onCheckHandler();
-					else
-						r = await this.onUnCheckHandler();
-
-					if (r !== "cancel")
-						cookie.set(cookieKey, e.target.checked);
-					else
-						e.target.checked = !e.target.checked;
-				})
-				
-				this.change(cookie.get(cookieKey, defValue) === "true");
-			}
-
-			change(value) {
-				this.input.checked = value;
-				this.input.dispatchEvent(new Event("change"));
-			}
-
-			set onCheck(handler) {
-				this.onCheckHandler = handler;
-			}
-
-			set onUnCheck(handler) {
-				this.onUnCheckHandler = handler;
-			}
-		},
-
-		userName: $("#userName"),
-		userAvatar: $("#userAvatar"),
-		userSettingAvatar: $("#usett_avt"),
-		userSettingAvatarWrapper: $("#usett_avtw"),
-		userSettingAvatarInput: $("#usett_avtinp"),
-		name: $("#usett_name"),
-		sub: {
-			nameForm: $("#usett_edit_name_form"),
-			passForm: $("#usett_edit_pass_form"),
-			name: $("#usett_edit_name"),
-			pass: $("#usett_edit_pass"),
-			newPass: $("#usett_edit_npass"),
-			reNewPass: $("#usett_edit_renpass"),
-		},
-		soundsToggler: {
-			soundToggle: $("#usett_btn_sound_toggle"),
-			soundOnMouseHover: $("#usett_btn_sound_mouse_hover"),
-			soundOnBtnClick: $("#usett_btn_sound_button_click"),
-			soundOnPanelToggle: $("#usett_btn_sound_panel_toggle"),
-			soundOthers: $("#usett_btn_sound_others"),
-			soundOnNotification: $("#usett_btn_sound_notification"),
-		},
-		logoutBtn: $("#usett_logout"),
-		nightModeToggler: $("#usett_nightMode"),
-		transitionToggler: $("#usett_transition"),
-		millisecondToggler: $("#usett_millisecond"),
-		dialogProblemToggler: $("#usett_dialogProblem"),
-		rankingUpdateToggler: $("#usett_enableRankingUpdate"),
-		logsUpdateToggler: $("#usett_enableLogsUpdate"),
-		updateDelaySlider: $("#usett_udelay_slider"),
-		updateDelayText: $("#usett_udelay_text"),
-		toggler: $("#userSettingsToggler"),
 		container: $("#userSettings"),
-		panelContainer: $("#usett_panelContainer"),
-		panelUnderlay: $("#usett_panelUnderlay"),
-		adminConfig: $("#usett_adminConfig"),
-		publicFilesPanel: null,
-		publicFilesIframe: null,
-		aboutPanel: null,
-		licensePanel: null,
-		licenseIframe: null,
 
-		updateDelayOptions: {
-			1: 500,
-			2: 1000,
-			3: 2000,
-			4: 10000,
-			5: 60000,
-			6: 120000,
-			7: 240000,
-			8: 300000,
-			9: 600000,
-			10: 3600000
-		},
+		/**
+		 * Initialize User Settings Module
+		 * @param {Function}	set		Report Progress to Initializer
+		 */
+		init(set) {
+			set({ p: 0, d: "Setting Up User Settings Panel" });
+			smenu.init(this.container, {
+				title: "cài đặt",
+				description: "thay đổi cách Themis Web Interface hoạt động"
+			});
 
-		default: {
-			sounds: false,
-			nightmode: false,
-			showMs: false,
-			transition: true,
-			dialogProblem: false,
-			rankUpdate: true,
-			logsUpdate: true,
-			updateDelay: 2
-		},
-
-		__hideAllPanel() {
-			var l = this.panelContainer.getElementsByClassName("show");
-
-			for (var i = 0; i < l.length; i++)
-				l[i].classList.remove("show");
-		},
-		
-		init(loggedIn = true) {
-			this.toggler.addEventListener("mouseup", () => this.toggle(), false);
-			this.panelUnderlay.addEventListener("click", () => this.toggle(), false);
-
-			this.aboutPanel = new this.panel($("#usett_aboutPanel"));
-			this.aboutPanel.toggler = $("#usett_aboutToggler");
-
-			this.licensePanel = new this.panel($("#usett_licensePanel"));
-			this.licensePanel.toggler = $("#usett_licenseToggler");
-			this.licenseIframe = fcfn(this.licensePanel.main, "cpanel-container");
-			this.licensePanel.ref.onClick(() => this.licenseIframe.contentWindow.location.reload());
-
-			this.publicFilesPanel = new this.panel($("#usett_publicFilesPanel"));
-			this.publicFilesPanel.toggler = $("#settings_publicFilesToggler");
-			this.publicFilesIframe = fcfn(this.publicFilesPanel.main, "publicFiles-container");
-			this.publicFilesPanel.ref.onClick(() => this.publicFilesIframe.contentWindow.location.reload());
-
-			this.adminConfig.style.display = "none";
-
-			// LOAD DEFAULT SETTINGS FROM SERVER
-			if (SERVER && SERVER.clientConfig)
-				for (let key of Object.keys(this.default))
-					if (typeof SERVER.clientConfig[key] !== "undefined")
-						this.default[key] = SERVER.clientConfig[key];
-
-
-			// Sounds Toggler Settings
-			new this.toggleSwitch(this.soundsToggler.soundToggle, "__s_m", () => {
-				sounds.enable.master = true;
-
-				this.soundsToggler.soundOnMouseHover.disabled = false;
-				this.soundsToggler.soundOnBtnClick.disabled = false;
-				this.soundsToggler.soundOnPanelToggle.disabled = false;
-				this.soundsToggler.soundOthers.disabled = false;
-				this.soundsToggler.soundOnNotification.disabled = false;
-			}, () => {
-				sounds.enable.master = false;
-
-				this.soundsToggler.soundOnMouseHover.disabled = true;
-				this.soundsToggler.soundOnBtnClick.disabled = true;
-				this.soundsToggler.soundOnPanelToggle.disabled = true;
-				this.soundsToggler.soundOthers.disabled = true;
-				this.soundsToggler.soundOnNotification.disabled = true;
-			}, this.default.sounds);
-
-			new this.toggleSwitch(this.soundsToggler.soundOnMouseHover, "__s_mo",
-				() => sounds.enable.mouseOver = true,
-				() => sounds.enable.mouseOver = false,
-				true
-			);
-
-			new this.toggleSwitch(this.soundsToggler.soundOnBtnClick, "__s_bc",
-				() => sounds.enable.btnClick = true,
-				() => sounds.enable.btnClick = false,
-				true
-			);
-
-			new this.toggleSwitch(this.soundsToggler.soundOnPanelToggle, "__s_pt",
-				() => sounds.enable.panelToggle = true,
-				() => sounds.enable.panelToggle = false,
-				true
-			);
-
-			new this.toggleSwitch(this.soundsToggler.soundOthers, "__s_ot",
-				() => sounds.enable.others = true,
-				() => sounds.enable.others = false,
-				true
-			);
-
-			new this.toggleSwitch(this.soundsToggler.soundOnNotification, "__s_nf",
-				() => sounds.enable.notification = true,
-				() => sounds.enable.notification = false,
-				true
-			);
-
-			// Night mode setting
-			new this.toggleSwitch(this.nightModeToggler, "__darkMode", e => {
-				document.body.classList.add("dark");
-
-				this.publicFilesIframe.contentWindow.document.body.classList.add("dark");
-				this.licenseIframe.contentWindow.document.body.classList.add("dark");
-
-				if (core.settings.cPanelIframe)
-					core.settings.cPanelIframe.contentWindow.document.body.classList.add("dark");
-
-				if (core.settings.aPanelIframe)
-					core.settings.aPanelIframe.contentWindow.document.body.classList.add("dark");
-			}, () => {
-				document.body.classList.remove("dark");
-
-				this.publicFilesIframe.contentWindow.document.body.classList.remove("dark");
-				this.licenseIframe.contentWindow.document.body.classList.remove("dark");
-
-				if (core.settings.cPanelIframe)
-					core.settings.cPanelIframe.contentWindow.document.body.classList.remove("dark");
-
-				if (core.settings.aPanelIframe)
-					core.settings.aPanelIframe.contentWindow.document.body.classList.remove("dark");
-			}, this.default.nightmode);
-
-			// Millisecond setting
-			new this.toggleSwitch(this.millisecondToggler, "__showms",
-				() => core.timer.toggleMs(true),
-				() => core.timer.toggleMs(false),
-				this.default.showMs
-			)
-			
-			// Transition setting
-			new this.toggleSwitch(this.transitionToggler, "__transition",
-				() => document.body.classList.remove("disableTransition"),
-				() => document.body.classList.add("disableTransition"),
-				this.default.transition
-			)
-
-			// view problem in dialog setting
-			new this.toggleSwitch(this.dialogProblemToggler, "__diagprob",
-				() => core.problems.viewInDialog = true,
-				() => core.problems.viewInDialog = false,
-				this.default.dialogProblem
-			)
-
-			// auto update rank setting
-			new this.toggleSwitch(this.rankingUpdateToggler, "__rankupdate",
-				() => {
-					this.updateDelaySlider.disabled = false;
-					core.enableRankingUpdate = true;
+			if (["beta", "indev", "debug", "test"].includes(SERVER.versionTag)) {
+				new smenu.components.Note({
+					level: "warning",
+					message: `
+						Đây là bản thử nghiệm không ổn định dùng để kiểm tra tính ổn định trước khi xuất bản! Vui lòng không tổ chức kì thi nào trên phiên bản này!<br>
+						Nếu bạn tìm thấy lỗi, hãy báo cáo lỗi tại link ở phần <b>LIÊN KẾT NGOÀI</b> bên dưới!
+					`
 				},
-				() => {
-					if (!this.logsUpdateToggler.checked)
-						this.updateDelaySlider.disabled = true;
-
-					core.enableRankingUpdate = false;
-				},
-				this.default.rankUpdate
-			)
-
-			this.logsUpdateToggler.disabled = true;
-
-			// Update delay setting
-			this.updateDelaySlider.addEventListener("input", e => {
-				let _o = parseInt(e.target.value);
-				let value = this.updateDelayOptions[_o] || 2000;
-
-				this.updateDelayText.innerText = `${value / 1000} giây/yêu cầu`;
-				tooltip.show(this.updateDelayText.innerText, this.updateDelaySlider);
-
-				if (value < 2000)
-					e.target.classList.add("pink") || e.target.classList.remove("blue");
-				else
-					e.target.classList.remove("pink") || e.target.classList.add("blue");
-			})
-			
-			this.updateDelaySlider.addEventListener("change", e => {
-				let _o = parseInt(e.target.value);
-				let value = this.updateDelayOptions[_o] || 2000;
-
-				this.updateDelayText.innerText = `${value / 1000} giây/yêu cầu`;
-
-				if (value < 2000)
-					e.target.classList.add("pink") || e.target.classList.remove("blue");
-				else
-					e.target.classList.remove("pink") || e.target.classList.add("blue");
-
-				cookie.set("__updateDelay", this.updateDelayOptions[_o] ? _o : this.default.updateDelay);
-				core.updateDelay = value;
-
-				clog("OKAY", "Set updateDelay to", `${value} ms/request`);
-			})
-
-			this.updateDelaySlider.value = parseInt(cookie.get("__updateDelay", this.default.updateDelay));
-			this.updateDelaySlider.dispatchEvent(new Event("change"));
-
-			// If not logged in, Stop here
-			if (!loggedIn) {
-				$("#usett_userPanel").style.display = "none";
-
-				clog("okay", "Initialised:", {
-					color: flatc("red"),
-					text: "core.userSettings (notLoggedIn mode)"
-				});
-				return;
+					new smenu.Child({ label: "Cảnh Báo" },
+						new smenu.Group({
+							icon: "exclamation",
+							label: "thử nghiệm"
+						})
+					)
+				)
 			}
+		},
 
-			// auto update logs setting
-			this.logsUpdateToggler.disabled = false;
-			new this.toggleSwitch(this.logsUpdateToggler, "__logsupdate",
-				() => {
-					this.updateDelaySlider.disabled = false;
-					core.enableLogsUpdate = true;
-				},
-				async () => {
-					if (cookie.get("__logsupdate") !== "false") {
-						let response = await popup.show({
-							windowTitle: "Tự động cập nhật",
-							title: "Cảnh báo",
-							message: "Tắt tự động cập nhật nhật ký",
-							description: "Việc này sẽ làm cho tình trạng nộp bài của bạn không được tự động cập nhật.<br>Bạn có chắc muốn tắt tính năng này không?",
+		download: {
+			group: smenu.Group.prototype,
+			publicFilesPanel: smenu.Panel.prototype,
+
+			async init() {
+				this.group = new smenu.Group({ label: "tải về", icon: "file" });
+
+				let publicChild = new smenu.Child({ label: "Công Khai" }, this.group);
+				let publicFilesButton = new smenu.components.Button({
+					label: "Các Tệp Công Khai",
+					color: "blue",
+					icon: "arrowLeft",
+					complex: true
+				}, publicChild);
+
+				this.publicFilesPanel = new smenu.Panel(undefined, { size: "large" });
+				this.publicFilesPanel.setToggler(publicFilesButton);
+				await this.publicFilesPanel.content("iframe:/public");
+			}
+		},
+
+		settings: {
+			group: smenu.Group.prototype,
+
+			init() {
+				this.group = new smenu.Group({ label: "cài đặt", icon: "tools" });
+
+				this.display();
+				this.sounds();
+				this.others();
+			},
+
+			display() {
+				let display = new smenu.Child({ label: "Hiển Thị" }, this.group);
+
+				new smenu.components.Checkbox({
+					label: "Chế độ ban đêm",
+					color: "pink",
+					save: "display.nightmode",
+					defaultValue: SERVER.clientConfig.nightmode,
+					onChange: (v) => twi.darkmode.set(v)
+				}, display);
+
+				new smenu.components.Checkbox({
+					label: "Hoạt ảnh",
+					color: "blue",
+					save: "display.transition",
+					defaultValue: SERVER.clientConfig.transition,
+					onChange: (v) => document.body.classList[v ? "add" : "remove"]("disableTransition")
+				}, display);
+
+				new smenu.components.Checkbox({
+					label: "Hiện MilliSecond trong đồng hồ",
+					color: "blue",
+					save: "display.showMs",
+					defaultValue: SERVER.clientConfig.showMs,
+					onChange: (v) => twi.timer.toggleMs(v)
+				}, display);
+
+				new smenu.components.Checkbox({
+					label: "Thông báo",
+					color: "pink",
+					save: "display.notification",
+					defaultValue: false,
+					disabled: true
+				}, display);
+			},
+
+			sounds() {
+				let soundsChild = new smenu.Child({ label: "Âm Thanh" }, this.group);
+
+				let mouseOver = new smenu.components.Checkbox({
+					label: "Mouse Over",
+					color: "blue",
+					save: "sounds.mouseOver",
+					defaultValue: true,
+					onChange: (v) => sounds.enable.mouseOver = v
+				}, soundsChild);
+
+				let btnClick = new smenu.components.Checkbox({
+					label: "Button Click/Toggle",
+					color: "blue",
+					save: "sounds.btnClick",
+					defaultValue: true,
+					onChange: (v) => sounds.enable.btnClick = v
+				}, soundsChild);
+
+				let panelToggle = new smenu.components.Checkbox({
+					label: "Panel Show/Hide",
+					color: "blue",
+					save: "sounds.panelToggle",
+					defaultValue: true,
+					onChange: (v) => sounds.enable.panelToggle = v
+				}, soundsChild);
+
+				let others = new smenu.components.Checkbox({
+					label: "Others",
+					color: "blue",
+					save: "sounds.others",
+					defaultValue: true,
+					onChange: (v) => sounds.enable.others = v
+				}, soundsChild);
+
+				let notification = new smenu.components.Checkbox({
+					label: "Notification",
+					color: "blue",
+					save: "sounds.notification",
+					defaultValue: true,
+					onChange: (v) => sounds.enable.notification = v
+				}, soundsChild);
+
+				let master = new smenu.components.Checkbox({
+					label: "Bật âm thanh",
+					color: "pink",
+					save: "sounds.master",
+					defaultValue: SERVER.clientConfig.sounds,
+					onChange: (v) => {
+						sounds.enable.master = v;
+						mouseOver.set({ disabled: !v });
+						btnClick.set({ disabled: !v });
+						panelToggle.set({ disabled: !v });
+						others.set({ disabled: !v });
+						notification.set({ disabled: !v });
+					}
+				});
+
+				soundsChild.insert(master, -1);
+			},
+
+			others() {
+				let others = new smenu.Child({ label: "Khác" }, this.group);
+				let sliderStep = {
+					1: 0.5,		2: 1,		3: 2,		4: 10,
+					5: 60,		6: 120,		7: 240,		8: 300,
+					9: 600,		10: 3600,
+					11: false
+				}
+
+				let lowWarningSettings = {
+					level: "warning",
+					windowTitle: "Cảnh Báo",
+					title: "Cảnh Báo",
+					message: "Thời gian làm mới quá nhỏ!",
+					description: "Việc đặt giá trị này quá nhỏ sẽ làm cho máy chủ hiểu nhầm rằng bạn đang tấn công máy chủ và sẽ chặn bạn trong một khoảng thời gian nhất định!",
+					buttonList: {
+						cancel: { color: "blue", text: "Bấm Lộn! Trả Về Cũ Đi!" },
+						ignore: { color: "red", text: "Máy Chủ Là Gì? Có Ăn Được Không?" }
+					}
+				}
+
+				new smenu.components.Checkbox({
+					label: "Xem đề bài trong cửa sổ mở rộng",
+					color: "blue",
+					save: "others.popupProblem",
+					defaultValue: false,
+					onChange: (v) => twi.problems.viewInDialog = v
+				}, others);
+
+				let updateRank = new smenu.components.Slider({
+					label: "Thời gian cập nhật xếp hạng",
+					color: "blue",
+					save: "others.updateRank",
+					min: 1,
+					max: 11,
+					unit: "giây",
+					defaultValue: SERVER.clientConfig.rankUpdate,
+					valueStep: sliderStep
+				}, others);
+
+				updateRank.onInput((v) => updateRank.set({ color: (v <= 2) ? "red" : "blue" }));
+				updateRank.onChange(async (v, e) => {
+					if (v < 3 && e.isTrusted)
+						if (await popup.show(lowWarningSettings) === "cancel") {
+							updateRank.set({ value: 3 });
+							return;
+						}
+
+					if (sliderStep[v] === false)
+						twi.rank.enabled = false;
+					else {
+						twi.rank.enabled = true;
+						twi.rank.updateDelay = sliderStep[v];
+					}
+				});
+
+				let updateLogs = new smenu.components.Slider({
+					label: "Thời gian cập nhật nhật kí",
+					color: "blue",
+					save: "others.logsUpdate",
+					min: 1,
+					max: 11,
+					unit: "giây",
+					defaultValue: SERVER.clientConfig.logsUpdate,
+					valueStep: sliderStep
+				}, others);
+
+				updateLogs.onInput((v) => updateLogs.set({ color: (v <= 2) ? "red" : "blue" }));
+				updateLogs.onChange(async (v, e) => {
+					if (v < 3 && e.isTrusted)
+						if (await popup.show(lowWarningSettings) === "cancel") {
+							updateLogs.set({ value: 3 });
+							return;
+						}
+
+					if (v === 11)
+						if (await popup.show({
 							level: "warning",
+							windowTitle: "Cảnh Báo",
+							title: "Cảnh Báo",
+							message: "Tắt tự động cập nhật nhật ký",
+                            description: "Việc này sẽ làm cho tình trạng nộp bài của bạn không được tự động cập nhật.<br>Bạn có chắc muốn tắt tính năng này không?",
 							buttonList: {
-								turnOff: { text: "Tắt", color: "red" },
-								cancel: { text: "Hủy", color: "blue" },
+								cancel: { color: "blue", text: "Bấm Lộn! Trả Về Cũ Đi!" },
+								ignore: { color: "red", text: "TẮT! TẮT HẾT!" }
+							}
+						}) === "cancel") {
+							updateLogs.set({ value: 3 });
+							return;
+						}
+				});
+			}
+		},
+
+		admin: {
+			group: smenu.Group.prototype,
+
+			async init() {
+				if (SESSION.id !== "admin") {
+					clog("INFO", "Current Session Does Not Have Admin Privileges. Admin Features Will Not Be ENABLED!");
+					return false;
+				}
+
+				this.group = new smenu.Group({ icon: "userCog", label: "quản trị" });
+
+				this.update();
+				await this.settings();
+			},
+
+			localVersion: smenu.components.Text.prototype,
+			remoteVersion: smenu.components.Text.prototype,
+			updateNote: smenu.components.Note.prototype,
+
+			update() {
+				let child = new smenu.Child({ label: "Phiên Bản" }, this.group);
+
+				this.localVersion = new smenu.components.Text({
+					content: "Phiên Bản Hiện Tại: <b>UPDATING</b>"
+				}, child);
+
+				this.remoteVersion = new smenu.components.Text({
+					content: "Phiên Bản Mới Nhất: <b>UPDATING</b>"
+				}, child);
+
+				this.updateNote = new smenu.components.Note({
+					level: "info",
+					message: "Đang Kiểm Tra Phiên Bản Mới"
+				}, child);
+
+				new smenu.components.Space(child);
+
+				new smenu.components.Checkbox({
+					label: "Thông báo khi có bản thử nghiệm mới",
+					color: "blue",
+					save: "optInBeta",
+					defaultValue: false,
+					onChange: (v) => twi.updateChecker.optInBeta = v
+				}, child);
+
+				new smenu.components.Button({
+					label: "Kiểm Tra Phiên Bản Mới",
+					color: "yellow",
+					icon: "upload",
+					complex: true,
+					onClick: async () => await twi.updateChecker.check()
+				}, child);
+			},
+
+			settingsChild: smenu.Child.prototype,
+			controlPanel: smenu.Panel.prototype,
+			accountsPanel: smenu.Panel.prototype,
+
+			async settings() {
+				this.settingsChild = new smenu.Child({ label: "Cài Đặt" }, this.group);
+
+				let controlPanelButton = new smenu.components.Button({
+					label: "Admin Control Panel",
+					color: "blue",
+					icon: "arrowLeft",
+					complex: true
+				}, this.settingsChild);
+
+				this.controlPanel = new smenu.Panel(undefined, { size: "large" });
+				this.controlPanel.setToggler(controlPanelButton);
+				await this.controlPanel.content("iframe:/config.php");
+
+				let accountsButton = new smenu.components.Button({
+					label: "Quản Lí Tài Khoản",
+					color: "blue",
+					icon: "arrowLeft",
+					complex: true
+				}, this.settingsChild);
+
+				this.accountsPanel = new smenu.Panel(undefined, { size: "large" });
+				this.accountsPanel.setToggler(accountsButton);
+				await this.accountsPanel.content("iframe:/account.php");
+			},
+
+			syslogs: {
+				panel: smenu.Panel.prototype,
+				container: HTMLElement.prototype,
+				logsContainer: HTMLElement.prototype,
+
+				nav: {
+					left: HTMLElement.prototype,
+					btnLeft: HTMLElement.prototype,
+					currentPage: HTMLElement.prototype,
+					btnRight: HTMLElement.prototype,
+					right: HTMLElement.prototype
+				},
+
+				prevHash: undefined,
+				showPerPage: 20,
+				currentPage: 1,
+				maxPage: 1,
+	
+				async init() {
+					this.panel = new smenu.Panel($("#syslogs"), { size: "large" });
+					this.panel.setToggler(new smenu.components.Button({
+						label: "Nhật Kí Hệ Thống",
+						color: "blue",
+						icon: "arrowLeft",
+						complex: true
+					}, this.super.settingsChild));
+
+					this.panel.custom.type("delete");
+					this.panel.custom.onClick(() => this.refresh(true));
+
+					this.container = this.panel.container;
+					this.logsContainer = fcfn(this.container, "logsContainer");
+					this.nav.left = fcfn(this.container, "left");
+					this.nav.btnLeft = fcfn(this.container, "buttonLeft");
+					this.nav.currentPage = fcfn(this.container, "currentPage");
+					this.nav.btnRight = fcfn(this.container, "buttonRight");
+					this.nav.right = fcfn(this.container, "right");
+	
+					await this.refresh();
+	
+					this.nav.btnLeft.addEventListener("click", e => {
+						this.currentPage--;
+	
+						if (this.currentPage < 1)
+							this.currentPage = 1;
+	
+						this.refresh();
+					});
+	
+					this.nav.btnRight.addEventListener("click", e => {
+						this.currentPage++;
+	
+						if (this.currentPage > this.maxPage)
+							this.currentPage = this.maxPage;
+	
+						this.refresh();
+					});
+				},
+	
+				async refresh(clearLogs = false) {
+					let response = {}
+	
+					try {
+						response = await myajax({
+							url: "/api/logs",
+							method: "POST",
+							form: {
+								token: API_TOKEN,
+								clear: clearLogs,
+								show: this.showPerPage,
+								page: this.currentPage
 							}
 						})
+					} catch(e) {
+						if (e.data.code === 6) {
+							clog("WARN", `Không tồn tại trang ${this.currentPage} của nhật ký hệ thống`, e.data.data);
+							this.currentPage = 1;
+							this.maxPage = e.data.data.maxPage;
+							await this.refresh();
 	
-						if (response !== "turnOff")
-							return "cancel";
+							return;
+						}
+	
+						throw e;
+					}
+	
+					let data = response.data;
+					let hash = response.hash;
+					if (hash === this.prevHash)
+						return;
+	
+					this.prevHash = hash;
+					this.nav.left.innerText = `Hiển thị ${data.from} - ${data.to}`;
+					this.nav.currentPage.innerText = `Trang ${data.pageNth}/${data.maxPage}`;
+					this.nav.right.innerText = `Tổng ${data.total}`;
+					this.maxPage = data.maxPage;
+					var html = [];
+	
+					for (let i of data.logs)
+						html.push(`
+							<div class="log ${i.level.toLowerCase()}" onclick="this.classList.toggle('enlarge')">
+								<span class="level">${i.level}<i>#${i.nth}</i></span>
+								<span class="detail">
+									<div class="text">${i.text}</div>
+									<div class="info">
+										<t class="client">${i.client.username}@${i.client.ip}</t>
+										<t class="timestamp">${i.time}</t>
+										<t class="module">${i.module}</t>
+									</div>
+								</span>
+							</div>
+						`);
+					
+					this.logsContainer.innerHTML = html.join("\n");
+					clog("info", `Refreshed SysLogs [${hash}]`);
+				}
+			},
+
+			problemsEditor: {
+				container: HTMLElement.prototype,
+				panel: smenu.Panel.prototype,
+
+				id: null,
+				action: null,
+				form: HTMLFormElement.prototype,
+
+				async init() {
+					this.container = buildElementTree("div", "problemsEditor", [
+						{ type: "div", class: "header", name: "header", list: [
+							{ type: "icon", class: "back", name: "back", data: { icon: "arrowLeft" } },
+							{ type: "t", class: "title", name: "titleNode", text: "Chỉnh Sửa Đề Bài" },
+							{ type: "span", class: "right", name: "right", list: [
+								{ type: "icon", name: "add", data: { icon: "plus" } },
+								{ type: "icon", name: "save", data: { icon: "save" } }
+							]},
+						]},
+
+						{ type: "div", class: "main", name: "main", list: [
+							{ type: "div", class: "list", name: "list" },
+							{ type: "form", class: "editor", name: "editor", list: [
+								{ name: "pID", node: createInput({ color: "blue", label: "Mã Đề", required: true }) },
+								{ name: "pName", node: createInput({ color: "blue", label: "Tên Bài", required: true }) },
+								{ name: "point", node: createInput({ type: "number", color: "blue", label: "Điểm", required: true }) },
+								{ name: "time", node: createInput({ type: "number", color: "blue", label: "Thời Gian Chạy", required: true }) },
+								{ name: "memory", node: createInput({ type: "number", color: "blue", label: "Giới Hạn Bộ Nhớ", required: true }) },
+								{ name: "inputType", node: createInput({ color: "blue", label: "Dữ Liệu Vào", required: true }) },
+								{ name: "outputType", node: createInput({ color: "blue", label: "Dữ Liệu Ra", required: true }) },
+								{ name: "extensions", node: createInput({ color: "blue", label: "Đuôi Tệp (dùng | để ngăn cách)", required: true }) },
+								{ name: "image", node: createImageInput({ label: "Ảnh Đính Kèm", resetLabel: "Xóa Ảnh Đính Kèm Hiện Tại" }) },
+								{ name: "attachment", node: createInput({ type: "file", label: "Tệp Đính Kèm", color: "blue" }) },
+								{ name: "removeAttachment", node: createBtn("Xóa Tệp Đính Kèm Hiện Tại", "pink") },
+								{ name: "description", node: createInput({ type: "textarea", color: "blue", label: "Nội Dung", required: true }) },
+								{ type: "div", class: "tests", name: "tests", list: [
+									{ type: "t", class: "label", name: "label", text: "Test Ví Dụ" },
+									{ type: "div", class: "list", name: "list" },
+									{ type: "div", class: "add", name: "add" }
+								]},
+								{ name: "submitButton", node: createBtn("LƯU", "blue", { icon: "save", complex: "true" }) }
+							]}
+						]}
+					]);
+
+					this.panel = new smenu.Panel(this.container.tree);
+					this.panel.setToggler(new smenu.components.Button({
+						label: "Chỉnh Sửa Đề Bài",
+						color: "blue",
+						icon: "arrowLeft",
+						complex: true
+					}, this.super.settingsChild));
+
+					this.container = this.container.obj;
+					this.form = this.container.main.editor;
+					
+					this.panel.reload.onClick(() => this.updateLists());
+					this.container.header.back.addEventListener("click", () => this.hideEditor());
+					this.container.header.right.add.addEventListener("click", () => this.add());
+					this.container.header.right.save.addEventListener("click", () => this.form.submitButton.click());
+					this.form.tests.add.addEventListener("click", () => this.addTest());
+					this.form.addEventListener("submit", () => this.postSubmit());
+					this.form.action = "javascript:void(0);";
+					this.form.submitButton.type = "submit";
+
+					this.form.image.onReset(async () => {
+						if (this.id && await this.deleteFile("image", this.id))
+							this.form.image.src();
+					});
+
+					this.hideEditor(false);
+					await this.updateLists();
+				},
+
+				async updateLists() {
+					let response = await myajax({
+						url: "/api/contest/problems/list",
+						method: "GET"
+					});
+	
+					let data = response.data;
+					let html = "";
+
+					emptyNode(this.container.main.list);
+					
+					for (let item of data)
+						html += `
+							<li class="item">
+								<img class="icon" src="${item.image}">
+								<ul class="title">
+									<li class="id">${item.id}</li>
+									<li class="name">${item.name}</li>
+								</ul>
+								<div class="action">
+									<span class="sq-switch">
+										<input
+											id="problemToggler_${item.id}"
+											class="checkbox"
+											type="checkbox"
+											${!item.disabled ? "checked" : ""}
+											onchange="twi.userSettings.admin.problemsEditor.disable('${item.id}', this)"
+										></input>
+
+										<label for="problemToggler_${item.id}" class="track"></label>
+									</span>
+
+									<span class="delete" onclick="twi.userSettings.admin.problemsEditor.delete('${item.id}')"></span>
+									<span class="edit" onclick="twi.userSettings.admin.problemsEditor.edit('${item.id}')"></span>
+								</div>
+							</li>
+						`
+	
+					this.container.main.list.innerHTML = html;
+				},
+
+				showEditor(sound = true) {
+					this.container.main.classList.add("editor");
+					this.container.header.back.style.display = null;
+					this.container.header.right.add.style.display = "none";
+					this.container.header.right.save.style.display = null;
+
+					if (sound)
+						sounds.toggle()
+				},
+	
+				hideEditor(sound = true) {
+					this.container.main.classList.remove("editor");
+					this.container.header.back.style.display = "none";
+					this.container.header.right.add.style.display = null;
+					this.container.header.right.save.style.display = "none";
+					this.container.header.titleNode.innerText = "Chỉnh Sửa Đề Bài";
+					this.action = null;
+
+					if (sound)
+						sounds.toggle(1);
+				},
+
+				resetForm() {
+					this.form.pID.input.value = "";
+					this.form.pID.input.disabled = false;
+					this.form.pName.input.value = "";
+					this.form.point.input.value = null;
+					this.form.time.input.value = 1;
+					this.form.memory.input.value = 1024;
+					this.form.inputType.input.value = "Bàn Phím";
+					this.form.outputType.input.value = "Màn Hình";
+					this.form.extensions.input.value = Object.keys(twi.languages).join("|");
+					this.form.image.src("//:0");
+					this.form.attachment.input.value = null;
+					this.form.description.input.value = "";
+
+					emptyNode(this.form.tests.list);
+				},
+
+				addTest({ inp = "", out = "" } = {}) {
+					let node = htmlToElement(`
+						<div class="cell">
+							<textarea placeholder="Input" required>${inp}</textarea>
+							<textarea placeholder="Output" required>${out}</textarea>
+							<span class="delete"></span>
+						</div>
+					`)
+
+					node.querySelector(".delete").addEventListener("click", () => {
+						node.remove();
+						delete node;
+					});
+
+					this.form.tests.list.appendChild(node);
+				},
+
+				add() {
+					this.resetForm();
+					this.container.header.titleNode.innerText = "Thêm Đề Bài";
+					this.form.removeAttachment.disabled = true;
+					this.action = "add";
+
+					this.showEditor();
+					setTimeout(() => this.form.pID.input.focus(), 600);
+				},
+
+				async edit(id) {
+					let response = await myajax({
+						url: "/api/contest/problems/get",
+						method: "GET",
+						query: {
+							id: id
+						}
+					});
+	
+					let data = response.data;
+					clog("INFO", "Editing problem", {
+						color: flatc("yellow"),
+						text: id
+					});
+	
+					this.resetForm();
+					this.container.header.titleNode.innerText = "Đề Bài: " + data.id;
+					this.action = "edit";
+					this.id = id;
+
+					this.form.pID.input.value = data.id;
+					this.form.pID.input.disabled = true;
+					this.form.pName.input.value = data.name;
+					this.form.point.input.value = data.point;
+					this.form.time.input.value = data.time || 1;
+					this.form.memory.input.value = data.memory || 1024;
+					this.form.inputType.input.value = data.type.inp || "Bàn Phím";
+					this.form.outputType.input.value = data.type.out || "Màn Hình";
+					this.form.extensions.input.value = data.accept.join("|");
+					this.form.description.input.value = data.description;
+					this.form.image.src(data.image || "//:0");
+	
+					if (data.attachment && data.attachment.file) {
+						this.form.removeAttachment.disabled = false;
+
+						this.form.removeAttachment.onclick = async () => {
+							this.form.removeAttachment.disabled = true;
+
+							if (!await this.deleteFile("attachment", data.id, data.attachment.file))
+								this.form.removeAttachment.disabled = false;
+						}
+					} else
+						this.form.removeAttachment.disabled = true;
+	
+					for (let item of data.test)
+						this.addTest(item);
+					
+					this.showEditor();
+					setTimeout(() => this.form.pName.input.focus(), 600);
+				},
+
+				async postSubmit() {
+					this.container.header.titleNode.innerText = "Đang Lưu";
+	
+					let data = {
+						id: this.form.pID.input.value,
+						name: this.form.pName.input.value,
+						point: this.form.point.input.value,
+						time: this.form.time.input.value,
+						memory: this.form.memory.input.value,
+						inpType: this.form.inputType.input.value,
+						outType: this.form.outputType.input.value,
+						accept: this.form.extensions.input.value.split("|"),
+						image: this.form.image.input.files[0] || null,
+						description: this.form.description.input.value,
+						attachment: this.form.attachment.input.files[0] || null,
+						tests: []
+					}
+	
+					let testNodes = this.form.tests.list.getElementsByTagName("div.cell");
+	
+					for (let item of testNodes) {
+						let inputs = item.getElementsByTagName("textarea");
+
+						if (inputs[0] === "" || inputs[1] === "")
+							continue;
+
+						data.tests.push({
+							inp: inputs[0],
+							out: inputs[1]
+						});
+					}
+					
+					await this.submit(this.action, data);
+					await this.updateLists();
+					this.hideEditor();
+				},
+	
+				async submit(action, data) {
+					if (!["edit", "add"].includes(action))
+						throw { code: -1, description: `twi.userSettings.admin.problemsEditor.submit(${action}): not a valid action!` }
+	
+					clog("INFO", "Problem Submit:", {
+						color: flatc("green"),
+						text: action
+					}, {
+						color: flatc("yellow"),
+						text: data.id
+					});
+	
+					try {
+						await myajax({
+							url: "/api/contest/problems/" + action,
+							method: "POST",
+							form: {
+								id: data.id,
+								name: data.name,
+								point: data.point,
+								time: data.time,
+								memory: data.memory,
+								inpType: data.inpType,
+								outType: data.outType,
+								accept: JSON.stringify(data.accept),
+								image: data.image,
+								description: data.description,
+								attachment: data.attachment,
+								test: JSON.stringify(data.tests),
+								token: API_TOKEN
+							}
+						});
+					} catch(e) {
+						errorHandler(e);
+						throw e;
 					}
 
-					if (!this.rankingUpdateToggler.checked)
-						this.updateDelaySlider.disabled = true;
-
-					core.enableLogsUpdate = false;
+					return true;
 				},
-				this.default.logsUpdate
-			)
 
-			this.userSettingAvatarWrapper.addEventListener("dragenter",  e => this.dragEnter(e), false);
-			this.userSettingAvatarWrapper.addEventListener("dragleave", e => this.dragLeave(e), false);
-			this.userSettingAvatarWrapper.addEventListener("dragover", e => this.dragOver(e), false);
-			this.userSettingAvatarWrapper.addEventListener("drop", e => this.fileSelect(e), false);
-
-			this.userSettingAvatarInput.addEventListener("change", e => this.fileSelect(e, "input"));
-
-			this.sub.nameForm.addEventListener("submit", e => {
-				this.sub.nameForm.getElementsByTagName("button")[0].disabled = true;
-				this.changeName(this.sub.name.value);
-			}, false)
-
-			this.sub.reNewPass.addEventListener("keyup", e => e.target.parentElement.dataset.color = (this.sub.newPass.value === e.target.value) ? "blue" : "red");
-			this.sub.passForm.addEventListener("submit", e => {
-				if (this.sub.newPass.value !== this.sub.reNewPass.value) {
-					sounds.warning();
-					this.sub.reNewPass.parentElement.dataset.color = "red";
-					this.sub.reNewPass.focus();
-					return;
-				}
-
-				this.sub.passForm.getElementsByTagName("button")[0].disabled = true;
-				this.changePassword(this.sub.pass.value, this.sub.newPass.value);
-			}, false)
-
-			this.logoutBtn.addEventListener("click", e => this.logout(e), false);
-
-			clog("okay", "Initialised:", {
-				color: flatc("red"),
-				text: "core.userSettings"
-			});
-
-		},
-
-		logout() {
-			myajax({
-				url: "/api/logout",
-				method: "POST",
-				form: {
-					token: API_TOKEN
-				}
-			},
-			() => location.reload(),
-			e => {
-				errorHandler(e);
-				sounds.warning();
-				this.reset()
-			})
-		},
-
-		toggle() {
-			let c = this.container.classList.contains("show");
-
-			if (c)
-				this.__hideAllPanel();
-
-			this.container.classList.remove("subPanel");
-			this.toggler.classList.toggle("active");
-			this.container.classList.toggle("show");
-		},
-
-		reset() {
-			this.userSettingAvatarWrapper.classList.remove("drop");
-			this.userSettingAvatarWrapper.classList.remove("load");
-			this.sub.nameForm.getElementsByTagName("button")[0].disabled = false;
-			this.sub.passForm.getElementsByTagName("button")[0].disabled = false;
-			this.sub.name.value = null;
-			this.sub.pass.value = null;
-			this.sub.newPass.value = null;
-			this.sub.reNewPass.value = null;
-			this.sub.reNewPass.parentElement.dataset.color = "blue";
-		},
-
-		reload(data, reload) {
-			switch (reload) {
-				case "avatar":
-					core.fetchRank(true);
-					this.userAvatar.src = this.userSettingAvatar.src = `${data.src}&t=${time()}`;
-					break;
-			
-				case "name":
-					this.userName.innerText = this.name.innerText = data.name;
-					break;
-
-				default:
-					break;
-			}
-		},
-		
-		async changeName(name) {
-			sounds.confirm(1);
-
-			await myajax({
-				url: "/api/edit",
-				method: "POST",
-				form: {
-					name: name,
-					token: API_TOKEN
-				}
-			}, response => {
-				this.reset();
-				this.reload(response.data, "name");
-
-				clog("okay", "Đã đổi tên thành", {
-					color: flatc("pink"),
-					text: response.data.name
-				});
-			}, e => {
-				errorHandler(e);
-				sounds.warning();
-				this.reset()
-			})
-		},
-
-		async changePassword(pass, newPass) {
-			sounds.confirm(2);
-
-			await myajax({
-				url: "/api/edit",
-				method: "POST",
-				form: {
-					password: pass,
-					newPassword: newPass,
-					token: API_TOKEN
-				}
-			}, () => {
-				clog("okay", "Thay đổi mật khẩu thành công!");
-				this.reset();
-			}, e => {
-				errorHandler(e);
-				sounds.warning();
-				this.reset()
-			})
-		},
-
-		fileSelect(e, type = "drop") {
-			if (type === "drop") {
-				e.stopPropagation();
-				e.preventDefault();
-				this.userSettingAvatarWrapper.classList.remove("drag");
-			}
-
-			var file = (type === "drop") ? e.dataTransfer.files[0] : e.target.files[0];
-
-			this.userSettingAvatarWrapper.classList.add("load");
-			sounds.confirm();
-			setTimeout(() => this.avtUpload(file), 1000);
-		},
-
-		async avtUpload(file) {
-			await myajax({
-				url: "/api/avatar",
-				method: "POST",
-				form: {
-					token: API_TOKEN,
-					file: file
-				}
-			}, response => {
-				this.reset();
-				this.reload(response.data, "avatar");
-				sounds.notification();
-
-				clog("okay", "Avatar changed.");
-			}, e => {
-				errorHandler(e);
-				sounds.warning();
-				this.reset()
-			})
-		},
-
-		dragEnter(e) {
-			e.stopPropagation();
-			e.preventDefault();
-			this.userSettingAvatarWrapper.classList.add("drag");
-		},
-
-		dragLeave(e) {
-			e.stopPropagation();
-			e.preventDefault();
-			this.userSettingAvatarWrapper.classList.remove("drag");
-		},
-
-		dragOver(e) {
-			e.stopPropagation();
-			e.preventDefault();
-			e.dataTransfer.dropEffect = "copy";
-			this.userSettingAvatarWrapper.classList.add("drag");
-		}
-
-	},
-
-	settings: {
-		main: $("#container"),
-		cPanel: null,
-		cPanelIframe: null,
-		aPanel: null,
-		aPanelIframe: null,
-		pPanel: null,
-		lPanel: null,
-		adminConfig: $("#usett_adminConfig"),
-
-		async init() {
-			this.adminConfig.style.display = "block";
-			this.cPanel = new core.userSettings.panel($("#settings_controlPanel"));
-			this.aPanel = new core.userSettings.panel($("#settings_accountEditor"));
-			this.pPanel = new core.userSettings.panel($("#settings_problem"));
-			this.lPanel = new core.userSettings.panel($("#settings_syslogs"));
-			this.cPanelIframe = this.cPanel.main.getElementsByTagName("iframe")[0];
-			this.aPanelIframe = this.aPanel.main.getElementsByTagName("iframe")[0];
-			this.cPanelIframe.src = "config.php";
-			this.aPanelIframe.src = "account.php";
-
-			this.cPanel.toggler = $("#settings_cPanelToggler");
-			this.aPanel.toggler = $("#settings_accountEditorToggler");
-			this.pPanel.toggler = $("#settings_problemToggler");
-			this.lPanel.toggler = $("#settings_syslogsToggler");
-
-			await this.problems.init();
-			await this.syslogs.init(this.lPanel);
-
-			this.cPanel.ref.onClick(() => {
-				this.cPanelIframe.contentWindow.update();
-				clog("okay", "Reloaded controlPanel.");
-			})
-
-			this.aPanel.ref.onClick(() => {
-				this.aPanelIframe.contentWindow.reloadAccountList();
-				clog("okay", "Reloaded accountEditorPanel.");
-			})
-
-			this.pPanel.ref.onClick(() => {
-				this.problems.getList();
-				this.problems.resetForm();
-				this.problems.showList();
-				clog("okay", "Reloaded Problems Panel.");
-			})
-
-			this.lPanel.ref.onClick(() => this.syslogs.refresh());
-			this.lPanel.onToggle = s => ((s === "show") ? this.syslogs.refresh() : null);
-
-			clog("okay", "Initialised:", {
-				color: flatc("red"),
-				text: "core.settings"
-			});
-		},
-
-		syslogs: {
-			panel: null,
-			container: null,
-			logsContainer: null,
-			nav: {
-				left: null,
-				btnLeft: null,
-				currentPage: null,
-				btnRight: null,
-				right: null
-			},
-			prevHash: "",
-			showPerPage: 20,
-			currentPage: 1,
-			maxPage: 1,
-
-			async init(panel) {
-				this.panel = panel;
-				this.container = panel.main;
-				this.logsContainer = fcfn(this.container, "logsContainer");
-				this.nav.left = fcfn(this.container, "left");
-				this.nav.btnLeft = fcfn(this.container, "buttonLeft");
-				this.nav.currentPage = fcfn(this.container, "currentPage");
-				this.nav.btnRight = fcfn(this.container, "buttonRight");
-				this.nav.right = fcfn(this.container, "right");
-				this.panel.cus.onClick(() => this.refresh(true))
-
-				await this.refresh();
-
-				this.nav.btnLeft.addEventListener("click", e => {
-					this.currentPage--;
-
-					if (this.currentPage < 1)
-						this.currentPage = 1;
-
-					this.refresh();
-				});
-
-				this.nav.btnRight.addEventListener("click", e => {
-					this.currentPage++;
-
-					if (this.currentPage > this.maxPage)
-						this.currentPage = this.maxPage;
-
-					this.refresh();
-				});
-			},
-
-			async refresh(clearLogs = false) {
-				let response = {}
-
-				try {
-					response = await myajax({
-						url: "/api/logs",
+				async disable(id, targetSwitch) {
+					sounds.select(1);
+					targetSwitch.disabled = true;
+	
+					await myajax({
+						url: "/api/contest/problems/edit",
 						method: "POST",
 						form: {
-							token: API_TOKEN,
-							clear: clearLogs,
-							show: this.showPerPage,
-							page: this.currentPage
+							id: id,
+							disabled: !targetSwitch.checked,
+							token: API_TOKEN
 						}
 					})
-				} catch(e) {
-					if (e.data.code === 6) {
-						clog("WARN", `Không tồn tại trang ${this.currentPage} của nhật ký hệ thống.`, e.data.data);
-						this.currentPage = 1;
-						this.maxPage = e.data.data.maxPage;
-						await this.refresh();
+	
+					targetSwitch.disabled = false;
+				},
+
+				async delete(id) {
+					clog("WARN", "Deleting Problem", {
+						color: flatc("yellow"),
+						text: id + "."
+					}, "Waiting for confirmation");
+	
+					let confirm = await popup.show({
+						level: "warning",
+						windowTitle: "Problems Editor",
+						title: `Xóa \"${id}\"`,
+						message: `Xác nhận`,
+						description: `Bạn có chắc muốn xóa đề bài <i>${id}</i> không?`,
+						note: `Hành động này <b>không thể hoàn tác</b> một khi đã thực hiện!`,
+						noteLevel: "warning",
+						buttonList: {
+							delete: { text: "XÓA!!!", color: "red" },
+							cancel: { text: "Hủy Bỏ", color: "blue" }
+						}
+					})
+	
+					if (confirm !== "delete") {
+						clog("INFO", "Cancelled deletion of", {
+							color: flatc("yellow"),
+							text: id + "."
+						});
 
 						return;
 					}
-
-					throw e;
-				}
-
-				let data = response.data;
-				let hash = response.hash;
-				if (hash === this.prevHash)
-					return;
-
-				this.prevHash = hash;
-				this.nav.left.innerText = `Hiển thị ${data.from} - ${data.to}`;
-				this.nav.currentPage.innerText = `Trang ${data.pageNth}/${data.maxPage}`;
-				this.nav.right.innerText = `Tổng ${data.total}`;
-				this.maxPage = data.maxPage;
-				var html = [];
-
-				for (let i of data.logs)
-					html.push(`
-						<div class="log ${i.level.toLowerCase()}" onclick="this.classList.toggle('enlarge')">
-							<span class="level">${i.level}<i>#${i.nth}</i></span>
-							<span class="detail">
-								<div class="text">${i.text}</div>
-								<div class="info">
-									<t class="client">${i.client.username}@${i.client.ip}</t>
-									<t class="timestamp">${i.time}</t>
-									<t class="module">${i.module}</t>
-								</div>
-							</span>
-						</div>
-					`);
-				
-				this.logsContainer.innerHTML = html.join("\n");
-				clog("info", `Refreshed SysLogs [${hash}]`);
-			}
-		},
-
-		problems: {
-			title: $("#problemEdit_title"),
-			headerBtn: {
-				back: $("#problemEdit_btn_back"),
-				add: $("#problemEdit_btn_add"),
-				check: $("#problemEdit_btn_check"),
-			},
-			form: {
-				form: $("#problemEdit_form"),
-				id: $("#problemEdit_id"),
-				name: $("#problemEdit_name"),
-				point: $("#problemEdit_point"),
-				time: $("#problemEdit_time"),
-				mem: $("#problemEdit_mem"),
-				inpType: $("#problemEdit_inpType"),
-				outType: $("#problemEdit_outType"),
-				accept: $("#problemEdit_accept"),
-				image: $("#problemEdit_image"),
-				deleteImage: $("#problemEdit_deleteImage"),
-				desc: $("#problemEdit_desc"),
-				attachment: $("#problemEdit_attachment"),
-				deleteAttachment: $("#problemEdit_deleteAttachment"),
-				testList: $("#problemEdit_test_list"),
-				testadd: $("#problemEdit_test_add"),
-				submit() { $("#problemEdit_submit").click() }
-			},
-			list: $("#problemEdit_list"),
-			action: null,
-
-			hide(elem) {
-				elem.style.display = "none";
-			},
-
-			show(elem) {
-				elem.style.display = "inline-block";
-			},
-
-			async init() {
-				this.hide(this.headerBtn.back);
-				this.hide(this.headerBtn.check);
-				this.headerBtn.check.addEventListener("click", e => this.form.submit());
-				this.headerBtn.back.addEventListener("click", e => this.showList());
-				this.headerBtn.add.addEventListener("click", e => this.newProblem());
-				this.form.form.addEventListener("submit", e => this.postSubmit());
-
-				this.form.testadd.addEventListener("click", e => {
-					html = `
-						<div class="cell">
-							<textarea placeholder="Input" required></textarea>
-							<textarea placeholder="Output" required></textarea>
-							<span class="delete" onClick="core.settings.problems.rmTest(this)"></span>
-						</div>`
-
-					this.form.testList.insertAdjacentHTML("beforeend", html);
-				});
-
-				await this.getList();
-
-				clog("okay", "Initialised:", {
-					color: flatc("red"),
-					text: "core.settings.problems"
-				});
-			},
-
-			rmTest(elem) {
-				this.form.testList.removeChild(elem.parentNode);
-			},
-
-			hideList() {
-				this.list.classList.add("hide");
-				this.hide(this.headerBtn.add);
-				this.show(this.headerBtn.back);
-				this.show(this.headerBtn.check);
-			},
-
-			showList() {
-				this.list.classList.remove("hide");
-				this.show(this.headerBtn.add);
-				this.hide(this.headerBtn.back);
-				this.hide(this.headerBtn.check);
-				this.title.innerText = "Danh sách";
-			},
-
-			async getList() {
-				let response = await myajax({
-					url: "/api/contest/problems/list",
-					method: "GET"
-				});
-
-				let data = response.data;
-				let html = "";
-				emptyNode(this.list);
-				for (let item of data)
-					html += `
-						<li class="item">
-							<img class="icon" src="${item.image}">
-							<ul class="title">
-								<li class="id">${item.id}</li>
-								<li class="name">${item.name}</li>
-							</ul>
-							<div class="action">
-								<span class="materialSwitch" onclick="core.settings.problems.toggleDisabled('${item.id}', fcfn(this, 'checkbox'))">
-									<input class="checkbox" type="checkbox" ${!item.disabled ? "checked" : ""}></input>
-									<div class="track"></div>
-								</span>
-								<span class="delete" onClick="core.settings.problems.remProblem('${item.id}')"></span>
-								<span class="edit" onClick="core.settings.problems.editProblem('${item.id}')"></span>
-							</div>
-						</li>
-					`
-
-				this.list.innerHTML = html;
-			},
-
-			resetForm() {
-				this.form.id.value = "";
-				this.form.id.disabled = false;
-				this.form.name.value = "";
-				this.form.point.value = null;
-				this.form.time.value = 1;
-				this.form.mem.value = 1024;
-				this.form.inpType.value = "Bàn Phím";
-				this.form.outType.value = "Màn Hình";
-				this.form.accept.value = Object.keys(core.languages).join("|");
-				this.form.image.value = null;
-				this.form.desc.value = "";
-				emptyNode(this.form.testList);
-			},
-
-			newProblem() {
-				this.resetForm();
-				this.form.id.disabled = false;
-				this.form.deleteImage.disabled = true;
-				this.form.deleteAttachment.disabled = true;
-				this.title.innerText = "Thêm đề";
-				this.action = "add";
-				this.hideList();
-				setTimeout(e => this.form.id.focus(), 300);
-			},
-
-			async editProblem(id) {
-				let response = await myajax({
-					url: "/api/contest/problems/get",
-					method: "GET",
-					query: {
-						id: id
+	
+					sounds.confirm(1);
+	
+					try {
+						await myajax({
+							url: "/api/contest/problems/remove",
+							method: "POST",
+							form: {
+								id: id,
+								token: API_TOKEN
+							}
+						});
+					} catch(e) {
+						errorHandler(e);
+						throw e;
 					}
-				});
-
-				let data = response.data;
-				clog("info", "Editing problem", {
-					color: flatc("yellow"),
-					text: id
-				});
-
-				this.resetForm();
-				this.title.innerText = data.id;
-				this.action = "edit";
-
-				this.form.id.value = data.id;
-				this.form.id.disabled = true;
-				this.form.name.value = data.name;
-				this.form.point.value = data.point;
-				this.form.time.value = data.time || 1;
-				this.form.mem.value = data.memory || 1024;
-				this.form.inpType.value = data.type.inp || "Bàn Phím";
-				this.form.outType.value = data.type.out || "Màn Hình";
-				this.form.accept.value = data.accept.join("|");
-				this.form.image.value = null;
-				this.form.desc.value = data.description;
-				this.form.attachment.value = null;
-
-				if (data.image) {
-					this.form.deleteImage.disabled = false;
-					this.form.deleteImage.onclick = async () => {
-						if (await this.deleteFile("image", data.id))
-							this.form.deleteImage.disabled = true;
-					}
-				} else
-					this.form.deleteImage.disabled = true;
-
-				if (data.attachment && data.attachment.file) {
-					this.form.deleteAttachment.disabled = false;
-					this.form.deleteAttachment.onclick = async () => {
-						if (await this.deleteFile("attachment", data.id, data.attachment.file))
-							this.form.deleteAttachment.disabled = true;
-					}
-				} else
-					this.form.deleteAttachment.disabled = true;
-
-				let html = "";
-				for (let item of data.test)
-					html += `
-					<div class="cell">
-						<textarea placeholder="Input" required>${item.inp}</textarea>
-						<textarea placeholder="Output" required>${item.out}</textarea>
-						<span class="delete" onClick="core.settings.problems.rmTest(this)"></span>
-					</div>`
-
-				this.form.testList.innerHTML = html;
-				
-				this.hideList();
-				setTimeout(e => this.form.name.focus(), 300);
-			},
-
-			async remProblem(id) {
-				clog("warn", "Deleting Problem", {
-					color: flatc("yellow"),
-					text: id + "."
-				}, "Waiting for confirmation");
-
-				let confirm = await popup.show({
-					level: "warning",
-					windowTitle: "Problems Editor",
-					title: `Xóa \"${id}\"`,
-					message: `Xác nhận`,
-					description: `Bạn có chắc muốn xóa đề bài <i>${id}</i> không?`,
-					note: `Hành động này <b>không thể hoàn tác</b> một khi đã thực hiện!`,
-					buttonList: {
-						delete: { text: "XÓA!!!", color: "red" },
-						cancel: { text: "Hủy Bỏ", color: "blue" }
-					}
-				})
-
-				if (confirm !== "delete") {
-					clog("info", "Cancelled deletion of", {
+	
+					clog("OKAY", "Deleted Problem", {
 						color: flatc("yellow"),
-						text: id + "."
+						text: id
 					});
-					return;
-				}
+	
+					await this.updateLists();
+				},
 
-				sounds.confirm(1);
-
-				try {
-					await myajax({
-						url: "/api/contest/problems/remove",
-						method: "POST",
-						form: {
-							id: id,
-							token: API_TOKEN
+				async deleteFile(type, id, fileName = null) {
+					if (!["image", "attachment"].includes(type))
+						throw { code: -1, description: `twi.userSettings.admin.problemsEditor.deleteFile(${type}): not a valid type!` }
+	
+					typeName = { image: "Ảnh Đính Kèm", attachment: "Tệp Đính Kèm" }[type]
+	
+					clog("WARN", "Preparing to delete", typeName, "of", {
+						color: flatc("yellow"),
+						text: `${id}.`
+					}, "Waiting for confirmation...");
+	
+					let action = await popup.show({
+						windowTitle: "Xác nhận",
+						title: `Xóa ${typeName} của đề "${id}"`,
+						description: `Bạn có chắc muốn xóa ${fileName ? `<b>${fileName}</b>` : "không"}?`,
+						note: `Hành động này <b>không thể hoàn tác</b> một khi đã thực hiện!`,
+						level: "warning",
+						buttonList: {
+							delete: { color: "pink", text: "XÓA!!!" },
+							cancel: { color: "blue", text: "Hủy" }
 						}
-					});
-				} catch(e) {
-					errorHandler(e);
-					throw e;
-				}
-
-				clog("okay", "Deleted Problem", {
-					color: flatc("yellow"),
-					text: id
-				});
-
-				this.getList();
-				this.showList();
-				core.problems.getList();
-			},
-
-			async postSubmit() {
-				this.title.innerText = "Đang lưu...";
-
-				var data = new Array();
-				data.id = this.form.id.value;
-				data.name = this.form.name.value;
-				data.point = this.form.point.value;
-				data.time = this.form.time.value;
-				data.memory = this.form.mem.value;
-				data.inpType = this.form.inpType.value;
-				data.outType = this.form.outType.value;
-				data.accept = this.form.accept.value.split("|");
-				data.image = (this.form.image.files.length !== 0) ? this.form.image.files[0] : null;
-				data.desc = this.form.desc.value;
-				data.attachment = (this.form.attachment.files.length !== 0) ? this.form.attachment.files[0] : null;
-
-				var test = new Array();
-				var testList = this.form.testList.getElementsByTagName("div");
-
-				for (var i = 0; i < testList.length; i++) {
-					var e = testList[i].getElementsByTagName("textarea");
-					if (e[0].value === "" && e[1].value === "")
-						continue;
-
-					var t = {
-						inp: e[0].value,
-						out: e[1].value
+					})
+	
+					if (action !== "delete") {
+						clog("INFO", "Cancelled deletion", typeName, "of", {
+							color: flatc("yellow"),
+							text: id
+						})
+	
+						return false;
 					}
-					test.push(t);
-				}
-				
-				data.test = test;
-
-				await this.submit(this.action, data);
-
-				this.getList();
-				this.showList();
-				core.problems.getList();
-			},
-
-			async submit(action, data) {
-				if (["edit", "add"].indexOf(action) === -1)
-					return false;
-
-				clog("info", "Problem Submit: ", {
-					color: flatc("green"),
-					text: action
-				}, {
-					color: flatc("yellow"),
-					text: data.id
-				});
-
-				try {
-					await myajax({
-						url: "/api/contest/problems/" + action,
-						method: "POST",
-						form: {
-							id: data.id,
-							name: data.name,
-							point: data.point,
-							time: data.time,
-							memory: data.memory,
-							inpType: data.inpType,
-							outType: data.outType,
-							acpt: JSON.stringify(data.accept),
-							img: data.image,
-							desc: data.desc,
-							attm: data.attachment,
-							test: JSON.stringify(data.test),
-							token: API_TOKEN
-						}
-					});
-				} catch(e) {
-					errorHandler(e);
-					throw e;
-				}
-			},
-			
-			async deleteFile(type, id, fileName = null) {
-				if (!["thumbnail", "attachment"].includes(type))
-					return false;
-
-				typeName = { thumbnail: "Ảnh Đính Kèm", attachment: "Tệp Đính Kèm" }[type]
-
-				clog("WARN", "Preparing to delete", typeName, "of", {
-					color: flatc("yellow"),
-					text: `${id}.`
-				}, "Waiting for confirmation...");
-
-				let action = await popup.show({
-					windowTitle: "Xác nhận",
-					title: `Xóa ${typeName} của đề "${id}"`,
-					description: `Bạn có chắc muốn xóa ${fileName ? `<b>${fileName}</b>` : "không"}?`,
-					note: `Hành động này <b>không thể hoàn tác</b> một khi đã thực hiện!`,
-					level: "warning",
-					buttonList: {
-						delete: { color: "pink", text: "XÓA!!!" },
-						cancel: { color: "blue", text: "Hủy" }
+	
+					try {
+						await myajax({
+							url: `/api/contest/problems/${type}`,
+							method: "DELETE",
+							header: {
+								id: id,
+								token: API_TOKEN
+							}
+						})
+					} catch(e) {
+						errorHandler(e);
+						throw e;
 					}
-				})
-
-				if (action !== "delete") {
-					clog("INFO", "Cancelled deletion", typeName, "of", {
+	
+					clog("OKAY", "Deleted", typeName, "of", {
 						color: flatc("yellow"),
 						text: id
 					})
-
-					return false;
+	
+					return true;
 				}
+			}
+		},
 
-				try {
-					await myajax({
-						url: `/api/problems/${type}`,
-						method: "DELETE",
-						header: {
-							id: id,
-							token: API_TOKEN
-						}
-					})
-				} catch(e) {
-					errorHandler(e);
-					throw e;
-				}
+		projectInfo: {
+			group: smenu.Group.prototype,
+			licensePanel: smenu.Panel.prototype,
 
-				clog("OKAY", "Deleted", typeName, "of", {
-					color: flatc("yellow"),
-					text: id
-				})
+			async init() {
+				this.group = new smenu.Group({ label: "thông tin", icon: "info" });
+				let links = new smenu.Child({ label: "Liên Kết Ngoài" }, this.group);
 
-				return true;
-			},
+				new smenu.components.Button({
+					label: "Báo Lỗi",
+					color: "pink",
+					icon: "externalLink",
+					complex: true,
+					onClick: () => window.open(SERVER.REPORT_ERROR, "_blank")
+				}, links);
+				
+				new smenu.components.Button({
+					label: "Wiki",
+					color: "pink",
+					icon: "externalLink",
+					complex: true,
+					onClick: () => window.open(SERVER.REPO_ADDRESS + "/wiki", "_blank")
+				}, links);
+				
+				new smenu.components.Button({
+					label: "Mã Nguồn Mở",
+					color: "pink",
+					icon: "externalLink",
+					complex: true,
+					onClick: () => window.open(SERVER.REPO_ADDRESS, "_blank")
+				}, links);
 
-			async toggleDisabled(id, targetSwitch) {
-				sounds.select(1);
-				targetSwitch.disabled = true;
-				targetSwitch.checked = !targetSwitch.checked;
+				let project = new smenu.Child({ label: "Dự Án" }, this.group);
 
-				await myajax({
-					url: "/api/contest/problems/edit",
-					method: "POST",
-					form: {
-						id: id,
-						disabled: !targetSwitch.checked,
-						token: API_TOKEN
-					}
-				})
+				let detailsButton = new smenu.components.Button({
+					label: "Thông Tin",
+					color: "blue",
+					icon: "arrowLeft",
+					complex: true
+				}, project);
 
-				targetSwitch.disabled = false;
+				(new smenu.Panel($("#mainFooter"))).setToggler(detailsButton);
+
+				let licenseButton = new smenu.components.Button({
+					label: "LICENSE",
+					color: "blue",
+					icon: "arrowLeft",
+					complex: true
+				}, project);
+
+				this.licensePanel = new smenu.Panel(undefined, { size: "large" });
+				this.licensePanel.setToggler(licenseButton);
+				await this.licensePanel.content("iframe:/licenseInfo.php");
+
+				new smenu.components.Footer({
+					icon: "/assets/img/icon.webp",
+					appName: SERVER.APPNAME,
+					version: SERVER.version
+				}, project);
 			}
 		}
 	},
 
-	wrapper: {
-		wrapper: $("#wrapper"),
-		panel: new regPanel($("#wrapperPanel")),
+	darkmode: {
+		priority: 4,
+		enabled: false,
+		toggleHandlers: [],
 
 		init() {
-			this.panel.ref.hide();
-			this.panel.clo.onClick(() => this.hide());
+			this.update();
+		},
 
-			clog("okay", "Initialised:", {
-				color: flatc("red"),
-				text: "core.wrapper"
+		set(dark) {
+			this.enabled = dark;
+
+			if (this.initialized)
+				this.update();
+		},
+
+		onToggle(f) {
+			if (!f || typeof f !== "function")
+				throw { code: -1, description: `twi.Panel().button(${icon}).onClick(): not a valid function` }
+
+			this.toggleHandlers.push(f);
+			f(this.enabled);
+		},
+
+		update() {
+			this.toggleHandlers.forEach(f => f(this.enabled));
+			document.body.classList[this.enabled ? "add" : "remove"]("dark");
+			twi.userSettings.download.publicFilesPanel.iframe.contentDocument.body.classList[this.enabled ? "add" : "remove"]("dark");
+			twi.userSettings.projectInfo.licensePanel.iframe.contentDocument.body.classList[this.enabled ? "add" : "remove"]("dark");
+		}
+	},
+
+	wavec: {
+		priority: 1,
+		container: $("#waveContainer"),
+
+		init(set) {
+			set({ p: 0, d: "Setting Up Wave Container" });
+			wavec.init(this.container);
+		}
+	},
+
+	navbar: {
+		priority: 1,
+
+		container: $("#navbar"),
+
+		title: navbar.title({
+			tooltip: {
+				title: "contest",
+				description: "xem thông tin kì thi này"
+			}
+		}),
+
+		/**
+		 * Hamburger Icon.
+		 * User Settings Panel Toggler
+		 */
+		menu: navbar.menuButton({
+			tooltip: {
+				title: "settings",
+				description: "thay đổi cài đặt của Themis Web Interface"
+			}
+		}),
+
+		/**
+		 * Initialize Navigation Bar Module
+		 * @param {Function}	set		Report Progress to Initializer
+		 */
+		init(set) {
+			set({ p: 0, d: "Setting Up Navigation Bar" });
+			navbar.init(this.container);
+
+			set({ p: 20, d: "Adding Default Navigation Bar Modules" });
+			this.title.set({
+				icon: "/api/images/icon",
+				background: "/api/images/landing",
+				title: SERVER.contest.name,
+				description: SERVER.contest.description
 			});
+
+			this.menu.click.setHandler((active) => (active) ? smenu.show() : smenu.hide());
+			smenu.onShow(() => this.menu.click.active = true);
+			smenu.onHide(() => this.menu.click.active = false);
+
+			navbar.insert(this.title, "left");
+			navbar.insert(this.menu, "right");
 		},
 
-		show(title = "Title", size = "normal") {
-			this.panel.title = title;
-			this.panel.elem.dataset.size = size;
-			this.wrapper.classList.add("show");
-			sounds.select();
+		switch: {
+			component: navbar.switch(),
+			home: null,
+			ranking: null,
+
+			init() {
+				navbar.insert(this.component, "left");
+				twi.darkmode.onToggle((dark) => this.component.set({ color: dark ? "dark" : "whitesmoke" }));
+
+				this.home = this.component.button({
+					icon: "home",
+					tooltip: {
+						title: "home",
+						description: "xem đề bài và nộp bài làm!"
+					}
+				});
+
+				this.home.click.setHandler((a) => (a) ? twi.content.dataset.layout = 1 : "");
+
+				this.ranking = this.component.button({
+					icon: "table",
+					tooltip: {
+						title: "ranking",
+						description: "xem những người khác thực hiện tốt như thế nào!"
+					}
+				});
+
+				this.ranking.click.setHandler((a) => (a) ? twi.content.dataset.layout = 2 : "");
+
+				if (SESSION && SESSION.username)
+					this.home.click.active = true;
+				else
+					this.ranking.click.active = true;
+			}
 		},
 
-		hide() {
-			this.wrapper.classList.remove("show");
+		announcement: {
+			component: navbar.announcement({ level: "info", message: "lorem ipuusj sus sususususu sususu" }),
+
+			init() {
+				navbar.insert(this.component, "left");
+			}
+		},
+
+		account: {
+			component: null,
+			username: null,
+
+			async init() {
+				this.username = SESSION.username;
+
+				if (!this.username) {
+					this.component = navbar.account({
+						color: "darkRed",
+						tooltip: {
+							title: "account",
+							description: "nhấn để đăng nhập!"
+						}
+					});
+
+					this.component.click.setHandler(() => window.location ="/login.php");
+					navbar.insert(this.component, "right");
+					return;
+				}
+
+				let accountData = await myajax({
+					url: "/api/info",
+					query: {
+						u: SESSION.username
+					}
+				});
+
+				this.component = navbar.account({
+					id: accountData.data.id,
+					username: SESSION.username,
+					name: accountData.data.name,
+					avatar: `/api/avatar?u=${this.username}`,
+					tooltip: {
+						title: "account",
+						description: "chỉnh sửa hoặc đăng xuất khỏi tài khoản hiện tại!"
+					}
+				});
+
+				this.component.onChangeAvatar(async (file) => {
+					try {
+						await myajax({
+							url: "/api/avatar",
+							method: "POST",
+							form: {
+								token: API_TOKEN,
+								file
+							}
+						});
+					} catch(e) {
+						sounds.warning();
+						errorHandler(e);
+						throw e;
+					}
+
+					clog("OKAY", "Avatar changed");
+				});
+
+				this.component.onChangeName(async (name) => {
+					let response = null;
+
+					try {
+						response = await myajax({
+							url: "/api/edit",
+							method: "POST",
+							form: {
+								name,
+								token: API_TOKEN
+							}
+						})
+					} catch(e) {
+						clog("ERRR", e);
+
+						await popup.show({
+							windowTitle: "Đổi Tên",
+							title: "Thất Bại",
+							message: "Đổi tên không thành công",
+							description: `[${e.data.code}] ${e.data.description}`,
+							level: "info",
+							buttonList: {
+								close: { text: "Đóng" }
+							}
+						});
+
+						return false;
+					}
+
+					this.component.set({ name: response.data.name });
+					clog("OKAY", `Changed Name To`, {
+						text: name,
+						color: oscColor("pink")
+					})
+				});
+
+				this.component.onChangePassword(async (password, newPassword) => {
+					let response = null;
+
+					try {
+						response = await myajax({
+							url: "/api/edit",
+							method: "POST",
+							form: {
+								password,
+								newPassword,
+								token: API_TOKEN
+							}
+						})
+					} catch(e) {
+						clog("ERRR", e);
+
+						await popup.show({
+							windowTitle: "Đổi Mật Khẩu",
+							title: "Thất Bại",
+							message: "Đổi mật khẩu không thành công",
+							description: `[${e.data.code}] ${e.data.description}`,
+							level: "info",
+							buttonList: {
+								close: { text: "Đóng" }
+							}
+						});
+
+						return false;
+					}
+
+					popup.show({
+						windowTitle: "Đổi Mật Khẩu",
+						title: "Thành Công",
+						description: `Mật khẩu của bạn đã được đổi`,
+						level: "okay",
+						buttonList: {
+							close: { text: "Đóng" }
+						}
+					});
+
+					clog("OKAY", `Password Changed`);
+				});
+
+				this.component.onLogout(async () => {
+					let response = await myajax({
+						url: "/api/logout",
+						method: "POST",
+						form: {
+							token: API_TOKEN
+						}
+					});
+
+					window.location = response.data.redirect;
+				});
+
+				twi.darkmode.onToggle((e) => this.component.set({ color: e ? "darkBlue" : "blue" }));
+				navbar.insert(this.component, "right");
+			}
 		}
 	},
 
@@ -2854,14 +2826,14 @@ const core = {
 		`;
 
 		let gud = await popup.show({
-			windowTitle: "Memes",
+			windowTitle: "MEME REVIEW 👏👏",
 			title: "got some mweme fow yya",
-			message: `<a href="${wutMeme.postLink}" target="_blank">SAUCE 🔗</a>`,
+			message: `r/${wutMeme.subreddit} u/${wutMeme.author} (${wutMeme.ups} 👍) <a href="${wutMeme.postLink}" target="_blank">SAUCE 🔗</a>`,
 			description: wutMeme.title,
 			customNode: memeContainer,
 			buttonList: {
-				moar: { text: "Plz I Need Moar", color: "rainbow" },
-				stahp: { text: "Ewnough iwntewwnet fow todayy", color: "dark" }
+				moar: { text: "👏 NEXT 👏 MEME 👏", color: "rainbow" },
+				stahp: { text: "THIS MEME IS ALREADY DEAD", color: "dark" }
 			}
 		})
 

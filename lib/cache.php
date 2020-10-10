@@ -18,6 +18,9 @@
 	if (!file_exists(CACHE_LOCATION))
 		mkdir(CACHE_LOCATION, 0777, true);
 
+	if (!file_exists(CACHE_LOCATION ."/.htaccess"))
+		(new fip(CACHE_LOCATION ."/.htaccess")) -> write("Order Allow,Deny\nDeny from all");
+
 	class cache {
 		public $id;
 		public $data = Array();

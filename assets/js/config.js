@@ -27,7 +27,7 @@ const config = {
 	configTree: {},
 
     async init() {
-		if (cookie.get("__darkMode") === "true")
+		if (localStorage.getItem("display.nightmode") === "true")
         	document.body.classList.add("dark");
 
 		if (window.frameElement)
@@ -61,6 +61,7 @@ const config = {
 
 			switch (item.type) {
 				case "text":
+				case "textarea":
 				case "number": {
 					let textInput = createInput({
 						type: item.type,
@@ -72,7 +73,7 @@ const config = {
 					})
 
 					if (item.height)
-						textInput.input.style.height = item.height;
+						textInput.input.style.height = item.height + "px";
 	
 					if (item.step)
 						textInput.input.step = item.step;
@@ -92,7 +93,7 @@ const config = {
 				}
 				
 				case "checkbox": {
-					let switchInput = createSwitch({
+					let switchInput = createCheckbox({
 						label: item.label,
 						color: item.color || "blue",
 						value: item.value
@@ -261,45 +262,38 @@ const config = {
 
 					previewContainer.append(previewLabel, previewValue);
 
-					let input = document.createElement("input");
-					input.type = "range";
-					input.classList.add("sq-slider", "blue");
-					input.min = item.min;
-					input.max = item.max;
-					input.step = (typeof item.step === "number") ? item.step : 1;
-					input.dataset.soundselectsoft = true;
-					input.dataset.soundchange = true;
-					sounds.applySound(input);
+					let input = createSlider({
+						color: "blue",
+						value: item.value,
+						min: item.min,
+						max: item.max,
+						step: (typeof item.step === "number") ? item.step : 1
+					});
 
-					input.addEventListener("input", e => {
-						let _o = parseInt(e.target.value);
-						let value = (item.valueList) ? item.valueList[_o] : _o;
+					input.onInput((v, e) => {
+						let value = (item.valueList) ? item.valueList[v] : v;
 				
 						previewValue.innerText = `${value} ${item.unit || "ĐV"}`;
 
-						if (e.isTrusted)
+						if (e && e.isTrusted)
 							tooltip.show(previewValue.innerText, e.target);
 				
 						if (item.valueWarn) {
-							let _p =
-								(item.valueWarn.type === "lower")
-									? (value < item.valueWarn.value)
-									: (value > item.valueWarn.value);
+							let _p = (item.valueWarn.type === "lower")
+								? (value < item.valueWarn.value)
+								: (value > item.valueWarn.value);
 
-							input.className = `sq-slider ${_p ? (item.valueWarn.color || "pink") : "blue"}`;
+							input.group.dataset.color = _p ? (item.valueWarn.color || "pink") : "blue";
 						}
-					})
+					});
 
-					input.value = item.value;
-					input.dispatchEvent(new Event("input"));
-
-					node.append(previewContainer, input);
+					node.append(previewContainer, input.group);
 
 					itemData = {
 						type: item.type,
 						node,
-						setValue: (value) => { input.value = value; input.dispatchEvent(new Event("input")); },
-						getValue: () => parseInt(input.value)
+						setValue: (value) => input.setValue(value),
+						getValue: () => parseFloat(input.input.value)
 					}
 
 					break;

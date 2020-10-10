@@ -236,3 +236,111 @@ body.dark .formGroup[data-color = "red"] .formField:focus {
     letter-spacing: .4px;
     color: rgb(94, 94, 94);
 }
+
+body.dark .sq-input {
+    color: white;
+    background-color: rgb(34, 34, 34);
+}
+
+body.dark .sq-input::placeholder {
+    color: rgb(148, 148, 148);
+}
+
+/** IMAGE INPUT */
+
+.imageInput {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    margin: 8px 0;
+}
+
+.imageInput > input {
+    display: none;
+}
+
+.imageInput > .label {
+    position: relative;
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-family: "Open Sans", "Calibri", "Segoe UI", "sans-serif";
+    font-size: 11px;
+    font-weight: 700;
+    color: #5a5b5f;
+    text-transform: uppercase;
+    letter-spacing: .1px;
+
+    user-select: none;
+    cursor: text;
+    transition: color 0.3s ease;
+}
+
+.imageInput > label {
+    min-height: 100px;
+    cursor: pointer;
+}
+
+.imageInput > label::before {
+    content: "\f07c";
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 18px;
+    font-style: normal;
+    color: rgb(248, 248, 248);
+
+    z-index: 1;
+    opacity: 0;
+    background-color: rgba(38, 38, 38, 0.6);
+
+    transition: opacity 0.2s ease-out;
+}
+
+.imageInput > label:hover::before {
+    opacity: 1;
+}
+
+.imageInput > label[data-errored="true"]::after {
+    content: "\f128";
+}
+
+.imageInput > label:hover::after {
+    display: none;
+}
+
+.imageInput > .clear {
+    position: absolute;
+    display: none;
+    top: 28px;
+    right: 10px;
+
+    cursor: pointer;
+    z-index: 1;
+}
+
+.imageInput > .clear.show {
+    display: inline-flex;
+}
+
+.imageInput > .clear::after {
+    font-size: 20px;
+    transition: color 0.2s ease-out;
+}
+
+.imageInput > label:hover + .clear::after {
+    color: white;
+}
+
+.imageInput > button {
+    margin-top: 5px;
+}

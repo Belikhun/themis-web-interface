@@ -8,14 +8,18 @@
 */
 
 .smenuContainer {
-	position: relative;
+	position: absolute;
 	display: flex;
 	flex-direction: row;
-	width: 100%;
-	height: 100%;
+
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
 
 	background-color: transparent;
 	overflow: hidden;
+	z-index: 100;
 
 	transition: background-color 0.6s ease-in-out;
 }
@@ -36,8 +40,11 @@
 	flex-shrink: 0;
 	order: 1;
 
+	top: 0;
+	right: 0;
 	min-height: 100%;
 	padding-left: 380px;
+	float: right;
 
 	user-select: none;
 	overflow: hidden;
@@ -63,7 +70,7 @@
 	height: 100%;
 	transform: translateX(calc(100% + 60px));
 
-	background-color: rgba(245, 245, 246, 0.8);
+	background-color: rgba(241, 243, 245, 0.85);
 	overflow: hidden;
 	opacity: 0;
 
@@ -95,6 +102,7 @@
 
 	transition:
 		opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+		transform 0.05s linear;
 }
 
 .smenuContainer > .main.collapse > .wrapper > .smenu {
@@ -121,6 +129,8 @@
 	margin: 0 20px 30px;
 
 	text-align: right;
+	font-size: 15px;
+	letter-spacing: .2px;
 	color: rgb(167, 10, 36);
 }
 
@@ -189,7 +199,8 @@
 .smenuContainer > .main > .wrapper > .smenu > .group > .child,
 .smenuContainer > .main > .wrapper > .smenu > .group > .component {
 	position: relative;
-	display: block;
+	display: flex;
+	flex-direction: column;
 
 	text-align: right;
 
@@ -203,10 +214,9 @@
 	display: block;
 
 	width: 1px;
-	height: 90%;
-	top: 50%;
+	top: 10px;
+	bottom: 10px;
 	right: -10px;
-	transform: translateY(-50%);
 
 	background-color: rgba(148, 148, 148, 0.6);
 }
@@ -219,6 +229,8 @@
 	text-align: right;
 	letter-spacing: .4px;
 	color: rgb(44, 44, 44);
+
+	order: -9999;
 }
 
 .smenuContainer > .main > .wrapper > .smenu > .group > .child > .component {
@@ -248,24 +260,51 @@
 	opacity: 1;
 }
 
+/** COMPONENT: TEXT **/
+
 .smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.text {
+	margin: 1px 0;
+
 	text-align: right;
-	font-size: 14px;
+	font-size: 13px;
     color: #2c2c2c;
 }
 
-.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.switch > .switchContainer {
-	flex-direction: row-reverse;
+/** COMPONENT: SPACE **/
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.space {
+	width: 100%;
+	height: 30px;
 }
 
-.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.switch > .switchContainer > span {
+/** COMPONENT: NOTE **/
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.note {
+	display: flex;
+	margin: 5px 0;
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.note > .inner,
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.note > .inner > t {
+	font-size: 12px;
+}
+
+/** COMPONENT: CHECKBOX **/
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.checkbox > .checkboxContainer {
+	flex-direction: row;
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.checkbox > .checkboxContainer > span {
 	margin: unset;
-	text-align: right;
+	text-align: left;
 }
 
-.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.switch > .switchContainer:hover > .sq-checkbox {
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.checkbox > .checkboxContainer:hover > .sq-checkbox {
 	width: 36px;
 }
+
+/** COMPONENT: SLIDER **/
 
 .smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.slider > .header {
 	position: relative;
@@ -286,18 +325,22 @@
 	font-weight: bold;
 }
 
+/** COMPONENT: BUTTON **/
+
 .smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.button > .sq-btn {
 	width: 100%;
 	margin: 5px 0;
 	padding: 10px 20px;
 }
 
+/** COMPONENT: FOOTER **/
+
 .smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.footer {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 
-	margin-bottom: 60px;
+	margin: 40px 0 120px;
 }
 
 .smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.footer > .icon {
@@ -407,7 +450,6 @@
 }
 
 .smenuContainer > .main > .navigator > .button::after {
-	content: "\f111";
 	position: relative;
 	display: flex;
 	flex-grow: 0;
@@ -420,10 +462,6 @@
 
     color: #b3b3b3;
     line-height: 50px;
-    font-family: "Font Awesome 5 Free";
-    font-size: 20px;
-    font-weight: 600;
-	text-align: center;
 
 	transition:
 		color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
@@ -534,8 +572,10 @@
 	
     top: 0;
     right: 0;
-    width: 400px;
+	width: 400px;
 	height: 100%;
+	max-width: calc(100% - 50px);
+	
 	margin-right: 50px;
 	opacity: 0;
 
@@ -549,6 +589,10 @@
 
 .smenuContainer > .panels > .panel.hide {
 	display: none;
+}
+
+.smenuContainer > .panels > .panel[data-size = "large"] {
+	width: 840px;
 }
 
 .smenuContainer > .panels > .panel > .buttons {
@@ -742,11 +786,28 @@
     color: rgb(124, 124, 124);
 }
 
+.smenuContainer > .panels > .panel > .main > iframe {
+	position: relative;
+    display: block;
+	width: 100%;
+	height: 100%;
+	border: unset;
+    overflow: hidden;
+}
+
 /*? ================ MOBILE LAYOUT ================ **/
 
 @media only screen and (max-width: 740px) {
 	.smenuContainer > .main {
-		width: 100%;
+		padding-left: calc(100vw - 60px);
+	}
+
+	.smenuContainer > .main > .wrapper {
+		width: calc(100vw - 60px);
+	}
+
+	.smenuContainer > .main > .navigator.expand {
+		width: 60px;
 	}
 
 	.smenuContainer > .main > .wrapper > .smenu {
@@ -754,4 +815,116 @@
 		flex-shrink: 1;
 		width: auto;
 	}
+}
+
+/** ============================ DARK MODE ============================ **/
+
+
+/** ================ CONTAINER ================ **/
+
+body.dark .smenuContainer > .main > .wrapper {
+	background-color: rgba(22, 22, 22, 0.9);
+}
+
+body.dark .smenuContainer > .main > .wrapper > .smenu > .group {
+	border-top-color: black;
+}
+
+body.dark .smenuContainer > .main > .wrapper > .smenu > .title {
+	color: white;
+}
+
+body.dark .smenuContainer > .main > .wrapper > .smenu > .description {
+	color: rgb(245, 95, 120);
+}
+
+body.dark .smenuContainer > .main > .wrapper > .smenu > .searchBox {
+	background-color: rgba(12, 12, 12, 0.4);
+}
+
+body.dark .smenuContainer > .main > .wrapper > .smenu > .group > .title {
+	color: var(--osc-color-blue);
+}
+
+body.dark .smenuContainer > .main > .wrapper > .smenu > .group > .child > .title {
+	color: white;
+}
+
+body.dark .smenuContainer > .main > .wrapper > .smenu > .group > .child > .component::after {
+	background-color: var(--osc-color-blue);
+}
+
+/** ================ NAVIGATOR ================ **/
+
+body.dark .smenuContainer > .main > .navigator {
+	background-color: black;
+}
+
+body.dark .smenuContainer > .main > .navigator > .button {
+	color: rgb(128, 128, 128);
+}
+
+body.dark .smenuContainer > .main > .navigator > .button.active {
+	color: white;
+}
+
+body.dark .smenuContainer > .main > .navigator > .button::before {
+	background-color: var(--osc-color-blue);
+}
+
+body.dark .smenuContainer > .main > .navigator > .button::after {
+	color: rgb(82, 82, 82);
+}
+
+body.dark .smenuContainer > .main > .navigator > .button.active::after {
+	color: white;
+}
+
+/** ================ PANEL ================ **/
+
+body.dark .smenuContainer > .panels > .panel > .buttons {
+    background-color: black;
+}
+
+body.dark .smenuContainer > .panels > .panel > .buttons:hover {
+    background-color: rgb(12, 12, 12);
+}
+
+body.dark .smenuContainer > .panels > .panel > .buttons > span::before,
+body.dark .smenuContainer > .panels > .panel > .buttons > span::after {
+    color: rgb(192, 192, 192);
+}
+
+body.dark .smenuContainer > .panels > .panel > .buttons > span:hover {
+    background-color: rgba(41, 140, 206, 0.2);
+}
+
+body.dark .smenuContainer > .panels > .panel > .buttons > span:hover::before,
+body.dark .smenuContainer > .panels > .panel > .buttons > span:hover::after {
+    color: #67c2ff;
+}
+
+body.dark .smenuContainer > .panels > .panel > .buttons > .close:hover {
+    background-color: rgba(219, 60, 43, 0.2);
+}
+
+body.dark .smenuContainer > .panels > .panel > .buttons > .close:hover::before,
+body.dark .smenuContainer > .panels > .panel > .buttons > .close:hover::after {
+    color: #ff8577;
+}
+
+body.dark .smenuContainer > .panels > .panel > .main {
+	background-color: rgba(12, 12, 12, 0.85);
+}
+
+/** COMPONENT: TEXT **/
+
+body.dark .smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.text {
+	color: rgb(214, 214, 214);
+}
+
+/** COMPONENT: FOOTER **/
+
+body.dark .smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.footer > .version {
+	color: rgb(243, 71, 88);
 }

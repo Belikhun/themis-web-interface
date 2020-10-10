@@ -21,18 +21,22 @@
 .textView > li {
     position: relative;
     display: block;
-    text-align: left;
-    counter-increment: viewLog-line;
+    flex-shrink: 0;
+
+    min-height: 30px;
     margin: 0 0 0 50px;
     padding: 4px 10px;
-    min-height: 30px;
     box-sizing: border-box;
     border-left: 1px solid rgba(82, 82, 82, 0.3);
-    color: rgb(95, 95, 95);
+    
     font-family: "Consolas";
     font-weight: bold;
     font-size: 17px;
+    text-align: left;
     white-space: pre-wrap;
+    color: rgb(95, 95, 95);
+
+    counter-increment: viewLog-line;
 }
 
 .textView > li:hover {

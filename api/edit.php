@@ -50,7 +50,7 @@
 	}
 
 	if (empty($change))
-		stop(102, "No action taken.", 200);
+		stop(102, "No action taken", 200);
 
 	$res = $acc -> update($change);
 

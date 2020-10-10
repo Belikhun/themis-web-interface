@@ -46,6 +46,12 @@ const navbar = {
 		this.tooltip.container.append(this.tooltip.title, this.tooltip.description);
 
 		this.container.appendChild(this.tooltip.container);
+
+		window.addEventListener("resize", () => {
+			for (let item of this.subWindowLists)
+				if (item.showing)
+					item.update();
+		});
 	},
 
 	insert(component, location, order) {
@@ -128,6 +134,11 @@ const navbar = {
 	},
 
 	SubWindow: class {
+		/**
+		 * @param {HTMLElement}				container 
+		 * @param {HTMLElement|String}		content 
+		 * @param {String}					color 
+		 */
 		constructor(container, content = "BLANK", color = "gray") {
 			this.id = randString(6);
 			this.showing = false;
@@ -155,17 +166,21 @@ const navbar = {
 			this.windowNode.style.height = `${height}px`;
 			
 			if (this.showing) {
+				let containerRect = this.container.getBoundingClientRect();
 				let width = this.contentNode.offsetWidth;
-				let leftPos = this.container.getBoundingClientRect().left;
-				let rightPos = leftPos + this.container.offsetWidth;
-				let middlePos = (leftPos + rightPos) / 2;
+				let leftPos = containerRect.left;
 	
-				if ((leftPos + width) <= window.innerWidth && middlePos > (width / 2))
+				if ((leftPos + (containerRect.width / 2) + (width / 2)) <= window.innerWidth && (leftPos + (containerRect.width / 2) > (width / 2)))
 					this.windowNode.dataset.align = "center";
-				else if ((leftPos + width) > window.innerWidth)
-					this.windowNode.dataset.align = "center";
-				else
+				else if ((width - (leftPos + containerRect.width)) < 0)
+					this.windowNode.dataset.align = "right";
+				else if ((leftPos + width) <= window.innerWidth)
 					this.windowNode.dataset.align = "left";
+				else {
+					this.windowNode.dataset.align = "full";
+					this.windowNode.style.width = null;
+					return;
+				}
 	
 				this.windowNode.style.width = `${width}px`;
 			}
@@ -176,7 +191,10 @@ const navbar = {
 
 			for (let item of navbar.subWindowLists)
 				if (item.id !== this.id)
-					item.hide();
+					item.hide(false);
+
+			if (typeof sounds === "object")
+				sounds.toggle()
 
 			this.windowNode.classList.remove("hide");
 			this.windowNode.classList.add("show");
@@ -186,8 +204,12 @@ const navbar = {
 			this.update();
 		}
 
-		hide() {
+		hide(sound = true) {
 			clearTimeout(this.hideTimeout);
+
+			if (sound && typeof sounds === "object")
+				sounds.toggle(1)
+
 			this.windowNode.classList.remove("show");
 			this.container.classList.remove("active");
 
@@ -221,7 +243,7 @@ const navbar = {
 	},
 
 	Clickable: class {
-		constructor(container) {
+		constructor(container, { onlyActive = false } = {}) {
 			if (typeof container !== "object" || !container.appendChild)
 				throw { code: -1, description: `navbar.Clickable(): container is not a valid node` }
 
@@ -231,7 +253,14 @@ const navbar = {
 
 			this.clickBox = document.createElement("div");
 			this.clickBox.classList.add("clickBox");
-			this.clickBox.addEventListener("click", (e) => this.__trigger(e));
+			this.clickBox.addEventListener("click",
+				() => (onlyActive)
+					? this.active = true
+					: this.toggle()
+			);
+
+			if (typeof sounds === "object")
+				sounds.applySound(this.clickBox, ["soundhover", "soundselect"]);
 
 			this.container.appendChild(this.clickBox);
 		}
@@ -248,19 +277,22 @@ const navbar = {
 				this.handlers[handler] = undefined;
 		}
 
-		__trigger(e) {
-			let isActive = this.container.classList.contains("active");
+		/**
+		 * @param {Boolean}		active
+		 */
+		set active(active) {
+			this.container.classList[active ? "add" : "remove"]("active");
 
-			if (isActive)
-				this.container.classList.remove("active");
-			else
-				this.container.classList.add("active");
+			requestAnimationFrame(() => {
+				for (let item of this.handlers)
+					if (typeof item === "function")
+						item(active);
+			});
+		}
 
-			e.isActive = !isActive;
-
-			for (let item of this.handlers)
-				if (typeof item === "function")
-					item(e);
+		toggle() {
+			let isActive = !this.container.classList.contains("active");
+			this.active = isActive;
 		}
 	},
 
@@ -289,6 +321,7 @@ const navbar = {
 		let navtip = new this.Tooltip(container, (arguments && arguments[0] && arguments[0].tooltip) ? arguments[0].tooltip : {})
 		let click = new this.Clickable(container);
 		let subWindow = new this.SubWindow(container);
+		subWindow.color = "green";
 
 		let subContainer = document.createElement("div");
 		subContainer.classList.add("contestDetails");
@@ -391,26 +424,77 @@ const navbar = {
 		return {
 			container,
 			tooltip: navtip,
-			click,
+			click
+		}
+	},
+
+	switch({
+		color = document.body.classList.contains("dark") ? "dark" : "whitesmoke"
+	} = {}) {
+		let container = document.createElement("span");
+		container.classList.add("component", "switch");
+
+		let indicator = document.createElement("div");
+		indicator.classList.add("indicator");
+		container.appendChild(indicator);
+
+		let background = triBg(container, { color, scale: 1, triangleCount: 8, speed: 6 });
+		let currentActive = null;
+
+		return {
+			container,
+
+			button({
+				icon = "circle"
+			} = {}) {
+				let button = document.createElement("icon");
+				button.dataset.icon = icon;
+				button.dataset.id = randString(4);
+
+				let navtip = new navbar.Tooltip(button, (arguments && arguments[0] && arguments[0].tooltip) ? arguments[0].tooltip : {})
+				let click = new navbar.Clickable(button, { onlyActive: true });
+
+				click.setHandler((a) => {
+					if (a) {
+						if (currentActive && currentActive.id !== button.dataset.id) {
+							currentActive.click.active = false;
+							currentActive = null;
+						}
+	
+						indicator.style.left = button.offsetLeft + "px";
+						currentActive = { id: button.dataset.id, click }
+					}
+				});
+
+				container.appendChild(button);
+
+				return {
+					button,
+					navtip,
+					click
+				}
+			},
 
 			set({
-				icon = null
-			}) {
-				if (icon)
-					iconNode.dataset.icon = icon;
+				color = null
+			} = {}) {
+				if (color)
+					background.setColor(color);
 			}
 		}
 	},
 
 	account({
-		name = "Guest",
+		id = null,
+		username = null,
+		name = null,
 		avatar = "/api/avatar",
 		color = "brown"
-	}) {
+	} = {}) {
 		let container = document.createElement("span");
 		container.classList.add("component", "account");
 
-		triBg(container, { color, scale: .4 });
+		let background = triBg(container, { color, scale: 1, triangleCount: 8, speed: 6 });
 
 		let avatarNode = new lazyload({
 			source: avatar,
@@ -419,14 +503,258 @@ const navbar = {
 
 		let nameNode = document.createElement("t");
 		nameNode.classList.add("name");
-		nameNode.innerHTML = name;
+		nameNode.innerHTML = name || "Khách";
 
 		container.append(avatarNode.container, nameNode);
 
 		let navtip = new this.Tooltip(container, (arguments && arguments[0] && arguments[0].tooltip) ? arguments[0].tooltip : {})
 		let click = new this.Clickable(container);
+
+		if (!name || !username)
+			return {
+				container,
+				tooltip: navtip,
+				click
+			}
+		
+		// User profile With editing functionality
+		//
+		// This is utterly fucking stupid and I don't
+		// like it. Someone please help
 		let subWindow = new this.SubWindow(container);
 		click.setHandler(() => subWindow.toggle());
+		subWindow.color = "pink";
+
+		let subAvatarNode = new lazyload({
+			container: document.createElement("label"),
+			source: avatar,
+			classes: "avatar"
+		});
+
+		let subContainer = buildElementTree("div", "accountSettings", [
+			{ type: "div", class: "header", name: "header", list: [
+				{ type: "input", class: "input", name: "avatarInput" },
+				{ name: "avatar", node: subAvatarNode.container },
+				
+				{ type: "span", class: "details", name: "details", list: [
+					{ type: "t", class: "id", name: "userID", text: id || "Unknown" },
+					{ type: "t", class: "name", name: "name", html: name }
+				]}
+			]},
+			{ type: "div", class: "controls", name: "controls", list: [
+				{ type: "span", class: "left", name: "left", list: [
+					{ type: "icon", name: "edit", data: { icon: "arrowRight" } },
+					{ type: "icon", name: "name", data: { icon: "user" } },
+					{ type: "icon", name: "password", data: { icon: "key" } }
+				]},
+
+				{ type: "icon", name: "logout", data: { icon: "logout" } }
+			]},
+			{ type: "div", class: "edit", name: "edit", list: [
+				{ type: "form", class: "nameForm", name: "name", list: [
+					{ type: "t", class: "title", name: "formTitle", text: "Đổi Tên" },
+					{ name: "input", node: createInput({ type: "text", label: "Tên Mới", color: "blue", autofill: false, require: true }) },
+					{ name: "submit", node: createBtn("Xác Nhận") }
+				]},
+
+				{ type: "form", class: "passForm", name: "password", list: [
+					{ type: "t", class: "title", name: "formTitle", text: "Đổi Mật Khẩu" },
+					{ name: "username", node: htmlToElement(`<input type="text" autocomplete="username" value="${username}" style="display: none;"></input>`) },
+					{ name: "old", node: createInput({ type: "password", label: "Mật Khẩu Cũ", color: "blue", autofill: false, require: true }) },
+					{ name: "new", node: createInput({ type: "password", label: "Mật Khẩu Mới", color: "blue", autofill: false, require: true }) },
+					{ name: "reType", node: createInput({ type: "password", label: "Nhập Lại Mật Khẩu", color: "blue", autofill: false, require: true }) },
+					{ name: "submit", node: createBtn("Xác Nhận") }
+				]}
+			]}
+		]);
+
+		subWindow.content = subContainer.tree;
+		subContainer = subContainer.obj;
+
+		subContainer.controls.left.edit.title = "Chỉnh Sửa Thông Tin";
+		subContainer.controls.logout.title = "Đăng Xuất";
+		sounds.applySound(subContainer.controls.left.edit, ["soundhover", "soundselect"]);
+		sounds.applySound(subContainer.controls.left.name, ["soundhover", "soundselect"]);
+		sounds.applySound(subContainer.controls.left.password, ["soundhover", "soundselect"]);
+		sounds.applySound(subContainer.controls.logout, ["soundhover", "soundselect"]);
+
+		subContainer.header.avatarInput.type = "file";
+		subContainer.header.avatarInput.accept = "image/*";
+		subContainer.header.avatarInput.id = randString(8);
+		subContainer.header.avatarInput.style.display = "none";
+		subAvatarNode.container.htmlFor = subContainer.header.avatarInput.id;
+
+		subContainer.edit.name.action = `javascript:void(0);`;
+		subContainer.edit.password.action = `javascript:void(0);`;
+		subContainer.edit.name.submit.type = "submit";
+		subContainer.edit.password.submit.type = "submit";
+		subContainer.edit.password.new.input.autocomplete = "new-password";
+		subContainer.edit.password.reType.input.autocomplete = "new-password";
+
+		let inputFocusTimeout = null;
+		let logoutHandlers = []
+		let changeAvatarHandlers = []
+		let changeNameHandlers = []
+		let changePasswordHandlers = []
+
+		const changeAvatar = async (e) => {
+			let file = (e.dataTransfer && e.dataTransfer.files[0])
+				? e.dataTransfer.files[0]
+				: (e.target.files && e.target.files[0])
+					? e.target.files[0]
+					: null;
+
+			if (!file) {
+				subAvatarNode.container.removeAttribute("data-state");
+				return;
+			}
+
+			subAvatarNode.container.dataset.state = "load";
+
+			try {
+				for (let f of changeAvatarHandlers)
+					await f(file);
+			} catch(e) {
+				subAvatarNode.container.removeAttribute("data-state");
+				sounds.error();
+				
+				throw e;
+			}
+			
+			avatarNode.src = subAvatarNode.src = avatar;
+			subAvatarNode.container.removeAttribute("data-state");
+			sounds.notification();
+		}
+
+		subAvatarNode.container.addEventListener("dragenter", (e) => {
+			e.stopPropagation();
+			e.preventDefault();
+			e.target.dataset.state = "drag";
+		});
+
+		subAvatarNode.container.addEventListener("dragleave", (e) => {
+			e.stopPropagation();
+			e.preventDefault();
+			e.target.removeAttribute("data-state");
+		});
+
+		subAvatarNode.container.addEventListener("dragover", (e) => {
+			e.stopPropagation();
+            e.preventDefault();
+            e.dataTransfer.dropEffect = "copy";
+            e.target.dataset.state = "drag";
+		});
+
+		subAvatarNode.container.addEventListener("drop", (e) => {
+			e.stopPropagation();
+            e.preventDefault();
+			changeAvatar(e);
+		});
+
+		subContainer.header.avatarInput.addEventListener("input", async (e) => {
+			await changeAvatar(e);
+			e.target.value = "";
+		});
+
+		const changeLayout = (layout) => {
+			clearTimeout(inputFocusTimeout);
+			subContainer.controls.left.name.classList[layout === 0 ? "add" : "remove"]("active");
+			subContainer.controls.left.password.classList[layout === 1 ? "add" : "remove"]("active");
+			subContainer.edit.dataset.layout = layout;
+
+			inputFocusTimeout = setTimeout(() => {
+				if (layout === 0)
+					subContainer.edit.name.input.input.focus();
+				else
+					subContainer.edit.password.old.input.focus();
+			}, 400);
+		}
+
+		const subShowEdit = () => {
+			changeLayout(0);
+			subContainer.controls.classList.add("showEdit");
+			subContainer.edit.classList.add("show");
+		}
+
+		const subHideEdit = () => {
+			subContainer.controls.classList.remove("showEdit");
+			subContainer.edit.classList.remove("show");
+		}
+
+		const verifyPasswordInput = () => {
+			let oldPass = subContainer.edit.password.old.input.value;
+			let newPass = subContainer.edit.password.new.input.value;
+			let reType = subContainer.edit.password.reType.input.value;
+			let button = subContainer.edit.password.submit;
+
+			if (reType !== "" && reType !== newPass) {
+				button.disabled = true;
+				button.dataset.color = "red";
+				button.innerText = "Mật Khẩu Nhập Lại Không Khớp";
+				subContainer.edit.password.reType.group.dataset.color = "red";
+
+				return;
+			} else {
+				button.dataset.color = "blue";
+				button.innerText = "Xác Nhận";
+				subContainer.edit.password.reType.group.dataset.color = "blue";
+			}
+
+			if (oldPass === "" || newPass === "" || reType === "") {
+				button.disabled = true;
+				return;
+			}
+
+			button.disabled = false;
+		}
+
+		subContainer.controls.left.name.addEventListener("click", () => changeLayout(0));
+		subContainer.controls.left.password.addEventListener("click", () => changeLayout(1));
+		subContainer.controls.left.edit.addEventListener("click",
+			() => subContainer.controls.classList.contains("showEdit")
+				? subHideEdit()
+				: subShowEdit()
+		);
+		
+		subContainer.edit.name.input.input.addEventListener("input", (e) =>
+			subContainer.edit.name.submit.disabled = !(e.target.value && e.target.value !== "")
+		);
+
+		subContainer.edit.password.old.input.addEventListener("input", () => verifyPasswordInput());
+		subContainer.edit.password.new.input.addEventListener("input", () => verifyPasswordInput());
+		subContainer.edit.password.reType.input.addEventListener("input", () => verifyPasswordInput());
+		subContainer.edit.name.input.input.dispatchEvent(new Event("input"));
+		verifyPasswordInput();
+
+		subContainer.controls.logout.addEventListener("click", (e) => logoutHandlers.forEach(f => f(e)));
+
+		subContainer.edit.name.submit.addEventListener("click", async (e) => {
+			e.target.disabled = true;
+
+			for (let f of changeNameHandlers)
+				await f(subContainer.edit.name.input.input.value);
+
+			subContainer.edit.name.input.input.value = "";
+			subContainer.edit.name.input.input.dispatchEvent(new Event("input"));
+		});
+
+		subContainer.edit.password.submit.addEventListener("click", async (e) => {
+			e.target.disabled = true;
+
+			for (let f of changePasswordHandlers)
+				await f(
+					subContainer.edit.password.old.input.value,
+					subContainer.edit.password.new.input.value
+				);
+
+			subContainer.edit.password.old.input.value = "";
+			subContainer.edit.password.new.input.value = "";
+			subContainer.edit.password.reType.input.value = "";
+			verifyPasswordInput();
+		});
+
+		click.setHandler((a) => (a === false) ? subHideEdit() : "");
+		changeLayout(0);
 
 		return {
 			container,
@@ -439,14 +767,44 @@ const navbar = {
 				avatar = null,
 				color = null
 			}) {
-				if (name)
+				if (name) {
 					nameNode.innerHTML = name;
+					subContainer.header.details.name.innerHTML = name;
+				}
 
 				if (avatar)
 					avatarNode.src = avatar;
 
 				if (color)
-					this.container.dataset.triColor = color;
+					background.setColor(color);
+			},
+
+			onChangeAvatar(f) {
+				if (!f || typeof f !== "function")
+					throw { code: -1, description: "navbar.account().onChangeAvatar(): not a valid function" }
+
+				changeAvatarHandlers.push(f);
+			},
+
+			onChangeName(f) {
+				if (!f || typeof f !== "function")
+					throw { code: -1, description: "navbar.account().onChangeName(): not a valid function" }
+
+				changeNameHandlers.push(f);
+			},
+
+			onChangePassword(f) {
+				if (!f || typeof f !== "function")
+					throw { code: -1, description: "navbar.account().onChangePassword(): not a valid function" }
+
+				changePasswordHandlers.push(f);
+			},
+
+			onLogout(f) {
+				if (!f || typeof f !== "function")
+					throw { code: -1, description: "navbar.account().onLogout(): not a valid function" }
+
+				logoutHandlers.push(f);
 			}
 		}
 	},
@@ -520,33 +878,34 @@ const navbar = {
 				levelText.style.opacity = 1;
 				levelText.style.paddingLeft = `10px`;
 
-				animationTimeout = setTimeout(() => {
-					levelText.removeAttribute("style");
-					container.classList.add("detail");
-					subWindow.update()
-					
-					if (content.scrollWidth < 200)
-						wrapper.style.width = `${content.scrollWidth}px`;
-					else
-						animationTimeout = setTimeout(() => {
-							let duration = Math.max(content.innerText.split(" ").length * 0.6, 5);
-							content.style.animationName = "announcement-scrolling";
-							content.style.animationDuration = `${duration}s`;
-
+				if (window.innerWidth >= 900)
+					animationTimeout = setTimeout(() => {
+						levelText.removeAttribute("style");
+						container.classList.add("detail");
+						subWindow.update()
+						
+						if (content.scrollWidth < 200)
+							wrapper.style.width = `${content.scrollWidth}px`;
+						else
 							animationTimeout = setTimeout(() => {
-								wrapper.removeAttribute("style");
-								content.removeAttribute("style");
+								let duration = Math.max(content.innerText.split(" ").length * 0.6, 5);
+								content.style.animationName = "announcement-scrolling";
+								content.style.animationDuration = `${duration}s`;
 
-								levelText.style.width = `${levelText.scrollWidth}px`;
-								levelText.style.opacity = 1;
-								levelText.style.paddingLeft = `10px`;
-								content.style.display = "none";
-								container.classList.remove("detail");
+								animationTimeout = setTimeout(() => {
+									wrapper.removeAttribute("style");
+									content.removeAttribute("style");
 
-								animationTimeout = setTimeout(() => subWindow.update(), 500);
-							}, duration * 1000)
-						}, 2000);
-				}, 1000)
+									levelText.style.width = `${levelText.scrollWidth}px`;
+									levelText.style.opacity = 1;
+									levelText.style.paddingLeft = `10px`;
+									content.style.display = "none";
+									container.classList.remove("detail");
+
+									animationTimeout = setTimeout(() => subWindow.update(), 500);
+								}, duration * 1000)
+							}, 2000);
+					}, 1000)
 			}, 900)
 		}
 

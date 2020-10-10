@@ -14,14 +14,9 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
 
 	stop(0, "Success", 200, Array(
-		"version" => VERSION,
-		"versionTag" => VERSION_TAG,
-		"author" => AUTHOR,
-		"contestName" => getConfig("contest.name"),
-		"contestDescription" => getConfig("contest.description"),
-		"username" => $_SESSION["username"] ?: null,
+		"APPNAME" => APPNAME,
+		"AUTHOR" => AUTHOR,
 		"CONTACT" => CONTACT_LINK,
-		"API_TOKEN" => isset($_SESSION["apiToken"]) ? $_SESSION["apiToken"] : null,
 		"REPO_ADDRESS" => REPO_ADDRESS,
 		"REPORT_ERROR" => REPORT_ERROR,
 		"SERVER_LOAD" => function_exists("sys_getloadavg") ? sys_getloadavg()[0] : null,
@@ -32,9 +27,24 @@
 		"REMOTE_ADDR" => $_SERVER["REMOTE_ADDR"],
 		"TIME" => microtime(true),
 
+		"SESSION" => Array(
+			"id" => $_SESSION["id"] ?: null,
+			"username" => $_SESSION["username"] ?: null,
+			"API_TOKEN" => isset($_SESSION["apiToken"]) ? $_SESSION["apiToken"] : null
+		),
+
+		"version" => VERSION,
+		"versionTag" => VERSION_TAG,
+
+		"contest" => Array(
+			"name" => getConfig("contest.name"),
+			"description" => getConfig("contest.description")
+		),
+
 		"config" => Array(
 			"allowRegister" => getConfig("system.allowRegister")
 		),
+
 		"clientConfig" => getConfig("clientSettings"),
 	));
 

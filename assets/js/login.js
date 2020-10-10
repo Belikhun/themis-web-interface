@@ -5,7 +5,7 @@
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
-if (cookie.get("__darkMode") === "true")
+if (localStorage.getItem("display.nightmode") === "true")
 	document.body.classList.add("dark");
 
 const login = {
@@ -108,7 +108,7 @@ const login = {
 
 			this.password.avatar.addEventListener("load", e => e.target.parentElement.dataset.loaded = 1);
 			this.container.addEventListener("submit", () => this.login(), false);
-			this.password.profile.addEventListener("mouseup", () => this.reset(true), false);
+			this.password.profile.addEventListener("mouseup", () => this.reset(), false);
 			this.username.input.disabled = false;
 			this.username.submit.disabled = false;
 			this.innerText = "Đăng nhập";
@@ -202,6 +202,7 @@ const login = {
 			this.username.input.disabled = false;
 			this.username.submit.disabled = false;
 			this.password.input.value = "";
+			sounds.select(1);
 
 			if (!keepUsername) {
 				this.username.input.value = "";

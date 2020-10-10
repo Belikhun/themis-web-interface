@@ -27,7 +27,7 @@
 	$problem = problemGet($id, true);
 
 	$name = getForm("name");
-	$description = getForm("desc");
+	$description = getForm("description");
 
 	$point = withType(getForm("point"), "integer");
 	$time = withType(getForm("time"), "integer");
@@ -36,8 +36,8 @@
 	$outType = getForm("outType", $problem["type"]["out"]);
 	$accept = json_decode(getForm("acpt", "[]"), true) ?: null;
 	$test = json_decode(getForm("test", "[]"), true) ?: null;
-	$image = isset($_FILES["img"]) ? $_FILES["img"] : null;
-	$attachment = isset($_FILES["attm"]) ? $_FILES["attm"] : null;
+	$image = isset($_FILES["image"]) ? $_FILES["image"] : null;
+	$attachment = isset($_FILES["attachment"]) ? $_FILES["attachment"] : null;
 	$disabled = withType(getForm("disabled"), "boolean");
 
 	$code = problemEdit($id, Array(

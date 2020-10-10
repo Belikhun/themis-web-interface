@@ -86,12 +86,14 @@ class splash {
 		this.bar.style.width = `50%`;
 		this.tree.middle.tips.innerHTML = this.tips;
 
-		await this.init((progress = 0, text = "") => {
+		await this.init(({ p, m, d }) => {
 			if (!this.preLoaded)
 				return false;
 
-			this.status.innerText = `${text} [${progress.toFixed(2)}%]`;
-			this.bar.style.width = `${50 + progress*0.4}%`;
+			this.status.innerText = `(${m}) ${d}`;
+
+			if (p)
+				this.bar.style.width = `${50 + p*0.4}%`;
 		}).catch(e => this.__panic(e));
 
 		this.loaded = true;
@@ -118,27 +120,14 @@ class splash {
 	}
 
 	async __panic(error, stop = true) {
-		let e = (error.code && error.data && error.data.code)
-			?	`[${error.code} ${error.data.code}]`
-			:	error.code ? `[${error.code}]`
-			:	error.name
-			||	error.data.name
-			||	`${error.data.data.file}:${error.data.data.line}`
-
-		let d = (error.description && error.data && error.data.description)
-			?	`${error.description} (${error.data.description}) ${(error.data.data.file) ? `${error.data.data.file}:${error.data.data.line}` : ""}`
-			:	error.message
-			||	error.description
-			||	error.data.message
-			||	error.data.description
-
+		let e = parseException(error);
 		this.status.innerText = "Lỗi đã xảy ra";
-		this.tree.middle.errorMsg.innerText = `${e} >>> ${d}`;
+		this.tree.middle.errorMsg.innerText = `[${e.code}] >>> ${e.description}`;
 		this.bar.dataset.color = "red";
 		
-		await this.onErrored(error, e, d);
-		clog("ERRR", error);
+		await this.onErrored(error, e.code, e.description);
 		cookie.set("splashInitSuccess", false, 1);
+		clog("ERRR", error);
 
 		if (stop)
 			throw error;

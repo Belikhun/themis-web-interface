@@ -54,7 +54,6 @@
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri/calibri.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/nunito/nunito.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/opensans/opensans.css?v=<?php print VERSION; ?>" />
-	<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/materialicons/materialicons.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/consolas/consolas.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/fontawesome/fontawesome.css?v=<?php print VERSION; ?>" />
 
@@ -142,9 +141,7 @@
 					</div>
 
 					<div class="right">
-						<a href="<?php print $value["url"]; ?>" download="<?php print $value["attachment"]; ?>">
-							<button class="sq-btn green">Tải về</button>
-						</a>
+						<a href="<?php print $value["url"]; ?>" class="sq-btn green" download="<?php print $value["attachment"]; ?>">Tải về</a>
 					</div>
 				</div>
 
@@ -176,9 +173,7 @@
 					</div>
 
 					<div class="right">
-						<a href="<?php print $value["url"]; ?>" download="<?php print $value["file"]; ?>">
-							<button class="sq-btn">Tải về</button>
-						</a>
+						<a href="<?php print $value["url"]; ?>" class="sq-btn" download="<?php print $value["file"]; ?>">Tải về</a>
 					</div>
 				</div>
 
@@ -190,7 +185,7 @@
 	<!-- Library -->
 	<script type="text/javascript" src="/assets/js/belibrary.js?v=<?php print VERSION; ?>"></script>
 	<script type="text/javascript">
-		if (cookie.get("__darkMode") === "true")
+		if (localStorage.getItem("display.nightmode") === "true")
 			document.body.classList.add("dark");
 
 		if (window.frameElement)

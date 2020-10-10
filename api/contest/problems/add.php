@@ -31,10 +31,10 @@
 	$memLimit = reqType(getForm("memory", 1024), "integer");
 	$inpType = getForm("inpType", "Bàn Phím");
 	$outType = getForm("outType", "Màn Hình");
-	$accept = isset($_POST["acpt"]) ? json_decode($_POST["acpt"], true) : Array("pas", "cpp", "c", "pp", "exe", "class", "py", "java");
-	$image = isset($_FILES["img"]) ? $_FILES["img"] : null;
-	$attachment = isset($_FILES["attm"]) ? $_FILES["attm"] : null;
-	$description = reqForm("desc");
+	$accept = isset($_POST["accept"]) ? json_decode($_POST["accept"], true) : Array("pas", "cpp", "c", "pp", "exe", "class", "py", "java");
+	$image = isset($_FILES["image"]) ? $_FILES["image"] : null;
+	$attachment = isset($_FILES["attachment"]) ? $_FILES["attachment"] : null;
+	$description = reqForm("description");
 	$test = isset($_POST["test"]) ? json_decode($_POST["test"], true) : Array();
 	$disabled = withType(getForm("disabled"), "boolean", false);
 

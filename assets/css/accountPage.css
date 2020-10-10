@@ -7,8 +7,28 @@
 ? |-----------------------------------------------------------------------------------------------|
 */
 
+body {
+    background-color: transparent;
+}
+
 body:not(.embeded) {
-    background-color: gray;
+    background-color: rgb(255, 255, 255);
+}
+
+.wrapper {
+    position: relative;
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    direction: rtl;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.wrapper > .menu {
+    direction: ltr;
 }
 
 #accountContainer {
@@ -16,7 +36,7 @@ body:not(.embeded) {
     display: contents;
 }
 
-#accountContainer .accountInfo {
+#accountContainer > .group > .accountInfo {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -24,11 +44,11 @@ body:not(.embeded) {
     transition: background-color 0.3s ease;
 }
 
-#accountContainer .group.showEditor .accountInfo {
+#accountContainer > .group.showEditor > .accountInfo {
     background-color: rgba(128, 128, 128, 0.1);
 }
 
-#accountContainer .accountInfo .avatar {
+#accountContainer > .group > .accountInfo > .avatar {
     position: relative;
     flex-grow: 0;
     flex-shrink: 0;
@@ -38,7 +58,7 @@ body:not(.embeded) {
     overflow: hidden;
 }
 
-#accountContainer .accountInfo .info {
+#accountContainer > .group > .accountInfo > .info {
     position: relative;
     flex-grow: 1;
     list-style: none;
@@ -48,7 +68,7 @@ body:not(.embeded) {
     overflow: hidden;
 }
 
-#accountContainer .accountInfo .info .id {
+#accountContainer > .group > .accountInfo > .info > .id {
     position: relative;
     font-size: 11px;
     letter-spacing: 0.4px;
@@ -59,7 +79,7 @@ body:not(.embeded) {
     white-space: nowrap;
 }
 
-#accountContainer .accountInfo .info .name {
+#accountContainer > .group > .accountInfo > .info > .name {
     position: relative;
     font-size: 18px;
     color: #425161;
@@ -69,7 +89,7 @@ body:not(.embeded) {
     white-space: nowrap;
 }
 
-#accountContainer .accountInfo .button {
+#accountContainer > .group > .accountInfo > .button {
     position: relative;
     flex-grow: 0;
     display: flex;
@@ -77,13 +97,13 @@ body:not(.embeded) {
     align-items: center;
 }
 
-#accountContainer .accountInfo .button span {
+#accountContainer > .group > .accountInfo > .button span {
     position: relative;
     padding: 0 8px;
     cursor: pointer;
 }
 
-#accountContainer .accountInfo .button span::before {
+#accountContainer > .group > .accountInfo > .button span::before {
     content: "\f51b";
     position: relative;
     display: inline-block;
@@ -94,23 +114,23 @@ body:not(.embeded) {
     transition: color 0.1s ease;
 }
 
-#accountContainer .accountInfo .button span.delete::before {
+#accountContainer > .group > .accountInfo > .button span.delete::before {
     content: "\f1f8";
 }
 
-#accountContainer .accountInfo .button span.delete:hover::before {
+#accountContainer > .group > .accountInfo > .button span.delete:hover::before {
     color: #e74c3c;
 }
 
-#accountContainer .accountInfo .button span.edit::before {
+#accountContainer > .group > .accountInfo > .button span.edit::before {
     content: "\f304";
 }
 
-#accountContainer .accountInfo .button span.edit:hover::before {
+#accountContainer > .group > .accountInfo > .button span.edit:hover::before {
     color: #3498db;
 }
 
-#accountContainer .group.showEditor .accountInfo .button .edit {
+#accountContainer > .group.showEditor > .accountInfo > .button > .edit {
     display: none;
 }
 
@@ -124,11 +144,11 @@ body:not(.embeded) {
 }
 
 .accountEditor.showEditor,
-#accountContainer .group.showEditor .accountEditor {
+#accountContainer > .group.showEditor > .accountEditor {
     height: 200px;
 }
 
-.accountEditor .editor {
+.accountEditor > .editor {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -138,11 +158,11 @@ body:not(.embeded) {
     box-sizing: border-box;
 }
 
-.accountEditor .editor .avatarInput {
+.accountEditor > .editor > .avatarInput {
     display: none;
 }
 
-.accountEditor .editor .avatar {
+.accountEditor > .editor > .avatar {
     position: relative;
     flex-grow: 0;
     flex-shrink: 0;
@@ -153,7 +173,7 @@ body:not(.embeded) {
     overflow: hidden;
 }
 
-.accountEditor .editor .avatar::after {
+.accountEditor > .editor > .avatar::after {
     content: "\f304";
     position: absolute;
     display: flex;
@@ -170,11 +190,11 @@ body:not(.embeded) {
     transition: opacity 0.2s ease;
 }
 
-.accountEditor .editor .avatar:hover::after {
+.accountEditor > .editor > .avatar:hover::after {
     opacity: 1;
 }
 
-.accountEditor .editor .column {
+.accountEditor > .editor .column {
     position: relative;
     display: flex;
     flex-shrink: 1;
@@ -183,11 +203,11 @@ body:not(.embeded) {
     margin: 0 20px;
 }
 
-.accountEditor .editor .column.grow {
+.accountEditor > .editor .column.grow {
     flex-grow: 1;
 }
 
-.accountEditor .editor .row {
+.accountEditor > .editor .row {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -196,22 +216,22 @@ body:not(.embeded) {
     margin: 5px 0;
 }
 
-.accountEditor .editor .column .row .userID {
+.accountEditor > .editor > .column > .row > .userID {
     flex-grow: 0;
     margin-right: 10px;
 }
 
-.accountEditor .editor .column .row .username {
+.accountEditor > .editor > .column > .row > .username {
     flex-grow: 1;
     margin-left: 10px;
 }
 
 /* Dark */
 
-body.dark #accountContainer .accountInfo .info .id {
+body.dark #accountContainer > .group > .accountInfo > .info > .id {
     color: rgb(182, 182, 182);
 }
 
-body.dark #accountContainer .accountInfo .info .name {
+body.dark #accountContainer > .group > .accountInfo > .info > .name {
     color: rgb(218, 218, 218);
 }

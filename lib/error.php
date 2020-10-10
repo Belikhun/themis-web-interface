@@ -28,7 +28,7 @@
 	$errDetail = null;
 	$errDetailSub = null;
 
-	if (isset($_SESSION["lastError"])) {
+	if ($errCode >= 400 && isset($_SESSION["lastError"])) {
 		$lastError = $_SESSION["lastError"];
 		$errData = $lastError["data"];
 		$_SESSION["lastError"] = null;

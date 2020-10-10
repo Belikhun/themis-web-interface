@@ -519,7 +519,10 @@
 	}
 
 	function getClientIP() {
-		return getenv("HTTP_CLIENT_IP")
+		return
+			   $_SERVER["REMOTE_ADDR"]
+			?? $_SERVER["HTTP_CLIENT_IP"]
+			?? getenv("HTTP_CLIENT_IP")
 			?? getenv("HTTP_X_FORWARDED_FOR")
 			?? getenv("HTTP_X_FORWARDED")
 			?? getenv("HTTP_FORWARDED_FOR")

@@ -27,7 +27,7 @@
 }
 
 .navigationBar:hover {
-	box-shadow: 0px 20px 120px 20px rgba(255, 255, 255, 0.6);
+	box-shadow: 0px 40px 100px 30px rgba(255, 255, 255, 0.9);
 }
 
 .navigationBar > .group {
@@ -107,25 +107,52 @@
 
 .navigationBar > .group > .component > .subWindow {
 	position: absolute;
-	display: block;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 
 	top: 100%;
 	left: 0;
 	height: 0;
 
-	box-sizing: border-box;
+	border-bottom: 3px solid rgba(68, 68, 68, 0.8);
 	background-color: rgba(236, 236, 236, 0.9);
 	cursor: default;
 	overflow: hidden;
+	opacity: 0;
 	z-index: 1;
 
 	transition:
-		all 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+		all 0.4s cubic-bezier(0.16, 1, 0.3, 1),
 		width 0s linear;
+}
+
+.navigationBar > .group > .component > .subWindow.show {
+	opacity: 1;
 }
 
 .navigationBar > .group > .component > .subWindow.hide {
 	display: none;
+}
+
+.navigationBar > .group > .component > .subWindow[data-color = "green"] {
+	border-bottom-color: rgb(19, 121, 19);
+}
+
+.navigationBar > .group > .component > .subWindow[data-color = "yellow"] {
+	border-bottom-color: rgb(202, 160, 20);
+}
+
+.navigationBar > .group > .component > .subWindow[data-color = "red"] {
+	border-bottom-color: rgb(124, 14, 14);
+}
+
+.navigationBar > .group > .component > .subWindow[data-color = "blue"] {
+	border-bottom-color: rgb(26, 150, 187);
+}
+
+.navigationBar > .group > .component > .subWindow[data-color = "pink"] {
+	border-bottom-color: rgb(211, 29, 120);
 }
 
 .navigationBar > .group > .component > .subWindow[data-align = "center"] {
@@ -138,31 +165,29 @@
 	right: 0;
 }
 
+.navigationBar > .group > .component > .subWindow[data-align = "full"] {
+	position: fixed;
+
+	top: 40px;
+	left: 0;
+	width: 100vw;
+}
+
 .navigationBar > .group > .component > .subWindow > .content {
 	position: relative;
 	display: inline-block;
 
 	max-width: 100vw;
-	border-bottom: 3px solid rgba(68, 68, 68, 0.8);
 }
 
-.navigationBar > .group > .component > .subWindow[data-color = "green"] > .content {
-	border-bottom-color: rgb(19, 121, 19);
+.navigationBar > .group .clickable {
+	cursor: pointer;
+
+	transition:
+		background-color 0.2s ease;
 }
 
-.navigationBar > .group > .component > .subWindow[data-color = "yellow"] > .content {
-	border-bottom-color: rgb(202, 160, 20);
-}
-
-.navigationBar > .group > .component > .subWindow[data-color = "red"] > .content {
-	border-bottom-color: rgb(124, 14, 14);
-}
-
-.navigationBar > .group > .component > .subWindow[data-color = "blue"] > .content {
-	border-bottom-color: rgb(7, 114, 146);
-}
-
-.navigationBar > .group > .component > .clickBox {
+.navigationBar > .group .clickable > .clickBox {
 	position: absolute;
 	display: block;
 
@@ -170,41 +195,32 @@
 	left: 0;
 	width: 100%;
 	height: 100%;
+
+	z-index: 1;
 }
 
-.navigationBar > .group > .clickable {
-	cursor: pointer;
-
-	transition:
-		background-color 0.2s ease;
-}
-
-.navigationBar > .group > .clickable.active {
+.navigationBar > .group .clickable.active {
 	background-color: rgb(235, 235, 235);
 }
 
-.navigationBar > .group > .clickable:hover {
+.navigationBar > .group .clickable:hover {
 	background-color: rgb(218, 218, 218);
 }
 
-.navigationBar > .group > .clickable:active {
+.navigationBar > .group .clickable:active {
 	background-color: rgb(194, 194, 194);
 }
 
-.navigationBar > .group > .clickable.triBg > .triBgContainer {
+.navigationBar > .group .clickable.triBg > .triBgContainer {
 	transition: filter 0.2s ease;
 }
 
-.navigationBar > .group > .clickable.triBg.active > .triBgContainer {
+.navigationBar > .group .clickable.triBg.active > .triBgContainer {
+	filter: brightness(1.1);
+}
+
+.navigationBar > .group .clickable.triBg:hover > .triBgContainer {
 	filter: brightness(1.2);
-}
-
-.navigationBar > .group > .clickable.triBg:hover > .triBgContainer {
-	filter: brightness(1.6);
-}
-
-.navigationBar > .group > .clickable.triBg:active > .triBgContainer {
-	filter: brightness(1.4);
 }
 
 /** COMPONENTS: TITLE */
@@ -294,6 +310,10 @@
 
 /** COMPONENTS: MENUBUTTON */
 
+.navigationBar > .group > .component.menuBtn {
+	padding: 0 13px;
+}
+
 .navigationBar > .group > .component.menuBtn > .hamburger {
     position: relative;
     width: 22px;
@@ -355,6 +375,39 @@
             transform: translateY(-8px) rotate(-45deg);
 }
 
+/** COMPONENTS: SWITCH */
+
+.navigationBar > .group > .component.switch {
+	padding: unset;
+}
+
+.navigationBar > .group > .component.switch > .indicator {
+	position: absolute;
+	display: block;
+	
+	top: 100%;
+	left: 0;
+	width: 60px;
+	height: 3px;
+
+	background-color: rgb(65, 65, 65);
+	box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.4);
+	z-index: 1;
+
+	transition: left 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.navigationBar > .group > .component.switch > icon {
+	width: 60px;
+	height: 100%;
+
+	cursor: pointer;
+}
+
+.navigationBar > .group > .component.switch > icon.active {
+	background-color: transparent;
+}
+
 /** COMPONENTS: ACCOUNT */
 
 .navigationBar > .group > .component.account {
@@ -372,6 +425,238 @@
 	font-family: Nunito;
 	font-weight: 800;
 	color: white;
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+
+	min-width: 360px;
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .header {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+
+	background: linear-gradient(to right, #642b73, #c6426e);
+	padding: 10px;
+	overflow: hidden;
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .header::before {
+	position: absolute;
+	
+	top: -20px; left: -20px;
+	width: calc(100% + 40px);
+	height: calc(100% + 40px);
+
+	background-image: url("/assets/img/header1.webp");
+	background-position: center;
+	background-size: cover;
+
+	filter: brightness(0.8) blur(6px);
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .header > .avatar {
+	flex-shrink: 0;
+
+	width: 86px;
+	height: 86px;
+	margin: 10px;
+	border-radius: 50%;
+
+	cursor: pointer;
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .header > .avatar::before {
+	content: "\f303";
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+
+	background-color: rgba(10, 10, 10, 0.8);
+
+	font-family: "Font Awesome 5 Free";
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+	color: #ffffff;
+
+	opacity: 0;
+	z-index: 1;
+
+	transition: opacity 0.2s ease-out;
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .header > .avatar:hover::before {
+	opacity: 1;
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .header > .avatar[data-state="drag"]::before {
+	content: "\f103";
+	font-size: 34px;
+	opacity: 1;
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .header > .avatar[data-state="load"]::before {
+	content: "";
+	opacity: 1;
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .header > .avatar[data-state="load"] > .simpleSpinner {
+	display: block;
+	border-color: white;
+	border-right-color: transparent;
+
+	z-index: 2;
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .header > .details {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+
+	margin: 10px;
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .header > .details > .id {
+	font-size: 11px;
+	color: rgb(248, 248, 248);
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .header > .details > .name {
+	font-family: Nunito;
+	font-size: 24px;
+	font-weight: 900;
+	letter-spacing: .4px;
+	color: white;
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .controls {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+
+	background-color: white;
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .controls > .left {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	flex-grow: 1;
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .controls icon {
+	height: 40px;
+	padding: 10px 20px;
+	box-sizing: border-box;
+	cursor: pointer;
+
+	transition: all 0.2s ease;
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .controls icon:hover {
+	background-color: rgb(216, 216, 216);
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .controls icon:active {
+	background-color: rgb(202, 202, 202);
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .controls icon.active {
+	background-color: rgb(230, 230, 230);
+	border-bottom: 2px solid rgb(84, 84, 84);
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .controls > .left > icon[data-name="name"],
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .controls > .left > icon[data-name="password"] {
+	display: none;
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .controls.showEdit > .left > icon[data-name="name"],
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .controls.showEdit > .left > icon[data-name="password"] {
+	display: inline-flex;
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .controls > .left > icon[data-name="edit"]::after {
+	transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .controls.showEdit > .left > icon[data-name="edit"]::after {
+	transform: rotate(90deg);
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .edit {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+
+	width: 200%;
+	height: 0;
+
+	transition:
+		transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .edit[data-layout = "1"] {
+	transform: translateX(-50%);
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .edit[data-layout = "0"].show {
+	height: 150px;
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .edit[data-layout = "1"].show {
+	height: 260px;
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .edit > form {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	width: 100%;
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .edit > form > .title {
+	width: 100%;
+
+	font-family: Nunito;
+	font-size: 18px;
+	font-weight: 900;
+	letter-spacing: .4px;
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .edit > form > .formGroup {
+	width: 100%;
+}
+
+.navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .edit > form > .sq-btn {
+	width: 100%;
+	margin-top: 10px;
+}
+
+@media only screen and (max-width: 700px) {
+	.navigationBar > .group > .component.account {
+		padding: 0 10px;
+	}
+
+	.navigationBar > .group > .component.account > .name {
+		display: none;
+	}
 }
 
 /** COMPONENTS: ANNOUNCEMENT */
@@ -423,7 +708,7 @@
 }
 
 .navigationBar > .group > .component.announcement[data-level = "info"] .main {
-	background-color: #f0f0f0;
+	background-color: #f8f8f8;
 }
 
 .navigationBar > .group > .component.announcement[data-level = "warning"] .main {
@@ -519,15 +804,17 @@
 	overflow: hidden;
 
 	transition:
-		all 0.6s cubic-bezier(0, 0.55, 0.45, 1);
+		all 0.6s cubic-bezier(0, 0.55, 0.45, 1),
+		visibility 0s;
 }
 
 .navigationBar > .group > .component.announcement > .main > .wrapper {
 	position: relative;
-	display: block;
+	display: flex;
+	align-items: center;
 
 	width: 0;
-	marin: unset;
+	margin: unset;
 	overflow: hidden;
 
 	transition:
@@ -556,6 +843,17 @@
 
 	100% {
 		transform: translateX(-100%);
+	}
+}
+
+@media only screen and (max-width: 900px) {
+	.navigationBar > .group > .component.announcement > .main > .level {
+		position: absolute;
+		visibility: hidden;
+	}
+
+	.navigationBar > .group > .component.announcement > .main > .wrapper {
+		display: none;
 	}
 }
 
@@ -657,4 +955,151 @@
 	padding: 5px 8px;
 	font-size: 11px;
 	letter-spacing: .4px;
+}
+
+/** ============================ DARK MODE ============================ **/
+
+body.dark .navigationBar {
+	background-color: #212121;
+}
+
+body.dark .navigationBar:hover {
+	box-shadow: 0px 40px 100px 30px rgba(16, 16, 16, 0.9);
+}
+
+body.dark .navigationBar > .group .clickable.active {
+	background-color: rgb(70, 70, 70);
+}
+
+body.dark .navigationBar > .group .clickable.active:hover {
+	background-color: rgb(80, 80, 80);
+}
+
+body.dark .navigationBar > .group .clickable:hover {
+	background-color: rgb(48, 48, 48);
+}
+
+body.dark .navigationBar > .group .clickable:active {
+	background-color: rgb(65, 65, 65);
+}
+
+body.dark .navigationBar > .group > .component > .subWindow {
+	background-color: rgba(0, 0, 0, 0.9);
+}
+
+body.dark .navigationBar > .group > .component > .subWindow[data-color = "green"] {
+	border-bottom-color: rgb(47, 240, 47);
+}
+
+body.dark .navigationBar > .group > .component > .subWindow[data-color = "yellow"] {
+	border-bottom-color: rgb(253, 220, 110);
+}
+
+body.dark .navigationBar > .group > .component > .subWindow[data-color = "red"] {
+	border-bottom-color: rgb(225, 50, 50);
+}
+
+body.dark .navigationBar > .group > .component > .subWindow[data-color = "blue"] {
+	border-bottom-color: rgb(104, 212, 245);
+}
+
+body.dark .navigationBar > .group > .component > .subWindow[data-color = "pink"] {
+	border-bottom-color: rgb(250, 119, 185);
+}
+
+/** COMPONENTS: TITLE */
+
+body.dark .navigationBar > .group > .component.title > .title {
+	color: white;
+}
+
+/** COMPONENTS: SWITCH */
+
+body.dark .navigationBar > .group > .component.switch > .indicator {
+	background-color: white;
+	box-shadow: 0px 0px 10px 1px rgb(194, 224, 255);
+}
+
+body.dark .navigationBar > .group > .component.switch > icon::after {
+	color: rgb(194, 224, 255);
+}
+
+body.dark .navigationBar > .group > .component.switch > icon.active::after {
+	color: white;
+	text-shadow: 0px 0px 10px rgb(194, 224, 255);
+}
+
+body.dark .navigationBar > .group > .component.switch > icon.active {
+	background-color: transparent;
+}
+
+/** COMPONENTS: MENUBUTTON */
+
+body.dark .navigationBar > .group > .component.menuBtn > .hamburger > span {
+	background-color: rgb(235, 235, 235);
+}
+
+/** COMPONENTS: ACCOUNT */
+
+body.dark .navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .header {
+	background: linear-gradient(to right, #1e3c72, #2a5298);
+}
+
+body.dark .navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .controls {
+	background-color: rgb(36, 36, 36);
+}
+
+body.dark .navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .controls icon:hover {
+	background-color: rgb(48, 48, 48);
+}
+
+body.dark .navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .controls icon:active {
+	background-color: rgb(90, 90, 90);
+}
+
+body.dark .navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .controls icon.active {
+	background-color: rgb(70, 70, 70);
+}
+
+/** COMPONENTS: ANNOUNCEMENT */
+
+body.dark .navigationBar > .group > .component.announcement > .main > .level {
+	color: white;
+}
+
+body.dark .navigationBar > .group > .component.announcement > .main > .icon::before,
+body.dark .navigationBar > .group > .component.announcement > .main > .icon::after {
+	color: white;
+}
+
+body.dark .navigationBar > .group > .component.announcement[data-level = "okay"] .main {
+	background-color: #047e0f;
+}
+
+body.dark .navigationBar > .group > .component.announcement[data-level = "info"] .main {
+	background-color: #383d3d;
+}
+
+body.dark .navigationBar > .group > .component.announcement[data-level = "warning"] .main {
+	background-color: #9e7a04;
+}
+
+body.dark .navigationBar > .group > .component.announcement[data-level = "error"] .main {
+	background-color: #ba1e3d;
+}
+
+body.dark .navigationBar > .group > .component.announcement > .subWindow > .content > .announcementDetail > .footer {
+	background-color: rgba(46, 46, 46, 0.6);
+}
+
+body.dark .navigationBar > .group > .component.announcement > .subWindow > .content > .announcementDetail > .footer > .icon::before {
+	color: rgb(206, 206, 206);
+}
+
+body.dark .navigationBar > .group > .component.announcement > .subWindow > .content > .announcementDetail > .footer > .time {
+	color: rgba(216, 216, 216, 0.8)
+}
+
+body.dark .navigationBar > .group > .component.announcement > .subWindow > .content > .announcementDetail > .icon::before {
+	color: white;
 }

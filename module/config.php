@@ -97,9 +97,10 @@
 			),
 
 			"description" => Array(
-				"type" => "text",
+				"type" => "textarea",
 				"label" => "Mô tả kì thi",
 				"color" => "blue",
+				"height" => 300,
 				"value" => "Bài làm nộp lên được chấm bằng phần mềm <a href=\"http://dsapblog.wordpress.com/\" target=\"_blank\" rel=\"noopener\">Themis (Lê Minh Hoàng & Đỗ Đức Đông)</a>",
 				"required" => true
 			),
@@ -320,28 +321,30 @@
 			),
 
 			"rankUpdate" => Array(
-				"type" => "checkbox",
-				"label" => "Tự động cập nhật Xếp Hạng",
-				"color" => "blue",
-				"value" => true
+				"type" => "range",
+				"label" => "Thời gian cập nhật xếp hạng",
+				"value" => 3,
+				"min" => 1,
+				"max" => 11,
+				"step" => 1,
+				"unit" => "ms/yêu cầu",
+				"valueList" => Array(1 => 500, 2 => 1000, 3 => 2000, 4 => 10000, 5 => 60000, 6 => 120000, 7 => 240000, 8 => 300000, 9 => 600000, 10 => 3600000, 11 => -1),
+				"valueWarn" => Array(
+					"type" => "lower",
+					"value" => 1000,
+					"color" => "pink"
+				)
 			),
 
 			"logsUpdate" => Array(
-				"type" => "checkbox",
-				"label" => "Tự động cập nhật Nhật Kí",
-				"color" => "blue",
-				"value" => true
-			),
-
-			"updateDelay" => Array(
 				"type" => "range",
-				"label" => "Thời gian làm mới",
-				"value" => 2,
+				"label" => "Thời gian cập nhật nhật ký",
+				"value" => 3,
 				"min" => 1,
-				"max" => 10,
+				"max" => 11,
 				"step" => 1,
 				"unit" => "ms/yêu cầu",
-				"valueList" => Array(1 => 500, 2 => 1000, 3 => 2000, 4 => 10000, 5 => 60000, 6 => 120000, 7 => 240000, 8 => 300000, 9 => 600000, 10 => 3600000),
+				"valueList" => Array(1 => 500, 2 => 1000, 3 => 2000, 4 => 10000, 5 => 60000, 6 => 120000, 7 => 240000, 8 => 300000, 9 => 600000, 10 => 3600000, 11 => -1),
 				"valueWarn" => Array(
 					"type" => "lower",
 					"value" => 1000,

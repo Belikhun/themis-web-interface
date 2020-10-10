@@ -7,6 +7,7 @@
 
 const smenu = {
 	container: HTMLElement.prototype,
+	initialized: false,
 	groupLists: [],
 
 	hiding: true,
@@ -25,7 +26,7 @@ const smenu = {
 		title = "settings",
 		description = "Change how this application behaves"
 	} = {}) {
-		if (typeof container !== "object" || !container.classList)
+		if (typeof container !== "object" || !container.classList || !container.parentElement)
 			throw { code: -1, description: `smenu.init(): container is not a valid node` }
 
 		let tree = buildElementTree("div", ["smenuContainer", "hide"], [
@@ -61,7 +62,7 @@ const smenu = {
 
 		let navExpandTimeout = null;
 		this.scroll = new Scrollable(this.container.main.wrapper.smenu);
-
+		
 		this.container.main.navigator.addEventListener("mouseenter",
 			() => navExpandTimeout = setTimeout(() => {
 				this.container.main.navigator.classList.add("expand");
@@ -99,6 +100,8 @@ const smenu = {
 			else
 				this.hide();
 		});
+
+		this.initialized = true;
 	},
 
 	onShow(f) {
@@ -115,7 +118,10 @@ const smenu = {
 		this.hideHandlers.push(f);
 	},
 
-	show() {
+	show(isBack = true) {
+		if (!this.initialized)
+			throw { code: -1, description: "smenu.show(): smenu is not initialized!" }
+
 		if (!this.hiding && !this.collapsing)
 			return;
 
@@ -123,6 +129,9 @@ const smenu = {
 		this.container.classList.remove("hide");
 		this.container.main.classList.remove("hide");
 		this.container.main.classList.remove("collapse");
+
+		if (isBack && typeof sounds === "object")
+			sounds.toggle();
 
 		requestAnimationFrame(() => {
 			this.container.classList.add("show");
@@ -134,11 +143,17 @@ const smenu = {
 	},
 
 	hide() {
+		if (!this.initialized)
+			throw { code: -1, description: "smenu.hide(): smenu is not initialized!" }
+
 		if (this.hiding)
 			return;
 
 		clearInterval(this.containerHideTimeout);
 		this.container.classList.remove("show");
+
+		if (typeof sounds === "object")
+			sounds.toggle(1);
 
 		if (this.activePanel)
 			this.activePanel.hide(false);
@@ -150,6 +165,9 @@ const smenu = {
 	},
 
 	collapse() {
+		if (!this.initialized)
+			throw { code: -1, description: "smenu.collapse(): smenu is not initialized!" }
+
 		if (this.collapsing)
 			return;
 
@@ -214,13 +232,15 @@ const smenu = {
 			this.title.innerText = label;
 			this.container.appendChild(this.title);
 
-			this.toggler = document.createElement("span");
+			this.toggler = document.createElement("icon");
 			this.toggler.classList.add("button");
 			this.toggler.dataset.icon = icon;
 			this.toggler.innerText = label;
 
-			this.toggler.addEventListener("click", () => this.scrollTo());
+			if (typeof sounds === "object")
+				sounds.applySound(this.toggler, ["soundhoversoft", "soundselectsoft"]);
 
+			this.toggler.addEventListener("click", () => this.scrollTo());
 			smenu.container.main.wrapper.smenu.appendChild(this.container);
 			smenu.container.main.navigator.appendChild(this.toggler);
 			requestAnimationFrame(() => smenu.container.main.wrapper.smenu.dispatchEvent(new Event("scroll")));
@@ -334,10 +354,10 @@ const smenu = {
 
 	components: {
 		Text: class {
-			constructor({ text = "Sample Text" } = {}, child) {
+			constructor({ content = "Sample Text" } = {}, child) {
 				this.container = document.createElement("t");
 				this.container.classList.add("component", "text");
-				this.container.innerHTML = text;
+				this.content = content;
 
 				if (child) {
 					if (!child.container || typeof child.insert !== "function")
@@ -353,39 +373,116 @@ const smenu = {
 
 				this.container.addEventListener("click", e => f(e));
 			}
+
+			/**
+			 * @param {HTMLElement | String}	content
+			 */
+			set content(content) {
+				if (typeof content === "object" && content.classList) {
+					emptyNode(this.container);
+					this.container.appendChild(content);
+				} else
+					this.container.innerHTML = content;
+			}
 		},
 
-		Switch: class {
+		Note: class {
+			constructor({
+				level = "info",
+				message = "Sample Note"
+			} = {}, child) {
+				this.container = document.createElement("div");
+				this.container.classList.add("component", "note");
+
+				this.inner = document.createElement("span");
+				this.inner.classList.add("inner");
+
+				this.container.appendChild(this.inner);
+				this.set({ level, message });
+
+				if (child) {
+					if (!child.container || typeof child.insert !== "function")
+						throw { code: -1, description: `smenu.components.Note(): child is not a valid Child` }
+	
+					child.insert(this);
+				}
+			}
+
+			set({
+				level = undefined,
+				message = undefined
+			} = {}) {
+				if (level)
+					this.container.dataset.level = level;
+
+				if (message)
+					if (typeof message === "object" && message.classList) {
+						emptyNode(this.inner);
+						this.inner.appendChild(message);
+					} else
+						this.inner.innerHTML = message;
+			}
+		},
+
+		Space: class {
+			constructor(child) {
+				this.container = document.createElement("div");
+				this.container.classList.add("component", "space");
+
+				if (child) {
+					if (!child.container || typeof child.insert !== "function")
+						throw { code: -1, description: `smenu.components.Space(): child is not a valid Child` }
+	
+					child.insert(this);
+				}
+			}
+		},
+
+		Checkbox: class {
 			constructor({
 				label = "Sample Button",
 				color = "blue",
 				disabled = false,
-				value = false,
-				defaultValue = false
+				value = null,
+				save = null,
+				defaultValue = false,
+				onChange = null
 			} = {}, child) {
 				this.container = document.createElement("div");
-				this.container.classList.add("component", "switch");
+				this.container.classList.add("component", "checkbox");
 
-				this.switch = createSwitch({ label, color });
-				this.switch.input.disabled = disabled;
-				this.container.appendChild(this.switch.group);
+				this.checkbox = createCheckbox({ label, color });
+				this.checkbox.input.disabled = disabled;
+				this.container.appendChild(this.checkbox.group);
 
 				this.defaultValue = defaultValue;
-				this.changeHandlers = []
-				this.switch.input.addEventListener("change", (e) => this.changeHandlers.forEach(f => f(e.target.checked)));
+				this.save = save;
 
-				this.onChange((value) => {
+				this.changeHandlers = []
+				this.checkbox.input.addEventListener("change", (e) => this.changeHandlers.forEach(f => f(e.target.checked)));
+
+				this.changeHandlers.push((value) => {
+					if (this.save)
+						localStorage.setItem(this.save, value);
+
 					if (value !== this.defaultValue)
 						this.container.classList.add("changed");
 					else
 						this.container.classList.remove("changed");
 				});
 
-				this.set({ value });
+				if (typeof onChange === "function")
+					this.changeHandlers.push(onChange);
+
+				let savedValue = localStorage.getItem(this.save);
+				if (savedValue === null)
+					this.set({ value: (typeof value === "boolean") ? value : defaultValue || false });
+				else
+					this.set({ value: (savedValue === "true") })
 
 				if (child) {
 					if (!child.container || typeof child.insert !== "function")
-						throw { code: -1, description: `smenu.components.Switch(): child is not a valid Child` }
+						throw { code: -1, description: `smenu.components.Checkbox(): child is not a valid Child` }
 	
 					child.insert(this);
 				}
@@ -398,25 +495,26 @@ const smenu = {
 				value = null
 			} = {}) {
 				if (label)
-					this.switch.title.innerText = label;
+					this.checkbox.title.innerText = label;
 
 				if (color)
-					this.switch.label.dataset.color = color;
+					this.checkbox.label.dataset.color = color;
 
 				if (typeof value === "boolean") {
-					this.switch.input.checked = value;
-					this.switch.input.dispatchEvent(new Event("change"));
+					this.checkbox.input.checked = value;
+					this.checkbox.input.dispatchEvent(new Event("change"));
 				}
 
 				if (typeof disabled === "boolean")
-					this.switch.input.disabled = disabled;
+					this.checkbox.input.disabled = disabled;
 			}
 
 			onChange(f) {
 				if (!f || typeof f !== "function")
-					throw { code: -1, description: "smenu.components.Switch().onChange(): not a valid function" }
+					throw { code: -1, description: "smenu.components.Checkbox().onChange(): not a valid function" }
 
 				this.changeHandlers.push(f);
+				f(this.checkbox.input.checked);
 			}
 		},
 
@@ -424,14 +522,17 @@ const smenu = {
 			constructor({
 				label = "Sample Slider",
 				color = "pink",
-				value = 1,
 				min = 0,
 				max = 10,
 				step = 1,
-				valueStep = null,
+				value = null,
+				save = null,
 				unit = null,
+				valueStep = null,
 				defaultValue = 1,
-				disabled = false
+				disabled = false,
+				onChange = null,
+				onInput = null
 			} = {}, child) {
 				this.container = document.createElement("div");
 				this.container.classList.add("component", "slider");
@@ -448,20 +549,33 @@ const smenu = {
 				this.previewNode.classList.add("preview");
 				this.previewNode.innerText = "Unknown";
 
+				this.defaultValue = defaultValue;
+				this.valueStep = valueStep;
+				this.unit = unit;
+				this.save = save;
+
+				let savedValue = localStorage.getItem(this.save);
+				if (savedValue === null)
+					value = (typeof value === "number") ? value : defaultValue;
+				else
+					value = parseInt(savedValue);
+
 				this.slider = createSlider({ color, value, min, max, step });
 				this.slider.input.disabled = disabled;
 				this.onInput = this.slider.onInput;
 				this.onChange = this.slider.onChange;
 
-				this.defaultValue = defaultValue;
-				this.valueStep = valueStep;
-				this.unit = unit;
+				header.append(this.labelNode, this.previewNode);
+				this.container.append(header, this.slider.group);
 
 				this.onInput((value) => this.update(value));
 				this.update(value, false);
 
-				header.append(this.labelNode, this.previewNode);
-				this.container.append(header, this.slider.group);
+				if (typeof onInput === "function")
+					this.onInput(onInput);
+
+				if (typeof onChange === "function")
+					this.onChange(onChange);
 
 				if (child) {
 					if (!child.container || typeof child.insert !== "function")
@@ -472,8 +586,16 @@ const smenu = {
 			}
 
 			update(value, showTooltip = true) {
-				let rVal = (this.valueStep && this.valueStep[value]) ? this.valueStep[value] : value;
-				let sVal = rVal + ((this.unit) ? ` <b>${this.unit}</b>` : "");
+				if (this.save)
+					localStorage.setItem(this.save, value);
+
+				let rVal = (this.valueStep && (typeof this.valueStep[value] !== "undefined"))
+					? this.valueStep[value]
+					: value;
+
+				let sVal = (typeof rVal === "boolean")
+					? ((rVal) ? "BẬT" : "TẮT")
+					: rVal + ((this.unit) ? ` <b>${this.unit}</b>` : "");
 
 				this.previewNode.innerHTML = sVal;
 
@@ -526,24 +648,27 @@ const smenu = {
 				label = "Sample Button",
 				color = "blue",
 				icon = null,
-				complex = false
+				complex = false,
+				onClick = null
 			} = {}, child) {
 				this.container = document.createElement("div");
 				this.container.classList.add("component", "button");
 
-				this.button = createBtn(label, color);
-				this.triBg = null;
-
-				if (complex)
-					this.triBg = triBg(this.button, { scale: 0.8, speed: 10, color: color });
-
-				if (icon)
-					this.button.appendChild(htmlToElement(`<icon class="left" data-icon="${icon}"/>`))
-
+				this.button = createBtn(label, color, { icon, complex });
 				this.container.appendChild(this.button);
 				
 				this.clickHandlers = []
-				this.button.addEventListener("click", e => this.clickHandlers.forEach(f => f(e)));
+				this.button.addEventListener("click", async (e) => {
+					this.button.disabled = true;
+
+					for (let f of this.clickHandlers)
+						await f(e);
+
+					this.button.disabled = false;
+				});
+
+				if (typeof onClick === "function")
+					this.clickHandlers.push(onClick);
 
 				if (child) {
 					if (!child.container || typeof child.insert !== "function")
@@ -563,7 +688,7 @@ const smenu = {
 				
 				if (color)
 					if (this.triBg)
-						this.triBg.setColor(color);
+						this.button.dataset.triColor = color;
 					else
 						this.button.dataset.color = color;
 
@@ -607,7 +732,7 @@ const smenu = {
 	},
 
 	Panel: class {
-		constructor(content, { type = "normal" } = {}) {
+		constructor(content, { size = "normal" } = {}) {
 			this.container = buildElementTree("div", ["panel", "hide"], [
 				{ type: "span", class: "buttons", name: "buttons", list: [
 					{ type: "span", class: "reload", name: "reload" },
@@ -620,15 +745,99 @@ const smenu = {
 
 			smenu.container.panels.appendChild(this.container.tree);
 			this.container = this.container.obj;
-			this.container.dataset.size = type;
+			this.container.dataset.size = size;
+
+			/**
+			 * @type {HTMLIFrameElement}
+			 */
+			this.iframe = undefined;
 
 			this.hideTimeout = null;
 			this.container.buttons.close.addEventListener("click", () => this.hide());
+
+			if (content)
+				this.content(content);
+
+			this.reload.onClick(() => (this.iframe) ? this.iframe.contentWindow.location.reload() : 0);
 		}
 
+		/**
+		 * @param {HTMLElement|String}	content
+		 */
+		set content(content) {
+			this.content(content);
+		}
+
+		/**
+		 * @param {HTMLElement|String}	content
+		 */
+		content(content) {
+			return new Promise((resolve) => {
+				if (this.iframe) {
+					this.container.main.removeChild(this.iframe);
+					delete this.iframe;
+				}
+	
+				emptyNode(this.container.main);
+				let re = null;
+	
+				if (typeof content === "object" && content.classList)
+					this.container.main.appendChild(content);
+				else if ((re = /iframe:(.+)/gm.exec(content)) !== null) {
+					this.iframe = document.createElement("iframe");
+					this.iframe.src = re[1];
+					this.container.main.appendChild(this.iframe);
+
+					this.iframe.addEventListener("load", () => resolve());
+					return;
+				} else
+					this.container.main.innerHTML = content;
+
+				resolve();
+				return;
+			})
+		}
+
+		get reload() {
+			let button = this.container.buttons.reload;
+
+			return {
+				button,
+
+				onClick(f) {
+					if (!f || typeof f !== "function")
+						throw { code: -1, description: "smenu.Panel().reload.onClick(): not a valid function" }
+
+					button.addEventListener("click", f);
+				},
+			}
+		}
+
+		get custom() {
+			let button = this.container.buttons.custom;
+
+			return {
+				button,
+
+				type(type) {
+					button.className = `custom ${type}`;
+				},
+
+				onClick(f) {
+					if (!f || typeof f !== "function")
+						throw { code: -1, description: "smenu.Panel().custom.onClick(): not a valid function" }
+
+					button.addEventListener("click", f);
+				},
+			}
+		}
+
+		/**
+		 * @param {smenu.Button}	button
+		 */
 		setToggler(button) {
 			if (!button.container || typeof button.onClick !== "function")
-				throw { code: -1, description: `smenu.Panel.getToggler(): not a valid Button` }
+				throw { code: -1, description: `smenu.Panel.setToggler(): not a valid Button` }
 
 			button.onClick(() => this.show());
 		}
@@ -642,6 +851,9 @@ const smenu = {
 			this.container.classList.remove("hide");
 			smenu.activePanel = this;
 
+			if (typeof sounds === "object")
+				sounds.toggle();
+
 			requestAnimationFrame(() => {
 				smenu.collapse();
 				this.container.classList.add("show");
@@ -654,8 +866,11 @@ const smenu = {
 			this.container.classList.remove("show");
 			smenu.activePanel = null;
 
+			if (typeof sounds === "object")
+				sounds.toggle(1);
+
 			if (callShowMenu)
-				smenu.show();
+				smenu.show(false);
 
 			this.hideTimeout = setTimeout(() => this.container.classList.add("hide"), 600);
 		}

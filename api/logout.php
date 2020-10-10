@@ -27,6 +27,6 @@
 	$_SESSION["name"] = null;
 	$_SESSION["apiToken"] = null;
 
-	stop(0, "Đăng xuất thành công.", 200);
-
-?>
+	stop(0, "Đăng xuất thành công.", 200, Array(
+		"redirect" => "/"
+	));
