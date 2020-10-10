@@ -221,6 +221,44 @@ body.dark .problemEnlarged > .left > .bottom > .description {
     color: rgb(214, 214, 214);
 }
 
+/** =================== PROBLEMEDITOR =================== **/
+
+body.dark .problemsEditor > .header {
+    background-color: rgb(24, 24, 24);
+}
+
+body.dark .problemsEditor > .header icon::after {
+    color: rgb(225, 225, 225);
+}
+
+body.dark .problemsEditor > .header > .title {
+    color: rgb(245, 245, 245);
+}
+
+body.dark .problemsEditor > .main > .list > li.item:hover {
+    background-color: rgba(36, 36, 36, 0.4);
+}
+
+body.dark .problemsEditor > .main > .list > li.item > .title > .id {
+    color: rgb(160, 160, 160);
+}
+
+body.dark .problemsEditor > .main > .list > li.item > .title > .name {
+    color: rgb(214, 214, 214);
+}
+
+body.dark .problemsEditor > .main > .editor > .tests > .list > .cell > textarea {
+    color: rgb(204, 204, 204);
+}
+
+body.dark .problemsEditor > .main > .editor > .tests > .add:hover {
+    background-color: rgba(202, 202, 202, 0.1);
+}
+
+body.dark .problemsEditor > .main > .editor > .tests > .add:hover::after {
+    color: rgb(204, 204, 204);
+}
+
 /** =================== SUBMIT =================== **/
 
 body.dark #submitPanel > .submitContainer > #submitDropzone {
