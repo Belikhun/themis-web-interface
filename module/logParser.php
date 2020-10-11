@@ -55,6 +55,9 @@
 				$testResult = $this -> __parseTestResult($file);
 				$header["testPassed"] = $this -> passed;
 				$header["testFailed"] = $this -> failed;
+
+				if ($header["testPassed"] > 0 && $header["testFailed"] === 0)
+					$header["status"] = "correct";
 			} else
 				$testResult = Array();
 

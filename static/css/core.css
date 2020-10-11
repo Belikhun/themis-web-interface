@@ -555,7 +555,7 @@ panel > .main {
 	background-color: rgba(126, 126, 126, 0.1);
 }
 
-#problemsPanel > .problemsContainer > .problem table.test tr td {
+#problemsPanel > .problemsContainer > .problem table.test tr > td {
 	font-family: "Consolas";
 }
 
@@ -718,7 +718,7 @@ panel > .main {
 	margin-top: 20px;
 }
 
-.problemEnlarged > .left > .bottom > .simpleTableWrapper > .simpleTable.test tr td {
+.problemEnlarged > .left > .bottom > .simpleTableWrapper > .simpleTable.test tr > td {
 	font-family: "Consolas";
 	white-space: pre;
 }
@@ -1732,6 +1732,27 @@ panel > .main {
 	font-weight: 950;
 	letter-spacing: .8px;
 	color: rgb(70, 70, 70);
+
+	cursor: pointer;
+}
+
+.logViewer > .header > .top > .problem > .info > .name:hover {
+	text-decoration: underline;
+}
+
+.logViewer > .header > .top > .problem > .info > .name::after {
+	content: "\f35d";
+	position: relative;
+	display: inline-block;
+
+	margin-left: 6px;
+	transform: translateY(-3px);
+
+	font-family: "Font Awesome 5 Free";
+	font-size: 13px;
+	font-weight: 600;
+	text-align: center;
+	color: rgb(70, 70, 70);
 }
 
 .logViewer > .header > .top > .problem > .info > .point {
@@ -1868,7 +1889,7 @@ panel > .main {
 	font-family: "Font Awesome 5 Free";
 	font-size: 14px;
 	font-weight: 600;
-	margin-right: 10px;
+	margin-right: 16px;
 	width: 20px;
 	text-align: center;
 	color: rgba(46, 46, 46, 0.5);
@@ -1937,7 +1958,7 @@ panel > .main {
 .logViewer > .header[data-level="accepted"] > .bottom > .line > .left > .problemInfo > .problemID,
 .logViewer > .header[data-level="accepted"] > .bottom > .line > .left > .problemInfo > .language,
 .logViewer > .header[data-level="accepted"] > .bottom > .line > .left > .problemInfo::before {
-	color: #ac7603;
+	color: #d89519;
 }
 
 .logViewer > .header[data-level="accepted"]::before {
@@ -1964,10 +1985,89 @@ panel > .main {
 	content: "\f00d";
 }
 
-.logViewer > .header > .bottom > .line > .left > .submitTime,
-.logViewer > .header > .bottom > .line > .left > .status,
-.logViewer > .header > .bottom > .line > .left > .result,
-.logViewer > .header > .bottom > .line > .left > .point {
+.logViewer > .header > .bottom > .line > .left > .sp {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	margin: 6px 2px;
+}
+
+.logViewer > .header > .bottom > .line > .left > .sp > table {
+	margin: 4px 20px 0 0;
+}
+
+.logViewer > .header > .bottom > .line > .left > .sp > table tr > td {
+	padding: 2px 6px;
+}
+
+.logViewer > .header > .bottom > .line > .left > .sp > table tr > td:nth-child(1) {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding-left: unset;
+
+	font-family: "Calibri", "Segoe UI";
+	font-size: 16px;
+	font-weight: bold;
+	color: rgb(56, 56, 56);
+}
+
+.logViewer > .header > .bottom > .line > .left > .sp > table tr > td:nth-child(1)::before {
+	content: "\f111";
+	position: relative;
+	flex-shrink: 0;
+
+	width: 20px;
+	margin-right: 12px;
+
+	font-family: "Font Awesome 5 Free";
+	font-size: 20px;
+	font-weight: 600;
+	text-align: center;
+	line-height: 20px;
+	color: rgba(46, 46, 46, 0.5);
+}
+
+.logViewer > .header > .bottom > .line > .left > .sp > table tr > td:nth-child(1)[data-icon="clock"]::before {
+	content: "\f017";
+}
+
+.logViewer > .header > .bottom > .line > .left > .sp > table tr > td:nth-child(1)[data-icon="gavel"]::before {
+	content: "\f0e3";
+}
+
+.logViewer > .header > .bottom > .line > .left > .sp > table tr > td:nth-child(1)[data-icon="line"]::before {
+	content: "\f201";
+}
+
+.logViewer > .header > .bottom > .line > .left > .sp > table tr > td:nth-child(2) {
+	font-size: 13px;
+	font-weight: bold;
+
+	text-align: right;
+}
+
+.logViewer > .header > .bottom > .line > .left > .sp > table tr > td:nth-child(3) {
+	font-family: "Consolas";
+	font-size: 15px;
+	font-weight: bold;
+
+	text-align: right;
+}
+
+.logViewer > .header > .bottom > .line > .left > .sp > table tr.green td:nth-child(3) {
+	color: rgb(8, 165, 40);
+}
+
+.logViewer > .header > .bottom > .line > .left > .sp > table tr.yellow td:nth-child(3) {
+	color: #d89519;
+}
+
+.logViewer > .header > .bottom > .line > .left > .sp > table tr.red td:nth-child(3) {
+	color: rgb(211, 47, 47);
+}
+
+.logViewer > .header > .bottom > .line > .left > t {
 	position: relative;
 	font-family: "Calibri", "Segoe UI";
 	font-size: 15px;
@@ -2312,13 +2412,13 @@ panel > .main {
 }
 
 #ranking > table thead tr th:nth-child(1),
-#ranking > table tr td:nth-child(1) {
+#ranking > table tr > td:nth-child(1) {
 	width: 20px;
 	text-align: center;
 }
 
 #ranking > table thead tr th:nth-child(2),
-#ranking > table tr td:nth-child(2) {
+#ranking > table tr > td:nth-child(2) {
 	text-align: left;
 }
 
@@ -2326,14 +2426,14 @@ panel > .main {
 	width: 40px;
 }
 
-#ranking > table tr td:nth-child(2) {
+#ranking > table tr > td:nth-child(2) {
 	display: flex;
 	align-items: center;
 	padding: 10px;
 	margin: 0 0 0 10px;
 }
 
-#ranking > table tr td:nth-child(2) .avatar {
+#ranking > table tr > td:nth-child(2) .avatar {
 	position: relative;
 	display: block;
 
@@ -2342,7 +2442,7 @@ panel > .main {
 	border-radius: 50%;
 }
 
-#ranking > table tr td:nth-child(3) .username {
+#ranking > table tr > td:nth-child(3) .username {
 	font-family: "Open Sans";
 	font-size: 11px;
 	font-style: italic;
@@ -2350,19 +2450,19 @@ panel > .main {
 	letter-spacing: .2px;
 }
 
-#ranking > table tr td:nth-child(3) .name {
+#ranking > table tr > td:nth-child(3) .name {
 	font-size: 15px;
 	letter-spacing: .2px;
 }
 
 
-#ranking > table tr td.number:nth-child(4) {
+#ranking > table tr > td.number:nth-child(4) {
 	color: #3c7be7;
 	font-size: 16px;
 	font-weight: bold;
 }
 
-#ranking > table tr td.number:nth-child(5) {
+#ranking > table tr > td.number:nth-child(5) {
     color: rgb(100, 62, 202);
     font-size: 16px;
     font-weight: bold;
@@ -2458,31 +2558,31 @@ panel > .main {
 }
 
 #ranking > table thead tr th,
-#ranking > table tr td {
+#ranking > table tr > td {
 	padding: 10px 12px;
 }
 
-#ranking > table tr td {
+#ranking > table tr > td {
 	font-size: 13px;
 }
 
-#ranking > table tr td.number,
-#ranking > table tr td.number > t {
+#ranking > table tr > td.number,
+#ranking > table tr > td.number > t {
 	font-size: 13px;
 	text-align: right;
 	color: rgb(172, 172, 172);
 }
 
-#ranking > table tr td.number > t.big {
+#ranking > table tr > td.number > t.big {
 	font-size: 16px;
 	font-weight: bold;
 }
 
-#ranking > table tr td.number[data-folding="true"] > t {
+#ranking > table tr > td.number[data-folding="true"] > t {
 	display: none;
 }
 
-#ranking > table tr td.number.link {
+#ranking > table tr > td.number.link {
 	cursor: pointer;
 }
 
@@ -2495,27 +2595,27 @@ panel > .main {
 	color: rgb(75, 75, 75);
 }
 
-#ranking > table tr td.number.correct {
+#ranking > table tr > td.number.correct {
 	background-color: rgb(147, 243, 158);
 }
 
-#ranking > table tr td.number.passed {
+#ranking > table tr > td.number.passed {
 	background-color: rgb(150, 245, 248);
 }
 
-#ranking > table tr td.number.accepted {
+#ranking > table tr > td.number.accepted {
 	background-color: rgb(240, 237, 157);
 }
 
-#ranking > table tr td.number.failed {
+#ranking > table tr > td.number.failed {
 	background-color: rgb(248, 187, 187)
 }
 
-#ranking > table tr td.number.skipped {
+#ranking > table tr > td.number.skipped {
 	background-color: rgb(212, 212, 212);
 }
 
-#ranking > table tr td.number.link:hover {
+#ranking > table tr > td.number.link:hover {
 	filter: brightness(1.1);
 }
 

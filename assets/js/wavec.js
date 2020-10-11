@@ -91,8 +91,9 @@ const wavec = {
 				return;
 
 			if (wavec.active && wavec.active.showing)
-				wavec.active.hide(false);
+				wavec.active.hide(true);
 
+			clearTimeout(this.hideTimeout);
 			wavec.container.classList.remove("hide");
 			this.container.classList.remove("hide");
 			wavec.active = this;

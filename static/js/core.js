@@ -634,8 +634,9 @@ const twi = {
 									{ type: "t", class: "problemID", name: "problemID" },
 									{ type: "t", class: "language", name: "language" }
 								]},
-	
-								{ type: "t", class: ["row", "point"], name: "point" },
+
+								{ type: "div", class: "sp", name: "sp", text: "Submission Point không khả dụng cho bài làm này" },
+
 								{ type: "t", class: ["row", "submitTime"], name: "submitTime" },
 								{ type: "t", class: ["row", "submitted"], name: "submitted" },
 								{ type: "t", class: ["row", "status"], name: "status" },
@@ -734,7 +735,6 @@ const twi = {
 			this.viewLogNode.header.top.pointInfo.sp.value.innerText = (data.meta.sp) ? numberFormat(data.meta.sp.point) : "---";
 			this.viewLogNode.header.bottom.line.left.info.problemID.innerText = data.header.problem;
 			this.viewLogNode.header.bottom.line.left.info.language.innerText = twi.languages[data.header.file.extension] || data.header.file.extension;
-			this.viewLogNode.header.bottom.line.left.point.innerText = `${data.header.point} điểm`;
 			this.viewLogNode.header.bottom.line.left.submitTime.innerText = (new Date(data.header.file.lastModify * 1000)).toLocaleString();
 			this.viewLogNode.header.bottom.line.left.submitted.innerText = `${formatTime(time() - data.header.file.lastModify)} trước`;
 			this.viewLogNode.header.bottom.line.left.status.innerText = twi.taskStatus[data.header.status];
@@ -744,6 +744,35 @@ const twi = {
 			this.viewLogNode.header.bottom.line.right.rawLog.href = `/api/contest/rawlog?u=${data.header.user}&id=${data.header.problem}`;
 			this.viewLogNode.header.bottom.log.innerHTML = logLine.join("\n");
 			this.viewLogNode.testList.innerHTML = testList.join("\n");
+
+			this.viewLogNode.header.top.problem.info.name.onclick = (data.header.problemName)
+				? () => twi.problems.viewProblem(data.header.problem, true)
+				: undefined;
+
+			this.viewLogNode.header.bottom.line.left.sp.innerHTML = (data.meta.sp) ? `
+				<table>
+					<tbody>
+						<tr class="${(data.meta.sp.detail.time > 0.8) ? "green" : ((data.meta.sp.detail.time > 0.6) ? "yellow" : "red")}">
+							<td data-icon="clock">Thời Gian Nộp</td>
+							<td>${data.meta.statistic.remainTime
+									? parseTime(data.meta.statistic.remainTime).str
+									: "X"
+								}</td>
+							<td>${(- ((1 - data.meta.sp.detail.time) * data.meta.point)).toFixed(3)}</td>
+						</tr>
+						<tr class="${["green", "yellow"][data.meta.statistic.reSubmit - 1] || "red"}">
+							<td data-icon="gavel">Chấm Lại</td>
+							<td>${data.meta.statistic.reSubmit}</td>
+							<td>${(- ((1 - data.meta.sp.detail.reSubmit) * data.meta.point)).toFixed(3)}</td>
+						</tr>
+						<tr class="${["green", "yellow"][data.meta.statistic.submitNth - 1] || "red"}">
+							<td data-icon="line">Thứ Hạng Chấm</td>
+							<td>${data.meta.statistic.submitNth}</td>
+							<td>${(- ((1 - data.meta.sp.detail.submitNth) * data.meta.point)).toFixed(3)}</td>
+						</tr>
+					</tbody>
+				</table>
+			` : "";
 
 			this.viewLog.set({ title: data.header.file.logFilename });
 			this.viewLog.show();
@@ -869,13 +898,13 @@ const twi = {
 			this.list.innerHTML = html;
 		},
 
-		async viewProblem(id) {
+		async viewProblem(id, viewInDialog = false) {
 			clog("INFO", "Opening problem", {
 				color: flatc("yellow"),
 				text: id
 			});
 
-			this.panel.title = "Đang tải...";
+			this.panel.title = "Đang Tải";
 			this.attachment.previewWrapper.removeAttribute("data-loaded");
 			this.attachment.previewWrapper.style.height = "0";
 
@@ -889,7 +918,7 @@ const twi = {
 			this.data = data;
 			this.panel.title = `Đề bài - ${data.name}`;
 
-			if (this.viewInDialog) {
+			if (this.viewInDialog || viewInDialog) {
 				this.enlargeProblem(this.data);
 				return;
 			}
