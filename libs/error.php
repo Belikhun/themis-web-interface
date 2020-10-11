@@ -28,7 +28,7 @@
 	$errDetail = null;
 	$errDetailSub = null;
 
-	if ($errCode >= 400 && isset($_SESSION["lastError"])) {
+	if ($errCode >= 400 && isset($_SESSION["lastError"]) || (getQuery("redirect") == true && isset($_SESSION["lastError"]))) {
 		$lastError = $_SESSION["lastError"];
 		$errData = $lastError["data"];
 		$_SESSION["lastError"] = null;
@@ -178,8 +178,8 @@
 				</p>
 
 				<div class="button">
-					<a href="<?php print REPORT_ERROR; ?>" target="_blank" rel="noopener"><button class="sq-btn pink">Báo Lỗi</button></a>
-					<a href="/"><button class="sq-btn">Về Trang Chủ</button></a>
+					<a class="sq-btn pink" href="<?php print REPORT_ERROR; ?>" target="_blank" rel="noopener">Báo Lỗi</a>
+					<a class="sq-btn" href="/">Về Trang Chủ</a>
 				</div>
 			</div>
 		</div>

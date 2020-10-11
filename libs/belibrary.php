@@ -206,6 +206,36 @@
 	}
 
 	/**
+	 * Return the reference of the value in Object.
+	 * @param	Array					$object
+	 * @param	Array					$path
+	 * @param	Bool					$safe
+	 * @return	Array|String|Bool
+	 */
+	function &objectValue(Array &$object, Array $path, $value = null, Bool $safe = false) {
+		if (!empty($path[0])) {
+			if (count($path) > 1) {
+				if (!isset($object[$path[0]]))
+					if ($safe)
+						$object[$path[0]] = Array();
+					else
+						throw new UndefinedIndex($path[0], $object);
+
+				return objectValue($object[$path[0]], array_slice($path, 1), $value, $safe);
+			}
+
+			if ($value !== null)
+				$object[$path[0]] = $value;
+
+			if (!isset($object[$path[0]]))
+				throw new UndefinedIndex($path[0], $object);
+			
+			return $object[$path[0]];
+		} else
+			throw new Error("objectValue(): Unknown Error!");
+	}
+
+	/**
 	 * Remove the directory and its content recursively (all files and subdirectories)
 	 * @param	String	Path to directory
 	 */
@@ -435,6 +465,12 @@
 	class FileNotFound extends BLibException {
 		public function __construct(String $path) {
 			parent::__construct(44, "File Not Found: {$path}", 500, Array( "path" => $path ));
+		}
+	}
+
+	class UndefinedIndex extends BLibException {
+		public function __construct(String $key, $data) {
+			parent::__construct(44, "Undefined Index: {$key}", 500, Array( "key" => $key, "data" => $data ));
 		}
 	}
 
@@ -698,14 +734,14 @@
 		}
 	}
 
-	function printErrorPage(Array $data, Bool $useIframe = false) {
+	function printErrorPage(Array $data, Bool $redirect = false) {
 		$_SESSION["lastError"] = $data;
 		print "<!-- OUTPUT STOPPED HERE -->";
 		print "<!-- ERROR DETAILS: ". json_encode($data, JSON_PRETTY_PRINT) ." -->";
 		print "<!-- BEGIN ERROR PAGE -->";
 		
-		if ($useIframe)
-			print "<iframe src=\"/lib/error.php\" style=\"position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: unset; overflow: auto;\"></iframe>";
+		if ($redirect)
+			header("Location: /libs/error.php?redirect=true");
 		else
 			require $_SERVER["DOCUMENT_ROOT"]. "/lib/error.php";
 	}
@@ -726,15 +762,15 @@
 	}
 
 	//! Exception Handler
-	function exceptionHandler(Exception $e) {
+	function exceptionHandler($e) {
 		if ($e instanceof BLibException)
 			stop($e -> code, $e, $e -> status, $e -> data);
 		else
 			stop(-1, get_class($e) ." [{$e -> getCode()}]: {$e -> getMessage()} tại {$e -> getFile()}:{$e -> getLine()}", 500);
 	}
 
-	set_error_handler("errorHandler", E_ALL);
 	set_exception_handler("exceptionHandler");
+	set_error_handler("errorHandler", E_ALL);
 
 	//? START TIME
 	if (!isset($runtime))

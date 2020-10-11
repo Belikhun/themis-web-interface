@@ -13,15 +13,17 @@
     require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
 
-	if (getConfig("time.contest.during") <= 0)
-		stop(101, "Not in Contest mode.", 200, Array(
-			"during" => getConfig("time.contest.during"),
+	$beginTime = getConfig("time.contest.begin");
+	$duringTime = getConfig("time.contest.during");
+	$offsetTime = getConfig("time.contest.offset");
+
+	if ($duringTime <= 0)
+		stop(101, "Not in Contest mode", 200, Array(
+			"during" => $duringTime * 60,
 			"phase" => 0
 		));
 
-	$beginTime = getConfig("time.contest.begin");
-	$duringTime = getConfig("time.contest.during") * 60;
-	$offsetTime = getConfig("time.contest.offset");
+	$duringTime *= 60;
 	$t = $beginTime - microtime(true) + $duringTime;
 
 	if ($t > $duringTime) {
@@ -37,7 +39,6 @@
 		$phase = 4;
 	}
 
-
 	stop(0, "Thành công!", 200, Array(
 		"phase" => $phase,
 		"start" => $beginTime,
@@ -45,4 +46,3 @@
 		"time" => $t,
 		"offset" => $offsetTime
 	));
-?>

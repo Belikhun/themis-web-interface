@@ -411,8 +411,8 @@
 		"name" => APPNAME,
 		"version" => VERSION,
 		"author" => AUTHOR,
-		"contestName" => $config["contest"]["name"],
-		"submitFolder" => $config["folders"]["submit"],
+		"contestName" => getConfig("contest.name", false),
+		"submitFolder" => getConfig("folders.submit", false),
 		"root" => $_SERVER["DOCUMENT_ROOT"],
 		"currentDate" => date("d/m/Y"),
 		"currentTime" => date("H:i:s")

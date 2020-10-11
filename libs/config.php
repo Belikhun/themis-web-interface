@@ -8,6 +8,7 @@
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/info.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
 
 	if (!defined("CONFIG_FILE"))
 		define("CONFIG_FILE", $_SERVER["DOCUMENT_ROOT"] ."/data/config.json");
@@ -29,6 +30,9 @@
 			)
 		));
 
+	/**
+	 * @return Array
+	 */
 	function generateDefaultConfig($child = CONFIG_STRUCTURE) {
 		$parent = Array();
 
@@ -52,24 +56,28 @@
 		return $parent;
 	}
 
+	define("DEFAULT_CONFIG", generateDefaultConfig());
+
 	if (!file_exists(CONFIG_FILE))
-		(new fip(CONFIG_FILE, "{}")) -> write(generateDefaultConfig(), "json");
+		(new fip(CONFIG_FILE, "{}")) -> write(DEFAULT_CONFIG, "json");
 
 	// Get and parse config data from config file
 	$config = (new fip(CONFIG_FILE, "{}")) -> read("json");
 	$rawConfig = $config;
-	date_default_timezone_set($config["time"]["zone"]);
 	
-	function applyCustomVar(&$config, Array $list = CONFIG_CUSTOM_VAR) {
+	function applyCustomVar(&$config) {
+		if (!defined("CONFIG_CUSTOM_VAR"))
+			throw new BLibException(-1, "CONFIG_CUSTOM_VAR Is not defined! Please define it in module/config.php!", 500);
+
 		switch (gettype($config)) {
 			case "array":
 				foreach ($config as $key => &$value)
-					applyCustomVar($value, $list);
+					applyCustomVar($value);
 
 				break;
 			
 			case "string":
-				foreach ($list as $key => $value)
+				foreach (CONFIG_CUSTOM_VAR as $key => $value)
 					if (!empty($value))
 						$config = str_replace("%". $key ."%", $value, $config);
 
@@ -80,34 +88,39 @@
 		}
 	}
 
-	function getConfig($path) {
+	function getConfig($path, $applyVars = true) {
 		global $config;
 		global $rawConfig;
 
 		//? Sanitize Path to prevent RCE
 		$path = explode(".", preg_replace("/[^a-zA-Z0-9\.]+/", "", $path));
-		$pathStr = "";
 
-		foreach ($path as $value)
-			$pathStr .= "[\"$value\"]";
+		try {
+			return objectValue($config, $path);
+		} catch (UndefinedIndex $e) {
+			// Config not found, try to return default config
+			try {
+				$defaultConfig = DEFAULT_CONFIG;
+				$value = objectValue($defaultConfig, $path);
+				writeLog("WARN", "Cài đặt ". implode(".", $path) ." không có sẵn trong config.json". (gettype($value) !== "array" ? "hiện đang sử dụng giá trị mặc định: ". strval($value) : ""));
 
-		if (eval("return isset(\$config$pathStr);"))
-			return eval("return \$config$pathStr;");
-		// If config not found, try to return default config
-		elseif (eval("return isset(CONFIG_STRUCTURE". $pathStr ."['value']);")) {
-			//! NOT SAFE, Need another implementation
-			$value = eval("return CONFIG_STRUCTURE". $pathStr ."['value'];");
-			writeLog("WARN", "Cài đặt ". implode(".", $path) ." không có sẵn trong config.json, hiện đang sử dụng giá trị mặc định: ". $value);
-			
-			eval("\$rawConfig$pathStr = \$value;");
-			saveConfig($rawConfig);
+				if ($applyVars)
+					applyCustomVar($value);
 
-			return $value;
+				objectValue($rawConfig, $path, $value, true);
+				saveConfig($rawConfig);
+				unset($defaultConfig);
+
+				return $value;
+			} catch(UndefinedIndex $e) {
+				throw new BLibException(-1, "getConfig(): Không tìm thấy cài đặt ". implode(".", $path), 500, (Array) $e);
+			}
 		}
-
-		throw new BLibException(-1, "getConfig(): Không tìm thấy cài đặt ". implode(".", $path), 500, Array( "path" => $path ));
 	}
 
 	function saveConfig(Array $newConfig) {
 		(new fip(CONFIG_FILE)) -> write($newConfig, "json");
 	}
+
+	// SET TIMEZONE
+	date_default_timezone_set(getConfig("time.zone", false));

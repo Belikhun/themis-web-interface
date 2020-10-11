@@ -3,5 +3,5 @@
     "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
     "livereload.applyImageLive": false,
     "livereload.debug": true,
-    "livereload.exclusions": ".DS_Store,.gitignore,.git,.svn,.hg,.cache"
+    "livereload.exclusions": ".DS_Store,.gitignore,.git,.svn,.hg,.cache,.json"
 }
