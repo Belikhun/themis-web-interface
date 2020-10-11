@@ -3102,7 +3102,7 @@ const twi = {
 		let gud = await popup.show({
 			windowTitle: "MEME REVIEW 👏👏",
 			title: "got some mweme fow yya",
-			message: `r/${wutMeme.subreddit} u/${wutMeme.author} (${wutMeme.ups} 👍) <a href="${wutMeme.postLink}" target="_blank">SAUCE 🔗</a>`,
+			message: `r/${wutMeme.subreddit} u/${wutMeme.author} (${wutMeme.ups} 🔼) <a href="${wutMeme.postLink}" target="_blank">SAUCE 🔗</a>`,
 			description: wutMeme.title,
 			customNode: memeContainer,
 			buttonList: {
