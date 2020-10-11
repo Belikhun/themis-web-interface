@@ -45,6 +45,7 @@
 			"allowRegister" => getConfig("system.allowRegister")
 		),
 
+		"pageTitle" => getConfig("system.title"),
 		"clientConfig" => getConfig("clientSettings"),
 	));
 

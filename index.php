@@ -69,6 +69,8 @@
 			mainSplash.onInit(async (set) => {
 				set({ p: 0, m: "main", d: "Getting Basic Server Info" });
 				let response = await myajax({ url: "/api/server" });
+
+				document.title = response.data.pageTitle;
 				window.SERVER = response.data;
 				window.SESSION = response.data.SESSION;
 				window.API_TOKEN = SESSION.API_TOKEN;

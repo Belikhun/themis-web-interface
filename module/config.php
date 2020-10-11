@@ -20,7 +20,7 @@
 				"type" => "text",
 				"label" => "Tiêu Đề Trang",
 				"color" => "blue",
-				"value" => "%contestName%",
+				"value" => "%contestName% | %name% v%version%",
 				"required" => true
 			),
 
