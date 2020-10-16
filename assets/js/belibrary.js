@@ -769,7 +769,7 @@ class lazyload {
 
 		this.isLoaded = false;
 		this.isErrored = false;
-		this.onLoadedHandler = null;
+		this.onLoadedHandler = [];
 		this.onErroredHandler = null;
 
 		this.container.classList.add("lazyload");
@@ -827,6 +827,9 @@ class lazyload {
 		this.isLoaded
 			? this.container.dataset.loaded = true
 			: this.container.removeAttribute("data-loaded");
+
+		for (let f of this.onLoadedHandler)
+			f();
 	}
 
 	get loaded() {
@@ -859,7 +862,18 @@ class lazyload {
 		if (typeof f !== "function")
 			throw { code: -1, description: `pager.onLoaded: not a valid function` }
 
-		this.onLoadedHandler = f;
+		this.onLoadedHandler.push(f);
+	}
+
+	wait() {
+		return new Promise((resolve, reject) => {
+			if (this.loaded) {
+				resolve();
+				return;
+			}
+
+			this.onLoaded(() => resolve());
+		});
 	}
 
 	/**
@@ -1361,7 +1375,7 @@ function createInput({
 	formGroup.dataset.soundhoversoft = "";
 	formGroup.dataset.soundselectsoft = "";
 
-	if (sounds)
+	if (typeof sounds === "object")
 		sounds.applySound(formGroup);
 
 	let formField = document.createElement(type === "textarea" ? type : "input");
@@ -1394,10 +1408,6 @@ function createInput({
 
 /**
  * Create Checkbox Element, require switch.css
- * @param	{String}	text		Switch Label
- * @param	{String}	color		Switch Color
- * @param	{String}	value		Switch Value
- * @param	{String}	type		Switch Type
  */
 function createCheckbox({
 	label = "Sample Switch",
@@ -1422,7 +1432,7 @@ function createCheckbox({
 	input.checked = value;
 	input.dataset.soundcheck = "";
 
-	if (sounds)
+	if (typeof sounds === "object")
 		sounds.applySound(input);
 
 	let mark = document.createElement("span");
@@ -1459,7 +1469,7 @@ function createSlider({
 	o.dataset.color = color;
 	o.dataset.soundhover = true;
 
-	if (sounds)
+	if (typeof sounds === "object")
 		sounds.applySound(o);
 
 	o.input.type = "range";
@@ -1531,22 +1541,27 @@ function createSlider({
  */
 function createBtn(text, color = "blue", {
 	element = "button",
+	type = "button",
 	icon = null,
 	align = "left",
 	complex = false
 } = {}) {
 	let button = document.createElement(element);
 	button.classList.add("sq-btn");
-	button.type = "button";
-	button.innerText = text;
+	button.type = type;
 	button.dataset.color = color;
 	button.dataset.soundhover = "";
 	button.dataset.soundselect = "";
 
+	let textNode = document.createElement("span");
+	textNode.classList.add("text");
+	textNode.innerText = text;
+
 	if (icon)
-		button.innerHTML = `<icon class="${align}" data-icon="${icon}"></icon>${text}`;
-	else
-		button.innerText = text;
+		button.innerHTML = `<icon class="${align}" data-icon="${icon}"></icon>`;
+
+	button.appendChild(textNode);
+	button.changeText = (text) => textNode.innerText = text;
 
 	if (complex)
 		triBg(button, {
@@ -1556,7 +1571,7 @@ function createBtn(text, color = "blue", {
 			triangleCount: 8
 		});
 
-	if (sounds)
+	if (typeof sounds === "object")
 		sounds.applySound(button);
 
 	return button;
@@ -1652,6 +1667,33 @@ function createImageInput({
 				throw { code: -1, description: `createImageInput().onReset(): not a valid function` }
 
 			resetHandlers.push(f);
+		}
+	}
+}
+
+function createNote({
+	level = "info",
+	message = "Smaple Note"
+} = {}) {
+	let container = document.createElement("div");
+	container.classList.add("note");
+	container.dataset.level = level;
+
+	let inner = document.createElement("span");
+	inner.classList.add("inner");
+	inner.innerHTML = message;
+
+	container.appendChild(inner);
+
+	return {
+		group: container,
+
+		set({ level, message } = {}) {
+			if (level)
+				container.dataset.level = level;
+
+			if (message)
+				inner.innerHTML = message;
 		}
 	}
 }

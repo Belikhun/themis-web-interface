@@ -13,18 +13,23 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/logs.php";
 
+	$isSetupSession = isset($_SESSION["setup"]) && ($_SESSION["setup"] === true);
+
 	if (isLoggedIn())
 		stop(12, "Đã đăng nhập bằng tài khoản: ". $_SESSION["username"], 400);
 
-	if (getConfig("system.allowRegister") !== true)
+	if (getConfig("system.allowRegister") !== true  && !$isSetupSession)
 		stop(21, "Đăng kí tài khoản đã bị tắt!", 403);
 	
 	$username = preg_replace("/[^a-zA-Z0-9]+/", "", reqForm("username"));
 	$password = reqForm("password");
-	$captcha = reqForm("captcha");
 
-	if (!isset($_SESSION["captcha"]) || $captcha !== $_SESSION["captcha"])
-		stop(8, "Sai Captcha", 403);
+	if (!$isSetupSession) {
+		$captcha = reqForm("captcha");
+	
+		if (!isset($_SESSION["captcha"]) || $captcha !== $_SESSION["captcha"])
+			stop(8, "Sai Captcha", 403);
+	}
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/account.php";
 	$acc = new account($username);
@@ -35,6 +40,9 @@
 			break;
 		
 		case ACCOUNT_SUCCESS:
+			if ($isSetupSession)
+				$acc -> update(Array( "id" => "admin" ));
+
 			$udata = $acc -> data;
 
 			$_SESSION["username"] = $username;

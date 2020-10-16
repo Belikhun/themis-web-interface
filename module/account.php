@@ -93,6 +93,10 @@
 			return (microtime(true) - ($this -> data["lastAccess"])) < ACCOUNT_ONLINE_MAXIDLE;
 		}
 
+		public function isAdmin() {
+			return ($this -> data["id"] === "admin");
+		}
+
 		public function access() {
 			$this -> update(Array(
 				"lastAccess" => microtime(true)

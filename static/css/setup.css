@@ -1,0 +1,461 @@
+/*
+? |-----------------------------------------------------------------------------------------------|
+? |  /static/css/setup.css                                                                        |
+? |                                                                                               |
+? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
+? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+? |-----------------------------------------------------------------------------------------------|
+*/
+
+body {
+	position: relative;
+
+	width: 100vw;
+	height: 100vh;
+	margin: 0 0 20px;
+
+	background-color: #ffffff;
+	font-family: "Open Sans", "Segoe UI", "Calibri", Tahoma, Geneva, Verdana, sans-serif;
+	overflow: hidden;
+}
+
+.mainContainer {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+
+	width: 100%;
+	height: 100%;
+}
+
+#loadingScreen {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	width: 100%;
+	height: 100%;
+
+	background-color: white;
+	z-index: 10000;
+}
+
+#loadingScreen.hide {
+	animation: loading-disapear 1s ease-out 0.5s 1 alternate forwards;
+}
+
+@keyframes loading-disapear {
+    0% {
+        opacity: 1;
+        z-index: 10000;
+        display: flex;
+    }
+
+    99% {
+        opacity: 0;
+        z-index: 10000;
+        display: flex;
+    }
+
+    100% {
+        opacity: 0;
+        z-index: -10;
+        display: none;
+    }
+}
+
+#header {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	width: 100%;
+	height: 80px;
+}
+
+#header::before {
+	content: "";
+	position: absolute;
+	display: block;
+
+	bottom: 21px;
+	left: 50%;
+	width: 0;
+	height: 1px;
+	transform: translateX(-50%);
+
+	background-color: rgba(182, 182, 182, 0.4);
+
+	transition: width 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+#header.show::before {
+	width: 90%;
+}
+
+#header > .title {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	width: 0;
+	bottom: 12px;
+
+	font-family: Nunito;
+	font-size: 16px;
+	font-weight: 900;
+	letter-spacing: .8px;
+	text-align: center;
+	text-transform: uppercase;
+	letter-spacing: -10px;
+	color: rgba(48, 48, 48, 0.8);
+
+	background-color: white;
+	opacity: 0;
+	overflow: hidden;
+	white-space: nowrap;
+
+	transition:
+		all 1s cubic-bezier(0.25, 1, 0.5, 1) 0.6s;
+}
+
+#header.show > .title {
+	width: 180px;
+	letter-spacing: .6px;
+	opacity: 1;
+}
+
+#screens {
+	position: relative;
+	display: block;
+
+	width: 100%;
+	height: 100%;
+}
+
+#screens > .screen {
+	position: absolute;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+
+	opacity: 0;
+
+	transition: opacity 0.6s ease-out;
+}
+
+#screens > .screen.show {
+	opacity: 1;
+}
+
+#screens > .screen.hide {
+	opacity: 0;
+}
+
+#screens > .screen.hidden {
+	display: none;
+}
+
+#screens > .screen > span {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+
+	height: 100%;
+	padding: 50px;
+	box-sizing: border-box;
+	background-color: white;
+}
+
+#screens > .screen > .left {
+	width: 500px;
+}
+
+#screens > .screen > .left > icon {
+	margin: 60px 0 80px;
+}
+
+#screens > .screen > .left > icon::after {
+	font-size: 160px;
+	line-height: 160px;
+}
+
+#screens > .screen > .left > .title {
+	font-family: Nunito;
+	font-weight: 300;
+	font-size: 54px;
+	letter-spacing: .6px;
+	color: black;
+}
+
+#screens > .screen > .left > .description {
+	font-size: 19px;
+	color: rgb(82, 82, 82);
+}
+
+#screens > .screen > .left > button {
+	margin-top: 40px;
+}
+
+#screens > .screen > .left > icon,
+#screens > .screen > .left > .title,
+#screens > .screen > .left > .description,
+#screens > .screen > .left > button {
+	opacity: 0;
+	transform: translateX(-200px);
+}
+
+#screens > .screen.run > .left > icon,
+#screens > .screen.run > .left > .title,
+#screens > .screen.run > .left > .description,
+#screens > .screen.run > .left > button {
+	animation: leftFadeIn 1s cubic-bezier(0.22, 1, 0.36, 1) 0s 1 normal forwards;
+}
+
+#screens > .screen.run > .left > .title {
+	animation-delay: 0.4s;
+}
+
+#screens > .screen.run > .left > .description {
+	animation-delay: 0.8s;
+}
+
+#screens > .screen.run > .left > button {
+	animation-delay: 2s;
+}
+
+#screens > .screen > .right {
+	flex-grow: 1;
+
+	align-items: center;
+	background-color: rgb(248, 248, 248);
+}
+
+@keyframes leftFadeIn {
+	from {
+		opacity: 0;
+		transform: translateX(-200px);
+	}
+
+	to {
+		opacity: 1;
+		transform: unset;
+	}
+}
+
+/** =========================== SCREEN: INTRO =========================== **/
+
+#screens > .screen[data-screen="intro"] > .left {
+	width: 50%;
+	transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#screens > .screen.run[data-screen="intro"] > .left {
+	width: 500px;
+}
+
+#screens > .screen.run[data-screen="intro"] > .left > icon::after {
+	content: "\e05d";
+	transform-origin: 40% bottom;
+	animation: handWave 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0s infinite normal forwards;
+}
+
+@keyframes handWave {
+	0%, 10% {
+		transform: rotate(-10deg);
+	}
+
+	50% {
+		transform: rotate(8deg);
+	}
+
+	100% {
+		transform: rotate(-10deg);
+	}
+}
+
+#screens > .screen[data-screen="intro"] > .right {
+	background-color: white;
+
+	transition: background-color 0.6s ease-out;
+}
+
+#screens > .screen[data-screen="intro"].run > .right {
+	background-color: rgb(248, 248, 248);
+}
+
+#screens > .screen[data-screen="intro"] > .right > .icon {
+	position: absolute;
+
+	top: calc(50% - 40px);
+	left: 0;
+	width: 160px;
+	height: 160px;
+	
+	transform: translate(-50%, -50%) scale(0) rotate(360deg);
+}
+
+#screens > .screen[data-screen="intro"].showIcon > .right > .icon {
+	opacity: 0;
+	animation: introIconShow 1s cubic-bezier(0.22, 1, 0.36, 1) 0s 1 normal forwards;
+	transition: left 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#screens > .screen[data-screen="intro"].run > .right > .icon {
+	left: 50%;
+}
+
+@keyframes introIconShow {
+	from {
+		opacity: 0;
+		transform: translate(-50%, -50%) scale(0) rotate(360deg);
+	}
+
+	to {
+		opacity: 1;
+		transform: translate(-50%, -50%) scale(1) rotate(0);
+	}
+}
+
+#screens > .screen[data-screen="intro"] > .right > .title {
+	position: absolute;
+	
+	top: calc(50% + 50px);
+	left: 0;
+	width: 100%;
+	transform: translateX(-50%);
+
+	font-family: Nunito;
+	font-size: 28px;
+	font-weight: 800;
+	text-align: center;
+	letter-spacing: .6px;
+	color: rgb(22, 22, 22);
+
+	opacity: 0;
+
+	transition:
+		opacity 1.2s ease-out 1s,
+		transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#screens > .screen[data-screen="intro"].showIcon > .right > .title {
+	opacity: 1;
+}
+
+#screens > .screen[data-screen="intro"].run > .right > .title {
+	transform: unset;
+}
+
+/** =========================== SCREEN: LICENSE =========================== **/
+
+#screens > .screen[data-screen="license"] > .left > icon::after {
+	content: "\f70e";
+}
+
+#screens > .screen[data-screen="license"] > .right > iframe {
+	position: absolute;
+	display: block;
+
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+
+	border: unset;
+}
+
+/** =========================== SCREEN: ACCOUNT =========================== **/
+
+#screens > .screen[data-screen="account"] > .left > icon::after {
+	content: "\f509";
+}
+
+#screens > .screen[data-screen="account"] > .right {
+	justify-content: center;
+}
+
+#screens > .screen[data-screen="account"] > .right > form {
+	width: 100%;
+	max-width: 460px;
+}
+
+#screens > .screen[data-screen="account"] > .right > form > button {
+	width: 100%;
+	margin-top: 20px;
+}
+
+/** =========================== SCREEN: CONFIG =========================== **/
+
+#screens > .screen[data-screen="config"] > .left > icon::after {
+	content: "\f085";
+}
+
+#screens > .screen[data-screen="config"] > .right > iframe {
+	position: absolute;
+	display: block;
+
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+
+	border: unset;
+}
+
+/** =========================== SCREEN: COMPLETE =========================== **/
+
+#screens > .screen[data-screen="complete"] > .left > icon::after {
+	content: "\f058";
+	color: rgb(23, 202, 44);
+}
+
+#screens > .screen[data-screen="complete"] > .left {
+	align-items: center;
+}
+
+#screens > .screen.run[data-screen="complete"] > .left {
+	width: 100%;
+}
+
+#screens > .screen[data-screen="complete"] > .left > .title,
+#screens > .screen[data-screen="complete"] > .left > .description {
+	text-align: center;
+}
+
+#screens > .screen[data-screen="complete"] > .left > .description {
+	max-width: 600px;
+}
+
+#screens > .screen[data-screen="complete"] > .left > .redirect {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	margin-top: 60px;
+	font-size: 13px;
+	opacity: 0;
+
+	transition: opacity 0.6s ease-out 3s;
+}
+
+#screens > .screen.run[data-screen="complete"] > .left > .redirect {
+	opacity: 1;
+}
+
+#screens > .screen[data-screen="complete"] > .left > .redirect > .simpleSpinner {
+	margin-right: 10px;
+}
+
+#screens > .screen[data-screen="complete"] > .right {
+	display: none;
+}

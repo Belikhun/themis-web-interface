@@ -10,6 +10,26 @@
 	define("PAGE_TYPE", "NORMAL");
 	
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
+
+	// CHECK FOR ANY ADMIN ACCOUNTS
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/account.php";
+	$accountLists = getAccountsList();
+	$adminCount = 0;
+
+	foreach ($accountLists as $user) {
+		$acc = new account($user);
+		
+		if ($acc -> isAdmin())
+			$adminCount++;
+	}
+
+	if ($adminCount === 0) {
+		$_SESSION["setup"] = true;
+		header("Location: /setup.php");
+		die();
+	} else
+		unset($_SESSION["setup"]);
+
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
 	header("Cache-Control: max-age=0, must-revalidate", true);
 ?>
@@ -41,9 +61,11 @@
 		<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/spinner.css?v=<?php print VERSION; ?>" />
 		<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/statusBar.css?v=<?php print VERSION; ?>" />
 		<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollBar.css?v=<?php print VERSION; ?>" />
+		
 		<!-- Page Style -->
 		<link rel="stylesheet" type="text/css" media="screen" href="/static/css/core.css?v=<?php print VERSION; ?>" />
 		<link rel="stylesheet" type="text/css" media="screen" href="/static/css/dark.css?v=<?php print VERSION; ?>" />
+		
 		<!-- Fonts -->
 		<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri/calibri.css?v=<?php print VERSION; ?>" />
 		<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/opensans/opensans.css?v=<?php print VERSION; ?>" />
@@ -227,7 +249,7 @@
 									<span class="buttons"></span>
 								</div>
 
-								<div class="main logsItemContainer"></div>
+								<div class="main logsItemContainer showEmpty"></div>
 							</panel>
 						</div>
 					</span>

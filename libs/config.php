@@ -102,15 +102,14 @@
 			try {
 				$defaultConfig = DEFAULT_CONFIG;
 				$value = objectValue($defaultConfig, $path);
-				writeLog("WARN", "Cài đặt ". implode(".", $path) ." không có sẵn trong config.json". (gettype($value) !== "array" ? "hiện đang sử dụng giá trị mặc định: ". strval($value) : ""));
+				writeLog("WARN", "Cài đặt ". implode(".", $path) ." không có sẵn trong config.json! ". (gettype($value) !== "array" ? "Hiện đang sử dụng giá trị mặc định: ". strval($value) : ""));
+				objectValue($rawConfig, $path, $value, true);
+				saveConfig($rawConfig);
 
 				if ($applyVars)
 					applyCustomVar($value);
-
-				objectValue($rawConfig, $path, $value, true);
-				saveConfig($rawConfig);
+	
 				unset($defaultConfig);
-
 				return $value;
 			} catch(UndefinedIndex $e) {
 				throw new BLibException(-1, "getConfig(): Không tìm thấy cài đặt ". implode(".", $path), 500, (Array) $e);
