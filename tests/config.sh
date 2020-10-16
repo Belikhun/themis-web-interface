@@ -19,12 +19,6 @@ case $1 in
 		echo ""
 		echo -e "\033[1;34mCopying Files..."
 
-		mkdir -p ".backup"
-
-		# Backup
-		mv -f ../data/config.json .backup/config.json
-		[ -f ../data/logs.json ] && mv -f ../data/logs.json .backup/logs.json
-
 		# Copy
 		mkdir ../data/accounts
 		cp -f -ar .config/accounts ../data/accounts
@@ -35,14 +29,12 @@ case $1 in
 	"--restore")
 		echo ""
 		echo -e "\033[1;34mCleaning..."
-		# Copy Backup
-		mv -f .backup/config.json ../data/config.json
-		[ -f .backup/logs.json ] && mv -f .backup/logs.json ../data/logs.json
-		rm -rf ../data/avatar/
-		mv -f .backup/avatar/ ../data/avatar/
 
-		# Clean Backup
-		rm -rf .backup/*
+		# Clean Data
+		rm -rf ../data/avatar
+		rm -rf ../data/accounts
+		rm -f ../data/config.json
+		rm -f ../data/logs.json
 
 		;;
 	"--help")
