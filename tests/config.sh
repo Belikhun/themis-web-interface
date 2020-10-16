@@ -22,12 +22,11 @@ case $1 in
 		mkdir -p ".backup"
 
 		# Backup
-		mv -f ../data/accounts .backup/accounts
 		mv -f ../data/config.json .backup/config.json
 		[ -f ../data/logs.json ] && mv -f ../data/logs.json .backup/logs.json
-		cp -rf ../data/avatar/ .backup/avatar/
 
 		# Copy
+		mkdir ../data/accounts
 		cp -f -ar .config/accounts ../data/accounts
 		cp -f .config/config.json ../data/config.json
 		chmod 777 ../data/config.json
@@ -37,7 +36,6 @@ case $1 in
 		echo ""
 		echo -e "\033[1;34mCleaning..."
 		# Copy Backup
-		mv -f .backup/accounts ../data/accounts
 		mv -f .backup/config.json ../data/config.json
 		[ -f .backup/logs.json ] && mv -f .backup/logs.json ../data/logs.json
 		rm -rf ../data/avatar/
