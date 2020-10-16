@@ -1,0 +1,14 @@
+﻿correcttest‣correct: 10,00
+correct.py
+Dịch thành công
+
+correcttest‣correct‣Test0001: 5.00
+Thời gian ≈ 0,232351 giây
+Output: 32 19.
+Answer: 32 19.
+Kết quả khớp đáp án!
+correcttest‣correct‣Test0002: 5.00
+Thời gian ≈ 0,694212 giây
+Output: 8 5.
+Answer: 8 5.
+Kết quả khớp đáp án!

@@ -1,4 +1,4 @@
-﻿passedtest‣passed: 30,00
+﻿passedtest‣passed: 25,00
 passed.java
 Dịch thành công
 
@@ -12,6 +12,6 @@ Thời gian ≈ 0,033979277 giây
 Output: 5.
 Answer: 5.
 Kết quả khớp đáp án!
-passedtest‣passed‣Test0003: 5,00
+passedtest‣passed‣Test0003: 0,00
 Thời gian ≈ 0,035869937 giây
-Kết quả khớp đáp án!
+Kết quả KHÁC đáp án!

@@ -20,7 +20,6 @@ case $1 in
 		echo -e "\033[1;34mCopying Files..."
 
 		# Copy
-		mkdir ../data/accounts
 		cp -f -ar .config/accounts ../data/accounts
 		cp -f .config/config.json ../data/config.json
 		chmod 777 ../data/config.json
