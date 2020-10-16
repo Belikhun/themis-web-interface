@@ -31,15 +31,13 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 - [Contribution](#contribution)
 
 ## Demo
-* **000webhost**: <a href="https://themisdemo.000webhostapp.com/" target="_blank">https://themisdemo.000webhostapp.com/</a>
+* **heroku**: <a href="https://themis-web-demo.herokuapp.com/" target="_blank">https://themis-web-demo.herokuapp.com/</a>
 
 ### Tài khoản:
 
 | id    | Tên tài khoản | Mật khẩu |
 |:------|:--------------|:---------|
 | admin | admin         | admin    |
-| 1     | user1         | 123456   |
-| 2     | user2         | 123456   |
 
 * Lưu ý:
 	- Chức năng thay đổi mật khẩu và thay đổi thư mục upload đã tắt.
