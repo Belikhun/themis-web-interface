@@ -785,7 +785,7 @@ const smenu = {
 					this.container.main.appendChild(content);
 				else if ((re = /iframe:(.+)/gm.exec(content)) !== null) {
 					this.iframe = document.createElement("iframe");
-					this.iframe.src = re[1];
+					this.iframe.src = (re[1][0] === "/") ? `${location.protocol}//${location.hostname}${re[1]}` : re[1];
 					this.container.main.appendChild(this.iframe);
 
 					this.iframe.addEventListener("load", () => resolve());
