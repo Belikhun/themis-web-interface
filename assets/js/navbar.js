@@ -616,9 +616,11 @@ const navbar = {
 					await f(file);
 			} catch(e) {
 				subAvatarNode.container.removeAttribute("data-state");
-				sounds.error();
+				sounds.warning();
 				
 				throw e;
+			} finally {
+				e.target.value = "";
 			}
 			
 			avatarNode.src = subAvatarNode.src = avatar;
@@ -651,10 +653,7 @@ const navbar = {
 			changeAvatar(e);
 		});
 
-		subContainer.header.avatarInput.addEventListener("input", async (e) => {
-			await changeAvatar(e);
-			e.target.value = "";
-		});
+		subContainer.header.avatarInput.addEventListener("input", async (e) => await changeAvatar(e));
 
 		const changeLayout = (layout) => {
 			clearTimeout(inputFocusTimeout);

@@ -48,6 +48,7 @@
 				$username = $_SESSION["username"];
 
 			changeAvatar($username, $_FILES["file"]);
+			stop(0, "Success!", 200);
 			break;
 		
 		default:

@@ -71,8 +71,23 @@
 	}
 
 	function changeAvatar($username, $file) {
-		$file = strtolower($file["name"]);
-		$extension = pathinfo($file, PATHINFO_EXTENSION);
+		if (!isset($file["error"]) || is_array($file["error"]))
+			throw new BLibException(-1, "Invalid Uploaded File", 400, $file["error"]);
+
+		switch ($file["error"]) {
+			case UPLOAD_ERR_OK:
+				break;
+			case UPLOAD_ERR_NO_FILE:
+				throw new BLibException(41, "No file sent!", 400, $file["error"]);
+			case UPLOAD_ERR_INI_SIZE:
+			case UPLOAD_ERR_FORM_SIZE:
+				throw new BLibException(42, "File limit exceeded!", 400, $file["error"]);
+			default:
+				throw new BLibException(-1, "Unknown error while handing file upload!", 500, $file["error"]);
+		}
+
+		$filename = strtolower($file["name"]);
+		$extension = pathinfo($filename, PATHINFO_EXTENSION);
 
 		if (!in_array($extension, IMAGE_ALLOW))
 			stop(43, "Không chấp nhận loại tệp!", 400, Array( "allow" => IMAGE_ALLOW ));
