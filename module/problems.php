@@ -25,6 +25,9 @@
 		global $problemList;
 		$list = Array();
 		
+		if (getConfig("contest.problem.sortByName") === true)
+			usort($problemList, function($a, $b) { return strcmp($a["name"], $b["name"]); });
+			
 		foreach($problemList as $i => $item) {
 			if ($showDisabled || !$item["disabled"])
 				array_push($list, Array(

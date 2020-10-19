@@ -212,6 +212,13 @@
 					"label" => "Cho phép Khách xem đề bài",
 					"color" => "blue",
 					"value" => true
+				),
+
+				"sortByName" => Array(
+					"type" => "checkbox",
+					"label" => "Sắp xếp đề bài theo tên",
+					"color" => "blue",
+					"value" => true
 				)
 			),
 		),
