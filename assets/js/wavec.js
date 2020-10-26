@@ -128,7 +128,7 @@ const wavec = {
 						wavec.container.classList.add("hide");
 
 					this.showing = false;
-				}, 600);
+				}, 500);
 			});
 		}
 

@@ -792,7 +792,7 @@ const smenu = {
 					return;
 				} else
 					this.container.main.innerHTML = content;
-
+				
 				resolve();
 				return;
 			})
