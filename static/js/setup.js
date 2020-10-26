@@ -84,6 +84,8 @@ const setup = {
 	},
 
 	async init() {
+		this.container.classList.add("show");
+
 		//? ============================ INTRO SCREEN ============================
 		const intro = new this.Screen({
 			name: "intro",
