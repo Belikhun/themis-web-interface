@@ -40,9 +40,9 @@ def testAPI(url = "", method = "GET", json = True, data = {}, files = {}):
 
 	try:
 		if (method == "GET"):
-			data = sess.get("http://localhost/" + url)
+			data = sess.get("http://localhost" + url)
 		else:
-			data = sess.post("http://localhost/" + url, data = data, files = files)
+			data = sess.post("http://localhost" + url, data = data, files = files)
 
 	except Exception as excp:
 		return repr(excp)
@@ -83,7 +83,7 @@ apiTest.case (
 )
 
 # All GET api test
-GETApiList = ["api/config", "api/info?u=admin", "api/status", "api/contest/logs", "api/contest/rank", "api/contest/timer", "api/contest/problems/list"]
+GETApiList = ["/api/config", "/api/info?u=admin", "/api/status", "/api/server", "/api/contest/logs", "/api/contest/rank", "/api/contest/timer", "/api/contest/problems/list"]
 for item in GETApiList:
 	apiTest.case (
 		"API \"{}\" should return a good status code".format(item),
@@ -91,7 +91,7 @@ for item in GETApiList:
 	)
 
 # All GET api with token required test
-GETApiWithTokenList = ["api/logs", "api/contest/logs"]
+GETApiWithTokenList = ["/api/logs", "/api/contest/logs"]
 for item in GETApiWithTokenList:
 	apiTest.case (
 		"API t\"{}\" should return a good status code".format(item),
@@ -102,7 +102,7 @@ for item in GETApiWithTokenList:
 def __avatarAPITest():
 	global sauce
 
-	result = testAPI("api/avatar", "POST", data = { "token": sauce }, files = { "file": open("api/admin.jpg", "rb") })
+	result = testAPI("/api/avatar", "POST", data = { "token": sauce }, files = { "file": open("api/admin.jpg", "rb") })
 	if (result is not True):
 		return result
 
@@ -112,14 +112,14 @@ def __avatarAPITest():
 	return "FileNotMatch"
 		
 apiTest.case (
-	"Avatar should be uploaded successfully with \"api/avatar\" API and have no corruption",
+	"Avatar should be uploaded successfully with \"/api/avatar\" API and have no corruption",
 	__avatarAPITest
 )
 
 # Logout API Test
 apiTest.case (
 	"Should be logged out successfully",
-	lambda: testAPI("api/logout", "POST", data = { "token": sauce })
+	lambda: testAPI("/api/logout", "POST", data = { "token": sauce })
 )
 
 # Complete Test

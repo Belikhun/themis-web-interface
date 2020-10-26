@@ -38,9 +38,9 @@ def getAPI(url = "", method = "GET", data = {}, files = {}):
 	global sess
 
 	if (method == "GET"):
-		data = sess.get("http://localhost/" + url)
+		data = sess.get("http://localhost" + url)
 	else:
-		data = sess.post("http://localhost/" + url, data = data, files = files)
+		data = sess.post("http://localhost" + url, data = data, files = files)
 	
 	json = data.json()
 
@@ -61,7 +61,7 @@ def __getLog():
 	global target
 
 	try:
-		logData = getAPI(f"api/contest/viewlog?u={username}&id={target}", "GET")
+		logData = getAPI(f"/api/contest/viewlog?u={username}&id={target}", "GET")
 	except Exception as excp:
 		return repr(excp)
 
