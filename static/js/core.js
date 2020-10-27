@@ -83,6 +83,7 @@ const twi = {
 		"pas": "Pascal",
 		"cpp": "C++",
 		"c": "C",
+		"cs": "C Sharp",
 		"py": "Python",
 		"java": "Java",
 		"class": "Compiled Java",
