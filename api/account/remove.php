@@ -19,7 +19,7 @@
 		
 	checkToken();
 
-	$username = reqForm("u");
+	$username = reqForm("username");
 
 	if ($_SESSION["id"] !== "admin")
 		stop(31, "Access Denied!", 403);

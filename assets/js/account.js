@@ -210,7 +210,7 @@ const account = {
 		let submitButton = fcfn(container, "submitButton");
 		let cancelButton = fcfn(container, "cancelButton");
 
-		cancelButton.addEventListener("mouseup", e => {
+		cancelButton.addEventListener("mouseup", () => {
 			container.parentElement.classList.remove("showEditor");
 			sounds.toggle(1);
 		});
@@ -243,19 +243,19 @@ const account = {
 			passwordInput.value = data.password;
 
 		// Set up events
-		avatarInput.addEventListener("change", e => {
+		avatarInput.addEventListener("change", (e) => {
 			avatarPreviewContainer.removeAttribute("dataset-loaded");
 			avatarPreview.src = URL.createObjectURL(e.target.files[0]);
 		});
 
-		editor.addEventListener("submit", async e => {
+		editor.addEventListener("submit", async () => {
 			let data = {
 				id: userIDInput.value,
-				n: nameInput.value
+				name: nameInput.value
 			}
 
 			if (passwordInput.value !== passwordPlaceholder && passwordInput.value !== "" && passwordInput.value.substring(0, 4) !== "$2y$")
-				data.p = passwordInput.value;
+				data.password = passwordInput.value;
 
 			if (avatarInput.files[0])
 				data.avatar = avatarInput.files[0];
@@ -266,7 +266,7 @@ const account = {
 				url: "/api/account/edit",
 				method: "POST",
 				form: {
-					u: username,
+					username,
 					token: API_TOKEN,
 					...data
 				}
@@ -312,7 +312,7 @@ const account = {
 			url: "/api/account/remove",
 			method: "POST",
 			form: {
-				u: username,
+				username,
 				token: API_TOKEN
 			}
 		})

@@ -20,9 +20,9 @@
 	checkToken();
 
 	$id = htmlspecialchars(strip_tags(reqForm("id")));
-	$username = preg_replace("/[^a-zA-Z0-9]+/", "", strip_tags(reqForm("u")));
-	$password = password_hash(reqForm("p"), PASSWORD_DEFAULT);
-	$name = htmlspecialchars(strip_tags(reqForm("n")));
+	$username = preg_replace("/[^a-zA-Z0-9]+/", "", strip_tags(reqForm("username")));
+	$password = password_hash(reqForm("password"), PASSWORD_DEFAULT);
+	$name = htmlspecialchars(strip_tags(reqForm("name")));
 
 	if ($_SESSION["id"] !== "admin")
 		stop(31, "Access Denied!", 403);
