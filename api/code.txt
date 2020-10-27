@@ -41,6 +41,7 @@
 
 // 5x: server
 50	undefined/missing values
+51	invalid/corrupted data
 
 // 10x: info (IGNORED)
 101 not in contest mode

@@ -734,6 +734,53 @@
 		}
 	}
 
+	function unserializeSessionData($sessionData) {
+		$method = ini_get("session.serialize_handler");
+
+		switch ($method) {
+			case "php": {
+				$returnData = array();
+				$offset = 0;
+
+				while ($offset < strlen($sessionData)) {
+					if (!strstr(substr($sessionData, $offset), "|"))
+						throw new BLibException(51, "unserializeSessionData(): Invalid Data, remaining: ". substr($sessionData, $offset), 500);
+					
+					$pos = strpos($sessionData, "|", $offset);
+					$num = $pos - $offset;
+					$varname = substr($sessionData, $offset, $num);
+					$offset += $num + 1;
+					$data = unserialize(substr($sessionData, $offset));
+					$returnData[$varname] = $data;
+					$offset += strlen(serialize($data));
+				}
+
+				return $returnData;
+			}
+				
+			case "php_binary": {
+				$returnData = array();
+				$offset = 0;
+
+				while ($offset < strlen($sessionData)) {
+					$num = ord($sessionData[$offset]);
+					$offset += 1;
+					$varname = substr($sessionData, $offset, $num);
+					$offset += $num;
+					$data = unserialize(substr($sessionData, $offset));
+					$returnData[$varname] = $data;
+					$offset += strlen(serialize($data));
+				}
+
+				return $returnData;
+				break;
+			}
+			
+			default:
+				throw new BLibException(-1, "Unsupported session.serialize_handler: { $method} Supported: php, php_binary", 500);
+		}
+	}
+
 	function printErrorPage(Array $data, Bool $redirect = false) {
 		$_SESSION["lastError"] = $data;
 		print "<!-- OUTPUT STOPPED HERE -->";

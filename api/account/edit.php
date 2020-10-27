@@ -71,5 +71,25 @@
 
 	$res = $acc -> update($data);
 
+	//? Find session logged in with the edited user
+	//? and remove that session
+	if (isset($data["password"])) {
+		$sessDir = session_save_path();
+		$sessFiles = glob($sessDir ."/sess_*");
+
+		foreach ($sessFiles as $file) {
+			$sessID = substr(pathinfo($file, PATHINFO_FILENAME), 5);
+			
+			if ($sessID === session_id())
+				continue;
+
+			$sessData = unserializeSessionData((new fip($file)) -> read());
+			
+			if (isset($sessData["username"]) && $sessData["username"] === $username)
+				unlink($file);
+		}
+		
+	}
+
 	writeLog("OKAY", "Đã chỉnh sửa tài khoản [$id] \"$username\"");
 	stop(0, "Chỉnh sửa tài khoản thành công!", 200, $data);
