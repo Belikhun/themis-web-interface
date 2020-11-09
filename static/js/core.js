@@ -225,6 +225,22 @@ const twi = {
 		init: () => popup.init()
 	},
 
+	https: {
+		priority: 0,
+
+		init() {
+			if (location.protocol !== "https:") {
+				clog("WARN", "Page is not served through https! Someone might altering your data!");
+				return false;
+			}
+
+			let upgradeInsecure = document.createElement("meta");
+			upgradeInsecure.httpEquiv = "Content-Security-Policy";
+			upgradeInsecure.content = "upgrade-insecure-requests";
+			document.head.appendChild(upgradeInsecure);
+		}
+	},
+
 	performance: {
 		priority: 1,
 		score: null,
@@ -3074,6 +3090,21 @@ const twi = {
 				priority: 2,
 				backtrace: 2
 			});
+		}
+	},
+
+	hash: {
+		changeHandlers: [],
+
+		init() {
+
+		},
+
+		onUpdate(f) {
+			if (typeof f !== "function")
+				throw { code: -1, description: `twi.hash.onUpdate(): not a valid function` }
+
+			this.changeHandlers
 		}
 	},
 
