@@ -334,10 +334,10 @@ body {
 	transform: translateX(-50%);
 
 	font-family: Nunito;
-	font-size: 28px;
-	font-weight: 800;
+	font-size: 31px;
+	font-weight: 900;
 	text-align: center;
-	letter-spacing: .6px;
+	letter-spacing: .4px;
 	color: rgb(22, 22, 22);
 
 	opacity: 0;
