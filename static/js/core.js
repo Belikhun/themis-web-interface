@@ -18,6 +18,7 @@ class TWIPanel {
 		this.titleNode = this.container.querySelector(".header > .title");
 		this.buttonsNode = this.container.querySelector(".header > .buttons");
 		this.mainContent = this.container.querySelector(".main");
+		this.loadingWrapper = this.mainContent.querySelector(".loadingWrapper");
 	}
 	
 	/**
@@ -33,6 +34,13 @@ class TWIPanel {
 
 	get main() {
 		return this.mainContent;
+	}
+
+	/**
+	 * @param {Boolean}		loading
+	 */
+	set loading(loading) {
+		this.loadingWrapper.classList[loading ? "add" : "remove"]("show");
 	}
 
 	button(icon = "circle", title) {
@@ -864,6 +872,7 @@ const twi = {
 		},
 
 		async updateLists() {
+			this.panel.loading = true;
 			let data = {}
 
 			try {
@@ -891,6 +900,7 @@ const twi = {
 						break;
 				}
 
+				this.panel.loading = false;
 				return false;
 			}
 
@@ -913,6 +923,7 @@ const twi = {
 			});
 
 			this.list.innerHTML = html;
+			this.panel.loading = false;
 		},
 
 		async viewProblem(id, viewInDialog = false) {
@@ -921,6 +932,7 @@ const twi = {
 				text: id
 			});
 
+			this.panel.loading = true;
 			this.panel.title = "Đang Tải";
 			this.attachment.previewWrapper.removeAttribute("data-loaded");
 			this.attachment.previewWrapper.style.height = "0";
@@ -934,6 +946,7 @@ const twi = {
 			let data = response.data;
 			this.data = data;
 			this.panel.title = `Đề bài - ${data.name}`;
+			this.panel.loading = false;
 
 			if (this.viewInDialog || viewInDialog) {
 				this.enlargeProblem(this.data);
@@ -1119,7 +1132,7 @@ const twi = {
 				
 				classes: "embedAttachment",
 				doLoad: false
-			})
+			});
 
 			if (haveEmbeded)
 				setTimeout(() => embedDoc.load(), 800);

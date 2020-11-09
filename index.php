@@ -169,6 +169,10 @@
 							</div>
 
 							<div class="main problemsContainer">
+								<div class="loadingWrapper">
+									<span class="simpleSpinner"></span>
+								</div>
+
 								<div class="problemsList showEmpty sound" data-soundtoggle="hide" id="problemsList"></div>
 
 								<div class="problem">

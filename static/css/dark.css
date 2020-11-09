@@ -31,6 +31,10 @@ body.dark panel > .header > .buttons > icon[data-icon="close"]:hover {
 	background-color: rgb(232, 55, 94);
 }
 
+body.dark panel > .main > .loadingWrapper {
+    background-color: rgba(24, 24, 24, 0.8);
+}
+
 /** =================== TIMER =================== **/
 
 body.dark .component.timer > icon::after {
