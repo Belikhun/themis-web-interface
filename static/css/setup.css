@@ -337,18 +337,20 @@ body {
 	font-size: 31px;
 	font-weight: 900;
 	text-align: center;
-	letter-spacing: .4px;
+	letter-spacing: -16px;
 	color: rgb(22, 22, 22);
 
 	opacity: 0;
 
 	transition:
 		opacity 1.2s ease-out 1s,
+		letter-spacing 1.8s cubic-bezier(0.25, 1, 0.5, 1) 1s,
 		transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 #screens > .screen[data-screen="intro"].showIcon > .right > .title {
 	opacity: 1;
+	letter-spacing: .4px;
 }
 
 #screens > .screen[data-screen="intro"].run > .right > .title {
