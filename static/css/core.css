@@ -755,7 +755,7 @@ panel > .main {
 	width: calc(100% - 100px);
 }
 
-#wrapperPanel[data-size="large"] .problemEnlarged > .right {
+.problemEnlarged.embed > .right {
 	display: block;
 }
 
@@ -767,7 +767,7 @@ panel > .main {
 }
 
 @media only screen and (max-width: 800px) {
-	.problemEnlarged > {
+	.problemEnlarged {
 		flex-direction: column;
 	}
 

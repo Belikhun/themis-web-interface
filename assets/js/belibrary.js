@@ -720,20 +720,24 @@ class lazyload {
 	constructor({
 		container = undefined,
 		source = undefined,
-		classes = undefined
+		classes = undefined,
+		doLoad = true
 	} = {}) {
 		if (container && container.classList)
 			this.container = container;
 		else
 			this.container = document.createElement("div");
 
-		let _src = null;
+		/**
+		 * @type	{String}	Source
+		 */
+		this._src = null;
 
 		switch (typeof source) {
 			case "string":
 				// Assume as Image Src
 				this.sourceNode = document.createElement("img");
-				_src = source;
+				this._src = source;
 				break;
 		
 			case "object":
@@ -745,12 +749,12 @@ class lazyload {
 						case "image":
 						case "iframe":
 							this.sourceNode = document.createElement(source.type);
-							_src = source.src;
+							this._src = source.src;
 							break;
 
 						case "document":
 							this.sourceNode = document.createElement("embed");
-							_src = source.src;
+							this._src = source.src;
 							break;
 
 						default:
@@ -764,7 +768,7 @@ class lazyload {
 				throw { code: -1, description: `lazyload: source is not a valid string/node/object, got ${typeof source}` }
 		}
 
-		if (!this.sourceNode || !_src)
+		if (!this.sourceNode || !this._src)
 			throw { code: -1, description: `lazyload: an unexpected error occured while creating lazyload object` }
 
 		this.isLoaded = false;
@@ -795,7 +799,16 @@ class lazyload {
 		this.spinner.classList.add("simpleSpinner");
 
 		this.container.append(this.sourceNode, this.spinner);
-		this.src = _src;
+
+		if (doLoad)
+			this.load();
+	}
+
+	load(src) {
+		if (src)
+			this._src = src;
+
+		this.src = this._src;
 	}
 
 	/**

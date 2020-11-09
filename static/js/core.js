@@ -1015,7 +1015,9 @@ const twi = {
 			if (!data)
 				return;
 
+			let haveEmbeded = data.attachment.url && data.attachment.embed;	
 			let testHtml = "";
+
 			data.test.forEach(item => {
 				testHtml += `
 					<tr>
@@ -1026,7 +1028,7 @@ const twi = {
 			})
 
 			let html = `
-				<div class="problemEnlarged">
+				<div class="problemEnlarged ${haveEmbeded ? "embed" : ""}">
 					<span class="left">
 						<span class="top">
 							<div class="group">
@@ -1099,18 +1101,28 @@ const twi = {
 							}
 						</span>
 					</span>
-					<span class="right">
-						${(data.attachment.url && data.attachment.embed)
-							?   `<embed class="embedAttachment" src="${data.attachment.url}&embed=true#toolbar=0&navpanes=0&scrollbar=0&statusbar=0&messages=0&scrollbar=0&page=1&view=FitH"/>`
-							:   ""
-						}
-					</span>
+
+					<span class="right"></span>
 				</div>
 			`;
 
 			this.wavec.set({ title: "Đề bài - " + data.name })
 			this.wavec.content = html;
 			this.wavec.show();
+
+			let embedDoc = new lazyload({
+				container: this.wavec.content.querySelector(".problemEnlarged > .right"),
+				source: {
+					type: "document",
+					src: `${data.attachment.url}&embed=true#toolbar=0&navpanes=0&scrollbar=0&statusbar=0&messages=0&scrollbar=0&page=1&view=FitH`
+				},
+				
+				classes: "embedAttachment",
+				doLoad: false
+			})
+
+			if (haveEmbeded)
+				setTimeout(() => embedDoc.load(), 800);
 		}
 	},
 

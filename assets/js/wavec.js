@@ -150,5 +150,12 @@ const wavec = {
 			else
 				this.container.contentBox.content.innerHTML = content;
 		}
+
+		/**
+		 * @returns {HTMLDivElement}
+		 */
+		get content() {
+			return this.container.contentBox.content;
+		}
 	}
 }

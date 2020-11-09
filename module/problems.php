@@ -10,10 +10,9 @@
 	
 	$problemList = Array();
 	foreach(glob(PROBLEMS_DIR ."/*", GLOB_ONLYDIR) as $i => $path) {
-		$id = basename($path);
-
-		$problemList[$id] = json_decode((new fip($path ."/data.json")) -> read(), true);
-		$problemList[$id]["id"] = $id;
+		$problemID = basename($path);
+		$problemList[$problemID] = json_decode((new fip($path ."/data.json")) -> read(), true);
+		$problemList[$problemID]["id"] = $problemID;
 	}
 	
 	// Return Code
@@ -28,9 +27,6 @@
 	function problemList(Bool $showDisabled = false) {
 		global $problemList;
 		$list = Array();
-		
-		if (getConfig("contest.problem.sortByName") === true)
-			uasort($problemList, function($a, $b) { return strcmp($a["name"], $b["name"]); });
 			
 		foreach($problemList as $i => $item) {
 			if ($showDisabled || !$item["disabled"])
@@ -42,6 +38,9 @@
 					"disabled" => $item["disabled"]
 				));
 		}
+
+		if (getConfig("contest.problem.sortByName") === true)
+			usort($list, function($a, $b) { return strcmp($a["name"], $b["name"]); });
 		
 		return $list;
 	}
