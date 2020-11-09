@@ -9,9 +9,13 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
 	
 	$problemList = Array();
-	foreach(glob(PROBLEMS_DIR ."/*", GLOB_ONLYDIR) as $i => $path)
-		$problemList[basename($path)] = json_decode((new fip($path ."/data.json")) -> read(), true);
+	foreach(glob(PROBLEMS_DIR ."/*", GLOB_ONLYDIR) as $i => $path) {
+		$id = basename($path);
 
+		$problemList[$id] = json_decode((new fip($path ."/data.json")) -> read(), true);
+		$problemList[$id]["id"] = $id;
+	}
+	
 	// Return Code
 	define("PROBLEM_OKAY", 0);
 	define("PROBLEM_ERROR", 1);
@@ -26,12 +30,12 @@
 		$list = Array();
 		
 		if (getConfig("contest.problem.sortByName") === true)
-			usort($problemList, function($a, $b) { return strcmp($a["name"], $b["name"]); });
+			uasort($problemList, function($a, $b) { return strcmp($a["name"], $b["name"]); });
 			
 		foreach($problemList as $i => $item) {
 			if ($showDisabled || !$item["disabled"])
 				array_push($list, Array(
-					"id" => $i,
+					"id" => $item["id"],
 					"name" => $item["name"],
 					"point" => $item["point"],
 					"image" => "/api/contest/problems/image?id=". $i,
