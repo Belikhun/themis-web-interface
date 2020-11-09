@@ -101,6 +101,27 @@
 				await twi.init(set);
 			});
 
+			mainSplash.onPostInit(async (set) => {
+				set({ p: 0, m: "main", d: "Sending Analytics Data" });
+                gtag("event", "pageView", {
+                    version: SERVER.version,
+                    hostname: location.hostname,
+                    loadtime: ((new Date()).getTime() - window.performance.timing.navigationStart) / 1000,
+                    downlink: (navigator && navigator.connection) ? navigator.connection.downlink : 0,
+                    versiontag: SERVER.versionTag,
+                    contestname: SERVER.contestName,
+                    platform: (navigator) ? navigator.platform : null,
+                    darkmode: cookie.get("__darkMode"),
+
+                    event_category: "load",
+                    event_label: "scriptInitialized",
+                    send_to: "default",
+                    event_callback: () => clog("INFO", "Analytics data sent!")
+				});
+				
+				set({ p: 100, m: "main", d: "Sending Analytics Data" });
+			});
+
 			mainSplash.onError(async (error, e, d) => {
 				if (cookie.get("splashInitSuccess", true) === "false")
 					if (popup.initialized) {
