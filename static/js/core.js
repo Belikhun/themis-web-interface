@@ -1728,6 +1728,7 @@ const twi = {
 				this.publicFilesPanel = new smenu.Panel(undefined, { size: "large" });
 				this.publicFilesPanel.setToggler(publicFilesButton);
 				await this.publicFilesPanel.content("iframe:/public");
+				twi.darkmode.onToggle((enabled) => this.publicFilesPanel.iframe.contentDocument.body.classList[enabled ? "add" : "remove"]("dark"));
 			}
 		},
 
@@ -2012,6 +2013,7 @@ const twi = {
 				this.controlPanel = new smenu.Panel(undefined, { size: "large" });
 				this.controlPanel.setToggler(controlPanelButton);
 				await this.controlPanel.content("iframe:/config.php");
+				twi.darkmode.onToggle((enabled) => this.controlPanel.iframe.contentDocument.body.classList[enabled ? "add" : "remove"]("dark"));
 
 				let accountsButton = new smenu.components.Button({
 					label: "Quản Lí Tài Khoản",
@@ -2023,6 +2025,7 @@ const twi = {
 				this.accountsPanel = new smenu.Panel(undefined, { size: "large" });
 				this.accountsPanel.setToggler(accountsButton);
 				await this.accountsPanel.content("iframe:/account.php");
+				twi.darkmode.onToggle((enabled) => this.accountsPanel.iframe.contentDocument.body.classList[enabled ? "add" : "remove"]("dark"));
 			},
 
 			syslogs: {
@@ -2630,6 +2633,7 @@ const twi = {
 				this.licensePanel = new smenu.Panel(undefined, { size: "large" });
 				this.licensePanel.setToggler(licenseButton);
 				await this.licensePanel.content("iframe:/licenseInfo.php");
+				twi.darkmode.onToggle((enabled) => this.licensePanel.iframe.contentDocument.body.classList[enabled ? "add" : "remove"]("dark"));
 
 				new smenu.components.Footer({
 					icon: "/assets/img/icon.webp",
@@ -2667,8 +2671,6 @@ const twi = {
 		update() {
 			this.toggleHandlers.forEach(f => f(this.enabled));
 			document.body.classList[this.enabled ? "add" : "remove"]("dark");
-			twi.userSettings.download.publicFilesPanel.iframe.contentDocument.body.classList[this.enabled ? "add" : "remove"]("dark");
-			twi.userSettings.projectInfo.licensePanel.iframe.contentDocument.body.classList[this.enabled ? "add" : "remove"]("dark");
 		}
 	},
 
