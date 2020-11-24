@@ -15,7 +15,7 @@
 		$perSeconds = getConfig("ratelimit.requestTime") ?: 8;
 		$banTime = getConfig("ratelimit.banTime") ?: 15;
 	
-		$ratelimitCache = new cache("ratelimit.". md5(getClientIP()), Array(
+		$ratelimitCache = new Cache("ratelimit.". md5(getClientIP()), Array(
 			"firstRequest" => time(),
 			"requestCount" => 0,
 			"banned" => false,

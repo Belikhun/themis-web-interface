@@ -21,7 +21,7 @@
 	if (!file_exists(CACHE_LOCATION ."/.htaccess"))
 		(new fip(CACHE_LOCATION ."/.htaccess")) -> write("Order Allow,Deny\nDeny from all");
 
-	class cache {
+	class Cache {
 		public $id;
 		public $data = Array();
 		private $cachefile;

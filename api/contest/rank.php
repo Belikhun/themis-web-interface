@@ -44,7 +44,7 @@
 	if (!$export) {
 		$cacheName = ($_SESSION["id"] === "admin") ? "contestRank.admin" : "contestRank.user";
 
-		$cache = new cache($cacheName);
+		$cache = new Cache($cacheName);
 		$cache -> setAge(getConfig("cache.contestRank"));
 		
 		if ($cache -> validate()) {
