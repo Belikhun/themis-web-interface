@@ -181,6 +181,13 @@
 					"label" => "Ẩn điểm của đề bài đã bị tắt",
 					"color" => "blue",
 					"value" => true
+				),
+
+				"showAllUsers" => Array(
+					"type" => "checkbox",
+					"label" => "Hiển thị toàn bộ Thí Sinh",
+					"color" => "blue",
+					"value" => false
 				)
 			),
 

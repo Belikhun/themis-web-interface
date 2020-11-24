@@ -49,7 +49,7 @@
 		
 		if ($cache -> validate()) {
 			$returnData = $cache -> getData();
-			stop(0, "Thành công!", 200, $returnData, Array($returnData["spOverall"], $returnData["spRanking"], $returnData["overall"]));
+			stop(0, "Thành công!", 200, $returnData, Array($returnData["spOverall"], $returnData["spRanking"], $returnData["overall"], count($returnData["rank"])));
 		}
 	}
 
@@ -61,6 +61,10 @@
 
 	//? SUBMISSIONS CALCULATION
 	$usersList = getSubmissionsList();
+
+	if (getConfig("contest.ranking.showAllUsers"))
+		$usersList = array_merge($usersList, getAccountsList());
+
 	$res = Array();
 	$_list_ = Array();
 	$list = Array();
@@ -70,8 +74,26 @@
 	$overall = 0;
 	$spOverall = 0;
 
-	foreach ($usersList as $username) {
-		$sub = new submissions($username);
+	foreach ($usersList as $user) {
+		$sub = new submissions($user);
+		$subList = $sub -> list();
+
+		$userData = (new account($user)) -> data;
+		$res[$user] = Array(
+			"username" => $user,
+			"name" => ($userData && isset($userData["name"])) ? $userData["name"] : null,
+			"total" => 0,
+			"sp" => 0,
+			"logFile" => Array(),
+			"status" => Array(),
+			"point" => Array(),
+			"lastSubmit" => null
+		);
+
+		if (count($subList) === 0 && !getConfig("contest.ranking.showAllUsers")) {
+			unset($res[$user]);
+			continue;
+		}
 
 		foreach ($sub -> list() as $id) {
 			$data = $sub -> getData($id);
@@ -81,10 +103,7 @@
 
 			$data = $data["header"];
 			$meta = $sub -> getMeta($id);
-
 			$filename = $data["file"]["logFilename"];
-			$user = $data["user"];
-			$userData = (new account($user)) -> data;
 	
 			if (problemDisabled($data["problem"]) && getConfig("contest.ranking.hideDisabled") && $_SESSION["id"] !== "admin")
 				continue;
@@ -102,17 +121,8 @@
 					$nameList[$data["problem"]] = $data["problemName"];
 			}
 	
-			$res[$user]["username"] = $user;
-			$res[$user]["name"] = ($userData && isset($userData["name"])) ? $userData["name"] : null;
-	
 			if (!isset($res[$user]["lastSubmit"]) || $res[$user]["lastSubmit"] < $data["file"]["lastModify"])
 				$res[$user]["lastSubmit"] = $data["file"]["lastModify"];
-	
-			if (!isset($res[$user]["total"]))
-				$res[$user]["total"] = 0;
-
-			if (!isset($res[$user]["sp"]))
-				$res[$user]["sp"] = 0;
 				
 			$res[$user]["total"] += $data["point"];
 
@@ -190,7 +200,7 @@
 
 		fclose($stream);
 	} else {
-		$returnData = Array (
+		$returnData = Array(
 			"list" => $list,
 			"nameList" => $nameList,
 			"total" => $total,
@@ -202,5 +212,5 @@
 		);
 		
 		$cache -> save($returnData);
-		stop(0, "Thành công!", 200, $returnData, Array($returnData["spOverall"], $returnData["spRanking"], $returnData["overall"]));
+		stop(0, "Thành công!", 200, $returnData, Array($returnData["spOverall"], $returnData["spRanking"], $returnData["overall"], count($returnData["rank"])));
 	}
