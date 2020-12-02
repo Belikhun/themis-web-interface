@@ -295,6 +295,30 @@
 			),
 		),
 
+		"announcement" => Array(
+			"__icon" => "horn",
+			"__title" => "Thông Báo",
+
+			"level" => Array(
+				"type" => "select",
+				"label" => "Cấp Độ",
+				"color" => "blue",
+				"options" => Array(
+					"okay" => "Hoàn Thành",
+					"info" => "Thông Tin",
+					"warning" => "Cảnh Báo",
+					"error" => "Lỗi"
+				),
+				"value" => "info"
+			),
+
+			"message" => Array(
+				"type" => "textarea",
+				"label" => "Nội Dung",
+				"color" => "blue"
+			)
+		), 
+
 		"clientSettings" => Array(
 			"__icon" => "config",
 			"__title" => "Cài Đặt Mặc Định của Client",

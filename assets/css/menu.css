@@ -397,10 +397,14 @@ body.embeded .menu {
     content: "\f233";
 }
 
+.menu .group.horn::after {
+    content: "\f0a1";
+}
+
 /* Dark */
 
 body.dark .menu {
-    background-color: rgba(56, 56, 56, 0.8);
+    background-color: rgba(38, 38, 38, 0.8);
 }
 
 body.dark.embeded .menu {

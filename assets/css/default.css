@@ -642,6 +642,10 @@ icon[data-icon="save"]::after {
 	content: "\f0c7";
 }
 
+icon[data-icon="horn"]::after {
+	content: "\f0a1";
+}
+
 /** ======================== NOTE ======================== **/
 
 .note {
