@@ -12,6 +12,7 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/ratelimit.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/logs.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/hash.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
 
 	if ($_SERVER["REQUEST_METHOD"] === "GET")
@@ -53,6 +54,11 @@
 
 	if ($rawConfig["contest"]["ranking"]["viewTask"] !== true)
 		$rawConfig["contest"]["log"]["viewOther"] = false;
+
+	if (file_exists($_SERVER["DOCUMENT_ROOT"] ."/module/hash.php")) {
+		require_once $_SERVER["DOCUMENT_ROOT"] ."/module/hash.php";
+		onUpdateConfig($rawConfig);
+	}
 
 	if ($changed === 0)
 		stop(102, "Woah nothing happened", 200);
