@@ -101,6 +101,8 @@ body:not(.embeded) {
     margin-left: 20px;
 }
 
+/* RANGE INPUT */
+
 .configRangeInput {
     position: relative;
     width: 100%;
@@ -108,6 +110,12 @@ body:not(.embeded) {
 
 .configRangeInput > input[type="range"] {
     width: 100%;
+}
+
+/* SELECT INPUT */
+
+body.dark .configSelectInput > select > option {
+    background-color: rgb(34, 34, 34);
 }
 
 /* Extra Stuff */

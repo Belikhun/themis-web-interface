@@ -299,6 +299,43 @@ const config = {
 					break;
 				}
 
+				case "select": {
+					let node = document.createElement("div");
+					node.classList.add("configSelectInput", "formGroup");
+					node.dataset.color = item.color || "blue";
+					node.dataset.soundhoversoft = true;
+
+					let input = document.createElement("select");
+					input.classList.add("formField");
+					input.id = keyPath;
+
+					for (let key of Object.keys(item.options)) {
+						let option = document.createElement("option");
+						option.value = key;
+						option.innerHTML = item.options[key];
+						input.appendChild(option);
+					}
+
+					let label = document.createElement("label");
+					label.classList.add("formLabel");
+					label.innerText = item.label;
+					label.htmlFor = input.id;
+
+					if (item.value && item.options[item.value])
+						input.value = item.value;
+
+					node.append(input, label);
+
+					itemData = {
+						type: item.type,
+						node,
+						setValue: (value) => input.value = value,
+						getValue: () => input.value
+					}
+
+					break;
+				}
+
 				default:
 					itemData = {
 						type: item.type,
