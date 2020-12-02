@@ -12,7 +12,6 @@
 	foreach(glob(PROBLEMS_DIR ."/*", GLOB_ONLYDIR) as $i => $path) {
 		$problemID = basename($path);
 		$problemList[$problemID] = json_decode((new fip($path ."/data.json")) -> read(), true);
-		$problemList[$problemID]["id"] = $problemID;
 	}
 	
 	// Return Code
@@ -28,13 +27,13 @@
 		global $problemList;
 		$list = Array();
 			
-		foreach($problemList as $i => $item) {
+		foreach($problemList as $id => $item) {
 			if ($showDisabled || !$item["disabled"])
 				array_push($list, Array(
-					"id" => $item["id"],
+					"id" => $id,
 					"name" => $item["name"],
 					"point" => $item["point"],
-					"image" => "/api/contest/problems/image?id=". $i,
+					"image" => "/api/contest/problems/image?id=". $id,
 					"disabled" => $item["disabled"]
 				));
 		}
@@ -49,19 +48,22 @@
 		global $problemList;
 		$list = Array();
 		
-		foreach($problemList as $i => $item)
+		foreach($problemList as $id => $item)
 			if (isset($item["attachment"])) {
-				$f = PROBLEMS_DIR ."/". $i ."/". $item["attachment"];
+				$f = PROBLEMS_DIR ."/". $id ."/". $item["attachment"];
 
 				array_push($list, Array(
-					"id" => $i,
+					"id" => $id,
 					"name" => $item["name"],
 					"size" => filesize($f),
 					"attachment" => $item["attachment"],
 					"lastmodify" => filemtime($f),
-					"url" => "/api/contest/problems/attachment?id=". $i
+					"url" => "/api/contest/problems/attachment?id=". $id
 				));
 			}
+
+		if (getConfig("contest.problem.sortByName") === true)
+			usort($list, function($a, $b) { return strcmp($a["name"], $b["name"]); });
 		
 		return $list;
 	}
@@ -86,9 +88,6 @@
 
 		if (!problemExist($id))
 			return PROBLEM_ERROR_IDREJECT;
-
-		$data = $problemList[$id];
-		$new = $data;
 
 		if (isset($image)) {
 			$imageFile = utf8_encode(strtolower($image["name"]));
@@ -129,11 +128,7 @@
 			$new["attachment"] = $attachmentFile;
 		}
 
-		$key = array_intersect_key($data, $set);
-		foreach ($key as $i => $value)
-			$new[$i] = isset($set[$i]) ? $set[$i] : $new[$i];
-
-		$problemList[$id] = $new;
+		mergeObjectRecursive($problemList[$id], $set);
 		problemSave($id);
 
 		return PROBLEM_OKAY;
