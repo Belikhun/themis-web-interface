@@ -10,6 +10,7 @@
 06  range error
 07  unknown request method
 08	wrong captcha
+09	invalid data
 
 // 1x: account
 11  not logged in

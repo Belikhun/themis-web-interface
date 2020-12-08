@@ -23,8 +23,12 @@
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/problems.php";
 
-	$id = preg_replace("/[^a-zA-Z0-9]/m", "", reqForm("id"));
+	$id = reqForm("id");
+	$sid = preg_replace("/[^a-zA-Z0-9_]/m", "", $id);
 	$name = reqForm("name");
+
+	if ($id !== $sid)
+		stop(9, "Mã Đề Không Hợp Lệ (chỉ sử dụng các kí tự a-zA-Z0-9 và _)", 400, Array( "id" => $id, "expect" => $sid ));
 
 	$point = reqType(reqForm("point"), "integer");
 	$time = reqType(getForm("time", 1), "integer");
