@@ -626,10 +626,10 @@ class stopClock {
 	}
 }
 
-class pager {
+class Pager {
 	constructor(container, showCount = 20) {
 		if (!container.classList)
-			throw { code: -1, description: `pager: container is not a valid node` }
+			throw { code: -1, description: `Pager: container is not a valid node` }
 
 		this.container = container;
 		this.listData = []
@@ -637,6 +637,8 @@ class pager {
 		this.updateHandler = () => {}
 		this.filterHandler = null;
 		this.showCount = showCount;
+		this.apiEndpoint = null;
+		this.apiToken = null;
 		this.__currentPage = 1;
 		this.__maxPage = 1;
 	}
@@ -646,73 +648,132 @@ class pager {
 	 */
 	set list(list) {
 		if (typeof list !== "object" || typeof list.length !== "number")
-			throw { code: -1, description: `(set) pager.list: not a valid array` }
+			throw { code: -1, description: `(set) Pager.list: not a valid array` }
 
 		this.listData = list;
 		this.render();
 	}
 
+	/**
+	 * @param {String|Object} api
+	 */
+	set api(api) {
+		if ((typeof api !== "string" && typeof api !== "object") || !api.url || !api.token || api === null)
+			throw { code: -1, description: `(set) Pager.api: not a valid string|data` }
+
+		this.apiEndpoint = api.url || api;
+		if (api.token)
+			this.apiToken = api.token;
+	}
+
 	renderItem(f) {
 		if (typeof f !== "function")
-			throw { code: -1, description: `pager.renderItem: not a valid function` }
+			throw { code: -1, description: `Pager.renderItem(): not a valid function` }
 
 		this.renderItemHandler = f;
 	}
 
 	onUpdate(f) {
 		if (typeof f !== "function")
-			throw { code: -1, description: `pager.onUpdate: not a valid function` }
+			throw { code: -1, description: `Pager.onUpdate(): not a valid function` }
 
 		this.updateHandler = f;
 	}
 
 	setFilter(f) {
 		if (typeof f !== "function")
-			throw { code: -1, description: `pager.setFilter: not a valid function` }
+			throw { code: -1, description: `Pager.setFilter(): not a valid function` }
 
 		this.filterHandler = f;
 	}
 
-	next() {
+	async next() {
 		this.__currentPage++;
-		this.render();
+		await this.render();
 	}
 
-	back() {
+	async back() {
 		this.__currentPage--;
-		this.render();
+		await this.render();
 	}
 
-	setPage(page) {
+	async setPage(page) {
 		if (typeof page !== "number" && !["first", "last"].includes(page))
-			throw { code: -1, description: `pager.setPage: ${page} is not a valid number/command` }
+			throw { code: -1, description: `Pager.setPage(${page}): not a valid number/command` }
 
 		this.__currentPage = page;
-		this.render();
+		await this.render();
 	}
 
-	render() {
+	async render() {
 		if (this.__currentPage < 1 || this.__currentPage === "first")
 			this.__currentPage = 1;
 
-		let listData = (typeof this.filterHandler === "function") ? this.listData.filter(this.filterHandler) : this.listData;
-		let total = Math.max(listData.length, 1);
-		let maxPage = parseInt(Math.floor(total / this.showCount) + ((total % this.showCount === 0) ? 0 : 1));
+		if (this.apiEndpoint) {
+			if (this.__currentPage > this.__maxPage || this.__currentPage === "last")
+				this.__currentPage = this.__maxPage;
 
-		if (this.__currentPage > maxPage || this.__currentPage === "last")
-			this.__currentPage = maxPage;
+			let response = {}
+			try {
+				response = await myajax({
+					url: this.apiEndpoint,
+					method: "POST",
+					form: {
+						action: "getData",
+						token: this.apiToken,
+						show: this.showCount,
+						page: this.__currentPage
+					}
+				});
+			} catch(e) {
+				if (e.data.code === 6) {
+					clog("WARN", `Không tồn tại trang ${this.currentPage} của nhật ký hệ thống.`, e.data.data);
+					this.__currentPage = 1;
+					this.__maxPage = e.data.data.maxPage;
+					await this.render();
 
-		let from = (this.__currentPage - 1) * this.showCount;
-		let to = Math.min(this.__currentPage * this.showCount - 1, total - 1);
+					return;
+				}
 
-		this.updateHandler({ total, maxPage, currentPage: this.__currentPage, from, to });
-		emptyNode(this.container);
+				throw e;
+			}
 
-		for (let i = from; i <= to; i++)
-			if (listData[i])
-				this.renderItemHandler(listData[i], this.container);
-			else
-				clog("DEBG", `pager.render: listData does not contain data at index`, { text: i, color: flatc("red") });
+			this.__maxPage = response.data.maxPage
+			this.updateHandler({
+				total: response.data.total,
+				maxPage: this.__maxPage,
+				currentPage: this.__currentPage,
+				from: response.data.from,
+				to: response.data.to
+			});
+
+			emptyNode(this.container);
+	
+			for (let i = 0; i <= response.data.lists.length; i++)
+				if (response.data.lists[i])
+					this.renderItemHandler(response.data.lists[i], this.container);
+				else
+					clog("DEBG", `Pager.render(): listData does not contain data at index`, { text: i, color: flatc("red") });
+		} else {
+			let listData = (typeof this.filterHandler === "function") ? this.listData.filter(this.filterHandler) : this.listData;
+			let total = Math.max(listData.length, 1);
+			let maxPage = parseInt(Math.floor(total / this.showCount) + ((total % this.showCount === 0) ? 0 : 1));
+	
+			if (this.__currentPage > maxPage || this.__currentPage === "last")
+				this.__currentPage = maxPage;
+	
+			let from = (this.__currentPage - 1) * this.showCount;
+			let to = Math.min(this.__currentPage * this.showCount - 1, total - 1);
+	
+			this.updateHandler({ total, maxPage, currentPage: this.__currentPage, from, to });
+			emptyNode(this.container);
+	
+			for (let i = from; i <= to; i++)
+				if (listData[i])
+					this.renderItemHandler(listData[i], this.container);
+				else
+					clog("DEBG", `Pager.render(): listData does not contain data at index`, { text: i, color: flatc("red") });
+		}
 	}
 }
 

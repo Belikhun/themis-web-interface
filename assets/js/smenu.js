@@ -49,6 +49,7 @@ const smenu = {
 			]}
 		])
 
+		tree.tree.id = container.id;
 		container.parentElement.replaceChild(tree.tree, container);
 		this.container = tree.obj;
 		
@@ -176,6 +177,22 @@ const smenu = {
 
 		this.mainHideTimeout = setTimeout(() => this.container.main.classList.add("hide"), 600);
 		this.collapsing = true;
+	},
+
+	/**
+	 * 
+	 * @param {HTMLElement}	button
+	 */
+	setToggler(button) {
+		button.addEventListener("mouseup", () => {
+			if (this.hiding)
+				this.show();
+			else 
+				this.hide();
+		});
+
+		this.onShow(() => button.classList.add("active"));
+		this.onHide(() => button.classList.remove("active"));
 	},
 
 	/**
@@ -438,6 +455,93 @@ const smenu = {
 			}
 		},
 
+		Textbox: class {
+			constructor({
+				label = "Sample Textbox",
+				type = "text",
+				value = null,
+				save = null,
+				defaultValue = "sample value",
+				onInput = null
+			} = {}, child) {
+				this.container = document.createElement("div");
+				this.container.classList.add("component", "textbox");
+				
+				this.id = `smenu.components.Textbox.${randString(16)}`;
+				this.labelNode = document.createElement("label");
+				this.labelNode.innerHTML = label;
+				this.labelNode.htmlFor = this.id;
+
+				this.input = document.createElement("input");
+				this.input.classList.add("sq-input");
+				this.input.id = this.id;
+				this.input.type = type;
+				this.input.placeholder = defaultValue;
+
+				this.defaultValue = defaultValue;
+				this.save = save;
+
+				this.inputHandlers = []
+				this.input.addEventListener("input", () => {
+					let value = this.input.type === "number" ? parseInt(this.input.value) : this.input.value;
+					this.inputHandlers.forEach(f => f(value));
+				});
+
+				this.inputHandlers.push((value) => {
+					if (this.save)
+						localStorage.setItem(this.save, value);
+
+					if (value !== this.defaultValue)
+						this.container.classList.add("changed");
+					else
+						this.container.classList.remove("changed");
+				});
+
+				if (typeof onInput === "function")
+					this.inputHandlers.push(onInput);
+
+				this.container.append(this.labelNode, this.input);
+
+				let savedValue = localStorage.getItem(this.save);
+				if (savedValue === null)
+					this.set({ value: (["number", "string"].includes(typeof value)) ? value : defaultValue || "" });
+				else
+					this.set({ value: savedValue });
+
+				if (child) {
+					if (!child.container || typeof child.insert !== "function")
+						throw { code: -1, description: `smenu.components.Textbox(): child is not a valid Child` }
+	
+					child.insert(this);
+				}
+			}
+
+			set({
+				label = null,
+				disabled = null,
+				value = null
+			} = {}) {
+				if (label)
+					this.labelNode.innerHTML = label;
+
+				if (typeof disabled === "boolean")
+					this.input.disabled = disabled;
+
+				if (typeof value !== "undefined") {
+					this.input.value = value;
+					this.input.dispatchEvent(new Event("input"));
+				}
+			}
+
+			onInput(f) {
+				if (!f || typeof f !== "function")
+					throw { code: -1, description: "smenu.components.Textbox().onInput(): not a valid function" }
+
+				this.inputHandlers.push(f);
+				f(this.input.type === "number" ? parseInt(this.input.value) : this.input.value);
+			}
+		},
+
 		Checkbox: class {
 			constructor({
 				label = "Sample Button",
@@ -478,7 +582,7 @@ const smenu = {
 				if (savedValue === null)
 					this.set({ value: (typeof value === "boolean") ? value : defaultValue || false });
 				else
-					this.set({ value: (savedValue === "true") })
+					this.set({ value: (savedValue === "true") });
 
 				if (child) {
 					if (!child.container || typeof child.insert !== "function")

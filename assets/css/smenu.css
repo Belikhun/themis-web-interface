@@ -42,6 +42,7 @@
 
 	top: 0;
 	right: 0;
+	width: auto;
 	min-height: 100%;
 	padding-left: 380px;
 	float: right;
@@ -287,6 +288,17 @@
 .smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.note > .inner,
 .smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.note > .inner > t {
 	font-size: 12px;
+}
+
+/** COMPONENT: TEXTBOX **/
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.textbox > label {
+	font-size: 13px;
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.textbox > input {
+	width: 100%;
+	margin-top: 2px;
 }
 
 /** COMPONENT: CHECKBOX **/
