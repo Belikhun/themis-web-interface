@@ -1938,6 +1938,13 @@ const twi = {
 							updateLogs.set({ value: 3 });
 							return;
 						}
+
+					if (sliderStep[v] === false)
+						twi.logs.enabled = false;
+					else {
+						twi.logs.enabled = true;
+						twi.logs.updateDelay = sliderStep[v];
+					}
 				});
 			}
 		},
