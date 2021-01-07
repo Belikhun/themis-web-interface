@@ -205,11 +205,14 @@
 	flex-grow: 1;
 	flex-shrink: 1;
 
+	margin: 0 0 0 10px;
 	line-height: 20px;
 }
 
 .sq-btn > icon.left {
 	justify-content: flex-start;
+
+	margin: 0 10px 0 0;
 	order: -1;
 }
 

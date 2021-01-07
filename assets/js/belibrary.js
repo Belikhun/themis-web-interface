@@ -94,7 +94,7 @@ function myajax({
 						text: `HTTP ${this.status}:`
 					}, this.statusText);
 
-					let errorObj = { code: 1, description: `HTTP ${this.status}: ${this.statusText} (${method} ${url})`, data: { method, url } }
+					let errorObj = { code: 1, description: `HTTP ${this.status}: ${this.statusText} (${method} ${url})`, data: { status: this.status, method, url } }
 					error(errorObj);
 					reject(errorObj);
 
@@ -115,6 +115,9 @@ function myajax({
 
 						return;
 					}
+
+					if (!response.status)
+						response.status = this.status;
 
 					if (this.status >= 400) {
 						if (typeof response.code === "number" && response.code !== 0 && response.code < 100) {
@@ -221,7 +224,7 @@ function myajax({
 
 		xhr.setRequestHeader("Accept", `${type === "json" ? "application/json" : "text/plain"};charset=UTF-8`);
 		xhr.send(sendData);
-	})
+	});
 }
 
 function delayAsync(time) {
@@ -318,6 +321,13 @@ function htmlToElement(html) {
 	return template.content.firstChild;
 }
 
+/**
+ * Deprecated
+ * @param {*} type 
+ * @param {*} __class 
+ * @param {*} data 
+ * @param {*} __keypath 
+ */
 function buildElementTree(type = "div", __class = [], data = new Array(), __keypath = "") {
 	let svgTag = ["svg", "g", "path", "line", "circle", "polyline"]
 
@@ -398,6 +408,10 @@ function buildElementTree(type = "div", __class = [], data = new Array(), __keyp
 		obj: objtree,
 		tree: tree
 	}
+}
+
+function buildNodeTree() {
+
 }
 
 function checkServer(ip, callback = () => {}) {
@@ -1191,6 +1205,34 @@ function randBetween(min, max, toInt = true) {
 		: (Math.random() * (max - min) + min)
 }
 
+/**
+ * Generate Random String
+ * @param	{Number}	len		Length of the randomized string
+ * @param	{String}	charSet
+ * @returns	{String}
+ */
+function randString(len = 16, charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789") {
+	let randomString = "";
+
+	for (let i = 0; i < len; i++) {
+		let p = Math.floor(Math.random() * charSet.length);
+		randomString += charSet.substring(p, p + 1);
+	}
+
+	return randomString;
+}
+
+/**
+ * Pick a random item in an Array
+ * @param {Array} array 
+ */
+function randItem(array) {
+	if (typeof array.length !== "number")
+		throw { code: -1, description: `randItem(): not a valid array` }
+
+	return array[randBetween(0, array.length - 1, true)];
+}
+
 const Easing = {
 	/**
 	 * @param	{Number}	t	Point [0, 1]
@@ -1380,23 +1422,6 @@ function Animator(duration, timingFunction, animate) {
 	}
 }
 
-/**
- * Generate Random String
- * @param	{Number}	len		Length of the randomized string
- * @param	{String}	charSet
- * @returns	{String}
- */
-function randString(len = 16, charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789") {
-	let randomString = "";
-
-	for (let i = 0; i < len; i++) {
-		let p = Math.floor(Math.random() * charSet.length);
-		randomString += charSet.substring(p, p + 1);
-	}
-
-	return randomString;
-}
-
 if (typeof $ !== "function")
 	/**
 	 * A shorthand of querySelector
@@ -1441,7 +1466,9 @@ function createInput({
 	value = "",
 	color = "default",
 	required = false,
-	autofill = true
+	autofill = true,
+	spellcheck = false,
+	options = {}
 } = {}) {
 	let formGroup = document.createElement("div");
 	formGroup.classList.add("formGroup");
@@ -1452,21 +1479,41 @@ function createInput({
 	if (typeof sounds === "object")
 		sounds.applySound(formGroup);
 
+	if (!["text", "textarea", "number", "date", "time", "select"].includes(type))
+		type = "text";
+
+	/**
+	 * @type {HTMLInputElement}
+	 */
 	let formField = document.createElement(type === "textarea" ? type : "input");
+
 	formField.type = type;
 	formField.id = id;
 	formField.classList.add("formField");
 	formField.placeholder = label;
 	formField.autocomplete = autofill ? "on" : "off";
-	formField.value = value;
+	formField.spellcheck = !!spellcheck;
 
 	if (required)
 		formField.required = true;
 
-	if (type === "textarea") {
-		formField.style.fontFamily = "Consolas";
-		formField.style.fontWeight = "bold";
-		formField.style.fontSize = "15px";
+	switch(type) {
+		case "textarea":
+			formField.style.fontFamily = "Consolas";
+			formField.style.fontWeight = "bold";
+			formField.style.fontSize = "15px";
+			break;
+
+		case "select": {
+			for (let key of Object.keys(options)) {
+				let option = document.createElement("option");
+				option.value = key;
+				option.innerHTML = options[key];
+				formField.appendChild(option);
+			}
+
+			break;
+		}
 	}
 
 	let formLabel = document.createElement("label");
@@ -1477,7 +1524,67 @@ function createInput({
 	formGroup.appendChild(formField);
 	formGroup.appendChild(formLabel);
 
-	return { group: formGroup, input: formField }
+	// Events
+	let onInputHandlers = [];
+	let onChangeHandlers = [];
+
+	formField.addEventListener("input", (e) => onInputHandlers.forEach(f => f(formField.value, e)));
+	formField.addEventListener("change", (e) => onChangeHandlers.forEach(f => f(formField.value, e)));
+
+	formField.value = value;
+
+	return {
+		group: formGroup,
+		input: formField,
+
+		set({
+			value,
+			label,
+			options
+		}) {
+			if (typeof options === "object" && formField.tagName.toLowerCase() === "select") {
+				emptyNode(formField);
+
+				for (let key of Object.keys(options)) {
+					let option = document.createElement("option");
+					option.value = key;
+					option.innerHTML = options[key];
+					formField.appendChild(option);
+				}
+			}
+
+			if (typeof value !== "undefined") {
+				formField.value = value;
+				formField.dispatchEvent(new Event("input"));
+				formField.dispatchEvent(new Event("change"));
+			}
+
+			if (label)
+				formLabel.innerText = label;
+		},
+
+		/**
+		 * @param {function} f
+		 */
+		onInput: (f) => {
+			if (typeof f !== "function")
+				throw { code: -1, description: `createInput(${type}).onInput(): Not a valid function` }
+
+			onInputHandlers.push(f);
+			f(formField.value, null);
+		},
+
+		/**
+		 * @param {function} f
+		 */
+		onChange: (f) => {
+			if (typeof f !== "function")
+				throw { code: -1, description: `createInput(${type}).onChange(): Not a valid function` }
+
+			onChangeHandlers.push(f);
+			f(formField.value, null);
+		}
+	}
 }
 
 /**
@@ -1821,7 +1928,7 @@ const cookie = {
 //? |-----------------------------------------------------------------------------------------------|
 
 function clog(level, ...args) {
-	const font = "Calibri";
+	const font = "Consolas";
 	const size = "12";
 	let date = new Date();
 	const rtime = round(sc.stop, 3).toFixed(3);
@@ -2056,29 +2163,26 @@ const popup = {
 
 			emptyNode(this.popup.body.button);
 			let buttonKeyList = Object.keys(buttonList);
-			if (buttonKeyList.length) {
-				for (let key of buttonKeyList) {
-					let item = buttonList[key];
-					let button = document.createElement("button");
+			
+			for (let key of buttonKeyList) {
+				let item = buttonList[key];
 
-					button.classList.add("sq-btn", item.color || "blue", item.full ? "full" : "normal");
-					button.innerText = item.text || "Text";
-					button.onclick = item.onClick || null;
-					button.returnValue = key;
-					button.dataset.soundhover = "";
-					button.dataset.soundselect = "";
+				let button = createBtn(item.text || "Text", item.color || "blue", {
+					icon: item.icon || null,
+					complex: !!item.complex
+				});
 
-					if (typeof sounds !== "undefined")
-						sounds.applySound(button);
+				button.classList.add(item.full ? "full" : "normal");
+				button.onclick = item.onClick || null;
+				button.returnValue = key;
 
-					if (!(typeof item.resolve === "boolean") || item.resolve !== false)
-						button.addEventListener("mouseup", e => {
-							resolve(e.target.returnValue);
-							this.hide();
-						});
+				if (!(typeof item.resolve === "boolean") || item.resolve !== false)
+					button.addEventListener("mouseup", e => {
+						resolve(e.target.returnValue);
+						this.hide();
+					});
 
-					this.popup.body.button.appendChild(button);
-				}
+				this.popup.body.button.appendChild(button);
 			}
 
 			this.popupNode.classList.add("show");

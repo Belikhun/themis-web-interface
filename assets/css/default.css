@@ -646,6 +646,18 @@ icon[data-icon="horn"]::after {
 	content: "\f0a1";
 }
 
+icon[data-icon="excel"]::after {
+	content: "\f1c3";
+}
+
+icon[data-icon="csv"]::after {
+	content: "\f6dd";
+}
+
+icon[data-icon="list"]::after {
+	content: "\f00b";
+}
+
 /** ======================== NOTE ======================== **/
 
 .note {
@@ -679,9 +691,9 @@ icon[data-icon="horn"]::after {
 
 /* Hacky but Work */
 .note > .inner.inner,
-.note > .inner.inner > t {
-	font-family: "Open Sans";
-    font-size: 13px;
+.note > .inner.inner > t,
+.note > .inner.inner > pre {
+    font-size: 14px;
 	color: #343434;
 }
 

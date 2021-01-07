@@ -48,7 +48,7 @@ class Scrollable {
 				requestAnimationFrame(() => {
 					this.update(e);
 					ticking = false;
-				})
+				});
 
 				ticking = true;
 			}
