@@ -181,7 +181,7 @@ const smenu = {
 
 	/**
 	 * 
-	 * @param {HTMLElement}	button
+	 * @param {HTMLButtonElement}	button
 	 */
 	setToggler(button) {
 		button.addEventListener("mouseup", () => {

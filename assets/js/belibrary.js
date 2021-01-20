@@ -975,6 +975,118 @@ class lazyload {
 	}
 }
 
+class Queue {
+	/**
+	 * 
+	 * @param {Array}	list 
+	 */
+	constructor(list) {
+		this.queueList = []
+		this.handlers = []
+		this.completeHandlers = []
+		this.queuePos = 0;
+		this.handlerPos = 0;
+	
+		/**
+		 * @type {Boolean}
+		 */
+		this.isLooping = true;
+
+		/**
+		 * @type {Boolean}	Running state of Queue
+		 */
+		this.running = false;
+
+		this.list = list;
+	}
+
+	/**
+	 * @param {Array}	list
+	 */
+	set list(list) {
+		if (typeof list !== "object" || !list.length)
+			throw { code: -1, description: `Queue.list: not a valid array` }
+
+		this.queueList = list;
+
+		if (this.queuePos > list.length - 1)
+			this.queuePos = list.length - 1;
+	}
+
+	addHandler(f) {
+		if (typeof f !== "function")
+			throw { code: -1, description: `Queue.addHandler(): not a valid function` }
+
+		let insPos = this.handlers.push({
+			free: true,
+			handler: f
+		});
+
+		this.assign();
+		return insPos;
+	}
+
+	removeHandler(pos) {
+		if (typeof pos !== "number" || !this.queueList[pos])
+			throw { code: -1, description: `Queue.removeHandler(${pos}): not a valid number or hander does not exist` }
+
+		this.handlers = this.handlers.splice(pos, 1);
+	}
+
+	start() {
+		if (this.running)
+			throw { code: -1, description: `Queue.start(): Queue is still running` }
+
+		this.running = true;
+		this.assign();
+	}
+
+	stop() {
+		this.running = false;
+		this.queuePos = 0;
+		this.handlerPos = 0;
+	}
+
+	assign() {
+		if (!this.running)
+			return { code: 0, description: `Queue: Stopped` }
+
+		let assigned = 0;
+
+		for (let item of this.handlers)
+			if (item.free && this.queuePos < this.queueList.length) {
+				item.free = false;
+				item.handler(this.queueList[this.queuePos++])
+					.then(() => {
+						item.free = true;
+						this.assign();
+					})
+					.catch((error) => {
+						clog("ERRR", `Queue.assign(): handler returned an error:`, error);
+						item.free = true;
+						this.assign();
+					});
+
+				assigned++;
+
+				if (this.queuePos >= this.queueList.length - 1 && this.isLooping)
+					this.queuePos = 0;
+			}
+
+		if (!this.isLooping && assigned === 0 && this.handlers.length > 0) {
+			this.stop();
+			this.completeHandlers.forEach(f => f());
+		}
+	}
+
+	onComplete(f) {
+		if (typeof f !== "function")
+			throw { code: -1, description: `Queue.onComplete(): not a valid function` }
+
+		this.completeHandlers.push(f);
+	}
+}
+
 class ClassWatcher {
 	constructor(targetNode, classToWatch, classAddedCallback, classRemovedCallback) {
 		this.targetNode = targetNode;

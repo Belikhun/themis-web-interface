@@ -203,7 +203,9 @@
 		header("Content-Length: ".filesize($f));
 
 		if ($downloadHeader)
-			header("Content-disposition: attachment; filename=". utf8_decode(pathinfo($i, PATHINFO_BASENAME))); 
+			header("Content-Disposition: attachment; filename=". utf8_decode(pathinfo($i, PATHINFO_BASENAME)));
+		else
+			header("Content-Disposition: inline");
 		
 		readfile($f);
 		return PROBLEM_OKAY;

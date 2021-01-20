@@ -1692,6 +1692,9 @@ const twi = {
 				description: "thay đổi cách Themis Web Interface hoạt động"
 			});
 
+			smenu.onShow(() => twi.content.classList.add("parallax"));
+			smenu.onHide(() => twi.content.classList.remove("parallax"));
+
 			if (["beta", "indev", "debug", "test"].includes(SERVER.versionTag)) {
 				new smenu.components.Note({
 					level: "warning",
