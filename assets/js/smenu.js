@@ -67,7 +67,7 @@ const smenu = {
 		this.container.main.navigator.addEventListener("mouseenter",
 			() => navExpandTimeout = setTimeout(() => {
 				this.container.main.navigator.classList.add("expand");
-			}, 1000)
+			}, 800)
 		);
 
 		this.container.main.navigator.addEventListener("mouseleave", () => {
@@ -181,7 +181,7 @@ const smenu = {
 
 	/**
 	 * 
-	 * @param {HTMLButtonElement}	button
+	 * @param {HTMLElement}	button
 	 */
 	setToggler(button) {
 		button.addEventListener("mouseup", () => {
@@ -426,13 +426,13 @@ const smenu = {
 			}
 
 			set({
-				level = undefined,
-				message = undefined
+				level,
+				message
 			} = {}) {
-				if (level)
+				if (typeof level === "string")
 					this.container.dataset.level = level;
 
-				if (message)
+				if (typeof message !== "undefined")
 					if (typeof message === "object" && message.classList) {
 						emptyNode(this.inner);
 						this.inner.appendChild(message);
@@ -517,11 +517,11 @@ const smenu = {
 			}
 
 			set({
-				label = null,
-				disabled = null,
-				value = null
+				label,
+				disabled,
+				value
 			} = {}) {
-				if (label)
+				if (typeof label === "string")
 					this.labelNode.innerHTML = label;
 
 				if (typeof disabled === "boolean")
@@ -593,15 +593,15 @@ const smenu = {
 			}
 
 			set({
-				label = null,
-				color = null,
-				disabled = null,
-				value = null
+				label,
+				color,
+				disabled,
+				value
 			} = {}) {
-				if (label)
+				if (typeof label === "string")
 					this.checkbox.title.innerText = label;
 
-				if (color)
+				if (typeof color === "string")
 					this.checkbox.label.dataset.color = color;
 
 				if (typeof value === "boolean") {
@@ -666,7 +666,11 @@ const smenu = {
 
 				this.slider = createSlider({ color, value, min, max, step });
 				this.slider.input.disabled = disabled;
+
+				/** @type {Function} */
 				this.onInput = this.slider.onInput;
+
+				/** @type {Function} */
 				this.onChange = this.slider.onChange;
 
 				header.append(this.labelNode, this.previewNode);
@@ -708,26 +712,26 @@ const smenu = {
 				else
 					this.container.classList.remove("changed");
 				
-				if (showTooltip && tooltip && tooltip.initialized)
+				if (showTooltip && typeof tooltip === "object" && tooltip.initialized === true)
 					tooltip.show(sVal, this.slider.input);
 			}
 
 			set({
-				label = null,
-				color = null,
-				value = null,
-				min = null,
-				max = null,
-				step = null,
-				valueStep = null,
-				unit = null,
-				defaultValue = null,
-				disabled = null
+				label,
+				color,
+				value,
+				min,
+				max,
+				step,
+				valueStep,
+				unit,
+				defaultValue,
+				disabled
 			} = {}) {
-				if (label)
+				if (typeof label === "string")
 					this.labelNode.innerHTML = label;
 
-				if (color)
+				if (typeof color === "string")
 					this.slider.group.dataset.color = color;
 
 				for (let key of ["value", "min", "max", "step"])
@@ -751,9 +755,9 @@ const smenu = {
 			constructor({
 				label = "Sample Button",
 				color = "blue",
-				icon = null,
+				icon,
 				complex = false,
-				onClick = null
+				onClick
 			} = {}, child) {
 				this.container = document.createElement("div");
 				this.container.classList.add("component", "button");
@@ -783,20 +787,20 @@ const smenu = {
 			}
 
 			set({
-				label = null,
-				color = null,
-				icon = null
+				label,
+				color,
+				icon
 			} = {}) {
-				if (label)
+				if (typeof label === "string")
 					this.button.innerText = label;
 				
-				if (color)
+				if (typeof color === "string")
 					if (this.triBg)
 						this.button.dataset.triColor = color;
 					else
 						this.button.dataset.color = color;
 
-				if (icon)
+				if (typeof icon === "string")
 					this.button.dataset.icon = icon;
 			}
 

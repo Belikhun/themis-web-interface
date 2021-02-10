@@ -1,5 +1,5 @@
 # Data
-data/logs.json
+data/log.json
 data/avatar/*
 data/accounts/*
 data/config.json

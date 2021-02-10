@@ -7,8 +7,9 @@
 	//? |-----------------------------------------------------------------------------------------------|
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/hash.php";
 
-	define("LOG_FILE", $_SERVER["DOCUMENT_ROOT"] ."/data/logs.json");
+	define("LOG_FILE", $_SERVER["DOCUMENT_ROOT"] ."/data/log.json");
 
 	function readLog(string $format, $reversed = false) {
 		$logs = new fip(LOG_FILE, "[]");
@@ -89,14 +90,17 @@
 
 		// Write to logs file
 		$logs = new fip(LOG_FILE, "[]");
-		$logsData = json_decode($logs -> read(), true) ?: [];
+		$logsData = $logs -> read("json");
 		array_push($logsData, $n);
-		$logs -> write(json_encode($logsData, JSON_PRETTY_PRINT));
-
+		$logs -> write($logsData, "json");
+		
+		onUpdateSysLogs(filesize(LOG_FILE), count($logsData));
 		return true;
 	}
 
 	function clearLog() {
 		$logs = new fip(LOG_FILE, "[]");
 		$logs -> write("[]");
+
+		onUpdateSysLogs(filesize(LOG_FILE), 0);
 	}

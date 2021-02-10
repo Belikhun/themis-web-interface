@@ -40,7 +40,9 @@ const sounds = {
 		notification: true,
 	},
 
-	async init(set = () => {}) {
+	async init(set = () => {}, {
+		clog = window.clog
+	} = {}) {
 		if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
 			clog("WARN", "Sounds does not support on iPhone devices, disabling...");
 			cookie.set("__s_m", false);
@@ -64,7 +66,7 @@ const sounds = {
 		set({ p: 10, m: "sounds", d: "Loading Sounds" });
 		await this.loadSound((p, t) => {
 			set({ p: 10 + p*0.85, m: "sounds", d: `Loading: ${t}` });
-		});
+		}, { clog });
 
 		this.soundsLoaded = true;
 
@@ -80,7 +82,9 @@ const sounds = {
 		});
 	},
 
-	async loadSound(set = () => {}) {
+	async loadSound(set = () => {}, {
+		clog = window.clog
+	} = {}) {
 		if (this.disabled)
 			throw { code: -1, description: "Sounds Module Disabled" }
 
@@ -90,11 +94,13 @@ const sounds = {
 			let item = this.sounds[key]
 
 			set((i / (keys.length - 1)) * 100, key);
-			this.sounds[key].sound = await this.__loadSoundAsync(`${this.LOCATION}/${item.path}`, item.volume || 0.6);
+			this.sounds[key].sound = await this.__loadSoundAsync(`${this.LOCATION}/${item.path}`, item.volume || 0.6, { clog });
 		}
 	},
 
-	async __loadSoundAsync(url, volume = 0.6) {
+	async __loadSoundAsync(url, volume = 0.6, {
+		clog = window.clog
+	} = {}) {
 		if (this.disabled)
 			throw { code: -1, description: "Sounds Module Disabled" }
 

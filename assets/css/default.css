@@ -848,6 +848,7 @@ icon[data-icon="list"]::after {
 	position: relative;
 	display: block;
 	transform: translateY(-5px);
+	color: #1b1b1b;
 }
 
 .popupContainer > .popupWindow > .header > icon::after {

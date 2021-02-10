@@ -146,7 +146,8 @@ input[type=range].sq-slider[data-color="blue"]:active::-webkit-slider-thumb {
     background-color: rgb(68, 170, 221);
 
     transition:
-        width 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+        width 0.3s cubic-bezier(0.215, 0.61, 0.355, 1),
+        background-color 0.3s ease;
 }
 
 .osc-slider > .rightTrack {
@@ -178,7 +179,9 @@ input[type=range].sq-slider[data-color="blue"]:active::-webkit-slider-thumb {
     box-sizing: border-box;
 
     transition:
-        left 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+        left 0.3s cubic-bezier(0.215, 0.61, 0.355, 1),
+        background-color 0.3s ease,
+        border-color 0.3s ease;
 }
 
 .osc-slider:hover > .thumb {

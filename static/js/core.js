@@ -118,7 +118,7 @@ const twi = {
 		await this.initGroup(this, "twi", ({ p, m, d }) => {
 			clog("DEBG", {
 				color: oscColor("pink"),
-				text: m,
+				text: truncateString(m, 34),
 				padding: 34,
 				separate: true
 			}, d);
@@ -172,6 +172,24 @@ const twi = {
 		set({ p: 5, m: name, d: `Sorting Modules By Priority` });
 		modulesList = modulesList.sort((a, b) => (a.priority || 0) - (b.priority || 0));
 		
+		clog("DEBG", {
+			color: oscColor("pink"),
+			text: truncateString(name, 34),
+			padding: 34,
+			separate: true
+		}, `Modules of`, {
+			text: name,
+			color: oscColor("pink")
+		});
+
+		for (let [i, module] of modulesList.entries())
+			clog("DEBG", {
+				color: oscColor("pink"),
+				text: truncateString(name, 34),
+				padding: 34,
+				separate: true
+			}, " + ", pleft(i, 2), pleft(module.__NAME__, 38), pleft(module.priority || 0, 3));
+
 		// Inititlize modules
 		for (let i = 0; i < modulesList.length; i++) {
 			let moduleStart = time();
@@ -180,21 +198,27 @@ const twi = {
 			let mP = 5 + (i / modulesList.length) * 95;
 
 			set({ p: mP, m: path, d: `Initializing` });
-
 			try {
 				let returnValue = await item.init(({ p, m, d }) => set({
 					p: mP + (p * (1 / modulesList.length) * 0.95),
 					m: (m) ? `${path}.${m}` : path,
 					d
-				}));
+				}), {
+					clog: (level, ...args) => clog(level, {
+						color: oscColor("pink"),
+						text: truncateString(path, 34),
+						padding: 34,
+						separate: true
+					}, ...args)
+				});
 
 				if (returnValue === false) {
 					clog("INFO", {
 						color: oscColor("pink"),
-						text: path,
+						text: truncateString(path, 34),
 						padding: 34,
 						separate: true
-					}, `INITIALIZE STOPPED! Skipping all Submodules`);
+					}, `Module DISABLED! Skipping all Submodules`);
 
 					item.initialized = false;
 					continue;
@@ -214,7 +238,7 @@ const twi = {
 
 			clog("OKAY", {
 				color: oscColor("pink"),
-				text: path,
+				text: truncateString(path, 34),
 				padding: 34,
 				separate: true
 			}, `Initialized in ${time() - moduleStart}s`);
@@ -225,7 +249,9 @@ const twi = {
 
 	sounds: {
 		priority: 1,
-		init: async (set) => await sounds.init(set)
+		init: async (set = () => {}, {
+			clog = window.clog
+		} = {}) => await sounds.init(set, { clog })
 	},
 
 	popup: {
@@ -236,9 +262,11 @@ const twi = {
 	https: {
 		priority: 0,
 
-		init() {
+		init(set = () => {}, {
+			clog = window.clog
+		} = {}) {
 			if (location.protocol !== "https:") {
-				clog("WARN", "Page is not served through https! Someone might altering your data!");
+				clog("WARN", "Page is not served through https! Someone can easily alter your data!");
 				return false;
 			}
 
@@ -253,7 +281,9 @@ const twi = {
 		priority: 1,
 		score: null,
 
-		async init(set) {
+		async init(set = () => {}, {
+			clog = window.clog
+		} = {}) {
 			//! THIS MODULE IS TEMPORARY DISABLED DUE TO NO USE
 			//! HOPEFULLY I CAN MAKE USE OF THIS LATER
 			return false;
@@ -306,8 +336,6 @@ const twi = {
 
 		async init() {
 			this.refreshButton.addEventListener("click", () => this.update(true));
-
-			await this.update();
 			await this.updater();
 		},
 
@@ -3131,17 +3159,82 @@ const twi = {
 	},
 
 	hash: {
-		changeHandlers: [],
+		priority: 6,
+		changeHandlers: {},
+		hashes: {},
 
-		init() {
+		timeout: null,
 
+		enabled: true,
+		updateDelay: 2,
+
+		async init(set = () => {}, {
+			clog = window.clog
+		} = {}) {
+			await this.update(set, { clog });
+			await this.updater();
 		},
 
-		onUpdate(f) {
-			if (typeof f !== "function")
-				throw { code: -1, description: `twi.hash.onUpdate(): not a valid function` }
+		async updater() {
+			clearTimeout(this.timeout);
+			let start = time();
 
-			this.changeHandlers
+			try {
+				if (twi.initialized && this.enabled)
+					await this.update();
+			} catch(e) {
+				//? IGNORE ERROR
+				clog("ERRR", e);
+			}
+			
+			this.timeout = setTimeout(() => this.updater(), (this.updateDelay - (time() - start)) * 1000);
+		},
+
+		async update(set = () => {}, {
+			clog = window.clog
+		} = {}) {
+			set({ p: 0, d: "Receiving Hash List" });
+			let response = await myajax({
+				url: `/api/hash`,
+				method: "GET"
+			});
+
+			let keys = Object.keys(response.data);
+			for (let [i, key] of keys.entries()) {
+				set({ p: 10 + ((i + 1) / keys.length) * 0.9, d: `Processing ${key}` });
+
+				if (this.hashes[key] !== response.data[key]) {
+					let hash = response.data[key];
+					
+					clog("INFO", "Hash Changed:",
+						{ text: hash, color: oscColor("green") },
+						{ text: key, color: oscColor("blue") }
+					);
+
+					this.hashes[key] = hash;
+
+					if (!this.changeHandlers[key] || this.changeHandlers[key].length === 0) {
+						clog("DEBG", `No handlers for ${key}. Skipping`);
+						continue;
+					}
+
+					for (let f of this.changeHandlers[key])
+						await f(hash);
+				}
+			}
+		},
+
+		onUpdate(key, f) {
+			if (typeof key !== "string")
+				throw { code: -1, description: `twi.hash.onUpdate(${key}): key is not a valid string` }
+
+			if (typeof f !== "function")
+				throw { code: -1, description: `twi.hash.onUpdate(${key}): not a valid function` }
+
+			if (!this.changeHandlers[key])
+				this.changeHandlers[key] = new Array();
+
+			return this.changeHandlers[key].push(f);
 		}
 	},
 

@@ -10,3 +10,7 @@
 		updateHash("config.timer", $config["time"]["contest"]["begin"] . $config["time"]["contest"]["during"] . $config["time"]["contest"]["offset"]);
 		updateHash("config.announcement", $config["announcement"]["level"] . $config["announcement"]["message"]);
 	}
+
+	function onUpdateSysLogs($size, $count) {
+		updateHash("syslogs", $size . $count);
+	}
