@@ -8,7 +8,7 @@
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/info.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/config.php";
 
 	if (!defined("CONFIG_FILE"))
 		define("CONFIG_FILE", $_SERVER["DOCUMENT_ROOT"] ."/data/config.json");
@@ -25,7 +25,7 @@
 				"emptyNote" => Array(
 					"type" => "note",
 					"level" => "info",
-					"text" => "Đây là template mặc định của config. Thay đổi tại /module/config.php"
+					"text" => "Đây là template mặc định của config. Thay đổi tại /modules/config.php"
 				)
 			)
 		));

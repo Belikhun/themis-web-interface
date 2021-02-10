@@ -11,7 +11,7 @@
 	
     require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/config.php";
 
 	$beginTime = getConfig("time.contest.begin");
 	$duringTime = getConfig("time.contest.during");

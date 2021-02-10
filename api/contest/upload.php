@@ -12,9 +12,9 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/ratelimit.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/logs.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/contest.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/submissions.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/config.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/contest.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/submissions.php";
 
 	if (!isLoggedIn())
 		stop(11, "Bạn chưa đăng nhập", 401);
@@ -38,7 +38,7 @@
 	$extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
 
 	if (getConfig("contest.submit.inProblemsList") === true) {
-		require_once $_SERVER["DOCUMENT_ROOT"] ."/module/problems.php";
+		require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/problems.php";
 		if (!problemExist($filename))
 			stop(44, "Không có đề cho bài này!", 404, Array( "file" => $filename ));
 

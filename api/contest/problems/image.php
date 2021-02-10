@@ -8,7 +8,7 @@
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/ratelimit.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/contest.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/contest.php";
 	
 	function showImage(string $path) {
 		contentType(pathinfo($path, PATHINFO_EXTENSION))
@@ -28,14 +28,14 @@
 
 			$id = preg_replace("/[.\/\\\\]/m", "", reqQuery("id"));
 
-			require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
+			require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/config.php";
 
 			if (!isLoggedIn() && getConfig("contest.problem.public") !== true)
 				stop(109, "Vui lòng đăng nhập để xem đề bài!", 403);
 
 			contest_timeRequire([CONTEST_STARTED], false, false);
 		
-			require_once $_SERVER["DOCUMENT_ROOT"] ."/module/problems.php";
+			require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/problems.php";
 		
 			if (!problemExist($id) || (problemDisabled($id) && $_SESSION["id"] !== "admin"))
 				showImage(PROBLEMS_DIR ."/image.default");
@@ -63,7 +63,7 @@
 			if ($_SESSION["id"] !== "admin")
 				stop(31, "Access Denied!", 403);
 
-			require_once $_SERVER["DOCUMENT_ROOT"] ."/module/problems.php";
+			require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/problems.php";
 			
 			$code = problemRemoveImage($id);
 			

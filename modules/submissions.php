@@ -1,6 +1,6 @@
 <?php
 	//? |-----------------------------------------------------------------------------------------------|
-	//? |  /module/submissions.php                                                                      |
+	//? |  /modules/submissions.php                                                                     |
 	//? |                                                                                               |
 	//? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
 	//? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
@@ -13,7 +13,7 @@
 	 */
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/config.php";
 	
 	define("SUBMISSIONS_DIR", getConfig("folders.submissions"));
 

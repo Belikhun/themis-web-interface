@@ -27,7 +27,7 @@
 			require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/ratelimit.php";
 			require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
 			require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/avatar.php";
-			require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
+			require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/config.php";
 
 			if (!isLoggedIn())
 				stop(11, "Bạn chưa đăng nhập!", 401);

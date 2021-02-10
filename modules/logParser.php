@@ -1,13 +1,13 @@
 <?php
 	//? |-----------------------------------------------------------------------------------------------|
-	//? |  /module/logParser.php                                                                        |
+	//? |  /modules/logParser.php                                                                       |
 	//? |                                                                                               |
 	//? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
 	//? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 	//? |-----------------------------------------------------------------------------------------------|
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/problems.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/problems.php";
 
 	/**
 	 * Parse all the log file

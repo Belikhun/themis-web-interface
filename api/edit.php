@@ -12,7 +12,7 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/ratelimit.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/logs.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/config.php";
 
 	if (!isLoggedIn())
 		stop(11, "Bạn chưa đăng nhập!", 401);
@@ -31,7 +31,7 @@
 			stop(16, "Tên người dùng không được vượt quá 34 kí tự", 400);
 	}
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/account.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/account.php";
 	$acc = new account($username);
 	$userdata = $acc -> data;
 

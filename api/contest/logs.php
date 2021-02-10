@@ -11,15 +11,15 @@
 
     require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/ratelimit.php";
     require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/config.php";
 
 	if (!isLoggedIn())
 		stop(11, "Bạn chưa đăng nhập", 401);
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/logParser.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/contest.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/submissions.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/problems.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/logParser.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/contest.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/submissions.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/problems.php";
 
 	$username = $_SESSION["username"];
 	$uploadFiles = glob(getConfig("folders.submit") ."/*.*");

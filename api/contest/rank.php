@@ -14,8 +14,8 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/ratelimit.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/cache.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/contest.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/config.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/contest.php";
 
 	if ($export && !isLoggedIn())
 		stop(11, "Bạn chưa đăng nhập!", 401);
@@ -53,9 +53,9 @@
 		}
 	}
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/account.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/logParser.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/submissions.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/account.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/logParser.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/submissions.php";
 
 	updateSubmissions();
 

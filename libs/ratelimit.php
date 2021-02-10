@@ -8,7 +8,7 @@
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/cache.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/config.php";
 
 	if (getConfig("ratelimit.enabled")) {
 		$maxRequest = getConfig("ratelimit.maxRequest") ?: 60;

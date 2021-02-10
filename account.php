@@ -7,7 +7,7 @@
 	//? |-----------------------------------------------------------------------------------------------|
 	
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/config.php";
 
 	if ($_SESSION["id"] !== "admin")
 		stop(31, "Xin lỗi! Bạn không có quyền để xem trang này.", 403);

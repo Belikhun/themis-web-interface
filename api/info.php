@@ -12,9 +12,9 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/ratelimit.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/logs.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/submissions.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/logParser.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/account.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/submissions.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/logParser.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/account.php";
 
 	$username = reqQuery("u");
 
@@ -34,7 +34,7 @@
 	$submissionsData = null;
 
 	if (getConfig("contest.result.publish")) {
-		require_once $_SERVER["DOCUMENT_ROOT"] ."/module/account.php";
+		require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/account.php";
 
 		$submissionsData = Array(
 			"total" => 0,

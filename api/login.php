@@ -19,7 +19,7 @@
 	$username = reqForm("username");
 	$password = reqForm("password");
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/account.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/account.php";
 	$acc = new account($username);
 
 	switch ($acc -> auth($password)) {

@@ -1,6 +1,6 @@
 <?php
 	//? |-----------------------------------------------------------------------------------------------|
-	//? |  /module/problems.php                                                                         |
+	//? |  /modules/problems.php                                                                        |
 	//? |                                                                                               |
 	//? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
 	//? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |

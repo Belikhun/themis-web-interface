@@ -12,7 +12,7 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/ratelimit.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/logs.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/config.php";
 
 	if (!isLoggedIn())
 		stop(11, "Bạn chưa đăng nhập", 401);
@@ -23,7 +23,7 @@
 	if ($_SESSION["id"] !== "admin")
 		stop(31, "Access Denied!", 403);
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/account.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/account.php";
 
 	if ($username) {
 		$acc = new account($username);

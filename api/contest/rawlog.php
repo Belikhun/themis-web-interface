@@ -11,9 +11,9 @@
 	
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/ratelimit.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/submissions.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/contest.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/config.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/submissions.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/contest.php";
 
 	if (getConfig("contest.log.enabled") === false && $_SESSION["id"] !== "admin")
 		stop(23, "Xem nhật ký đã bị tắt!", 403);

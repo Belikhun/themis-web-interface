@@ -12,7 +12,7 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
 
 	// CHECK FOR ANY ADMIN ACCOUNTS
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/account.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/account.php";
 	$accountLists = getAccountsList();
 	$adminCount = 0;
 
@@ -30,7 +30,7 @@
 	} else
 		unset($_SESSION["setup"]);
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/config.php";
 	header("Cache-Control: max-age=0, must-revalidate", true);
 ?>
 

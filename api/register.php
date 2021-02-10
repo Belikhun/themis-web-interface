@@ -31,7 +31,7 @@
 			stop(8, "Sai Captcha", 403);
 	}
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/account.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/account.php";
 	$acc = new account($username);
 	
 	switch ($acc -> init($password)) {

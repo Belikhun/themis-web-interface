@@ -13,7 +13,7 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/logs.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/hash.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/config.php";
 
 	if ($_SERVER["REQUEST_METHOD"] === "GET")
 		switch (getQuery("type", "value")) {
@@ -55,8 +55,8 @@
 	if ($rawConfig["contest"]["ranking"]["viewTask"] !== true)
 		$rawConfig["contest"]["log"]["viewOther"] = false;
 
-	if (file_exists($_SERVER["DOCUMENT_ROOT"] ."/module/hash.php")) {
-		require_once $_SERVER["DOCUMENT_ROOT"] ."/module/hash.php";
+	if (file_exists($_SERVER["DOCUMENT_ROOT"] ."/modules/hash.php")) {
+		require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/hash.php";
 		onUpdateConfig($rawConfig);
 	}
 

@@ -1,17 +1,17 @@
 <?php
 	//? |-----------------------------------------------------------------------------------------------|
-	//? |  /module/contest.php                                                                          |
+	//? |  /modules/contest.php                                                                         |
 	//? |                                                                                               |
 	//? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
 	//? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 	//? |-----------------------------------------------------------------------------------------------|
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/config.php";
 
 	function updateSubmissions() {
-		require_once $_SERVER["DOCUMENT_ROOT"] ."/module/logParser.php";
-		require_once $_SERVER["DOCUMENT_ROOT"] ."/module/submissions.php";
+		require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/logParser.php";
+		require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/submissions.php";
 
 		//? PARSE LOG FILES
 		$logDir = glob(getConfig("folders.submitLogs") ."/*.log");

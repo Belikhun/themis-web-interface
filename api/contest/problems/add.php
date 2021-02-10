@@ -21,7 +21,7 @@
 	if ($_SESSION["id"] !== "admin")
 		stop(31, "Access Denied!", 403);
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/problems.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/problems.php";
 
 	$id = reqForm("id");
 	$sid = preg_replace("/[^a-zA-Z0-9_]/m", "", $id);

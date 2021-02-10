@@ -11,18 +11,18 @@
 	
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/ratelimit.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/contest.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/contest.php";
 	
 	$id = reqQuery("id");
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/config.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/config.php";
 	
 	if (!isLoggedIn() && getConfig("contest.problem.public") !== true)
 		stop(109, "Vui lòng đăng nhập để xem đề bài!", 403, Array());
 	
 	contest_timeRequire([CONTEST_STARTED], false);
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/module/problems.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/problems.php";
 	$data = problemGet($id, $_SESSION["id"] === "admin");
 
 	switch ($data) {
