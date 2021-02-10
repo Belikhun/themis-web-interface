@@ -703,19 +703,19 @@
 	padding: 0 10px;
 }
 
-.navigationBar > .group > .component.announcement[data-level = "okay"] .main {
+.navigationBar > .group > .component.announcement[data-level = "okay"] > .main {
 	background-color: #8fff98;
 }
 
-.navigationBar > .group > .component.announcement[data-level = "info"] .main {
+.navigationBar > .group > .component.announcement[data-level = "info"] > .main {
 	background-color: #f8f8f8;
 }
 
-.navigationBar > .group > .component.announcement[data-level = "warning"] .main {
+.navigationBar > .group > .component.announcement[data-level = "warning"] > .main {
 	background-color: #fff386;
 }
 
-.navigationBar > .group > .component.announcement[data-level = "error"] .main {
+.navigationBar > .group > .component.announcement[data-level = "error"] > .main {
 	background-color: #ffe0e0;
 }
 
@@ -797,8 +797,10 @@
 
 	font-family: Nunito;
 	font-weight: 900;
-	color: rgba(58, 58, 58, 0.9);
 	white-space: nowrap;
+	letter-spacing: .4px;
+	text-transform: uppercase;
+	color: rgba(58, 58, 58, 0.9);
 
 	opacity: 0;
 	overflow: hidden;
@@ -829,6 +831,9 @@
 .navigationBar > .group > .component.announcement > .main > .wrapper > .content {
 	display: inline-block;
 	width: auto;
+
+	font-family: "Segoe UI";
+	font-size: 13px;
 
 	white-space: nowrap;
 	animation-timing-function: linear;
@@ -905,6 +910,8 @@
 }
 
 .navigationBar > .group > .component.announcement > .subWindow > .content > .announcementDetail > .level {
+	margin-top: 20px;
+
 	font-family: Nunito;
 	font-weight: 900;
 	font-size: 22px;
@@ -912,7 +919,9 @@
 }
 
 .navigationBar > .group > .component.announcement > .subWindow > .content > .announcementDetail > .detail {
-	margin: 10px 10px 0;
+	margin: 0 10px;
+
+	font-family: "Segoe UI";
 	font-size: 14px;
 	text-align: center;
 }
@@ -1067,25 +1076,33 @@ body.dark .navigationBar > .group > .component.announcement > .main > .level {
 	color: white;
 }
 
+body.dark .navigationBar > .group > .component.announcement > .main > .wrapper > .content {
+	color: white;
+}
+
 body.dark .navigationBar > .group > .component.announcement > .main > .icon::before,
 body.dark .navigationBar > .group > .component.announcement > .main > .icon::after {
 	color: white;
 }
 
-body.dark .navigationBar > .group > .component.announcement[data-level = "okay"] .main {
+body.dark .navigationBar > .group > .component.announcement[data-level = "okay"] > .main {
 	background-color: #047e0f;
 }
 
-body.dark .navigationBar > .group > .component.announcement[data-level = "info"] .main {
+body.dark .navigationBar > .group > .component.announcement[data-level = "info"] > .main {
 	background-color: #383d3d;
 }
 
-body.dark .navigationBar > .group > .component.announcement[data-level = "warning"] .main {
+body.dark .navigationBar > .group > .component.announcement[data-level = "warning"] > .main {
 	background-color: #9e7a04;
 }
 
-body.dark .navigationBar > .group > .component.announcement[data-level = "error"] .main {
+body.dark .navigationBar > .group > .component.announcement[data-level = "error"] > .main {
 	background-color: #ba1e3d;
+}
+
+body.dark .navigationBar > .group > .component.announcement > .subWindow > .content > .announcementDetail > .level {
+	color: white;
 }
 
 body.dark .navigationBar > .group > .component.announcement > .subWindow > .content > .announcementDetail > .footer {

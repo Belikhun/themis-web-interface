@@ -159,6 +159,13 @@ const twi = {
 				item.__NAME__ = key;
 				item.super = group;
 
+				item.log = (level, ...args) => clog(level, {
+					color: oscColor("pink"),
+					text: truncateString(`${name}.${item.__NAME__}`, 34),
+					padding: 34,
+					separate: true
+				}, ...args);
+
 				// Push To Queues
 				modulesList.push(item);
 			}
@@ -172,23 +179,25 @@ const twi = {
 		set({ p: 5, m: name, d: `Sorting Modules By Priority` });
 		modulesList = modulesList.sort((a, b) => (a.priority || 0) - (b.priority || 0));
 		
-		clog("DEBG", {
-			color: oscColor("pink"),
-			text: truncateString(name, 34),
-			padding: 34,
-			separate: true
-		}, `Modules of`, {
-			text: name,
-			color: oscColor("pink")
-		});
-
-		for (let [i, module] of modulesList.entries())
+		if (modulesList.length > 0) {
 			clog("DEBG", {
 				color: oscColor("pink"),
 				text: truncateString(name, 34),
 				padding: 34,
 				separate: true
-			}, " + ", pleft(i, 2), pleft(module.__NAME__, 38), pleft(module.priority || 0, 3));
+			}, `Modules of`, {
+				text: name,
+				color: oscColor("pink")
+			});
+	
+			for (let [i, module] of modulesList.entries())
+				clog("DEBG", {
+					color: oscColor("pink"),
+					text: truncateString(name, 34),
+					padding: 34,
+					separate: true
+				}, " + ", pleft(i, 2), pleft(module.__NAME__, 38), pleft(module.priority || 0, 3));
+		}
 
 		// Inititlize modules
 		for (let i = 0; i < modulesList.length; i++) {
@@ -203,14 +212,7 @@ const twi = {
 					p: mP + (p * (1 / modulesList.length) * 0.95),
 					m: (m) ? `${path}.${m}` : path,
 					d
-				}), {
-					clog: (level, ...args) => clog(level, {
-						color: oscColor("pink"),
-						text: truncateString(path, 34),
-						padding: 34,
-						separate: true
-					}, ...args)
-				});
+				}), { clog: item.log });
 
 				if (returnValue === false) {
 					clog("INFO", {
@@ -2806,11 +2808,41 @@ const twi = {
 		},
 
 		announcement: {
-			component: navbar.announcement({ level: "info", message: "lorem ipuusj sus sususususu sususu" }),
+			component: navbar.announcement(),
+			currentHash: null,
 
 			init() {
-				return;
 				navbar.insert(this.component, "left");
+				this.component.onRead(() => localStorage.setItem("config.announcement", this.currentHash));
+				twi.hash.onUpdate("config.announcement", (h) => this.update(h));
+			},
+
+			async update(hash) {
+				let lastReadHash = localStorage.getItem("config.announcement");
+
+				if (lastReadHash === hash) {
+					this.log("DEBG", `Announcement Read`);
+					return;
+				}
+
+				let response = await myajax({
+					url: `/api/announcement`,
+					method: "GET"
+				});
+
+				if (!response.data.enabled) {
+					this.log("INFO", `Announcement Disabled`);
+					this.component.hide();
+					return;
+				}
+
+				sounds.notification();
+				this.currentHash = hash;
+				this.component.set({
+					level: response.data.level,
+					message: response.data.message,
+					time: time()
+				});
 			}
 		},
 

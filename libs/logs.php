@@ -7,7 +7,6 @@
 	//? |-----------------------------------------------------------------------------------------------|
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/hash.php";
 
 	define("LOG_FILE", $_SERVER["DOCUMENT_ROOT"] ."/data/log.json");
 
@@ -94,7 +93,11 @@
 		array_push($logsData, $n);
 		$logs -> write($logsData, "json");
 		
-		onUpdateSysLogs(filesize(LOG_FILE), count($logsData));
+		if (file_exists($_SERVER["DOCUMENT_ROOT"] ."/modules/hash.php")) {
+			require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/hash.php";
+			onUpdateSysLogs(filesize(LOG_FILE), count($logsData));
+		}
+		
 		return true;
 	}
 

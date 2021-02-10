@@ -333,10 +333,10 @@
 
 	/**
 	 * Generate Random Number
-	 * @param	Number	$min	Minimum Random Number
-	 * @param	Number	$max	Maximum Random Number
-	 * @param   Bool	$toInt	To return an Integer Value
-	 * @return	Number	Generated number
+	 * @param	int|float		$min		Minimum Random Number
+	 * @param	int|float		$max		Maximum Random Number
+	 * @param   Bool			$toInt		To return an Integer Value
+	 * @return	int|float		Generated number
 	 */
 	function randBetween($min, $max, Bool $toInt = true) {
 		$rand = (float)(mt_rand() / mt_getrandmax());
@@ -598,7 +598,7 @@
 
 				if (gettype($object[$key]) === "array" && gettype($value) === "array")
 					mergeObjectRecursive($value, $object[$key], $typeSensitive, $counter);
-				else {
+				else if ($value !== $object[$key]) {
 					$value = $object[$key];
 					$counter++;
 				}

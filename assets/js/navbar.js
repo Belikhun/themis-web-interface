@@ -855,6 +855,7 @@ const navbar = {
 
 		//> CONTROL
 		let animationTimeout = null;
+		let markAsReadHandlers = []
 
 		let levelDetail = {
 			okay: "Hoàn Thành",
@@ -917,15 +918,16 @@ const navbar = {
 			container.classList.remove("detail");
 			container.classList.remove("show");
 
+			subWindow.hide();
 			animationTimeout = setTimeout(() => container.classList.add("hide"), 1000);
 		}
 
 		const set = ({
-			level = null,
-			message = null,
-			time = null
+			level,
+			message,
+			time
 		} = {}) => {
-			if (level) {
+			if (typeof level === "string") {
 				subNodes.level.innerText = levelText.innerText = levelDetail[level] || level;
 				subNodes.dataset.level = container.dataset.level = level;
 				subWindow.color = {
@@ -936,7 +938,7 @@ const navbar = {
 				}[level] || "gray";
 			}
 	
-			if (message) {
+			if (typeof message === "string") {
 				subNodes.detail.innerHTML = message;
 
 				//? A Workaround to Allow <b> tag to display in preview mode only
@@ -955,10 +957,12 @@ const navbar = {
 				show();
 		}
 
-		subNodes.footer.read.addEventListener("click", () => {
+		subNodes.footer.read.addEventListener("click", e => {
+			for (let f of markAsReadHandlers)
+				f(e);
+
 			hide();
-			subWindow.hide();
-		})
+		});
 
 		click.setHandler(() => subWindow.toggle());
 		set({ level, message, time });
@@ -971,7 +975,14 @@ const navbar = {
 
 			show,
 			hide,
-			set
+			set,
+
+			onRead: (f) => {
+				if (typeof f !== "function")
+					throw { code: -1, description: `navbar.announcement().onRead(): not a valid function` }
+
+				markAsReadHandlers.push(f);
+			}
 		}
 	}
 }

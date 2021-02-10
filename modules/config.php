@@ -299,6 +299,13 @@
 			"__icon" => "horn",
 			"__title" => "Thông Báo",
 
+			"enabled" => Array(
+				"type" => "checkbox",
+				"label" => "Bật Thông Báo",
+				"color" => "blue",
+				"value" => false
+			),
+
 			"level" => Array(
 				"type" => "select",
 				"label" => "Cấp Độ",
