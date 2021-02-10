@@ -301,6 +301,20 @@ function escapeHTML(str) {
 }
 
 /**
+ * Truncate String if String's length is too large
+ * @param {String}	string	String to truncate 
+ * @param {Number}	length	Maximum length of string
+ * @returns {String}
+ */
+function truncateString(string, length = 20, {
+	surfix = "..."
+} = {}) {
+	return (string.length > length)
+		? string.substr(0, length - surfix.length - 1) + surfix
+		: string;
+}
+
+/**
  * Return the first element with the given className
  * @param	{Element}	node			Container
  * @param	{String}	className		Class
@@ -1550,9 +1564,7 @@ if (typeof $ !== "function")
 	}
 
 /**
- * Remove all child in a Node
- * 
- * eq: node.innerHTML = ""
+ * Remove all childs in a Node
  * @param	{Element}	node	Node to empty
  */
 function emptyNode(node) {
@@ -1597,7 +1609,7 @@ function createInput({
 	/**
 	 * @type {HTMLInputElement}
 	 */
-	let formField = document.createElement(type === "textarea" ? type : "input");
+	let formField = document.createElement(["textarea", "select"].includes(type) ? type : "input");
 
 	formField.type = type;
 	formField.id = id;
@@ -2083,25 +2095,24 @@ function clog(level, ...args) {
 	text = text.concat(args);
 	let n = 2;
 	let out = new Array();
-	out[0] = "%c";
-	out[1] = "padding-left: 10px";
+
+	out[0] = "%c ";
+	out[1] = `padding-left: ${["INFO", "OKAY", "DEBG"].includes(level) ? 10 : 0}px`;
+
 	// i | 1   2   3   4   5     6
 	// j | 0   1   2   3   4     5
 	// n | 1 2 3 4 5 6 7 8 9 10 11
-
 	for (let i = 1; i <= text.length; i++) {
-		item = text[i-1];
+		item = text[i - 1];
 		if (typeof item === "string" || typeof item === "number") {
 			if (i > 4)
 				str += `${item} `;
 
 			out[0] += `%c${item} `;
-			out[n] = `font-size: ${size}px; font-family: ${font}; color: ${flatc("black")}`;
-			n += 1;
+			out[n++] = `font-size: ${size}px; font-family: ${font}; color: ${flatc("black")}`;
 		} else if (typeof item === "object") {
 			if (item === null || item === undefined || typeof item.text === "undefined") {
-				out[n] = item;
-				n += 1;
+				out[n++] = item;
 
 				if (item && item.code && item.description)
 					str += `[${item.code}] ${item.description} `;
@@ -2121,20 +2132,16 @@ function clog(level, ...args) {
 
 			if (item.separate) {
 				out[0] += "%c| ";
-				out[n] = `font-size: ${size}px; color: ${item.color};`;
-				out[n+1] = `font-size: ${size}px; color: ${item.color}; font-weight: bold;`;
-				n += 2;
+				out[n++] = out[n++] = `font-size: ${size}px; color: ${item.color}; font-weight: bold;`;
 			} else {
 				out[0] += " ";
-				out[n] = `font-size: ${size}px; font-family: ${font}; color: ${item.color}`;
-				n += 1;
+				out[n++] = `font-size: ${size}px; font-family: ${font}; color: ${item.color}`;
 			}
 		} else
-			console.error(`error: type ${typeof item}`)
+			console.error(`clog(): unknown type ${typeof item}`, item);
 	}
 
 	document.__onclog(level, rtime, str);
-
 	switch (level) {
 		case "DEBG":
 			console.debug.apply(this, out);
@@ -2461,9 +2468,8 @@ clog("info", "Log started at:", {
 })
 
 // Error handling
-
 window.addEventListener("error", e => {
-	clog("crit", {
+	clog("CRIT", {
 		color: flatc("red"),
 		text: e.message
 	}, "at", {
