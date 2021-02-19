@@ -11,17 +11,25 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/info.php";
 
 	class Hash {
-		private Cache $hashCache;
+		/**
+		 * Store cache information
+		 * @var Cache
+		 */
+		private $hashCache;
+
 		private Array $cacheData;
 		public String $id;
 
-		public function __construct($id) {
+		public function __construct($id = null) {
 			$this -> hashCache = new Cache("hashing", Array());
 			$this -> cacheData = $this -> hashCache -> getData();
 			$this -> id = $id;
 		}
 
 		public function update(String $data) {
+			if (empty($this -> id))
+				return;
+
 			$this -> cacheData[$this -> id] = md5($data);
 			$this -> hashCache -> save($this -> cacheData);
 		}

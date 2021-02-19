@@ -14,4 +14,4 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/hash.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/info.php";
 	
-	stop(0, "Success", 200, getAllHashes(), true);
+	stop(0, "Success", 200, (new Hash()) -> getAllHashes(), true);
