@@ -1,9 +1,10 @@
 language: php
 dist: "bionic"
 php:
+    - "7.1"
     - "7.4"
 python:
-    - "3.7"
+    - "3.8"
 
 before_script:
     # install apache2 and fcgi
