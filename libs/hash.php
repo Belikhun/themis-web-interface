@@ -12,13 +12,18 @@
 
 	class Hash {
 		/**
-		 * Store cache information
+		 * Store cache object
 		 * @var Cache
 		 */
 		private $hashCache;
 
-		private Array $cacheData;
-		public String $id;
+		/**
+		 * Store cache data
+		 * @var Array
+		 */
+		private $cacheData;
+
+		public $id;
 
 		public function __construct($id = null) {
 			$this -> hashCache = new Cache("hashing", Array());
