@@ -22,9 +22,9 @@ before_script:
     - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
     - sudo systemctl restart apache2 || sudo systemctl status apache2 || sudo journalctl -xe
     # install python dependencies
-    - sudo pip3 -q install --upgrade colorama requests
+    - sudo pip -q install --upgrade colorama requests
     # get some information
-    - python3 -V
+    - python --version
     - pwd
     # change cwd to tests
     - cd tests
