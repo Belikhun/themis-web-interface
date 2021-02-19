@@ -24,6 +24,7 @@ before_script:
     # install python dependencies
     - pip -q install --upgrade colorama requests
     # get some information
+    - php --version
     - python --version
     - pwd
     # change cwd to tests
