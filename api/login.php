@@ -13,8 +13,8 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/logger.php";
 
-	//if (isLoggedIn())
-	//	stop(12, "Đã đăng nhập bằng username: ". $_SESSION["username"], 400);
+	if (isLoggedIn())
+		stop(12, "Đã đăng nhập bằng username: ". $_SESSION["username"], 400);
 	
 	$username = reqForm("username");
 	$password = reqForm("password");
