@@ -1247,6 +1247,16 @@ icon[data-icon="list"]::after {
 	to { transform: translateY(-1000px); }
 }
 
+/*? TRIGANIM SIZE FULL */
+.triBg > .triBgContainer[data-anim="full"] > span {
+	animation-name: trigAnimFULL;
+}
+
+@keyframes trigAnimFULL {
+	from { transform: translateY(0); }
+	to { transform: translateY(-1920px); }
+}
+
 /** ======================== DARK ======================== **/
 
 body.dark {

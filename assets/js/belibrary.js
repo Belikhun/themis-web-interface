@@ -229,9 +229,13 @@ function myajax({
 
 function delayAsync(time) {
 	return new Promise((resolve, reject) => {
-		setTimeout(e => {
-			resolve();
-		}, time);
+		setTimeout(() => resolve(), time);
+	});
+}
+
+function nextFrameAsync() {
+	return new Promise((resolve, reject) => {
+		requestAnimationFrame(() =>  resolve());
 	});
 }
 

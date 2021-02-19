@@ -10,7 +10,7 @@
 
 	function onUpdateConfig() {
 		require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/config.php";
-
+		
 		updateHash("config.timer", implode(Array(
 			getConfig("time.contest.begin"),
 			getConfig("time.contest.during"),
