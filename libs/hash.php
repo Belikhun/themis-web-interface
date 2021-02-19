@@ -23,7 +23,9 @@
 		public function __construct($id = null) {
 			$this -> hashCache = new Cache("hashing", Array());
 			$this -> cacheData = $this -> hashCache -> getData();
-			$this -> id = $id;
+
+			if (!empty($id))
+				$this -> id = $id;
 		}
 
 		public function update(String $data) {
@@ -35,8 +37,12 @@
 		}
 	
 		public function getAllHashes() {
-			global $cacheData;
-			return $cacheData;
+			/**
+			 * This will not be updated if another Hash update it's
+			 * value. Better implementation will be needed in the future
+			 * as currently only the hash api is using this method
+			 */
+			return $this -> cacheData;
 		}
 	
 		public function get() {

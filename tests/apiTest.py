@@ -34,7 +34,7 @@ def __testServerOnline():
 
 apiTest.case("Server should be up and running", __testServerOnline)
 
-def testAPI(url = "", method = "GET", json = True, data = {}, files = {}):
+def testAPI(url = "", method = "GET", data = {}, files = {}):
 	global sess
 	global sauce
 
@@ -47,7 +47,7 @@ def testAPI(url = "", method = "GET", json = True, data = {}, files = {}):
 	except Exception as excp:
 		return repr(excp)
 	else:
-		if (not json):
+		if (not ("application/json" in data.headers["Content-Type"])):
 			return True
 
 		try:
@@ -83,7 +83,21 @@ apiTest.case (
 )
 
 # All GET api test
-GETApiList = ["/api/config", "/api/info?u=admin", "/api/status", "/api/server", "/api/contest/logs", "/api/contest/rank", "/api/contest/timer", "/api/contest/problems/list"]
+GETApiList = [
+	"/api/config",
+	"/api/info?u=admin",
+	"/api/status",
+	"/api/server",
+	"/api/hash",
+	"/api/announcement",
+	"/api/images/icon",
+	"/api/images/landing",
+	"/api/contest/logs",
+	"/api/contest/rank",
+	"/api/contest/timer",
+	"/api/contest/problems/list"
+]
+
 for item in GETApiList:
 	apiTest.case (
 		"API \"{}\" should return a good status code".format(item),
