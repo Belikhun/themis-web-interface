@@ -30,7 +30,7 @@ install:
 before_script:
   # get some information
   - php --version
-  - python --version
+  - python3 --version
   - pwd
   # change cwd to tests
   - cd tests
@@ -61,8 +61,6 @@ matrix:
       language: php
       php: 7.4
       env: TEST_SUITE=logParser
-
-
 
     # add your test here. ex:
     # - name: "myVeryCool Test"

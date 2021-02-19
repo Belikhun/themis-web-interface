@@ -56,7 +56,7 @@ def testAPI(url = "", method = "GET", data = {}, files = {}):
 			print(data.text)
 			return repr(excp)
 		else:
-			if (json["code"] != 0):
+			if (json["code"] != 0 and json["code"] < 100):
 				return "[{}] {}".format(json["code"], json["description"])
 			
 			if (json["status"] >= 300):
