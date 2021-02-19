@@ -7,6 +7,7 @@
 	//? |-----------------------------------------------------------------------------------------------|
 	
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/cache.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/info.php";
 
 	$hashCache = new Cache("hashing", Array());
