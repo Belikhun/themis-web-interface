@@ -1,6 +1,6 @@
 <?php
 	//? |-----------------------------------------------------------------------------------------------|
-	//? |  /libs/logs.php                                                                               |
+	//? |  /libs/logger.php                                                                             |
 	//? |                                                                                               |
 	//? |  Copyright (c) 2018-2020 Belikhun. All right reserved                                         |
 	//? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
@@ -87,7 +87,7 @@
 			)
 		);
 
-		// Write to logs file
+		// Write to log file
 		$logs = new fip(LOG_FILE, "[]");
 		$logsData = $logs -> read("json");
 		array_push($logsData, $n);

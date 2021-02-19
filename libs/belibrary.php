@@ -6,7 +6,7 @@
 	//? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 	//? |-----------------------------------------------------------------------------------------------|
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/logs.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/logger.php";
 
 	setlocale(LC_TIME, "vi_VN.UTF-8");
 

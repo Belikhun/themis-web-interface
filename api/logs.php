@@ -14,7 +14,7 @@
 	else
 		define("PAGE_TYPE", "API");
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/logs.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/logger.php";
 
 	if (!isLoggedIn())
 		stop(11, "Bạn chưa đăng nhập!", 401);

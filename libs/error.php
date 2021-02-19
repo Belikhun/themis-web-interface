@@ -7,7 +7,7 @@
 	//? |-----------------------------------------------------------------------------------------------|
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/logs.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/logger.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/info.php";
 
 	$sv = $_SERVER["SERVER_SOFTWARE"] . " + PHP/" . phpversion();

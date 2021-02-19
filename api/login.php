@@ -11,7 +11,7 @@
 	
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/ratelimit.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/logs.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/logger.php";
 
 	if (isLoggedIn())
 		stop(12, "Đã đăng nhập bằng username: ". $_SESSION["username"], 400);
@@ -32,7 +32,7 @@
 			$_SESSION["apiToken"] = bin2hex(random_bytes(64));
 			session_regenerate_id();
 
-			writeLog("OKAY", $udata["name"] ." đã đăng nhập thành công [". session_id() ."]");
+			writeLog("OKAY", $udata["username"] ." đã đăng nhập thành công [". session_id() ."]");
 			stop(0, "Đăng nhập thành công", 200, Array(
 				"token" => $_SESSION["apiToken"],
 				"sessid" => session_id(),

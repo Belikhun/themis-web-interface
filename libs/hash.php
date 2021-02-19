@@ -13,9 +13,9 @@
 	$hashCache = new Cache("hashing", Array());
 	$cacheData = $hashCache -> getData();
 
-	function updateHash(String $id, String $value) {
+	function updateHash(String $id, String $data) {
 		global $cacheData, $hashCache;
-		$cacheData[$id] = md5($value);
+		$cacheData[$id] = md5($data);
 		$hashCache -> save($cacheData);
 	}
 

@@ -11,7 +11,7 @@
 	
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/ratelimit.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/logs.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/logger.php";
 
 	$isSetupSession = isset($_SESSION["setup"]) && ($_SESSION["setup"] === true);
 
