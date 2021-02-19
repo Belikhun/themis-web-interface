@@ -10,21 +10,30 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/cache.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/info.php";
 
-	$hashCache = new Cache("hashing", Array());
-	$cacheData = $hashCache -> getData();
+	class Hash {
+		private Cache $hashCache;
+		private Array $cacheData;
+		public String $id;
 
-	function updateHash(String $id, String $data) {
-		global $cacheData, $hashCache;
-		$cacheData[$id] = md5($data);
-		$hashCache -> save($cacheData);
-	}
+		public function __construct($id) {
+			$this -> hashCache = new Cache("hashing", Array());
+			$this -> cacheData = $this -> hashCache -> getData();
+			$this -> id = $id;
+		}
 
-	function getAllHashes() {
-		global $cacheData;
-		return $cacheData;
-	}
-
-	function getHash(String $id) {
-		global $cacheData;
-		return (isset($cacheData[$id])) ? $cacheData[$id] : null;
+		public function update(String $data) {
+			$this -> cacheData[$this -> id] = md5($data);
+			$this -> hashCache -> save($this -> cacheData);
+		}
+	
+		public function getAllHashes() {
+			global $cacheData;
+			return $cacheData;
+		}
+	
+		public function get() {
+			return (isset($this -> cacheData[$this -> id]))
+				? $this -> cacheData[$this -> id]
+				: null;
+		}
 	}

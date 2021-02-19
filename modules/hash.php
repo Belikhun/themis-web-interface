@@ -11,13 +11,13 @@
 	function onUpdateConfig() {
 		require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/config.php";
 		
-		updateHash("config.timer", implode(Array(
+		(new Hash("config.timer")) -> update(implode(Array(
 			getConfig("time.contest.begin"),
 			getConfig("time.contest.during"),
 			getConfig("time.contest.offset")
 		)));
 
-		updateHash("config.announcement", implode(Array(
+		(new Hash("config.announcement")) -> update(implode(Array(
 			getConfig("announcement.enabled"),
 			getConfig("announcement.level"),
 			getConfig("announcement.message")
@@ -25,5 +25,5 @@
 	}
 
 	function onUpdateSysLogs($size, $count) {
-		updateHash("syslogs", $size . $count);
+		(new Hash("syslogs")) -> update($size . $count);
 	}
