@@ -718,9 +718,13 @@
 				case "serialize":
 					// Temporary disable `NOTICE` error reporting
 					// to try unserialize data without triggering `E_NOTICE`
-					error_reporting(E_ERROR);
-					$data = unserialize($data);
-					error_reporting(E_ALL);
+					try {
+						error_reporting(0);
+						$data = unserialize($data);
+						error_reporting(E_ALL);
+					} catch(Throwable $e) {
+						// pass
+					}
 
 					if ($data === false || $data === serialize(false)) {
 						$e = error_get_last();
