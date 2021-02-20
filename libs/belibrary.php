@@ -708,16 +708,18 @@
 					error_reporting(E_ALL);
 
 					if ($data == null || $data == false)
-						throw new UnserializeError($this -> path, json_last_error_msg(), Array(
+						throw new JSONDecodeError($this -> path, json_last_error_msg(), Array(
 							"code" => json_last_error(),
 							"message" => json_last_error_msg()
 						));
+					
+					return $data;
 
 				case "serialize":
 					// Temporary disable `NOTICE` error reporting
 					// to try unserialize data without triggering `E_NOTICE`
 					error_reporting(E_ERROR);
-					$data = unserialize("bla lvba garbage");
+					$data = unserialize($data);
 					error_reporting(E_ALL);
 
 					if ($data === false || $data === serialize(false)) {
@@ -766,12 +768,7 @@
 					break;
 
 				case "serialize":
-					try {
-						$data = serialize($data);
-					} catch (Exception $e) {
-
-					}
-
+					$data = serialize($data);
 					break;
 			}
 
