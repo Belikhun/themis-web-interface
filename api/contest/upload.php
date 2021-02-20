@@ -62,7 +62,7 @@
 	if ($_FILES["file"]["error"] > 0)
 		stop(-1, "Lỗi không rõ.", 500);
 
-	$submission = new submissions($username);
+	$submission = new Submissions($username);
 	$submission -> saveCode($filename, $_FILES["file"]["tmp_name"], $extension);
 	
 	move_uploaded_file($_FILES["file"]["tmp_name"], getConfig("folders.submit") ."/". $userid ."[". $username ."][". $filename ."].". $extension);

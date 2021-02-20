@@ -46,7 +46,7 @@
 			"list" => Array()
 		);
 
-		$sub = new submissions($username);
+		$sub = new Submissions($username);
 
 		foreach ($sub -> list() as $id) {
 			$data = $sub -> getData($id);

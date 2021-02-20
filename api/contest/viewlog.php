@@ -33,7 +33,7 @@
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/account.php";
 	
-	$submission = new submissions($username);
+	$submission = new Submissions($username);
 	$logData = $submission -> getData($id);
 
 	if (!$logData)

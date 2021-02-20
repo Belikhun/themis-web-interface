@@ -75,7 +75,7 @@
 	$spOverall = 0;
 
 	foreach ($usersList as $user) {
-		$sub = new submissions($user);
+		$sub = new Submissions($user);
 		$subList = $sub -> list();
 
 		$userData = (new account($user)) -> data;

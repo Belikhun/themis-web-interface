@@ -22,7 +22,6 @@
 		 * @var Array
 		 */
 		private $cacheData;
-
 		public $id;
 
 		public function __construct($id = null) {

@@ -88,7 +88,7 @@
 
 	updateSubmissions();
 
-	$sub = new submissions($username);
+	$sub = new Submissions($username);
 	$logs = Array();
 
 	foreach ($sub -> list() as $id) {

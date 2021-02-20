@@ -70,7 +70,7 @@
 	/**
 	 * User's Submissions Manager Module
 	 */
-	class submissions {
+	class Submissions {
 
 		/**
 		 * @param    String		$username	Username
@@ -214,7 +214,7 @@
 				$rank = 0;
 	
 				foreach ($globalModify[$id] as $user => $modified) {
-					$sub = new submissions($user);
+					$sub = new Submissions($user);
 					$meta = $sub -> getMeta($id);
 	
 					if (!$meta) {

@@ -20,7 +20,7 @@
 			$data = ((new logParser($log, LOGPARSER_MODE_FULL)) -> parse());
 			$id = $data["header"]["problem"];
 
-			$sub = new submissions($data["header"]["user"]);
+			$sub = new Submissions($data["header"]["user"]);
 
 			if ($sub -> exist($id) && $saved = $sub -> getData($id))
 				if ($saved["header"]["point"] > $data["header"]["point"]) {
