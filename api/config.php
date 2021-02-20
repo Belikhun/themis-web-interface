@@ -32,11 +32,16 @@
 	if ($_SESSION["id"] !== "admin")
 		stop(31, "Access Denied!", 403);
 
+	$defConfig = DEFAULT_CONFIG;
 	$newConfig = reqData("json");
 	$changed = 0;
 
-	// Merge new config
-	mergeObjectRecursive($rawConfig, $newConfig, function($a, $b, $k) {
+	// First merge new config with current config
+	// to include new added config value
+	mergeObjectRecursive($defConfig, $rawConfig);
+
+	// Merge new config into default config
+	mergeObjectRecursive($defConfig, $newConfig, function($a, $b, $k) {
 		if ($a !== $b)
 			stop(3, "Loại biến không khớp! Yêu cầu $k là \"$a\", nhận được \"$b\"!", 400, Array(
 				"expect" => $a,
@@ -46,6 +51,9 @@
 
 		return true;
 	}, $changed);
+
+	// Set new config into current config
+	$rawConfig = $defConfig;
 
 	if ($rawConfig["contest"]["result"]["publish"] !== true) {
 		$rawConfig["contest"]["ranking"]["enabled"] = false;

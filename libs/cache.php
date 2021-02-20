@@ -21,6 +21,13 @@
 	if (!file_exists(CACHE_LOCATION ."/.htaccess"))
 		(new fip(CACHE_LOCATION ."/.htaccess")) -> write("Order Allow,Deny\nDeny from all");
 
+	/**
+	 * Class to handle Caching and stuff
+	 * 
+	 * @copyright	2018-2021 Belikhun
+	 * @license		MIT
+	 * @version		1.1
+	 */
 	class Cache {
 		public $id;
 		public $data = Array();
@@ -54,6 +61,12 @@
 			$this -> data["age"] = $age;
 		}
 
+		/**
+		 * Validate Cache Age.
+		 * Return `true` if cache lifetime is within set age
+		 * 
+		 * @return Boolean
+		 */
 		public function validate() {
 			return (time() - $this -> data["time"]) < $this -> data["age"];
 		}

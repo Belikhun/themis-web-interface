@@ -7,6 +7,7 @@
 	//? |-----------------------------------------------------------------------------------------------|
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/cache.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/data/info.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/config.php";
 
@@ -56,7 +57,22 @@
 		return $parent;
 	}
 
-	define("DEFAULT_CONFIG", generateDefaultConfig());
+	// Load Default Config
+	$cachedDefaultConfig = new Cache("defaultConfig", Array());
+	$cachedDefaultConfig -> setAge(10 * 60);
+
+	if ($cachedDefaultConfig -> validate()) {
+		/**
+		 * @var Array
+		 */
+		define("DEFAULT_CONFIG", $cachedDefaultConfig -> getData());
+	} else {
+		/**
+		 * @var Array
+		 */
+		define("DEFAULT_CONFIG", generateDefaultConfig());
+		$cachedDefaultConfig -> save(DEFAULT_CONFIG);
+	}
 
 	if (!file_exists(CONFIG_FILE))
 		(new fip(CONFIG_FILE, "{}")) -> write(DEFAULT_CONFIG, "json");
