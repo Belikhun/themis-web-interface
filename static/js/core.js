@@ -2150,6 +2150,7 @@ const twi = {
 					this.nav.right = fcfn(this.container, "right");
 	
 					await this.refresh();
+					twi.hash.onUpdate("syslogs", () => this.refresh());
 	
 					this.nav.btnLeft.addEventListener("click", e => {
 						this.currentPage--;

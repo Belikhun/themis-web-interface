@@ -63,13 +63,14 @@
 	if ($rawConfig["contest"]["ranking"]["viewTask"] !== true)
 		$rawConfig["contest"]["log"]["viewOther"] = false;
 
+	if ($changed === 0)
+		// Stop executing if no change applied
+		stop(102, "Woah nothing happened", 200);
+
 	if (file_exists($_SERVER["DOCUMENT_ROOT"] ."/modules/hash.php")) {
 		require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/hash.php";
 		onUpdateConfig($rawConfig);
 	}
-
-	if ($changed === 0)
-		stop(102, "Woah nothing happened", 200);
 
 	saveConfig($rawConfig);
 	writeLog("OKAY", "Đã thay đổi cài đặt");
