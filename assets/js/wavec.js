@@ -6,13 +6,15 @@
 //? |-----------------------------------------------------------------------------------------------|
 
 /**
- * Short for Wave Container.
- * I'm just lazy here
+ * Wave Container.
+ * (Very Epic)
+ * 
+ * Require wavec.css
  */
 const wavec = {
 	container: HTMLElement.prototype,
 	layer: HTMLElement.prototype,
-	active: null,
+	active: [],
 
 	init(container) {
 		if (typeof container !== "object" || !container.classList || !container.parentElement)
@@ -23,7 +25,7 @@ const wavec = {
 
 		this.layer = document.createElement("div");
 		this.layer.classList.add("layer");
-		this.layer.addEventListener("click", () => (this.active) ? this.active.hide() : "");
+		this.layer.addEventListener("click", () => (this.active.length > 0) ? this.active[this.active.length - 1].hide() : "");
 
 		this.container.appendChild(this.layer);
 	},
@@ -66,6 +68,7 @@ const wavec = {
 
 			this.content = content;
 			this.showing = false;
+			this.stackPos = null;
 			this.hideTimeout = null;
 
 			this.container.contentBox.header.buttons.close.addEventListener("click", () => this.hide());
@@ -90,13 +93,10 @@ const wavec = {
 			if (this.showing)
 				return;
 
-			if (wavec.active && wavec.active.showing)
-				wavec.active.hide(true);
-
 			clearTimeout(this.hideTimeout);
 			wavec.container.classList.remove("hide");
 			this.container.classList.remove("hide");
-			wavec.active = this;
+			this.stackPos = wavec.active.push(this) - 1;
 
 			if (typeof sounds === "object")
 				sounds.toggle();
@@ -108,28 +108,34 @@ const wavec = {
 			});
 		}
 
-		hide(showAnother = false) {
+		async hide() {
 			if (!this.showing)
 				return;
 
 			clearTimeout(this.hideTimeout);
 
-			if (!showAnother && typeof sounds === "object")
+			if (typeof sounds === "object")
 				sounds.toggle(1);
 
-			requestAnimationFrame(() => {
-				this.container.classList.remove("show");
+			await nextFrameAsync();
+			this.container.classList.remove("show");
+
+			// Only hide the wavec layer if there is one active
+			// container left
+			if (wavec.active.length === 1)
 				wavec.layer.classList.remove("show");
 	
-				this.hideTimeout = setTimeout(() => {
-					this.container.classList.add("hide");
+			this.hideTimeout = setTimeout(() => {
+				this.container.classList.add("hide");
 
-					if (!showAnother)
-						wavec.container.classList.add("hide");
+				// Only hide the wavec main container if there
+				// is one active container left
+				if (wavec.active.length === 1)
+					wavec.container.classList.add("hide");
 
-					this.showing = false;
-				}, 500);
-			});
+				this.showing = false;
+				wavec.active.splice(this.stackPos, 1);
+			}, 500);
 		}
 
 		setToggler(button) {
