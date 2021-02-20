@@ -1783,7 +1783,7 @@ const twi = {
 					label: "Chế độ ban đêm",
 					color: "pink",
 					save: "display.nightmode",
-					defaultValue: SERVER.clientConfig.nightmode,
+					defaultValue: SERVER.clientSettings.nightmode,
 					onChange: (v) => twi.darkmode.set(v)
 				}, display);
 
@@ -1791,7 +1791,7 @@ const twi = {
 					label: "Hoạt ảnh",
 					color: "blue",
 					save: "display.transition",
-					defaultValue: SERVER.clientConfig.transition,
+					defaultValue: SERVER.clientSettings.transition,
 					onChange: (v) => document.body.classList[v ? "remove" : "add"]("disableTransition")
 				}, display);
 
@@ -1799,7 +1799,7 @@ const twi = {
 					label: "Hiện MilliSecond trong đồng hồ",
 					color: "blue",
 					save: "display.showMs",
-					defaultValue: SERVER.clientConfig.showMs,
+					defaultValue: SERVER.clientSettings.showMs,
 					onChange: (v) => twi.timer.toggleMs(v)
 				}, display);
 
@@ -1867,7 +1867,7 @@ const twi = {
 					label: "Bật âm thanh",
 					color: "pink",
 					save: "sounds.master",
-					defaultValue: SERVER.clientConfig.sounds,
+					defaultValue: SERVER.clientSettings.sounds,
 					onChange: (v) => {
 						sounds.enable.master = v;
 						mouseOver.set({ disabled: !v });
@@ -1917,7 +1917,7 @@ const twi = {
 					min: 1,
 					max: 11,
 					unit: "giây",
-					defaultValue: SERVER.clientConfig.rankUpdate,
+					defaultValue: SERVER.clientSettings.rankUpdate,
 					valueStep: sliderStep
 				}, others);
 
@@ -1944,7 +1944,7 @@ const twi = {
 					min: 1,
 					max: 11,
 					unit: "giây",
-					defaultValue: SERVER.clientConfig.logsUpdate,
+					defaultValue: SERVER.clientSettings.logsUpdate,
 					valueStep: sliderStep
 				}, others);
 
@@ -1977,6 +1977,49 @@ const twi = {
 					else {
 						twi.logs.enabled = true;
 						twi.logs.updateDelay = sliderStep[v];
+					}
+				});
+
+				let updateHash = new smenu.components.Slider({
+					label: "Thời gian cập nhật dữ liệu và cài đặt",
+					color: "blue",
+					save: "others.hashUpdate",
+					min: 1,
+					max: 11,
+					unit: "giây",
+					defaultValue: SERVER.clientSettings.hashUpdate,
+					valueStep: sliderStep
+				}, others);
+
+				updateHash.onInput((v) => updateHash.set({ color: (v <= 2) ? "red" : "blue" }));
+				updateHash.onChange(async (v, e) => {
+					if (v < 3 && e.isTrusted)
+						if (await popup.show(lowWarningSettings) === "cancel") {
+							updateHash.set({ value: 3 });
+							return;
+						}
+
+					if (v === 11)
+						if (await popup.show({
+							level: "warning",
+							windowTitle: "Cảnh Báo",
+							title: "Cảnh Báo",
+							message: "Tắt tự động cập nhật dữ liệu và cài đặt",
+                            description: "Việc này sẽ tắt tự động cập nhật thông báo, thời gian, danh sách đề bài, ...<br>Bạn có chắc muốn tắt tính năng này không?",
+							buttonList: {
+								cancel: { color: "blue", text: "Bấm Lộn 😅 Trả Về Cũ Đi!" },
+								ignore: { color: "red", text: "TẮT! TẮT HẾT!" }
+							}
+						}) === "cancel") {
+							updateHash.set({ value: 3 });
+							return;
+						}
+
+					if (sliderStep[v] === false)
+						twi.hash.enabled = false;
+					else {
+						twi.hash.enabled = true;
+						twi.hash.updateDelay = sliderStep[v];
 					}
 				});
 			}

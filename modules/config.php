@@ -322,7 +322,8 @@
 			"message" => Array(
 				"type" => "textarea",
 				"label" => "Nội Dung",
-				"color" => "blue"
+				"color" => "blue",
+				"value" => "This is a sample Announcement <i>(with HTML!)</i>"
 			)
 		), 
 
@@ -377,7 +378,7 @@
 				"valueWarn" => Array(
 					"type" => "lower",
 					"value" => 1000,
-					"color" => "pink"
+					"color" => "red"
 				)
 			),
 
@@ -393,7 +394,23 @@
 				"valueWarn" => Array(
 					"type" => "lower",
 					"value" => 1000,
-					"color" => "pink"
+					"color" => "red"
+				)
+			),
+
+			"hashUpdate" => Array(
+				"type" => "range",
+				"label" => "Thời gian cập nhật dữ liệu và cài đặt",
+				"value" => 3,
+				"min" => 1,
+				"max" => 11,
+				"step" => 1,
+				"unit" => "ms/yêu cầu",
+				"valueList" => Array(1 => 500, 2 => 1000, 3 => 2000, 4 => 10000, 5 => 60000, 6 => 120000, 7 => 240000, 8 => 300000, 9 => 600000, 10 => 3600000, 11 => -1),
+				"valueWarn" => Array(
+					"type" => "lower",
+					"value" => 1000,
+					"color" => "red"
 				)
 			)
 		),

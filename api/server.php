@@ -46,7 +46,7 @@
 		),
 
 		"pageTitle" => getConfig("system.title"),
-		"clientConfig" => getConfig("clientSettings"),
+		"clientSettings" => getConfig("clientSettings"),
 	));
 
 ?>

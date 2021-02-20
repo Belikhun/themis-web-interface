@@ -63,9 +63,12 @@
 		stop(-1, "Lỗi không rõ.", 500);
 
 	$submission = new Submissions($username);
-	$submission -> saveCode($filename, $_FILES["file"]["tmp_name"], $extension);
 	
+	// Move uploaded file into uploadDir and store a copy in
+	// the account's submission folder
+	$submission -> saveCode($filename, $_FILES["file"]["tmp_name"], $extension);
 	move_uploaded_file($_FILES["file"]["tmp_name"], getConfig("folders.submit") ."/". $userid ."[". $username ."][". $filename ."].". $extension);
+
 	writeLog("INFO", "Đã tải lên \"$file\"");
 	stop(0, "Nộp bài thành công.", 200);
 ?>
