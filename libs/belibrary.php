@@ -847,7 +847,7 @@
 		print "<!-- BEGIN ERROR PAGE -->";
 		
 		if ($redirect)
-			header("Location: /libs/error.php?redirect=true");
+			header("Location: /error.php?redirect=true");
 		else
 			require $_SERVER["DOCUMENT_ROOT"]. "/lib/error.php";
 	}

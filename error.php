@@ -1,6 +1,6 @@
 <?php
 	//? |-----------------------------------------------------------------------------------------------|
-	//? |  /libs/error.php                                                                              |
+	//? |  /error.php                                                                              |
 	//? |                                                                                               |
 	//? |  Copyright (c) 2018-2021 Belikhun. All right reserved                                         |
 	//? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
@@ -28,7 +28,7 @@
 	$errDetail = null;
 	$errDetailSub = null;
 
-	if ($errCode >= 400 && isset($_SESSION["lastError"]) || (getQuery("redirect") == true && isset($_SESSION["lastError"]))) {
+	if ($errCode >= 400 && isset($_SESSION["lastError"]) || (getQuery("redirect") && isset($_SESSION["lastError"]))) {
 		$lastError = $_SESSION["lastError"];
 		$errData = $lastError["data"];
 		$_SESSION["lastError"] = null;
@@ -118,7 +118,14 @@
 			"-----------------END ERROR REPORT DATA-----------------"
 		));
 
-	writeLog("WARN", "Got statuscode \"". $errCode ." ". $error ."\" when trying to access: ". $uri);
+	try {
+		// This might trigger an error as this function's
+		// module might include another faulty modules
+		// and then trigger another error
+		writeLog("WARN", "Got statuscode \"". $errCode ." ". $error ."\" when trying to access: ". $uri);
+	} catch(Exception $e) {
+		// pass
+	}
 ?>
 
 <!DOCTYPE html>
