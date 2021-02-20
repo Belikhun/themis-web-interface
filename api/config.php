@@ -69,7 +69,7 @@
 
 	if (file_exists($_SERVER["DOCUMENT_ROOT"] ."/modules/hash.php")) {
 		require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/hash.php";
-		onUpdateConfig($rawConfig);
+		onUpdateConfig();
 	}
 
 	saveConfig($rawConfig);

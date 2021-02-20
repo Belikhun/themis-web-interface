@@ -24,8 +24,8 @@
 	/**
 	 * Class to handle Caching and stuff
 	 * 
-	 * @copyright	2018-2021 Belikhun
-	 * @license		MIT
+	 * @copyright	`2018-2021` **Belikhun**
+	 * @license		**MIT**
 	 * @version		1.1
 	 */
 	class Cache {

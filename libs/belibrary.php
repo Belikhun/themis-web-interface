@@ -426,7 +426,24 @@
 	}
 
 	/**
-	 * belibrary.stop() friendly Exception
+	 * Return new path relative to webserver's
+	 * root path
+	 * 
+	 * @return	String
+	 */
+	function getRelativePath(String $fullPath, String $separator = "/") {
+		$search = preg_replace("/(\\\\|\/)/m", $separator, $_SERVER["DOCUMENT_ROOT"]);
+		$subject = preg_replace("/(\\\\|\/)/m", $separator, $fullPath);
+		return str_replace($search, "", $subject);
+	}
+
+	/**
+	 * `belibrary.stop()` friendly Exception
+	 * 
+	 * @copyright	`2018-2021` **Belikhun**
+	 * @license		**MIT**
+	 * @version		1.0
+	 * @return		BLibException
 	 */
 	class BLibException extends Exception {
 		public $code;
@@ -452,7 +469,7 @@
 
 			parent::__construct($description, $code, $previous);
 
-			$this -> data["file"] = parent::getFile();
+			$this -> data["file"] = getRelativePath(parent::getFile());
 			$this -> data["line"] = parent::getLine();
 			$this -> data["trace"] = parent::getTrace();
 		}
@@ -471,6 +488,22 @@
 	class UndefinedIndex extends BLibException {
 		public function __construct(String $key, $data) {
 			parent::__construct(44, "Undefined Index: {$key}", 500, Array( "key" => $key, "data" => $data ));
+		}
+	}
+
+	class JSONDecodeError extends BLibException {
+		public function __construct(String $file, String $message, $data) {
+			$file = getRelativePath($file);
+			parent::__construct(47, "json_decode({$file}): {$message}", 500, Array( "file" => $file, "data" => $data ));
+		}
+	}
+
+	class UnserializeError extends BLibException {
+		public function __construct(String $file, String $message, $data) {
+			$file = getRelativePath($file);
+			$message = str_replace("unserialize(): ", "", $message);
+
+			parent::__construct(47, "unserialize({$file}): {$message}", 500, Array( "file" => $file, "data" => $data ));
 		}
 	}
 
@@ -668,10 +701,31 @@
 
 			switch ($type) {
 				case "json":
-					return json_decode($data, true);
+					// Temporary disable `NOTICE` error reporting
+					// to try unserialize data without triggering `E_NOTICE`
+					error_reporting(E_ERROR);
+					$data = json_decode($data, true);
+					error_reporting(E_ALL);
+
+					if ($data == null || $data == false)
+						throw new UnserializeError($this -> path, json_last_error_msg(), Array(
+							"code" => json_last_error(),
+							"message" => json_last_error_msg()
+						));
 
 				case "serialize":
-					return unserialize($data);
+					// Temporary disable `NOTICE` error reporting
+					// to try unserialize data without triggering `E_NOTICE`
+					error_reporting(E_ERROR);
+					$data = unserialize("bla lvba garbage");
+					error_reporting(E_ALL);
+
+					if ($data === false || $data === serialize(false)) {
+						$e = error_get_last();
+						throw new UnserializeError($this -> path, $e["message"], $e);
+					}
+
+					return $data;
 				
 				default:
 					return $data;
@@ -712,7 +766,12 @@
 					break;
 
 				case "serialize":
-					$data = serialize($data);
+					try {
+						$data = serialize($data);
+					} catch (Exception $e) {
+
+					}
+
 					break;
 			}
 
@@ -722,7 +781,7 @@
 		}
 	}
 
-	class stopClock {
+	class StopClock {
 		private $start;
 
 		public function __construct() {
@@ -798,12 +857,12 @@
 		$errorData = Array(
 			"code" => $code,
 			"description" => $text,
-			"file" => basename($file),
+			"file" => getRelativePath($file),
 			"line" => $line,
 		);
 		
 		if (function_exists("writeLog"))
-			writeLog("ERRR", "[$code] $text tại ". basename($file) .":". $line);
+			writeLog("ERRR", "[$code] $text tại ". getRelativePath($file) .":". $line);
 
 		stop(-1, "Error Occurred: ". $text, 500, $errorData);
 	}
@@ -821,5 +880,5 @@
 
 	//? START TIME
 	if (!isset($runtime))
-		$runtime = new stopClock();
+		$runtime = new StopClock();
 ?>

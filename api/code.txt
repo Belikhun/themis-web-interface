@@ -39,6 +39,7 @@
 44  file not found
 45  file exist
 46  file timeout
+47	file parse error
 
 // 5x: server
 50	undefined/missing values

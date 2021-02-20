@@ -10,6 +10,11 @@
 
 	function onUpdateConfig() {
 		require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/config.php";
+
+		(new Hash("config.contest.basicInfo")) -> update(implode(Array(
+			getConfig("contest.name"),
+			getConfig("contest.description")
+		)));
 		
 		(new Hash("config.timer")) -> update(implode(Array(
 			getConfig("time.contest.begin"),

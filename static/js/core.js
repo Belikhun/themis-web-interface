@@ -5,6 +5,41 @@
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
+/**
+ * Fetch server data and update `SERVER`
+ * variable in current window
+ */
+async function updateServerData() {
+	let response = await myajax({ url: "/api/server" });
+
+	document.title = response.data.pageTitle;
+	window.SERVER = response.data;
+	window.SESSION = response.data.SESSION;
+	window.API_TOKEN = SESSION.API_TOKEN;
+}
+
+/**
+ * TWI Panel
+ * 
+ * Create an object that control the panel in TWI
+ * main contianer (or somewhere else)
+ * 
+ * Template:
+ * ```html
+ *	<panel>
+ *		<div class="header">
+ *			<t class="title">Title</t>
+ *			<span class="buttons"></span>
+ *		</div>
+ *
+ *		<div class="main">Panel Content Goes Here</div>
+ *	</panel>
+ * ```
+ * 
+ * @copyright	`2018-2021` **Belikhun**
+ * @license		**MIT**
+ * @version		1.0
+ */
 class TWIPanel {
 	/**
 	 * @param {HTMLElement}		container 
@@ -385,7 +420,7 @@ const twi = {
 	
 			clog("DEBG", "Updating Rank", `[${hash}]`);
 			this.beat({ color: "green" });
-			let timer = new stopClock();
+			let timer = new StopClock();
 	
 			if (data.list.length === 0 && data.rank.length === 0) {
 				emptyNode(this.container);
@@ -570,7 +605,7 @@ const twi = {
 				return;
 	
 			clog("DEBG", "Updating Logs", `[${hash}]`);
-			let timer = new stopClock();
+			let timer = new StopClock();
 	
 			if (data.judging.length === 0 && data.logs.length === 0 && data.queues.length === 0) {
 				emptyNode(this.panel.main);
@@ -2773,6 +2808,13 @@ const twi = {
 
 		container: $("#navbar"),
 
+		/**
+		 * Title component
+		 * 
+		 * Page title and description
+		 * 
+		 * @var navbar.title
+		 */
 		title: navbar.title({
 			tooltip: {
 				title: "contest",
@@ -2781,8 +2823,11 @@ const twi = {
 		}),
 
 		/**
-		 * Hamburger Icon.
+		 * Hamburger icon
+		 * 
 		 * User Settings Panel Toggler
+		 * 
+		 * @var navbar.menuButton
 		 */
 		menu: navbar.menuButton({
 			tooltip: {
@@ -2805,6 +2850,19 @@ const twi = {
 				background: "/api/images/landing",
 				title: SERVER.contest.name,
 				description: SERVER.contest.description
+			});
+
+			// Update title and description if
+			// changed on the server
+			twi.hash.onUpdate("config.contest.basicInfo", async () => {
+				await updateServerData();
+
+				this.title.set({
+					icon: "/api/images/icon",
+					background: "/api/images/landing",
+					title: SERVER.contest.name,
+					description: SERVER.contest.description
+				});
 			});
 
 			this.menu.click.setHandler((active) => (active) ? smenu.show() : smenu.hide());

@@ -644,7 +644,7 @@ function round(number, to = 2) {
 	return Math.round(number * d) / d;
 }
 
-class stopClock {
+class StopClock {
 	__time(date = new Date()) {
 		return date.getTime();
 	}
@@ -2406,7 +2406,7 @@ const __connection__ = {
 							return;
 
 						// Start time
-						let timer = new stopClock();
+						let timer = new StopClock();
 
 						try {
 							await checker();
@@ -2465,7 +2465,7 @@ const __connection__ = {
 if (typeof document.__onclog === "undefined")
 	document.__onclog = (lv, t, m) => {};
 
-let sc = new stopClock();
+let sc = new StopClock();
 clog("info", "Log started at:", {
 	color: flatc("green"),
 	text: (new Date()).toString()
