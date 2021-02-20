@@ -707,7 +707,7 @@
 					$data = json_decode($data, true);
 					error_reporting(E_ALL);
 
-					if ($data == null || $data == false)
+					if ($data === null)
 						throw new JSONDecodeError($this -> path, json_last_error_msg(), Array(
 							"code" => json_last_error(),
 							"message" => json_last_error_msg()
