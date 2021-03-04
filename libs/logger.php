@@ -104,6 +104,5 @@
 	function clearLog() {
 		$logs = new fip(LOG_FILE, "[]");
 		$logs -> write("[]");
-
-		onUpdateSysLogs(filesize(LOG_FILE), 0);
+		writeLog("WARN", "Đã xóa nhật kí!");
 	}

@@ -2229,7 +2229,8 @@ const twi = {
 							return;
 						}
 	
-						throw e;
+						errorHandler(e);
+						return;
 					}
 	
 					let data = response.data;
