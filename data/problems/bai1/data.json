@@ -3,6 +3,7 @@
     "point": 10,
     "time": 1,
     "memory": 1024,
+    "limit": 0,
     "type": {
         "inp": "B\u00e0n Ph\u00edm",
         "out": "M\u00e0n h\u00ecnh"
@@ -22,7 +23,6 @@
             "out": "1 5 107 535"
         }
     ],
-    "attachment": "hello world.pdf",
     "disabled": true,
-    "id": "bai1"
+    "attachment": "hello world.pdf"
 }

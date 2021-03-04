@@ -1352,14 +1352,13 @@ const twi = {
 						return false;
 					}
 
-					clog("okay", "Uploaded", {
+					clog("OKAY", "Uploaded", {
 						color: flatc("yellow"),
 						text: files[i].name
 					});
 
 					this.state.innerText = `Tải lên thành công! ${(i + 1)}/${files.length}`;
 					sounds.notification();
-					this.onUploadSuccess();
 					
 					setTimeout(() => {
 						this.upload(files, i + 1);
@@ -2292,6 +2291,7 @@ const twi = {
 								{ name: "point", node: createInput({ type: "number", color: "blue", label: "Điểm", required: true }) },
 								{ name: "time", node: createInput({ type: "number", color: "blue", label: "Thời Gian Chạy", required: true }) },
 								{ name: "memory", node: createInput({ type: "number", color: "blue", label: "Giới Hạn Bộ Nhớ", required: true }) },
+								{ name: "limit", node: createInput({ type: "number", color: "blue", label: "Giới Hạn Số Lần Nộp", required: true }) },
 								{ name: "inputType", node: createInput({ color: "blue", label: "Dữ Liệu Vào", required: true }) },
 								{ name: "outputType", node: createInput({ color: "blue", label: "Dữ Liệu Ra", required: true }) },
 								{ name: "extensions", node: createInput({ color: "blue", label: "Đuôi Tệp (dùng | để ngăn cách)", required: true }) },
@@ -2408,6 +2408,7 @@ const twi = {
 					this.form.point.input.value = null;
 					this.form.time.input.value = 1;
 					this.form.memory.input.value = 1024;
+					this.form.limit.input.value = 0;
 					this.form.inputType.input.value = "Bàn Phím";
 					this.form.outputType.input.value = "Màn Hình";
 					this.form.extensions.input.value = Object.keys(twi.languages).join("|");
@@ -2471,6 +2472,7 @@ const twi = {
 					this.form.point.input.value = data.point;
 					this.form.time.input.value = data.time || 1;
 					this.form.memory.input.value = data.memory || 1024;
+					this.form.limit.input.value = data.limit || 0;
 					this.form.inputType.input.value = data.type.inp || "Bàn Phím";
 					this.form.outputType.input.value = data.type.out || "Màn Hình";
 					this.form.extensions.input.value = data.accept.join("|");
@@ -2505,6 +2507,7 @@ const twi = {
 						point: parseFloat(this.form.point.input.value),
 						time: parseInt(this.form.time.input.value),
 						memory: parseInt(this.form.memory.input.value),
+						limit: parseInt(this.form.limit.input.value),
 						type: {
 							inp: this.form.inputType.input.value,
 							out: this.form.outputType.input.value,

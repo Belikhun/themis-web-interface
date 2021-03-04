@@ -63,6 +63,16 @@
 		stop(-1, "Lỗi không rõ.", 500);
 
 	$submission = new Submissions($username);
+
+	// Test for submit limit
+	$sMeta = $submission -> getMeta($filename);
+	$pLimit = problemLimit($filename);
+
+	if ($pLimit > 0 && $sMeta && $sMeta["statistic"]["reSubmit"] >= $pLimit)
+		stop(48, "Bạn đã nộp lại quá nhiều lần cho bài này!", 403, Array(
+			"limit" => $pLimit,
+			"submitted" => $sMeta["statistic"]["reSubmit"]
+		));
 	
 	// Move uploaded file into uploadDir and store a copy in
 	// the account's submission folder
@@ -70,5 +80,5 @@
 	move_uploaded_file($_FILES["file"]["tmp_name"], getConfig("folders.submit") ."/". $userid ."[". $username ."][". $filename ."].". $extension);
 
 	writeLog("INFO", "Đã tải lên \"$file\"");
-	stop(0, "Nộp bài thành công.", 200);
+	stop(0, "Nộp bài thành công", 200);
 ?>

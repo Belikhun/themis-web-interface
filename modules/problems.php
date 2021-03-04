@@ -19,7 +19,7 @@
 		"point" => 0,
 		"time" => 1,
 		"memory" => 1024,
-		"limit" => 1024,
+		"limit" => 0,
 		"type" => Array(
 			"inp" => "Bàn Phím",
 			"out" => "Màn Hình"
