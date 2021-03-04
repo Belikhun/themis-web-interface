@@ -16,7 +16,8 @@ class Scrollable {
 		distance = 60,
 		velocity = 2,
 		clamp = 20,
-		maxClamp = 400
+		maxClamp = 400,
+		horizontal = false
 	} = {}) {
 		if (typeof container !== "object" || (!container.classList && !container.container))
 			throw { code: -1, description: `Scrollable(): container is not a valid node` }
@@ -33,6 +34,11 @@ class Scrollable {
 		this.clamp = clamp;
 		this.maxClamp = maxClamp;
 		this.currentVelocity = 0;
+
+		/**
+		 * @type {Boolean}
+		 */
+		this.horizontal = horizontal;
 
 		this.animator = null;
 		this.disabled = false;
@@ -59,11 +65,17 @@ class Scrollable {
 		if (e.deltaY === 0 || this.disabled)
 			return;
 
-		let maxScroll = this.container.scrollHeight - this.container.offsetHeight;
+		let maxScroll = (this.horizontal)
+			? this.container.scrollWidth - this.container.offsetWidth
+			: this.container.scrollHeight - this.container.offsetHeight;
+
 		this.currentVelocity += (e.deltaY > 0) ? this.velocity : -this.velocity;
 		
 		let startVelocity = this.currentVelocity;
-		let from = this.container.scrollTop;
+		let from = (this.horizontal)
+			? this.container.scrollLeft
+			: this.container.scrollTop;
+
 		let to = from + (this.distance * this.currentVelocity);
 
 		let clampPoint;
@@ -84,10 +96,10 @@ class Scrollable {
 					clampTo = clampFrom + (this.clamp * -(this.currentVelocity * ((1 - (clampFrom / this.maxClamp)) / 2)));
 
 					if (current > maxScroll) {
-						this.container.scrollTop = maxScroll;
+						this.container[this.horizontal ? "scrollLeft" : "scrollTop"] = maxScroll;
 						clampTo = Math.max(clampTo, -this.maxClamp);
 					} else if (current < 0) {
-						this.container.scrollTop = 0;
+						this.container[this.horizontal ? "scrollLeft" : "scrollTop"] = 0;
 						clampTo = Math.min(clampTo, this.maxClamp);
 					}
 				}
@@ -100,12 +112,15 @@ class Scrollable {
 
 				let clampValue = clampFrom + (clampTo - clampFrom) * t;
 
-				this.container.style.transform = `translateY(${clampValue}px)`;
+				this.container.style.transform = (this.horizontal)
+					? `translateX(${clampValue}px)`
+					: `translateY(${clampValue}px)`;
+					
 				this.container.clampValue = clampValue;
 			} else {
 				this.container.style.transform = null;
 				this.container.clampValue = 0;
-				this.container.scrollTop = current;
+				this.container[this.horizontal ? "scrollLeft" : "scrollTop"] = current;
 			}
 		});
 
