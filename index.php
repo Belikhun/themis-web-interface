@@ -100,13 +100,13 @@
 				set({ p: 0, m: "main", d: "Sending Analytics Data" });
                 gtag("event", "pageView", {
                     version: SERVER.version,
-                    hostname: location.hostname,
+                    hostname: `${location.hostname}:${location.port}`,
                     loadtime: ((new Date()).getTime() - window.performance.timing.navigationStart) / 1000,
                     downlink: (navigator && navigator.connection) ? navigator.connection.downlink : 0,
                     versiontag: SERVER.versionTag,
-                    contestname: SERVER.contestName,
+                    contestname: SERVER.contest.name,
                     platform: (navigator) ? navigator.platform : null,
-                    darkmode: cookie.get("__darkMode"),
+                    darkmode: localStorage.getItem("display.nightmode"),
 
                     event_category: "load",
                     event_label: "scriptInitialized",

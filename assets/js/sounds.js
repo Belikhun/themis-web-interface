@@ -8,6 +8,7 @@
 
 const sounds = {
 	disabled: false,
+	initializing: false,
 	initialized: false,
 	soundsLoaded: false,
 	LOCATION: "/assets/sounds",
@@ -40,13 +41,21 @@ const sounds = {
 		notification: true,
 	},
 
-	async init(set = () => {}, {
+	async init(set = ({ p, m, d, c }) => {}, {
 		clog = window.clog
 	} = {}) {
+		if (this.initializing) {
+			clog("DEBG", "Sounds is initializing!");
+			return;
+		}
+
+		this.initializing = true;
+
 		if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
 			clog("WARN", "Sounds does not support on iPhone devices, disabling...");
-			cookie.set("__s_m", false);
+			localStorage.setItem(`sounds.master`, false);
 			this.disabled = true;
+			this.initializing = false;
 			return false;
 		}
 
@@ -63,18 +72,25 @@ const sounds = {
 			this.enable[key] = value;
 		}
 
-		set({ p: 10, m: "sounds", d: "Loading Sounds" });
-		await this.loadSound((p, t) => {
-			set({ p: 10 + p*0.85, m: "sounds", d: `Loading: ${t}` });
-		}, { clog });
+		if (!this.enable.master) {
+			set({ p: 100, m: "sounds", d: "Stopped Loading Sounds" });
+			clog("INFO", "Master Disabled! Stopped Loading Sounds");
+			clog("DEBG", "To enable sounds please set sounds.enable.master to true and call sounds.init() again");
+			this.initializing = false;
+			return false;
+		}
 
-		this.soundsLoaded = true;
+		set({ p: 10, m: "sounds", d: "Loading Sounds" });
+		await this.loadSound((p, t, c) => {
+			set({ p: 10 + p*0.85, m: "sounds", d: `Loading: ${t}`, c });
+		}, { clog });
 
 		set({ p: 95, m: "sounds", d: "Scanning" });
 		this.scan();
 
 		set({ p: 100, m: "sounds", d: "Done" });
 		this.initialized = true;
+		this.initializing = false;
 
 		clog("OKAY", "Initialised:", {
 			color: flatc("red"),
@@ -82,20 +98,29 @@ const sounds = {
 		});
 	},
 
-	async loadSound(set = () => {}, {
+	async loadSound(set = (p, t, c) => {}, {
 		clog = window.clog
 	} = {}) {
 		if (this.disabled)
 			throw { code: -1, description: "Sounds Module Disabled" }
 
+		let totalSize = 0;
 		let keys = Object.keys(this.sounds);
+
 		for (let i = 0; i < keys.length; i++) {
 			let key = keys[i]
 			let item = this.sounds[key]
 
-			set((i / (keys.length - 1)) * 100, key);
+			set((i / (keys.length - 1)) * 100, key, `Đang tải ${i + 1}/${keys.length} (${convertSize(totalSize)})`);
 			this.sounds[key].sound = await this.__loadSoundAsync(`${this.LOCATION}/${item.path}`, item.volume || 0.6, { clog });
+
+			if (this.sounds[key].sound.webkitAudioDecodedByteCount)
+				totalSize += this.sounds[key].sound.webkitAudioDecodedByteCount * 8;
+
+			set(((i + 1) / (keys.length - 1)) * 100, key, `Đã tải ${i + 1}/${keys.length} (${convertSize(totalSize)})`);
 		}
+
+		this.soundsLoaded = true;
 	},
 
 	async __loadSoundAsync(url, volume = 0.6, {
@@ -105,11 +130,13 @@ const sounds = {
 			throw { code: -1, description: "Sounds Module Disabled" }
 
 		let sound = new Audio();
-		sound.src = (typeof chrome !== "undefined" && chrome.extension) ? chrome.extension.getURL(url) : url;
+		sound.src = (typeof chrome !== "undefined" && chrome.extension)
+			? chrome.extension.getURL(url)
+			: url;
+		
 		clog("DEBG", `Loading sound: ${url}`);
-
 		return new Promise((resolve, reject) => {
-			sound.addEventListener("canplaythrough", handler = e => {
+			sound.addEventListener("canplaythrough", handler = () => {
 				sound.removeEventListener("canplaythrough", handler);
 				sound.volume = volume;
 				clog("DEBG", `Sound loaded: ${url}`);

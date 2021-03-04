@@ -563,7 +563,14 @@ const smenu = {
 				this.save = save;
 
 				this.changeHandlers = []
-				this.checkbox.input.addEventListener("change", (e) => this.changeHandlers.forEach(f => f(e.target.checked)));
+				this.checkbox.input.addEventListener("change", async (e) => {
+					this.checkbox.input.disabled = true;
+
+					for (let f of this.changeHandlers)
+						await f(this.checkbox.input.checked);
+
+					this.checkbox.input.disabled = false;
+				});
 
 				this.changeHandlers.push((value) => {
 					if (this.save)

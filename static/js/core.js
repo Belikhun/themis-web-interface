@@ -285,10 +285,32 @@ const twi = {
 	},
 
 	sounds: {
-		priority: 1,
-		init: async (set = () => {}, {
-			clog = window.clog
-		} = {}) => await sounds.init(set, { clog })
+		priority: 3,
+
+		__set: () => {},
+		__clog: window.clog,
+		/** @type	{Function[]} */
+		handlers: [],
+
+		async init(set, { clog } = {}) {
+			if (typeof set === "function")
+				this.__set = set;
+
+			if (typeof clog === "function")
+				this.__clog = clog;
+
+			await sounds.init(({ p, m, d, c } = {}) => {
+				this.__set({ p, m, d });
+				this.handlers.forEach(f => f({ p, m, d, c }));
+			}, { clog: this.__clog });
+		},
+
+		attach(f) {
+			if (typeof f !== "function")
+				throw { code: -1, description: `twi.sounds.attach(): not a valid function` }
+
+			return this.handlers.push(f);
+		}
 	},
 
 	popup: {
@@ -1857,6 +1879,16 @@ const twi = {
 			sounds() {
 				let soundsChild = new smenu.Child({ label: "Âm Thanh" }, this.group);
 
+				let loadDetail = new smenu.components.Text({
+					content: "Chưa khởi tạo âm thanh"
+				});
+
+				soundsChild.insert(loadDetail, -2);
+				twi.sounds.attach(({ c } = {}) => {
+					if (typeof c === "string")
+						loadDetail.content = c
+				});
+
 				let mouseOver = new smenu.components.Checkbox({
 					label: "Mouse Over",
 					color: "blue",
@@ -1902,13 +1934,16 @@ const twi = {
 					color: "pink",
 					save: "sounds.master",
 					defaultValue: SERVER.clientSettings.sounds,
-					onChange: (v) => {
+					onChange: async (v) => {
 						sounds.enable.master = v;
 						mouseOver.set({ disabled: !v });
 						btnClick.set({ disabled: !v });
 						panelToggle.set({ disabled: !v });
 						others.set({ disabled: !v });
 						notification.set({ disabled: !v });
+
+						if (twi.initialized && !sounds.initialized)
+							await twi.sounds.init();
 					}
 				});
 
