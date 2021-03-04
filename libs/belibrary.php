@@ -236,16 +236,21 @@
 	}
 
 	/**
-	 * Remove the directory and its content recursively (all files and subdirectories)
-	 * @param	String	Path to directory
+	 * Remove the directory and its content recursively\
+	 * (all files and subdirectories)
+	 * 
+	 * @param	String	$dir	Path to directory
+	 * @param	Int		$count	Deleted files counter
 	 */
-	function rmrf($dir) {
+	function rmrf($dir, Int &$count = 0) {
 		foreach (glob($dir) as $file)
 			if (is_dir($file)) {
-				rmrf("$file/*");
+				rmrf("$file/*", $count);
 				rmdir($file);
-			} else
+			} else {
 				unlink($file);
+				$count++;
+			}
 	}
 
 	/**

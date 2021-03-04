@@ -2107,6 +2107,7 @@ const twi = {
 
 				this.update();
 				await this.settings();
+				this.data();
 			},
 
 			localVersion: smenu.components.Text.prototype,
@@ -2178,6 +2179,82 @@ const twi = {
 				this.accountsPanel.setToggler(accountsButton);
 				await this.accountsPanel.content("iframe:/account.php");
 				twi.darkmode.onToggle((enabled) => this.accountsPanel.iframe.contentDocument.body.classList[enabled ? "add" : "remove"]("dark"));
+			},
+
+			dataChild: smenu.Child.prototype,
+
+			data() {
+				this.dataChild = new smenu.Child({ label: "Dữ Liệu" }, this.group);
+
+				new smenu.components.Button({
+					label: "Xóa Cache",
+					color: "red",
+					icon: "trash",
+					complex: true,
+					onClick: async () => {
+						try {
+							await myajax({
+								url: "/api/delete",
+								method: "POST",
+								form: {
+									type: "cache",
+									token: API_TOKEN
+								}
+							});
+						} catch(e) {
+							errorHandler(e);
+							return;
+						}
+					}
+				}, this.dataChild);
+
+				new smenu.components.Button({
+					label: "Xóa Toàn Bộ Dữ Liệu Bài Làm",
+					color: "red",
+					icon: "trash",
+					complex: true,
+					onClick: async () => {
+						if (await popup.show({
+							level: "warning",
+							windowTitle: "Xác Nhận",
+							title: "Xóa Dữ Liệu Bài Làm",
+							message: "Xác Nhận",
+							description: "Bạn có chắc muốn xóa toàn bộ dữ liệu bài làm không? Những dữ liệu này bao gồm kết quả chấm, code và nhật ký chấm của toàn bộ tài khoản.",
+							note: "Hành động này <b>không thể hoàn tác</b> một khi đã thực hiện!",
+							noteLevel: "warning",
+							buttonList: {
+								proceed: { color: "red", text: "XÓA" },
+								cancel: { color: "blue", text: "Hủy Bỏ" }
+							}
+						}) !== "proceed")
+							return;
+
+						try {
+							let response = await myajax({
+								url: "/api/contest/delete",
+								method: "POST",
+								form: {
+									type: "submission",
+									token: API_TOKEN
+								}
+							});
+
+							await popup.show({
+								level: "okay",
+								windowTitle: "Thành Công",
+								title: "Xóa Dữ Liệu Bài Làm",
+								message: "Thành Công",
+								description: `Đã xóa tổng cộng ${response.data.amount} tệp`,
+								buttonList: {
+									close: { color: "blue", text: "OK" }
+								}
+							})
+						} catch(e) {
+							errorHandler(e);
+							return;
+						}
+					}
+				}, this.dataChild);
 			},
 
 			syslogs: {

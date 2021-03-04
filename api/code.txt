@@ -46,6 +46,9 @@
 50	undefined/missing values
 51	invalid/corrupted data
 
+// 6x: request
+60	invalid values
+
 // 10x: info (IGNORED)
 101 not in contest mode
 102 modified nothing
