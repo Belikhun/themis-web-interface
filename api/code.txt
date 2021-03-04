@@ -40,6 +40,7 @@
 45  file exist
 46  file timeout
 47	file parse error
+48	upload limit reached
 
 // 5x: server
 50	undefined/missing values

@@ -1607,7 +1607,7 @@ function createInput({
 	if (typeof sounds === "object")
 		sounds.applySound(formGroup);
 
-	if (!["text", "textarea", "number", "date", "time", "select"].includes(type))
+	if (!["text", "textarea", "number", "date", "time", "select", "file"].includes(type))
 		type = "text";
 
 	/**

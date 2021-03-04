@@ -2502,38 +2502,40 @@ const twi = {
 					let data = {
 						id: this.form.pID.input.value,
 						name: this.form.pName.input.value,
-						point: this.form.point.input.value,
-						time: this.form.time.input.value,
-						memory: this.form.memory.input.value,
-						inpType: this.form.inputType.input.value,
-						outType: this.form.outputType.input.value,
+						point: parseFloat(this.form.point.input.value),
+						time: parseInt(this.form.time.input.value),
+						memory: parseInt(this.form.memory.input.value),
+						type: {
+							inp: this.form.inputType.input.value,
+							out: this.form.outputType.input.value,
+						},
 						accept: this.form.extensions.input.value.split("|"),
-						image: this.form.image.input.files[0] || null,
 						description: this.form.description.input.value,
-						attachment: this.form.attachment.input.files[0] || null,
-						tests: []
+						test: []
 					}
 	
-					let testNodes = this.form.tests.list.getElementsByTagName("div.cell");
+					let image = this.form.image.input.files[0] || null;
+					let attachment =  this.form.attachment.input.files[0] || null;
+					let testNodes = this.form.tests.list.querySelectorAll("div.cell");
 	
 					for (let item of testNodes) {
 						let inputs = item.getElementsByTagName("textarea");
 
-						if (inputs[0] === "" || inputs[1] === "")
+						if (inputs[0].value === "" || inputs[1].value === "")
 							continue;
 
-						data.tests.push({
-							inp: inputs[0],
-							out: inputs[1]
+						data.test.push({
+							inp: inputs[0].value,
+							out: inputs[1].value
 						});
 					}
 					
-					await this.submit(this.action, data);
+					await this.submit(this.action, data, image, attachment);
 					await this.updateLists();
 					this.hideEditor();
 				},
 	
-				async submit(action, data) {
+				async submit(action, data, image = null, attachment = null) {
 					if (!["edit", "add"].includes(action))
 						throw { code: -1, description: `twi.userSettings.admin.problemsEditor.submit(${action}): not a valid action!` }
 	
@@ -2550,18 +2552,9 @@ const twi = {
 							url: "/api/contest/problems/" + action,
 							method: "POST",
 							form: {
-								id: data.id,
-								name: data.name,
-								point: data.point,
-								time: data.time,
-								memory: data.memory,
-								inpType: data.inpType,
-								outType: data.outType,
-								accept: JSON.stringify(data.accept),
-								image: data.image,
-								description: data.description,
-								attachment: data.attachment,
-								test: JSON.stringify(data.tests),
+								data: JSON.stringify(data),
+								image,
+								attachment,
 								token: API_TOKEN
 							}
 						});

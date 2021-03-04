@@ -124,6 +124,12 @@
 			return in_array($id, $this -> list());
 		}
 
+		/**
+		 * Get user's submission metadata by ID
+		 * 
+		 * @param	String	$id	Submission ID
+		 * @return	Array
+		 */
 		public function getMeta(String $id) {
 			if (!file_exists($this -> __path($id) ."/meta.json"))
 				return null;

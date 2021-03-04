@@ -23,39 +23,17 @@
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/problems.php";
 
-	$id = reqForm("id");
+	$data = safeJSONParsing(reqForm("data"), "data");
+	$id = reqType($data["id"], "string", "id");
 	$sid = preg_replace("/[^a-zA-Z0-9_]/m", "", $id);
-	$name = reqForm("name");
 
 	if ($id !== $sid)
 		stop(9, "Mã Đề Không Hợp Lệ (chỉ sử dụng các kí tự a-zA-Z0-9 và _)", 400, Array( "id" => $id, "expect" => $sid ));
 
-	$point = reqType(reqForm("point"), "integer");
-	$time = reqType(getForm("time", 1), "integer");
-	$memLimit = reqType(getForm("memory", 1024), "integer");
-	$inpType = getForm("inpType", "Bàn Phím");
-	$outType = getForm("outType", "Màn Hình");
-	$accept = isset($_POST["accept"]) ? json_decode($_POST["accept"], true) : Array("pas", "cpp", "c", "pp", "exe", "class", "py", "java");
 	$image = isset($_FILES["image"]) ? $_FILES["image"] : null;
 	$attachment = isset($_FILES["attachment"]) ? $_FILES["attachment"] : null;
-	$description = reqForm("description");
-	$test = isset($_POST["test"]) ? json_decode($_POST["test"], true) : Array();
-	$disabled = withType(getForm("disabled"), "boolean", false);
 
-	$code = problemAdd($id, Array(
-		"name" => $name,
-		"point" => $point,
-		"time" => $time,
-		"memory" => $memLimit,
-		"type" => Array(
-			"inp" => $inpType,
-			"out" => $outType
-		),
-		"accept" => $accept,
-		"description" => $description,
-		"test" => $test,
-		"disabled" => $disabled
-	), $image, $attachment);
+	$code = problemAdd($id, $data, $image, $attachment);
 
 	switch ($code) {
 		case PROBLEM_OKAY:

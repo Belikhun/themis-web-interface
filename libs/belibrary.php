@@ -148,9 +148,9 @@
 	 * @param	String	$type	Type of Data
 	 * @return	Mixed
 	 */
-	function reqType($data, $type = "string") {
+	function reqType($data, $type = "string", $id = null) {
 		if (!settype($data, $type))
-			stop(3, "Type Mismatch! \"$data\" is not a $type", 400);
+			stop(3, "Type Mismatch! \"$data\" is not a $type" . (isset($id) ? " in $id" : ""), 400);
 		
 		return $data;
 	}
@@ -607,6 +607,21 @@
 	}
 
 	/**
+	 * Check array is associative or sequential
+	 * 
+	 * Return `true` if the array is associative, else sequential
+	 * 
+	 * @param	Array	$array	Input Array
+	 * @return	Boolean
+	 */
+	function isAssoc(Array $array) {
+		if (array() === $array)
+			return false;
+
+    	return array_keys($array) !== range(0, count($array) - 1);
+	}
+
+	/**
 	 *
 	 * Recursive and Safe Array Object Merging
 	 * 
@@ -615,23 +630,34 @@
 	 * @param	Array			$target				Target Object need to be merged
 	 * @param	Array			$object				Array Object need to merge
 	 * @param	Bool|Function	$typeSensitive		Do a type check before merging key
+	 * @param	Bool			$overWriteArray		Overwrite Array instead of merging
 	 * @param	Int				$counter			Number of merged keys
 	 * @return	Number			Number of merged keys
 	 *
 	 */
-	function mergeObjectRecursive(Array &$target, Array $object, $typeSensitive = true, Int &$counter = 0) {
+	function mergeObjectRecursive(Array &$target, Array $object, $typeSensitive = true, Bool $overWriteArray = false, Int &$counter = 0, String $__path = "") {
 		foreach ($target as $key => &$value)
 			if (array_key_exists($key, $object)) {
+				$path = $__path === ""
+					? $key
+					: $__path .".". $key;
+
 				if (is_callable($typeSensitive)) {
-					if (!$typeSensitive(gettype($value), gettype($object[$key]), $key))
+					if (!$typeSensitive(gettype($value), gettype($object[$key]), $path))
 						continue;
 				} else
 					if ($typeSensitive && (gettype($value) !== gettype($object[$key])))
 						continue;
 
-				if (gettype($object[$key]) === "array" && gettype($value) === "array")
-					mergeObjectRecursive($value, $object[$key], $typeSensitive, $counter);
-				else if ($value !== $object[$key]) {
+				if (gettype($object[$key]) === "array" && gettype($value) === "array") {
+					if ($overWriteArray && !isAssoc($object[$key])) {
+						// Target is sequential array so we set new
+						// value to it directly
+						$value = $object[$key];
+						$counter++;
+					} else
+						mergeObjectRecursive($value, $object[$key], $typeSensitive, $overWriteArray, $counter, $path);
+				} else if ($value !== $object[$key]) {
 					$value = $object[$key];
 					$counter++;
 				}
@@ -640,6 +666,39 @@
 		return $counter;
 	}
 
+	/**
+	 * Safe JSON PArsing
+	 * 
+	 * This function will throw an error if there is problem
+	 * while parsing json data
+	 * 
+	 * @param	String	$json	JSON String
+	 * @param	String	$path	(Optional) Provide json file path to show in the error message
+	 * @throws	JSONDecodeError
+	 * @return	Array
+	 */
+	function safeJSONParsing(String $json, String $path = "") {
+		// Temporary disable `NOTICE` error reporting
+		// to try unserialize data without triggering `E_NOTICE`
+		error_reporting(E_ERROR);
+		$json = json_decode($json, true);
+		error_reporting(E_ALL);
+
+		if ($json === null)
+			throw new JSONDecodeError($path, json_last_error_msg(), Array(
+				"code" => json_last_error(),
+				"message" => json_last_error_msg()
+			));
+
+		return $json;
+	}
+
+	/**
+	 * Simple File Input/Output
+	 * 
+	 * @author	Belikhun
+	 * @version	2.1
+	 */
 	class fip {
 		private $maxTry = 20;
 		public $stream;
@@ -701,19 +760,7 @@
 
 			switch ($type) {
 				case "json":
-					// Temporary disable `NOTICE` error reporting
-					// to try unserialize data without triggering `E_NOTICE`
-					error_reporting(E_ERROR);
-					$data = json_decode($data, true);
-					error_reporting(E_ALL);
-
-					if ($data === null)
-						throw new JSONDecodeError($this -> path, json_last_error_msg(), Array(
-							"code" => json_last_error(),
-							"message" => json_last_error_msg()
-						));
-					
-					return $data;
+					return safeJSONParsing($data, $this -> path);
 
 				case "serialize":
 					// Temporary disable `NOTICE` error reporting

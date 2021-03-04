@@ -23,37 +23,15 @@
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/problems.php";
 
-	$id = preg_replace("/[.\/\\\\]/m", "", reqForm("id"));
-	$problem = problemGet($id, true);
+	$data = safeJSONParsing(reqForm("data"), "data");
+	$id = reqType($data["id"], "string", "id");
+	$id = preg_replace("/[^a-zA-Z0-9_]/m", "", $id);
+	unset($data["id"]);
 
-	$name = getForm("name");
-	$description = getForm("description");
-
-	$point = withType(getForm("point"), "integer");
-	$time = withType(getForm("time"), "integer");
-	$memLimit = withType(getForm("memory"), "integer");
-	$inpType = getForm("inpType", $problem["type"]["inp"]);
-	$outType = getForm("outType", $problem["type"]["out"]);
-	$accept = json_decode(getForm("acpt", "[]"), true) ?: null;
-	$test = json_decode(getForm("test", "[]"), true) ?: null;
 	$image = isset($_FILES["image"]) ? $_FILES["image"] : null;
 	$attachment = isset($_FILES["attachment"]) ? $_FILES["attachment"] : null;
-	$disabled = withType(getForm("disabled"), "boolean");
 
-	$code = problemEdit($id, Array(
-		"name" => $name,
-		"description" => $description,
-		"point" => $point,
-		"time" => $time,
-		"memory" => $memLimit,
-		"type" => Array(
-			"inp" => $inpType,
-			"out" => $outType
-		),
-		"accept" => $accept,
-		"test" => $test,
-		"disabled" => $disabled
-	), $image, $attachment);
+	$code = problemEdit($id, $data, $image, $attachment);
 
 	switch ($code) {
 		case PROBLEM_OKAY:

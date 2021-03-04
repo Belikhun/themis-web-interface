@@ -13,6 +13,22 @@
 		$problemID = basename($path);
 		$problemList[$problemID] = json_decode((new fip($path ."/data.json")) -> read(), true);
 	}
+
+	define("PROBLEM_TEMPLATE", Array(
+		"name" => "Sample Problem",
+		"point" => 0,
+		"time" => 1,
+		"memory" => 1024,
+		"limit" => 1024,
+		"type" => Array(
+			"inp" => "Bàn Phím",
+			"out" => "Màn Hình"
+		),
+		"accept" => Array("pas", "cpp", "c", "pp", "exe", "class", "py", "java"),
+		"description" => "Description About Problem",
+		"test" => Array(),
+		"disabled" => false
+	));
 	
 	// Return Code
 	define("PROBLEM_OKAY", 0);
@@ -89,6 +105,17 @@
 		if (!problemExist($id))
 			return PROBLEM_ERROR_IDREJECT;
 
+		$defTemplate = PROBLEM_TEMPLATE;
+
+		// Add image and attachment value if current data have
+		// it because the template does not have the image and
+		// attachment field
+		if (isset($problemList[$id]["image"]))
+			$defTemplate["image"] = $problemList[$id]["image"];
+
+		if (isset($problemList[$id]["attachment"]))
+			$defTemplate["attachment"] = $problemList[$id]["attachment"];
+
 		if (isset($image)) {
 			$imageFile = utf8_encode(strtolower($image["name"]));
 			$extension = pathinfo($imageFile, PATHINFO_EXTENSION);
@@ -107,7 +134,7 @@
 
 			move_uploaded_file($image["tmp_name"], PROBLEMS_DIR ."/". $id ."/". $imageFile);
 
-			$new["image"] = $imageFile;
+			$set["image"] = $imageFile;
 		}
 
 		if (isset($attachment)) {
@@ -125,10 +152,25 @@
 
 			move_uploaded_file($attachment["tmp_name"], PROBLEMS_DIR ."/". $id ."/". $attachmentFile);
 
-			$new["attachment"] = $attachmentFile;
+			$set["attachment"] = $attachmentFile;
 		}
 
-		mergeObjectRecursive($problemList[$id], $set);
+		// Merge current data into the template, then merge changes into
+		// the template.
+		// This is to automaticly update problem config to the template
+		mergeObjectRecursive($defTemplate, $problemList[$id], false, true);
+		mergeObjectRecursive($defTemplate, $set, function($a, $b, $k) {
+			if ($a !== $b)
+				stop(3, "Loại biến không khớp! Yêu cầu $k là \"$a\", nhận được \"$b\"!", 400, Array(
+					"expect" => $a,
+					"got" => $b,
+					"key" => $k
+				));
+	
+			return true;
+		}, true);
+
+		$problemList[$id] = $defTemplate;
 		problemSave($id);
 
 		return PROBLEM_OKAY;
@@ -137,19 +179,28 @@
 	function problemAdd(String $id, Array $add, Array $image = null, Array $attachment = null) {
 		global $problemList;
 
-		$moveImage = false;
-		$moveAttachment = false;
 		if (problemExist($id))
 			return PROBLEM_ERROR_IDREJECT;
+		
+		$problemList[$id] = PROBLEM_TEMPLATE;
+		mergeObjectRecursive($problemList[$id], $add, function($a, $b, $k) {
+			if ($a !== $b)
+				stop(3, "Loại biến không khớp! Yêu cầu $k là \"$a\", nhận được \"$b\"!", 400, Array(
+					"expect" => $a,
+					"got" => $b,
+					"key" => $k
+				));
+	
+			return true;
+		}, true);
 
-		$problemList[$id] = $add;
+		mkdir(PROBLEMS_DIR. "/" .$id, 0777, true);
 
 		if (isset($image)) {
 			$imageFile = utf8_encode(strtolower($image["name"]));
-			$acceptExt = array("jpg", "png", "gif", "webp");
 			$extension = pathinfo($imageFile, PATHINFO_EXTENSION);
 
-			if (!in_array($extension, $acceptExt))
+			if (!in_array($extension, IMAGE_ALLOW))
 				return PROBLEM_ERROR_FILEREJECT;
 
 			if ($image["size"] > MAX_IMAGE_SIZE)
@@ -158,7 +209,7 @@
 			if ($image["error"] > 0)
 				return PROBLEM_ERROR;
 
-			$moveImage = true;
+			move_uploaded_file($image["tmp_name"], PROBLEMS_DIR ."/". $id ."/". $imageFile);
 			$problemList[$id]["image"] = $imageFile;
 		}
 
@@ -171,19 +222,11 @@
 			if ($attachment["error"] > 0)
 				return PROBLEM_ERROR;
 
-			$moveAttachment = true;
+			move_uploaded_file($attachment["tmp_name"], PROBLEMS_DIR ."/". $id ."/". $attachmentFile);
 			$problemList[$id]["attachment"] = $attachmentFile;
 		}
 
-		mkdir(PROBLEMS_DIR. "/" .$id, 0777, true);
 		problemSave($id);
-
-		if ($moveImage)
-			move_uploaded_file($image["tmp_name"], PROBLEMS_DIR ."/". $id ."/". $imageFile);
-
-		if ($moveAttachment)
-			move_uploaded_file($attachment["tmp_name"], PROBLEMS_DIR ."/". $id ."/". $attachmentFile);
-
 		return PROBLEM_OKAY;
 	}
 
@@ -277,19 +320,44 @@
 			-> write(json_encode($problemList[$id], JSON_PRETTY_PRINT));
 	}
 
-	function problemExist(String &$filename) {
+	function problemLimit(String $id) {
+		global $problemList;
+
+		if (!problemExist($id))
+			return -1;
+
+		return isset($problemList[$id]["limit"])
+			? $problemList[$id]["limit"]
+			: -1;
+	}
+
+	/**
+	 * Check if there is a problem with given ID
+	 * 
+	 * This function will try to autocorrect ID with different format:
+	 * 
+	 * + `original`
+	 * + `UPPERCASE`
+	 * + `lowercase`
+	 * + `Upcasefirst`
+	 * 
+	 * @param	String	$id	Problem ID
+	 * @return	Boolean
+	 */
+	function problemExist(String &$id) {
 		global $problemList;
 
 		// TRY LIST
 		$try = Array(
-			$filename,
-			strtoupper($filename),
-			strtolower($filename)
+			$id,
+			strtoupper($id),
+			strtolower($id),
+			ucfirst($id)
 		);
 
 		foreach ($try as $value)
 			if (isset($problemList[$value])) {
-				$filename = $value;
+				$id = $value;
 				return true;
 			}
 		

@@ -50,7 +50,7 @@
 			));
 
 		return true;
-	}, $changed);
+	}, false, $changed);
 
 	// Set new config into current config
 	$rawConfig = $defConfig;
