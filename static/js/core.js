@@ -1816,7 +1816,10 @@ const twi = {
 
 				this.publicFilesPanel = new smenu.Panel(undefined, { size: "large" });
 				this.publicFilesPanel.setToggler(publicFilesButton);
-				await this.publicFilesPanel.content("iframe:/public");
+
+				// We don't have to wait for iframe to load
+				// to decrease initialize time
+				this.publicFilesPanel.content("iframe:/public");
 				twi.darkmode.onToggle((enabled) => this.publicFilesPanel.iframe.contentDocument.body.classList[enabled ? "add" : "remove"]("dark"));
 			}
 		},
@@ -2106,7 +2109,7 @@ const twi = {
 				this.group = new smenu.Group({ icon: "userCog", label: "quản trị" });
 
 				this.update();
-				await this.settings();
+				this.settings();
 				this.data();
 			},
 
@@ -2153,7 +2156,7 @@ const twi = {
 			controlPanel: smenu.Panel.prototype,
 			accountsPanel: smenu.Panel.prototype,
 
-			async settings() {
+			settings() {
 				this.settingsChild = new smenu.Child({ label: "Cài Đặt" }, this.group);
 
 				let controlPanelButton = new smenu.components.Button({
@@ -2165,7 +2168,7 @@ const twi = {
 
 				this.controlPanel = new smenu.Panel(undefined, { size: "large" });
 				this.controlPanel.setToggler(controlPanelButton);
-				await this.controlPanel.content("iframe:/config.php");
+				this.controlPanel.content("iframe:/config.php");
 				twi.darkmode.onToggle((enabled) => this.controlPanel.iframe.contentDocument.body.classList[enabled ? "add" : "remove"]("dark"));
 
 				let accountsButton = new smenu.components.Button({
@@ -2177,7 +2180,7 @@ const twi = {
 
 				this.accountsPanel = new smenu.Panel(undefined, { size: "large" });
 				this.accountsPanel.setToggler(accountsButton);
-				await this.accountsPanel.content("iframe:/account.php");
+				this.accountsPanel.content("iframe:/account.php");
 				twi.darkmode.onToggle((enabled) => this.accountsPanel.iframe.contentDocument.body.classList[enabled ? "add" : "remove"]("dark"));
 			},
 
