@@ -10,6 +10,7 @@ const tooltip = {
 	container: HTMLDivElement.prototype,
 	content: HTMLDivElement.prototype,
 	render: false,
+	throttle: true,
 	prevData: null,
 	nodeToShow: null,
 	hideTimeout: null,
@@ -34,6 +35,11 @@ const tooltip = {
 		//* EVENTS
 		window.addEventListener("mousemove", e => {
 			//? THROTTLE MOUSE EVENT
+			if (!this.throttle) {
+				this.mouseMove(e);
+				return;
+			}
+
 			if (!this.__wait && !this.__handlingMouseEvent) {
 				this.__handlingMouseEvent = true;
 
@@ -57,13 +63,15 @@ const tooltip = {
 		//* BUILT IN HOOKS
 		this.addHook({
 			on: "dataset",
-			key: "tip"
-		})
+			key: "tip",
+			backtrace: 3
+		});
 
 		this.addHook({
 			on: "attribute",
-			key: "tooltip"
-		})
+			key: "tooltip",
+			backtrace: 3
+		});
 
 		this.addHook({
 			on: "attribute",
@@ -73,8 +81,9 @@ const tooltip = {
 				target.removeAttribute("title");
 
 				return value;
-			}
-		})
+			},
+			backtrace: 3
+		});
 
 		this.initialized = true;
 	},
@@ -130,7 +139,7 @@ const tooltip = {
 			clearTimeout(this.hideTimeout);
 			checkNode = false;
 			
-			if (!this.__checkSameNode(event.target, this.nodeToShow) && !this.__checkSameNode(event.target, this.container)) {
+			if (!this.__checkSameNode(event.target, this.nodeToShow) && !this.__checkSameNode(event.target, this.container, 5)) {
 				checkNode = true;
 				
 				this.hideTimeout = setTimeout(() => {
