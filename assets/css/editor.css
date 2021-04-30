@@ -1,0 +1,146 @@
+/*
+? |-----------------------------------------------------------------------------------------------|
+? |  /assets/css/editor.css                                                                       |
+? |                                                                                               |
+? |  Copyright (c) 2018-2021 Belikhun. All right reserved                                         |
+? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+? |-----------------------------------------------------------------------------------------------|
+*/
+
+.editor {
+	position: relative;
+	display: grid;
+	grid-template-columns: auto auto;
+
+	font-family: Consolas;
+	font-weight: bolder;
+	font-size: 17px;
+	tab-size: 4;
+
+	overflow: auto;
+	background-color: white;
+}
+
+.editor > .check {
+	position: fixed;
+	z-index: -1;
+	visibility: hidden;
+	white-space: pre-wrap;
+}
+
+.editor > .lineNum {
+	position: sticky;
+	display: inline-flex;
+	flex-direction: column;
+	flex-grow: 0;
+	flex-shrink: 0;
+	align-items: flex-end;
+
+	left: 0;
+	padding: 0 20px;
+	background-color: white;
+	z-index: 2;
+}
+
+.editor > .lineNum > div {
+	color: rgba(165, 165, 165, 0.6);
+}
+
+.editor > .lineNum > div.active {
+	color: black;
+}
+
+.editor > .main {
+	position: relative;
+	display: block;
+	flex-grow: 1;
+
+	padding-bottom: 50%;
+}
+
+.editor > .main > .selections {
+	position: absolute;
+
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.editor > .main > .selections > div {
+	position: absolute;
+
+	background-color: rgb(218, 218, 218);
+}
+
+.editor > .main > .cursor {
+	position: absolute;
+	display: block;
+
+	width: 3px;
+
+	background-color: #528bff;
+    border-color: #528bff;
+    color: rgba(255, 255, 255, 0.79);
+
+	z-index: 1;
+	transition: all 0.1s ease;
+	overflow: hidden;
+}
+
+.editor > .main > .cursor.smooth {
+	animation: cursor-blink .5s ease-in-out;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+	animation-play-state: running;
+}
+
+.editor > .main > .code {
+	position: relative;
+	
+	user-select: none;
+	white-space: pre;
+}
+
+.editor > .main > .code > .line.active {
+	background-color: rgba(235, 235, 235, 0.3);
+}
+
+.editor > .main > .overlay {
+	position: absolute;
+
+	top: 0;
+	left: 0;
+	min-width: 100%;
+	min-height: 100%;
+
+	font-family: inherit;
+	font-weight: inherit;
+	font-size: inherit;
+	tab-size: inherit;
+
+	margin: unset;
+	padding: unset;
+	border: unset;
+
+	resize: none;
+	z-index: 3;
+	opacity: 0;
+	overflow: hidden;
+	white-space: pre;
+	background-color: transparent;
+}
+
+.editor > .main > .overlay:focus {
+	outline: none;
+}
+
+@keyframes cursor-blink {
+	0%, 20% {
+		opacity: 1;
+	}
+
+	60%, 100% {
+		opacity: 0;
+	}
+}
