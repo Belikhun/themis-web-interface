@@ -59,7 +59,6 @@
 		<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/menu.css?v=<?php print VERSION; ?>" />
 		<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/wavec.css?v=<?php print VERSION; ?>" />
 		<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/spinner.css?v=<?php print VERSION; ?>" />
-		<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/statusBar.css?v=<?php print VERSION; ?>" />
 		<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollBar.css?v=<?php print VERSION; ?>" />
 		
 		<!-- Page Style -->
@@ -189,7 +188,15 @@
 									<span class="simpleSpinner"></span>
 								</div>
 
-								<div class="problemsList showEmpty sound" data-soundtoggle="hide" id="problemsList"></div>
+								<div id="problemsListContainer" class="listContainer">
+									<div id="problemSearch" class="searchBox">
+										<input id="problemSearchInput" class="sq-input" placeholder="nhập để tìm kiếm" />
+										<icon id="problemSearchClear" class="clear" data-icon="close"></icon>
+										<icon class="search" data-icon="search"></icon>
+									</div>
+
+									<div id="problemsList" class="list showEmpty sound" data-soundtoggle="hide"></div>
+								</div>
 
 								<div class="problem">
 									<t class="name" id="problemName"></t>

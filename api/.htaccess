@@ -3,10 +3,6 @@ Order allow,deny
 Allow from all
 Require all granted
 
-<IfModule headers_module>
-    Header set Access-Control-Allow-Origin "*"
-</IfModule>
-
 # Rewrite url
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f

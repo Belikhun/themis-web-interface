@@ -106,11 +106,11 @@ const tooltip = {
 		this.hooks.sort((a, b) => (a.priority < b.priority) ? 1 : (a.priority > b.priority) ? -1 : 0);
 	},
 
-	__checkSameNode(node1, node2, maxCheck = this.__backtrace) {
+	__checkSameNode(node1, node2, depth = this.__backtrace) {
 		let check = 1;
 
 		while (node1) {
-			if (check > maxCheck)
+			if (check > depth)
 				return false;
 
 			if (node1.isSameNode(node2))
@@ -130,7 +130,7 @@ const tooltip = {
 			clearTimeout(this.hideTimeout);
 			checkNode = false;
 			
-			if (!this.__checkSameNode(event.target, this.nodeToShow)) {
+			if (!this.__checkSameNode(event.target, this.nodeToShow) && !this.__checkSameNode(event.target, this.container)) {
 				checkNode = true;
 				
 				this.hideTimeout = setTimeout(() => {

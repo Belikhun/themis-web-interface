@@ -10,7 +10,7 @@
 
 	setlocale(LC_TIME, "vi_VN.UTF-8");
 
-	if (session_status() === PHP_SESSION_NONE) {
+	if (session_status() !== PHP_SESSION_ACTIVE) {
 		if (isset($_POST["sessid"]))
 			session_id($_POST["sessid"]);
 		elseif (isset($_GET["sessid"]))
@@ -651,7 +651,7 @@
 					if (!$typeSensitive(gettype($value), gettype($object[$key]), $path))
 						continue;
 				} else
-					if ($typeSensitive && (gettype($value) !== gettype($object[$key])))
+					if ($typeSensitive && $value !== null && (gettype($value) !== gettype($object[$key])))
 						continue;
 
 				if (gettype($object[$key]) === "array" && gettype($value) === "array") {
@@ -934,4 +934,3 @@
 	//? START TIME
 	if (!isset($runtime))
 		$runtime = new StopClock();
-?>

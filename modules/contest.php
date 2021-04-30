@@ -50,10 +50,33 @@
 	define("CONTEST_NOTENDED", 2);
 	define("CONTEST_ENDED", 3);
 
-	function contest_timeRequire(array $req = Array(
-		CONTEST_STARTED,
-		CONTEST_NOTENDED
-	), $justReturn = true, $instantDeath = false, $resCode = 403) {
+	/**
+	 * Check for time requirements in contest mode
+	 * 
+	 * @param	Array	$req
+	 * 	Requirements
+	 * 
+	 * @param	Bool	$justReturn
+	 * 	If this set to true, this function will return
+	 * 	`true` if all the requirements met, else will
+	 * 	return a code according to the *api response code*
+	 * 
+	 * @param	Bool	$instantDeath
+	 * 	If this set to true, no output will be printed
+	 * 	if an requirements does not met
+	 * 
+	 * @param	Int		$resCode
+	 * 	Response code
+	 */
+	function contest_timeRequire(
+		Array $req = Array(
+			CONTEST_STARTED,
+			CONTEST_NOTENDED
+		),
+		Bool $justReturn = true,
+		Bool $instantDeath = false,
+		Int $resCode = 403
+	) {
 		$duringTime = getConfig("time.contest.during");
 		if ($duringTime <= 0)
 			return true;

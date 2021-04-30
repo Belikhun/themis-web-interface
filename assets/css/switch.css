@@ -227,7 +227,7 @@
     opacity: 1;
 }
 
-.sq-checkbox:hover > input ~ .checkmark {
+.sq-checkbox:hover > .checkmark {
     border-color: rgb(134, 215, 255);
 }
 

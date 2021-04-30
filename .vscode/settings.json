@@ -1,6 +1,6 @@
 {
     "python.linting.enabled": true,
     "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
-    "livereload.exclusions": ".DS_Store,.gitignore,.git,.svn,.hg,html,js,.cache,json,py,php",
-    "livereload.exts": "css,js"
+    "livereload.exclusions": ".DS_Store,.gitignore,.git,.svn,.hg,html,js,cache,json,py,php",
+    "livereload.exts": "css"
 }

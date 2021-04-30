@@ -13,7 +13,7 @@ class Scrollable {
 	 * @param {HTMLElement}		container		Container
 	 */
 	constructor(container, {
-		distance = 60,
+		distance = 1,
 		velocity = 2,
 		clamp = 20,
 		maxClamp = 400,
@@ -48,7 +48,7 @@ class Scrollable {
 			if (e.ctrlKey)
 				return;
 
-			e.preventDefault();
+			// e.preventDefault();
 
 			if (!ticking) {
 				requestAnimationFrame(() => {
@@ -58,38 +58,68 @@ class Scrollable {
 
 				ticking = true;
 			}
-		});
+		}, { passive: true });
 	}
 
 	update(e) {
-		if (e.deltaY === 0 || this.disabled)
+		let delta = (this.horizontal)
+			? e.deltaX
+			: e.deltaY;
+
+		// Check if scrolling event actually move the
+		// scrollable content or scrolling is disabled
+		// If so we will stop executing
+		if (delta === 0 || this.disabled)
 			return;
 
+		// Calculate the maximum point of
+		// scrolling in the container
 		let maxScroll = (this.horizontal)
 			? this.container.scrollWidth - this.container.offsetWidth
 			: this.container.scrollHeight - this.container.offsetHeight;
 
-		this.currentVelocity += (e.deltaY > 0) ? this.velocity : -this.velocity;
+		// Calculate current scrolling velocity and add
+		// it with global velocity
+		//
+		// This is to add up velocity in case user is scrolling
+		// continiously
+		this.currentVelocity += (delta > 0) ? this.velocity : -this.velocity;
 		
+		// Initialize staring point of velocity so we can
+		// decreaese the global velocity by time
 		let startVelocity = this.currentVelocity;
+
+		// Calculate the point where the user start scrolling
 		let from = (this.horizontal)
 			? this.container.scrollLeft
 			: this.container.scrollTop;
 
-		let to = from + (this.distance * this.currentVelocity);
+		// Calculate the point where scrolling should be end
+		let to = from + ((this.distance * Math.abs(delta)) * this.currentVelocity);
 
 		let clampPoint;
 		let clampFrom;
 		let clampTo;
 
+		// If another animator is present, destory current one
+		// and initialize a new Animator
 		if (this.animator)
 			this.animator.cancel();
 
 		this.animator = Animator(.6, Easing.OutQuart, (t) => {
+			// Calucate current scrolling point by time
 			let current = from + (to - from) * t;
+
+			// Decreasing the velocity
 			this.currentVelocity = startVelocity * (1 - t);
 
+			// Check if scrolling reached the begining of the container
+			// or the end of the container. If so we will calculate
+			// the clamping animation
 			if (current > maxScroll || current < 0) {
+				// If the clamping point hasn't been defined yet,
+				// we init clampPoint with the current time and
+				// calculate some others value
 				if (!clampPoint) {
 					clampPoint = t;
 					clampFrom = this.container.clampValue;

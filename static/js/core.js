@@ -182,7 +182,7 @@ const twi = {
 		let modulesList = []
 
 		// Search for modules and initialize it
-		set({ p: 0, m: name, d: name === "twi" ? `Scanning Local Modules` : `Scanning Modules Of ${name}` });
+		set({ p: 0, m: name, d: `Scanning Modules Of ${name}` });
 
 		for (let key of Object.keys(group)) {
 			if (key === "super")
@@ -206,7 +206,7 @@ const twi = {
 			}
 		}
 
-		if (modulesList.length < 0)
+		if (modulesList.length === 0)
 			return;
 
 		// Sort modules by priority
@@ -223,7 +223,7 @@ const twi = {
 			}, `Modules of`, {
 				text: name,
 				color: oscColor("pink")
-			});
+			}, `(initialize from top to bottom)`);
 	
 			for (let [i, module] of modulesList.entries())
 				clog("DEBG", {
@@ -234,7 +234,7 @@ const twi = {
 				}, " + ", pleft(i, 2), pleft(module.__NAME__, 38), pleft(module.priority || 0, 3));
 		}
 
-		// Inititlize modules
+		// Initialize modules
 		for (let i = 0; i < modulesList.length; i++) {
 			let moduleStart = time();
 			let item = modulesList[i];
@@ -321,11 +321,9 @@ const twi = {
 	https: {
 		priority: 0,
 
-		init(set = () => {}, {
-			clog = window.clog
-		} = {}) {
+		init() {
 			if (location.protocol !== "https:") {
-				clog("WARN", "Page is not served through https! Someone can easily alter your data!");
+				this.log("WARN", "Page is not served through https! Anyone can easily alter your data!");
 				return false;
 			}
 
@@ -340,28 +338,26 @@ const twi = {
 		priority: 1,
 		score: null,
 
-		async init(set = () => {}, {
-			clog = window.clog
-		} = {}) {
+		async init(set = () => {}) {
 			//! THIS MODULE IS TEMPORARY DISABLED DUE TO NO USE
-			//! HOPEFULLY I CAN MAKE USE OF THIS LATER
+			//! HOPEFULLY I CAN MAKE USE OF THIS IN THE FUTURE
 			return false;
 
 			let oldResult = parseFloat(localStorage.getItem("performance"));
 
 			if (oldResult > 0) {
-				clog("OKAY", "Found Previous Performance Score");
+				this.log("OKAY", "Found Previous Performance Score");
 				this.score = oldResult;
 			} else {
 				set({ p: 0, d: "Running Performance Test" });
-				clog("INFO", "Running Performance Test");
+				this.log("INFO", "Running Performance Test");
 
 				this.score = await this.runTest();
 				localStorage.setItem("performance", this.score);
 				set({ p: 0, d: "Performance Test Completed" });
 			}
 
-			clog("OKAY", "Performance Score: ", {
+			this.log("OKAY", "Performance Score: ", {
 				text: this.score,
 				color: oscColor("green")
 			});
@@ -420,7 +416,7 @@ const twi = {
 					await this.update();
 			} catch(e) {
 				//? IGNORE ERROR
-				clog("ERRR", e);
+				this.log("ERRR", e);
 			}
 			
 			this.timeout = setTimeout(() => this.updater(), (this.updateDelay - (time() - start)) * 1000);
@@ -440,7 +436,7 @@ const twi = {
 				return false;
 			}
 	
-			clog("DEBG", "Updating Rank", `[${hash}]`);
+			this.log("DEBG", "Updating Rank", `[${hash}]`);
 			this.beat({ color: "green" });
 			let timer = new StopClock();
 	
@@ -448,7 +444,7 @@ const twi = {
 				emptyNode(this.container);
 				
 				this.hash = hash;
-				clog("DEBG", "Rank Is Empty. Took", {
+				this.log("DEBG", "Rank Is Empty. Took", {
 					color: flatc("blue"),
 					text: timer.stop + "s"
 				});
@@ -540,7 +536,7 @@ const twi = {
 			this.container.innerHTML = out;
 			this.hash = hash;
 	
-			clog("DEBG", "Rank Updated. Took", {
+			this.log("DEBG", "Rank Updated. Took", {
 				color: flatc("blue"),
 				text: timer.stop + "s"
 			});
@@ -605,7 +601,7 @@ const twi = {
 					await this.update();
 			} catch(e) {
 				//? IGNORE ERROR
-				clog("ERRR", e);
+				this.log("ERRR", e);
 			}
 			
 			this.timeout = setTimeout(() => this.updater(), (this.updateDelay - (time() - start)) * 1000);
@@ -626,14 +622,14 @@ const twi = {
 			if (hash === this.hash && !bypass)
 				return;
 	
-			clog("DEBG", "Updating Logs", `[${hash}]`);
+			this.log("DEBG", "Updating Logs", `[${hash}]`);
 			let timer = new StopClock();
 	
 			if (data.judging.length === 0 && data.logs.length === 0 && data.queues.length === 0) {
 				emptyNode(this.panel.main);
 	
 				this.hash = hash;
-				clog("DEBG", "Logs Is Empty. Took", {
+				this.log("DEBG", "Logs Is Empty. Took", {
 					color: flatc("blue"),
 					text: timer.stop + "s"
 				});
@@ -697,7 +693,7 @@ const twi = {
 			this.panel.main.innerHTML = out;
 			this.hash = hash;
 	
-			clog("DEBG", "Logs Updated. Took", {
+			this.log("DEBG", "Logs Updated. Took", {
 				color: flatc("blue"),
 				text: timer.stop + "s"
 			});
@@ -788,7 +784,7 @@ const twi = {
 		},
 
 		async view(username, id) {
-			clog("INFO", "Opening log file", {
+			this.log("INFO", "Opening log file", {
 				color: flatc("yellow"),
 				text: username
 			}, ":", {
@@ -894,11 +890,19 @@ const twi = {
 	problems: {
 		priority: 3,
 		container: $("#problemsPanel"),
+		listContainer: $("#problemsListContainer"),
 		list: $("#problemsList"),
 		name: $("#problemName"),
 		point: $("#problemPoint"),
 		enlargeBtn: $("#problemViewerEnlarge"),
 		closeBtn: $("#problemViewerClose"),
+
+		search: {
+			container: $("#problemSearch"),
+			input: $("#problemSearchInput"),
+			clear: $("#problemSearchClear")
+		},
+
 		type: {
 			filename: $("#problemInfoFilename"),
 			lang: $("#problemInfoLanguage"),
@@ -907,9 +911,11 @@ const twi = {
 			input: $("#problemInfoInput"),
 			output: $("#problemInfoOutput")
 		},
+
 		image: lazyload.prototype,
 		description: $("#problemDescription"),
 		test: $("#problemTests"),
+		
 		attachment: {
 			container: $("#problemAttachment"),
 			link: $("#problemAttachmentLink"),
@@ -921,19 +927,50 @@ const twi = {
 		loaded: false,
 		problemImage: lazyload.prototype,
 
-		/**
-		 * @type {TWIPanel}
-		 */
+		/** @type {TWIPanel} */
 		panel: null,
+
+		/** @type {Pager} */
+		pager: undefined,
+
 		backButton: null,
 		reloadButton: null,
 		viewInDialog: false,
 
+		/** @type {wavec.Container} */
 		wavec: wavec.Container.prototype,
 
+		searchDelay: null,
+		currentActiveItem: null,
+		itemTimeout: {},
+
 		async init() {
+			this.pager = new Pager(this.list, -1);
 			this.panel = new TWIPanel(this.container);
 
+			// Set Up Searchbar
+			this.search.input.addEventListener("input", (e) => {
+				if (e.target.value !== "")
+					this.search.container.classList.add("typing");
+				else
+					this.search.container.classList.remove("typing");
+
+				//clearTimeout(searchDelay);
+				//searchDelay = setTimeout(() => this.fetchScriptList(false), 500);
+			});
+
+			this.search.clear.addEventListener("click", () => {
+				this.search.input.value = "";
+				this.search.input.dispatchEvent(new Event("input"));
+			});
+
+			// Set Up Pager
+			this.pager.renderItem((i) => this.__renderItem(i));
+			this.pager.setFilter((i) => {
+				return true;
+			});
+
+			// Register Panel Buttons / Viewer Buttons Handler
 			this.reloadButton = this.panel.button("reload");
 			this.reloadButton.onClick(() => this.updateLists());
 
@@ -958,6 +995,140 @@ const twi = {
 			await this.updateLists();
 		},
 
+		itemMouseOver(e, t) {
+			let id = t.dataset.id;
+			clearTimeout(this.itemTimeout[id]);
+
+			if (this.currentActiveItem)
+				this.currentActiveItem.classList.remove("active");
+
+			this.currentActiveItem = t;
+			t.classList.add("active");
+			t.classList.remove("hide");
+
+			this.itemTimeout[id] = setTimeout(() => {
+				t.classList.add("show");
+			}, 200);
+		},
+
+		itemMouseOut(e, t) {
+			let id = t.dataset.id;
+			clearTimeout(this.itemTimeout[id]);
+			t.classList.remove("show");
+
+			this.itemTimeout[id] = setTimeout(() => {
+				t.classList.add("hide");
+			}, 200);
+		},
+
+		/**
+		 * Render Item With Pager
+		 * @param	{Object}			item
+		 * @returns {HTMLSpanElement}
+		 */
+		__renderItem(item) {
+			this.log("DEBG", "__renderItem(): Rendering", item);
+
+			let t = buildElementTree("span", ["item", "hide"], [
+				{ type: "div", class: "content", name: "content", list: [
+					{ name: "image", node: (new lazyload({ source: item.image, classes: "image" })) },
+					{ type: "span", class: "status", name: "status", text: "Chưa Nộp" },
+					{ type: "span", class: "tags", name: "tags" },
+					{ type: "span", class: "point", name: "point", text: item.point },
+					{ type: "t", class: "name", name: "pName", text: item.name },
+
+					{ type: "div", class: "detail", name: "detail", list: [
+						{ type: "span", class: "left", name: "left", list: [
+							{ type: "t", class: "id", name: "pID", text: item.id },
+							{ type: "t", class: "submitted", name: "submitted", text: item.status.total }
+						]},
+
+						{ type: "span", class: "middle", name: "middle", list: [
+							{ type: "t", class: "modify", name: "modify", text: (new Date(item.modify * 1000)).toLocaleDateString() },
+							{ type: "t", class: "author", name: "author", text: item.author || "không rõ" },
+						]},
+	
+						{ type: "span", class: "right", name: "right", list: [
+						]},
+
+						{ type: "div", class: ["progressBar", "stackable"], name: "bar", list: [
+							{ type: "div", class: "bar", data: { color: "green" }, name: "correct" },
+							{ type: "div", class: "bar", data: { color: "blue" }, name: "passed" },
+							{ type: "div", class: "bar", data: { color: "yellow" }, name: "accepted" },
+							{ type: "div", class: "bar", data: { color: "red" }, name: "failed" },
+							{ type: "div", class: "bar", data: { color: "gray" }, name: "skipped" },
+							{ type: "t", class: "right", name: "right" }
+						]}
+					]}
+				]},
+
+				{ type: "div", class: "background", name: "background" }
+			]).obj;
+
+			t.dataset.id = item.id;
+			t.content.detail.bar.correct.style.width = `${(item.status.correct.length / item.status.total) * 100}%`;
+			t.content.detail.bar.passed.style.width = `${(item.status.passed.length / item.status.total) * 100}%`;
+			t.content.detail.bar.accepted.style.width = `${(item.status.accepted.length / item.status.total) * 100}%`;
+			t.content.detail.bar.failed.style.width = `${(item.status.failed.length / item.status.total) * 100}%`;
+			t.content.detail.bar.skipped.style.width = `${(item.status.skipped.length / item.status.total) * 100}%`;
+			t.content.detail.bar.right.innerText = [
+				`${item.status.correct.length} CR`,
+				`${item.status.passed.length} PA`,
+				`${item.status.accepted.length} AC`,
+				`${item.status.failed.length} FA`,
+				`${item.status.skipped.length} SK`,
+			].join(" / ");
+
+			for (let key of Object.keys(item.status)) {
+				let value = item.status[key]
+
+				if (key === "total" || value.length === 0)
+					continue;
+
+				let con = document.createElement("div");
+				con.classList.add("container");
+
+				let status = document.createElement("span");
+				status.classList.add("status");
+				status.dataset.status = key;
+				status.innerText = twi.taskStatus[key];
+
+				let sw = document.createElement("span");
+				sw.classList.add("wrapper");
+				sw.appendChild(status);
+
+				let list = document.createElement("span");
+				list.classList.add("list");
+
+				con.append(sw, list);
+				
+				for (let i = 0; i < Math.min(value.length, 14); i++) {
+					let img = new lazyload({
+						source: `/api/avatar?u=${value[i]}`,
+						classes: "user"
+					}).container;
+
+					img.setAttribute("username", value[i]);
+					list.appendChild(img);
+				}
+
+				if (value.length - 14 > 0) {
+					let m = document.createElement("span");
+					m.classList.add("more");
+					m.innerText = `${value.length - 14}+`;
+					list.appendChild(m);
+				}
+				
+				t.background.appendChild(con);
+			}
+
+			t.addEventListener("mouseenter", (e) => this.itemMouseOver(e, t));
+			t.addEventListener("mouseleave", (e) => this.itemMouseOut(e, t));
+			t.addEventListener("click", () => this.viewProblem(item.id));
+
+			return t;
+		},
+
 		async updateLists() {
 			this.panel.loading = true;
 			let data = {}
@@ -972,17 +1143,17 @@ const twi = {
 			} catch(e) {
 				switch (e.data.code) {
 					case 103:
-						clog("WARN", "Kì thi chưa bắt đầu");
+						this.log("WARN", "Kì thi chưa bắt đầu");
 						emptyNode(this.list);
 						this.loaded = false;
 						break;
 					case 109:
-						clog("WARN", "Danh sách đề bài bị ẩn vì bạn chưa đăng nhập");
+						this.log("WARN", "Danh sách đề bài bị ẩn vì bạn chưa đăng nhập");
 						emptyNode(this.list);
 						this.loaded = true;
 						break;
 					default:
-						clog("ERRR", e);
+						this.log("ERRR", e);
 						this.loaded = false;
 						break;
 				}
@@ -991,30 +1162,13 @@ const twi = {
 				return false;
 			}
 
+			this.pager.list = data;
 			this.loaded = true;
-
-			let html = "";
-			data.forEach(item => {
-				html += `
-					<span class="item" onClick="twi.problems.viewProblem('${item.id}');" disabled=${item.disabled}>
-						<div class="lazyload icon">
-							<img onload="this.parentNode.dataset.loaded = 1" src="${item.image}"/>
-							<div class="simpleSpinner"></div>
-						</div>
-						<ul class="title">
-							<li class="name">${item.name}</li>
-							<li class="point">${item.point} điểm</li>
-						</ul>
-					</span>
-				`
-			});
-
-			this.list.innerHTML = html;
 			this.panel.loading = false;
 		},
 
 		async viewProblem(id, viewInDialog = false) {
-			clog("INFO", "Opening problem", {
+			this.log("INFO", "Opening problem", {
 				color: flatc("yellow"),
 				text: id
 			});
@@ -1040,7 +1194,7 @@ const twi = {
 				return;
 			}
 
-			this.list.classList.add("hide");
+			this.listContainer.classList.add("hide");
 			this.backButton.show();
 
 			this.name.innerText = data.name;
@@ -1106,7 +1260,7 @@ const twi = {
 		},
 
 		closeViewer() {
-			this.list.classList.remove("hide");
+			this.listContainer.classList.remove("hide");
 			this.panel.title = "Đề bài";
 			this.backButton.hide();
 		},
@@ -1306,7 +1460,7 @@ const twi = {
 			var files = (type === "drop") ? e.dataTransfer.files : e.target.files;
 			this.dropzone.classList.add("hide");
 
-			clog("info", "Started uploading", {
+			this.log("info", "Started uploading", {
 				color: flatc("blue"),
 				text: files.length
 			}, "files");
@@ -1328,7 +1482,7 @@ const twi = {
 				return;
 			}
 
-			clog("INFO", "Uploading", {
+			this.log("INFO", "Uploading", {
 				color: flatc("yellow"),
 				text: files[i].name
 			});
@@ -1360,7 +1514,7 @@ const twi = {
 					}
 				}, (response) => {
 					if ([103, 104].includes(response.code)) {
-						clog("ERRR", "Upload Stopped:", {
+						this.log("ERRR", "Upload Stopped:", {
 							color: flatc("red"),
 							text: response.description
 						});
@@ -1374,7 +1528,7 @@ const twi = {
 						return false;
 					}
 
-					clog("OKAY", "Uploaded", {
+					this.log("OKAY", "Uploaded", {
 						color: flatc("yellow"),
 						text: files[i].name
 					});
@@ -1386,7 +1540,7 @@ const twi = {
 						this.upload(files, i + 1);
 					}, this.uploadCoolDown / 2);
 				}, e => {
-					clog("ERRR", "Upload Stopped", e);
+					this.log("ERRR", "Upload Stopped", e);
 
 					this.uploading = false;
 					this.input.value = "";
@@ -1515,7 +1669,7 @@ const twi = {
 				clearInterval(this.interval);
 				
 				this.enabled = false;
-				clog("INFO", "Timer Disabled: not in contest mode");
+				this.log("INFO", "Timer Disabled: not in contest mode");
 				this.container.style.display = "none";
 
 				return;
@@ -1603,7 +1757,7 @@ const twi = {
 				this.subWindow.timeline.offset.progress.bar.style.width = null;
 			} else if (t > 0) {
 				// if (!twi.problems.loaded) {
-				// 	clog("INFO", "Reloading problems list and public files list");
+				// 	this.log("INFO", "Reloading problems list and public files list");
 					
 				// }
 
@@ -1685,7 +1839,7 @@ const twi = {
 	
 				remoteData = response;
 			} catch(error) {
-				clog("WARN", "Error Checking for update:", error);
+				this.log("WARN", "Error Checking for update:", error);
 				return;
 			}
 
@@ -2102,7 +2256,7 @@ const twi = {
 
 			async init() {
 				if (SESSION.id !== "admin") {
-					clog("INFO", "Current Session Does Not Have Admin Privileges. Admin Features Will Not Be ENABLED!");
+					this.log("INFO", "Current Session Does Not Have Admin Privileges. Admin Features Will Not Be ENABLED!");
 					return false;
 				}
 
@@ -2336,7 +2490,7 @@ const twi = {
 						})
 					} catch(e) {
 						if (e.data.code === 6) {
-							clog("WARN", `Không tồn tại trang ${this.currentPage} của nhật ký hệ thống`, e.data.data);
+							this.log("WARN", `Không tồn tại trang ${this.currentPage} của nhật ký hệ thống`, e.data.data);
 							this.currentPage = 1;
 							this.maxPage = e.data.data.maxPage;
 							await this.refresh();
@@ -2376,7 +2530,7 @@ const twi = {
 						`);
 					
 					this.logsContainer.innerHTML = html.join("\n");
-					clog("info", `Refreshed SysLogs [${hash}]`);
+					this.log("info", `Refreshed SysLogs [${hash}]`);
 				}
 			},
 
@@ -2572,7 +2726,7 @@ const twi = {
 					});
 	
 					let data = response.data;
-					clog("INFO", "Editing problem", {
+					this.log("INFO", "Editing problem", {
 						color: flatc("yellow"),
 						text: id
 					});
@@ -2658,7 +2812,7 @@ const twi = {
 					if (!["edit", "add"].includes(action))
 						throw { code: -1, description: `twi.userSettings.admin.problemsEditor.submit(${action}): not a valid action!` }
 	
-					clog("INFO", "Problem Submit:", {
+					this.log("INFO", "Problem Submit:", {
 						color: flatc("green"),
 						text: action
 					}, {
@@ -2703,7 +2857,7 @@ const twi = {
 				},
 
 				async delete(id) {
-					clog("WARN", "Deleting Problem", {
+					this.log("WARN", "Deleting Problem", {
 						color: flatc("yellow"),
 						text: id + "."
 					}, "Waiting for confirmation");
@@ -2723,7 +2877,7 @@ const twi = {
 					})
 	
 					if (confirm !== "delete") {
-						clog("INFO", "Cancelled deletion of", {
+						this.log("INFO", "Cancelled deletion of", {
 							color: flatc("yellow"),
 							text: id + "."
 						});
@@ -2747,7 +2901,7 @@ const twi = {
 						throw e;
 					}
 	
-					clog("OKAY", "Deleted Problem", {
+					this.log("OKAY", "Deleted Problem", {
 						color: flatc("yellow"),
 						text: id
 					});
@@ -2761,7 +2915,7 @@ const twi = {
 	
 					typeName = { image: "Ảnh Đính Kèm", attachment: "Tệp Đính Kèm" }[type]
 	
-					clog("WARN", "Preparing to delete", typeName, "of", {
+					this.log("WARN", "Preparing to delete", typeName, "of", {
 						color: flatc("yellow"),
 						text: `${id}.`
 					}, "Waiting for confirmation...");
@@ -2779,7 +2933,7 @@ const twi = {
 					})
 	
 					if (action !== "delete") {
-						clog("INFO", "Cancelled deletion", typeName, "of", {
+						this.log("INFO", "Cancelled deletion", typeName, "of", {
 							color: flatc("yellow"),
 							text: id
 						})
@@ -2801,7 +2955,7 @@ const twi = {
 						throw e;
 					}
 	
-					clog("OKAY", "Deleted", typeName, "of", {
+					this.log("OKAY", "Deleted", typeName, "of", {
 						color: flatc("yellow"),
 						text: id
 					})
@@ -3115,7 +3269,7 @@ const twi = {
 						throw e;
 					}
 
-					clog("OKAY", "Avatar changed");
+					this.log("OKAY", "Avatar changed");
 				});
 
 				this.component.onChangeName(async (name) => {
@@ -3131,7 +3285,7 @@ const twi = {
 							}
 						})
 					} catch(e) {
-						clog("ERRR", e);
+						this.log("ERRR", e);
 
 						await popup.show({
 							windowTitle: "Đổi Tên",
@@ -3148,7 +3302,7 @@ const twi = {
 					}
 
 					this.component.set({ name: response.data.name });
-					clog("OKAY", `Changed Name To`, {
+					this.log("OKAY", `Changed Name To`, {
 						text: name,
 						color: oscColor("pink")
 					})
@@ -3168,7 +3322,7 @@ const twi = {
 							}
 						})
 					} catch(e) {
-						clog("ERRR", e);
+						this.log("ERRR", e);
 
 						await popup.show({
 							windowTitle: "Đổi Mật Khẩu",
@@ -3194,7 +3348,7 @@ const twi = {
 						}
 					});
 
-					clog("OKAY", `Password Changed`);
+					this.log("OKAY", `Password Changed`);
 				});
 
 				this.component.onLogout(async () => {
@@ -3414,10 +3568,8 @@ const twi = {
 		enabled: true,
 		updateDelay: 2,
 
-		async init(set = () => {}, {
-			clog = window.clog
-		} = {}) {
-			await this.update(set, { clog });
+		async init(set = () => {}) {
+			await this.update(set = () => {});
 			await this.updater();
 		},
 
@@ -3430,15 +3582,13 @@ const twi = {
 					await this.update();
 			} catch(e) {
 				//? IGNORE ERROR
-				clog("ERRR", e);
+				this.log("ERRR", e);
 			}
 			
 			this.timeout = setTimeout(() => this.updater(), (this.updateDelay - (time() - start)) * 1000);
 		},
 
-		async update(set = () => {}, {
-			clog = window.clog
-		} = {}) {
+		async update(set = () => {}) {
 			set({ p: 0, d: "Receiving Hash List" });
 			let response = await myajax({
 				url: `/api/hash`,
@@ -3452,7 +3602,7 @@ const twi = {
 				if (this.hashes[key] !== response.data[key]) {
 					let hash = response.data[key];
 					
-					clog("INFO", "Hash Changed:",
+					this.log("INFO", "Hash Changed:",
 						{ text: hash, color: oscColor("green") },
 						{ text: key, color: oscColor("blue") }
 					);
@@ -3460,7 +3610,7 @@ const twi = {
 					this.hashes[key] = hash;
 
 					if (!this.changeHandlers[key] || this.changeHandlers[key].length === 0) {
-						clog("DEBG", `No handlers for ${key}. Skipping`);
+						this.log("DEBG", `No handlers for ${key}. Skipping`);
 						continue;
 					}
 

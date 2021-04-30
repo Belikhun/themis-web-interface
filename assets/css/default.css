@@ -314,25 +314,29 @@ tag {
 	display: none;
 }
 
-.lazyload::after {
+.lazyload::before {
 	content: "\f071";
     position: absolute;
 	display: none;
+
 	top: 50%;
 	left: 50%;
+	
 	transform: translate(-50%, -50%);
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     font-size: 18px;
 	font-style: normal;
     color: rgb(66, 66, 66);
+
+	z-index: 1;
 }
 
-.lazyload[data-errored]::after {
+.lazyload[data-errored]::before {
 	display: block;
 }
 
-body.dark .lazyload::after {
+body.dark .lazyload::before {
 	color: rgb(226, 226, 226);
 }
 
@@ -658,6 +662,10 @@ icon[data-icon="list"]::after {
 	content: "\f00b";
 }
 
+icon[data-icon="search"]::after {
+	content: "\f002";
+}
+
 /** ======================== NOTE ======================== **/
 
 .note {
@@ -848,12 +856,12 @@ icon[data-icon="list"]::after {
 	position: relative;
 	display: block;
 	transform: translateY(-5px);
-	color: #1b1b1b;
 }
 
 .popupContainer > .popupWindow > .header > icon::after {
 	font-size: 68px;
 	line-height: unset;
+	color: #1b1b1b;
 }
 
 .popupContainer > .popupWindow > .header > .text {

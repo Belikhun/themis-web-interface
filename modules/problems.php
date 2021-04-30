@@ -16,6 +16,7 @@
 
 	define("PROBLEM_TEMPLATE", Array(
 		"name" => "Sample Problem",
+		"author" => null,
 		"point" => 0,
 		"time" => 1,
 		"memory" => 1024,
@@ -27,6 +28,8 @@
 		"accept" => Array("pas", "cpp", "c", "pp", "exe", "class", "py", "java"),
 		"description" => "Description About Problem",
 		"test" => Array(),
+		"image" => null,
+		"attachment" => null,
 		"disabled" => false
 	));
 	
@@ -50,6 +53,16 @@
 					"name" => $item["name"],
 					"point" => $item["point"],
 					"image" => "/api/contest/problems/image?id=". $id,
+
+					"author" => isset($item["author"])
+						? $item["author"]
+						: null,
+
+					"attachment" => isset($item["attachment"])
+						? $item["attachment"]
+						: null,
+
+					"modify" => filemtime(PROBLEMS_DIR ."/". $id ."/data.json"),
 					"disabled" => $item["disabled"]
 				));
 		}

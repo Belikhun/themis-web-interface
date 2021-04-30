@@ -20,4 +20,26 @@
 	contest_timeRequire([CONTEST_STARTED], false);
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/problems.php";
-	stop(0, "Thành công!", 200, problemList($_SESSION["id"] === "admin"));
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/submissions.php";
+
+	$list = problemList($_SESSION["id"] === "admin");
+	$status = (new fip(SUBMISSIONS_DIR ."/status.json", "{}")) -> read("json");
+
+	foreach ($list as &$value) {
+		$value["status"] = Array(
+			"total" => 0,
+			"correct" => Array(),
+			"passed" => Array(),
+			"accepted" => Array(),
+			"failed" => Array(),
+			"skipped" => Array()
+		);
+
+		if (isset($status[$value["id"]]))
+			foreach ($status[$value["id"]] as $k => $v) {
+				$value["status"]["total"]++;
+				array_push($value["status"][$v], $k);
+			}
+	}
+
+	stop(0, "Thành công!", 200, $list);

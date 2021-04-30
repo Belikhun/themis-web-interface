@@ -349,6 +349,7 @@ function htmlToElement(html) {
 function buildElementTree(type = "div", __class = [], data = new Array(), __keypath = "") {
 	let svgTag = ["svg", "g", "path", "line", "circle", "polyline"]
 
+	/** @type {HTMLElement|SVGElement} */
 	let tree = (svgTag.includes(type))
 		? document.createElementNS("http://www.w3.org/2000/svg", type)
 		: document.createElement(type);
@@ -356,6 +357,8 @@ function buildElementTree(type = "div", __class = [], data = new Array(), __keyp
 	if (typeof __class == "string")
 		__class = new Array([__class]);
 	tree.classList.add.apply(tree.classList, __class);
+
+	/** @type {HTMLElement} */
 	let objtree = tree;
 
 	for (let i = 0; i < data.length; i++) {
@@ -782,28 +785,55 @@ class Pager {
 			emptyNode(this.container);
 	
 			for (let i = 0; i <= response.data.lists.length; i++)
-				if (response.data.lists[i])
-					this.renderItemHandler(response.data.lists[i], this.container);
-				else
+				if (response.data.lists[i]) {
+					let node = null;
+
+					try {
+						node = this.renderItemHandler(response.data.lists[i], this.container);
+					} catch(e) {
+						clog("ERRR", `Pager.render(): An error occured while processing handler for item`, response.data.lists[i], e);
+						continue;
+					}
+
+					if (typeof node === "object" && node.classList && node.tagName)
+						this.container.appendChild(node);
+				} else
 					clog("DEBG", `Pager.render(): listData does not contain data at index`, { text: i, color: flatc("red") });
 		} else {
-			let listData = (typeof this.filterHandler === "function") ? this.listData.filter(this.filterHandler) : this.listData;
+			let listData = (typeof this.filterHandler === "function")
+				? this.listData.filter(this.filterHandler)
+				: this.listData;
+
 			let total = Math.max(listData.length, 1);
-			let maxPage = parseInt(Math.floor(total / this.showCount) + ((total % this.showCount === 0) ? 0 : 1));
+			let showCount = (this.showCount > 0)
+				? this.showCount
+				: total;
+
+			let maxPage = parseInt(Math.floor(total / showCount) + ((total % showCount === 0) ? 0 : 1));
 	
 			if (this.__currentPage > maxPage || this.__currentPage === "last")
 				this.__currentPage = maxPage;
 	
-			let from = (this.__currentPage - 1) * this.showCount;
-			let to = Math.min(this.__currentPage * this.showCount - 1, total - 1);
+			let from = (this.__currentPage - 1) * showCount;
+			let to = Math.min(this.__currentPage * showCount - 1, total - 1);
 	
 			this.updateHandler({ total, maxPage, currentPage: this.__currentPage, from, to });
 			emptyNode(this.container);
 	
 			for (let i = from; i <= to; i++)
-				if (listData[i])
-					this.renderItemHandler(listData[i], this.container);
-				else
+				if (listData[i]) {
+					let node = null;
+
+					try {
+						node = this.renderItemHandler(listData[i], this.container);
+					} catch(e) {
+						clog("ERRR", `Pager.render(): An error occured while processing handler for item`, listData[i], e);
+						continue;
+					}
+
+					if (typeof node === "object" && node.classList && node.tagName)
+						this.container.appendChild(node);
+				} else
 					clog("DEBG", `Pager.render(): listData does not contain data at index`, { text: i, color: flatc("red") });
 		}
 	}
@@ -816,6 +846,9 @@ class lazyload {
 		classes = undefined,
 		doLoad = true
 	} = {}) {
+		/** @type {HTMLElement} */
+		this.container
+
 		if (container && container.classList)
 			this.container = container;
 		else
@@ -957,6 +990,7 @@ class lazyload {
 			: this.container.removeAttribute("data-errored");
 	}
 
+	/** @returns {Boolean} */
 	get errored() {
 		return this.isErrored;
 	}
@@ -966,7 +1000,7 @@ class lazyload {
 	 */
 	onLoaded(f) {
 		if (typeof f !== "function")
-			throw { code: -1, description: `pager.onLoaded: not a valid function` }
+			throw { code: -1, description: `lazyload.onLoaded: not a valid function` }
 
 		this.onLoadedHandler.push(f);
 	}

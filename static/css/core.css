@@ -7,6 +7,14 @@
 ? |-----------------------------------------------------------------------------------------------|
 */
 
+:root {
+	--status-correct: rgb(147, 252, 173);
+	--status-passed: rgb(166, 225, 252);
+	--status-accepted: rgb(253, 240, 141);
+	--status-failed: rgb(255, 181, 201);
+	--status-skipped: rgb(233, 233, 233);
+}
+
 body {
 	position: relative;
 	background-color: #666666;
@@ -282,103 +290,527 @@ panel > .main > .loadingWrapper.show {
 	overflow: hidden;
 }
 
-#problemsPanel > .problemsContainer > .problemsList:empty::before {
-	content: "\f51b";
-}
-
-#problemsPanel > .problemsContainer > .problemsList:empty::after {
-	content: "Không tìm thấy đề hoặc chưa bắt đầu kì thi";
-}
-
-#problemsPanel > .problemsContainer > .problemsList {
+#problemsPanel > .problemsContainer > .listContainer {
 	position: relative;
-	display: inline-block;
+	display: inline-flex;
+	flex-direction: column;
 
 	width: 100%;
-	max-height: 100%;
+	height: 100%;
 	box-sizing: border-box;
 	padding: 10px;
-	overflow: auto;
 
 	animation: problemsListShow 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0s 1 normal forwards;
 }
 
-#problemsPanel > .problemsContainer > .problemsList:empty {
+#problemsPanel > .problemsContainer > .listContainer.hide {
+	animation: problemsListHide 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0s 1 normal forwards;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .searchBox {
+	position: sticky;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+    top: 0;
+	margin: 0 10px 5px;
+	padding: 10px 5px;
+	border-radius: 12px;
+    z-index: 1;
+
+    background-color: white;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .searchBox.typing {
+    background-color: rgb(240, 240, 240);
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .searchBox > input {
+	flex-grow: 1;
+	height: auto;
+	font-size: 28px;
+	font-weight: 800;
+
+	padding: 0 80px 0 0;
+	background-color: unset;
+
+    transition:
+        padding 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .searchBox > input::placeholder {
+	color: rgba(145, 145, 145, 0.5);
+	transition: color 0.2s ease-out;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .searchBox:hover > input::placeholder {
+	color: rgba(145, 145, 145, 0.7);
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .searchBox > icon::after {
+	font-size: 36px;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .searchBox > icon {
+	position: absolute;
+	right: 0;
+
+	opacity: 0;
+    cursor: pointer;
+	transition:
+        right 0.2s cubic-bezier(0.25, 1, 0.5, 1),
+        opacity 0.2s ease-out;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .searchBox > .search {
+	opacity: 1;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .searchBox > .search::after {
+	font-size: 30px;
+	color: rgba(145, 145, 145, 0.5);
+	transition: color 0.2s ease-out;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .searchBox:hover > .search::after {
+	color: rgb(148, 148, 148);
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .searchBox.typing > input {
+    padding-left: 10px;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .searchBox.typing > icon {
+    right: 15px;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .searchBox.typing > .search {
+    opacity: 0;
+    z-index: -1;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .searchBox.typing > .clear {
+    opacity: 1;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list {
+	position: relative;
+	display: block;
+	flex-grow: 1;
+	flex-shrink: 1;
+
+	width: 100%;
+	padding: 5px;
+	box-sizing: border-box;
+
+	overflow: auto;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list:empty {
 	height: 100%;
 }
 
-#problemsPanel > .problemsContainer > .problemsList > .item {
+#problemsPanel > .problemsContainer > .listContainer > .list:empty::before {
+	content: "\f51b";
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list:empty::after {
+	content: "Không tìm thấy đề hoặc chưa bắt đầu kì thi";
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item {
 	position: relative;
-	display: inline-flex;
-	flex-direction: row;
-	align-items: center;
-	
-	margin: 10px;
-	padding: 10px 40px 10px 20px;
+    display: inline-block;
+
+	width: calc(25% - 10px);
+	min-width: 304px;
+	height: 180px;
+	margin: 5px;
+	user-select: none;
+
+	cursor: pointer;
+	z-index: 0;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item.active {
+	z-index: 1;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content {
+	position: relative;
+    display: inline-block;
+
+	width: 100%;
+	height: 100%;
+
+	padding-bottom: 66px;
 	border-radius: 12px;
 	box-sizing: border-box;
 
-	cursor: pointer;
-	background-color: rgba(238, 238, 238, 0.6);
+	background-color: rgb(245, 245, 245);
+	overflow: hidden;
 }
 
-#problemsPanel > .problemsContainer > .problemsList > .item:hover {
-	background-color: rgba(124, 124, 124, 0.1);
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .image {
+	display: flex;
+	width: 100%;
+	height: 100%;
+
+	border-radius: 12px;
 }
 
-#problemsPanel > .problemsContainer > .problemsList > .item:after {
-	content: "\f105";
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .image::after {
+	content: "";
 	position: absolute;
-	font-family: "Font Awesome 5 Free";
-	font-size: 18px;
-	font-weight: 600;
-	color: #95a5a6;
-	right: 20px;
-}
-
-#problemsPanel > .problemsContainer > .problemsList > .item > .icon {
-	position: relative;
 	display: inline-block;
-	flex: 0 0 1;
-	width: 50px;
-	height: 50px;
-	border-radius: 25px;
-	object-fit: cover;
+
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	box-shadow: inset 0 -100px 35px -65px rgba(0, 0, 0, 0.4);
+
+	transition: box-shadow 0.1s ease-out;
 }
 
-#problemsPanel > .problemsContainer > .problemsList > .item > .title {
-	display: inline-block;
-	flex: 1 1 0;
-	list-style: none;
-	margin: unset;
-	padding: 0 0 0 10px;
+#problemsPanel > .problemsContainer > .listContainer > .list > .item:hover > .content > .image::after {
+	box-shadow: inset 0 -180px 80px -85px rgba(0, 0, 0, 0.6);
 }
 
-#problemsPanel > .problemsContainer > .problemsList > .item > .title > .name {
-	position: relative;
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .status {
+	position: absolute;
+	display: block;
+
+	top: 10px;
+	left: 10px;
+	padding: 2px 10px 0;
+	border-radius: 10000px;
+	
 	font-family: Nunito;
-	font-size: 16px;
-	font-weight: 800;
-	color: #494949;
+    font-weight: 900;
+    font-size: 11px;
+    font-style: normal;
+    line-height: 16px;
+	color: #131415;
+	text-transform: uppercase;
+	
+	background-color: var(--status-skipped);
 }
 
-#problemsPanel > .problemsContainer > .problemsList > .item > .title > .point {
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .tags {
+	position: absolute;
+	display: block;
+	top: 10px;
+	right: 10px;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .tags > .tag {
 	position: relative;
 	display: inline-block;
-	font-size: 11px;
-	color: #ecf0f1;
-	letter-spacing: 0.4px;
-	background-color: #27ae60;
-	padding: 2px 6px;
-	margin-top: 2px;
-	border-radius: 4px;
+	padding: 4px 10px;
+	border-radius: 22px;
+	margin-left: 5px;
+
+	font-size: 14px;
+	font-weight: 700;
+	letter-spacing: .4px;
+
+	color: rgb(26, 26, 26);
+	background-color: rgb(240, 240, 240);
 }
 
-#problemsPanel > .problemsContainer > .problemsList > .item[disabled="true"] {
-	background-color: rgba(243, 184, 205, 0.6);
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .tags > .tag.blue {
+	background-color: var(--osc-color-blue);
 }
 
-#problemsPanel > .problemsContainer .problem {
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .tags > .tag.green {
+	background-color: var(--osc-color-green);
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .tags > .tag.red {
+	background-color: var(--osc-color-red);
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .name {
+	position: absolute;
+
+	bottom: 72px;
+	left: 10px;
+
+	font-size: 17px;
+	font-weight: 700;
+	letter-spacing: .4px;
+
+	max-width: 260px;
+	color: white;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .point {
+	position: absolute;
+	display: block;
+
+	bottom: 76px;
+	right: 10px;
+
+	padding: 1px 10px;
+	border-radius: 22px;
+	background-color: rgb(255, 255, 255);
+
+	font-size: 12px;
+	font-weight: 800;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .point::after {
+	content: " điểm";
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail {
+	position: absolute;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 66px;
+	padding-bottom: 20px;
+	box-sizing: border-box;
+
+	overflow: hidden;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail > .progressBar {
+	position: absolute;
+
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 20px;
+	margin-top: 0;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail > .progressBar > .bar[data-color="green"] {
+	background-color: var(--status-correct);
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail > .progressBar > .bar[data-color="blue"] {
+	background-color: var(--status-passed);
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail > .progressBar > .bar[data-color="yellow"] {
+	background-color: var(--status-accepted);
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail > .progressBar > .bar[data-color="red"] {
+	background-color: var(--status-failed);
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail > .progressBar > .bar[data-color="gray"] {
+	background-color: var(--status-skipped);
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail > .progressBar > .right {
+	top: 1px;
+	right: 20px;
+	transform: unset;
+
+	font-family: "Consolas";
+	font-size: 15px;
+	color: black;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail > span {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail > span > t {
+	font-size: 13px;
+	font-weight: bold;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail > span > t::before {
+	content: "\f111";
+	position: relative;
+
+	margin-right: 5px;
+
+	font-family: "Font Awesome 5 Free";
+	font-size: 13px;
+	font-weight: 600;
+	color: rgb(55, 55, 55);
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail > .left {
+	flex-grow: 0;
+	flex-shrink: 1;
+	flex-basis: 0;
+	margin-left: 10px;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail > .left > .id::before {
+	content: "\f70e";
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail > .left > .submitted::before {
+	content: "\f0c0";
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail > .middle {
+	flex-grow: 1;
+	flex-shrink: 1;
+	flex-basis: 0;
+	margin: 0 10px;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail > .middle > .modify::before {
+	content: "\f017";
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail > .middle > .author::before {
+	content: "\f4ff";
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail > .right {
+	align-items: flex-end;
+	margin-right: 10px;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .background {
+	position: absolute;
+	display: block;
+
+	top: -3px;
+	left: -3px;
+	width: 100%;
+	
+	padding: 183px 0 3px 0;
+	border: 3px solid rgb(14, 105, 165);
+	border-radius: 16px;
+
+	background-color: rgb(245, 245, 245);
+	z-index: -1;
+	overflow: hidden;
+	opacity: 0;
+
+	transition:
+		display 0s linear 0.2s,
+		opacity 0.2s ease-out;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item.hide > .background {
+	display: none;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item.show > .background {
+	transition:
+		opacity 0.2s ease-out;
+	
+	opacity: 1;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .background > .container {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	margin: 2px 10px;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .background > .container > .wrapper {
+	position: relative;
+	display: block;
+
+	min-width: 134px;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .background > .container > .wrapper > .status {
+	position: relative;
+	display: inline-block;
+	float: right;
+
+	padding: 2px 10px 0;
+	border-radius: 10000px;
+	
+	font-family: Nunito;
+    font-weight: 900;
+    font-size: 11px;
+    font-style: normal;
+    line-height: 16px;
+	color: #131415;
+	text-transform: uppercase;
+	text-align: right;
+	word-break: keep-all;
+	
+	background-color: var(--status-skipped);
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .background > .container > .wrapper > .status[data-status="correct"] {
+	background-color: var(--status-correct);
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .background > .container > .wrapper > .status[data-status="passed"] {
+	background-color: var(--status-passed);
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .background > .container > .wrapper > .status[data-status="accepted"] {
+	background-color: var(--status-accepted);
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .background > .container > .wrapper > .status[data-status="failed"] {
+	background-color: var(--status-failed);
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .background > .container > .wrapper > .status[data-status="skipped"] {
+	background-color: var(--status-skipped);
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .background > .container > .list {
+	position: relative;
+	display: inline-block;
+
+	margin-left: 8px;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .background > .container > .list > .user {
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+	min-width: unset;
+	min-height: unset;
+
+	border-radius: 50%;
+	margin: 0 1px;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .background > .container > .list > .more {
+	position: relative;
+	display: inline-block;
+
+	padding: 2px 8px 0;
+	margin: 0 1px;
+	border-radius: 10000px;
+	
+    font-weight: bold;
+    font-size: 12px;
+    font-style: normal;
+    line-height: 16px;
+	color: #131415;
+	text-transform: uppercase;
+	text-align: center;
+	word-break: keep-all;
+	overflow: hidden;
+	
+	background-color: rgb(216, 216, 216);
+}
+
+/** PROBLEM VIEWER **/
+
+#problemsPanel > .problemsContainer > .problem {
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -393,89 +825,7 @@ panel > .main > .loadingWrapper.show {
 	animation: problemViewerHide 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0s 1 normal forwards;
 }
 
-@keyframes problemsListShow {
-	0% {
-		visibility: hidden;
-	}
-
-	1% {
-		visibility: visible;
-		transform: scale(.9);
-		filter: brightness(.9);
-		opacity: 0;
-	}
-
-	100% {
-		visibility: visible;
-		transform: scale(1);
-		filter: brightness(1);
-		opacity: 1;
-	}
-}
-
-@keyframes problemsListHide {
-	0% {
-		transform: scale(1);
-		filter: brightness(1);
-		opacity: 1;
-	}
-
-	99% {
-		transform: scale(.9);
-		filter: brightness(.9);
-		opacity: 0;
-	}
-
-	100% {
-		visibility: hidden;
-	}
-}
-
-@keyframes problemViewerShow {
-	0% {
-		visibility: hidden;
-		transform: translateX(100%);
-	}
-
-	1% {
-		visibility: visible;
-		transform: scale(1.1);
-		filter: brightness(.9);
-		opacity: 0;
-	}
-
-	100% {
-		visibility: visible;
-		transform: scale(1);
-		filter: brightness(1);
-		opacity: 1;
-	}
-}
-
-@keyframes problemViewerHide {
-	0% {
-		transform: scale(1);
-		filter: brightness(1);
-		opacity: 1;
-	}
-
-	99% {
-		transform: scale(1.1);
-		filter: brightness(.9);
-		opacity: 0;
-	}
-
-	100% {
-		visibility: hidden;
-		transform: translateX(100%);
-	}
-}
-
-#problemsPanel > .problemsContainer > .problemsList.hide {
-	animation: problemsListHide 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0s 1 normal forwards;
-}
-
-#problemsPanel > .problemsContainer > .problemsList.hide + .problem {
+#problemsPanel > .problemsContainer > .listContainer.hide + .problem {
 	animation: problemViewerShow 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0s 1 normal forwards;
 }
 
@@ -623,6 +973,84 @@ panel > .main > .loadingWrapper.show {
 	max-height: calc(100vh - 160px);
 	margin: 10px 0 20px;
 	transition: height 0.4s ease-in;
+}
+
+@keyframes problemsListShow {
+	0% {
+		visibility: hidden;
+	}
+
+	1% {
+		visibility: visible;
+		transform: scale(.9);
+		filter: brightness(.9);
+		opacity: 0;
+	}
+
+	100% {
+		visibility: visible;
+		transform: scale(1);
+		filter: brightness(1);
+		opacity: 1;
+	}
+}
+
+@keyframes problemsListHide {
+	0% {
+		transform: scale(1);
+		filter: brightness(1);
+		opacity: 1;
+	}
+
+	99% {
+		transform: scale(.9);
+		filter: brightness(.9);
+		opacity: 0;
+	}
+
+	100% {
+		visibility: hidden;
+	}
+}
+
+@keyframes problemViewerShow {
+	0% {
+		visibility: hidden;
+		transform: translateX(100%);
+	}
+
+	1% {
+		visibility: visible;
+		transform: scale(1.1);
+		filter: brightness(.9);
+		opacity: 0;
+	}
+
+	100% {
+		visibility: visible;
+		transform: scale(1);
+		filter: brightness(1);
+		opacity: 1;
+	}
+}
+
+@keyframes problemViewerHide {
+	0% {
+		transform: scale(1);
+		filter: brightness(1);
+		opacity: 1;
+	}
+
+	99% {
+		transform: scale(1.1);
+		filter: brightness(.9);
+		opacity: 0;
+	}
+
+	100% {
+		visibility: hidden;
+		transform: translateX(100%);
+	}
 }
 
 /*? ENLARGED */
@@ -2622,23 +3050,23 @@ panel > .main > .loadingWrapper.show {
 }
 
 #ranking > table tr > td.number.correct {
-	background-color: rgb(147, 243, 158);
+	background-color: var(--status-correct);
 }
 
 #ranking > table tr > td.number.passed {
-	background-color: rgb(150, 245, 248);
+	background-color: var(--status-passed);
 }
 
 #ranking > table tr > td.number.accepted {
-	background-color: rgb(240, 237, 157);
+	background-color: var(--status-accepted);
 }
 
 #ranking > table tr > td.number.failed {
-	background-color: rgb(248, 187, 187)
+	background-color: var(--status-failed);
 }
 
 #ranking > table tr > td.number.skipped {
-	background-color: rgb(212, 212, 212);
+	background-color: var(--status-skipped);
 }
 
 #ranking > table tr > td.number.link:hover {

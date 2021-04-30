@@ -9,6 +9,13 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/problems.php";
 
+	class LogParseErrorException extends BLibException {
+		public function __construct(String $file, String $message, $data) {
+			$file = getRelativePath($file);
+			parent::__construct(47, "LogParser().parse({$file}): {$message}", 500, Array( "file" => $file, "data" => $data ));
+		}
+	}
+
 	/**
 	 * Parse all the log files
 	 */
@@ -48,23 +55,41 @@
 		}
 
 		public function parse() {
-			$file = file($this -> logPath, FILE_IGNORE_NEW_LINES);
-			$header = $this -> __parseHeader($file);
-
-			if ($this -> mode === LOGPARSER_MODE_FULL) {
-				$testResult = $this -> __parseTestResult($file);
-				$header["testPassed"] = $this -> passed;
-				$header["testFailed"] = $this -> failed;
-
-				if ($header["testPassed"] > 0 && $header["testFailed"] === 0)
-					$header["status"] = "correct";
-			} else
-				$testResult = Array();
-
-			return Array(
-				"header" => $header,
-				"test" => $testResult
-			);
+			try {
+				$file = file($this -> logPath, FILE_IGNORE_NEW_LINES);
+				$header = $this -> __parseHeader($file);
+	
+				if ($this -> mode === LOGPARSER_MODE_FULL) {
+					$testResult = $this -> __parseTestResult($file);
+					$header["testPassed"] = $this -> passed;
+					$header["testFailed"] = $this -> failed;
+	
+					if ($header["testPassed"] > 0 && $header["testFailed"] === 0)
+						$header["status"] = "correct";
+				} else
+					$testResult = Array();
+	
+				return Array(
+					"header" => $header,
+					"test" => $testResult
+				);
+			} catch(Exception $e) {
+				throw new LogParseErrorException($this -> logPath, $e -> getMessage(), Array(
+					"code" => $e -> getCode(),
+					"message" => $e -> getMessage(),
+					"file" => $e -> getFile(),
+					"line" => $e -> getLine(),
+					"target" => $this -> logPath
+				));
+			} catch(Error $e) {
+				throw new LogParseErrorException($this -> logPath, $e -> getMessage(), Array(
+					"code" => $e -> getCode(),
+					"message" => $e -> getMessage(),
+					"file" => $e -> getFile(),
+					"line" => $e -> getLine(),
+					"target" => $this -> logPath
+				));
+			}
 		}
 
 		private function __parseHeader($file) {

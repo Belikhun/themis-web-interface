@@ -33,6 +33,12 @@
 		return in_array($username, getSubmissionsList());
 	}
 
+	function getSubmissionsByID($id) {
+		$list = getSubmissionsList();
+
+		
+	}
+
 	/**
 	 * Submission Point v1
 	 * 
@@ -201,6 +207,7 @@
 				"point" => $data["header"]["point"]
 			));
 
+			//? UPDATE LAST MODIFY INFO
 			$globalModifyStream = new fip(SUBMISSIONS_DIR ."/modify.json", "{}");
 			$globalModify = $globalModifyStream -> read("json");
 
@@ -209,6 +216,15 @@
 
 			$globalModify[$id][$this -> username] = $meta["lastModify"]["code"] ?? time();
 			arsort($globalModify, SORT_ASC);
+
+			//? UPDATE SUBMISSION STATUS IN GLOBAL FILE
+			$globalStatusStream = new fip(SUBMISSIONS_DIR ."/status.json", "{}");
+			$globalStatus = $globalStatusStream -> read("json");
+
+			if (!isset($globalStatus[$id]))
+				$globalStatus[$id] = Array();
+
+			$globalStatus[$id][$this -> username] = $data["header"]["status"];
 
 			//? UPDATE SUBMISSION POINT FOR ALL USERS
 			$beginTime = getConfig("time.contest.begin");
@@ -253,6 +269,7 @@
 			}
 
 			$globalModifyStream -> write($globalModify, "json");
+			$globalStatusStream -> write($globalStatus, "json");
 		}
 
 		//* ====== CODE FILE ======

@@ -212,6 +212,7 @@
 
 		<script src="/assets/js/belibrary.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 		<script src="/assets/js/sounds.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+		<script src="/assets/js/errorHandler.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 		<script src="/assets/js/login.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 
 		<!-- Global site tag (gtag.js) - Google Analytics -->

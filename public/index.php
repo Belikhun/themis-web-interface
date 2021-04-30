@@ -21,7 +21,9 @@
 	$size = convertSize(folderSize($path));
 
 	$contestStarted = contest_timeRequire([CONTEST_STARTED]);
-	$attachment = ($contestStarted === true) ? problemListAttachment() : Array();
+	$attachment = $contestStarted
+		? problemListAttachment()
+		: Array();
 
 	$filesList = glob($path ."/*.*");
 	$list = Array();

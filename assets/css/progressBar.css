@@ -9,7 +9,8 @@
 
 .progressBar {
     position: relative;
-    display: block;
+    display: flex;
+    flex-direction: row;
     height: 2px;
     margin-top: 20px;
     background-color: rgba(90, 90, 90, 0.2);
@@ -17,14 +18,19 @@
 
 .progressBar > .bar {
     position: absolute;
+    display: inline-block;
     top: 0;
     left: 0;
     width: 0;
     height: 100%;
-    background-color: #16dfb6;
+    background-color: #737877;
     transition:
         width 0.4s ease,
         background-color 0.4s ease;
+}
+
+.progressBar.stackable > .bar {
+    position: relative;
 }
 
 .progressBar > .bar.noTransition {
