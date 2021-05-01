@@ -165,6 +165,16 @@ class Editor {
 						this.removeLine(this.cCursor.line);
 					
 					break;
+
+				case 46:
+					// Delete Key
+					// Remove the next line the cursor
+					// is currently on if the cursor is
+					// in the last position
+					if (this.cCursor.pos === this.lines[this.cCursor.line].innerText.length)
+						this.removeLine(this.cCursor.line + 1);
+
+					break;
 			
 				default:
 					break;
@@ -172,8 +182,6 @@ class Editor {
 		});
 
 		this.main.overlay.addEventListener("input", (e) => {
-			console.log(e);
-
 			switch (e.inputType) {
 				case "historyUndo":
 				case "insertFromPaste":
@@ -454,13 +462,16 @@ class Editor {
 				this.insertNewLine(i);
 
 			const doUpdate = () => {
-				console.log("update", i);
+				clog("DEBG", `editor.update(): Updaing line ${i + 1}`);
 				let p = this.parseTokens(this.lineValues[i]);
 				
 				if (this.lines[i].innerHTML !== p) {
 					this.lines[i].innerHTML = p;
 					return true;
 				}
+
+				if (this.lineValues[i].length < 4)
+					return true;
 
 				return false;
 			}
@@ -505,9 +516,9 @@ class Editor {
 			this.currentLine = null;
 
 		this.updateCaret();
-		let t1 = performance.now();
 
-		console.log(t1 - t0);
+		let t1 = performance.now();
+		clog("DEBG", `editor.update(): took ${t1 - t0}ms`);
 	}
 }
 
