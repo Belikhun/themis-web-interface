@@ -10,14 +10,15 @@
 .editor {
 	position: relative;
 	display: grid;
-	grid-template-columns: auto auto;
+	grid-template-columns: auto 1fr;
 
 	font-family: Consolas;
 	font-weight: bolder;
 	font-size: 17px;
 	tab-size: 4;
 
-	overflow: auto;
+	overflow-x: hidden;
+	overflow-y: auto;
 	background-color: white;
 }
 
@@ -56,6 +57,8 @@
 	flex-grow: 1;
 
 	padding-bottom: 50%;
+	overflow-x: auto;
+	overflow-y: hidden;
 }
 
 .editor > .main > .selections {

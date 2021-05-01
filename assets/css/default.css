@@ -216,6 +216,10 @@ tag {
 	transition: transform 0.05s linear;
 }
 
+.scrollable::-webkit-scrollbar {
+	display: none;
+}
+
 /** ======================== HEARTBEAT ======================== **/
 
 .heartbeat {

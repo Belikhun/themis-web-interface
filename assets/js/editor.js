@@ -5,6 +5,8 @@
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
+"use strict";
+
 /**
  * My custom simple editor, inspired by the
  * Monaco editor (because I can't find any
@@ -62,6 +64,7 @@ class Editor {
 
 		this.cStart = { line: 0, pos: 0 }
 		this.cEnd = { line: 0, pos: 0 }
+		this.cCursor = { line: 0, pos: 0 }
 
 		//* ==================== Setup Editor Structure ====================
 		/** @type {HTMLTextAreaElement} */
@@ -95,7 +98,7 @@ class Editor {
 	 */
 	set value(value) {
 		this.main.overlay.value = value;
-		this.main.overlay.dispatchEvent(new Event("input"));
+		this.update();
 	}
 
 	get value() {
@@ -142,13 +145,52 @@ class Editor {
 	}
 
 	setup() {
-		this.main.overlay.addEventListener("input", () => this.update());
+		this.main.overlay.addEventListener("keydown", (e) => {
+			switch (e.keyCode) {
+				case 13:
+					// Enter Key
+					this.insertNewLine(this.cCursor.line + 1);
+					break;
+
+				case 8:
+					// Backspace Key
+					// Remove the line the cursor is
+					// currently on if the cursor is
+					// in the first position
+					if (this.cCursor.pos === 0)
+						this.removeLine(this.cCursor.line);
+					
+					break;
+			
+				default:
+					break;
+			}
+		});
+
+		this.main.overlay.addEventListener("input", (e) => {
+			console.log(e);
+
+			switch (e.inputType) {
+				case "historyUndo":
+				case "insertFromPaste":
+					this.update();
+					break;
+			
+				default:
+					this.update({
+						from: Math.max(this.cStart.line - 1, 0),
+						to: this.cEnd.line + 1
+					});
+					break;
+			}
+		});
+
 		this.main.overlay.addEventListener("click", () => this.updateCaret());
 		this.main.overlay.addEventListener("mousedown", () => this.isSelecting = true);
 		this.main.overlay.addEventListener("mouseup", () => this.isSelecting = false);
 		this.main.overlay.addEventListener("keydown", () => this.updateCaret());
 
-		this.main.overlay.addEventListener("mousemove", () => {
+		window.addEventListener("mousemove", () => {
 			if (this.isSelecting)
 				this.updateCaret();
 		});
@@ -157,9 +199,6 @@ class Editor {
 	}
 
 	async updateCaret() {
-		if (!this.isFocus())
-			return;
-
 		// Some events happend before the
 		// input update new value so we
 		// need to wait for next frame to
@@ -170,45 +209,40 @@ class Editor {
 		this.main.cursor.classList.remove("smooth");
 
 		// Calculate cStart and cEnd
-		if (this.main.overlay.selectionDirection === "forward") {
-			this.cStart = this.calcPoint(this.main.overlay.selectionStart);
-			this.cEnd = this.calcPoint(this.main.overlay.selectionEnd);
-		} else {
-			this.cStart = this.calcPoint(this.main.overlay.selectionEnd);
-			this.cEnd = this.calcPoint(this.main.overlay.selectionStart);
-		}
+		this.cStart = this.calcPoint(this.main.overlay.selectionStart);
+		this.cEnd = this.calcPoint(this.main.overlay.selectionEnd);
+		this.cCursor = (this.main.overlay.selectionDirection === "forward")
+			? this.cEnd
+			: this.cStart;
 
 		// Draw Selection Area
 		if (this.main.overlay.selectionStart !== this.main.overlay.selectionEnd)
-			if (this.main.overlay.selectionDirection === "forward")
-				this.updateSelection(this.cStart, this.cEnd);
-			else
-				this.updateSelection(this.cEnd, this.cStart);
+			this.updateSelection(this.cStart, this.cEnd);
 		else
 			emptyNode(this.main.selections);
 
 		// Update active line
-		if (this.currentLine !== this.cEnd.line) {
+		if (this.currentLine !== this.cCursor.line) {
 			if (typeof this.currentLine === "number") {
 				this.lines[this.currentLine].classList.remove("active");
 				this.lineNums[this.currentLine].classList.remove("active");
 			}
 	
-			this.currentLine = this.cEnd.line;
+			this.currentLine = this.cCursor.line;
 			this.lines[this.currentLine].classList.add("active");
 			this.lineNums[this.currentLine].classList.add("active");
 		}
 
 		// Calculate caret position
-		let topPos = this.lines[this.cEnd.line].offsetTop;
-		let leftPos = this.stringWidth(this.lineValue(this.cEnd.line).slice(0, this.cEnd.pos));
+		let topPos = this.lines[this.cCursor.line].offsetTop;
+		let leftPos = this.stringWidth(this.lineValue(this.cCursor.line).slice(0, this.cCursor.pos));
 
 		this.main.cursor.style.top = `${topPos}px`;
 		this.main.cursor.style.left = `${leftPos}px`;
 
 		// Update caret style and inline character
-		this.main.cursor.style.height = `${this.lines[this.cEnd.line].getBoundingClientRect().height}px`;
-		this.main.cursor.innerText = this.lineValue(this.cEnd.line)[this.cEnd.pos] || " ";
+		this.main.cursor.style.height = `${this.lines[this.cCursor.line].getBoundingClientRect().height}px`;
+		this.main.cursor.innerText = this.lineValue(this.cCursor.line)[this.cCursor.pos] || " ";
 
 		this.cavetTimeout = setTimeout(() => {
 			this.main.cursor.classList.add("smooth");
@@ -271,18 +305,11 @@ class Editor {
 		return this.lines[i].innerText;
 	}
 
-	isFocus() {
-		return this.main.overlay === document.activeElement;
-	}
-
 	calcMaxC() {
 		return this.main.getBoundingClientRect().width / this.stringWidth(" ");
 	}
 
 	calcPoint(offset) {
-		let cw = this.stringWidth(" ");
-		let maxC = this.main.getBoundingClientRect().width / cw;
-
 		let lines = this.value.split("\n");
 		let line = 0;
 
@@ -334,38 +361,97 @@ class Editor {
 		return null;
 	}
 
+	insertNewLine(pos) {
+		let l = document.createElement("div");
+		l.classList.add("line");
+		l.setAttribute("line", pos);
+
+		if (this.lines[pos - 1] && this.lines[pos - 1].nextSibling)
+			this.main.code.insertBefore(l, this.lines[pos - 1].nextSibling);
+		else
+			this.main.code.appendChild(l);
+
+		return l;
+	}
+
+	removeLine(pos) {
+		this.main.code.removeChild(this.lines[pos]);
+		this.updateValues();
+	}
+
 	updateSizing() {
 		this.main.overlay.style.width = `${this.main.overlay.scrollWidth}px`;
 		this.main.overlay.style.height = `${this.main.overlay.scrollHeight}px`;
 	}
 
-	update() {
+	updateValues() {
 		this.__lines = this.main.code.childNodes;
 		this.__lineNums = this.container.lineNum.childNodes;
-		this.updateSizing();
+	}
+
+	parseTokens(line) {
+		return line;
+	}
+
+	update({
+		from,
+		to,
+		full = false
+	} = {}) {
+		let t0 = performance.now();
 
 		let value = this.main.overlay.value.split("\n");
-		for (let i = 0; i < value.length; i++) {
+		this.updateValues();
+		this.updateSizing();
+
+		if (!from)
+			from = 0;
+
+		if (!to)
+			to = value.length - 1;
+
+		console.log("update", from, to);
+		let inModified = false;
+
+		for (let i = from; i <= to; i++) {
 			if (value[i] === "")
 				value[i] = " ";
 
-			if (!this.lines[i]) {
-				let l = document.createElement("div");
-				l.classList.add("line");
+			if (!this.lines[i])
+				this.insertNewLine(i);
 
-				if (this.lines[i - 1] && this.lines[i - 1].nextSibling)
-					this.main.code.insertBefore(l, this.lines[i - 1].nextSibling);
-				else
-					this.main.code.appendChild(l);
+			const doUpdate = () => {
+				console.log("update line", i);
+				this.lines[i].innerHTML = this.parseTokens(value[i]);
 			}
-			
-			this.lines[i].innerText = value[i];
+
+			// When full update is not applied,
+			// scan for a specific zone that got
+			// modified
+			if (!full) {
+				// If not in modified zone, scan until
+				// found line different
+				if (!inModified) {
+					if (this.lines[i].innerText !== value[i]) {
+						inModified = true;
+						doUpdate();
+					}
+				} else {
+					// If we got out of modified zone,
+					// stop the loop
+					if (this.lines[i].innerText === value[i])
+						break;
+	
+					doUpdate();
+				}
+			} else
+				doUpdate();
 			
 			let ln = this.container.lineNum.querySelector(`div[line="${i}"]`);
 			if (!ln) {
 				// Line number
 				ln = document.createElement("div");
-				ln.innerText = i;
+				ln.innerText = (i + 1);
 				ln.setAttribute("line", i);
 
 				let n = this.container.lineNum.querySelector(`div[line="${i - 1}"]`);
@@ -388,5 +474,8 @@ class Editor {
 			this.currentLine = null;
 
 		this.updateCaret();
+		let t1 = performance.now();
+
+		console.log(t1 - t0);
 	}
 }
