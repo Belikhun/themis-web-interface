@@ -13,6 +13,8 @@
  * clean way to implement monaco editor into
  * my project 😭😭😭)
  * 
+ * `TOTAL HOURS WASTED: 13`
+ * 
  * @author		@belivipro9x99
  * @version		v1.0
  */
@@ -158,9 +160,8 @@ class Editor {
 
 				case 8:
 					// Backspace Key
-					// Remove the line the cursor is
-					// currently on if the cursor is
-					// in the first position
+					// Remove the line the cursor is currently on if
+					// the cursor is in the first position
 					if (this.cCursor.pos === 0)
 						this.removeLine(this.cCursor.line);
 					
@@ -168,9 +169,8 @@ class Editor {
 
 				case 46:
 					// Delete Key
-					// Remove the next line the cursor
-					// is currently on if the cursor is
-					// in the last position
+					// Remove the next line the cursor is currently on
+					// if the cursor is in the last position
 					if (this.cCursor.pos === this.lines[this.cCursor.line].innerText.length)
 						this.removeLine(this.cCursor.line + 1);
 
@@ -218,10 +218,8 @@ class Editor {
 	}
 
 	async updateCaret() {
-		// Some events happend before the
-		// input update new value so we
-		// need to wait for next frame to
-		// get updated information
+		// Some events happend before the input update new value so we
+		// need to wait for next frame to get updated information
 		await nextFrameAsync();
 
 		clearTimeout(this.cavetTimeout);
@@ -383,7 +381,6 @@ class Editor {
 	insertNewLine(pos) {
 		let l = document.createElement("div");
 		l.classList.add("line");
-		l.setAttribute("line", pos);
 
 		if (this.lines[pos - 1] && this.lines[pos - 1].nextSibling)
 			this.main.code.insertBefore(l, this.lines[pos - 1].nextSibling);
@@ -431,6 +428,10 @@ class Editor {
 	}
 
 	parseTokens(line) {
+		// Check for empty string
+		if (line.length === 0 || /^\s+$/gm.test(line))
+			return line;
+
 		line = escapeHTML(line);
 		
 		if (editorLanguages[this.language])
@@ -455,18 +456,15 @@ class Editor {
 		let inModified = false;
 
 		for (let i = from; i < this.lineValues.length; i++) {
-			if (this.lineValues[i] === "")
-				this.lineValues[i] = " ";
-
 			if (!this.lines[i])
 				this.insertNewLine(i);
 
 			const doUpdate = () => {
-				clog("DEBG", `editor.update(): Updaing line ${i + 1}`);
 				let p = this.parseTokens(this.lineValues[i]);
 				
-				if (this.lines[i].innerHTML !== p) {
+				if (this.lines[i].innerText !== sanitizeHTML(p)) {
 					this.lines[i].innerHTML = p;
+					clog("DEBG", `editor.update(): line ${i + 1} updated`);
 					return true;
 				}
 
@@ -523,7 +521,8 @@ class Editor {
 }
 
 /**
- * Simple line by line syntax parsing
+ * Simple line by line syntax highlighting
+ * function for a specific languages
  */
 const editorLanguages = {
 	processToken(line, type, words = []) {
@@ -549,8 +548,8 @@ const editorLanguages = {
 
 	/**
 	 * Parse javascript
-	 * @param {String} line 
-	 * @returns 
+	 * @param	{String}	line 
+	 * @returns	{String}
 	 */
 	js(line) {
 		if (line[0] === "/" && line[1] === "/")
@@ -584,7 +583,7 @@ const editorLanguages = {
 		line = this.processRegex(line, "ed-string", /([bruf]*)(&quot;|&#039;|"""|'''|"|'|`)(?:(?!\2)(?:\\.|[^\\]))*\2/g);
 		
 		// Parse Function
-		line = this.processRegex(line, "ed-function", /(?:\s+|\.)([a-zA-Z0-9_]+)\s*\(.*/g, 1);
+		line = this.processRegex(line, "ed-function", /(?:\s+|\.|^)([a-zA-Z0-9_]+)\s*\(.*/gm, 1);
 		
 		// Parse Keyword
 		line = this.processToken(line, "ed-keyword", [
@@ -618,6 +617,11 @@ const editorLanguages = {
 		return line;
 	},
 
+	/**
+	 * Parse markdown
+	 * @param	{String}	line 
+	 * @returns	{String}
+	 */
 	md(line) {
 		// Quote
 		line = this.processRegex(line, "ed-mdquotes", /^(?:&gt\;)+.*/g);
