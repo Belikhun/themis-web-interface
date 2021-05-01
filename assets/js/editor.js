@@ -136,6 +136,10 @@ class Editor {
 		return this.__lineNums;
 	}
 
+	get lineValues() {
+		return this.__lineValues;
+	}
+
 	/**
 	 * Return an array of selection elements
 	 * @type {Array}
@@ -173,24 +177,31 @@ class Editor {
 			switch (e.inputType) {
 				case "historyUndo":
 				case "insertFromPaste":
+				case "historyRedo":
 					this.update();
 					break;
 			
 				default:
 					this.update({
-						from: Math.max(this.cStart.line - 1, 0),
-						to: this.cEnd.line + 1
+						from: Math.max(this.cStart.line - 1, 0)
 					});
 					break;
 			}
 		});
 
 		this.main.overlay.addEventListener("click", () => this.updateCaret());
-		this.main.overlay.addEventListener("mousedown", () => this.isSelecting = true);
-		this.main.overlay.addEventListener("mouseup", () => this.isSelecting = false);
 		this.main.overlay.addEventListener("keydown", () => this.updateCaret());
 
+		this.main.overlay.addEventListener("mousedown", () => this.isSelecting = true);
+		window.addEventListener("mouseup", () => this.isSelecting = false);
 		window.addEventListener("mousemove", () => {
+			if (this.isSelecting)
+				this.updateCaret();
+		});
+
+		this.main.overlay.addEventListener("touchstart", () => this.isSelecting = true);
+		window.addEventListener("touchend", () => this.isSelecting = false);
+		window.addEventListener("touchmove", () => {
 			if (this.isSelecting)
 				this.updateCaret();
 		});
@@ -379,6 +390,26 @@ class Editor {
 		this.updateValues();
 	}
 
+	insertLineNum() {
+		let ln = document.createElement("div");
+		let p = this.lineNums.length;
+
+		ln.innerText = (p + 1);
+		ln.setAttribute("line", p);
+
+		let n = this.container.lineNum.querySelector(`div[line="${p - 1}"]`);
+		if (n && n.nextSibling)
+			this.container.lineNum.insertBefore(ln, n.nextSibling);
+		else
+			this.container.lineNum.appendChild(ln);
+
+		return ln;
+	}
+
+	removeLineNum() {
+		this.container.lineNum.removeChild(this.container.lineNum.lastChild);
+	}
+
 	updateSizing() {
 		this.main.overlay.style.width = `${this.main.overlay.scrollWidth}px`;
 		this.main.overlay.style.height = `${this.main.overlay.scrollHeight}px`;
@@ -387,42 +418,51 @@ class Editor {
 	updateValues() {
 		this.__lines = this.main.code.childNodes;
 		this.__lineNums = this.container.lineNum.childNodes;
+		this.__lineValues = this.main.overlay.value.split("\n");
+		this.main.code.setAttribute("language", this.language);
 	}
 
 	parseTokens(line) {
-		return line;
+		line = escapeHTML(line);
+		
+		if (editorLanguages[this.language])
+			return editorLanguages[this.language](line);
+		else
+			return line;
 	}
 
 	update({
 		from,
-		to,
 		full = false
 	} = {}) {
 		let t0 = performance.now();
 
-		let value = this.main.overlay.value.split("\n");
 		this.updateValues();
 		this.updateSizing();
+		editorLanguages.reset();
 
 		if (!from)
 			from = 0;
 
-		if (!to)
-			to = value.length - 1;
-
-		console.log("update", from, to);
 		let inModified = false;
 
-		for (let i = from; i <= to; i++) {
-			if (value[i] === "")
-				value[i] = " ";
+		for (let i = from; i < this.lineValues.length; i++) {
+			if (this.lineValues[i] === "")
+				this.lineValues[i] = " ";
 
 			if (!this.lines[i])
 				this.insertNewLine(i);
 
 			const doUpdate = () => {
-				console.log("update line", i);
-				this.lines[i].innerHTML = this.parseTokens(value[i]);
+				console.log("update", i);
+				let p = this.parseTokens(this.lineValues[i]);
+				
+				if (this.lines[i].innerHTML !== p) {
+					this.lines[i].innerHTML = p;
+					return true;
+				}
+
+				return false;
 			}
 
 			// When full update is not applied,
@@ -432,50 +472,162 @@ class Editor {
 				// If not in modified zone, scan until
 				// found line different
 				if (!inModified) {
-					if (this.lines[i].innerText !== value[i]) {
+					if (this.lines[i].innerText !== this.lineValues[i]) {
 						inModified = true;
 						doUpdate();
 					}
 				} else {
-					// If we got out of modified zone,
-					// stop the loop
-					if (this.lines[i].innerText === value[i])
+					// If there is no further line update
+					// stop updating all the other lines
+					if (!doUpdate())
 						break;
-	
-					doUpdate();
 				}
 			} else
 				doUpdate();
 			
 			let ln = this.container.lineNum.querySelector(`div[line="${i}"]`);
-			if (!ln) {
-				// Line number
-				ln = document.createElement("div");
-				ln.innerText = (i + 1);
-				ln.setAttribute("line", i);
-
-				let n = this.container.lineNum.querySelector(`div[line="${i - 1}"]`);
-				if (n && n.nextSibling)
-					this.container.lineNum.insertBefore(ln, n.nextSibling);
-				else
-					this.container.lineNum.appendChild(ln);
-			}
+			if (!ln)
+				ln = this.insertLineNum();
 
 			ln.style.height = `${this.lines[i].getBoundingClientRect().height}px`;
 		}
 
-		while (this.lines.length > value.length)
+		while (this.lines.length > this.lineValues.length)
 			this.main.code.removeChild(this.main.code.lastChild);
 
-		while (this.lineNums.length > value.length)
-			this.container.lineNum.removeChild(this.container.lineNum.lastChild);
+		while (this.lineNums.length <= this.lineValues.length)
+			this.insertLineNum();
 
-		if (this.currentLine > value.length - 1)
+		while (this.lineNums.length > this.lineValues.length)
+			this.removeLineNum();
+
+		if (this.currentLine > this.lineValues.length - 1)
 			this.currentLine = null;
 
 		this.updateCaret();
 		let t1 = performance.now();
 
 		console.log(t1 - t0);
+	}
+}
+
+/**
+ * Simple line by line syntax parsing
+ */
+const editorLanguages = {
+	processToken(line, type, words = []) {
+		for (let word of words)
+			line = this.processRegex(line, type, new RegExp(`(?:\\s+|\\t+|\\(|^)(${word})`, "gm"), 1);
+
+		return line;
+	},
+
+	processRegex(line, type, regex, index = 0) {
+		let matches = [ ...line.matchAll(regex) ]
+		for (let item of matches)
+			line = line.replace(item[index], `<${type}>${item[index]}</${type}>`);
+
+		return line;
+	},
+
+	reset() {
+		this.inMultiLineComment = false;
+	},
+
+	inMultiLineComment: false,
+
+	/**
+	 * Parse javascript
+	 * @param {String} line 
+	 * @returns 
+	 */
+	js(line) {
+		if (line[0] === "/" && line[1] === "/")
+			return `<ed-comment>${line}</ed-comment>`;
+
+		if (this.inMultiLineComment) {
+			// Check for end of multilime comment doc
+			let emlCDoc = /^([^*/]*\*\/)/gm.exec(line);
+			if (emlCDoc) {
+				line = line.replace(emlCDoc[1], `<ed-comment>${emlCDoc[1]}</ed-comment>`);
+				this.inMultiLineComment = false;
+			} else
+				return `<ed-comment>${line}</ed-comment>`;
+		}
+
+		// Check for start of multiline comments
+		let mlCDoc = /(?:\s+|\t+|^)(\/\*\*[^*/]*$)/gm.exec(line);
+		if (mlCDoc) {
+			line = line.replace(mlCDoc[1], `<ed-comment>${mlCDoc[1]}</ed-comment>`);
+			this.inMultiLineComment = true;
+			return line;
+		}
+
+		// Parse Comment
+		line = this.processRegex(line, "ed-comment", /(?:\s+|\t+|^)(\/\*\*.*\*\/)/g);
+		
+		// Parse Comment
+		line = this.processRegex(line, "ed-comment", /\/\/.*$/g);
+
+		// Parse String
+		line = this.processRegex(line, "ed-string", /([bruf]*)(&quot;|&#039;|"""|'''|"|'|`)(?:(?!\2)(?:\\.|[^\\]))*\2/g);
+		
+		// Parse Function
+		line = this.processRegex(line, "ed-function", /(?:\s+|\.)([a-zA-Z0-9_]+)\s*\(.*/g, 1);
+		
+		// Parse Keyword
+		line = this.processToken(line, "ed-keyword", [
+			"if",
+			"else",
+			"return",
+			"function",
+			"for",
+			"var",
+			"let",
+			"const",
+			"try",
+			"catch",
+			"class"
+		]);
+
+		// Parse Constant
+		line = this.processToken(line, "ed-constant", [
+			"this",
+			"window",
+			"self",
+			"document",
+			"location",
+			"frames",
+			"navigator",
+			"sessionStorage",
+			"localStorage",
+			"Math"
+		]);
+
+		return line;
+	},
+
+	md(line) {
+		// Quote
+		line = this.processRegex(line, "ed-mdquotes", /^(?:&gt\;)+.*/g);
+
+		// Heading
+		line = this.processRegex(line, "ed-mdheading", /\#{1,6}\s.*/g);
+
+		// Bold Text
+		line = this.processRegex(line, "ed-mdbold", /([bruf]*)(\*\*|\_\_)(?:(?!\2)(?:\\.|[^\\]))*\2/g);
+
+		// Italic Text
+		line = this.processRegex(line, "ed-mditalic", /([^*_]|^)(\*|\_)[^*_]+\1/g);
+
+		// Link
+		let mdLinks = [ ...line.matchAll(/(\[[^\[\](\)\)]+\])(\([^\[\](\)\)]*\))/g) ]
+		for (let item of mdLinks)
+			line = line.replace(item[0], `<ed-mdlinktext>${item[1]}</ed-mdlinktext><ed-mdlink>${item[2]}</ed-mdlink>`);
+
+		// String
+		line = this.processRegex(line, "ed-mdstring", /([bruf]*)(&quot;|&#039;|"""|'''|"|'|`)(?:(?!\2)(?:\\.|[^\\]))*\2/g);
+
+		return line;
 	}
 }

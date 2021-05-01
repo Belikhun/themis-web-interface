@@ -285,11 +285,17 @@ function waitFor(checker = async () => {}, handler = () => {}, retry = 10, timeo
 	})
 }
 
-function escapeHTML(str) {
-	if ((str === null) || (str === ""))
-		return "";
-	else
-		str = str.toString();
+/**
+ * Replace some special character with printable
+ * character in html. Mainly use to avoid code
+ * execution
+ * 
+ * @param 	{*} 	string	Input String
+ * @returns	New String
+ */
+function escapeHTML(string) {
+	if (typeof string !== "string")
+		string = String(string);
 
 	let map = {
 		"&": "&amp;",
@@ -297,11 +303,9 @@ function escapeHTML(str) {
 		">": "&gt;",
 		"\"": "&quot;",
 		"'": "&#039;"
-	};
+	}
 
-	return str.replace(/[&<>"']/g, function (m) {
-		return map[m];
-	});
+	return string.replace(/[&<>"']/g, (m) => map[m]);
 }
 
 /**
@@ -2514,7 +2518,25 @@ window.addEventListener("error", e => {
 		color: flatc("aqua"),
 		text: `${e.filename}:${e.lineno}:${e.colno}`
 	})
-})
+});
+
+if (typeof String.prototype.replaceAll !== "function")
+	/**
+	 * Returns a new string with all matches
+	 * of a `search` replaced by a `replacement`
+	 * 
+	 * @param	{String}	search
+	 * A String that is to be replaced by replacement.
+	 * It is treated as a literal string and is not
+	 * interpreted as a regular expression.
+	 * 
+	 * @param	{String}	replacement
+	 * The String that replaces the substring specified
+	 * by the specified search parameter.
+	 */
+	String.prototype.replaceAll = function(search, replacement) {
+		return this.replace(new RegExp(search, "g"), replacement);
+	}
 
 // window.addEventListener("unhandledrejection", (e) => {
 //      promise: e.promise; reason: e.reason

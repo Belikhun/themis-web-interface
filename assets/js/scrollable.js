@@ -17,7 +17,8 @@ class Scrollable {
 		velocity = 2,
 		clamp = 20,
 		maxClamp = 400,
-		horizontal = false
+		horizontal = false,
+		animation = true
 	} = {}) {
 		if (typeof container !== "object" || (!container.classList && !container.container))
 			throw { code: -1, description: `Scrollable(): container is not a valid node` }
@@ -34,6 +35,7 @@ class Scrollable {
 		this.clamp = clamp;
 		this.maxClamp = maxClamp;
 		this.currentVelocity = 0;
+		this.animation = animation;
 
 		/**
 		 * @type {Boolean}
@@ -48,11 +50,9 @@ class Scrollable {
 			if (e.ctrlKey)
 				return;
 
-			// e.preventDefault();
-
 			if (!ticking) {
 				requestAnimationFrame(() => {
-					this.update(e);
+					this.animationUpdate(e);
 					ticking = false;
 				});
 
@@ -62,6 +62,10 @@ class Scrollable {
 	}
 
 	update(e) {
+		
+	}
+
+	animationUpdate(e) {
 		let delta = (this.horizontal)
 			? e.deltaX
 			: e.deltaY;

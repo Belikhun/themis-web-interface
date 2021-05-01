@@ -147,3 +147,69 @@
 		opacity: 0;
 	}
 }
+
+/** ======================== STYLING:JS ======================== */
+
+.editor > .main > .code[language="js"] > .line {
+	color: black;
+}
+
+.editor > .main > .code[language="js"] > .line ed-comment {
+	color: rgb(90, 90, 90);
+}
+
+.editor > .main > .code[language="js"] > .line ed-keyword {
+	color: rgb(213, 6, 161);
+}
+
+.editor > .main > .code[language="js"] > .line ed-string {
+	color: rgb(5, 165, 5);
+}
+
+.editor > .main > .code[language="js"] > .line ed-function {
+	color: rgb(16, 148, 196);
+}
+
+.editor > .main > .code[language="js"] > .line ed-constant {
+	color: rgb(197, 174, 0);
+}
+
+/** ======================== STYLING:MD ======================== */
+
+.editor > .main > .code[language="md"] > .line {
+	font-weight: normal;
+}
+
+.editor > .main > .code[language="md"] > .line ed-mdheading {
+	color: rgb(187, 9, 56);
+	font-weight: bold;
+}
+
+.editor > .main > .code[language="md"] > .line ed-mdbold {
+	color: rgb(226, 129, 1);
+	font-weight: bold;
+}
+
+.editor > .main > .code[language="md"] > .line ed-mditalic {
+	color: rgb(127, 0, 218);
+	font-style: italic;
+}
+
+.editor > .main > .code[language="md"] > .line ed-mdquotes {
+	color: rgb(158, 158, 158);
+}
+
+.editor > .main > .code[language="md"] > .line ed-mdlinktext {
+	color: rgb(7, 115, 197);
+}
+
+.editor > .main > .code[language="md"] > .line ed-mdlink {
+	color: rgb(4, 149, 160);
+	text-decoration: underline;
+}
+
+.editor > .main > .code[language="md"] > .line ed-mdstring {
+	display: inline-block;
+	color: rgb(8, 158, 0);
+	text-decoration: none;
+}
