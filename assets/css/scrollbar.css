@@ -93,6 +93,10 @@ body.dark ::-webkit-scrollbar {
     background-color: rgba(102, 102, 102, 0.6);
 }
 
+.scrollable > .scrollbar.hide > .thumb {
+    background-color: transparent;
+}
+
 .scrollable > .scrollbar.horizontal > .thumb {
     top: unset;
     right: unset;

@@ -84,6 +84,7 @@ class Scrollable {
 		/** @type {Boolean} */
 		this.horizontal = horizontal;
 
+		this.dragInit = false;
 		this.animator = null;
 		this.disabled = false;
 		let ticking = false;
@@ -109,17 +110,6 @@ class Scrollable {
 			}
 		}, { passive: false });
 
-		// Listeners for dragging and dropping scrollbar thumb
-		this.cRel = { x: 0, y: 0 }
-		this.sTicking = false;
-		this.vThumbDragging = false;
-		this.hThumbDragging = false;
-
-		this.vBar.thumb.addEventListener("mousedown", (e) => this.dragStart(e, false));
-		this.hBar.thumb.addEventListener("mousedown", (e) => this.dragStart(e, true));
-		window.addEventListener("mousemove", (e) => this.dragUpdate(e));
-		window.addEventListener("mouseup", () => this.dragEnd());
-
 		// Observer for content resizing and new element
 		// added into content for updaing scrollbar
 		new ResizeObserver(() => {
@@ -140,10 +130,43 @@ class Scrollable {
 		this.updateObserveList();
 	}
 
+	initDrag() {
+		if (this.dragInit)
+			return;
+
+		// Listeners for dragging and dropping scrollbar thumb
+		this.cRel = { x: 0, y: 0 }
+		this.sTicking = false;
+		this.vThumbDragging = false;
+		this.hThumbDragging = false;
+		this.__dragStartV = (e) => this.dragStart(e, false);
+		this.__dragStartH = (e) => this.dragStart(e, true);
+		this.__dragUpdate = (e) => this.dragUpdate(e);
+		this.__dragEnd = () => this.dragEnd();
+
+		this.vBar.thumb.addEventListener("mousedown", this.__dragStartV);
+		this.hBar.thumb.addEventListener("mousedown", this.__dragStartH);
+		window.addEventListener("mouseup", this.__dragEnd);
+
+		this.dragInit = true;
+	}
+
+	cleanDrag() {
+		if (!this.dragInit)
+			return;
+
+		this.vBar.thumb.removeEventListener("mousedown", this.__dragStartV);
+		this.hBar.thumb.removeEventListener("mousedown", this.__dragStartH);
+		window.removeEventListener("mouseup", this.__dragEnd);
+
+		this.dragInit = false;
+	}
+
 	dragStart(e, horizontal = false) {
 		e.preventDefault();
 		this.vThumbDragging = !horizontal;
 		this.hThumbDragging = horizontal;
+		window.addEventListener("mousemove", this.__dragUpdate);
 
 		// Calculate cursor position relative to selected
 		// track
@@ -167,7 +190,7 @@ class Scrollable {
 					let t = this.vBar.thumb.getBoundingClientRect();
 					let top = r.top + this.cRel.y;
 					let bottom = (r.top + r.height) - (t.height - this.cRel.y);
-					let cVal = (e.clientY - top) / (bottom - top);
+					let cVal = clamp((e.clientY - top) / (bottom - top), 0, 1);
 					
 					value = (this.content.scrollHeight - this.content.offsetHeight) * cVal;
 					horizontal = false;
@@ -178,7 +201,7 @@ class Scrollable {
 					let t = this.hBar.thumb.getBoundingClientRect();
 					let left = r.left + this.cRel.x;
 					let right = (r.left + r.width) - (t.width - this.cRel.x);
-					let cVal = (e.clientX - left) / (right - left);
+					let cVal = clamp((e.clientX - left) / (right - left), 0, 1);
 					
 					value = (this.content.scrollWidth - this.content.offsetWidth) * cVal;
 					horizontal = true;
@@ -200,6 +223,7 @@ class Scrollable {
 	dragEnd() {
 		this.vThumbDragging = false;
 		this.hThumbDragging = false;
+		window.removeEventListener("mousemove", this.__dragUpdate);
 	}
 
 	updateObserveList() {
@@ -233,10 +257,13 @@ class Scrollable {
 
 		this.__scrollbar = enable;
 
-		if (enable)
+		if (enable) {
 			this.container.classList.add("scrollbar");
-		else
+			this.initDrag();
+		} else {
 			this.container.classList.remove("scrollbar");
+			this.cleanDrag();
+		}
 	}
 
 	/**
@@ -284,10 +311,19 @@ class Scrollable {
 		let tWidth = (r.width / t.scrollWidth) * s.width;
 		let tHeight = (r.height / t.scrollHeight) * s.height;
 
-		this.vBar.thumb.style.height = `${tHeight}px`;
-		this.vBar.thumb.style.top = `${(top / height) * (s.height - tHeight)}px`;
-		this.hBar.thumb.style.width = `${tWidth}px`;
-		this.hBar.thumb.style.left = `${(left / width) * (s.width - tWidth)}px`;
+		if (r.height < t.scrollHeight) {
+			this.vBar.classList.remove("hide");
+			this.vBar.thumb.style.height = `${tHeight}px`;
+			this.vBar.thumb.style.top = `${(top / height) * (s.height - tHeight)}px`;
+		} else
+			this.vBar.classList.add("hide");
+
+		if (r.width < t.scrollWidth) {
+			this.hBar.classList.remove("hide");
+			this.hBar.thumb.style.width = `${tWidth}px`;
+			this.hBar.thumb.style.left = `${(left / width) * (s.width - tWidth)}px`;
+		} else
+			this.hBar.classList.add("hide");
 	}
 
 	updateScrollbarPos() {
