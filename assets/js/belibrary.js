@@ -344,7 +344,11 @@ function htmlToElement(html) {
 }
 
 /**
- * Deprecated
+ * Deprecated. We should avoid using this function
+ * as much as possible.
+ * 
+ * Please use `buildNodeTree()` instead!
+ * 
  * @param {*} type 
  * @param {*} __class 
  * @param {*} data 
@@ -435,8 +439,13 @@ function buildElementTree(type = "div", __class = [], data = new Array(), __keyp
 	}
 }
 
+/**
+ * This is the replacement of `buildElementTree()`
+ * 
+ * Nothing here 😥
+ */
 function buildNodeTree() {
-
+	
 }
 
 function checkServer(ip, callback = () => {}) {

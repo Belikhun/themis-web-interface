@@ -13,29 +13,73 @@ class Scrollable {
 	 * @param {HTMLElement}		container		Container
 	 */
 	constructor(container, {
+		content,
 		distance = 1,
 		velocity = 2,
 		clamp = 20,
 		maxClamp = 400,
 		horizontal = false,
-		animation = true
+		smooth = true,
+		scrollbar = true,
+		barSize = 10
 	} = {}) {
 		if (typeof container !== "object" || (!container.classList && !container.container))
 			throw { code: -1, description: `Scrollable(): container is not a valid node` }
 
-		/**
-		 * Main scrolling container
-		 */
-		this.container = container;
-		this.container.classList.add("scrollable");
-		this.container.clampValue = 0;
+		if (content) {
+			/**
+			 * Main scrolling container
+			 * @type {HTMLElement}
+			 */
+			this.container = container;
+			
+			/**
+			 * Content
+			 * @type {HTMLElement}
+			 */
+			this.content = content;
+		} else {
+			this.container = document.createElement("div");
+			this.container.id = container.id;
+			container.parentElement.replaceChild(this.container, container);
 
+			this.content = container;
+			this.content.removeAttribute("id");
+		}
+
+		this.container.classList.add("scrollable");
+		this.content.classList.add("content");
+		this.content.clampValue = 0;
+
+		/**
+		 * Vertical Scrollbar
+		 * @type {HTMLElement}
+		 */
+		this.vBar = buildElementTree("div", ["scrollbar", "vertical"], [
+			{ type: "div", class: "thumb", name: "thumb" }
+		]).obj;
+
+		/**
+		 * Horizontal Scrollbar
+		 * @type {HTMLElement}
+		 */
+		this.hBar = buildElementTree("div", ["scrollbar", "horizontal"], [
+			{ type: "div", class: "thumb", name: "thumb" }
+		]).obj;
+
+		this.container.insertBefore(this.hBar, this.container.firstChild);
+		this.container.insertBefore(this.vBar, this.container.firstChild);
+		this.container.appendChild(this.content);
+
+		// Initialize some variables
 		this.distance = distance;
 		this.velocity = velocity;
 		this.clamp = clamp;
 		this.maxClamp = maxClamp;
 		this.currentVelocity = 0;
-		this.animation = animation;
+		this.smooth = smooth;
+		this.scrollbar = scrollbar;
+		this.barSize = barSize;
 
 		/**
 		 * @type {Boolean}
@@ -44,28 +88,91 @@ class Scrollable {
 
 		this.animator = null;
 		this.disabled = false;
-
 		let ticking = false;
-		this.container.addEventListener("wheel", (e) => {
+
+		this.content.addEventListener("scroll", (e) => this.updateScrollbar(e));
+		this.content.addEventListener("wheel", (e) => {
 			if (e.ctrlKey)
 				return;
 
+			e.preventDefault();
+
 			if (!ticking) {
 				requestAnimationFrame(() => {
-					this.animationUpdate(e);
+					if (this.smooth)
+						this.animationUpdate(e);
+					else
+						this.update(e);
+
 					ticking = false;
 				});
 
 				ticking = true;
 			}
-		}, { passive: true });
+		}, { passive: false });
+
+		new ResizeObserver(() => this.updateScrollbarPos()).observe(this.content);
+		new MutationObserver(() => this.updateObserveList()).observe(
+			this.content,
+			{ childList: true }
+			);
+
+		this.updateObserveList();
+	}
+
+	updateObserveList() {
+		for (let e of this.content.children) {
+			if (e.getAttribute("observing"))
+				continue;
+
+			e.setAttribute("observing", "true");
+			new ResizeObserver(() => this.updateScrollbar()).observe(e);
+		}
+	}
+
+	/**
+	 * Enable or Disable custom scrollbar
+	 * You probally won't do it. Right? 😊
+	 * 
+	 * @param	{Boolean}	enable
+	 */
+	set scrollbar(enable) {
+		if (typeof enable !== "boolean")
+			throw { code: -1, description: `Scrollable.scrollbar: not a valid boolean` }
+
+		this.__scrollbar = enable;
+
+		if (enable)
+			this.container.classList.add("scrollbar");
+		else
+			this.container.classList.remove("scrollbar");
+	}
+
+	/**
+	 * Is the custom scrollbar Enabled
+	 * or Disabled?
+	 * 
+	 * @returns	{Boolean}
+	 */
+	get scrollbar() {
+		return this.__scrollbar;
+	}
+
+	/**
+	 * Set scrollbar width/height
+	 * 
+	 * @returns	{Number}
+	 */
+	set barSize(size) {
+		this.__barSize = size;
+		this.container.style.setProperty("--scrollbar-size", `${size}px`);
+	}
+
+	get barSize() {
+		return this.__barSize;
 	}
 
 	update(e) {
-		
-	}
-
-	animationUpdate(e) {
 		let delta = (this.horizontal)
 			? e.deltaX
 			: e.deltaY;
@@ -77,10 +184,69 @@ class Scrollable {
 			return;
 
 		// Calculate the maximum point of
-		// scrolling in the container
+		// scrolling in the content
 		let maxScroll = (this.horizontal)
-			? this.container.scrollWidth - this.container.offsetWidth
-			: this.container.scrollHeight - this.container.offsetHeight;
+			? this.content.scrollWidth - this.content.offsetWidth
+			: this.content.scrollHeight - this.content.offsetHeight;
+
+		// Calculate the point where the user start scrolling
+		let from = (this.horizontal)
+			? this.content.scrollLeft
+			: this.content.scrollTop;
+
+		this.content[this.horizontal ? "scrollLeft" : "scrollTop"] = Math.min(maxScroll, from + delta);
+	}
+
+	updateScrollbar() {
+		/** @type {HTMLElement} */
+		let t = this.content;
+
+		let r =  {
+			width: t.offsetWidth,
+			height: t.offsetHeight
+		}
+
+		let s = {
+			width: this.hBar.getBoundingClientRect().width,
+			height: this.vBar.getBoundingClientRect().height
+		}
+
+		let top = t.scrollTop;
+		let left = t.scrollLeft;
+		let width = t.scrollWidth - r.width;
+		let height = t.scrollHeight - r.height;
+		let tWidth = (r.width / t.scrollWidth) * s.width;
+		let tHeight = (r.height / t.scrollHeight) * s.height;
+
+		this.vBar.thumb.style.height = `${tHeight}px`;
+		this.vBar.thumb.style.top = `${(top / height) * (s.height - tHeight)}px`;
+		this.hBar.thumb.style.width = `${tWidth}px`;
+		this.hBar.thumb.style.left = `${(left / width) * (s.width - tWidth)}px`;
+	}
+
+	updateScrollbarPos() {
+		this.vBar.style.top = `${this.content.offsetTop}px`;
+		this.vBar.style.bottom = `${this.container.offsetHeight - this.content.offsetTop - this.content.offsetHeight}px`;
+		this.hBar.style.left = `${this.content.offsetLeft}px`;
+		this.hBar.style.right = `${this.container.offsetWidth - this.content.offsetLeft - this.content.offsetWidth + this.barSize}px`;
+	}
+
+	animationUpdate(e) {
+		let delta = (this.horizontal)
+			? e.deltaX
+			: e.deltaY;
+		
+		// Check if scrolling event actually move the
+		// scrollable content or scrolling is disabled
+		// If so we will stop executing
+		if (delta === 0 || this.disabled)
+			return;
+
+		// Calculate the maximum point of
+		// scrolling in the content
+		let maxScroll = (this.horizontal)
+			? this.content.scrollWidth - this.content.offsetWidth
+			: this.content.scrollHeight - this.content.offsetHeight;
 
 		// Calculate current scrolling velocity and add
 		// it with global velocity
@@ -95,8 +261,8 @@ class Scrollable {
 
 		// Calculate the point where the user start scrolling
 		let from = (this.horizontal)
-			? this.container.scrollLeft
-			: this.container.scrollTop;
+			? this.content.scrollLeft
+			: this.content.scrollTop;
 
 		// Calculate the point where scrolling should be end
 		let to = from + ((this.distance * Math.abs(delta)) * this.currentVelocity);
@@ -117,8 +283,8 @@ class Scrollable {
 			// Decreasing the velocity
 			this.currentVelocity = startVelocity * (1 - t);
 
-			// Check if scrolling reached the begining of the container
-			// or the end of the container. If so we will calculate
+			// Check if scrolling reached the begining of the content
+			// or the end of the content. If so we will calculate
 			// the clamping animation
 			if (current > maxScroll || current < 0) {
 				// If the clamping point hasn't been defined yet,
@@ -126,14 +292,14 @@ class Scrollable {
 				// calculate some others value
 				if (!clampPoint) {
 					clampPoint = t;
-					clampFrom = this.container.clampValue;
+					clampFrom = this.content.clampValue;
 					clampTo = clampFrom + (this.clamp * -(this.currentVelocity * ((1 - (clampFrom / this.maxClamp)) / 2)));
 
 					if (current > maxScroll) {
-						this.container[this.horizontal ? "scrollLeft" : "scrollTop"] = maxScroll;
+						this.content[this.horizontal ? "scrollLeft" : "scrollTop"] = maxScroll;
 						clampTo = Math.max(clampTo, -this.maxClamp);
 					} else if (current < 0) {
-						this.container[this.horizontal ? "scrollLeft" : "scrollTop"] = 0;
+						this.content[this.horizontal ? "scrollLeft" : "scrollTop"] = 0;
 						clampTo = Math.min(clampTo, this.maxClamp);
 					}
 				}
@@ -146,15 +312,15 @@ class Scrollable {
 
 				let clampValue = clampFrom + (clampTo - clampFrom) * t;
 
-				this.container.style.transform = (this.horizontal)
+				this.content.style.transform = (this.horizontal)
 					? `translateX(${clampValue}px)`
 					: `translateY(${clampValue}px)`;
 					
-				this.container.clampValue = clampValue;
+				this.content.clampValue = clampValue;
 			} else {
-				this.container.style.transform = null;
-				this.container.clampValue = 0;
-				this.container[this.horizontal ? "scrollLeft" : "scrollTop"] = current;
+				this.content.style.transform = null;
+				this.content.clampValue = 0;
+				this.content[this.horizontal ? "scrollLeft" : "scrollTop"] = current;
 			}
 		});
 

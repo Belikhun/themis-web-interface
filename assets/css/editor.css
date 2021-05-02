@@ -9,45 +9,65 @@
 
 .editor {
 	position: relative;
-	display: grid;
-	grid-template-columns: auto 1fr;
+	display: flex;
+	flex-direction: row;
 
 	font-family: Consolas;
 	font-weight: bolder;
 	font-size: 17px;
 	tab-size: 4;
 
-	overflow-x: hidden;
-	overflow-y: auto;
+	overflow: hidden;
 	background-color: white;
+
+	--bottom-space: 60vh;
+}
+
+.editor.scrollable >  .scrollbar {
+	margin: unset;
+}
+
+.editor.scrollable >  .scrollbar.vertical {
+    border-left: 1px solid rgba(124, 124, 124, 0.4);
+}
+
+.editor.scrollable >  .scrollbar > .thumb {
+    border-radius: 0;
 }
 
 .editor > .check {
 	position: fixed;
+	display: inline-block;
 	z-index: -1;
 	visibility: hidden;
-	white-space: pre-wrap;
+	white-space: pre;
 }
 
 .editor > .lineNum {
-	position: sticky;
+	position: relative;
 	display: inline-flex;
 	flex-direction: column;
+	align-items: flex-end;
 	flex-grow: 0;
 	flex-shrink: 0;
-	align-items: flex-end;
 
-	left: 0;
+	height: 100%;
 	padding: 0 20px;
-	background-color: white;
+
 	z-index: 2;
+	overflow: hidden;
+	background-color: white;
 }
 
-.editor > .lineNum > div {
+.editor > .lineNum > .content {
+	padding-bottom: var(--bottom-space);
+}
+
+.editor > .lineNum > .content > div {
 	color: rgba(165, 165, 165, 0.6);
 }
 
-.editor > .lineNum > div.active {
+.editor > .lineNum > .content > div.active {
 	color: black;
 }
 
@@ -56,12 +76,19 @@
 	display: block;
 	flex-grow: 1;
 
-	padding-bottom: 50%;
-	overflow-x: auto;
-	overflow-y: hidden;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
 }
 
-.editor > .main > .selections {
+.editor > .main > .wrapper {
+	position: relative;
+	display: inline-block;
+
+	min-width: 100%;
+}
+
+.editor > .main > .wrapper > .selections {
 	position: absolute;
 
 	top: 0;
@@ -70,13 +97,13 @@
 	height: 100%;
 }
 
-.editor > .main > .selections > div {
+.editor > .main > .wrapper > .selections > div {
 	position: absolute;
 
 	background-color: rgb(218, 218, 218);
 }
 
-.editor > .main > .cursor {
+.editor > .main > .wrapper > .cursor {
 	position: absolute;
 	display: block;
 
@@ -91,50 +118,58 @@
 	overflow: hidden;
 }
 
-.editor > .main > .cursor.smooth {
+.editor > .main > .wrapper > .cursor.smooth {
 	animation: cursor-blink .5s ease-in-out;
 	animation-iteration-count: infinite;
 	animation-direction: alternate;
 	animation-play-state: running;
 }
 
-.editor > .main > .code {
+.editor > .main > .wrapper > .code {
 	position: relative;
+	display: inline-block;
 	
+	min-width: 100%;
+	padding-bottom: var(--bottom-space);
+
 	user-select: none;
 	white-space: pre;
 }
 
-.editor > .main > .code > .line.active {
+.editor > .main > .wrapper > .code > .line:empty::after {
+	content: " ";
+}
+
+.editor > .main > .wrapper > .code > .line.active {
 	background-color: rgba(235, 235, 235, 0.3);
 }
 
-.editor > .main > .overlay {
+.editor > .main > .wrapper > .overlay {
 	position: absolute;
 
 	top: 0;
 	left: 0;
-	min-width: 100%;
-	min-height: 100%;
-
+	width: 100%;
+	height: 100%;
+	
 	font-family: inherit;
 	font-weight: inherit;
 	font-size: inherit;
 	tab-size: inherit;
-
+	white-space: pre;
+	
 	margin: unset;
 	padding: unset;
 	border: unset;
-
 	resize: none;
-	z-index: 3;
+	
 	opacity: 0;
+	z-index: 3;
 	overflow: hidden;
-	white-space: pre;
 	background-color: transparent;
 }
 
-.editor > .main > .overlay:focus {
+.editor > .main > .wrapper > .overlay:focus {
 	outline: none;
 }
 
@@ -150,65 +185,65 @@
 
 /** ======================== STYLING:JS ======================== */
 
-.editor > .main > .code[language="js"] > .line {
+.editor > .main > .wrapper > .code[language="js"] > .line {
 	color: black;
 }
 
-.editor > .main > .code[language="js"] > .line ed-comment {
+.editor > .main > .wrapper > .code[language="js"] > .line ed-comment {
 	color: rgb(90, 90, 90);
 }
 
-.editor > .main > .code[language="js"] > .line ed-keyword {
+.editor > .main > .wrapper > .code[language="js"] > .line ed-keyword {
 	color: rgb(213, 6, 161);
 }
 
-.editor > .main > .code[language="js"] > .line ed-string {
+.editor > .main > .wrapper > .code[language="js"] > .line ed-string {
 	color: rgb(5, 165, 5);
 }
 
-.editor > .main > .code[language="js"] > .line ed-function {
+.editor > .main > .wrapper > .code[language="js"] > .line ed-function {
 	color: rgb(16, 148, 196);
 }
 
-.editor > .main > .code[language="js"] > .line ed-constant {
+.editor > .main > .wrapper > .code[language="js"] > .line ed-constant {
 	color: rgb(197, 174, 0);
 }
 
 /** ======================== STYLING:MD ======================== */
 
-.editor > .main > .code[language="md"] > .line {
+.editor > .main > .wrapper > .code[language="md"] > .line {
 	font-weight: normal;
 }
 
-.editor > .main > .code[language="md"] > .line ed-mdheading {
+.editor > .main > .wrapper > .code[language="md"] > .line ed-mdheading {
 	color: rgb(187, 9, 56);
 	font-weight: bold;
 }
 
-.editor > .main > .code[language="md"] > .line ed-mdbold {
+.editor > .main > .wrapper > .code[language="md"] > .line ed-mdbold {
 	color: rgb(226, 129, 1);
 	font-weight: bold;
 }
 
-.editor > .main > .code[language="md"] > .line ed-mditalic {
+.editor > .main > .wrapper > .code[language="md"] > .line ed-mditalic {
 	color: rgb(127, 0, 218);
 	font-style: italic;
 }
 
-.editor > .main > .code[language="md"] > .line ed-mdquotes {
+.editor > .main > .wrapper > .code[language="md"] > .line ed-mdquotes {
 	color: rgb(158, 158, 158);
 }
 
-.editor > .main > .code[language="md"] > .line ed-mdlinktext {
+.editor > .main > .wrapper > .code[language="md"] > .line ed-mdlinktext {
 	color: rgb(7, 115, 197);
 }
 
-.editor > .main > .code[language="md"] > .line ed-mdlink {
+.editor > .main > .wrapper > .code[language="md"] > .line ed-mdlink {
 	color: rgb(4, 149, 160);
 	text-decoration: underline;
 }
 
-.editor > .main > .code[language="md"] > .line ed-mdstring {
+.editor > .main > .wrapper > .code[language="md"] > .line ed-mdstring {
 	display: inline-block;
 	color: rgb(8, 158, 0);
 	text-decoration: none;

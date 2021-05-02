@@ -13,7 +13,7 @@
  * clean way to implement monaco editor into
  * my project 😭😭😭)
  * 
- * `TOTAL HOURS WASTED: 13`
+ * `TOTAL HOURS WASTED: 15`
  * 
  * @author		@belivipro9x99
  * @version		v1.0
@@ -72,22 +72,37 @@ class Editor {
 		/** @type {HTMLTextAreaElement} */
 		this.container = buildElementTree("div", "editor", [
 			{ type: "div", class: "check", name: "check" },
-			{ type: "span", class: "lineNum", name: "lineNum" },
+			{ type: "span", class: "lineNum", name: "lineNum", list: [
+				{ type: "div", class: "content", name: "content" }
+			]},
 
 			{ type: "div", class: "main", name: "main", list: [
-				{ type: "div", class: "selections", name: "selections" },
-				{ type: "div", class: ["cursor", "smooth"], name: "cursor" },
-				{ type: "span", class: "code", name: "code" },
-				{ type: "textarea", class: "overlay", name: "overlay" }
+				{ type: "div", class: "wrapper", name: "wrapper", list: [
+					{ type: "div", class: "selections", name: "selections" },
+					{ type: "div", class: ["cursor", "smooth"], name: "cursor" },
+					{ type: "span", class: "code", name: "code" },
+					{ type: "textarea", class: "overlay", name: "overlay" }
+				]}
 			]},
 		]).obj;
 
 		this.container.id = container.id;
-		container.parentElement.replaceChild(this.container, container);
-		if (typeof Scrollable === "function")
-			new Scrollable(this.container, { animation: false });
 
-		this.main = this.container.main;
+		/**
+		 * Ssh... IT's JUST WORK!
+		 * 
+		 * @type {HTMLElement}
+		 */
+		this.main = this.container.main.wrapper;
+
+		/** @type {HTMLElement} */
+		this.lineNum = this.container.lineNum.content;
+
+		container.parentElement.replaceChild(this.container, container);
+
+		if (typeof Scrollable === "function")
+			new Scrollable(this.container, { content: this.container.main, smooth: false });
+
 		this.main.overlay.spellcheck = false;
 		this.setup();
 
@@ -214,14 +229,18 @@ class Editor {
 				this.updateCaret();
 		});
 
-		new ResizeObserver(() => this.updateSizing()).observe(this.container);
+		this.container.main.addEventListener("scroll", () => {
+			this.container.lineNum.scrollTop = this.container.main.scrollTop;
+		});
+
+		new ResizeObserver(() => this.updateSizing()).observe(this.main);
 	}
 
 	async updateCaret() {
 		// Some events happend before the input update new value so we
 		// need to wait for next frame to get updated information
 		await nextFrameAsync();
-
+		
 		clearTimeout(this.cavetTimeout);
 		this.main.cursor.classList.remove("smooth");
 
@@ -267,6 +286,7 @@ class Editor {
 	}
 
 	updateSelection(start = { line: 0, pos: 0 }, end = { line: 0, pos: 0 }) {
+		let t0 = performance.now();
 		emptyNode(this.main.selections);
 
 		for (let line = start.line; line <= end.line; line++) {
@@ -296,6 +316,9 @@ class Editor {
 
 			this.main.selections.appendChild(r);
 		}
+
+		let t1 = performance.now();
+		clog("DEBG", `editor.updateSelection(): took ${(t1 - t0).toFixed(3)}ms`);
 	}
 
 	setCaret({
@@ -402,29 +425,30 @@ class Editor {
 		ln.innerText = (p + 1);
 		ln.setAttribute("line", p);
 
-		let n = this.container.lineNum.querySelector(`div[line="${p - 1}"]`);
+		let n = this.lineNum.querySelector(`div[line="${p - 1}"]`);
 		if (n && n.nextSibling)
-			this.container.lineNum.insertBefore(ln, n.nextSibling);
+			this.lineNum.insertBefore(ln, n.nextSibling);
 		else
-			this.container.lineNum.appendChild(ln);
+			this.lineNum.appendChild(ln);
 
 		return ln;
 	}
 
 	removeLineNum() {
-		this.container.lineNum.removeChild(this.container.lineNum.lastChild);
+		this.lineNum.removeChild(this.lineNum.lastChild);
 	}
 
 	updateSizing() {
-		this.main.overlay.style.width = `${this.main.overlay.scrollWidth}px`;
-		this.main.overlay.style.height = `${this.main.overlay.scrollHeight}px`;
+		this.main.overlay.style.width = `${this.container.main.wrapper.clientWidth}px`;
+		this.main.overlay.style.height = `${this.container.main.wrapper.clientHeight}px`;
 	}
 
 	updateValues() {
 		this.__lines = this.main.code.childNodes;
-		this.__lineNums = this.container.lineNum.childNodes;
+		this.__lineNums = this.lineNum.childNodes;
 		this.__lineValues = this.main.overlay.value.split("\n");
 		this.main.code.setAttribute("language", this.language);
+		this.container.lineNum.scrollTop = this.container.main.scrollTop;
 	}
 
 	parseTokens(line) {
@@ -494,7 +518,7 @@ class Editor {
 			} else
 				doUpdate();
 			
-			let ln = this.container.lineNum.querySelector(`div[line="${i}"]`);
+			let ln = this.lineNum.querySelector(`div[line="${i}"]`);
 			if (!ln)
 				ln = this.insertLineNum();
 
@@ -516,7 +540,7 @@ class Editor {
 		this.updateCaret();
 
 		let t1 = performance.now();
-		clog("DEBG", `editor.update(): took ${t1 - t0}ms`);
+		clog("DEBG", `editor.update(): took ${(t1 - t0).toFixed(3)}ms`);
 	}
 }
 
