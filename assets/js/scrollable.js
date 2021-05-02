@@ -115,7 +115,7 @@ class Scrollable {
 		new MutationObserver(() => this.updateObserveList()).observe(
 			this.content,
 			{ childList: true }
-			);
+		);
 
 		this.updateObserveList();
 	}
@@ -126,7 +126,14 @@ class Scrollable {
 				continue;
 
 			e.setAttribute("observing", "true");
-			new ResizeObserver(() => this.updateScrollbar()).observe(e);
+			new ResizeObserver(async() => {
+				// For some weird reason we have to wait for next
+				// frame to let content scrolling position update
+				// A better implement is appreciated
+				await nextFrameAsync();
+
+				this.updateScrollbar();
+			}).observe(e);
 		}
 	}
 
