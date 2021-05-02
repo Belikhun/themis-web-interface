@@ -62,7 +62,10 @@ const smenu = {
 		});
 
 		let navExpandTimeout = null;
-		this.scroll = new Scrollable(this.container.main.wrapper.smenu);
+		this.scroll = new Scrollable(this.container.main.wrapper, {
+			content: this.container.main.wrapper.smenu,
+			scrollbar: false
+		});
 		
 		this.container.main.navigator.addEventListener("mouseenter",
 			() => navExpandTimeout = setTimeout(() => {
