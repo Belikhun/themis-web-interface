@@ -13,7 +13,7 @@
  * clean way to implement monaco editor into
  * my project 😭😭😭)
  * 
- * `TOTAL HOURS WASTED: 15`
+ * `TOTAL HOURS WASTED: 21`
  * 
  * @author		@belivipro9x99
  * @version		v1.0

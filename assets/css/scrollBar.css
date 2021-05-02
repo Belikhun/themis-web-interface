@@ -53,6 +53,10 @@ body.dark ::-webkit-scrollbar {
     z-index: 9999;
 }
 
+.scrollable:not(.scrollbar) > .scrollbar {
+    display: none;
+}
+
 .scrollable > .scrollbar.horizontal {
     top: unset;
     left: 0;
