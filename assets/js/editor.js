@@ -112,6 +112,10 @@ class Editor {
 
 		container.parentElement.replaceChild(this.container, container);
 
+		// Check if the Scrollable library exist in
+		// current scope.
+		// If so, use Scrollable's custom scrollbar
+		// to have monaco style scrollbar and features
 		if (typeof Scrollable === "function") {
 			this.scrollable = new Scrollable(this.container, {
 				content: this.container.main,
@@ -296,7 +300,9 @@ class Editor {
 
 		this.main.cursor.style.top = `${topPos}px`;
 		this.main.cursor.style.left = `${leftPos}px`;
-		this.sIndicator.style.top = `${(topPos / this.main.offsetHeight) * 100}%`;
+
+		if (this.sIndicator)
+			this.sIndicator.style.top = `${(topPos / this.main.offsetHeight) * 100}%`;
 
 		// Update caret style and inline character
 		this.main.cursor.style.height = `${this.lines[this.cCursor.line].getBoundingClientRect().height}px`;
@@ -601,6 +607,13 @@ const editorLanguages = {
 		if (line[0] === "/" && line[1] === "/")
 			return `<ed-comment>${line}</ed-comment>`;
 
+		// Multiline comment
+		// This feature is still broken as if the
+		// user is modifying between the comment
+		// line this can't check if current line is
+		// between the open and close line of multiline
+		// comment
+		// TODO: better implementation of multiline comment detection
 		if (this.inMultiLineComment) {
 			// Check for end of multilime comment doc
 			let emlCDoc = /^([^*/]*\*\/)/gm.exec(line);

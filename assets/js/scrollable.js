@@ -81,28 +81,26 @@ class Scrollable {
 		this.scrollbar = scrollbar;
 		this.barSize = barSize;
 
-		/**
-		 * @type {Boolean}
-		 */
+		/** @type {Boolean} */
 		this.horizontal = horizontal;
 
 		this.animator = null;
 		this.disabled = false;
 		let ticking = false;
 
+		// Listeners for scrolling events
 		this.content.addEventListener("scroll", (e) => this.updateScrollbar(e));
-		this.content.addEventListener("wheel", (e) => {
-			if (e.ctrlKey)
+		this.content.addEventListener("wheel", (event) => {
+			if (event.ctrlKey)
 				return;
 
-			e.preventDefault();
-
+			event.preventDefault();
 			if (!ticking) {
 				requestAnimationFrame(() => {
 					if (this.smooth)
-						this.animationUpdate(e);
+						this.animationUpdate({ event });
 					else
-						this.update(e);
+						this.update({ event });
 
 					ticking = false;
 				});
@@ -111,17 +109,103 @@ class Scrollable {
 			}
 		}, { passive: false });
 
-		new ResizeObserver(() => this.updateScrollbarPos()).observe(this.content);
+		// Listeners for dragging and dropping scrollbar thumb
+		this.cRel = { x: 0, y: 0 }
+		this.sTicking = false;
+		this.vThumbDragging = false;
+		this.hThumbDragging = false;
+
+		this.vBar.thumb.addEventListener("mousedown", (e) => this.dragStart(e, false));
+		this.hBar.thumb.addEventListener("mousedown", (e) => this.dragStart(e, true));
+		window.addEventListener("mousemove", (e) => this.dragUpdate(e));
+		window.addEventListener("mouseup", () => this.dragEnd());
+
+		// Observer for content resizing and new element
+		// added into content for updaing scrollbar
+		new ResizeObserver(() => {
+			this.updateScrollbarPos();
+			this.updateScrollbar();
+		}).observe(this.content);
+
 		new MutationObserver(() => this.updateObserveList()).observe(
 			this.content,
 			{ childList: true }
 		);
 
+		// Since we add the mutation observer after the
+		// content element is initialized, there are (maybe)
+		// elements that hasn't applied observing.
+		// So we call this to apply observer into
+		// existing elements
 		this.updateObserveList();
+	}
+
+	dragStart(e, horizontal = false) {
+		e.preventDefault();
+		this.vThumbDragging = !horizontal;
+		this.hThumbDragging = horizontal;
+
+		// Calculate cursor position relative to selected
+		// track
+		let r = e.target.getBoundingClientRect();
+		this.cRel.x = e.clientX - r.left;
+		this.cRel.y = e.clientY - r.top;
+	}
+
+	dragUpdate(e) {
+		if (!this.vThumbDragging && !this.hThumbDragging)
+			return;
+
+		e.preventDefault();
+		if (!this.sTicking) {
+			requestAnimationFrame(() => {
+				let horizontal;
+				let value;
+
+				if (this.vThumbDragging) {
+					let r = this.vBar.getBoundingClientRect();
+					let t = this.vBar.thumb.getBoundingClientRect();
+					let top = r.top + this.cRel.y;
+					let bottom = (r.top + r.height) - (t.height - this.cRel.y);
+					let cVal = (e.clientY - top) / (bottom - top);
+					
+					value = (this.content.scrollHeight - this.content.offsetHeight) * cVal;
+					horizontal = false;
+				}
+	
+				if (this.hThumbDragging) {
+					let r = this.hBar.getBoundingClientRect();
+					let t = this.hBar.thumb.getBoundingClientRect();
+					let left = r.left + this.cRel.x;
+					let right = (r.left + r.width) - (t.width - this.cRel.x);
+					let cVal = (e.clientX - left) / (right - left);
+					
+					value = (this.content.scrollWidth - this.content.offsetWidth) * cVal;
+					horizontal = true;
+				}
+
+				if (typeof horizontal === "boolean")
+					if (this.smooth)
+						this.animationUpdate({ value, horizontal });
+					else
+						this.update({ value, horizontal });
+
+				this.sTicking = false;
+			});
+
+			this.sTicking = true;
+		}
+	}
+
+	dragEnd() {
+		this.vThumbDragging = false;
+		this.hThumbDragging = false;
 	}
 
 	updateObserveList() {
 		for (let e of this.content.children) {
+			// If current element already being
+			// observed, skip to next element
 			if (e.getAttribute("observing"))
 				continue;
 
@@ -179,31 +263,6 @@ class Scrollable {
 		return this.__barSize;
 	}
 
-	update(e) {
-		let delta = (this.horizontal)
-			? e.deltaX
-			: e.deltaY;
-
-		// Check if scrolling event actually move the
-		// scrollable content or scrolling is disabled
-		// If so we will stop executing
-		if (delta === 0 || this.disabled)
-			return;
-
-		// Calculate the maximum point of
-		// scrolling in the content
-		let maxScroll = (this.horizontal)
-			? this.content.scrollWidth - this.content.offsetWidth
-			: this.content.scrollHeight - this.content.offsetHeight;
-
-		// Calculate the point where the user start scrolling
-		let from = (this.horizontal)
-			? this.content.scrollLeft
-			: this.content.scrollTop;
-
-		this.content[this.horizontal ? "scrollLeft" : "scrollTop"] = Math.min(maxScroll, from + delta);
-	}
-
 	updateScrollbar() {
 		/** @type {HTMLElement} */
 		let t = this.content;
@@ -238,10 +297,24 @@ class Scrollable {
 		this.hBar.style.right = `${this.container.offsetWidth - this.content.offsetLeft - this.content.offsetWidth + this.barSize}px`;
 	}
 
-	animationUpdate(e) {
-		let delta = (this.horizontal)
-			? e.deltaX
-			: e.deltaY;
+	update({
+		event,
+		value,
+		horizontal = this.horizontal
+	} = {}) {
+		// Calculate the point where the user start scrolling
+		let from = (horizontal)
+			? this.content.scrollLeft
+			: this.content.scrollTop;
+	
+		// Amount of scroll in pixel
+		let delta;
+		if (event)
+			delta = (horizontal)
+				? event.deltaX
+				: event.deltaY;
+		else
+			delta = value - from;
 		
 		// Check if scrolling event actually move the
 		// scrollable content or scrolling is disabled
@@ -251,7 +324,41 @@ class Scrollable {
 
 		// Calculate the maximum point of
 		// scrolling in the content
-		let maxScroll = (this.horizontal)
+		let maxScroll = (horizontal)
+			? this.content.scrollWidth - this.content.offsetWidth
+			: this.content.scrollHeight - this.content.offsetHeight;
+
+		this.content[horizontal ? "scrollLeft" : "scrollTop"] = Math.min(maxScroll, from + delta);
+	}
+
+	animationUpdate({
+		event,
+		value,
+		horizontal = this.horizontal
+	} = {}) {
+		// Calculate the point where the user start scrolling
+		let from = (horizontal)
+			? this.content.scrollLeft
+			: this.content.scrollTop;
+
+		// Amount of scroll in pixel
+		let delta;
+		if (event)
+			delta = (horizontal)
+				? event.deltaX
+				: event.deltaY;
+		else
+			delta = value - from;
+		
+		// Check if scrolling event actually move the
+		// scrollable content or scrolling is disabled
+		// If so we will stop executing
+		if (delta === 0 || this.disabled)
+			return;
+
+		// Calculate the maximum point of
+		// scrolling in the content
+		let maxScroll = (horizontal)
 			? this.content.scrollWidth - this.content.offsetWidth
 			: this.content.scrollHeight - this.content.offsetHeight;
 
@@ -265,11 +372,6 @@ class Scrollable {
 		// Initialize staring point of velocity so we can
 		// decreaese the global velocity by time
 		let startVelocity = this.currentVelocity;
-
-		// Calculate the point where the user start scrolling
-		let from = (this.horizontal)
-			? this.content.scrollLeft
-			: this.content.scrollTop;
 
 		// Calculate the point where scrolling should be end
 		let to = from + ((this.distance * Math.abs(delta)) * this.currentVelocity);
@@ -303,10 +405,10 @@ class Scrollable {
 					clampTo = clampFrom + (this.clamp * -(this.currentVelocity * ((1 - (clampFrom / this.maxClamp)) / 2)));
 
 					if (current > maxScroll) {
-						this.content[this.horizontal ? "scrollLeft" : "scrollTop"] = maxScroll;
+						this.content[horizontal ? "scrollLeft" : "scrollTop"] = maxScroll;
 						clampTo = Math.max(clampTo, -this.maxClamp);
 					} else if (current < 0) {
-						this.content[this.horizontal ? "scrollLeft" : "scrollTop"] = 0;
+						this.content[horizontal ? "scrollLeft" : "scrollTop"] = 0;
 						clampTo = Math.min(clampTo, this.maxClamp);
 					}
 				}
@@ -319,7 +421,7 @@ class Scrollable {
 
 				let clampValue = clampFrom + (clampTo - clampFrom) * t;
 
-				this.content.style.transform = (this.horizontal)
+				this.content.style.transform = (horizontal)
 					? `translateX(${clampValue}px)`
 					: `translateY(${clampValue}px)`;
 					
@@ -327,7 +429,7 @@ class Scrollable {
 			} else {
 				this.content.style.transform = null;
 				this.content.clampValue = 0;
-				this.content[this.horizontal ? "scrollLeft" : "scrollTop"] = current;
+				this.content[horizontal ? "scrollLeft" : "scrollTop"] = current;
 			}
 		});
 

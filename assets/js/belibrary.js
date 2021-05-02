@@ -445,7 +445,7 @@ function buildElementTree(type = "div", __class = [], data = new Array(), __keyp
  * Nothing here 😥
  */
 function buildNodeTree() {
-	
+
 }
 
 function checkServer(ip, callback = () => {}) {
@@ -1603,7 +1603,7 @@ if (typeof $ !== "function")
 	/**
 	 * A shorthand of querySelector
 	 * @param	{String}	selector	Selector
-	 * @returns	{Element}
+	 * @returns	{HTMLElement}
 	 */
 	function $(query) {
 		let r = document.querySelector(query);
