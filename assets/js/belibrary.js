@@ -347,7 +347,7 @@ function htmlToElement(html) {
  * Deprecated. We should avoid using this function
  * as much as possible.
  * 
- * Please use `buildNodeTree()` instead!
+ * Please use `makeTree()` instead!
  * 
  * @param {*} type 
  * @param {*} __class 
@@ -442,10 +442,84 @@ function buildElementTree(type = "div", __class = [], data = new Array(), __keyp
 /**
  * This is the replacement of `buildElementTree()`
  * 
- * Nothing here 😥
+ * @param	{String}		tag			Tag Name
+ * @param	{String|Array}	classes		Classes
+ * @param	{Object}		child		Child List
+ * @param	{String}		path		Path (optional)
+ * @returns	{HTMLElement}
  */
-function buildNodeTree() {
+function makeTree(tag, classes, child = {}, path = "") {
+	let container = document.createElement(tag);
+	
+	switch (typeof classes) {
+		case "string":
+			container.classList.add(classes);
+			break;
+		
+		case "object":
+			if (classes.length && classes.length > 0) {
+				container.classList.add(...classes);
+				break;
+			}
 
+		default:
+			throw { code: -1, description: `makeTree(${path}): Invalid or empty "classes" type: ${typeof classes}` }
+	}
+
+	let keys = Object.key(child);
+
+	for (let key of keys) {
+		let item = keys[key];
+		let currentPath = (path === "")
+			? key
+			: `${path}.${key}`
+
+		if (typeof container[key] !== "undefined")
+			throw { code: -1, description: `makeTree(${currentPath}): Illegal key name: "${key}"` }
+
+		/**
+		 * If node key is defined and is an object, this is
+		 * possibility a custom element data
+		 * 
+		 * Example: `createInput()`
+		 */
+		if (typeof item.node === "object") {
+			let node
+
+			try {
+				node = (item.node.group && item.node.group.classList)
+					? item.node.group
+					: (item.node.container && item.node.container.classList)
+						? item.node.container
+						: item.node;
+			} catch(e) {
+				throw { code: -1, description: `makeTree(${currentPath}): Custom node parse failed!`, data: e }
+			}
+
+			node.dataset.name = key;
+			node.dataset.path = currentPath;
+			container[key] = node;
+			continue;
+		}
+
+		/** @type {HTMLElement} */
+		container[key] = makeTree(item.tag, item.classes, item.child, currentPath);
+
+		// Apply optional attributes
+		if (typeof item.id === "string")
+			container[key].id = item.id;
+
+		if (typeof item.for === "string")
+			container[key].for = item.for;
+
+		if (typeof item.html === "string")
+			container[key].innerHTML = item.html;
+
+		if (typeof item.text === "string")
+			container[key].innerText = item.text;
+	}
+
+	return container;
 }
 
 function checkServer(ip, callback = () => {}) {
