@@ -64,6 +64,18 @@ class Editor {
 		/** @type {String} */
 		this.language = language;
 
+		/**
+		 * Scrollable instance
+		 * @type {Scrollable}
+		 */
+		this.scrollable = null;
+
+		/**
+		 * Current line indicator inside vartical scrollbar
+		 * @type {HTMLElement}
+		 */
+		this.sIndicator = null;
+
 		this.cStart = { line: 0, pos: 0 }
 		this.cEnd = { line: 0, pos: 0 }
 		this.cCursor = { line: 0, pos: 0 }
@@ -100,8 +112,17 @@ class Editor {
 
 		container.parentElement.replaceChild(this.container, container);
 
-		if (typeof Scrollable === "function")
-			new Scrollable(this.container, { content: this.container.main, smooth: false });
+		if (typeof Scrollable === "function") {
+			this.scrollable = new Scrollable(this.container, {
+				content: this.container.main,
+				smooth: false,
+				barSize: 15
+			});
+
+			this.sIndicator = document.createElement("div");
+			this.sIndicator.classList.add("indicator");
+			this.scrollable.vBar.appendChild(this.sIndicator);
+		}
 
 		this.main.overlay.spellcheck = false;
 		this.setup();
@@ -275,6 +296,7 @@ class Editor {
 
 		this.main.cursor.style.top = `${topPos}px`;
 		this.main.cursor.style.left = `${leftPos}px`;
+		this.sIndicator.style.top = `${(topPos / this.main.offsetHeight) * 100}%`;
 
 		// Update caret style and inline character
 		this.main.cursor.style.height = `${this.lines[this.cCursor.line].getBoundingClientRect().height}px`;

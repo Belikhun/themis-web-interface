@@ -23,15 +23,27 @@
 	--bottom-space: 60vh;
 }
 
-.editor.scrollable >  .scrollbar {
+.editor.scrollable > .scrollbar {
 	margin: unset;
 }
 
-.editor.scrollable >  .scrollbar.vertical {
+.editor.scrollable > .scrollbar.vertical {
     border-left: 1px solid rgba(124, 124, 124, 0.4);
 }
 
-.editor.scrollable >  .scrollbar > .thumb {
+.editor.scrollable > .scrollbar.vertical > .indicator {
+	position: absolute;
+	display: block;
+
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 2px;
+
+	background-color: rgb(0, 174, 255);
+}
+
+.editor.scrollable > .scrollbar > .thumb {
     border-radius: 0;
 }
 
