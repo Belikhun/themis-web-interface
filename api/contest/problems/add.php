@@ -30,10 +30,10 @@
 	if ($id !== $sid)
 		stop(9, "Mã Đề Không Hợp Lệ (chỉ sử dụng các kí tự a-zA-Z0-9 và _)", 400, Array( "id" => $id, "expect" => $sid ));
 
-	$image = isset($_FILES["image"]) ? $_FILES["image"] : null;
+	$thumbnail = isset($_FILES["thumbnail"]) ? $_FILES["thumbnail"] : null;
 	$attachment = isset($_FILES["attachment"]) ? $_FILES["attachment"] : null;
 
-	$code = problemAdd($id, $data, $image, $attachment);
+	$code = problemAdd($id, $data, $thumbnail, $attachment);
 
 	switch ($code) {
 		case PROBLEM_OKAY:
@@ -47,7 +47,7 @@
 			stop(43, "Không chấp nhận loại tệp!", 400, Array( "id" => $id, "allow" => IMAGE_ALLOW ));
 			break;
 		case PROBLEM_ERROR_FILETOOLARGE:
-			stop(42, "Tệp quá lớn!", 400, Array( "id" => $id, "image" => MAX_IMAGE_SIZE, "attachment" => MAX_ATTACHMENT_SIZE ));
+			stop(42, "Tệp quá lớn!", 400, Array( "id" => $id, "thumbnail" => MAX_IMAGE_SIZE, "attachment" => MAX_ATTACHMENT_SIZE ));
 			break;
 		case PROBLEM_ERROR:
 			stop(-1, "Lỗi không rõ.", 500, Array( "id" => $id ));

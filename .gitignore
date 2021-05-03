@@ -5,8 +5,8 @@ data/accounts/*
 data/config.json
 data/images/*
 data/problems/*
-!data/avatar/avt.default
-!data/problems/image.default
+!data/avatar/avatar.default
+!data/problems/thumbnail.default
 playground.php
 
 # Cache Folder

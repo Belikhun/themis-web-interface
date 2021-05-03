@@ -457,19 +457,23 @@ function makeTree(tag, classes, child = {}, path = "") {
 			break;
 		
 		case "object":
-			if (classes.length && classes.length > 0) {
+			if (classes.length && classes.length > 0)
 				container.classList.add(...classes);
-				break;
-			}
+			else
+				throw { code: -1, description: `makeTree(${path}): Invalid or empty "classes" type: ${typeof classes}` }
 
-		default:
-			throw { code: -1, description: `makeTree(${path}): Invalid or empty "classes" type: ${typeof classes}` }
+			break;
 	}
 
-	let keys = Object.key(child);
+	// If child list is invalid, we can just stop parsing
+	// now
+	if (typeof child !== "object")
+		return container;
+
+	let keys = Object.keys(child);
 
 	for (let key of keys) {
-		let item = keys[key];
+		let item = child[key];
 		let currentPath = (path === "")
 			? key
 			: `${path}.${key}`
@@ -483,40 +487,55 @@ function makeTree(tag, classes, child = {}, path = "") {
 		 * 
 		 * Example: `createInput()`
 		 */
-		if (typeof item.node === "object") {
-			let node
+		let customNode;
 
-			try {
-				node = (item.node.group && item.node.group.classList)
-					? item.node.group
-					: (item.node.container && item.node.container.classList)
-						? item.node.container
-						: item.node;
-			} catch(e) {
-				throw { code: -1, description: `makeTree(${currentPath}): Custom node parse failed!`, data: e }
-			}
+		try {
+			customNode = (item.group && item.group.classList)
+				? item.group
+				: (item.container && item.container.classList)
+					? item.container
+					: (item.classList)
+						? item
+						: null;
+		} catch(e) {
+			throw { code: -1, description: `makeTree(${currentPath}): Custom node parse failed!`, data: e }
+		}
 
-			node.dataset.name = key;
-			node.dataset.path = currentPath;
-			container[key] = node;
+		if (customNode) {
+			customNode.dataset.name = key;
+			customNode.dataset.path = currentPath;
+			container.appendChild(customNode);
+			container[key] = item;
 			continue;
 		}
 
+		// Normal Building
+		if (typeof item.tag !== "string")
+			throw { code: -1, description: `makeTree(${currentPath}): Invalid or undefined "tag" value` }
+
 		/** @type {HTMLElement} */
-		container[key] = makeTree(item.tag, item.classes, item.child, currentPath);
+		let node = makeTree(item.tag, item.class, item.child, currentPath);
+		node.dataset.path = currentPath;
 
 		// Apply optional attributes
 		if (typeof item.id === "string")
-			container[key].id = item.id;
+			node.id = item.id;
 
 		if (typeof item.for === "string")
-			container[key].for = item.for;
+			node.for = item.for;
 
 		if (typeof item.html === "string")
-			container[key].innerHTML = item.html;
+			node.innerHTML = item.html;
 
 		if (typeof item.text === "string")
-			container[key].innerText = item.text;
+			node.innerText = item.text;
+
+		if (typeof item.data === "object")
+			for (let key of Object.keys(item.data))
+				node.dataset[key] = item.data[key];
+
+		container.appendChild(node);
+		container[key] = node;
 	}
 
 	return container;
@@ -614,7 +633,7 @@ function formatTime(seconds, { ended = "Đã kết thúc", endedCallback = () =>
 }
 
 function liveTime(element, start = time(new Date()), { type = "full", count = "up", prefix = "", surfix = "", ended = "Đã kết thúc", endedCallback = () => {}, interval = 1000 } = {}) {
-	let updateInterval = setInterval(e => {
+	let updateInterval = setInterval(() => {
 		if (!document.body.contains(element)) {
 			clog("DEBG", "Live Time Element does not exist in document. Clearing...");
 			clearInterval(updateInterval);
@@ -943,9 +962,9 @@ class Pager {
 
 class lazyload {
 	constructor({
-		container = undefined,
-		source = undefined,
-		classes = undefined,
+		container,
+		source,
+		classes,
 		doLoad = true
 	} = {}) {
 		/** @type {HTMLElement} */
@@ -956,52 +975,11 @@ class lazyload {
 		else
 			this.container = document.createElement("div");
 
-		/**
-		 * @type	{String}	Source
-		 */
+		/** @type	{String}	Source */
 		this._src = null;
-
-		switch (typeof source) {
-			case "string":
-				// Assume as Image Src
-				this.sourceNode = document.createElement("img");
-				this._src = source;
-				break;
-		
-			case "object":
-				if (source.classList)
-					// Source is a Node. We just need to append it in container
-					this.sourceNode = source;
-				else if (source.type && source.src) {
-					switch (source.type) {
-						case "image":
-						case "iframe":
-							this.sourceNode = document.createElement(source.type);
-							this._src = source.src;
-							break;
-
-						case "document":
-							this.sourceNode = document.createElement("embed");
-							this._src = source.src;
-							break;
-
-						default:
-							throw { code: -1, description: `lazyload: source.type >>> ${source.type} is not a valid type` }
-					}
-				} else
-					throw { code: -1, description: `lazyload: source is not a valid node/object` }
-				break;
-
-			default:
-				throw { code: -1, description: `lazyload: source is not a valid string/node/object, got ${typeof source}` }
-		}
-
-		if (!this.sourceNode || !this._src)
-			throw { code: -1, description: `lazyload: an unexpected error occured while creating lazyload object` }
-
 		this.isLoaded = false;
 		this.isErrored = false;
-		this.onLoadedHandler = [];
+		this.onLoadedHandler = []
 		this.onErroredHandler = null;
 
 		this.container.classList.add("lazyload");
@@ -1020,29 +998,88 @@ class lazyload {
 					break;
 			}
 
-		this.sourceNode.addEventListener("load", () => this.loaded = true);
-		this.sourceNode.addEventListener("error", () => this.errored = true);
-
+		this.source = source;
 		this.spinner = document.createElement("div");
 		this.spinner.classList.add("simpleSpinner");
-
-		this.container.append(this.sourceNode, this.spinner);
+		this.container.append(this.spinner);
 
 		if (doLoad)
 			this.load();
 	}
 
 	load(src) {
+		if (!this._src)
+			return false;
+
 		if (src)
 			this._src = src;
 
 		this.src = this._src;
+		return true;
+	}
+
+	/**
+	 * @param {String|Object} source
+	 */
+	set source(source) {
+		let node;
+
+		switch (typeof source) {
+			case "string":
+				// Assume as Image Src
+				node = document.createElement("img");
+				this._src = source;
+				break;
+		
+			case "object":
+				if (source.classList)
+					// Source is a Node. We just need to append it in container
+					node = source;
+				else if (source.type && source.src) {
+					switch (source.type) {
+						case "image":
+						case "iframe":
+							node = document.createElement(source.type);
+							this._src = source.src;
+							break;
+
+						case "document":
+							node = document.createElement("embed");
+							this._src = source.src;
+							break;
+
+						default:
+							throw { code: -1, description: `lazyload: source.type >>> ${source.type} is not a valid type` }
+					}
+				} else
+					throw { code: -1, description: `lazyload: source is not a valid node/object` }
+				break;
+
+			default:
+				break;
+		}
+
+		if (node) {
+			node.addEventListener("load", () => this.loaded = true);
+			node.addEventListener("error", () => this.errored = true);
+
+			if (this.sourceNode) {
+				this.container.replaceChild(node, this.sourceNode);
+				this.sourceNode = node;
+			} else {
+				this.container.insertBefore(node, this.container.firstChild);
+				this.sourceNode = node;
+			}
+		}
 	}
 
 	/**
 	 * @param {String} src
 	 */
 	set src(src) {
+		if (!this.sourceNode)
+			throw { code: -1, description: `lazyload: cannot load source because sourceNode hasn't been initialized properly` }
+
 		this.loaded = false;
 		this.errored = false;
 		this.sourceNode.src = src;
@@ -1662,7 +1699,17 @@ function Animator(duration, timingFunction, animate) {
 
 	let update = () => {
 		let tPoint = (time() - start) / duration;
-		animate(Math.min(timingFunction(tPoint), 1));
+
+		// Safe executing update function to prevent stopping
+		// animation entirely
+		try {
+			if (animate(Math.min(timingFunction(tPoint), 1)) === false)
+				// Stop Animator
+				tPoint = 1.1;
+		} catch (e) {
+			let error = parseException(e);
+			clog("WARN", `Animator().update(): [${error.code}] ${error.description}`);
+		}
 
 		if (tPoint <= 1)
 			rAID = requestAnimationFrame(update);
@@ -1984,29 +2031,48 @@ function createSlider({
  * @param	{String}	color		Button Color
  * @returns	{HTMLButtonElement}		Button Element
  */
-function createBtn(text, color = "blue", {
+function createButton(text, {
+	color = "blue",
 	element = "button",
 	type = "button",
+	style = "flat",
+	classes,
 	icon = null,
 	align = "left",
 	complex = false
 } = {}) {
 	let button = document.createElement(element);
-	button.classList.add("sq-btn");
 	button.type = type;
+	button.dataset.style = style;
 	button.dataset.color = color;
-	button.dataset.soundhover = "";
-	button.dataset.soundselect = "";
+	button.classList.add("sq-btn");
 
-	let textNode = document.createElement("span");
-	textNode.classList.add("text");
-	textNode.innerText = text;
+	switch (typeof classes) {
+		case "string":
+			button.classList.add(classes);
+			break;
+		
+		case "object":
+			if (classes.length && classes.length > 0)
+				button.classList.add(...classes);
+			else
+				throw { code: -1, description: `createButton(): Invalid or empty "classes" type: ${typeof classes}` }
+
+			break;
+	}
 
 	if (icon)
 		button.innerHTML = `<icon class="${align}" data-icon="${icon}"></icon>`;
 
-	button.appendChild(textNode);
-	button.changeText = (text) => textNode.innerText = text;
+	let textNode = document.createElement("span");
+	textNode.classList.add("text");
+
+	if (typeof text === "undefined" || text === null || text === "icon") {
+		button.classList.add("empty");
+	} else {
+		textNode.innerText = text;
+		button.appendChild(textNode);
+	}
 
 	if (complex)
 		triBg(button, {
@@ -2017,7 +2083,7 @@ function createBtn(text, color = "blue", {
 		});
 
 	if (typeof sounds === "object")
-		sounds.applySound(button);
+		sounds.applySound(button, ["soundhover", "soundselect"]);
 
 	return button;
 }
@@ -2426,7 +2492,8 @@ const popup = {
 			for (let key of buttonKeyList) {
 				let item = buttonList[key];
 
-				let button = createBtn(item.text || "Text", item.color || "blue", {
+				let button = createButton(item.text || "Text", {
+					color: item.color,
 					icon: item.icon || null,
 					complex: !!item.complex
 				});

@@ -17,7 +17,7 @@
 			header("Cache-Control: no-cache, no-store, must-revalidate", true);
 
 			if (!isset($_GET["u"]) || empty($_GET["u"]))
-				loadAvatar(AVATAR_DIR ."/avt.default");
+				loadAvatar(AVATAR_DIR ."/avatar.default");
 
 			getAvatar($_GET["u"]);
 			break;

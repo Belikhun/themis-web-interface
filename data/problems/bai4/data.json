@@ -3,6 +3,7 @@
     "point": 10,
     "time": 1,
     "memory": 1024,
+    "author": "belivipro9x99",
     "type": {
         "inp": "B\u00e0n Ph\u00edm",
         "out": "M\u00e0n h\u00ecnh"
@@ -18,7 +19,7 @@
             "out": "2, 3, 5, 7, 11, 13, 17, 19, 23"
         }
     ],
-    "image": "prime number chart ii.jpg",
+    "thumbnail": "prime number chart ii.jpg",
     "disabled": false,
     "id": "bai4",
     "attachment": "tkb.thuc_hien_tu_06.7.2020.pdf"

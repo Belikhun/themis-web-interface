@@ -33,25 +33,27 @@
 		return $files;
 	}
 
-	class account {
-		public $data;
+	class Account {
+		public Array $data;
 
 		/**
 		 * @param    String		$username	Username
 		 */
-		public function __construct(String $username) {
+		public function __construct($username) {
 			global $accountsCache;
-
 			$this -> username = $username;
-			$this -> path = ACCOUNTS_DIR ."/$username.json";
+			
+			if (!empty($username)) {
+				$this -> path = ACCOUNTS_DIR ."/$username.json";
+				$this -> data = (isset($accountsCache[$username]) && !empty($accountsCache[$username]["username"]))
+					? $accountsCache[$username]
+					: (is_readable($this -> path)
+						? (new fip($this -> path)) -> read("json")
+						: Array());
 
-			$this -> data = (isset($accountsCache[$username]) && !empty($accountsCache[$username]["username"]))
-				? $accountsCache[$username]
-				: (is_readable($this -> path)
-					? (new fip($this -> path)) -> read("json")
-					: null);
-
-			$accountsCache[$this -> username] = $this -> data;
+				$accountsCache[$this -> username] = $this -> data;
+			} else
+				$this -> data = Array();
 		}
 
 		public function init($password) {
@@ -70,6 +72,19 @@
 			$this -> update();
 
 			return ACCOUNT_SUCCESS;
+		}
+		
+		public function getDetails() {
+			if (!$this -> dataExist())
+				return null;
+
+			return Array(
+				"id" => $this -> data["id"],
+				"username" => $this -> data["username"],
+				"name" => $this -> data["name"],
+				"lastAccess" => $this -> data["lastAccess"],
+				"online" => $this -> isOnline()
+			);
 		}
 
 		public function dataExist() {
@@ -129,4 +144,4 @@
 
 	// Update Online Status
 	if (isset($_SESSION["username"]))
-		(new account($_SESSION["username"])) -> access();
+		(new Account($_SESSION["username"])) -> access();

@@ -103,7 +103,7 @@ const setup = {
 			title.classList.add("title");
 			title.innerText = "Themis Web Interface";
 
-			let nextButton = createBtn("Tiếp Theo", "blue", { complex: true });
+			let nextButton = createButton("Tiếp Theo", { color: "blue", complex: true });
 			nextButton.classList.add("nextBtn");
 
 			left.appendChild(nextButton);
@@ -136,7 +136,7 @@ const setup = {
 			let iframe = document.createElement("iframe");
 			iframe.src = "/licenseInfo.php";
 			
-			let button = createBtn("Tiếp Theo", "green", { complex: true });
+			let button = createButton("Tiếp Theo", { color: "green", complex: true });
 			button.addEventListener("mouseup", () => screen.hide());
 
 			left.appendChild(button);
@@ -161,7 +161,7 @@ const setup = {
 				{ name: "username", node: createInput({ label: "Tên Người Dùng", color: "blue", required: true, autofill: false }) },
 				{ name: "password", node: createInput({ label: "Mật Khẩu", type: "password", color: "blue", required: true, autofill: false }) },
 				{ name: "verifyPassword", node: createInput({ label: "Nhập Lại Mật Khẩu", type: "password", color: "blue", required: true, autofill: false }) },
-				{ name: "submit", node: createBtn("Tạo Tài Khoản", "green", { type: "submit", complex: true }) }
+				{ name: "submit", node: createButton("Tạo Tài Khoản", { color: "green", type: "submit", complex: true }) }
 			]);
 
 			right.appendChild(form.tree);
@@ -248,7 +248,7 @@ const setup = {
 			let iframe = document.createElement("iframe");
 			iframe.src = "/config.php";
 			
-			let button = createBtn("Tiếp Theo", "green", { complex: true });
+			let button = createButton("Tiếp Theo", { color: "green", complex: true });
 			button.addEventListener("mouseup", () => screen.hide());
 
 			left.appendChild(button);

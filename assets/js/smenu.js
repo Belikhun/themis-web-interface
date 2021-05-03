@@ -5,6 +5,13 @@
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
+/**
+ * Settings Menu
+ * 
+ * @author	@belivipro9x99
+ * @version	v1.0
+ * @license	MIT
+ */
 const smenu = {
 	container: HTMLElement.prototype,
 	initialized: false,
@@ -772,7 +779,7 @@ const smenu = {
 				this.container = document.createElement("div");
 				this.container.classList.add("component", "button");
 
-				this.button = createBtn(label, color, { icon, complex });
+				this.button = createButton(label, { color, icon, complex });
 				this.container.appendChild(this.button);
 				
 				this.clickHandlers = []

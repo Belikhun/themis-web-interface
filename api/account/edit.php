@@ -28,7 +28,7 @@
 		stop(31, "Access Denied!", 403);
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/account.php";
-		$acc = new account($username);
+		$acc = new Account($username);
 
 	if (!$acc -> dataExist())
 		stop(13, "Tài khoản với tên người dùng \"$username\" không tồn tại!", 404, Array( "username" => $username ));

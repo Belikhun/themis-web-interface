@@ -34,6 +34,76 @@ input:-webkit-autofill {
 	background-color: rgba(0, 0, 0, 0);
 }
 
+/*? =================== COMPONENTS =================== **/
+
+.judgeStatus {
+	position: relative;
+	display: inline-block;
+
+	padding: 2px 10px 0;
+	border-radius: 10000px;
+	
+	font-family: Nunito;
+    font-weight: 900;
+    font-size: 11px;
+    font-style: normal;
+    line-height: 16px;
+	color: #131415;
+
+	text-transform: uppercase;
+	text-align: right;
+	word-break: keep-all;
+	
+	background-color: var(--status-skipped);
+}
+
+.judgeStatus[data-status="correct"] {
+	background-color: var(--status-correct);
+}
+
+.judgeStatus[data-status="passed"] {
+	background-color: var(--status-passed);
+}
+
+.judgeStatus[data-status="accepted"] {
+	background-color: var(--status-accepted);
+}
+
+.judgeStatus[data-status="failed"] {
+	background-color: var(--status-failed);
+}
+
+.judgeStatus[data-status="skipped"] {
+	background-color: var(--status-skipped);
+}
+
+.progressBar.judgeStatusBar {
+	margin: unset;
+	height: 20px;
+}
+
+.progressBar.judgeStatusBar > .bar[data-color="green"] {
+	background-color: var(--status-correct);
+}
+
+.progressBar.judgeStatusBar > .bar[data-color="blue"] {
+	background-color: var(--status-passed);
+}
+
+.progressBar.judgeStatusBar > .bar[data-color="yellow"] {
+	background-color: var(--status-accepted);
+}
+
+.progressBar.judgeStatusBar > .bar[data-color="red"] {
+	background-color: var(--status-failed);
+}
+
+.progressBar.judgeStatusBar > .bar[data-color="gray"] {
+	background-color: var(--status-skipped);
+}
+
+/*? =================== COMPONENTS =================== **/
+
 #superContainer {
 	position: absolute;
 	display: block;
@@ -452,7 +522,7 @@ panel > .main > .loadingWrapper.show {
 	overflow: hidden;
 }
 
-#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .image {
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .thumbnail {
 	display: flex;
 	width: 100%;
 	height: 100%;
@@ -460,7 +530,7 @@ panel > .main > .loadingWrapper.show {
 	border-radius: 12px;
 }
 
-#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .image::after {
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .thumbnail::after {
 	content: "";
 	position: absolute;
 	display: inline-block;
@@ -474,7 +544,7 @@ panel > .main > .loadingWrapper.show {
 	transition: box-shadow 0.1s ease-out;
 }
 
-#problemsPanel > .problemsContainer > .listContainer > .list > .item:hover > .content > .image::after {
+#problemsPanel > .problemsContainer > .listContainer > .list > .item:hover > .content > .thumbnail::after {
 	box-shadow: inset 0 -180px 80px -85px rgba(0, 0, 0, 0.6);
 }
 
@@ -484,18 +554,6 @@ panel > .main > .loadingWrapper.show {
 
 	top: 10px;
 	left: 10px;
-	padding: 2px 10px 0;
-	border-radius: 10000px;
-	
-	font-family: Nunito;
-    font-weight: 900;
-    font-size: 11px;
-    font-style: normal;
-    line-height: 16px;
-	color: #131415;
-	text-transform: uppercase;
-	
-	background-color: var(--status-skipped);
 }
 
 #problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .tags {
@@ -589,26 +647,6 @@ panel > .main > .loadingWrapper.show {
 	width: 100%;
 	height: 20px;
 	margin-top: 0;
-}
-
-#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail > .progressBar > .bar[data-color="green"] {
-	background-color: var(--status-correct);
-}
-
-#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail > .progressBar > .bar[data-color="blue"] {
-	background-color: var(--status-passed);
-}
-
-#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail > .progressBar > .bar[data-color="yellow"] {
-	background-color: var(--status-accepted);
-}
-
-#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail > .progressBar > .bar[data-color="red"] {
-	background-color: var(--status-failed);
-}
-
-#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail > .progressBar > .bar[data-color="gray"] {
-	background-color: var(--status-skipped);
 }
 
 #problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail > .progressBar > .right {
@@ -729,44 +767,7 @@ panel > .main > .loadingWrapper.show {
 }
 
 #problemsPanel > .problemsContainer > .listContainer > .list > .item > .background > .container > .wrapper > .status {
-	position: relative;
-	display: inline-block;
 	float: right;
-
-	padding: 2px 10px 0;
-	border-radius: 10000px;
-	
-	font-family: Nunito;
-    font-weight: 900;
-    font-size: 11px;
-    font-style: normal;
-    line-height: 16px;
-	color: #131415;
-	text-transform: uppercase;
-	text-align: right;
-	word-break: keep-all;
-	
-	background-color: var(--status-skipped);
-}
-
-#problemsPanel > .problemsContainer > .listContainer > .list > .item > .background > .container > .wrapper > .status[data-status="correct"] {
-	background-color: var(--status-correct);
-}
-
-#problemsPanel > .problemsContainer > .listContainer > .list > .item > .background > .container > .wrapper > .status[data-status="passed"] {
-	background-color: var(--status-passed);
-}
-
-#problemsPanel > .problemsContainer > .listContainer > .list > .item > .background > .container > .wrapper > .status[data-status="accepted"] {
-	background-color: var(--status-accepted);
-}
-
-#problemsPanel > .problemsContainer > .listContainer > .list > .item > .background > .container > .wrapper > .status[data-status="failed"] {
-	background-color: var(--status-failed);
-}
-
-#problemsPanel > .problemsContainer > .listContainer > .list > .item > .background > .container > .wrapper > .status[data-status="skipped"] {
-	background-color: var(--status-skipped);
 }
 
 #problemsPanel > .problemsContainer > .listContainer > .list > .item > .background > .container > .list {
@@ -808,172 +809,344 @@ panel > .main > .loadingWrapper.show {
 	background-color: rgb(216, 216, 216);
 }
 
-/** PROBLEM VIEWER **/
-
-#problemsPanel > .problemsContainer > .problem {
+#problemsPanel > .problemsContainer > .problemContainer {
 	position: absolute;
-	width: 100%;
-	height: 100%;
+	
 	top: 0;
 	right: 0;
-	box-sizing: border-box;
-	padding: 10px;
-	overflow-x: hidden;
-	overflow-y: auto;
+	width: 100%;
+	height: 100%;
+	
+	overflow: hidden;
 	background-color: inherit;
-
 	animation: problemViewerHide 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0s 1 normal forwards;
 }
 
-#problemsPanel > .problemsContainer > .listContainer.hide + .problem {
+#problemsPanel > .problemsContainer > .listContainer.hide + .problemContainer {
 	animation: problemViewerShow 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0s 1 normal forwards;
 }
 
-#problemsPanel > .problemsContainer > .problem > .name {
-	display: block;
-	text-align: center;
-	font-family: Nunito;
-	font-size: 19px;
-	font-weight: 900;
-	letter-spacing: .8px;
-	color: #34495e;
-}
-
-#problemsPanel > .problemsContainer > .problem > .point {
-	display: block;
-	text-align: center;
-	font-size: 12px;
-	font-weight: bold;
-	color: #287548;
-	letter-spacing: 0.4px;
-}
-
-#problemsPanel > .problemsContainer > .problem > .enlarge,
-#problemsPanel > .problemsContainer > .problem > .close {
-	position: absolute;
-	display: block;
-	top: 20px;
-	right: 50px;
-}
-
-#problemsPanel > .problemsContainer > .problem > .enlarge::before,
-#problemsPanel > .problemsContainer > .problem > .close::before {
-	content: "\f360";
+#problemsPanel > .problemsContainer > .problemContainer > .content {
 	position: relative;
-	font-family: "Font Awesome 5 Free";
+	display: block;
+
+	overflow: auto;
+}
+
+/** ======================== PROBLEM VIEWER ======================== **/
+
+.problemViewer {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+}
+
+.problemViewer > .background {
+	position: sticky;
+
+	top: 0;
+	width: 100%;
+	height: 50vh;
+}
+
+.problemViewer > .background ~ * {
+	background-color: white;
+}
+
+.problemViewer > .header {
+	position: absolute;
+	display: flex;
+	flex-direction: row;
+
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 50vh;
+
+	background-color: rgba(0, 0, 0, 0.6);
+}
+
+.problemViewer > .header > .left,
+.problemViewer > .header > .right {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	flex-shrink: 1;
+	justify-content: flex-end;
+
+	margin: 10px 0 10px 20px;
+}
+
+.problemViewer > .header > .left > .title {
+	font-family: Nunito;
+	font-size: 26px;
+	font-weight: 800;
+	letter-spacing: .8px;
+	color: white;
+}
+
+.problemViewer > .header > .left > .point {
+	font-family: Nunito;
 	font-size: 22px;
-	font-weight: 600;
-	cursor: pointer;
-	color: rgb(92, 92, 92);
+	font-weight: 400;
+	color: white;
 }
 
-#problemsPanel > .problemsContainer > .problem > .close {
-	right: 20px;
+.problemViewer > .header > .left > .point > b {
+	font-weight: 800;
 }
 
-#problemsPanel > .problemsContainer > .problem > .close::before {
-	content: "\f00d";
-}
-
-#problemsPanel > .problemsContainer > .problem > .info {
+.problemViewer > .header > .left> .author {
 	position: relative;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	justify-content: center;
-	margin: 6px 0 20px;
+
+	margin-top: 20px;
 }
 
-#problemsPanel > .problemsContainer > .problem > .info .filename::before {
-	content: "ID: ";
+.problemViewer > .header > .left> .author > .avatar {
+	width: 64px;
+	height: 64px;
+	border-radius: 50%;
 }
 
-#problemsPanel > .problemsContainer > .problem > .info.general {
-	margin-bottom: 4px;
+.problemViewer > .header > .left> .author > .detail {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+
+	margin-left: 10px;
 }
 
-#problemsPanel > .problemsContainer > .problem > .info.IO > t {
-	font-family: "Consolas";
+.problemViewer > .header > .left> .author > .detail > t {
+	color: white;
+}
+
+.problemViewer > .header > .left> .author > .detail > .title {
+	font-size: 11px;
 	font-weight: bold;
+	text-transform: uppercase;
+	color: rgba(245, 245, 245, 0.8);
+}
+
+.problemViewer > .header > .left> .author > .detail > .name {
+	font-family: Nunito;
 	font-size: 16px;
+	font-weight: 800;
+	letter-spacing: .2px;
 }
 
-#problemsPanel > .problemsContainer > .problem > .info.IO > .input::before,
-#problemsPanel > .problemsContainer > .problem > .info.IO > .output::before {
-	position: relative;
-	display: inline-block;
-	font-family: "Open Sans";
-	font-weight: normal;
+.problemViewer > .header > .left> .author > .detail > .updated {
+	margin-top: 5px;
 	font-size: 13px;
-	margin-right: 6px;
 }
 
-#problemsPanel > .problemsContainer > .problem > .info.IO > .input::before {
-	content: "Input:";
+.problemViewer > .header > .left > .buttons {
+
 }
 
-#problemsPanel > .problemsContainer > .problem > .info.IO > .output::before {
-	content: "Output:";
+.problemViewer > .header > .left > .buttons > button {
+	margin: 10px 10px 0 0;
 }
 
-#problemsPanel > .problemsContainer > .problem > .description {
-	white-space: pre-wrap;
-	margin: 0 20px;
+.problemViewer > .header > .right {
+	flex-grow: 0;
+
+	margin: 0 20px 0 0;
 }
 
-#problemsPanel > .problemsContainer > .problem > .description > a,
-#problemsPanel > .problemsContainer > .problem > .description > table,
-#problemsPanel > .problemsContainer > .problem > .description > ul {
-	display: block;
-}
-
-#problemsPanel > .problemsContainer > .problem table tr:hover {
-	background-color: rgba(126, 126, 126, 0.1);
-}
-
-#problemsPanel > .problemsContainer > .problem table.test tr > td {
-	font-family: "Consolas";
-}
-
-#problemsPanel > .problemsContainer > .problem > .image {
+.problemViewer > .header > .right > span {
 	position: relative;
+	display: flex;
+	flex-direction: column;
+
+	padding: 5px 10px;
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+.problemViewer > .header > .right > span:last-child {
+	padding-bottom: 10px;
+}
+
+.problemViewer > .header > .right > span > .title {
+	font-size: 11px;
+	font-weight: bold;
+	text-transform: uppercase;
+	letter-spacing: .4px;
+	color: rgba(255, 255, 255, 0.8);
+}
+
+.problemViewer > .header > .right > span > .title::after {
+	content: "";
+	position: relative;
+	display: block;
+
 	width: 100%;
-	margin: 10px 0;
-	border: 1px solid #ccc;
+	height: 1px;
+	background-color: rgba(255, 255, 255, 0.4);
+	margin: 4px 0;
 }
 
-#problemsPanel > .problemsContainer > .problem > .attachment {
-	position: relative;
+.problemViewer > .header > .right > .loved > .list:empty::after {
+	content: "Trống";
 	display: block;
+
 	margin-top: 10px;
-}
 
-#problemsPanel > .problemsContainer > .problem > .attachment > .link {
-	position: relative;
-	display: block;
-	font-size: 14px;
-}
-
-#problemsPanel > .problemsContainer > .problem > .attachment > .link::before {
-	content: "Tệp đính kèm:";
-	position: relative;
-	display: inline-block;
-	font-family: "Calibri";
 	font-size: 13px;
 	font-weight: bold;
-	user-select: none;
-	margin-right: 4px;
-	color: rgb(124, 124, 124);
+	text-transform: uppercase;
+	text-align: center;
+	color: rgba(220, 220, 220, 0.6);
 }
 
-#problemsPanel > .problemsContainer > .problem > .attachment > .embed {
-	width: 100%;
-	height: 0;
-	min-height: 80px;
-	max-height: calc(100vh - 160px);
-	margin: 10px 0 20px;
-	transition: height 0.4s ease-in;
+.problemViewer > .header > .right > .loved > .list > .user {
+	width: 18px;
+	height: 18px;
+	min-width: unset;
+	min-height: unset;
+	border-radius: 50%;
+	margin: 0 1px;
 }
+
+.problemViewer > .header > .right > .status > .progressBar {
+	margin-bottom: 3px;
+}
+
+.problemViewer > .header > .right > .status > .detail > .item {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	margin-top: 2px;
+}
+
+.problemViewer > .header > .right > .status > .detail > .item > .wrapper {
+	min-width: 134px;
+}
+
+.problemViewer > .header > .right > .status > .detail > .item > .wrapper > .status {
+	float: right;
+}
+
+.problemViewer > .header > .right > .status > .detail > .item > .value {
+	margin-left: 10px;
+
+	font-size: 13px;
+	color: white;
+	white-space: nowrap;
+}
+
+.problemViewer > .details {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+
+	padding: 10px 5px;
+	background-color: white;
+}
+
+.problemViewer > .details > span {
+	position: relative;
+	display: inline-block;
+	flex-grow: 1;
+	flex-shrink: 1;
+
+	margin: 0 10px;
+}
+
+.problemViewer > .details > span > .title {
+	font-family: Nunito;
+	font-size: 16px;
+	font-weight: 800;
+	white-space: nowrap;
+}
+
+.problemViewer > .details > .left > .title {
+	margin-left: 5px;
+}
+
+.problemViewer > .details > .left > .items > .item {
+	position: relative;
+	display: inline-block;
+
+	margin: 5px;
+	padding: 10px 10px 10px 20px;
+	border-radius: 7px;
+	background-color: rgb(240, 240, 240);
+}
+
+.problemViewer > .details > .left > .items > .item::before {
+	content: "";
+	position: absolute;
+	display: block;
+
+	top: 12px;
+	bottom: 12px;
+	left: 10px;
+	width: 2px;
+
+	background-color: rgba(0, 0, 0, 0.2);
+}
+
+.problemViewer > .details > .left > .items > .item:hover::before {
+	background-color: rgba(0, 0, 0, 0.6);
+}
+
+.problemViewer > .details > .left > .items > .item > .label {
+	font-size: 11px;
+	font-weight: bold;
+	text-transform: uppercase;
+	letter-spacing: .4px;
+	color: rgba(26, 26, 26, 0.8);
+}
+
+.problemViewer > .details > .left > .items > .item > .value {
+	font-family: Nunito;
+	font-size: 18px;
+	font-weight: 500;
+}
+
+.problemViewer > .details > .right {
+	flex-grow: 0;
+
+	margin-right: 15px;
+}
+
+.problemViewer > .details > .right > .languages {
+	position: relative;
+	display: block;
+
+	font-family: "Consolas";
+	font-size: 18px;
+	font-weight: bold;
+	word-wrap: break-word;
+
+	color: rgb(2, 104, 172);
+}
+
+.problemViewer > .details > .right > .languages:empty::after {
+	content: "Trống";
+    display: flex;
+	align-items: center;
+	justify-content: center;
+
+	min-width: 200px;
+	min-height: 60px;
+    margin-top: 10px;
+
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    color: rgba(38, 38, 38, 0.6);
+	background-color: rgba(26, 26, 26, 0.1);
+}
+
+/** ======================== PROBLEM VIEWER ANIMATION ======================== **/
 
 @keyframes problemsListShow {
 	0% {

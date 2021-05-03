@@ -78,7 +78,7 @@
 		$sub = new Submissions($user);
 		$subList = $sub -> list();
 
-		$userData = (new account($user)) -> data;
+		$userData = (new Account($user)) -> data;
 		$res[$user] = Array(
 			"username" => $user,
 			"name" => ($userData && isset($userData["name"])) ? $userData["name"] : null,

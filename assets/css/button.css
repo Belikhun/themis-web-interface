@@ -7,87 +7,7 @@
 ? |-----------------------------------------------------------------------------------------------|
 */
 
-.btn {
-	color: rgb(250, 250, 250);
-	background-color: rgb(33, 187, 98);
-	font-size: 12px;
-	font-family: "Segoe UI", sans-serif;
-	font-weight: 600;
-	letter-spacing: 0.5px;
-	padding: 7.2px 18px;
-	border-width: 0;
-	border-style: solid;
-	border-color: rgb(0, 0, 0);
-	border-image: initial;
-	border-radius: 5px;
-	box-sizing: border-box;
-	text-decoration: none;
-	cursor: pointer;
-	transition: all 1s cubic-bezier(0.06, 0.81, 0, 0.98);
-}
-
-.btn:hover {
-	background-color: #2ECC71;
-}
-
-.btn:active {
-	background-color: #208B4E;
-}
-
-.btn.gray {
-	background-color: #34495e;
-}
-
-.btn.gray:hover {
-	background-color: #3c5a79;
-}
-
-.btn.gray:active {
-	background-color: #2a3a4b;
-}
-
-.btn.red {
-	background-color: #e74c3c;
-}
-
-.btn.red:hover {
-	background-color: #f74734;
-}
-
-.btn.red:active {
-	background-color: #be5044;
-}
-
-.btn.yellow {
-	background-color: #f1c40f;
-}
-
-.btn.yellow:hover {
-	background-color: #f8c809;
-}
-
-.btn.yellow:active {
-	background-color: #ddb619;
-}
-
-.btn.blue {
-	background-color: #4285f4;
-}
-
-.btn.blue:hover {
-	background-color: #5694f6;
-}
-
-.btn.blue:active {
-	background-color: #2d76eb;
-}
-
-.btn:disabled {
-	background-color: #3b4249;
-	color: rgb(119, 119, 119);
-	cursor: default;
-}
-
+/** Microsoft Style Button */
 .ms-btn {
 	position: relative;
 	display: flex;
@@ -130,6 +50,7 @@
 	transform: scale(0.96);
 }
 
+/** Square Button(?) */
 .sq-btn {
 	position: relative;
 	display: inline-flex;
@@ -221,6 +142,19 @@ body.dark .sq-btn > icon::after {
 	color: white;
 }
 
+.sq-btn.empty > icon {
+	margin: unset;
+}
+
+.sq-btn[data-style="round"] {
+	padding: 14px;
+	border-radius: 4px;
+}
+
+.sq-btn[data-style="round"]:focus {
+	outline: none;
+}
+
 @keyframes sq-btn-trig-anim {
 	0% {
 		transform: translateY(0);
@@ -232,7 +166,7 @@ body.dark .sq-btn > icon::after {
 }
 
 .sq-btn:hover {
-	filter: brightness(1.15);
+	filter: brightness(1.2);
 }
 
 .sq-btn:active {
@@ -412,6 +346,7 @@ body.dark .sq-btn:focus {
 		sq-btn-triRainbow2 10s linear 0s infinite;
 }
 
+/** Simple Text Button */
 .text-btn {
 	position: relative;
 	background-color: transparent;

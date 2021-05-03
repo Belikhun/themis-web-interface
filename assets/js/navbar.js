@@ -498,7 +498,7 @@ const navbar = {
 
 		let avatarNode = new lazyload({
 			source: avatar,
-			classes: "avatar"
+			classes: ["avatar", "light"]
 		})
 
 		let nameNode = document.createElement("t");
@@ -554,7 +554,7 @@ const navbar = {
 				{ type: "form", class: "nameForm", name: "name", list: [
 					{ type: "t", class: "title", name: "formTitle", text: "Đổi Tên" },
 					{ name: "input", node: createInput({ type: "text", label: "Tên Mới", color: "blue", autofill: false, require: true }) },
-					{ name: "submit", node: createBtn("Xác Nhận") }
+					{ name: "submit", node: createButton("Xác Nhận") }
 				]},
 
 				{ type: "form", class: "passForm", name: "password", list: [
@@ -563,7 +563,7 @@ const navbar = {
 					{ name: "old", node: createInput({ type: "password", label: "Mật Khẩu Cũ", color: "blue", autofill: false, require: true }) },
 					{ name: "new", node: createInput({ type: "password", label: "Mật Khẩu Mới", color: "blue", autofill: false, require: true }) },
 					{ name: "reType", node: createInput({ type: "password", label: "Nhập Lại Mật Khẩu", color: "blue", autofill: false, require: true }) },
-					{ name: "submit", node: createBtn("Xác Nhận") }
+					{ name: "submit", node: createButton("Xác Nhận") }
 				]}
 			]}
 		]);

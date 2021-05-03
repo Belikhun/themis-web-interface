@@ -20,7 +20,7 @@
 	$password = reqForm("password");
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/account.php";
-	$acc = new account($username);
+	$acc = new Account($username);
 
 	switch ($acc -> auth($password)) {
 		case ACCOUNT_SUCCESS:

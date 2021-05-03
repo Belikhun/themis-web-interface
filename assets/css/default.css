@@ -332,7 +332,8 @@ tag {
 	display: block;
 }
 
-body.dark .lazyload::before {
+body.dark .lazyload::before,
+.lazyload.light::before {
 	color: rgb(226, 226, 226);
 }
 
@@ -660,6 +661,15 @@ icon[data-icon="list"]::after {
 
 icon[data-icon="search"]::after {
 	content: "\f002";
+}
+
+icon[data-icon="heart"]::after {
+	content: "\f004";
+	font-weight: 100;
+}
+
+icon[data-icon="heartFill"]::after {
+	content: "\f004";
 }
 
 /** ======================== NOTE ======================== **/

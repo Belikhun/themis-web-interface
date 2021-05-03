@@ -35,10 +35,7 @@
 			break;
 	}
 
-	if (isset($data["image"]))
-		$data["image"] = "/api/contest/problems/image?id=". $id;
-	else
-		$data["image"] = null;
+	$data["thumbnail"] = "/api/contest/problems/thumbnail?id=". $id;
 
 	if (isset($data["attachment"])) {
 		$f = PROBLEMS_DIR ."/". $id ."/". $data["attachment"];

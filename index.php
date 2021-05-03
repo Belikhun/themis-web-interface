@@ -17,7 +17,7 @@
 	$adminCount = 0;
 
 	foreach ($accountLists as $user) {
-		$acc = new account($user);
+		$acc = new Account($user);
 		
 		if ($acc -> isAdmin())
 			$adminCount++;
@@ -198,43 +198,8 @@
 									<div id="problemsList" class="list showEmpty sound" data-soundtoggle="hide"></div>
 								</div>
 
-								<div class="problem">
-									<t class="name" id="problemName"></t>
-									<t class="point" id="problemPoint"></t>
-									<span class="enlarge sound" id="problemViewerEnlarge" title="Phóng to" data-soundhoversoft data-soundselectsoft></span>
-									<span class="close sound" id="problemViewerClose" title="Đóng" data-soundhoversoft data-soundselectsoft></span>
-									
-									<div class="info general">
-										<t title="Tên tệp" class="filename" id="problemInfoFilename"></t>
-										<dot></dot>
-										<t title="Loại tệp" id="problemInfoLanguage"></t>
-										<dot></dot>
-										<t title="Thời gian chạy" id="problemInfoRuntime"></t>
-										<dot></dot>
-										<t title="Giới hạn bộ nhớ" id="problemInfoMemory">?MB</t>
-									</div>
-	
-									<div class="info IO">
-										<t title="INPUT" class="input" id="problemInfoInput"></t>
-										<dot></dot>
-										<t title="OUTPUT" class="output" id="problemInfoOutput"></t>
-									</div>
-	
-									<t class="description" id="problemDescription"></t>
-									<div class="image" id="problemImage"></div>
-	
-									<div id="problemAttachment" class="attachment">
-										<a id="problemAttachmentLink" class="link" href=""></a>
-	
-										<div id="problemAttachmentPreviewWrapper" class="lazyload embed">
-											<embed id="problemAttachmentPreview" src=""/>
-											<div class="simpleSpinner"></div>
-										</div>
-									</div>
-	
-									<div class="simpleTableWrapper">
-										<table class="simpleTable test" id="problemTests"></table>
-									</div>
+								<div id="problemViewContainer" class="problemContainer">
+									<div id="problemView" class="content"></div>
 								</div>
 							</div>
 						</panel>

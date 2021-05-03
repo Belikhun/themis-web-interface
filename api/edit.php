@@ -32,7 +32,7 @@
 	}
 
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/account.php";
-	$acc = new account($username);
+	$acc = new Account($username);
 	$userdata = $acc -> data;
 
 	if (isset($_POST["password"])) {

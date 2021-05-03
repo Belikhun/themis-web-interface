@@ -21,16 +21,12 @@
 	if ($username !== preg_replace("/[^a-zA-Z0-9]+/", "", $username))
 		stop(-1, "Tên người dùng chỉ được phép dùng các kí tự trong khoảng a-zA-Z0-9", 400);
 
-	$acc = new account($username);
+	$acc = new Account($username);
 
 	if (!$acc -> dataExist())
 		stop(13, "Không tìm thấy tên người dùng \"$username\"!", 404, Array( "username" => $username ));
 
-	$userData = $acc -> data;
-	$userData["online"] = $acc -> isOnline();
-	unset($userData["password"]);
-	unset($userData["repass"]);
-
+	$userData = $acc -> getDetails();
 	$submissionsData = null;
 
 	if (getConfig("contest.result.publish")) {

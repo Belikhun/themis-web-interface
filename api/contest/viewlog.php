@@ -39,7 +39,7 @@
 	if (!$logData)
 		stop(44, "Không tìm thấy dữ liệu", 404, Array( "username" => $username, "id" => $id ));
 
-	$userData = (new account($logData["header"]["user"])) -> data;
+	$userData = (new Account($logData["header"]["user"])) -> data;
 	$logData["header"]["name"] = ($userData && isset($userData["name"])) ? $userData["name"] : null;
 	$logData["meta"] = $submission -> getMeta($id);
 

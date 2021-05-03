@@ -15,8 +15,9 @@
  * 
  * `TOTAL HOURS WASTED: 21`
  * 
- * @author		@belivipro9x99
- * @version		v1.0
+ * @author	@belivipro9x99
+ * @version	v1.0
+ * @license	MIT
  */
 class Editor {
 	/**

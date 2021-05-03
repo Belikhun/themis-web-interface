@@ -760,9 +760,9 @@ const twi = {
 									]}
 								]},
 	
-								{ name: "rawLog", node: createBtn("Raw Log", "blue", { element: "a", complex: true, icon: "scroll" }) },
-								{ name: "reJudge", node: createBtn("Chấm Lại", "pink", { complex: true, icon: "gavel" }) },
-								{ name: "delete", node: createBtn("Xóa Điểm", "red", { complex: true, icon: "trash" }) }
+								{ name: "rawLog", node: createButton("Raw Log", { color: "blue", element: "a", complex: true, icon: "scroll" }) },
+								{ name: "reJudge", node: createButton("Chấm Lại", { color: "pink", complex: true, icon: "gavel" }) },
+								{ name: "delete", node: createButton("Xóa Điểm", { color: "red", complex: true, icon: "trash" }) }
 							]}
 						]},
 	
@@ -892,10 +892,6 @@ const twi = {
 		container: $("#problemsPanel"),
 		listContainer: $("#problemsListContainer"),
 		list: $("#problemsList"),
-		name: $("#problemName"),
-		point: $("#problemPoint"),
-		enlargeBtn: $("#problemViewerEnlarge"),
-		closeBtn: $("#problemViewerClose"),
 
 		search: {
 			container: $("#problemSearch"),
@@ -903,43 +899,37 @@ const twi = {
 			clear: $("#problemSearchClear")
 		},
 
-		type: {
-			filename: $("#problemInfoFilename"),
-			lang: $("#problemInfoLanguage"),
-			time: $("#problemInfoRuntime"),
-			mem: $("#problemInfoMemory"),
-			input: $("#problemInfoInput"),
-			output: $("#problemInfoOutput")
-		},
-
-		image: lazyload.prototype,
-		description: $("#problemDescription"),
-		test: $("#problemTests"),
-		
-		attachment: {
-			container: $("#problemAttachment"),
-			link: $("#problemAttachmentLink"),
-			preview: $("#problemAttachmentPreview"),
-			previewWrapper: $("#problemAttachmentPreviewWrapper")
+		problem: {
+			container: $("#problemViewContainer"),
+			view: $("#problemView")
 		},
 
 		data: null,
 		loaded: false,
-		problemImage: lazyload.prototype,
 
 		/** @type {TWIPanel} */
 		panel: null,
 
 		/** @type {Pager} */
-		pager: undefined,
+		pager: null,
 
-		backButton: null,
-		reloadButton: null,
+		/**
+		 * Store the elements structure of Problem Viewer
+		 * @type {HTMLElement}
+		 */
+		viewer: null,
+
+		/**
+		 * User setting to toggle open an problem
+		 * in a new window
+		 * @type	{Boolean}
+		 */
 		viewInDialog: false,
 
 		/** @type {wavec.Container} */
 		wavec: wavec.Container.prototype,
 
+		backButton: null,
 		searchDelay: null,
 		currentActiveItem: null,
 		itemTimeout: {},
@@ -948,7 +938,7 @@ const twi = {
 			this.pager = new Pager(this.list, -1);
 			this.panel = new TWIPanel(this.container);
 
-			// Set Up Searchbar
+			// Initialize searchbar
 			this.search.input.addEventListener("input", (e) => {
 				if (e.target.value !== "")
 					this.search.container.classList.add("typing");
@@ -964,11 +954,189 @@ const twi = {
 				this.search.input.dispatchEvent(new Event("input"));
 			});
 
-			// Set Up Pager
+			// Set up pager handler
 			this.pager.renderItem((i) => this.__renderItem(i));
 			this.pager.setFilter((i) => {
 				return true;
 			});
+
+			// Set up scrollable
+			new Scrollable(this.listContainer, {
+				content: this.list
+			});
+
+			new Scrollable(this.problem.container, {
+				content: this.problem.view
+			});
+
+			// Build Problem Viewer Tree
+			this.viewer = makeTree("div", "problemViewer", {
+				background: new lazyload({ classes: "background" }),
+
+				header: { tag: "div", class: "header", child: {
+					left: { tag: "span", class: "left", child: {
+						pTitle: { tag: "t", class: "title", text: "Sample Title" },
+						point: { tag: "span", class: "point", text: "0 điểm" },
+
+						author: { tag: "div", class: "author", child: {
+							avatar: new lazyload({ classes: ["avatar", "light"] }),
+							details: { tag: "span", class: "detail", child: {
+								uTitle: { tag: "t", class: "title", text: "Được Tạo Bởi" },
+								uName: { tag: "t", class: "name", text: "dummy" },
+								updated: { tag: "t", class: "updated", html: "cập nhật lúc <b>00/00/0000</b>" }
+							}}
+						}},
+
+						buttons: { tag: "div", class: "buttons", child: {
+							love: createButton("icon", {
+								color: "blue",
+								icon: "heart",
+								style: "round",
+								complex: true
+							}),
+
+							edit: createButton("Chỉnh Sửa", {
+								color: "green",
+								icon: "pencil",
+								style: "round",
+								complex: true
+							}),
+
+							delete: createButton("Xóa", {
+								color: "red",
+								icon: "trash",
+								style: "round",
+								complex: true
+							})
+						}}
+					}},
+
+					right: { tag: "span", class: "right", child: {
+						loved: { tag: "span", class: "loved", child: {
+							lTitle: { tag: "t", class: "title", text: "Yêu Thích" },
+							list: { tag: "div", class: "list" }
+						}},
+
+						status: { tag: "span", class: "status", child: {
+							sTitle: { tag: "t", class: "title", text: "Tình Trạng" },
+							bar: { tag: "div", class: ["progressBar", "judgeStatusBar", "stackable"], child: {
+								correct: { tag: "div", class: "bar", data: { color: "green" } },
+								passed: { tag: "div", class: "bar", data: { color: "blue" } },
+								accepted: { tag: "div", class: "bar", data: { color: "yellow" } },
+								failed: { tag: "div", class: "bar", data: { color: "red" } },
+								skipped: { tag: "div", class: "bar", data: { color: "gray" } }
+							}},
+
+							detail: { tag: "div", class: "detail", child: {
+								correct: { tag: "div", class: "item", child: {
+									wrapper: { tag: "span", class: "wrapper", child: {
+										status: {
+											tag: "span",
+											class: ["status", "judgeStatus"],
+											data: { status: "correct" },
+											text: twi.taskStatus.correct
+										},
+									}},
+
+									value: { tag: "t", class: "value", text: "0 bài làm" }
+								}},
+
+								passed: { tag: "div", class: "item", child: {
+									wrapper: { tag: "span", class: "wrapper", child: {
+										status: {
+											tag: "span",
+											class: ["status", "judgeStatus"],
+											data: { status: "passed" },
+											text: twi.taskStatus.passed
+										},
+									}},
+
+									value: { tag: "t", class: "value", text: "0 bài làm" }
+								}},
+
+								accepted: { tag: "div", class: "item", child: {
+									wrapper: { tag: "span", class: "wrapper", child: {
+										status: {
+											tag: "span",
+											class: ["status", "judgeStatus"],
+											data: { status: "accepted" },
+											text: twi.taskStatus.accepted
+										},
+									}},
+
+									value: { tag: "t", class: "value", text: "0 bài làm" }
+								}},
+
+								failed: { tag: "div", class: "item", child: {
+									wrapper: { tag: "span", class: "wrapper", child: {
+										status: {
+											tag: "span",
+											class: ["status", "judgeStatus"],
+											data: { status: "failed" },
+											text: twi.taskStatus.failed
+										},
+									}},
+
+									value: { tag: "t", class: "value", text: "0 bài làm" }
+								}},
+
+								skipped: { tag: "div", class: "item", child: {
+									wrapper: { tag: "span", class: "wrapper", child: {
+										status: {
+											tag: "span",
+											class: ["status", "judgeStatus"],
+											data: { status: "skipped" },
+											text: twi.taskStatus.skipped
+										},
+									}},
+
+									value: { tag: "t", class: "value", text: "0 bài làm" }
+								}}
+							}}
+						}}
+					}}
+				}},
+
+				details: { tag: "div", class: "details", child: {
+					left: { tag: "span", class: "left", child: {
+						tTitle: { tag: "t", class: "title", text: "Thông Tin" },
+
+						items: { tag: "div", class: "items", child: {
+							pID: { tag: "span", class: ["item", "id"], child: {
+								label: { tag: "t", class: "label", text: "Mã Đề" },
+								value: { tag: "t", class: "value", text: "sample" }
+							}},
+	
+							runtime: { tag: "span", class: ["item", "runtime"], child: {
+								label: { tag: "t", class: "label", text: "Thời Gian Chạy" },
+								value: { tag: "t", class: "value", text: "0 giây" }
+							}},
+	
+							memory: { tag: "span", class: ["item", "memory"], child: {
+								label: { tag: "t", class: "label", text: "Bộ Nhớ" },
+								value: { tag: "t", class: "value", text: "0 B" }
+							}},
+	
+							input: { tag: "span", class: ["item", "input"], child: {
+								label: { tag: "t", class: "label", text: "Input" },
+								value: { tag: "t", class: "value", text: "Bàn Phím" }
+							}},
+	
+							output: { tag: "span", class: ["item", "output"], child: {
+								label: { tag: "t", class: "label", text: "Output" },
+								value: { tag: "t", class: "value", text: "Màn Hình" }
+							}}
+						}}
+					}},
+
+					right: { tag: "span", class: "right", child: {
+						tTitle: { tag: "t", class: "title", text: "Ngôn Ngữ" },
+						languages: { tag: "t", class: "languages" }
+					}}
+				}}
+			});
+
+			this.problem.view.appendChild(this.viewer);
 
 			// Register Panel Buttons / Viewer Buttons Handler
 			this.reloadButton = this.panel.button("reload");
@@ -977,15 +1145,6 @@ const twi = {
 			this.backButton = this.panel.button("close");
 			this.backButton.onClick(() => this.closeViewer());
 			this.backButton.hide();
-			
-			this.closeBtn.addEventListener("mouseup", () => this.closeViewer());
-			this.enlargeBtn.addEventListener("mouseup", () => this.enlargeProblem(this.data));
-
-			this.image = new lazyload({
-				container: $("#problemImage"),
-				source: "//:0",
-				classes: "image"
-			});
 
 			this.wavec = new wavec.Container(undefined, {
 				icon: "book",
@@ -995,7 +1154,7 @@ const twi = {
 			await this.updateLists();
 		},
 
-		itemMouseOver(e, t) {
+		itemMouseOver(t) {
 			let id = t.dataset.id;
 			clearTimeout(this.itemTimeout[id]);
 
@@ -1011,7 +1170,7 @@ const twi = {
 			}, 200);
 		},
 
-		itemMouseOut(e, t) {
+		itemMouseOut(t) {
 			let id = t.dataset.id;
 			clearTimeout(this.itemTimeout[id]);
 			t.classList.remove("show");
@@ -1031,8 +1190,8 @@ const twi = {
 
 			let t = buildElementTree("span", ["item", "hide"], [
 				{ type: "div", class: "content", name: "content", list: [
-					{ name: "image", node: (new lazyload({ source: item.image, classes: "image" })) },
-					{ type: "span", class: "status", name: "status", text: "Chưa Nộp" },
+					{ name: "thumbnail", node: (new lazyload({ source: item.thumbnail, classes: "thumbnail" })) },
+					{ type: "span", class: ["status", "judgeStatus"], name: "status", text: "Chưa Nộp" },
 					{ type: "span", class: "tags", name: "tags" },
 					{ type: "span", class: "point", name: "point", text: item.point },
 					{ type: "t", class: "name", name: "pName", text: item.name },
@@ -1045,13 +1204,13 @@ const twi = {
 
 						{ type: "span", class: "middle", name: "middle", list: [
 							{ type: "t", class: "modify", name: "modify", text: (new Date(item.modify * 1000)).toLocaleDateString() },
-							{ type: "t", class: "author", name: "author", text: item.author || "không rõ" },
+							{ type: "t", class: "author", name: "author", text: item.author ? item.author.name : "không rõ" },
 						]},
 	
 						{ type: "span", class: "right", name: "right", list: [
 						]},
 
-						{ type: "div", class: ["progressBar", "stackable"], name: "bar", list: [
+						{ type: "div", class: ["progressBar", "judgeStatusBar", "stackable"], name: "bar", list: [
 							{ type: "div", class: "bar", data: { color: "green" }, name: "correct" },
 							{ type: "div", class: "bar", data: { color: "blue" }, name: "passed" },
 							{ type: "div", class: "bar", data: { color: "yellow" }, name: "accepted" },
@@ -1089,7 +1248,7 @@ const twi = {
 				con.classList.add("container");
 
 				let status = document.createElement("span");
-				status.classList.add("status");
+				status.classList.add("status", "judgeStatus");
 				status.dataset.status = key;
 				status.innerText = twi.taskStatus[key];
 
@@ -1122,8 +1281,11 @@ const twi = {
 				t.background.appendChild(con);
 			}
 
-			t.addEventListener("mouseenter", (e) => this.itemMouseOver(e, t));
-			t.addEventListener("mouseleave", (e) => this.itemMouseOut(e, t));
+			if (item.author)
+				t.content.detail.middle.author.setAttribute("username", item.author.username);
+
+			t.addEventListener("mouseenter", () => this.itemMouseOver(t));
+			t.addEventListener("mouseleave", () => this.itemMouseOut(t));
 			t.addEventListener("click", () => this.viewProblem(item.id));
 
 			return t;
@@ -1175,8 +1337,8 @@ const twi = {
 
 			this.panel.loading = true;
 			this.panel.title = "Đang Tải";
-			this.attachment.previewWrapper.removeAttribute("data-loaded");
-			this.attachment.previewWrapper.style.height = "0";
+			this.backButton.show();
+			this.listContainer.classList.add("hide");
 
 			let response = await myajax({
 				url: "/api/contest/problems/get",
@@ -1186,77 +1348,33 @@ const twi = {
 
 			let data = response.data;
 			this.data = data;
+			this.log("DEBG", "viewProblem():", this.data);
+
+			// Update Viewer
 			this.panel.title = `Đề bài - ${data.name}`;
+			this.viewer.background.source = this.data.thumbnail;
+			this.viewer.background.load();
+			this.viewer.header.left.pTitle.innerText = this.data.name;
+			this.viewer.header.left.point.innerHTML = `<b>${this.data.point}</b> điểm`;
+
+			if (this.data.author) {
+				this.viewer.header.left.author.avatar.source = `/api/avatar?u=${this.data.author.username}`;
+				this.viewer.header.left.author.avatar.load();
+				this.viewer.header.left.author.details.uName.innerText = this.data.author.name;
+				this.viewer.header.left.author.details.uName.setAttribute("username", this.data.author.username);
+				this.viewer.header.left.author.details.updated.innerHTML = `đã chỉnh sửa <b>${(new Date(this.data.modify * 1000)).toLocaleString()}</b>`;
+				this.viewer.header.left.author.style.display = null;
+			} else
+				this.viewer.header.left.author.style.display = "none";
+
+			this.viewer.details.left.items.pID.value.innerText = this.data.id;
+			this.viewer.details.left.items.runtime.value.innerText = `${this.data.time} giây`;
+			this.viewer.details.left.items.memory.value.innerText = convertSize(this.data.memory);
+			this.viewer.details.left.items.input.value.innerText = this.data.type.inp;
+			this.viewer.details.left.items.output.value.innerText = this.data.type.out;
+			this.viewer.details.right.languages.innerText = this.data.accept.join(", ");
+
 			this.panel.loading = false;
-
-			if (this.viewInDialog || viewInDialog) {
-				this.enlargeProblem(this.data);
-				return;
-			}
-
-			this.listContainer.classList.add("hide");
-			this.backButton.show();
-
-			this.name.innerText = data.name;
-			this.point.innerText = data.point + " điểm";
-			this.type.filename.innerText = data.id;
-			this.type.lang.innerText = data.accept.join(", ");
-			this.type.time.innerText = data.time + " giây";
-			this.type.mem.innerText = data.memory ? convertSize(data.memory * 1024) : "Không Rõ";
-			this.type.input.innerText = data.type.inp;
-			this.type.output.innerText = data.type.out;
-
-			if (data.image) {
-				this.image.container.style.display = null;
-				this.image.src = data.image;
-			} else
-				this.image.container.style.display = "none";
-
-			if (data.attachment.url) {
-				this.attachment.container.style.display = "block";
-				this.attachment.link.href = data.attachment.url;
-				this.attachment.link.innerText = `${data.attachment.file} (${convertSize(data.attachment.size)})`;
-
-				if (data.attachment.embed) {
-					this.attachment.previewWrapper.removeChild(this.attachment.preview);
-
-					setTimeout(() => {
-						let clone = this.attachment.preview.cloneNode();
-						clone.style.display = "block";
-	
-						clone.addEventListener("load", e => {
-							this.attachment.previewWrapper.dataset.loaded = 1;
-							this.attachment.previewWrapper.style.height = this.attachment.previewWrapper.clientWidth * 1.314 + "px";
-						})
-	
-						clone.src = `${data.attachment.url}&embed=true#toolbar=0&navpanes=0&scrollbar=0&statusbar=0&messages=0&scrollbar=0&page=1&view=FitH`;
-						
-						this.attachment.previewWrapper.insertBefore(clone, this.attachment.previewWrapper.childNodes[0]);
-						this.attachment.preview = clone;
-					}, 500);
-				} else {
-					this.attachment.preview.style.display = "none";
-				}
-			} else
-				this.attachment.container.style.display = "none";
-
-			this.description.innerHTML = data.description;
-
-			let testHtml = data.test
-				.map(item => `
-					<tr>
-						<td>${escapeHTML(item.inp)}</td>
-						<td>${escapeHTML(item.out)}</td>
-					</tr>
-				`)
-				.join("");
-
-			this.test.innerHTML = `
-				<tr>
-					<th>${data.type.inp}</th>
-					<th>${data.type.out}</th>
-				</tr>
-			${testHtml}`;
 		},
 
 		closeViewer() {
@@ -1268,115 +1386,6 @@ const twi = {
 		enlargeProblem(data) {
 			if (!data)
 				return;
-
-			let haveEmbeded = data.attachment.url && data.attachment.embed;	
-			let testHtml = "";
-
-			data.test.forEach(item => {
-				testHtml += `
-					<tr>
-						<td>${escapeHTML(item.inp)}</td>
-						<td>${escapeHTML(item.out)}</td>
-					</tr>
-				`
-			})
-
-			let html = `
-				<div class="problemEnlarged ${haveEmbeded ? "embed" : ""}">
-					<span class="left">
-						<span class="top">
-							<div class="group">
-								<div class="col">
-									<t class="name">${data.name}</t>
-									<t class="point">${data.point} điểm</t>
-								</div>
-
-								<div class="col simpleTableWrapper">
-									<table class="simpleTable type">
-										<tbody>
-											<tr class="filename">
-												<td>Tên tệp</td>
-												<td>${data.id}</td>
-											</tr>
-											<tr class="lang">
-												<td>Loại tệp</td>
-												<td>${data.accept.join(", ")}</td>
-											</tr>
-											<tr class="time">
-												<td>Thời gian chạy</td>
-												<td>${data.time} giây</td>
-											</tr>
-											<tr class="inp">
-												<td>Dữ liệu vào</td>
-												<td>${data.type.inp}</td>
-												</tr>
-											<tr class="out">
-												<td>Dữ liệu ra</td>
-												<td>${data.type.out}</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-
-							${(data.attachment.url)
-								?   `<div class="group attachment">
-										<a class="link" href="${data.attachment.url}">${data.attachment.file} (${convertSize(data.attachment.size)})</a>
-									</div>`
-								:   ""
-							}
-						</span>
-
-						<span class="bottom">
-							<div class="description">${data.description}</div>
-
-							${(data.image)
-								?   `<div class="lazyload image">
-										<img onload="this.parentNode.dataset.loaded = 1" src="${data.image}"/>
-										<div class="simpleSpinner"></div>
-									</div>`
-								:   ""
-							}
-
-							${(data.test.length !== 0)
-								?   `
-									<div class="group simpleTableWrapper">
-										<table class="simpleTable test">
-											<tbody>
-												<tr>
-													<th>${data.type.inp}</th>
-													<th>${data.type.out}</th>
-												</tr>
-												${testHtml}
-											</tbody>
-										</table>
-									</div>`
-								:   ""
-							}
-						</span>
-					</span>
-
-					<span class="right"></span>
-				</div>
-			`;
-
-			this.wavec.set({ title: "Đề bài - " + data.name })
-			this.wavec.content = html;
-			this.wavec.show();
-
-			let embedDoc = new lazyload({
-				container: this.wavec.content.querySelector(".problemEnlarged > .right"),
-				source: {
-					type: "document",
-					src: `${data.attachment.url}&embed=true#toolbar=0&navpanes=0&scrollbar=0&statusbar=0&messages=0&scrollbar=0&page=1&view=FitH`
-				},
-				
-				classes: "embedAttachment",
-				doLoad: false
-			});
-
-			if (haveEmbeded)
-				setTimeout(() => embedDoc.load(), 800);
 		}
 	},
 
@@ -2567,14 +2576,14 @@ const twi = {
 								{ name: "extensions", node: createInput({ color: "blue", label: "Đuôi Tệp (dùng | để ngăn cách)", required: true }) },
 								{ name: "image", node: createImageInput({ label: "Ảnh Đính Kèm", resetLabel: "Xóa Ảnh Đính Kèm Hiện Tại" }) },
 								{ name: "attachment", node: createInput({ type: "file", label: "Tệp Đính Kèm", color: "blue" }) },
-								{ name: "removeAttachment", node: createBtn("Xóa Tệp Đính Kèm Hiện Tại", "pink") },
+								{ name: "removeAttachment", node: createButton("Xóa Tệp Đính Kèm Hiện Tại", { color: "pink" }) },
 								{ name: "description", node: createInput({ type: "textarea", color: "blue", label: "Nội Dung", required: true }) },
 								{ type: "div", class: "tests", name: "tests", list: [
 									{ type: "t", class: "label", name: "label", text: "Test Ví Dụ" },
 									{ type: "div", class: "list", name: "list" },
 									{ type: "div", class: "add", name: "add" }
 								]},
-								{ name: "submitButton", node: createBtn("LƯU", "blue", { icon: "save", complex: "true" }) }
+								{ name: "submitButton", node: createButton("LƯU", { color: "blue", icon: "save", complex: "true" }) }
 							]}
 						]}
 					]);

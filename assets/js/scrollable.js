@@ -7,6 +7,10 @@
 
 /**
  * Provide Smooth Scrolling and Custom Scrollbar
+ * 
+ * @author	@belivipro9x99
+ * @version	v1.0
+ * @license	MIT
  */
 class Scrollable {
 	/**
@@ -209,7 +213,7 @@ class Scrollable {
 
 				if (typeof horizontal === "boolean")
 					if (this.smooth)
-						this.animationUpdate({ value, horizontal });
+						this.animationUpdate({ value, horizontal, clamping: false });
 					else
 						this.update({ value, horizontal });
 
@@ -370,7 +374,8 @@ class Scrollable {
 	animationUpdate({
 		event,
 		value,
-		horizontal = this.horizontal
+		horizontal = this.horizontal,
+		clamping = true
 	} = {}) {
 		// Calculate the point where the user start scrolling
 		let from = (horizontal)
@@ -431,7 +436,10 @@ class Scrollable {
 			// Check if scrolling reached the begining of the content
 			// or the end of the content. If so we will calculate
 			// the clamping animation
-			if (current > maxScroll || current < 0) {
+			if ((current > maxScroll || current < 0)) {
+				if (!clamping)
+					return false;
+
 				// If the clamping point hasn't been defined yet,
 				// we init clampPoint with the current time and
 				// calculate some others value

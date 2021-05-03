@@ -26,7 +26,7 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/account.php";
 
 	if ($username) {
-		$acc = new account($username);
+		$acc = new Account($username);
 
 		if (!$acc -> dataExist())
 			stop(13, "Tài khoản với tên người dùng \"$username\" không tồn tại!", 404, Array( "username" => $username ));
@@ -37,7 +37,7 @@
 		$list = getAccountsList();
 
 		foreach ($list as $username)
-			array_push($data, (new account($username)) -> data);
+			array_push($data, (new Account($username)) -> data);
 
 		stop(0, "Thành công!", 200, $data);
 	}
