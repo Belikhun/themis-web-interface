@@ -72,6 +72,13 @@ class Editor {
 		this.scrollable = null;
 
 		/**
+		 * Store list of listeners. Will trigger when
+		 * editor input is changed
+		 * @type {Array}
+		 */
+		this.inputHandlers = [];
+
+		/**
 		 * Current line indicator inside vartical scrollbar
 		 * @type {HTMLElement}
 		 */
@@ -130,10 +137,34 @@ class Editor {
 		}
 
 		this.main.overlay.spellcheck = false;
+		this.main.overlay.addEventListener("input", (e) => {
+			this.inputHandlers
+				.forEach((f) => f(this.value, e, this));
+		});
+		
 		this.setup();
-
 		this.value = value;
 		this.tabSize = tabSize;
+	}
+
+	/**
+	 * Add listener for input event
+	 * 
+	 * @param	{Function}	f	Listener Function
+	 * 
+	 * This function will receive 3 arguments
+	 * 	- `value`: Editor text value
+	 * 	- `event`: InputEvent object
+	 * 	- `editor`: Reference to editor instance
+	 * 
+	 * Listener will be called once first with `event` set to null
+	 */
+	onInput(f) {
+		if (typeof f !== "function")
+			throw { code: -1, description: `Editor.onInput(): not a valid function` }
+
+		f(this.value, null, this);
+		return this.inputHandlers.push(f);
 	}
 
 	/**
