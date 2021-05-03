@@ -34,7 +34,8 @@
 	}
 
 	class Account {
-		public Array $data;
+		/** @type {Array} */
+		public $data;
 
 		/**
 		 * @param    String		$username	Username
