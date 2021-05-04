@@ -18,9 +18,19 @@
 	tab-size: 4;
 
 	overflow: hidden;
+	box-sizing: border-box;
+	border: 1px solid transparent;
 	background-color: white;
 
 	--bottom-space: 60vh;
+}
+
+.editor[data-readonly="true"] {
+	--bottom-space: 20px;
+}
+
+.editor:focus-within {
+	border-color: rgba(124, 124, 124, 0.4);
 }
 
 .editor.scrollable > .scrollbar {

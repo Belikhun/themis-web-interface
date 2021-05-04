@@ -13,12 +13,15 @@
  */
 const md2html = {
 	/**
-	 * Parse Markdown text to HTML Text
+	 * Parse Markdown text to HTML Element
 	 * 
 	 * @param	{String}		text	Markdown text to parse
-	 * @returns	{String}
+	 * @returns	{HTMLElement}
 	 */
 	parse(text) {
+		if (text === "")
+			return document.createElement("div");
+
 		// Process tokens
 		text = this.processTokens(text, {
 			"(c)": "©", "(C)": "©",
@@ -32,9 +35,19 @@ const md2html = {
 		let currentBlockQuoteLevel = 0;
 		let currentListLevel = 0;
 		let listLevelType = []
+		let nodeInsertList = []
+
+		let isInsideBlock = false;
+		let blockType;
+		let blockValue;
+		let blockLines = []
+
+		let isInsideTable = false;
+		let tableAlign = []
 
 		for (let i = 0; i < lines.length; i++) {
 			let doWrapParagraph = true;
+			let isInsideParagraph = false;
 
 			//* ==================== Horizontal Rules ====================
 			if (lines[i] === "___" || lines[i] === "---" || lines[i] === "***") {
@@ -60,6 +73,11 @@ const md2html = {
 			//* ==================== Strikethrough Text ====================
 			lines[i] = this.processRegex(lines[i], /([^\~]|^)(\~{2})([^\~]+)\2/gm, (line, item) =>
 				line.replace(item[0], `<s>${item[3]}</s>`)
+			);
+
+			//* ==================== Inline Code ====================
+			lines[i] = this.processRegex(lines[i], /(\`)([^`]+)\1/g, (line, item) =>
+				line.replace(item[0], `<pre>${item[2]}</pre>`)
 			);
 
 			//* ==================== Blockquotes ====================
@@ -152,14 +170,181 @@ const md2html = {
 
 			currentListLevel = listLevel;
 			
+			//* ==================== Link/Image ====================
+
+			lines[i] = this.processRegex(lines[i], /(\!|^|)\[([^\[\](\)\)]+)\]\(([^\[\](\)\)]*)\)/gm, (line, item) => {
+				// Check if link contain title
+				let title = item[3];
+				let ltRe = /^(.+)\s\"(.+)\"$/gm.exec(item[3]);
+				
+				if (ltRe) {
+					title = ltRe[2];
+					item[3] = ltRe[1];
+				}
+				
+				if (item[1] === "!") {
+					nodeInsertList.push(new lazyload({ source: item[3], classes: "image" }));
+					nodeInsertList[nodeInsertList.length - 1].container.title = title;
+					return line.replace(item[0], `<custom pos="${nodeInsertList.length - 1}"></custom>`);
+				} else
+					return line.replace(item[0], `<a title="${title}" href="${item[3]}">${item[2]}</a>`)
+			});
+
+			//* ==================== Table ====================
+
+			if (lines[i][0] === "|") {
+				if (!isInsideTable) {
+					let headers = this.parseTableLine(lines[i]);
+					let aligns = this.parseTableLine(lines[i + 1]);
+
+					for (let i = 0; i < aligns.length; i++) {
+						let left = aligns[i][0] === ":";
+						let right = aligns[i][aligns[i].length - 1] === ":";
+
+						if (left) {
+							if (right)
+								tableAlign[i] = "center";
+							else
+								tableAlign[i] = "left";
+						} else {
+							if (right)
+								tableAlign[i] = "right";
+							else
+								tableAlign[i] = "left"
+						}
+					}
+
+					lines[i] = `<table class="simpleTable">`;
+					lines[i + 1] = `<tr>${
+						headers
+							.map((v, i) => `<th align="${tableAlign[i]}">${v}</th>`)
+							.join("")
+					}</tr>`;
+
+					isInsideTable = true;
+
+					// Jump to next line so next loop will be
+					// the first row in the table
+					i++;
+					continue;
+				} else {
+					lines[i] = `<tr>${
+						this.parseTableLine(lines[i])
+							.map((v, i) => `<td align="${tableAlign[i]}">${v}</td>`)
+							.join("")
+					}</tr>`;
+
+					continue;
+				}
+			} else if (isInsideTable) {
+				lines[i] = "</table>" + lines[i];
+				isInsideTable = false;
+				tableAlign = []
+			}
+
+			//* ==================== Multiline Code/Note ====================
+			
+			let blockRe = /^(\`{3}|\:{3})(?:$|\s(.+)$)/gm.exec(lines[i]);
+			if (blockRe) {
+				// Block opening
+				if (!isInsideBlock) {
+					isInsideBlock = true;
+					switch (blockRe[1]) {
+						case ":::":
+							blockType = "note";
+							break;
+					
+						default:
+							blockType = "code";
+							break;
+					}
+	
+					blockValue = blockRe[2] || null;
+					lines[i] = "";
+					continue;
+				} else {
+					// Block closing
+					let node;
+
+					switch (blockType) {
+						case "note":
+							node = createNote({
+								level: blockValue || "info",
+								message: blockLines.join("\n")
+							});
+							break;
+					
+						default:
+							node = new Editor("none", {
+								value: blockLines.join("\n"),
+								language: blockValue || "text",
+								readonly: true
+							});
+							break;
+					}
+
+					nodeInsertList.push(node);
+					lines[i] = `<custom pos="${nodeInsertList.length - 1}"></custom>`;
+
+					isInsideBlock = false;
+					blockValue = null;
+					blockLines = []
+				}
+			}
+
+			if (isInsideBlock) {
+				blockLines.push(lines[i]);
+				lines[i] = "";
+				continue;
+			}
 
 			//? ======================= END =======================
-			if (doWrapParagraph)
-				lines[i] = `<p>${lines[i]}</p>`;
+			if (doWrapParagraph) {
+				if (lines.length > (i + 1) && lines[i + 1][0] !== "")
+					lines[i] = `<p>${lines[i]}</p>`;
+				else {
+					if (!isInsideParagraph) {
+						lines[i] = `<p>${lines[i]}`;
+						isInsideParagraph = true;
+					} else
+						isInsideParagraph = false;
+				}
+			}
 		}
 
-		console.log(lines);
-		return lines.join("\n");
+		let container = document.createElement("div");
+		container.classList.add("md2html");
+		container.innerHTML = lines.join("\n");
+
+		//* ==================== Custom Nodes Insertion ====================
+		for (let i = 0; i < nodeInsertList.length; i++){
+			let item = nodeInsertList[i]
+			let target = container.querySelector(`custom[pos="${i}"]`);
+
+			if (target)
+				if (item.container && item.container.classList)
+					container.replaceChild(item.container, target);
+				else if (item.group && item.group.classList)
+					container.replaceChild(item.group, target);
+				else
+					container.replaceChild(item, target);
+			else
+				clog("WARN", `md2html.parse(): Custom element with position ${i} cannot be found!`)
+		}
+
+		return container;
+	},
+
+	/**
+	 * @param	{String}	line
+	 * @returns	{Array}
+	 */
+	parseTableLine(line) {
+		let tokens = line.split("|")
+			.map(i => i.trim())
+			.filter(i => i !== "");
+
+		return tokens;
 	},
 
 	/**
@@ -171,7 +356,7 @@ const md2html = {
 	processRegex(line, regex, process = () => {}) {
 		let matches = [ ...line.matchAll(regex) ]
 		for (let item of matches)
-			line = process(line, item);
+			line = process(line, item) || "";
 
 		return line;
 	},

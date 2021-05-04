@@ -33,13 +33,13 @@
 .simpleTable tbody tr th {
     border-bottom: 2px solid rgb(80, 80, 80);
     color: rgb(58, 58, 58);
-    font-size: 13px;
+    font-size: 16px;
     font-weight: bold;
 }
 
 .simpleTable tbody tr td {
     color: rgb(78, 78, 78);
-    font-size: 12px;
+    font-size: 14px;
     font-weight: normal;
 }
 

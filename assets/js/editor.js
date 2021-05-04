@@ -29,7 +29,9 @@ class Editor {
 	constructor(container, {
 		value,
 		language = "text",
-		tabSize = 4
+		tabSize = 4,
+		readonly = false,
+		debug = false
 	} = {}) {
 		//* ==================== Setup Variables ====================
 
@@ -72,11 +74,32 @@ class Editor {
 		this.scrollable = null;
 
 		/**
-		 * Store list of listeners. Will trigger when
+		 * Editor Readonly Mode
+		 * @type {Boolean}
+		 */
+		this.__readonly = false;
+
+		/**
+		 * Debug Mode
+		 * Currently didn't do anything much
+		 * 
+		 * @type {Boolean}
+		 */
+		this.debug = debug;
+
+		/**
+		 * Store list of input listeners. Will trigger when
 		 * editor input is changed
 		 * @type {Array}
 		 */
-		this.inputHandlers = [];
+		this.inputHandlers = []
+
+		/**
+		 * Store list of scroll listeners. Will trigger when
+		 * editor input is being scrolled
+		 * @type {Array}
+		 */
+		this.scrollHandlers = []
 
 		/**
 		 * Current line indicator inside vartical scrollbar
@@ -106,8 +129,6 @@ class Editor {
 			]},
 		]).obj;
 
-		this.container.id = container.id;
-
 		/**
 		 * Ssh... IT's JUST WORK!
 		 * 
@@ -118,7 +139,10 @@ class Editor {
 		/** @type {HTMLElement} */
 		this.lineNum = this.container.lineNum.content;
 
-		container.parentElement.replaceChild(this.container, container);
+		if (typeof container === "object" && container.parentElement) {
+			this.container.id = container.id;
+			container.parentElement.replaceChild(this.container, container);
+		}
 
 		// Check if the Scrollable library exist in
 		// current scope.
@@ -137,14 +161,11 @@ class Editor {
 		}
 
 		this.main.overlay.spellcheck = false;
-		this.main.overlay.addEventListener("input", (e) => {
-			this.inputHandlers
-				.forEach((f) => f(this.value, e, this));
-		});
 		
 		this.setup();
 		this.value = value;
 		this.tabSize = tabSize;
+		this.readonly = readonly;
 	}
 
 	/**
@@ -165,6 +186,25 @@ class Editor {
 
 		f(this.value, null, this);
 		return this.inputHandlers.push(f);
+	}
+
+	/**
+	 * Add listener for scroll event
+	 * 
+	 * @param	{Function}	f	Listener Function
+	 * 
+	 * This function will receive 2 arguments
+	 * 	- `event`: InputEvent object
+	 * 	- `editor`: Reference to editor instance
+	 * 
+	 * Listener will be called once first with `event` set to null
+	 */
+	onScroll(f) {
+		if (typeof f !== "function")
+			throw { code: -1, description: `Editor.onScroll(): not a valid function` }
+
+		f(null, this);
+		return this.scrollHandlers.push(f);
 	}
 
 	/**
@@ -222,8 +262,28 @@ class Editor {
 		return this.main.selections.childNodes;
 	}
 
+	/**
+	 * Set Editor Readonly
+	 * @param	{Boolean}	value
+	 */
+	set readonly(value) {
+		if (typeof value !== "boolean")
+			throw { code: -1, description: `Editor.readonly: not a valid boolean` }
+
+		this.container.dataset.readonly = value;
+		this.main.overlay.readOnly = value;
+		this.__readonly = value;
+	}
+
+	get readonly() {
+		return this.__readonly;
+	}
+
 	setup() {
 		this.main.overlay.addEventListener("keydown", (e) => {
+			if (this.readonly)
+				return;
+
 			switch (e.keyCode) {
 				case 13:
 					// Enter Key
@@ -254,6 +314,9 @@ class Editor {
 		});
 
 		this.main.overlay.addEventListener("input", (e) => {
+			if (this.readonly)
+				return;
+
 			switch (e.inputType) {
 				case "historyUndo":
 				case "insertFromPaste":
@@ -267,6 +330,9 @@ class Editor {
 					});
 					break;
 			}
+
+			this.inputHandlers
+				.forEach((f) => f(this.value, e, this));
 		});
 
 		this.main.overlay.addEventListener("click", () => this.updateCaret());
@@ -286,8 +352,11 @@ class Editor {
 				this.updateCaret();
 		});
 
-		this.container.main.addEventListener("scroll", () => {
+		this.container.main.addEventListener("scroll", (e) => {
 			this.container.lineNum.scrollTop = this.container.main.scrollTop;
+
+			this.scrollHandlers
+				.forEach((f) => f(e, this));
 		});
 
 		new ResizeObserver(() => this.updateSizing()).observe(this.main);
@@ -377,8 +446,8 @@ class Editor {
 			this.main.selections.appendChild(r);
 		}
 
-		let t1 = performance.now();
-		clog("DEBG", `editor.updateSelection(): took ${(t1 - t0).toFixed(3)}ms`);
+		if (this.debug)
+			clog("DEBG", `editor.updateSelection(): took ${(performance.now() - t0).toFixed(3)}ms`);
 	}
 
 	setCaret({
@@ -501,6 +570,7 @@ class Editor {
 	updateSizing() {
 		this.main.overlay.style.width = `${this.container.main.wrapper.clientWidth}px`;
 		this.main.overlay.style.height = `${this.container.main.wrapper.clientHeight}px`;
+		this.updateLineNum(0, this.lines.length);
 	}
 
 	updateValues() {
@@ -522,6 +592,20 @@ class Editor {
 			return editorLanguages[this.language](line);
 		else
 			return line;
+	}
+
+	updateLineNum(from, to) {
+		if (typeof to !== "number")
+			to = from;
+
+		for (let i = from; i < to; i++) {
+			let line = this.lineNum.querySelector(`div[line="${i}"]`);
+	
+			if (!line)
+				line = this.insertLineNum();
+	
+			line.style.height = `${this.lines[i].getBoundingClientRect().height}px`;
+		}
 	}
 
 	update({
@@ -548,7 +632,10 @@ class Editor {
 				
 				if (this.lines[i].innerText !== sanitizeHTML(p)) {
 					this.lines[i].innerHTML = p;
-					clog("DEBG", `editor.update(): line ${i + 1} updated`);
+
+					if (this.debug)
+						clog("DEBG", `editor.update(): line ${i + 1} updated`);
+
 					return true;
 				}
 
@@ -578,11 +665,7 @@ class Editor {
 			} else
 				doUpdate();
 			
-			let ln = this.lineNum.querySelector(`div[line="${i}"]`);
-			if (!ln)
-				ln = this.insertLineNum();
-
-			ln.style.height = `${this.lines[i].getBoundingClientRect().height}px`;
+			this.updateLineNum(i);
 		}
 
 		while (this.lines.length > this.lineValues.length)
@@ -599,8 +682,8 @@ class Editor {
 
 		this.updateCaret();
 
-		let t1 = performance.now();
-		clog("DEBG", `editor.update(): took ${(t1 - t0).toFixed(3)}ms`);
+		if (this.debug)
+			clog("DEBG", `editor.update(): took ${(performance.now() - t0).toFixed(3)}ms`);
 	}
 }
 

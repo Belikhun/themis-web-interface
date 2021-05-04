@@ -119,6 +119,8 @@ body.dark pre {
 	color: white;
 }
 
+/** ======================== TIMER ======================== **/
+
 timer {
     position: relative;
 	display: inline-block;
@@ -197,6 +199,8 @@ timer.big > ms {
 timer > ms::before {
     content: ".";
 }
+
+/** ======================== TAG ======================== **/
 
 tag {
     position: relative;
@@ -752,6 +756,83 @@ icon[data-icon="heartFill"]::after {
 .note.okay::before,
 .note[data-level="okay"]::before {
     content: "\f00c";
+}
+
+/** ======================== MD2HTML ======================== **/
+
+.md2html {
+	padding: 10px;
+	padding-bottom: 50px;
+	font-size: 17px;
+}
+
+.md2html hr {
+	margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+
+.md2html h1,
+.md2html h2,
+.md2html h3 {
+	margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.md2html h4,
+.md2html h5,
+.md2html h6 {
+	margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.md2html blockquote {
+	position: relative;
+	margin: unset;
+	padding: 10px 20px 10px 15px;
+	margin-bottom: 10px;
+
+	background-color: rgb(250, 250, 250);
+}
+
+.md2html blockquote::before {
+	content: "";
+	position: absolute;
+	display: block;
+
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 5px;
+
+	background-color: rgb(220, 220, 220);
+}
+
+.md2html ul,
+.md2html ol {
+	padding-inline-start: 20px;
+}
+
+.md2html ul > li::marker {
+	padding-left: 4px;
+}
+
+.md2html ol > li::marker {
+	font-weight: bold;
+}
+
+.md2html pre {
+	padding: 2px 4px;
+    font-size: 90%;
+    color: #c7254e;
+    background-color: #f9f2f4;
+    border-radius: 4px;
+}
+
+.md2html .image {
+	max-width: 100%;
+    box-sizing: initial;
 }
 
 /** ======================== POPUP ======================== **/
