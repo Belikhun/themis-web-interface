@@ -842,7 +842,8 @@ icon[data-icon="clipboard"]::after {
     border-radius: 4px;
 }
 
-.md2html .image {
+.md2html .image,
+.md2html img {
 	max-width: 100%;
     box-sizing: initial;
 }

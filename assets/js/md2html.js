@@ -349,7 +349,7 @@ const md2html = {
 				}
 	
 				//? ======================= END =======================
-				if (doWrapParagraph && lines[i].trim()[0] !== "<") {
+				if (doWrapParagraph && lines[i] !== "" && lines[i].trim()[0] !== "<") {
 					if (lines.length > (i + 1) && lines[i + 1][0] !== "")
 						lines[i] = `<p>${lines[i]}</p>`;
 					else {
@@ -376,11 +376,11 @@ const md2html = {
 				try {
 					if (target) {
 						if (item.container && item.container.classList)
-							container.replaceChild(item.container, target);
+							target.parentElement.replaceChild(item.container, target);
 						else if (item.group && item.group.classList)
-							container.replaceChild(item.group, target);
+							target.parentElement.replaceChild(item.group, target);
 						else
-							container.replaceChild(item, target);
+							target.parentElement.replaceChild(item, target);
 					} else
 						clog("WARN", `md2html.parse(): Custom element with position ${i} cannot be found!`)
 				} catch(e) {

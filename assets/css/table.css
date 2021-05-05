@@ -20,8 +20,8 @@
 
 .simpleTable {
     position: relative;
-    border-collapse: collapse;
     width: auto;
+    border-collapse: collapse;
 }
 
 .simpleTable tbody tr th,

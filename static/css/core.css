@@ -875,7 +875,7 @@ panel > .main > .loadingWrapper.show {
 
 	width: 100%;
 	margin-top: var(--header-height);
-	padding-bottom: var(--header-height);
+	padding-bottom: calc(var(--header-height) / 3);
 
 	background-color: white;
 }
@@ -946,6 +946,7 @@ panel > .main > .loadingWrapper.show {
 .problemViewer > .content > .header > .left > .author > .avatar {
 	width: 64px;
 	height: 64px;
+	flex-shrink: 0;
 	border-radius: 50%;
 }
 
@@ -1178,11 +1179,122 @@ panel > .main > .loadingWrapper.show {
 	background-color: rgba(26, 26, 26, 0.1);
 }
 
-.problemViewer > .content > .description {
+.problemViewer > .content > .info {
 	position: relative;
 }
 
-.problemViewer > .content > .description > .title {
+.problemViewer > .content > .info > .ranking > table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.problemViewer > .content > .info > .ranking > table > thead > tr > th,
+.problemViewer > .content > .info > .ranking > table > tbody > tr > td {
+	padding: unset;
+	vertical-align: middle;
+	padding: 0 10px 5px;
+}
+
+.problemViewer > .content > .info > .ranking > table > tbody > tr > td {
+	padding-bottom: 0;
+}
+
+.problemViewer > .content > .info > .ranking > table > thead > tr > th {
+	font-size: 11px;
+    font-weight: 700;
+	text-align: left;
+    text-transform: uppercase;
+}
+
+.problemViewer > .content > .info > .ranking > table > thead > tr > th[key="rank"] {
+	width: 40px;
+    text-align: right;
+}
+
+.problemViewer > .content > .info > .ranking > table > thead > tr > th[key="point"],
+.problemViewer > .content > .info > .ranking > table > thead > tr > th[key="sp"] {
+	min-width: 50px;
+}
+
+.problemViewer > .content > .info > .ranking > table > thead > tr > th[key="avatar"] {
+	width: 30px;
+}
+
+.problemViewer > .content > .info > .ranking > table > thead > tr > th[key="uName"] {
+	width: 180px;
+}
+
+.problemViewer > .content > .info > .ranking > table > tbody > tr > td {
+    color: black;
+	text-decoration: none;
+}
+
+.problemViewer > .content > .info > .ranking > table > tbody > tr:nth-child(2n + 1) > td {
+	background-color: rgba(250, 250, 250, 0.8);
+}
+
+.problemViewer > .content > .info > .ranking > table > tbody > tr > td:first-child {
+	border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.problemViewer > .content > .info > .ranking > table > tbody > tr > td:last-child {
+	border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.problemViewer > .content > .info > .ranking > table > tbody > tr:hover > td {
+	background-color: rgb(240, 240, 240);
+}
+
+.problemViewer > .content > .info > .ranking > table > tbody > tr > td:empty::before {
+	content: "X";
+	color: rgba(128, 128, 128, 0.5);
+}
+
+.problemViewer > .content > .info > .ranking > table > tbody > tr > td[key="rank"] {
+	font-weight: 700;
+	text-align: right;
+}
+
+.problemViewer > .content > .info > .ranking > table > tbody > tr > td[key="status"] {
+	padding: 0 20px;
+}
+
+.problemViewer > .content > .info > .ranking > table > tbody > tr > td[key="point"],
+.problemViewer > .content > .info > .ranking > table > tbody > tr > td[key="sp"] {
+	font-family: Consolas;
+	font-weight: bold;
+}
+
+.problemViewer > .content > .info > .ranking > table > tbody > tr > td[key="avatar"] {
+	text-align: right;
+	padding: 0 0 0 20px;
+}
+
+.problemViewer > .content > .info > .ranking > table > tbody > tr > td[key="avatar"] > .avatar {
+	min-width: unset;
+	min-height: unset;
+	width: 22px;
+	height: 22px;
+	border-radius: 50%;
+	transform: translateY(3px);
+}
+
+.problemViewer > .content > .info > .ranking > table > tbody > tr > td[key="uName"] {
+	font-family: Nunito;
+	font-weight: 700;
+}
+
+.problemViewer > .content > .info > .ranking > table > tbody > tr > td[key="time"] {
+	font-size: 14px;
+}
+
+.problemViewer > .content > .info > .description {
+	position: relative;
+}
+
+.problemViewer > .content > .info > .description > .title {
 	font-family: Nunito;
 	font-size: 20px;
 	font-weight: 800;
@@ -1190,15 +1302,15 @@ panel > .main > .loadingWrapper.show {
 	margin-left: 10px;
 }
 
-.problemViewer > .content > .description > .switch {
+.problemViewer > .content > .info > .description > .switch {
 	position: absolute;
 
 	right: 0;
 	top: 0;
-	margin: 12px 20px;
+	margin: 5px 10px;
 }
 
-.problemViewer > .content > .description > .switch > tag {
+.problemViewer > .content > .info > .description > .switch > tag {
 	font-size: 16px;
 	text-transform: uppercase;
 
@@ -1206,37 +1318,37 @@ panel > .main > .loadingWrapper.show {
 	background-color: transparent;
 }
 
-.problemViewer > .content > .description > .switch > tag:hover {
+.problemViewer > .content > .info > .description > .switch > tag:hover {
 	background-color: rgba(240, 240, 240, 0.5);
 }
 
-.problemViewer > .content > .description > .switch[data-active="markdown"] > .markdown,
-.problemViewer > .content > .description > .switch[data-active="code"] > .code {
+.problemViewer > .content > .info > .description > .switch[data-active="markdown"] > .markdown,
+.problemViewer > .content > .info > .description > .switch[data-active="code"] > .code {
 	color: white;
 	background-color: rgb(46, 46, 46);
 }
 
-.problemViewer > .content > .description > .content {
+.problemViewer > .content > .info > .description > .content {
 	margin: 5px 10px;
 	border-top: 1px solid rgba(126, 126, 126, 0.5);
 }
 
-.problemViewer > .content > .description > .content > .md2html,
-.problemViewer > .content > .description > .content > .editor {
+.problemViewer > .content > .info > .description > .content > .md2html,
+.problemViewer > .content > .info > .description > .content > .editor {
 	display: none;
 	padding-left: unset;
 	padding-right: unset;
 }
 
-.problemViewer > .content > .description > .content[data-active="markdown"] > .md2html {
+.problemViewer > .content > .info > .description > .content[data-active="markdown"] > .md2html {
 	display: block;
 }
 
-.problemViewer > .content > .description > .content[data-active="code"] > .editor {
+.problemViewer > .content > .info > .description > .content[data-active="code"] > .editor {
 	display: flex;
 }
 
-.problemViewer > .content > .tests > .testContainer > .title {
+.problemViewer > .content > .info > .tests > .testContainer > .title {
 	font-family: Nunito;
 	font-size: 20px;
 	font-weight: 800;
@@ -1244,7 +1356,7 @@ panel > .main > .loadingWrapper.show {
 	margin-left: 10px;
 }
 
-.problemViewer > .content > .tests > .testContainer > .content {
+.problemViewer > .content > .info > .tests > .testContainer > .content {
 	position: relative;
 	display: flex;
 	flex-direction: row;
@@ -1253,7 +1365,7 @@ panel > .main > .loadingWrapper.show {
 	margin-bottom: 40px;
 }
 
-.problemViewer > .content > .tests > .testContainer > .content > .test {
+.problemViewer > .content > .info > .tests > .testContainer > .content > .test {
 	position: relative;
 	display: flex;
 	flex-direction: column;
@@ -1263,7 +1375,7 @@ panel > .main > .loadingWrapper.show {
 	background-color: rgb(250, 250, 250);
 }
 
-.problemViewer > .content > .tests > .testContainer > .content > .test > .header {
+.problemViewer > .content > .info > .tests > .testContainer > .content > .test > .header {
 	position: relative;
 	display: flex;
 	flex-direction: row;
@@ -1273,7 +1385,7 @@ panel > .main > .loadingWrapper.show {
 	background-color: rgb(230, 230, 230);
 }
 
-.problemViewer > .content > .tests > .testContainer > .content > .test > .header > .title {
+.problemViewer > .content > .info > .tests > .testContainer > .content > .test > .header > .title {
 	flex-grow: 1;
 
 	font-family: "Consolas";
@@ -1281,16 +1393,16 @@ panel > .main > .loadingWrapper.show {
 	font-weight: bold;
 }
 
-.problemViewer > .content > .tests > .testContainer > .content > .test > .header > .copy {
+.problemViewer > .content > .info > .tests > .testContainer > .content > .test > .header > .copy {
 	cursor: pointer;
 }
 
-.problemViewer > .content > .tests > .testContainer > .content > .test > .header > .copy::after {
+.problemViewer > .content > .info > .tests > .testContainer > .content > .test > .header > .copy::after {
 	font-size: 22px;
 	font-weight: 100;
 }
 
-.problemViewer > .content > .tests > .testContainer > .content > .test > .header > .copy:hover::after {
+.problemViewer > .content > .info > .tests > .testContainer > .content > .test > .header > .copy:hover::after {
 	font-weight: 900;
 }
 

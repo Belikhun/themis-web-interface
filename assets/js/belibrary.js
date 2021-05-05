@@ -344,8 +344,8 @@ function htmlToElement(html) {
 }
 
 /**
- * Deprecated. We should avoid using this function
- * as much as possible.
+ * This function is Deprecated!. We should avoid using
+ * this function as much as possible.
  * 
  * Please use `makeTree()` instead!
  * 
@@ -502,7 +502,7 @@ function makeTree(tag, classes, child = {}, path = "") {
 		}
 
 		if (customNode) {
-			customNode.dataset.name = key;
+			customNode.setAttribute("key", key);
 			customNode.dataset.path = currentPath;
 			container.appendChild(customNode);
 			container[key] = item;
@@ -527,13 +527,14 @@ function makeTree(tag, classes, child = {}, path = "") {
 		if (typeof item.html === "string")
 			node.innerHTML = item.html;
 
-		if (typeof item.text === "string")
+		if (typeof item.text !== "undefined")
 			node.innerText = item.text;
 
 		if (typeof item.data === "object")
 			for (let key of Object.keys(item.data))
 				node.dataset[key] = item.data[key];
 
+		node.setAttribute("key", key);
 		container.appendChild(node);
 		container[key] = node;
 	}
@@ -610,7 +611,12 @@ function parseTime(t = 0, {
 	}
 }
 
-function formatTime(seconds, { ended = "Đã kết thúc", endedCallback = () => {} } = {}) {
+function formatTime(seconds, {
+	ended = "Đã kết thúc",
+	surfix = "",
+	minimal = false,
+	endedCallback = () => {}
+} = {}) {
 	let time = { năm: 31536000, ngày: 86400, giờ: 3600, phút: 60, giây: 1 },
 		res = [];
 
@@ -623,13 +629,22 @@ function formatTime(seconds, { ended = "Đã kết thúc", endedCallback = () =>
 	}
 
 	for (let key in time)
-		if (seconds >= time[key]) {
-			let val = Math.floor(seconds / time[key]);
-			res.push(val += " " + key);
-			seconds = seconds % time[key];
+		if (minimal) {
+			if (seconds > time[key]) {
+				res[0] = `${Math.floor(seconds / time[key])} ${key}${surfix}`
+				break;
+			}
+		} else {
+			if (seconds >= time[key]) {
+				let val = Math.floor(seconds / time[key]);
+				res.push(`${val} ${key}${surfix}`);
+				seconds = seconds % time[key];
+			}
 		}
 
-	return res.length > 1 ? res.join(", ").replace(/,([^,]*)$/, " và" + "$1") : res[0];
+	return (res.length > 1)
+		? res.join(", ").replace(/,([^,]*)$/, " và" + "$1")
+		: res[0];
 }
 
 function liveTime(element, start = time(new Date()), { type = "full", count = "up", prefix = "", surfix = "", ended = "Đã kết thúc", endedCallback = () => {}, interval = 1000 } = {}) {

@@ -34,9 +34,14 @@
 	}
 
 	function getSubmissionsByID($id) {
-		$list = getSubmissionsList();
+		$sList = getSubmissionsList();
+		$list = Array();
 
-		
+		foreach ($sList as $value)
+			if (is_dir((SUBMISSIONS_DIR ."/$value/$id")))
+				array_push($list, $value);
+
+		return $list;
 	}
 
 	/**

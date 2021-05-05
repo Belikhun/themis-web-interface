@@ -78,10 +78,15 @@
 		$sub = new Submissions($user);
 		$subList = $sub -> list();
 
-		$userData = (new Account($user)) -> data;
+		$userData = (new Account($user)) -> getDetails();
 		$res[$user] = Array(
 			"username" => $user,
-			"name" => ($userData && isset($userData["name"])) ? $userData["name"] : null,
+			"name" => ($userData && isset($userData["name"]))
+				? $userData["name"]
+				: null,
+			"online" => ($userData && isset($userData["online"]))
+				? $userData["online"]
+				: false,
 			"total" => 0,
 			"sp" => 0,
 			"logFile" => Array(),
@@ -103,7 +108,6 @@
 
 			$data = $data["header"];
 			$meta = $sub -> getMeta($id);
-			$filename = $data["file"]["logFilename"];
 	
 			if (problemDisabled($data["problem"]) && getConfig("contest.ranking.hideDisabled") && $_SESSION["id"] !== "admin")
 				continue;
@@ -112,7 +116,11 @@
 				$_list_[$data["problem"]] = null;
 				$res[$user]["status"][$data["problem"]] = $data["status"];
 				$res[$user]["point"][$data["problem"]] = $data["point"];
-				$res[$user]["logFile"][$data["problem"]] = (getConfig("contest.log.enabled") === true || $_SESSION["id"] === "admin") ? $filename : null;
+
+				$res[$user]["logFile"][$data["problem"]] =
+					(getConfig("contest.log.enabled") === true || $_SESSION["id"] === "admin")
+						? $data["file"]["logFilename"]
+						: null;
 
 				if (isset($meta["sp"]))
 					$res[$user]["sps"][$data["problem"]] = $meta["sp"]["point"];
@@ -133,17 +141,6 @@
 
 	foreach ($_list_ as $key => $value)
 		array_push($list, $key);
-
-	// Sort data by lastSubmit
-	usort($res, function($a, $b) {
-		$a = $a["lastSubmit"];
-		$b = $b["lastSubmit"];
-
-		if ($a === $b)
-			return 0;
-
-		return ($a < $b) ? -1 : 1;
-	});
 
 	$spRanking = getConfig("contest.result.spRanking");
 

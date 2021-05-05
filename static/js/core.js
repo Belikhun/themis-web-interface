@@ -928,6 +928,12 @@ const twi = {
 		/** @type {wavec.Container} */
 		wavec: wavec.Container.prototype,
 
+		/**
+		 * Current Opening Problem ID
+		 * @type {String}
+		 */
+		id: null,
+
 		backButton: null,
 		searchDelay: null,
 		currentActiveItem: null,
@@ -1137,29 +1143,57 @@ const twi = {
 						}}
 					}},
 	
-					description: { tag: "div", class: "description", child: {
-						dTitle: { tag: "t", class: "title", text: "Nội Dung" },
-						switch: { tag: "div", class: "switch", child: {
-							markdown: { tag: "tag", class: "markdown", text: "markdown" },
-							code: { tag: "tag", class: "code", text: "code" }
+					info: { tag: "div", class: "info", child: {
+						header: { tag: "div", class: "header", child: {
+
 						}},
 
-						content: { tag: "div", class: "content", child: {
-							markdown: { tag: "div" },
-							editor: new Editor("none", {
-								language: "md",
-								readonly: true
-							})
-						}}
-					}},
+						ranking: { tag: "div", class: "ranking", child: {
+							spotlight: { tag: "div", class: "spotlight" },
+							table: { tag: "table", child: {
+								thead: { tag: "thead", child: {
+									row: { tag: "tr", child: {
+										rank: { tag: "th", text: "Xếp Hạng" },
+										status: { tag: "th" },
+										point: { tag: "th", text: "Điểm" },
+										avatar: { tag: "th", text: "" },
+										uName: { tag: "th", text: "Tên" },
+										submitNth: { tag: "th", text: "Thứ Tự Nộp" },
+										reSubmit: { tag: "th", text: "Nộp Lại" },
+										remainTime: { tag: "th", text: "Thời Gian Còn Lại" },
+										sp: { tag: "th", text: "SP" },
+										time: { tag: "th", text: "Thời Gian Nộp" }
+									}}
+								}},
 
-					tests: { tag: "div", class: "tests" }
+								tbody: { tag: "tbody" }
+							}}
+						}},
+
+						description: { tag: "div", class: "description", child: {
+							dTitle: { tag: "t", class: "title", text: "Nội Dung" },
+							switch: { tag: "div", class: "switch", child: {
+								markdown: { tag: "tag", class: "markdown", text: "markdown" },
+								code: { tag: "tag", class: "code", text: "code" }
+							}},
+	
+							content: { tag: "div", class: "content", child: {
+								markdown: { tag: "div" },
+								editor: new Editor("none", {
+									language: "md",
+									readonly: true
+								})
+							}}
+						}},
+	
+						tests: { tag: "div", class: "tests" }
+					}}
 				}}
 			});
 
 			this.problem.view.appendChild(this.viewer);
-			this.viewer.content.description.switch.markdown.addEventListener("click", () => this.descSwitchView("markdown"));
-			this.viewer.content.description.switch.code.addEventListener("click", () => this.descSwitchView("code"));
+			this.viewer.content.info.description.switch.markdown.addEventListener("click", () => this.descSwitchView("markdown"));
+			this.viewer.content.info.description.switch.code.addEventListener("click", () => this.descSwitchView("code"));
 
 			// Register Panel Buttons / Viewer Buttons Handler
 			this.reloadButton = this.panel.button("reload");
@@ -1353,8 +1387,8 @@ const twi = {
 		},
 
 		descSwitchView(view) {
-			this.viewer.content.description.switch.dataset.active = view;
-			this.viewer.content.description.content.dataset.active = view;
+			this.viewer.content.info.description.switch.dataset.active = view;
+			this.viewer.content.info.description.content.dataset.active = view;
 		},
 
 		createTestViewer(test, title) {
@@ -1384,26 +1418,43 @@ const twi = {
 			return container;
 		},
 
-		async viewProblem(id, viewInDialog = false) {
-			this.log("INFO", "Opening problem", {
-				color: flatc("yellow"),
-				text: id
-			});
-
-			this.panel.loading = true;
-			this.panel.title = "Đang Tải";
-			this.backButton.show();
-			this.listContainer.classList.add("hide");
-
+		async updateRanking() {
 			let response = await myajax({
-				url: "/api/contest/problems/get",
+				url: "/api/contest/problems/rank",
 				method: "GET",
-				query: { id: id }
+				query: {
+					id: this.id
+				}
 			});
 
 			let data = response.data;
-			this.log("DEBG", "viewProblem():", data);
+			this.log("DEBG", `updateRanking():`, data);
 
+			emptyNode(this.viewer.content.info.ranking.table.tbody);
+			for (let i = 0; i < data.rank.length; i++) {
+				let item = data.rank[i];
+
+				let row = makeTree("tr", "row", {
+					rank: { tag: "td", text: `#${(i + 1)}` },
+					status: { tag: "td", html: `<span class="judgeStatus" data-status="${item.status}">${twi.taskStatus[item.status]}</span>` },
+					point: { tag: "td", text: item.point.toFixed(2) },
+					avatar: { tag: "td", child: {
+						image: new lazyload({ source: `/api/avatar?u=${item.username}`, classes: "avatar" })
+					}},
+
+					uName: { tag: "td", text: item.name || item.username },
+					submitNth: { tag: "td", text: item.statistic.submitNth || "" },
+					reSubmit: { tag: "td", text: item.statistic.reSubmit || "" },
+					remainTime: { tag: "td", text: item.statistic.remainTime || "" },
+					sp: { tag: "td", text: (typeof item.sp === "number") ? item.sp.toFixed(3) : "" },
+					time: { tag: "td", text: formatTime(time() - item.lastSubmit, { minimal: true, surfix: " trước" }) }
+				});
+
+				this.viewer.content.info.ranking.table.tbody.appendChild(row);
+			}
+		},
+
+		updateViewer(data) {
 			// Update Header
 			this.panel.title = `Đề bài - ${data.name}`;
 			this.viewer.backgroundWrapper.background.source = data.thumbnail;
@@ -1432,12 +1483,12 @@ const twi = {
 
 			// Update Description
 			let mdNode = md2html.parse(data.description);
-			this.viewer.content.description.content.replaceChild(mdNode, this.viewer.content.description.content.markdown);
-			this.viewer.content.description.content.markdown = mdNode;
-			this.viewer.content.description.content.editor.value = data.description;
+			this.viewer.content.info.description.content.replaceChild(mdNode, this.viewer.content.info.description.content.markdown);
+			this.viewer.content.info.description.content.markdown = mdNode;
+			this.viewer.content.info.description.content.editor.value = data.description;
 			this.descSwitchView("markdown");
 
-			emptyNode(this.viewer.content.tests);
+			emptyNode(this.viewer.content.info.tests);
 			for (let ti = 0; ti < data.test.length; ti++) {
 				let item = data.test[ti];
 				let container = makeTree("div", "testContainer", {
@@ -1448,8 +1499,33 @@ const twi = {
 					}}
 				})
 
-				this.viewer.content.tests.appendChild(container);
+				this.viewer.content.info.tests.appendChild(container);
 			}
+		},
+
+		async viewProblem(id, viewInDialog = false) {
+			this.log("INFO", "Opening problem", {
+				color: flatc("yellow"),
+				text: id
+			});
+
+			this.id = id;
+			this.panel.loading = true;
+			this.panel.title = "Đang Tải";
+			this.backButton.show();
+			this.listContainer.classList.add("hide");
+
+			let response = await myajax({
+				url: "/api/contest/problems/get",
+				method: "GET",
+				query: { id: id }
+			});
+
+			let data = response.data;
+			this.log("DEBG", "viewProblem():", data);
+
+			this.updateViewer(data);
+			await this.updateRanking();
 
 			this.panel.loading = false;
 		},
