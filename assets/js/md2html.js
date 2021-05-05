@@ -66,6 +66,15 @@ const md2html = {
 					lines[i] = `<hr>`;
 					continue;
 				}
+
+				//* ==================== Sanitize unfinished open html tag ====================
+				lines[i] = this.processRegex(lines[i], /\<[a-zA-Z_:]*[^\>]+(?:\>|$)/gm, (line, item) => {
+						if (item[0][item[0].length - 1] !== ">")
+							return line.replace(item[0], escapeHTML(item[0]))
+						else
+							return line;
+					}
+				);
 	
 				//* ==================== Heading ====================
 				lines[i] = this.processRegex(lines[i], /^(\#{1,6})\s(.*)$/gm, (line, item) =>
@@ -327,7 +336,7 @@ const md2html = {
 				}
 	
 				//? ======================= END =======================
-				if (doWrapParagraph) {
+				if (doWrapParagraph && lines[i].trim()[0] !== "<") {
 					if (lines.length > (i + 1) && lines[i + 1][0] !== "")
 						lines[i] = `<p>${lines[i]}</p>`;
 					else {
