@@ -91,12 +91,14 @@ ul {
 pre {
 	position: relative;
 	display: inline-block;
+
 	max-width: 100%;
-	overflow: auto;
 	margin: unset;
 	font-family: "Consolas";
 	font-weight: bold;
 	color: rgb(22, 22, 22);
+	
+	overflow: auto;
 	vertical-align: sub;
 }
 
@@ -711,7 +713,7 @@ icon[data-icon="heartFill"]::after {
 .note > .inner.inner,
 .note > .inner.inner > t,
 .note > .inner.inner > pre {
-    font-size: 14px;
+    font-size: 16px;
 	color: #343434;
 }
 
@@ -764,6 +766,9 @@ icon[data-icon="heartFill"]::after {
 	padding: 10px;
 	padding-bottom: 50px;
 	font-size: 17px;
+
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 
 .md2html hr {
@@ -833,6 +838,10 @@ icon[data-icon="heartFill"]::after {
 .md2html .image {
 	max-width: 100%;
     box-sizing: initial;
+}
+
+.md2html .note {
+	width: 100%;
 }
 
 /** ======================== POPUP ======================== **/
