@@ -38,7 +38,7 @@
 	$extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
 
 	if (getConfig("contest.submit.inProblemsList") === true) {
-		require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/problems.php";
+		require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/problem.php";
 		if (!problemExist($filename))
 			stop(44, "Không có đề cho bài này!", 404, Array( "file" => $filename ));
 

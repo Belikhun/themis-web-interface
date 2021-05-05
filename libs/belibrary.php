@@ -640,7 +640,7 @@
 	 * @return	Number			Number of merged keys
 	 *
 	 */
-	function mergeObjectRecursive(Array &$target, Array $object, $typeSensitive = true, Bool $overWriteArray = false, Int &$counter = 0, String $__path = "") {
+	function mergeObjectRecursive(Array &$target, Array $object, $typeSensitive = true, Bool $overWriteArray = true, Int &$counter = 0, String $__path = "") {
 		foreach ($target as $key => &$value)
 			if (array_key_exists($key, $object)) {
 				$path = $__path === ""

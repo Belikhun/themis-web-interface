@@ -19,7 +19,7 @@
 
 	contest_timeRequire([CONTEST_STARTED], false);
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/problems.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/problem.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/submissions.php";
 
 	$list = problemList($_SESSION["id"] === "admin");

@@ -1,6 +1,6 @@
 <?php
 	//? |-----------------------------------------------------------------------------------------------|
-	//? |  /modules/problems.php                                                                        |
+	//? |  /modules/problem.php                                                                         |
 	//? |                                                                                               |
 	//? |  Copyright (c) 2018-2021 Belikhun. All right reserved                                         |
 	//? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
@@ -23,8 +23,8 @@
 		"memory" => 1024,
 		"limit" => 0,
 		"type" => Array(
-			"inp" => "Bàn Phím",
-			"out" => "Màn Hình"
+			"input" => "Bàn Phím",
+			"output" => "Màn Hình"
 		),
 		"accept" => Array("pas", "cpp", "c", "pp", "exe", "class", "py", "java"),
 		"loved" => Array(),

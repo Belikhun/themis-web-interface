@@ -1236,6 +1236,64 @@ panel > .main > .loadingWrapper.show {
 	display: flex;
 }
 
+.problemViewer > .content > .tests > .testContainer > .title {
+	font-family: Nunito;
+	font-size: 20px;
+	font-weight: 800;
+	white-space: nowrap;
+	margin-left: 10px;
+}
+
+.problemViewer > .content > .tests > .testContainer > .content {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+
+	margin-top: 10px;
+	margin-bottom: 40px;
+}
+
+.problemViewer > .content > .tests > .testContainer > .content > .test {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+
+	margin: 0 10px;
+	background-color: rgb(250, 250, 250);
+}
+
+.problemViewer > .content > .tests > .testContainer > .content > .test > .header {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	padding: 10px 20px;
+	background-color: rgb(230, 230, 230);
+}
+
+.problemViewer > .content > .tests > .testContainer > .content > .test > .header > .title {
+	flex-grow: 1;
+
+	font-family: "Consolas";
+	font-size: 17px;
+	font-weight: bold;
+}
+
+.problemViewer > .content > .tests > .testContainer > .content > .test > .header > .copy {
+	cursor: pointer;
+}
+
+.problemViewer > .content > .tests > .testContainer > .content > .test > .header > .copy::after {
+	font-size: 22px;
+	font-weight: 100;
+}
+
+.problemViewer > .content > .tests > .testContainer > .content > .test > .header > .copy:hover::after {
+	font-weight: 900;
+}
+
 /** ======================== PROBLEM VIEWER ANIMATION ======================== **/
 
 @keyframes problemsListShow {

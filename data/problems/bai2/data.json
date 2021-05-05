@@ -4,8 +4,8 @@
     "time": 1,
     "memory": 1024,
     "type": {
-        "inp": "B\u00e0n Ph\u00edm",
-        "out": "M\u00e0n h\u00ecnh"
+        "input": "B\u00e0n Ph\u00edm",
+        "output": "M\u00e0n h\u00ecnh"
     },
     "accept": [
         "pas",
@@ -14,12 +14,12 @@
     "description": "M\u1ed9t s\u1ed1 c\u00f3 t\u1ed5ng c\u00e1c \u01b0\u1edbc nh\u1ecf h\u01a1n n\u00f3 b\u1eb1ng ch\u00ednh n\u00f3 \u0111\u01b0\u1ee3c g\u1ecdi l\u00e0 s\u1ed1 ho\u00e0n ch\u1ec9nh.\n<i>V\u00ed d\u1ee5: 6 c\u00f3 c\u00e1c \u01b0\u1edbc nh\u1ecf h\u01a1n n\u00f3 l\u00e0 1, 2, 3. T\u1ed5ng l\u00e0 1 + 2 + 3 = 6.<\/i>\nVi\u1ebft ch\u01b0\u01a1ng tr\u00ecnh x\u00e9t xem m\u1ed9t s\u1ed1 n \u0111\u01b0\u1ee3c nh\u1eadp t\u1eeb b\u00e0n ph\u00edm c\u00f3 ph\u1ea3i l\u00e0 s\u1ed1 ho\u00e0n ch\u1ec9nh kh\u00f4ng.",
     "test": [
         {
-            "inp": "6",
-            "out": "1"
+            "input": "6",
+            "output": "1"
         },
         {
-            "inp": "8",
-            "out": "0"
+            "input": "8",
+            "output": "0"
         }
     ],
     "disabled": false

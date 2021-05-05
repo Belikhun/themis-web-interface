@@ -677,6 +677,10 @@ icon[data-icon="heartFill"]::after {
 	content: "\f004";
 }
 
+icon[data-icon="clipboard"]::after {
+	content: "\f328";
+}
+
 /** ======================== NOTE ======================== **/
 
 .note {

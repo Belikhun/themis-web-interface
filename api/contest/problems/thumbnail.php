@@ -36,7 +36,7 @@
 	
 				contest_timeRequire([CONTEST_STARTED], false, false);
 			
-				require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/problems.php";
+				require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/problem.php";
 			
 				if (!problemExist($id) || (problemDisabled($id) && $_SESSION["id"] !== "admin"))
 					showImage(PROBLEMS_DIR ."/thumbnail.default");
@@ -65,7 +65,7 @@
 			if ($_SESSION["id"] !== "admin")
 				stop(31, "Access Denied!", 403);
 
-			require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/problems.php";
+			require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/problem.php";
 			
 			$code = problemRemoveThumbnail($id);
 			

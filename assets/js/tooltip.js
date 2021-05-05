@@ -213,6 +213,14 @@ const tooltip = {
 			return;
 	},
 
+	/**
+	 * Show the tooltip on node
+	 * 
+	 * @param {String|Object}	data			Text to show
+	 * @param {HTMLElement}		showOnNode		Node to show text on
+	 * @param {Boolean}			noPadding		Remove padding around tooltip
+	 * @returns 
+	 */
 	show(data, showOnNode, noPadding = false) {
 		if (!this.initialized)
 			return false;

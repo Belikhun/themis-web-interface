@@ -1151,7 +1151,9 @@ const twi = {
 								readonly: true
 							})
 						}}
-					}}
+					}},
+
+					tests: { tag: "div", class: "tests" }
 				}}
 			});
 
@@ -1355,6 +1357,33 @@ const twi = {
 			this.viewer.content.description.content.dataset.active = view;
 		},
 
+		createTestViewer(test, title) {
+			let container = makeTree("div", "test", {
+				header: { tag: "div", class: "header", child: {
+					tTitle: { tag: "t", class: "title", text: title },
+					copy: { tag: "icon", class: "copy", data: { icon: "clipboard" } }
+				}},
+
+				content: { tag: "ul", class: "textView" }
+			});
+
+			let lines = test.split("\n");
+			for (let line of lines) {
+				let ln = document.createElement("li");
+				ln.innerText = line;
+				container.content.appendChild(ln);
+			}
+
+			// Copy test data into clipboard
+			container.header.copy.title = "Nhấn Để Sao Chép";
+			container.header.copy.addEventListener("click", () => {
+				navigator.clipboard.writeText(test);
+				tooltip.show("Đã Sao Chép Vào Clipboard!", container.header.copy);
+			});
+
+			return container;
+		},
+
 		async viewProblem(id, viewInDialog = false) {
 			this.log("INFO", "Opening problem", {
 				color: flatc("yellow"),
@@ -1375,13 +1404,15 @@ const twi = {
 			let data = response.data;
 			this.log("DEBG", "viewProblem():", data);
 
-			// Update Viewer
+			// Update Header
 			this.panel.title = `Đề bài - ${data.name}`;
 			this.viewer.backgroundWrapper.background.source = data.thumbnail;
 			this.viewer.backgroundWrapper.background.load();
 			this.viewer.content.header.left.pTitle.innerText = data.name;
 			this.viewer.content.header.left.point.innerHTML = `<b>${data.point}</b> điểm`;
 
+			// Only show author details when author is actually present
+			// in problem data
 			if (data.author) {
 				this.viewer.content.header.left.author.avatar.source = `/api/avatar?u=${data.author.username}`;
 				this.viewer.content.header.left.author.avatar.load();
@@ -1395,15 +1426,30 @@ const twi = {
 			this.viewer.content.details.left.items.pID.value.innerText = data.id;
 			this.viewer.content.details.left.items.runtime.value.innerText = `${data.time} giây`;
 			this.viewer.content.details.left.items.memory.value.innerText = convertSize(data.memory);
-			this.viewer.content.details.left.items.input.value.innerText = data.type.inp;
-			this.viewer.content.details.left.items.output.value.innerText = data.type.out;
+			this.viewer.content.details.left.items.input.value.innerText = data.type.input || "không rõ";
+			this.viewer.content.details.left.items.output.value.innerText = data.type.output || "không rõ";
 			this.viewer.content.details.right.languages.innerText = data.accept.join(", ");
 
+			// Update Description
 			let mdNode = md2html.parse(data.description);
 			this.viewer.content.description.content.replaceChild(mdNode, this.viewer.content.description.content.markdown);
 			this.viewer.content.description.content.markdown = mdNode;
 			this.viewer.content.description.content.editor.value = data.description;
 			this.descSwitchView("markdown");
+
+			emptyNode(this.viewer.content.tests);
+			for (let ti = 0; ti < data.test.length; ti++) {
+				let item = data.test[ti];
+				let container = makeTree("div", "testContainer", {
+					tTitle: { tag: "t", class: "title", text: `Ví Dụ ${ti + 1}` },
+					content: { tag: "div", class: "content", child: {
+						input: this.createTestViewer(item.input || "", data.type.input),
+						output: this.createTestViewer(item.output || "", data.type.output)
+					}}
+				})
+
+				this.viewer.content.tests.appendChild(container);
+			}
 
 			this.panel.loading = false;
 		},

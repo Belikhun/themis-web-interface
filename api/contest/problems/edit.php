@@ -21,7 +21,7 @@
 	if ($_SESSION["id"] !== "admin")
 		stop(31, "Access Denied!", 403);
 
-	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/problems.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] ."/modules/problem.php";
 
 	$data = safeJSONParsing(reqForm("data"), "data");
 	$id = reqType($data["id"], "string", "id");
