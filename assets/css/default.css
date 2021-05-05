@@ -104,7 +104,6 @@ pre {
 
 pre.break {
 	display: block;
-	margin: 12px 0;
 	overflow: hidden;
 	white-space: pre-wrap;
 	word-wrap: break-word;
@@ -795,10 +794,14 @@ icon[data-icon="heartFill"]::after {
 .md2html blockquote {
 	position: relative;
 	margin: unset;
-	padding: 10px 20px 10px 15px;
-	margin-bottom: 10px;
+	padding: 5px 20px 5px 15px;
 
 	background-color: rgb(250, 250, 250);
+}
+
+.md2html blockquote blockquote {
+	margin-top: 10px;
+	padding: 0 20px 0 15px;
 }
 
 .md2html blockquote::before {

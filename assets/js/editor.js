@@ -163,7 +163,8 @@ class Editor {
 		this.main.overlay.spellcheck = false;
 		
 		this.setup();
-		this.value = value;
+
+		this.value = value || "";
 		this.tabSize = tabSize;
 		this.readonly = readonly;
 	}

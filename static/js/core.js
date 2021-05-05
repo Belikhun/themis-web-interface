@@ -904,7 +904,6 @@ const twi = {
 			view: $("#problemView")
 		},
 
-		data: null,
 		loaded: false,
 
 		/** @type {TWIPanel} */
@@ -971,172 +970,194 @@ const twi = {
 
 			// Build Problem Viewer Tree
 			this.viewer = makeTree("div", "problemViewer", {
-				background: new lazyload({ classes: "background" }),
+				backgroundWrapper: { tag: "div", class: "backgroundWrapper", child: {
+					background: new lazyload({ classes: "background" }),
+				}},
 
-				header: { tag: "div", class: "header", child: {
-					left: { tag: "span", class: "left", child: {
-						pTitle: { tag: "t", class: "title", text: "Sample Title" },
-						point: { tag: "span", class: "point", text: "0 điểm" },
-
-						author: { tag: "div", class: "author", child: {
-							avatar: new lazyload({ classes: ["avatar", "light"] }),
-							details: { tag: "span", class: "detail", child: {
-								uTitle: { tag: "t", class: "title", text: "Được Tạo Bởi" },
-								uName: { tag: "t", class: "name", text: "dummy" },
-								updated: { tag: "t", class: "updated", html: "cập nhật lúc <b>00/00/0000</b>" }
+				content: { tag: "div", class: "content", child: {
+					header: { tag: "div", class: "header", child: {
+						left: { tag: "span", class: "left", child: {
+							pTitle: { tag: "t", class: "title", text: "Sample Title" },
+							point: { tag: "span", class: "point", text: "0 điểm" },
+	
+							author: { tag: "div", class: "author", child: {
+								avatar: new lazyload({ classes: ["avatar", "light"] }),
+								details: { tag: "span", class: "detail", child: {
+									uTitle: { tag: "t", class: "title", text: "Được Tạo Bởi" },
+									uName: { tag: "t", class: "name", text: "dummy" },
+									updated: { tag: "t", class: "updated", html: "cập nhật lúc <b>00/00/0000</b>" }
+								}}
+							}},
+	
+							buttons: { tag: "div", class: "buttons", child: {
+								love: createButton("icon", {
+									color: "blue",
+									icon: "heart",
+									style: "round",
+									complex: true
+								}),
+	
+								edit: createButton("Chỉnh Sửa", {
+									color: "green",
+									icon: "pencil",
+									style: "round",
+									complex: true
+								}),
+	
+								delete: createButton("Xóa", {
+									color: "red",
+									icon: "trash",
+									style: "round",
+									complex: true
+								})
 							}}
 						}},
-
-						buttons: { tag: "div", class: "buttons", child: {
-							love: createButton("icon", {
-								color: "blue",
-								icon: "heart",
-								style: "round",
-								complex: true
-							}),
-
-							edit: createButton("Chỉnh Sửa", {
-								color: "green",
-								icon: "pencil",
-								style: "round",
-								complex: true
-							}),
-
-							delete: createButton("Xóa", {
-								color: "red",
-								icon: "trash",
-								style: "round",
-								complex: true
-							})
-						}}
-					}},
-
-					right: { tag: "span", class: "right", child: {
-						loved: { tag: "span", class: "loved", child: {
-							lTitle: { tag: "t", class: "title", text: "Yêu Thích" },
-							list: { tag: "div", class: "list" }
-						}},
-
-						status: { tag: "span", class: "status", child: {
-							sTitle: { tag: "t", class: "title", text: "Tình Trạng" },
-							bar: { tag: "div", class: ["progressBar", "judgeStatusBar", "stackable"], child: {
-								correct: { tag: "div", class: "bar", data: { color: "green" } },
-								passed: { tag: "div", class: "bar", data: { color: "blue" } },
-								accepted: { tag: "div", class: "bar", data: { color: "yellow" } },
-								failed: { tag: "div", class: "bar", data: { color: "red" } },
-								skipped: { tag: "div", class: "bar", data: { color: "gray" } }
+	
+						right: { tag: "span", class: "right", child: {
+							loved: { tag: "span", class: "loved", child: {
+								lTitle: { tag: "t", class: "title", text: "Yêu Thích" },
+								list: { tag: "div", class: "list" }
 							}},
-
-							detail: { tag: "div", class: "detail", child: {
-								correct: { tag: "div", class: "item", child: {
-									wrapper: { tag: "span", class: "wrapper", child: {
-										status: {
-											tag: "span",
-											class: ["status", "judgeStatus"],
-											data: { status: "correct" },
-											text: twi.taskStatus.correct
-										},
-									}},
-
-									value: { tag: "t", class: "value", text: "0 bài làm" }
+	
+							status: { tag: "span", class: "status", child: {
+								sTitle: { tag: "t", class: "title", text: "Tình Trạng" },
+								bar: { tag: "div", class: ["progressBar", "judgeStatusBar", "stackable"], child: {
+									correct: { tag: "div", class: "bar", data: { color: "green" } },
+									passed: { tag: "div", class: "bar", data: { color: "blue" } },
+									accepted: { tag: "div", class: "bar", data: { color: "yellow" } },
+									failed: { tag: "div", class: "bar", data: { color: "red" } },
+									skipped: { tag: "div", class: "bar", data: { color: "gray" } }
 								}},
-
-								passed: { tag: "div", class: "item", child: {
-									wrapper: { tag: "span", class: "wrapper", child: {
-										status: {
-											tag: "span",
-											class: ["status", "judgeStatus"],
-											data: { status: "passed" },
-											text: twi.taskStatus.passed
-										},
+	
+								detail: { tag: "div", class: "detail", child: {
+									correct: { tag: "div", class: "item", child: {
+										wrapper: { tag: "span", class: "wrapper", child: {
+											status: {
+												tag: "span",
+												class: ["status", "judgeStatus"],
+												data: { status: "correct" },
+												text: twi.taskStatus.correct
+											},
+										}},
+	
+										value: { tag: "t", class: "value", text: "0 bài làm" }
 									}},
-
-									value: { tag: "t", class: "value", text: "0 bài làm" }
-								}},
-
-								accepted: { tag: "div", class: "item", child: {
-									wrapper: { tag: "span", class: "wrapper", child: {
-										status: {
-											tag: "span",
-											class: ["status", "judgeStatus"],
-											data: { status: "accepted" },
-											text: twi.taskStatus.accepted
-										},
+	
+									passed: { tag: "div", class: "item", child: {
+										wrapper: { tag: "span", class: "wrapper", child: {
+											status: {
+												tag: "span",
+												class: ["status", "judgeStatus"],
+												data: { status: "passed" },
+												text: twi.taskStatus.passed
+											},
+										}},
+	
+										value: { tag: "t", class: "value", text: "0 bài làm" }
 									}},
-
-									value: { tag: "t", class: "value", text: "0 bài làm" }
-								}},
-
-								failed: { tag: "div", class: "item", child: {
-									wrapper: { tag: "span", class: "wrapper", child: {
-										status: {
-											tag: "span",
-											class: ["status", "judgeStatus"],
-											data: { status: "failed" },
-											text: twi.taskStatus.failed
-										},
+	
+									accepted: { tag: "div", class: "item", child: {
+										wrapper: { tag: "span", class: "wrapper", child: {
+											status: {
+												tag: "span",
+												class: ["status", "judgeStatus"],
+												data: { status: "accepted" },
+												text: twi.taskStatus.accepted
+											},
+										}},
+	
+										value: { tag: "t", class: "value", text: "0 bài làm" }
 									}},
-
-									value: { tag: "t", class: "value", text: "0 bài làm" }
-								}},
-
-								skipped: { tag: "div", class: "item", child: {
-									wrapper: { tag: "span", class: "wrapper", child: {
-										status: {
-											tag: "span",
-											class: ["status", "judgeStatus"],
-											data: { status: "skipped" },
-											text: twi.taskStatus.skipped
-										},
+	
+									failed: { tag: "div", class: "item", child: {
+										wrapper: { tag: "span", class: "wrapper", child: {
+											status: {
+												tag: "span",
+												class: ["status", "judgeStatus"],
+												data: { status: "failed" },
+												text: twi.taskStatus.failed
+											},
+										}},
+	
+										value: { tag: "t", class: "value", text: "0 bài làm" }
 									}},
-
-									value: { tag: "t", class: "value", text: "0 bài làm" }
+	
+									skipped: { tag: "div", class: "item", child: {
+										wrapper: { tag: "span", class: "wrapper", child: {
+											status: {
+												tag: "span",
+												class: ["status", "judgeStatus"],
+												data: { status: "skipped" },
+												text: twi.taskStatus.skipped
+											},
+										}},
+	
+										value: { tag: "t", class: "value", text: "0 bài làm" }
+									}}
 								}}
 							}}
 						}}
-					}}
-				}},
-
-				details: { tag: "div", class: "details", child: {
-					left: { tag: "span", class: "left", child: {
-						tTitle: { tag: "t", class: "title", text: "Thông Tin" },
-
-						items: { tag: "div", class: "items", child: {
-							pID: { tag: "span", class: ["item", "id"], child: {
-								label: { tag: "t", class: "label", text: "Mã Đề" },
-								value: { tag: "t", class: "value", text: "sample" }
-							}},
+					}},
 	
-							runtime: { tag: "span", class: ["item", "runtime"], child: {
-								label: { tag: "t", class: "label", text: "Thời Gian Chạy" },
-								value: { tag: "t", class: "value", text: "0 giây" }
-							}},
+					details: { tag: "div", class: "details", child: {
+						left: { tag: "span", class: "left", child: {
+							tTitle: { tag: "t", class: "title", text: "Thông Tin" },
 	
-							memory: { tag: "span", class: ["item", "memory"], child: {
-								label: { tag: "t", class: "label", text: "Bộ Nhớ" },
-								value: { tag: "t", class: "value", text: "0 B" }
-							}},
-	
-							input: { tag: "span", class: ["item", "input"], child: {
-								label: { tag: "t", class: "label", text: "Input" },
-								value: { tag: "t", class: "value", text: "Bàn Phím" }
-							}},
-	
-							output: { tag: "span", class: ["item", "output"], child: {
-								label: { tag: "t", class: "label", text: "Output" },
-								value: { tag: "t", class: "value", text: "Màn Hình" }
+							items: { tag: "div", class: "items", child: {
+								pID: { tag: "span", class: ["item", "id"], child: {
+									label: { tag: "t", class: "label", text: "Mã Đề" },
+									value: { tag: "t", class: "value", text: "sample" }
+								}},
+		
+								runtime: { tag: "span", class: ["item", "runtime"], child: {
+									label: { tag: "t", class: "label", text: "Thời Gian Chạy" },
+									value: { tag: "t", class: "value", text: "0 giây" }
+								}},
+		
+								memory: { tag: "span", class: ["item", "memory"], child: {
+									label: { tag: "t", class: "label", text: "Bộ Nhớ" },
+									value: { tag: "t", class: "value", text: "0 B" }
+								}},
+		
+								input: { tag: "span", class: ["item", "input"], child: {
+									label: { tag: "t", class: "label", text: "Input" },
+									value: { tag: "t", class: "value", text: "Bàn Phím" }
+								}},
+		
+								output: { tag: "span", class: ["item", "output"], child: {
+									label: { tag: "t", class: "label", text: "Output" },
+									value: { tag: "t", class: "value", text: "Màn Hình" }
+								}}
 							}}
+						}},
+	
+						right: { tag: "span", class: "right", child: {
+							tTitle: { tag: "t", class: "title", text: "Ngôn Ngữ" },
+							languages: { tag: "t", class: "languages" }
 						}}
 					}},
+	
+					description: { tag: "div", class: "description", child: {
+						dTitle: { tag: "t", class: "title", text: "Nội Dung" },
+						switch: { tag: "div", class: "switch", child: {
+							markdown: { tag: "tag", class: "markdown", text: "markdown" },
+							code: { tag: "tag", class: "code", text: "code" }
+						}},
 
-					right: { tag: "span", class: "right", child: {
-						tTitle: { tag: "t", class: "title", text: "Ngôn Ngữ" },
-						languages: { tag: "t", class: "languages" }
+						content: { tag: "div", class: "content", child: {
+							markdown: { tag: "div" },
+							editor: new Editor("none", {
+								language: "md",
+								readonly: true
+							})
+						}}
 					}}
 				}}
 			});
 
 			this.problem.view.appendChild(this.viewer);
+			this.viewer.content.description.switch.markdown.addEventListener("click", () => this.descSwitchView("markdown"));
+			this.viewer.content.description.switch.code.addEventListener("click", () => this.descSwitchView("code"));
 
 			// Register Panel Buttons / Viewer Buttons Handler
 			this.reloadButton = this.panel.button("reload");
@@ -1329,6 +1350,11 @@ const twi = {
 			this.panel.loading = false;
 		},
 
+		descSwitchView(view) {
+			this.viewer.content.description.switch.dataset.active = view;
+			this.viewer.content.description.content.dataset.active = view;
+		},
+
 		async viewProblem(id, viewInDialog = false) {
 			this.log("INFO", "Opening problem", {
 				color: flatc("yellow"),
@@ -1347,32 +1373,37 @@ const twi = {
 			});
 
 			let data = response.data;
-			this.data = data;
-			this.log("DEBG", "viewProblem():", this.data);
+			this.log("DEBG", "viewProblem():", data);
 
 			// Update Viewer
 			this.panel.title = `Đề bài - ${data.name}`;
-			this.viewer.background.source = this.data.thumbnail;
-			this.viewer.background.load();
-			this.viewer.header.left.pTitle.innerText = this.data.name;
-			this.viewer.header.left.point.innerHTML = `<b>${this.data.point}</b> điểm`;
+			this.viewer.backgroundWrapper.background.source = data.thumbnail;
+			this.viewer.backgroundWrapper.background.load();
+			this.viewer.content.header.left.pTitle.innerText = data.name;
+			this.viewer.content.header.left.point.innerHTML = `<b>${data.point}</b> điểm`;
 
-			if (this.data.author) {
-				this.viewer.header.left.author.avatar.source = `/api/avatar?u=${this.data.author.username}`;
-				this.viewer.header.left.author.avatar.load();
-				this.viewer.header.left.author.details.uName.innerText = this.data.author.name;
-				this.viewer.header.left.author.details.uName.setAttribute("username", this.data.author.username);
-				this.viewer.header.left.author.details.updated.innerHTML = `đã chỉnh sửa <b>${(new Date(this.data.modify * 1000)).toLocaleString()}</b>`;
-				this.viewer.header.left.author.style.display = null;
+			if (data.author) {
+				this.viewer.content.header.left.author.avatar.source = `/api/avatar?u=${data.author.username}`;
+				this.viewer.content.header.left.author.avatar.load();
+				this.viewer.content.header.left.author.details.uName.innerText = data.author.name;
+				this.viewer.content.header.left.author.details.uName.setAttribute("username", data.author.username);
+				this.viewer.content.header.left.author.details.updated.innerHTML = `đã chỉnh sửa <b>${(new Date(data.modify * 1000)).toLocaleString()}</b>`;
+				this.viewer.content.header.left.author.style.display = null;
 			} else
-				this.viewer.header.left.author.style.display = "none";
+				this.viewer.content.header.left.author.style.display = "none";
 
-			this.viewer.details.left.items.pID.value.innerText = this.data.id;
-			this.viewer.details.left.items.runtime.value.innerText = `${this.data.time} giây`;
-			this.viewer.details.left.items.memory.value.innerText = convertSize(this.data.memory);
-			this.viewer.details.left.items.input.value.innerText = this.data.type.inp;
-			this.viewer.details.left.items.output.value.innerText = this.data.type.out;
-			this.viewer.details.right.languages.innerText = this.data.accept.join(", ");
+			this.viewer.content.details.left.items.pID.value.innerText = data.id;
+			this.viewer.content.details.left.items.runtime.value.innerText = `${data.time} giây`;
+			this.viewer.content.details.left.items.memory.value.innerText = convertSize(data.memory);
+			this.viewer.content.details.left.items.input.value.innerText = data.type.inp;
+			this.viewer.content.details.left.items.output.value.innerText = data.type.out;
+			this.viewer.content.details.right.languages.innerText = data.accept.join(", ");
+
+			let mdNode = md2html.parse(data.description);
+			this.viewer.content.description.content.replaceChild(mdNode, this.viewer.content.description.content.markdown);
+			this.viewer.content.description.content.markdown = mdNode;
+			this.viewer.content.description.content.editor.value = data.description;
+			this.descSwitchView("markdown");
 
 			this.panel.loading = false;
 		},

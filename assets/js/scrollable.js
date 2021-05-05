@@ -212,10 +212,7 @@ class Scrollable {
 				}
 
 				if (typeof horizontal === "boolean")
-					if (this.smooth)
-						this.animationUpdate({ value, horizontal, clamping: false });
-					else
-						this.update({ value, horizontal });
+					this.update({ value, horizontal });
 
 				this.sTicking = false;
 			});

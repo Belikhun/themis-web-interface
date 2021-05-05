@@ -839,35 +839,70 @@ panel > .main > .loadingWrapper.show {
 	position: relative;
 	display: flex;
 	flex-direction: column;
+
+	--header-height: 70vh;
 }
 
-.problemViewer > .background {
+.problemViewer > .backgroundWrapper {
 	position: sticky;
+	display: block;
 
 	top: 0;
 	width: 100%;
-	height: 50vh;
 }
 
-.problemViewer > .background ~ * {
+.problemViewer > .backgroundWrapper > .background {
+	position: absolute;
+
+	width: 100%;
+	height: var(--header-height);
+}
+
+.problemViewer > .backgroundWrapper::after {
+	content: "";
+	position: absolute;
+
+	width: 100%;
+	height: var(--header-height);
+
+	background-color: rgba(59, 53, 63, 0.7);
+}
+
+.problemViewer > .content {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+
+	width: 100%;
+	margin-top: var(--header-height);
+	padding-bottom: var(--header-height);
+
 	background-color: white;
 }
 
-.problemViewer > .header {
-	position: absolute;
+.problemViewer > .content > div {
+	width: 100%;
+	max-width: 1200px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+.problemViewer > .content > .header {
+	position: relative;
 	display: flex;
 	flex-direction: row;
 
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 50vh;
+	top: calc(0px - var(--header-height));
+	height: 0;
+	padding: unset;
 
-	background-color: rgba(0, 0, 0, 0.6);
+	background-color: transparent;
 }
 
-.problemViewer > .header > .left,
-.problemViewer > .header > .right {
+.problemViewer > .content > .header > .left,
+.problemViewer > .content > .header > .right {
 	position: relative;
 	display: flex;
 	flex-direction: column;
@@ -875,10 +910,12 @@ panel > .main > .loadingWrapper.show {
 	flex-shrink: 1;
 	justify-content: flex-end;
 
-	margin: 10px 0 10px 20px;
+	height: var(--header-height);
+	padding: 10px 20px;
+	box-sizing: border-box;
 }
 
-.problemViewer > .header > .left > .title {
+.problemViewer > .content > .header > .left > .title {
 	font-family: Nunito;
 	font-size: 26px;
 	font-weight: 800;
@@ -886,18 +923,18 @@ panel > .main > .loadingWrapper.show {
 	color: white;
 }
 
-.problemViewer > .header > .left > .point {
+.problemViewer > .content > .header > .left > .point {
 	font-family: Nunito;
 	font-size: 22px;
 	font-weight: 400;
 	color: white;
 }
 
-.problemViewer > .header > .left > .point > b {
+.problemViewer > .content > .header > .left > .point > b {
 	font-weight: 800;
 }
 
-.problemViewer > .header > .left> .author {
+.problemViewer > .content > .header > .left > .author {
 	position: relative;
 	display: flex;
 	flex-direction: row;
@@ -906,13 +943,13 @@ panel > .main > .loadingWrapper.show {
 	margin-top: 20px;
 }
 
-.problemViewer > .header > .left> .author > .avatar {
+.problemViewer > .content > .header > .left > .author > .avatar {
 	width: 64px;
 	height: 64px;
 	border-radius: 50%;
 }
 
-.problemViewer > .header > .left> .author > .detail {
+.problemViewer > .content > .header > .left > .author > .detail {
 	position: relative;
 	display: flex;
 	flex-direction: column;
@@ -920,65 +957,61 @@ panel > .main > .loadingWrapper.show {
 	margin-left: 10px;
 }
 
-.problemViewer > .header > .left> .author > .detail > t {
+.problemViewer > .content > .header > .left > .author > .detail > t {
 	color: white;
 }
 
-.problemViewer > .header > .left> .author > .detail > .title {
+.problemViewer > .content > .header > .left > .author > .detail > .title {
 	font-size: 11px;
 	font-weight: bold;
 	text-transform: uppercase;
 	color: rgba(245, 245, 245, 0.8);
 }
 
-.problemViewer > .header > .left> .author > .detail > .name {
+.problemViewer > .content > .header > .left > .author > .detail > .name {
 	font-family: Nunito;
 	font-size: 16px;
 	font-weight: 800;
 	letter-spacing: .2px;
 }
 
-.problemViewer > .header > .left> .author > .detail > .updated {
+.problemViewer > .content > .header > .left > .author > .detail > .updated {
 	margin-top: 5px;
 	font-size: 13px;
 }
 
-.problemViewer > .header > .left > .buttons {
-
-}
-
-.problemViewer > .header > .left > .buttons > button {
+.problemViewer > .content > .header > .left > .buttons > button {
 	margin: 10px 10px 0 0;
 }
 
-.problemViewer > .header > .right {
+.problemViewer > .content > .header > .right {
 	flex-grow: 0;
-
-	margin: 0 20px 0 0;
+	padding-bottom: 0;
 }
 
-.problemViewer > .header > .right > span {
+.problemViewer > .content > .header > .right > span {
 	position: relative;
 	display: flex;
 	flex-direction: column;
 
-	padding: 5px 10px;
+	padding: 10px;
+	margin-top: 2px;
 	background-color: rgba(0, 0, 0, 0.4);
 }
 
-.problemViewer > .header > .right > span:last-child {
+.problemViewer > .content > .header > .right > span:last-child {
 	padding-bottom: 10px;
 }
 
-.problemViewer > .header > .right > span > .title {
+.problemViewer > .content > .header > .right > span > .title {
 	font-size: 11px;
 	font-weight: bold;
 	text-transform: uppercase;
 	letter-spacing: .4px;
-	color: rgba(255, 255, 255, 0.8);
+	color: rgba(255, 255, 255, 0.9);
 }
 
-.problemViewer > .header > .right > span > .title::after {
+.problemViewer > .content > .header > .right > span > .title::after {
 	content: "";
 	position: relative;
 	display: block;
@@ -989,7 +1022,7 @@ panel > .main > .loadingWrapper.show {
 	margin: 4px 0;
 }
 
-.problemViewer > .header > .right > .loved > .list:empty::after {
+.problemViewer > .content > .header > .right > .loved > .list:empty::after {
 	content: "Trống";
 	display: block;
 
@@ -1002,7 +1035,7 @@ panel > .main > .loadingWrapper.show {
 	color: rgba(220, 220, 220, 0.6);
 }
 
-.problemViewer > .header > .right > .loved > .list > .user {
+.problemViewer > .content > .header > .right > .loved > .list > .user {
 	width: 18px;
 	height: 18px;
 	min-width: unset;
@@ -1011,11 +1044,11 @@ panel > .main > .loadingWrapper.show {
 	margin: 0 1px;
 }
 
-.problemViewer > .header > .right > .status > .progressBar {
+.problemViewer > .content > .header > .right > .status > .progressBar {
 	margin-bottom: 3px;
 }
 
-.problemViewer > .header > .right > .status > .detail > .item {
+.problemViewer > .content > .header > .right > .status > .detail > .item {
 	position: relative;
 	display: flex;
 	flex-direction: row;
@@ -1024,15 +1057,15 @@ panel > .main > .loadingWrapper.show {
 	margin-top: 2px;
 }
 
-.problemViewer > .header > .right > .status > .detail > .item > .wrapper {
+.problemViewer > .content > .header > .right > .status > .detail > .item > .wrapper {
 	min-width: 134px;
 }
 
-.problemViewer > .header > .right > .status > .detail > .item > .wrapper > .status {
+.problemViewer > .content > .header > .right > .status > .detail > .item > .wrapper > .status {
 	float: right;
 }
 
-.problemViewer > .header > .right > .status > .detail > .item > .value {
+.problemViewer > .content > .header > .right > .status > .detail > .item > .value {
 	margin-left: 10px;
 
 	font-size: 13px;
@@ -1040,36 +1073,35 @@ panel > .main > .loadingWrapper.show {
 	white-space: nowrap;
 }
 
-.problemViewer > .details {
+.problemViewer > .content > .details {
 	position: relative;
 	display: flex;
 	flex-direction: row;
 
-	padding: 10px 5px;
 	background-color: white;
 }
 
-.problemViewer > .details > span {
+.problemViewer > .content > .details > span {
 	position: relative;
 	display: inline-block;
 	flex-grow: 1;
 	flex-shrink: 1;
 
-	margin: 0 10px;
+	padding: 5px;
 }
 
-.problemViewer > .details > span > .title {
+.problemViewer > .content > .details > span > .title {
 	font-family: Nunito;
-	font-size: 16px;
+	font-size: 20px;
 	font-weight: 800;
 	white-space: nowrap;
 }
 
-.problemViewer > .details > .left > .title {
+.problemViewer > .content > .details > .left > .title {
 	margin-left: 5px;
 }
 
-.problemViewer > .details > .left > .items > .item {
+.problemViewer > .content > .details > .left > .items > .item {
 	position: relative;
 	display: inline-block;
 
@@ -1079,7 +1111,7 @@ panel > .main > .loadingWrapper.show {
 	background-color: rgb(240, 240, 240);
 }
 
-.problemViewer > .details > .left > .items > .item::before {
+.problemViewer > .content > .details > .left > .items > .item::before {
 	content: "";
 	position: absolute;
 	display: block;
@@ -1092,11 +1124,11 @@ panel > .main > .loadingWrapper.show {
 	background-color: rgba(0, 0, 0, 0.2);
 }
 
-.problemViewer > .details > .left > .items > .item:hover::before {
+.problemViewer > .content > .details > .left > .items > .item:hover::before {
 	background-color: rgba(0, 0, 0, 0.6);
 }
 
-.problemViewer > .details > .left > .items > .item > .label {
+.problemViewer > .content > .details > .left > .items > .item > .label {
 	font-size: 11px;
 	font-weight: bold;
 	text-transform: uppercase;
@@ -1104,19 +1136,19 @@ panel > .main > .loadingWrapper.show {
 	color: rgba(26, 26, 26, 0.8);
 }
 
-.problemViewer > .details > .left > .items > .item > .value {
+.problemViewer > .content > .details > .left > .items > .item > .value {
 	font-family: Nunito;
 	font-size: 18px;
 	font-weight: 500;
 }
 
-.problemViewer > .details > .right {
+.problemViewer > .content > .details > .right {
 	flex-grow: 0;
 
 	margin-right: 15px;
 }
 
-.problemViewer > .details > .right > .languages {
+.problemViewer > .content > .details > .right > .languages {
 	position: relative;
 	display: block;
 
@@ -1128,7 +1160,7 @@ panel > .main > .loadingWrapper.show {
 	color: rgb(2, 104, 172);
 }
 
-.problemViewer > .details > .right > .languages:empty::after {
+.problemViewer > .content > .details > .right > .languages:empty::after {
 	content: "Trống";
     display: flex;
 	align-items: center;
@@ -1144,6 +1176,64 @@ panel > .main > .loadingWrapper.show {
     text-align: center;
     color: rgba(38, 38, 38, 0.6);
 	background-color: rgba(26, 26, 26, 0.1);
+}
+
+.problemViewer > .content > .description {
+	position: relative;
+}
+
+.problemViewer > .content > .description > .title {
+	font-family: Nunito;
+	font-size: 20px;
+	font-weight: 800;
+	white-space: nowrap;
+	margin-left: 10px;
+}
+
+.problemViewer > .content > .description > .switch {
+	position: absolute;
+
+	right: 0;
+	top: 0;
+	margin: 12px 20px;
+}
+
+.problemViewer > .content > .description > .switch > tag {
+	font-size: 16px;
+	text-transform: uppercase;
+
+	cursor: pointer;
+	background-color: transparent;
+}
+
+.problemViewer > .content > .description > .switch > tag:hover {
+	background-color: rgba(240, 240, 240, 0.5);
+}
+
+.problemViewer > .content > .description > .switch[data-active="markdown"] > .markdown,
+.problemViewer > .content > .description > .switch[data-active="code"] > .code {
+	color: white;
+	background-color: rgb(46, 46, 46);
+}
+
+.problemViewer > .content > .description > .content {
+	margin: 5px 10px;
+	border-top: 1px solid rgba(126, 126, 126, 0.5);
+}
+
+.problemViewer > .content > .description > .content > .md2html,
+.problemViewer > .content > .description > .content > .editor {
+	display: none;
+	padding-left: unset;
+	padding-right: unset;
+}
+
+.problemViewer > .content > .description > .content[data-active="markdown"] > .md2html {
+	display: block;
+}
+
+.problemViewer > .content > .description > .content[data-active="code"] > .editor {
+	display: flex;
 }
 
 /** ======================== PROBLEM VIEWER ANIMATION ======================== **/

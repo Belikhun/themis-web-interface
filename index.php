@@ -58,8 +58,10 @@
 		<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/smenu.css?v=<?php print VERSION; ?>" />
 		<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/menu.css?v=<?php print VERSION; ?>" />
 		<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/wavec.css?v=<?php print VERSION; ?>" />
+		<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/editor.css?v=<?php print VERSION; ?>" />
 		<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/spinner.css?v=<?php print VERSION; ?>" />
 		<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollbar.css?v=<?php print VERSION; ?>" />
+		<link rel="stylesheet" type="text/css" media="screen" href="/static/katex/katex.min.css?v=<?php print VERSION; ?>" />
 		
 		<!-- Page Style -->
 		<link rel="stylesheet" type="text/css" media="screen" href="/static/css/core.css?v=<?php print VERSION; ?>" />
@@ -320,6 +322,10 @@
 		<script src="/assets/js/wavec.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 		<script src="/assets/js/navbar.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 		<script src="/assets/js/smenu.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+		<script src="/assets/js/editor.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+		<script src="/assets/js/md2html.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+
+		<script src="/static/katex/katex.min.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 
 		<!-- Core script -->
 		<script src="/static/js/core.js?v=<?php print VERSION; ?>" type="text/javascript"></script>

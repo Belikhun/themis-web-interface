@@ -13,6 +13,12 @@
  */
 const md2html = {
 	/**
+	 * List of function for handing line parsing
+	 * @type {Array}
+	 */
+	customLineHandlers: [],
+
+	/**
 	 * Parse Markdown text to HTML Element
 	 * 
 	 * @param	{String}		text	Markdown text to parse
@@ -110,7 +116,12 @@ const md2html = {
 
 					return line.replace(item[0], `<custom pos="${addInsList(node, i + 1).pos}"></custom>`)
 				});
+
+				//? ==================== Call to custom line handlers ====================
 	
+				for (let f of this.customLineHandlers)
+					lines[i] = f(lines[i], i);
+
 				//* ==================== Blockquotes ====================
 				let blockQuoteLevel = 0;
 				let blockQuoteEndPos = 0;
@@ -125,7 +136,9 @@ const md2html = {
 	
 				// Remove all blockquote chars
 				if (blockQuoteEndPos > 0)
-					lines[i] = lines[i].substring(blockQuoteEndPos, lines[i].length);
+					lines[i] = lines[i]
+						.substring(blockQuoteEndPos, lines[i].length)
+						.trim();
 	
 				// Count upward to add start tag
 				for (let p = currentBlockQuoteLevel; p < blockQuoteLevel; p++)
@@ -372,7 +385,7 @@ const md2html = {
 						clog("WARN", `md2html.parse(): Custom element with position ${i} cannot be found!`)
 				} catch(e) {
 					let error = parseException(e);
-					throw { code: error.code, description: `Lỗi xử lí chèn node tại dòng ${line}: ${error.description}`, data: e }
+					throw { code: error.code, description: `Lỗi xử lí chèn node tại dòng ${line}: ${error.description} (Có thể do một thẻ html nào đó chưa được đóng đúng cách hoặc khối đang nằm trong một thẻ html khác)`, data: e }
 				}
 			}
 	
@@ -383,9 +396,17 @@ const md2html = {
 
 			return createNote({
 				level: "error",
-				message: `<pre class="break">md2html.parse(): Lỗi đã xảy ra khi xử lí dữ liệu!\nCode: ${error.code}\nDescription: ${error.description}`
+				message: `<pre class="break">md2html.parse(): Lỗi đã xảy ra khi xử lí dữ liệu!\nCode: ${error.code}\nDescription: ${error.description}</pre>
+					<br>Powered by <pre>belivipro9x99/md2html.js</pre>: A simple markdown to html converter`
 			}).group;
 		}
+	},
+
+	parseLineHandler(f) {
+		if (typeof f !== "function")
+			throw { code: -1, description: `md2html(): not a valid function` }
+
+		this.customLineHandlers.push(f);
 	},
 
 	/**
