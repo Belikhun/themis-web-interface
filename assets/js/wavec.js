@@ -36,26 +36,28 @@ const wavec = {
 			icon = "circle",
 			title = "sample container"
 		} = {}) {
-			this.container = buildElementTree("div", ["container", "hide"], [
-				{ type: "div", class: "wave", name: "wave", html: `<span></span>`.repeat(4) },
-				{ type: "div", class: "contentBox", name: "contentBox", list: [
-					{ type: "div", class: "header", name: "header", list: [
-						{ type: "icon", name: "icon" },
-						{ type: "t", class: "title", name: "titleNode", text: title },
+			this.container = makeTree("div", ["container", "hide"], {
+				wave: { tag: "div", class: "wave", html: `<span></span>`.repeat(4) },
+				contentBox: { tag: "div", class: "contentBox", child: {
+					wrapper: { tag: "div", class: "wrapper", child: {
+						spinner: { tag: "span", class: "simpleSpinner" }
+					}},
 
-						{ type: "span", class: "buttons", name: "buttons", list: [
-							{ type: "icon", class: "close", name: "close" },
-							{ type: "icon", class: "reload", name: "reload" }
-						]}
-					]},
+					header: { tag: "div", class: "header", child: {
+						icon: { tag: "icon" },
+						titleNode: { tag: "t", class: "title", text: title },
 
-					{ type: "div", class: "content", name: "content" }
-				]}
-			]);
+						buttons: { tag: "span", class: "buttons", child: {
+							close: { tag: "icon", class: "close" },
+							reload: { tag: "icon", class: "reload" }
+						}}
+					}},
 
-			wavec.container.appendChild(this.container.tree);
-			this.container = this.container.obj;
+					content: { tag: "div", class: "content" }
+				}}
+			});
 
+			wavec.container.appendChild(this.container);
 			this.container.dataset.color = color;
 			this.container.contentBox.header.icon.dataset.icon = icon;
 			this.container.contentBox.header.buttons.close.dataset.icon = "close";
@@ -65,6 +67,11 @@ const wavec = {
 				sounds.applySound(this.container.contentBox.header.buttons.close, ["soundhoversoft", "soundselectsoft"]);
 				sounds.applySound(this.container.contentBox.header.buttons.reload, ["soundhoversoft", "soundselectsoft"]);
 			}
+
+			if (typeof Scrollable === "function")
+				new Scrollable(this.container.contentBox, {
+					content: this.container.contentBox.content
+				});
 
 			this.content = content;
 			this.showing = false;
@@ -155,6 +162,16 @@ const wavec = {
 				this.container.contentBox.content.appendChild(content);
 			else
 				this.container.contentBox.content.innerHTML = content;
+		}
+
+		/**
+		 * @param {Boolean} loading
+		 */
+		set loading(loading) {
+			if (loading)
+				this.container.classList.add("loading");
+			else
+				this.container.classList.remove("loading");
 		}
 
 		/**

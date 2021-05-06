@@ -925,7 +925,6 @@ const twi = {
 		 */
 		viewInDialog: false,
 
-		/** @type {wavec.Container} */
 		wavec: wavec.Container.prototype,
 
 		/**
@@ -999,6 +998,13 @@ const twi = {
 								love: createButton("icon", {
 									color: "blue",
 									icon: "heart",
+									style: "round",
+									complex: true
+								}),
+
+								enlarge: createButton("Mở Rộng", {
+									color: "blue",
+									icon: "externalLink",
 									style: "round",
 									complex: true
 								}),
@@ -1197,6 +1203,7 @@ const twi = {
 			this.viewer.content.info.description.switch.code.addEventListener("click", () => this.descSwitchView("code"));
 			this.viewer.content.info.header.content.addEventListener("click", () => this.mainSwitchView("content"));
 			this.viewer.content.info.header.ranking.addEventListener("click", () => this.mainSwitchView("ranking"));
+			this.viewer.content.header.left.buttons.enlarge.addEventListener("click", () => this.viewProblem(this.id, true));
 
 			// Register Panel Buttons / Viewer Buttons Handler
 			this.reloadButton = this.panel.button("reload");
@@ -1346,7 +1353,7 @@ const twi = {
 
 			t.addEventListener("mouseenter", () => this.itemMouseOver(t));
 			t.addEventListener("mouseleave", () => this.itemMouseOut(t));
-			t.addEventListener("click", () => this.viewProblem(item.id));
+			t.addEventListener("click", () => this.viewProblem(item.id, this.viewInDialog));
 
 			return t;
 		},
@@ -1457,7 +1464,7 @@ const twi = {
 								tag: "t",
 								class: "value",
 								text: (item.sp && typeof item.sp.point === "number")
-									? item.sp.point.toFixed(3)
+									? round(item.sp.point, 3)
 									: ""
 							}
 						}},
@@ -1565,7 +1572,7 @@ const twi = {
 				status[item.status]++;
 
 				if (i === 0 || item.username === SESSION.username)
-					this.createSpotlight(item);
+					this.createSpotlight(item, i + 1);
 
 				let row = makeTree("tr", "row", {
 					rank: { tag: "td", text: `#${(i + 1)}` },
@@ -1586,7 +1593,14 @@ const twi = {
 					uName: { tag: "td", text: item.name || item.username },
 					submitNth: { tag: "td", text: item.statistic.submitNth || "" },
 					reSubmit: { tag: "td", text: item.statistic.reSubmit || "" },
-					remainTime: { tag: "td", text: item.statistic.remainTime || "" },
+
+					remainTime: {
+						tag: "td",
+						text: (item.statistic.remainTime)
+							? parseTime(item.statistic.remainTime).str
+							: ""
+					},
+					
 					time: {
 						tag: "td",
 						text: formatTime(time() - item.lastSubmit, { minimal: true, surfix: " trước" })
@@ -1659,16 +1673,48 @@ const twi = {
 		},
 
 		async viewProblem(id, viewInDialog = false) {
+			if (this.id === id)
+				if (viewInDialog) {
+					if (this.problem.view.contains(this.viewer))
+					this.wavec.content = this.viewer;
+
+					this.viewer.content.header.left.buttons.enlarge.disabled = true;
+					this.listContainer.classList.remove("hide");
+					this.wavec.show();
+					return;
+				} else {
+					if (!this.problem.view.contains(this.viewer))
+						this.problem.view.appendChild(this.viewer);
+
+					this.viewer.content.header.left.buttons.enlarge.disabled = false;
+					this.listContainer.classList.add("hide");
+					return;
+				}
+
 			this.log("INFO", "Opening problem", {
 				color: flatc("yellow"),
 				text: id
 			});
 
 			this.id = id;
-			this.panel.loading = true;
 			this.panel.title = "Đang Tải";
 			this.backButton.show();
-			this.listContainer.classList.add("hide");
+
+			if (viewInDialog) {
+				if (this.problem.view.contains(this.viewer))
+					this.wavec.content = this.viewer;
+
+				this.viewer.content.header.left.buttons.enlarge.disabled = true;
+				this.wavec.loading = true;
+				this.wavec.show();
+			} else {
+				if (!this.problem.view.contains(this.viewer))
+					this.problem.view.appendChild(this.viewer);
+
+				this.viewer.content.header.left.buttons.enlarge.disabled = false;
+				this.panel.loading = true;
+				this.listContainer.classList.add("hide");
+			}
 
 			let response = await myajax({
 				url: "/api/contest/problems/get",
@@ -1682,7 +1728,13 @@ const twi = {
 			this.updateViewer(data);
 			await this.updateRanking();
 
-			this.panel.loading = false;
+			if (viewInDialog) {
+				this.mainSwitchView("ranking");
+				this.wavec.loading = false;
+			} else {
+				this.mainSwitchView("content");
+				this.panel.loading = false;
+			}
 		},
 
 		closeViewer() {
@@ -1690,11 +1742,6 @@ const twi = {
 			this.panel.title = "Đề bài";
 			this.backButton.hide();
 		},
-
-		enlargeProblem(data) {
-			if (!data)
-				return;
-		}
 	},
 
 	submit: {

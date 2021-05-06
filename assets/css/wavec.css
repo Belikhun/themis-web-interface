@@ -160,6 +160,25 @@
 	transform: unset;
 }
 
+.waveContainer > .container > .contentBox > .wrapper {
+	position: absolute;
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(245, 245, 245, 0.8);
+
+    z-index: 10;
+}
+
+.waveContainer > .container.loading > .contentBox > .wrapper {
+	display: flex;
+}
+
 .waveContainer > .container > .contentBox > .header {
 	position: relative;
 	display: flex;
@@ -169,6 +188,7 @@
 	flex-shrink: 0;
 
 	padding: 40px 50px 20px;
+	z-index: 10;
 
 	background: #FFEEEE;
 	background: linear-gradient(to right, #ffefba, #ffffff);

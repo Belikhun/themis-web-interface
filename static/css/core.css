@@ -473,6 +473,7 @@ panel > .main > .loadingWrapper.show {
 
 	width: 100%;
 	padding: 5px;
+	padding-bottom: 40vh;
 	box-sizing: border-box;
 
 	overflow: auto;
@@ -1221,6 +1222,10 @@ panel > .main > .loadingWrapper.show {
 .problemViewer > .content > .info[data-active="ranking"] > .header > t[key="ranking"] {
 	color: rgb(26, 26, 26);
 	border-bottom: 5px solid rgb(82, 82, 82);
+}
+
+.problemViewer > .content > .info > .ranking {
+	margin: 0 10px;
 }
 
 .problemViewer > .content > .info > .ranking > .spotlight {
