@@ -703,7 +703,7 @@ panel > .main > .loadingWrapper.show {
 	flex-grow: 1;
 	flex-shrink: 1;
 	flex-basis: 0;
-	margin: 0 10px;
+	margin: 0 20px;
 }
 
 #problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail > .middle > .modify::before {
@@ -717,6 +717,10 @@ panel > .main > .loadingWrapper.show {
 #problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail > .right {
 	align-items: flex-end;
 	margin-right: 10px;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail > .right > .loved::before {
+	content: "\f004";
 }
 
 #problemsPanel > .problemsContainer > .listContainer > .list > .item > .background {
@@ -985,6 +989,10 @@ panel > .main > .loadingWrapper.show {
 
 .problemViewer > .content > .header > .left > .buttons > button {
 	margin: 10px 10px 0 0;
+}
+
+.problemViewer > .content > .header > .left > .buttons > button[key="love"][data-active="true"] > icon::after {
+	font-weight: 900;
 }
 
 .problemViewer > .content > .header > .right {

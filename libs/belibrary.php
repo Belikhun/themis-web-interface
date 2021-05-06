@@ -149,6 +149,15 @@
 	 * @return	Mixed
 	 */
 	function reqType($data, $type = "string", $id = null) {
+		if ($type === "boolean") {
+			$data = strtolower($data);
+
+			if ($data === "true" || $data === "false")
+				return $data === "true";
+			else
+				stop(3, "Type Mismatch! \"$data\" is not a $type" . (isset($id) ? " in $id" : ""), 400);
+		}
+
 		if (!settype($data, $type))
 			stop(3, "Type Mismatch! \"$data\" is not a $type" . (isset($id) ? " in $id" : ""), 400);
 		

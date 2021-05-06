@@ -534,6 +534,10 @@ function makeTree(tag, classes, child = {}, path = "") {
 			for (let key of Object.keys(item.data))
 				node.dataset[key] = item.data[key];
 
+		if (typeof item.attribute === "object")
+			for (let key of Object.keys(item.attribute))
+				node.setAttribute(key, item.attribute[key]);
+
 		node.setAttribute("key", key);
 		container.appendChild(node);
 		container[key] = node;

@@ -1204,6 +1204,7 @@ const twi = {
 			this.viewer.content.info.header.content.addEventListener("click", () => this.mainSwitchView("content"));
 			this.viewer.content.info.header.ranking.addEventListener("click", () => this.mainSwitchView("ranking"));
 			this.viewer.content.header.left.buttons.enlarge.addEventListener("click", () => this.viewProblem(this.id, true));
+			this.viewer.content.header.left.buttons.love.addEventListener("click", () => this.toggleLoved());
 
 			// Register Panel Buttons / Viewer Buttons Handler
 			this.reloadButton = this.panel.button("reload");
@@ -1255,41 +1256,42 @@ const twi = {
 		__renderItem(item) {
 			this.log("DEBG", "__renderItem(): Rendering", item);
 
-			let t = buildElementTree("span", ["item", "hide"], [
-				{ type: "div", class: "content", name: "content", list: [
-					{ name: "thumbnail", node: (new lazyload({ source: item.thumbnail, classes: "thumbnail" })) },
-					{ type: "span", class: ["status", "judgeStatus"], name: "status", text: "Chưa Nộp" },
-					{ type: "span", class: "tags", name: "tags" },
-					{ type: "span", class: "point", name: "point", text: item.point },
-					{ type: "t", class: "name", name: "pName", text: item.name },
+			let t = makeTree("span", ["item", "hide"], {
+				content: { tag: "div", class: "content", child: {
+					thumbnail: new lazyload({ source: item.thumbnail, classes: "thumbnail" }),
+					status: { tag: "span", class: ["status", "judgeStatus"], text: "Chưa Nộp" },
+					tags: { tag: "span", class: "tags", name: "tags" },
+					point: { tag: "span", class: "point", text: item.point },
+					pName: { tag: "t", class: "name", text: item.name },
 
-					{ type: "div", class: "detail", name: "detail", list: [
-						{ type: "span", class: "left", name: "left", list: [
-							{ type: "t", class: "id", name: "pID", text: item.id },
-							{ type: "t", class: "submitted", name: "submitted", text: item.status.total }
-						]},
+					detail: { tag: "div", class: "detail", child: {
+						left: { tag: "span", class: "left", name: "left", child: {
+							pID: { tag: "t", class: "id", text: item.id },
+							submitted: { tag: "t", class: "submitted", text: item.status.total }
+						}},
 
-						{ type: "span", class: "middle", name: "middle", list: [
-							{ type: "t", class: "modify", name: "modify", text: (new Date(item.modify * 1000)).toLocaleDateString() },
-							{ type: "t", class: "author", name: "author", text: item.author ? item.author.name : "không rõ" },
-						]},
+						middle: { tag: "span", class: "middle", child: {
+							modify: { tag: "t", class: "modify", text: (new Date(item.modify * 1000)).toLocaleDateString() },
+							author: { tag: "t", class: "author", text: item.author ? item.author.name : "không rõ" },
+						}},
 	
-						{ type: "span", class: "right", name: "right", list: [
-						]},
+						right: { tag: "span", class: "right", child: {
+							loved: { tag: "t", class: "loved", text: item.loved.length || 0 },
+						}},
 
-						{ type: "div", class: ["progressBar", "judgeStatusBar", "stackable"], name: "bar", list: [
-							{ type: "div", class: "bar", data: { color: "green" }, name: "correct" },
-							{ type: "div", class: "bar", data: { color: "blue" }, name: "passed" },
-							{ type: "div", class: "bar", data: { color: "yellow" }, name: "accepted" },
-							{ type: "div", class: "bar", data: { color: "red" }, name: "failed" },
-							{ type: "div", class: "bar", data: { color: "gray" }, name: "skipped" },
-							{ type: "t", class: "right", name: "right" }
-						]}
-					]}
-				]},
+						bar: { tag: "div", class: ["progressBar", "judgeStatusBar", "stackable"], child: {
+							correct: { tag: "div", class: "bar", data: { color: "green" } },
+							passed: { tag: "div", class: "bar", data: { color: "blue" } },
+							accepted: { tag: "div", class: "bar", data: { color: "yellow" } },
+							failed: { tag: "div", class: "bar", data: { color: "red" } },
+							skipped: { tag: "div", class: "bar", data: { color: "gray" } },
+							right: { tag: "t", class: "right", name: "right" }
+						}}
+					}}
+				}},
 
-				{ type: "div", class: "background", name: "background" }
-			]).obj;
+				background: { tag: "div", class: "background" }
+			});
 
 			t.dataset.id = item.id;
 			t.content.detail.bar.correct.style.width = `${(item.status.correct.length / item.status.total) * 100}%`;
@@ -1440,12 +1442,12 @@ const twi = {
 						status: { tag: "td", html: `<span class="judgeStatus" data-status="${item.status}">${twi.taskStatus[item.status]}</span>` },
 					}},
 
-					avatar: { tag: "span", class: "avatar", child: {
+					avatar: { tag: "span", class: "avatar", attribute: { username: item.username }, child: {
 						image: new lazyload({ source: `/api/avatar?u=${item.username}`, classes: "image" }),
 						indicator: { tag: "div", class: "onlineIndicator", data: { online: item.online } }
 					}},
 
-					user: { tag: "span", class: "user", child: {
+					user: { tag: "span", class: "user", attribute: { username: item.username }, child: {
 						name: { tag: "t", class: "name", text: item.name || item.username },
 						
 					}},
@@ -1544,6 +1546,63 @@ const twi = {
 			this.viewer.content.info.ranking.spotlight.appendChild(container);
 		},
 
+		async updateLoved() {
+			let response;
+
+			try {
+				response = await myajax({
+					url: "/api/contest/problems/loved",
+					method: "GET",
+					query: {
+						id: this.id
+					}
+				});
+			} catch(error) {
+				this.log("ERRR", `Lỗi đã xảy ra khi lấy danh sách yêu thích đề bài ${this.id}:`, error);
+				return;
+			}
+
+			if (SESSION && SESSION.username && response.data.includes(SESSION.username)) {
+				this.viewer.content.header.left.buttons.love.dataset.active = true;
+				this.viewer.content.header.left.buttons.love.dataset.triColor = "pink";
+			} else {
+				this.viewer.content.header.left.buttons.love.dataset.active = false;
+				this.viewer.content.header.left.buttons.love.dataset.triColor = "blue";
+			}
+
+			emptyNode(this.viewer.content.header.right.loved.list);
+			for (let user of response.data) {
+				let avatar = new lazyload({
+					source: `/api/avatar?u=${user}`,
+					classes: "user"
+				});
+
+				avatar.container.setAttribute("username", user);
+				this.viewer.content.header.right.loved.list.appendChild(avatar.container);
+			}
+		},
+
+		async toggleLoved() {
+			this.viewer.content.header.left.buttons.love.disabled = true;
+
+			try {
+				await myajax({
+					url: "/api/contest/problems/loved",
+					method: "POST",
+					form: {
+						id: this.id,
+						token: API_TOKEN,
+						loved: !(this.viewer.content.header.left.buttons.love.dataset.active === "true")
+					}
+				});
+			} catch (error) {
+				this.log("ERRR", `Lỗi đã xảy ra khi yêu thích đề bài ${this.id}:`, error);
+			}
+
+			await this.updateLoved();
+			this.viewer.content.header.left.buttons.love.disabled = false;
+		},
+
 		async updateRanking() {
 			let response = await myajax({
 				url: "/api/contest/problems/rank",
@@ -1586,11 +1645,11 @@ const twi = {
 							: ""
 					},
 
-					avatar: { tag: "td", child: {
+					avatar: { tag: "td", attribute: { username: item.username }, child: {
 						image: new lazyload({ source: `/api/avatar?u=${item.username}`, classes: "avatar" })
 					}},
 
-					uName: { tag: "td", text: item.name || item.username },
+					uName: { tag: "td", text: item.name || item.username, attribute: { username: item.username } },
 					submitNth: { tag: "td", text: item.statistic.submitNth || "" },
 					reSubmit: { tag: "td", text: item.statistic.reSubmit || "" },
 
@@ -1687,6 +1746,7 @@ const twi = {
 						this.problem.view.appendChild(this.viewer);
 
 					this.viewer.content.header.left.buttons.enlarge.disabled = false;
+					this.backButton.show();
 					this.listContainer.classList.add("hide");
 					return;
 				}
@@ -1727,6 +1787,7 @@ const twi = {
 
 			this.updateViewer(data);
 			await this.updateRanking();
+			await this.updateLoved();
 
 			if (viewInDialog) {
 				this.mainSwitchView("ranking");

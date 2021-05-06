@@ -64,6 +64,10 @@
 						? $item["attachment"]
 						: null,
 
+					"loved" => isset($item["loved"])
+						? $item["loved"]
+						: Array(),
+					
 					"modify" => filemtime(PROBLEMS_DIR ."/". $id ."/data.json"),
 					"disabled" => $item["disabled"]
 				));
