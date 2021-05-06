@@ -217,6 +217,21 @@ tag {
     -webkit-font-smoothing: antialiased;
 }
 
+/** ======================== ONLINE INDICATOR ======================== **/
+
+.onlineIndicator {
+	display: block;
+	width: 16px;
+	height: 16px;
+
+	background-color: rgb(169, 163, 163);
+	border-radius: 50%;
+}
+
+.onlineIndicator[data-online="true"] {
+	background-color: rgb(7, 238, 84);
+}
+
 /** ======================== HEARTBEAT ======================== **/
 
 .heartbeat {

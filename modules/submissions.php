@@ -258,7 +258,10 @@
 						$meta["point"],
 						getConfig("contest.result.spNoTimeWeighting")
 							? 1
-							: max(($contestTime - $modified) / ($contestTime - $beginTime), 0),
+							: ((($contestTime - $beginTime) !== 0)
+								? max(($contestTime - $modified) / ($contestTime - $beginTime), 0)
+								: 0),
+
 						$rank,
 						$meta["statistic"]["reSubmit"]
 					);

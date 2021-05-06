@@ -771,7 +771,7 @@
 					// Temporary disable `NOTICE` error reporting
 					// to try unserialize data without triggering `E_NOTICE`
 					try {
-						error_reporting(0);
+						error_reporting(null);
 						$data = unserialize($data);
 						error_reporting(E_ALL);
 					} catch(Throwable $e) {

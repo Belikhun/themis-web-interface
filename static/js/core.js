@@ -861,7 +861,7 @@ const twi = {
 				<table>
 					<tbody>
 						<tr class="${(data.meta.sp.detail.time > 0.8) ? "green" : ((data.meta.sp.detail.time > 0.6) ? "yellow" : "red")}">
-							<td data-icon="clock">Thời Gian Nộp</td>
+							<td data-icon="clock">Thời Gian Còn</td>
 							<td>${data.meta.statistic.remainTime
 									? parseTime(data.meta.statistic.remainTime).str
 									: "X"
@@ -1046,7 +1046,7 @@ const twi = {
 											},
 										}},
 	
-										value: { tag: "t", class: "value", text: "0 bài làm" }
+										value: { tag: "t", class: "value", text: "0" }
 									}},
 	
 									passed: { tag: "div", class: "item", child: {
@@ -1059,7 +1059,7 @@ const twi = {
 											},
 										}},
 	
-										value: { tag: "t", class: "value", text: "0 bài làm" }
+										value: { tag: "t", class: "value", text: "0" }
 									}},
 	
 									accepted: { tag: "div", class: "item", child: {
@@ -1072,7 +1072,7 @@ const twi = {
 											},
 										}},
 	
-										value: { tag: "t", class: "value", text: "0 bài làm" }
+										value: { tag: "t", class: "value", text: "0" }
 									}},
 	
 									failed: { tag: "div", class: "item", child: {
@@ -1085,7 +1085,7 @@ const twi = {
 											},
 										}},
 	
-										value: { tag: "t", class: "value", text: "0 bài làm" }
+										value: { tag: "t", class: "value", text: "0" }
 									}},
 	
 									skipped: { tag: "div", class: "item", child: {
@@ -1098,7 +1098,7 @@ const twi = {
 											},
 										}},
 	
-										value: { tag: "t", class: "value", text: "0 bài làm" }
+										value: { tag: "t", class: "value", text: "0" }
 									}}
 								}}
 							}}
@@ -1145,7 +1145,8 @@ const twi = {
 	
 					info: { tag: "div", class: "info", child: {
 						header: { tag: "div", class: "header", child: {
-
+							content: { tag: "t", text: "Chi Tiết" },
+							ranking: { tag: "t", text: "Xếp Hạng" },
 						}},
 
 						ranking: { tag: "div", class: "ranking", child: {
@@ -1156,12 +1157,12 @@ const twi = {
 										rank: { tag: "th", text: "Xếp Hạng" },
 										status: { tag: "th" },
 										point: { tag: "th", text: "Điểm" },
+										sp: { tag: "th", text: "SP" },
 										avatar: { tag: "th", text: "" },
 										uName: { tag: "th", text: "Tên" },
-										submitNth: { tag: "th", text: "Thứ Tự Nộp" },
-										reSubmit: { tag: "th", text: "Nộp Lại" },
-										remainTime: { tag: "th", text: "Thời Gian Còn Lại" },
-										sp: { tag: "th", text: "SP" },
+										submitNth: { tag: "th", text: "Thứ Hạng Chấm" },
+										reSubmit: { tag: "th", text: "Chấm Lại" },
+										remainTime: { tag: "th", text: "Thời Gian Còn" },
 										time: { tag: "th", text: "Thời Gian Nộp" }
 									}}
 								}},
@@ -1194,6 +1195,8 @@ const twi = {
 			this.problem.view.appendChild(this.viewer);
 			this.viewer.content.info.description.switch.markdown.addEventListener("click", () => this.descSwitchView("markdown"));
 			this.viewer.content.info.description.switch.code.addEventListener("click", () => this.descSwitchView("code"));
+			this.viewer.content.info.header.content.addEventListener("click", () => this.mainSwitchView("content"));
+			this.viewer.content.info.header.ranking.addEventListener("click", () => this.mainSwitchView("ranking"));
 
 			// Register Panel Buttons / Viewer Buttons Handler
 			this.reloadButton = this.panel.button("reload");
@@ -1391,6 +1394,10 @@ const twi = {
 			this.viewer.content.info.description.content.dataset.active = view;
 		},
 
+		mainSwitchView(view) {
+			this.viewer.content.info.dataset.active = view;
+		},
+
 		createTestViewer(test, title) {
 			let container = makeTree("div", "test", {
 				header: { tag: "div", class: "header", child: {
@@ -1418,6 +1425,118 @@ const twi = {
 			return container;
 		},
 
+		createSpotlight(item, rank = 1) {
+			let container = makeTree("div", "item", {
+				left: { tag: "span", class: "left", child: {
+					rank: { tag: "span", class: "rank", child: {
+						value: { tag: "t", class: "value", text: rank },
+						status: { tag: "td", html: `<span class="judgeStatus" data-status="${item.status}">${twi.taskStatus[item.status]}</span>` },
+					}},
+
+					avatar: { tag: "span", class: "avatar", child: {
+						image: new lazyload({ source: `/api/avatar?u=${item.username}`, classes: "image" }),
+						indicator: { tag: "div", class: "onlineIndicator", data: { online: item.online } }
+					}},
+
+					user: { tag: "span", class: "user", child: {
+						name: { tag: "t", class: "name", text: item.name || item.username },
+						
+					}},
+				}},
+
+				right: { tag: "span", class: "right", child: {
+					top: { tag: "span", class: "top", child: {
+						point: { tag: "span", class: "item", child: {
+							label: { tag: "t", class: "label", text: "Điểm" },
+							value: { tag: "t", class: "value", text: item.point }
+						}},
+
+						sp: { tag: "span", class: "item", child: {
+							label: { tag: "t", class: "label", text: "SP" },
+							value: {
+								tag: "t",
+								class: "value",
+								text: (item.sp && typeof item.sp.point === "number")
+									? item.sp.point.toFixed(3)
+									: ""
+							}
+						}},
+
+						time: { tag: "span", class: "item", child: {
+							label: { tag: "t", class: "label", text: "Thời Gian Nộp" },
+							value: {
+								tag: "t",
+								class: "value",
+								text: formatTime(time() - item.lastSubmit, { minimal: true, surfix: " trước" })
+							}
+						}}
+					}},
+
+					bottom: { tag: "span", class: "bottom", child: {
+						submitNth: { tag: "span", class: ["item", ["green", "yellow"][item.statistic.reSubmit - 1] || "red"], child: {
+							label: { tag: "t", class: "label", text: "Thứ Hạng Chấm" },
+							value: { tag: "t", class: "value", child: {
+								left: { tag: "t", text: item.statistic.submitNth || "" },
+								right: {
+									tag: "t",
+									text: (item.sp)
+										? (- ((1 - item.sp.detail.submitNth) * item.point)).toFixed(3)
+										: ""
+								}
+							}}
+						}},
+
+						reSubmit: { tag: "span", class: ["item", ["green", "yellow"][item.statistic.reSubmit - 1] || "red"], child: {
+							label: { tag: "t", class: "label", text: "Chấm Lại" },
+							value: { tag: "t", class: "value", child: {
+								left: { tag: "t", text: item.statistic.reSubmit || "" },
+								right: {
+									tag: "t",
+									text: (item.sp)
+										? (- ((1 - item.sp.detail.reSubmit) * item.point)).toFixed(3)
+										: ""
+								}
+							}}
+						}},
+
+						remainTime: {
+							tag: "span",
+							class: [
+								"item",
+								(item.sp)
+									? ((item.sp.detail.time > 0.8)
+										? "green"
+										: ((item.sp.detail.time > 0.6)
+											? "yellow"
+											: "red"))
+									: "gray"
+							],
+							child: {
+								label: { tag: "t", class: "label", text: "Thời Gian Còn" },
+								value: { tag: "t", class: "value", child: {
+									left: {
+										tag: "t",
+										text: item.statistic.remainTime
+											? parseTime(item.statistic.remainTime).str
+											: ""
+									},
+
+									right: {
+										tag: "t",
+										text: (item.sp)
+											? (- ((1 - item.sp.detail.time) * item.point)).toFixed(3)
+											: ""
+									}
+								}}
+							}
+						},
+					}}
+				}}
+			});
+
+			this.viewer.content.info.ranking.spotlight.appendChild(container);
+		},
+
 		async updateRanking() {
 			let response = await myajax({
 				url: "/api/contest/problems/rank",
@@ -1430,14 +1549,36 @@ const twi = {
 			let data = response.data;
 			this.log("DEBG", `updateRanking():`, data);
 
+			let status = {
+				correct: 0,
+				passed: 0,
+				accepted: 0,
+				failed: 0,
+				skipped: 0
+			}
+
+			emptyNode(this.viewer.content.info.ranking.spotlight);
 			emptyNode(this.viewer.content.info.ranking.table.tbody);
+
 			for (let i = 0; i < data.rank.length; i++) {
 				let item = data.rank[i];
+				status[item.status]++;
+
+				if (i === 0 || item.username === SESSION.username)
+					this.createSpotlight(item);
 
 				let row = makeTree("tr", "row", {
 					rank: { tag: "td", text: `#${(i + 1)}` },
 					status: { tag: "td", html: `<span class="judgeStatus" data-status="${item.status}">${twi.taskStatus[item.status]}</span>` },
 					point: { tag: "td", text: item.point.toFixed(2) },
+
+					sp: {
+						tag: "td",
+						text: (item.sp && typeof item.sp.point === "number")
+							? item.sp.point.toFixed(3)
+							: ""
+					},
+
 					avatar: { tag: "td", child: {
 						image: new lazyload({ source: `/api/avatar?u=${item.username}`, classes: "avatar" })
 					}},
@@ -1446,12 +1587,26 @@ const twi = {
 					submitNth: { tag: "td", text: item.statistic.submitNth || "" },
 					reSubmit: { tag: "td", text: item.statistic.reSubmit || "" },
 					remainTime: { tag: "td", text: item.statistic.remainTime || "" },
-					sp: { tag: "td", text: (typeof item.sp === "number") ? item.sp.toFixed(3) : "" },
-					time: { tag: "td", text: formatTime(time() - item.lastSubmit, { minimal: true, surfix: " trước" }) }
+					time: {
+						tag: "td",
+						text: formatTime(time() - item.lastSubmit, { minimal: true, surfix: " trước" })
+					}
 				});
 
 				this.viewer.content.info.ranking.table.tbody.appendChild(row);
 			}
+
+			this.viewer.content.header.right.status.detail.correct.value.innerText = status.correct + " bài";
+			this.viewer.content.header.right.status.detail.passed.value.innerText = status.passed + " bài";
+			this.viewer.content.header.right.status.detail.accepted.value.innerText = status.accepted + " bài";
+			this.viewer.content.header.right.status.detail.failed.value.innerText = status.failed + " bài";
+			this.viewer.content.header.right.status.detail.skipped.value.innerText = status.skipped + " bài";
+
+			this.viewer.content.header.right.status.bar.correct.style.width = `${(status.correct / data.rank.length) * 100}%`;
+			this.viewer.content.header.right.status.bar.passed.style.width = `${(status.passed / data.rank.length) * 100}%`;
+			this.viewer.content.header.right.status.bar.accepted.style.width = `${(status.accepted / data.rank.length) * 100}%`;
+			this.viewer.content.header.right.status.bar.failed.style.width = `${(status.failed / data.rank.length) * 100}%`;
+			this.viewer.content.header.right.status.bar.skipped.style.width = `${(status.skipped / data.rank.length) * 100}%`;
 		},
 
 		updateViewer(data) {

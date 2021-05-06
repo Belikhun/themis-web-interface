@@ -165,8 +165,12 @@
 	foreach ($res as $value) {
 		$total[$value["username"]] = $value["total"];
 		$overall += $total[$value["username"]];
-		$sp[$value["username"]] = $value["sp"];
-		$spOverall += $sp[$value["username"]];
+
+		if (isset($value["sp"])) {
+			$sp[$value["username"]] = $value["sp"];
+			$spOverall += $sp[$value["username"]];
+		} else
+			$sp[$value["username"]] = null;
 	}
 
 	if ($export) {
