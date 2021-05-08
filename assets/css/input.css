@@ -242,9 +242,196 @@ body.dark .formGroup[data-color="red"] > .formField:focus {
     border-bottom-color: #fa7171;
 }
 
-/* SQ-INPUT */
+/** ===================== SQ-INPUT ===================== */
 
 .sq-input {
+    position: relative;
+    display: flex;
+    
+    margin-top: 10px;
+    width: 100%;
+
+    --normal-color: rgba(56, 56, 58, 0.6);
+    --focus-color: rgb(38, 38, 38);
+}
+
+.sq-input > .input {
+    position: relative;
+    display: flex;
+
+    width: 100%;
+    color: black;
+    font-family: "Segoe UI", "Open Sans", "Calibri", "sans-serif";
+    font-size: 16px;
+
+    padding: 14px 20px;
+    border: none !important;
+    caret-color: var(--focus-color);
+    background-color: transparent;
+    
+    z-index: 1;
+}
+
+.sq-input > .input:focus {
+    outline: none;
+}
+
+.sq-input > .input::placeholder {
+    color: transparent;
+}
+
+.sq-input > .input:disabled {
+    cursor: not-allowed;
+    color: rgba(56, 56, 58, 0.6);
+}
+
+.sq-input > .outline {
+    display: flex;
+    position: absolute;
+
+    right: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    pointer-events: none;
+}
+
+.sq-input > .outline > .notch {
+    height: 100%;
+
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    
+    box-sizing: border-box;
+    pointer-events: none;
+    transition: border-color 0.2s ease;
+}
+
+.sq-input > .outline > .leading {
+    width: 15px;
+
+    border-left: 1px solid;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+}
+
+.sq-input > .outline > .label > label {
+    position: relative;
+    display: inline-block;
+
+    top: 0;
+    transform: translateY(12px);
+    font-family: "Calibri", "Segoe UI", "sans-serif";
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--normal-color);
+    text-transform: uppercase;
+    letter-spacing: .1px;
+    
+    user-select: none;
+    pointer-events: none;
+
+    transition:
+        color 0.2s ease,
+        transform 0.15s ease-out;
+}
+
+.sq-input > .outline > .trailing {
+    flex-grow: 1;
+
+    border-left: none;
+    border-right: 1px solid;
+    border-radius: 0 4px 4px 0;
+}
+
+.sq-input > .outline > .notch {
+    border-color: var(--normal-color);
+}
+
+.sq-input > .input:focus + .outline > .notch {
+    border-top: 2px solid;
+    border-bottom: 2px solid;
+    border-color: var(--focus-color);
+}
+
+.sq-input > .input:focus + .outline > .leading {
+    border-left-width: 2px;
+}
+
+.sq-input > .input:focus + .outline > .label,
+.sq-input > .input:not(:placeholder-shown) + .outline > .label {
+    border-top: unset;
+}
+
+.sq-input > .input:focus + .outline > .label > label {
+    color: var(--focus-color);
+}
+
+.sq-input > .input:not(:placeholder-shown) + .outline > .label > label,
+.sq-input > .input:focus + .outline > .label > label {
+    transform: translateY(-12px) scale(0.9);
+}
+
+.sq-input > .input:focus + .outline > .trailing {
+    border-right-width: 2px;
+}
+
+/* Default */
+
+body.dark .sq-input {
+    --normal-color: rgba(175, 175, 175, 0.6);
+    --focus-color: rgba(240, 240, 240, 0.8);
+}
+
+body.dark .sq-input > input {
+    color: white;
+}
+
+/* Blue */
+
+.sq-input[data-color="blue"] {
+    --focus-color: #3578e4;
+}
+
+body.dark .sq-input[data-color="blue"] {
+    --focus-color: var(--osc-color-blue);
+}
+
+/* Purple */
+
+.sq-input[data-color="purple"] {
+    --focus-color: #5c33bb;
+}
+
+body.dark .sq-input[data-color="purple"] {
+    --focus-color: #ab88fd;
+}
+
+/* Red */
+
+.sq-input[data-color="red"] {
+    --normal-color: rgba(182, 7, 7, 0.6);
+    --focus-color: #d31010;
+}
+
+.sq-input[data-color="red"] > .input {
+    color: #910707;
+}
+
+body.dark .sq-input[data-color="red"] {
+    --normal-color: rgba(255, 75, 99, 0.7);
+    --focus-color: #ff6c87;
+}
+
+body.dark .sq-input[data-color="red"] > .input {
+    color: #ff9eb0;
+}
+
+/** ===================== FLAT INPUT ===================== */
+
+.flatInput {
     position: relative;
     display: block;
 
@@ -261,21 +448,21 @@ body.dark .formGroup[data-color="red"] > .formField:focus {
     background-color: rgb(245, 245, 245);
 }
 
-.sq-input:focus {
+.flatInput:focus {
     outline: none;
 }
 
-.sq-input::placeholder {
+.flatInput::placeholder {
     letter-spacing: .4px;
     color: rgb(94, 94, 94);
 }
 
-body.dark .sq-input {
+body.dark .flatInput {
     color: white;
     background-color: rgb(34, 34, 34);
 }
 
-body.dark .sq-input::placeholder {
+body.dark .flatInput::placeholder {
     color: rgb(148, 148, 148);
 }
 
@@ -293,36 +480,19 @@ body.dark .sq-input::placeholder {
     display: none;
 }
 
-.imageInput > .label {
-    position: relative;
-    display: block;
-
-    margin-bottom: 5px;
-
-    font-family: "Open Sans", "Calibri", "Segoe UI", "sans-serif";
-    font-size: 11px;
-    font-weight: 700;
-    color: #5a5b5f;
-    text-transform: uppercase;
-    letter-spacing: .1px;
-
-    user-select: none;
-    cursor: text;
-    transition: color 0.3s ease;
-}
-
 .imageInput > label {
     min-height: 100px;
     cursor: pointer;
 }
 
-.imageInput > label::before {
+.imageInput > label::after {
     content: "\f07c";
     position: absolute;
     display: flex;
     align-items: center;
     justify-content: center;
 
+    top: 0;
     width: 100%;
     height: 100%;
 
@@ -339,15 +509,15 @@ body.dark .sq-input::placeholder {
     transition: opacity 0.2s ease-out;
 }
 
-.imageInput > label:hover::before {
+.imageInput > label:hover::after {
     opacity: 1;
 }
 
 .imageInput > label[data-errored="true"]::after {
-    content: "\f128";
+    display: flex;
 }
 
-.imageInput > label:hover::after {
+.imageInput > label:hover::before {
     display: none;
 }
 
@@ -355,7 +525,7 @@ body.dark .sq-input::placeholder {
     position: absolute;
     display: none;
     top: 28px;
-    right: 10px;
+    right: 38px;
 
     cursor: pointer;
     z-index: 1;
@@ -366,11 +536,13 @@ body.dark .sq-input::placeholder {
 }
 
 .imageInput > .clear::after {
-    font-size: 20px;
+    font-size: 26px;
+    color: rgb(170, 170, 170);
     transition: color 0.2s ease-out;
 }
 
-.imageInput > label:hover + .clear::after {
+.imageInput > label:hover + .clear::after,
+.imageInput > .clear:hover::after {
     color: white;
 }
 

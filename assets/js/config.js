@@ -210,7 +210,7 @@ const config = {
 						color: item.color || "blue"
 					});
 
-					dateInput.group.classList.add("item");
+					dateInput.group.classList.add("inner");
 
 					let timeInput = createInput({
 						type: "time",
@@ -219,18 +219,17 @@ const config = {
 						color: item.color || "blue"
 					});
 
-					timeInput.group.classList.add("item");
+					timeInput.group.classList.add("inner");
 					timeInput.input.step = 1;
 
-					let setNow = document.createElement("button");
-					setNow.type = "button";
-					setNow.classList.add("sq-btn", "blue", "sound");
-					setNow.innerText = "🕒 Hiện Tại";
-					setNow.dataset.soundhover = true;
-					setNow.dataset.soundselect = true;
-					sounds.applySound(setNow);
+					let setNow = createButton("🕒 Hiện Tại", {
+						style: "round",
+						complex: true
+					});
 
-					setNow.addEventListener("mouseup", e => setDateTimeValue(dateInput.input, timeInput.input));
+					setNow.style.marginTop = "10px";
+					sounds.applySound(setNow, ["soundhover", "soundselect"]);
+					setNow.addEventListener("mouseup", () => setDateTimeValue(dateInput.input, timeInput.input));
 					setDateTimeValue(dateInput.input, timeInput.input, item.value);
 
 					node.append(dateInput.group, timeInput.group, setNow);

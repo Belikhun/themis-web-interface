@@ -192,7 +192,7 @@
 
 								<div id="problemsListContainer" class="listContainer">
 									<div id="problemSearch" class="searchBox">
-										<input id="problemSearchInput" class="sq-input" placeholder="nhập để tìm kiếm" />
+										<input id="problemSearchInput" class="flatInput" placeholder="nhập để tìm kiếm" />
 										<icon id="problemSearchClear" class="clear" data-icon="close"></icon>
 										<icon class="search" data-icon="search"></icon>
 									</div>

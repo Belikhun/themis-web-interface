@@ -142,7 +142,7 @@ const wavec = {
 
 				this.showing = false;
 				wavec.active.splice(this.stackPos, 1);
-			}, 500);
+			}, 600);
 		}
 
 		setToggler(button) {

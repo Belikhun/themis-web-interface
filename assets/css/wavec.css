@@ -66,6 +66,7 @@
 	left: 0;
 	bottom: 0;
 	width: 100%;
+	padding-bottom: 100px;
 
 	overflow: hidden;
 
@@ -86,10 +87,10 @@
 	top: 100%;
 	left: 0;
 	width: calc(100% * 1.4142);
-	height: 100vh;
+	height: calc(100vh + 100px);
 
 	transition:
-		top 0.5s cubic-bezier(0.12, 0, 0.39, 0);
+		top 0.6s cubic-bezier(0.12, 0, 0.39, 0);
 }
 
 .waveContainer > .container.show > .wave > span {
@@ -122,19 +123,19 @@
 }
 
 .waveContainer > .container.show > .wave > span:nth-child(1) {
-	top: -930px;
+	top: -1230px;
 }
 
 .waveContainer > .container.show > .wave > span:nth-child(2) {
-	top: -560px;
+	top: -860px;
 }
 
 .waveContainer > .container.show > .wave > span:nth-child(3) {
-	top: -390px
+	top: -590px
 }
 
 .waveContainer > .container.show > .wave > span:nth-child(4) {
-	top: -220px;
+	top: -380px;
 }
 
 .waveContainer > .container > .contentBox {

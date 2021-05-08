@@ -125,9 +125,14 @@ body.embeded .menu {
     flex-wrap: wrap;
 }
 
-.menu .group .item.flex-row > .item {
+.menu .group .item.flex-row > .item,
+.menu .group .item.flex-row > .inner {
     flex-grow: 1;
     width: auto;
+}
+
+.menu .group .item.flex-row > .inner {
+    margin-right: 20px;
 }
 
 .menu .group .title + .item {
@@ -200,7 +205,7 @@ body.embeded .menu {
     content: "\f104";
     position: absolute;
     left: 22px;
-    top: 50%;
+    top: 50%; 
     transform: translateY(-50%);
     color: gray;
     font-family: "Font Awesome 5 Free";
@@ -316,7 +321,7 @@ body.embeded .menu {
 
 .menu .group t,
 .menu .group .item.text,
-.menu .group .item .text {
+.menu .group .item > .text {
     color: rgb(82, 82, 82);
     font-family: "Calibri";
     font-size: 13px;

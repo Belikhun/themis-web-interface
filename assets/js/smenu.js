@@ -43,7 +43,7 @@ const smenu = {
 						{ type: "t", class: "title", name: "menuTitle", text: title },	
 						{ type: "t", class: "description", name: "menuDescription", text: description },
 						{ type: "div", class: "searchBox", name: "search", list: [
-							{ type: "input", class: "sq-input", name: "input" }
+							{ type: "input", class: "flatInput", name: "input" }
 						]}
 					]}
 				]},
@@ -483,7 +483,7 @@ const smenu = {
 				this.labelNode.htmlFor = this.id;
 
 				this.input = document.createElement("input");
-				this.input.classList.add("sq-input");
+				this.input.classList.add("flatInput");
 				this.input.id = this.id;
 				this.input.type = type;
 				this.input.placeholder = defaultValue;

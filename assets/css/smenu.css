@@ -148,7 +148,7 @@
 	z-index: 1;
 }
 
-.smenuContainer > .main > .wrapper > .smenu > .searchBox > .sq-input {
+.smenuContainer > .main > .wrapper > .smenu > .searchBox > .flatInput {
 	width: calc(100% - 20px);
 	margin: 0 10px;
 }

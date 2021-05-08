@@ -73,7 +73,10 @@
 			</div>
 
 			<div class="footer">
-				<button type="submit" class="sq-btn green sound" data-soundhover data-soundselect>Lưu thay đổi</button>
+				<button type="submit" class="sq-btn green sound" data-style="round" data-soundhover data-soundselect>
+					<icon class="left" data-icon="save"></icon>
+					<span class="text">Lưu Thay Đổi</span>
+				</button>
 			</div>
 		</form>
 	</div>

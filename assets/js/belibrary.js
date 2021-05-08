@@ -517,18 +517,14 @@ function makeTree(tag, classes, child = {}, path = "") {
 		let node = makeTree(item.tag, item.class, item.child, currentPath);
 		node.dataset.path = currentPath;
 
-		// Apply optional attributes
-		if (typeof item.id === "string")
-			node.id = item.id;
-
-		if (typeof item.for === "string")
-			node.for = item.for;
-
 		if (typeof item.html === "string")
 			node.innerHTML = item.html;
 
 		if (typeof item.text !== "undefined")
 			node.innerText = item.text;
+
+		if (typeof item.for === "string")
+			node.htmlFor = item.for;
 
 		if (typeof item.data === "object")
 			for (let key of Object.keys(item.data))
@@ -537,6 +533,10 @@ function makeTree(tag, classes, child = {}, path = "") {
 		if (typeof item.attribute === "object")
 			for (let key of Object.keys(item.attribute))
 				node.setAttribute(key, item.attribute[key]);
+
+		for (let key of Object.keys(item))
+			if (!["tag", "class", "child", "html", "for", "text", "data", "attribute"].includes(key) && typeof node[key] !== "undefined")
+				node[key] = item[key];
 
 		node.setAttribute("key", key);
 		container.appendChild(node);
@@ -984,6 +984,7 @@ class lazyload {
 		container,
 		source,
 		classes,
+		tagName = "div",
 		doLoad = true
 	} = {}) {
 		/** @type {HTMLElement} */
@@ -992,7 +993,7 @@ class lazyload {
 		if (container && container.classList)
 			this.container = container;
 		else
-			this.container = document.createElement("div");
+			this.container = document.createElement(tagName);
 
 		/** @type	{String}	Source */
 		this._src = null;
@@ -1794,44 +1795,50 @@ function createInput({
 	id = randString(6),
 	label = "Sample Input",
 	value = "",
-	color = "default",
+	color = "blue",
 	required = false,
 	autofill = true,
 	spellcheck = false,
 	options = {}
 } = {}) {
-	let formGroup = document.createElement("div");
-	formGroup.classList.add("formGroup");
-	formGroup.dataset.color = color;
-	formGroup.dataset.soundhoversoft = "";
-	formGroup.dataset.soundselectsoft = "";
-
-	if (typeof sounds === "object")
-		sounds.applySound(formGroup);
-
 	if (!["text", "textarea", "number", "date", "time", "select", "file"].includes(type))
 		type = "text";
 
-	/**
-	 * @type {HTMLInputElement}
-	 */
-	let formField = document.createElement(["textarea", "select"].includes(type) ? type : "input");
+	let container = makeTree("span", "sq-input", {
+		input: {
+			tag: ["textarea", "select"].includes(type) ? type : "input",
+			class: "input",
+			type,
+			id,
+			placeholder: label,
+			autocomplete: autofill ? "on" : "off",
+			spellcheck: !!spellcheck,
+			required
+		},
 
-	formField.type = type;
-	formField.id = id;
-	formField.classList.add("formField");
-	formField.placeholder = label;
-	formField.autocomplete = autofill ? "on" : "off";
-	formField.spellcheck = !!spellcheck;
+		outline: { tag: "div", class: "outline", child: {
+			leading: { tag: "span", class: ["notch", "leading"] },
 
-	if (required)
-		formField.required = true;
+			label: { tag: "span", class: ["notch", "label"], child: {
+				label: { tag: "label", htmlFor: id, text: label }
+			}},
+
+			trailing: { tag: "span", class: ["notch", "trailing"] }
+		}}
+	});
+
+	container.dataset.color = color;
+	container.dataset.soundhoversoft = "";
+	container.dataset.soundselectsoft = "";
+
+	if (typeof sounds === "object")
+		sounds.applySound(container, ["soundhoversoft", "soundselectsoft"]);
 
 	switch(type) {
 		case "textarea":
-			formField.style.fontFamily = "Consolas";
-			formField.style.fontWeight = "bold";
-			formField.style.fontSize = "15px";
+			container.input.style.fontFamily = "Consolas";
+			container.input.style.fontWeight = "bold";
+			container.input.style.fontSize = "15px";
 			break;
 
 		case "select": {
@@ -1839,58 +1846,51 @@ function createInput({
 				let option = document.createElement("option");
 				option.value = key;
 				option.innerHTML = options[key];
-				formField.appendChild(option);
+
+				container.input.appendChild(option);
 			}
 
 			break;
 		}
 	}
 
-	let formLabel = document.createElement("label");
-	formLabel.htmlFor = id;
-	formLabel.classList.add("formLabel");
-	formLabel.innerText = label;
-
-	formGroup.appendChild(formField);
-	formGroup.appendChild(formLabel);
-
 	// Events
 	let onInputHandlers = [];
 	let onChangeHandlers = [];
 
-	formField.addEventListener("input", (e) => onInputHandlers.forEach(f => f(formField.value, e)));
-	formField.addEventListener("change", (e) => onChangeHandlers.forEach(f => f(formField.value, e)));
-
-	formField.value = value;
+	container.input.addEventListener("input", (e) => onInputHandlers.forEach(f => f(container.input.value, e)));
+	container.input.addEventListener("change", (e) => onChangeHandlers.forEach(f => f(container.input.value, e)));
+	container.input.value = value;
 
 	return {
-		group: formGroup,
-		input: formField,
+		group: container,
+		input: container.input,
 
 		set({
 			value,
 			label,
 			options
 		}) {
-			if (typeof options === "object" && formField.tagName.toLowerCase() === "select") {
-				emptyNode(formField);
+			if (typeof options === "object" && container.input.tagName.toLowerCase() === "select") {
+				emptyNode(container.input);
 
 				for (let key of Object.keys(options)) {
 					let option = document.createElement("option");
 					option.value = key;
 					option.innerHTML = options[key];
-					formField.appendChild(option);
+
+					container.input.appendChild(option);
 				}
 			}
 
 			if (typeof value !== "undefined") {
-				formField.value = value;
-				formField.dispatchEvent(new Event("input"));
-				formField.dispatchEvent(new Event("change"));
+				container.input.value = value;
+				container.input.dispatchEvent(new Event("input"));
+				container.input.dispatchEvent(new Event("change"));
 			}
 
 			if (label)
-				formLabel.innerText = label;
+				container.input.innerText = label;
 		},
 
 		/**
@@ -1901,7 +1901,7 @@ function createInput({
 				throw { code: -1, description: `createInput(${type}).onInput(): Not a valid function` }
 
 			onInputHandlers.push(f);
-			f(formField.value, null);
+			f(container.input.value, null);
 		},
 
 		/**
@@ -1912,7 +1912,7 @@ function createInput({
 				throw { code: -1, description: `createInput(${type}).onChange(): Not a valid function` }
 
 			onChangeHandlers.push(f);
-			f(formField.value, null);
+			f(container.input.value, null);
 		}
 	}
 }
@@ -2109,87 +2109,64 @@ function createButton(text, {
 
 function createImageInput({
 	id = randString(6),
-	label = "Sample Image",
-	resetLabel = "Đặt Lại",
+	resetText = "Đặt Lại",
 	accept = "image/*",
 	src = "//:0"
 } = {}) {
 	if (!src)
 		src = "//:0";
 
-	let container = document.createElement("div");
-	container.classList.add("imageInput");
+	let container = makeTree("div", "imageInput", {
+		input: { tag: "input", type: "file", id, accept },
+		image: { tag: "label", htmlFor: id, title: "Chọn Ảnh" },
 
-	let input = document.createElement("input");
-	input.type = "file";
-	input.id = id;
-	input.accept = accept;
-
-	let labelNode = document.createElement("t");
-	labelNode.classList.add("label");
-	labelNode.innerText = label;
+		clear: { tag: "icon", class: "clear", title: "Loại Bỏ Ảnh", data: { icon: "close" } },
+		reset: createButton(resetText, { color: "pink", complex: true })
+	});
 
 	let resetHandlers = []
-
-	let imageContainer = document.createElement("label");
-	imageContainer.htmlFor = id;
-	imageContainer.title = "Chọn Ảnh";
-	sounds.applySound(imageContainer, ["soundhover", "soundselect"]);
-
-	let lazyloadImage = new lazyload({
-		container: imageContainer,
+	let image = new lazyload({
+		container: container.image,
 		source: src,
 		classes: ["imageBox", item.display || "square"]
 	});
 
-	let resetButton = document.createElement("button");
-	resetButton.type = "button";
-	resetButton.classList.add("sq-btn", "pink", "sound");
-	resetButton.innerText = resetLabel;
-	sounds.applySound(resetButton, ["soundhover", "soundselect"]);
-	
-	let clearButton = document.createElement("icon");
-	clearButton.classList.add("clear");
-	clearButton.dataset.icon = "close";
-	sounds.applySound(clearButton, ["soundhoversoft", "soundselectsoft"]);
-
-	input.addEventListener("change", (e) => {
+	container.input.addEventListener("change", (e) => {
 		let file = e.target.files[0];
 
 		if (file) {
-			lazyloadImage.src = URL.createObjectURL(file);
-			clearButton.classList.add("show");
+			image.src = URL.createObjectURL(file);
+			container.clear.classList.add("show");
 		} else
-			clearButton.classList.remove("show");
+			container.clear.classList.remove("show");
 	});
 
-	clearButton.addEventListener("click", () => {
-		clearButton.classList.remove("show");
-		input.value = null;
-		lazyloadImage.src = src;
+	container.clear.addEventListener("click", () => {
+		container.clear.classList.remove("show");
+		container.input.value = null;
+		image.src = src;
 	});
 
-	resetButton.addEventListener("click", async (e) => {
-		resetButton.disabled = true;
+	container.reset.addEventListener("click", async (e) => {
+		container.reset.disabled = true;
 
 		for (let f of resetHandlers)
 			await f(e);
 	});
 
-	input.dispatchEvent(new Event("change"));
-	container.append(input, labelNode, imageContainer, clearButton, resetButton);
+	container.input.dispatchEvent(new Event("change"));
 
 	return {
 		group: container,
-		input,
-		image: lazyloadImage,
+		input: container.input,
+		image,
 
 		src(src = "//:0") {
 			if (!src)
 				src = "//:0";
 
-			lazyloadImage.src = src;
-			resetButton.disabled = (src === "//:0");
+			image.src = src;
+			container.reset.disabled = (src === "//:0");
 		},
 
 		onReset(f) {
@@ -2685,7 +2662,7 @@ const __connection__ = {
 //?    SCRIPT INIT
 
 if (typeof document.__onclog === "undefined")
-	document.__onclog = (lv, t, m) => {};
+	document.__onclog = (lv, t, m) => {}
 
 let sc = new StopClock();
 clog("info", "Log started at:", {
