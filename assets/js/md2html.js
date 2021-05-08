@@ -50,6 +50,7 @@ const md2html = {
 			let blockValue;
 			let blockLines = []
 	
+			let isInsideParagraph = false;
 			let isInsideTable = false;
 			let tableAlign = []
 
@@ -65,7 +66,6 @@ const md2html = {
 	
 			for (let i = 0; i < lines.length; i++) {
 				let doWrapParagraph = true;
-				let isInsideParagraph = false;
 	
 				//* ==================== Horizontal Rules ====================
 				if (lines[i] === "___" || lines[i] === "---" || lines[i] === "***") {
@@ -239,7 +239,7 @@ const md2html = {
 						listLevel++;
 						listLevelType[listLevel] = "ordered";
 						listEndPos = p + 1;
-					} else if (lines[i][p] !== "") {
+					} else if (lines[i][p] !== "" && currentListLevel > 0) {
 						listContinueLine = true;
 						listLevel = currentListLevel;
 						break;
@@ -349,19 +349,22 @@ const md2html = {
 				}
 	
 				//? ======================= END =======================
-				if (doWrapParagraph && lines[i] !== "" && lines[i].trim()[0] !== "<") {
-					if (lines.length > (i + 1) && lines[i + 1][0] !== "")
-						lines[i] = `<p>${lines[i]}</p>`;
-					else {
-						if (!isInsideParagraph) {
-							lines[i] = `<p>${lines[i]}`;
-							isInsideParagraph = true;
-						} else
+				if (doWrapParagraph && lines[i].trim()[0] !== "<") {
+					if (isInsideParagraph) {
+						if (lines[i] === "" || lines.length === (i + 1)) {
+							lines[i] = `${lines[i]}</p>`;
 							isInsideParagraph = false;
+						}
+					} else if (lines[i + 1] === "" || lines.length === (i + 1)) {
+						lines[i] = `<p>${lines[i]}</p>`;
+					} else {
+						lines[i] = `<p>${lines[i]}`;
+						isInsideParagraph = true;
 					}
 				}
 			}
 	
+			console.log(lines);
 			let container = document.createElement("div");
 			container.classList.add("md2html");
 			container.innerHTML = lines.join("\n");
