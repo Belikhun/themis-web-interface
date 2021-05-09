@@ -2490,52 +2490,21 @@ const twi = {
 			}
 		},
 
-		download: {
-			group: smenu.Group.prototype,
-			publicFilesPanel: smenu.Panel.prototype,
-
-			async init() {
-				this.group = new smenu.Group({ label: "tải về", icon: "file" });
-
-				let publicChild = new smenu.Child({ label: "Công Khai" }, this.group);
-				let publicFilesButton = new smenu.components.Button({
-					label: "Các Tệp Công Khai",
-					color: "blue",
-					icon: "arrowLeft",
-					complex: true
-				}, publicChild);
-
-				this.publicFilesPanel = new smenu.Panel(undefined, { size: "large" });
-				this.publicFilesPanel.setToggler(publicFilesButton);
-
-				// We don't have to wait for iframe to load
-				// to decrease initialize time
-				this.publicFilesPanel.content("iframe:/public");
-				twi.darkmode.onToggle((enabled) => this.publicFilesPanel.iframe.contentDocument.body.classList[enabled ? "add" : "remove"]("dark"));
-			}
-		},
-
-		settings: {
+		display: {
 			group: smenu.Group.prototype,
 
 			init() {
-				this.group = new smenu.Group({ label: "cài đặt", icon: "tools" });
+				this.group = new smenu.Group({ label: "hiển thị", icon: "window" });
 
-				this.display();
-				this.sounds();
-				this.others();
-			},
-
-			display() {
-				let display = new smenu.Child({ label: "Hiển Thị" }, this.group);
-
+				let ux = new smenu.Child({ label: "Giao Diện" }, this.group);
+				
 				new smenu.components.Checkbox({
 					label: "Chế độ ban đêm",
 					color: "pink",
 					save: "display.nightmode",
 					defaultValue: SERVER.clientSettings.nightmode,
 					onChange: (v) => twi.darkmode.set(v)
-				}, display);
+				}, ux);
 
 				new smenu.components.Checkbox({
 					label: "Hoạt ảnh",
@@ -2543,15 +2512,9 @@ const twi = {
 					save: "display.transition",
 					defaultValue: SERVER.clientSettings.transition,
 					onChange: (v) => document.body.classList[v ? "remove" : "add"]("disableTransition")
-				}, display);
+				}, ux);
 
-				new smenu.components.Checkbox({
-					label: "Hiện MilliSecond trong đồng hồ",
-					color: "blue",
-					save: "display.showMs",
-					defaultValue: SERVER.clientSettings.showMs,
-					onChange: (v) => twi.timer.toggleMs(v)
-				}, display);
+				let other = new smenu.Child({ label: "Khác" }, this.group);
 
 				new smenu.components.Checkbox({
 					label: "Thông báo",
@@ -2559,7 +2522,7 @@ const twi = {
 					save: "display.notification",
 					defaultValue: false,
 					disabled: true
-				}, display);
+				}, other);
 
 				new smenu.components.Checkbox({
 					label: "Super Triangles!",
@@ -2567,62 +2530,82 @@ const twi = {
 					save: "display.triangles",
 					defaultValue: (twi.performance.score > 30),
 					disabled: false
-				}, display);
-			},
+				}, other);
+			}
+		},
 
-			sounds() {
-				let soundsChild = new smenu.Child({ label: "Âm Thanh" }, this.group);
+		sounds: {
+			group: smenu.Group.prototype,
 
-				let loadDetail = new smenu.components.Text({
-					content: "Chưa khởi tạo âm thanh"
-				});
+			init() {
+				this.group = new smenu.Group({ label: "âm thanh", icon: "volume" });
+	
+				let status = new smenu.Child({ label: "Trạng Thái" }, this.group);
+				let loadDetail = new smenu.components.Text({ content: "Chưa khởi tạo âm thanh" });
+				status.insert(loadDetail, -3);
 
-				soundsChild.insert(loadDetail, -2);
 				twi.sounds.attach(({ c } = {}) => {
 					if (typeof c === "string")
 						loadDetail.content = c
 				});
 
+				let volume = new smenu.components.Slider({
+					label: "Âm lượng",
+					color: "blue",
+					save: "sounds.volume",
+					min: 0,
+					max: 100,
+					unit: "%",
+					defaultValue: 60
+				});
+
+				status.insert(volume, -1);
+				volume.onInput((v) => {
+					sounds.volume = (v / 100);
+					volume.set({ color: (v >= 80) ? "red" : "blue" })
+				});
+	
+				let cat = new smenu.Child({ label: "Loại" }, this.group);
 				let mouseOver = new smenu.components.Checkbox({
 					label: "Mouse Over",
 					color: "blue",
 					save: "sounds.mouseOver",
 					defaultValue: true,
 					onChange: (v) => sounds.enable.mouseOver = v
-				}, soundsChild);
-
+				}, cat);
+	
 				let btnClick = new smenu.components.Checkbox({
 					label: "Button Click/Toggle",
 					color: "blue",
 					save: "sounds.btnClick",
 					defaultValue: true,
 					onChange: (v) => sounds.enable.btnClick = v
-				}, soundsChild);
-
+				}, cat);
+	
 				let panelToggle = new smenu.components.Checkbox({
 					label: "Panel Show/Hide",
 					color: "blue",
 					save: "sounds.panelToggle",
 					defaultValue: true,
 					onChange: (v) => sounds.enable.panelToggle = v
-				}, soundsChild);
-
+				}, cat);
+	
 				let others = new smenu.components.Checkbox({
 					label: "Others",
 					color: "blue",
 					save: "sounds.others",
 					defaultValue: true,
 					onChange: (v) => sounds.enable.others = v
-				}, soundsChild);
-
+				}, cat);
+	
 				let notification = new smenu.components.Checkbox({
 					label: "Notification",
 					color: "blue",
 					save: "sounds.notification",
 					defaultValue: true,
 					onChange: (v) => sounds.enable.notification = v
-				}, soundsChild);
-
+				}, cat);
+	
 				let master = new smenu.components.Checkbox({
 					label: "Bật âm thanh",
 					color: "pink",
@@ -2636,16 +2619,68 @@ const twi = {
 						others.set({ disabled: !v });
 						notification.set({ disabled: !v });
 
+						if (v)
+							sounds.soundToggle(sounds.sounds.checkOn);
+	
 						if (twi.initialized && !sounds.initialized)
 							await twi.sounds.init();
 					}
 				});
 
-				soundsChild.insert(master, -1);
-			},
+				status.insert(master, -2);
+			}
+		},
 
-			others() {
-				let others = new smenu.Child({ label: "Khác" }, this.group);
+		problemViewer: {
+			group: smenu.Group.prototype,
+
+			init() {
+				this.group = new smenu.Group({ label: "đề bài", icon: "book" });
+
+				let general = new smenu.Child({ label: "Chung" }, this.group);
+				new smenu.components.Checkbox({
+					label: "Xem đề bài trong cửa sổ mở rộng",
+					color: "blue",
+					save: "others.popupProblem",
+					defaultValue: false,
+					onChange: (v) => twi.problems.viewInDialog = v
+				}, general);
+			}
+		},
+
+		clock: {
+			group: smenu.Group.prototype,
+
+			init() {
+				this.group = new smenu.Group({ label: "thời gian", icon: "clock" });
+
+				let general = new smenu.Child({ label: "Chung" }, this.group);
+
+				new smenu.components.Checkbox({
+					label: "Hiện MilliSecond",
+					color: "blue",
+					save: "clock.showMs",
+					defaultValue: SERVER.clientSettings.showMs,
+					onChange: (v) => twi.timer.toggleMs(v)
+				}, general);
+
+				new smenu.components.Checkbox({
+					label: "Tự động chỉnh giờ chuẩn với máy chủ",
+					color: "pink",
+					save: "clock.autoCorrect",
+					defaultValue: true,
+					onChange: (v) => {}
+				}, general);
+			}
+		},
+
+		others: {
+			group: smenu.Group.prototype,
+
+			init() {
+				this.group = new smenu.Group({ label: "khác", icon: "circle" });
+
+				let update = new smenu.Child({ label: "Làm Mới" }, this.group);
 				let sliderStep = {
 					1: 0.5,		2: 1,		3: 2,		4: 10,
 					5: 60,		6: 120,		7: 240,		8: 300,
@@ -2665,14 +2700,6 @@ const twi = {
 					}
 				}
 
-				new smenu.components.Checkbox({
-					label: "Xem đề bài trong cửa sổ mở rộng",
-					color: "blue",
-					save: "others.popupProblem",
-					defaultValue: false,
-					onChange: (v) => twi.problems.viewInDialog = v
-				}, others);
-
 				let updateRank = new smenu.components.Slider({
 					label: "Thời gian cập nhật xếp hạng",
 					color: "blue",
@@ -2682,7 +2709,7 @@ const twi = {
 					unit: "giây",
 					defaultValue: SERVER.clientSettings.rankUpdate,
 					valueStep: sliderStep
-				}, others);
+				}, update);
 
 				updateRank.onInput((v) => updateRank.set({ color: (v <= 2) ? "red" : "blue" }));
 				updateRank.onChange(async (v, e) => {
@@ -2709,7 +2736,7 @@ const twi = {
 					unit: "giây",
 					defaultValue: SERVER.clientSettings.logsUpdate,
 					valueStep: sliderStep
-				}, others);
+				}, update);
 
 				updateLogs.onInput((v) => updateLogs.set({ color: (v <= 2) ? "red" : "blue" }));
 				updateLogs.onChange(async (v, e) => {
@@ -2725,7 +2752,7 @@ const twi = {
 							windowTitle: "Cảnh Báo",
 							title: "Cảnh Báo",
 							message: "Tắt tự động cập nhật nhật ký",
-                            description: "Việc này sẽ làm cho tình trạng nộp bài của bạn không được tự động cập nhật.<br>Bạn có chắc muốn tắt tính năng này không?",
+							description: "Việc này sẽ làm cho tình trạng nộp bài của bạn không được tự động cập nhật.<br>Bạn có chắc muốn tắt tính năng này không?",
 							buttonList: {
 								cancel: { color: "blue", text: "Bấm Lộn! Trả Về Cũ Đi!" },
 								ignore: { color: "red", text: "TẮT! TẮT HẾT!" }
@@ -2752,7 +2779,7 @@ const twi = {
 					unit: "giây",
 					defaultValue: SERVER.clientSettings.hashUpdate,
 					valueStep: sliderStep
-				}, others);
+				}, update);
 
 				updateHash.onInput((v) => updateHash.set({ color: (v <= 2) ? "red" : "blue" }));
 				updateHash.onChange(async (v, e) => {
@@ -2768,7 +2795,7 @@ const twi = {
 							windowTitle: "Cảnh Báo",
 							title: "Cảnh Báo",
 							message: "Tắt tự động cập nhật dữ liệu và cài đặt",
-                            description: "Việc này sẽ tắt tự động cập nhật thông báo, thời gian, danh sách đề bài, ...<br>Bạn có chắc muốn tắt tính năng này không?",
+							description: "Việc này sẽ tắt tự động cập nhật thông báo, thời gian, danh sách đề bài, ...<br>Bạn có chắc muốn tắt tính năng này không?",
 							buttonList: {
 								cancel: { color: "blue", text: "Bấm Lộn 😅 Trả Về Cũ Đi!" },
 								ignore: { color: "red", text: "TẮT! TẮT HẾT!" }

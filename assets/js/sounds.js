@@ -41,6 +41,8 @@ const sounds = {
 		notification: true,
 	},
 
+	volume: 0.6,
+
 	async init(set = ({ p, m, d, c }) => {}, {
 		clog = window.clog
 	} = {}) {
@@ -165,6 +167,7 @@ const sounds = {
 		if (!sound.sound.paused)
 			sound.sound.pause();
 
+		sound.sound.volume = this.volume;
 		sound.sound.currentTime = 0;
 		sound.sound.play()
 			.catch(e => clog("ERRR", "An error occurred while trying to play sounds", e));

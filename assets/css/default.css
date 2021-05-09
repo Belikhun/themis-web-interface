@@ -569,6 +569,10 @@ body.dark icon::after {
 	color: #dfdfdf;
 }
 
+icon[data-icon="circle"]::after {
+	font-weight: 200;
+}
+
 icon[data-icon="check"]::after {
 	content: "\f00c";
 }
@@ -750,6 +754,14 @@ icon[data-icon="file"]::after {
 
 icon[data-icon="upload"]::after {
 	content: "\f093";
+}
+
+icon[data-icon="window"]::after {
+	content: "\f2d2";
+}
+
+icon[data-icon="volume"]::after {
+	content: "\f028";
 }
 
 /** ======================== NOTE ======================== **/
