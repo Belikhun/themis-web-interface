@@ -29,6 +29,9 @@
 	--header-color: rgb(240, 240, 240);
 	--background-color: white;
 	--border-color: rgba(124, 124, 124, 0.4);
+	--line-color: rgba(235, 235, 235, 0.3);
+	--linenum: rgba(165, 165, 165, 0.6);
+	--linenum-active: black;
 }
 
 .editor[data-readonly="true"] {
@@ -200,11 +203,11 @@
 }
 
 .editor > .lineNum > .content > div {
-	color: rgba(165, 165, 165, 0.6);
+	color: var(--linenum);
 }
 
 .editor > .lineNum > .content > div.active {
-	color: black;
+	color: var(--linenum-active);
 }
 
 .editor > .main {
@@ -277,7 +280,7 @@
 }
 
 .editor > .main > .wrapper > .code > .line.active {
-	background-color: rgba(235, 235, 235, 0.3);
+	background-color: var(--line-color);
 }
 
 .editor > .main > .wrapper > .overlay {
@@ -325,6 +328,17 @@
 
 .editor[data-style="transparent"] > .main > .wrapper > .code > .line.active {
 	background-color: rgba(248, 248, 248, 0.6);
+}
+
+/** ======================== DARK ======================== */
+
+body.dark .editor {
+	--header-color: rgb(33, 33, 33);
+	--background-color: rgb(24, 24, 24);
+	--border-color: rgba(80, 80, 80, 0.4);
+	--line-color: rgba(46, 46, 46, 0.3);
+	--linenum: rgba(85, 85, 85, 0.6);
+	--linenum-active: rgb(70, 187, 230);
 }
 
 /** ======================== STYLING:JS ======================== */
@@ -391,4 +405,32 @@
 	display: inline-block;
 	color: rgb(8, 158, 0);
 	text-decoration: none;
+}
+
+body.dark .editor > .main > .wrapper > .code[language="md"] > .line ed-mdheading {
+	color: rgb(245, 83, 126);
+}
+
+body.dark .editor > .main > .wrapper > .code[language="md"] > .line ed-mdbold {
+	color: rgb(250, 160, 42);
+}
+
+body.dark .editor > .main > .wrapper > .code[language="md"] > .line ed-mditalic {
+	color: rgb(194, 108, 255);
+}
+
+body.dark .editor > .main > .wrapper > .code[language="md"] > .line ed-mdquotes {
+	color: rgb(158, 158, 158);
+}
+
+body.dark .editor > .main > .wrapper > .code[language="md"] > .line ed-mdlinktext {
+	color: rgb(107, 191, 255);
+}
+
+body.dark .editor > .main > .wrapper > .code[language="md"] > .line ed-mdlink {
+	color: rgb(49, 219, 232);
+}
+
+body.dark .editor > .main > .wrapper > .code[language="md"] > .line ed-mdstring {
+	color: rgb(63, 243, 53);
 }

@@ -8,15 +8,61 @@
 */
 
 body.dark {
-    --status-correct: var(--osc-color-green);
-	--status-passed: var(--osc-color-blue);
-	--status-accepted: var(--osc-color-yellow);
-	--status-failed: var(--osc-color-red);
-	--status-skipped: var(--osc-color-gray);
+    --status-correct: #86c900;
+	--status-passed: #40b0e8;
+	--status-accepted: #f6c21c;
+	--status-failed: #ff697d;
+	--status-skipped: #95adc5;
 }
 
 body.dark #superContainer {
 	background-color: rgb(10, 10, 10);
+}
+
+/** =================== COMPONENTS =================== **/
+
+body.dark .judgeStatus {
+    color: rgb(21, 21, 21);
+}
+
+body.dark .judgeStatus[data-status="correct"] {
+	background-color: var(--status-correct);
+}
+
+body.dark .judgeStatus[data-status="passed"] {
+	background-color: var(--status-passed);
+}
+
+body.dark .judgeStatus[data-status="accepted"] {
+	background-color: var(--status-accepted);;
+}
+
+body.dark .judgeStatus[data-status="failed"] {
+	background-color: var(--status-failed);
+}
+
+body.dark .judgeStatus[data-status="skipped"] {
+	background-color: var(--status-skipped);
+}
+
+body.dark .progressBar.judgeStatusBar > .bar[data-color="green"] {
+	background-color: var(--status-correct);
+}
+
+body.dark .progressBar.judgeStatusBar > .bar[data-color="blue"] {
+	background-color: var(--status-passed);
+}
+
+body.dark .progressBar.judgeStatusBar > .bar[data-color="yellow"] {
+	background-color: var(--status-accepted);
+}
+
+body.dark .progressBar.judgeStatusBar > .bar[data-color="red"] {
+	background-color: var(--status-failed);
+}
+
+body.dark .progressBar.judgeStatusBar > .bar[data-color="gray"] {
+	background-color: var(--status-skipped);
 }
 
 /** =================== PANEL =================== **/
@@ -140,108 +186,194 @@ body.dark #ranking > table tr td.number > t {
 	color: rgb(70, 70, 70);
 }
 
-body.dark #ranking > table tr > .number.link > t,
+body.dark #ranking > table tr > .number.link > t {
+    color: rgb(204, 204, 204);
+}
+
 body.dark #ranking > table tr > .number.correct > t,
 body.dark #ranking > table tr > .number.passed > t,
 body.dark #ranking > table tr > .number.accepted > t,
 body.dark #ranking > table tr > .number.failed > t,
 body.dark #ranking > table tr > .number.skipped > t {
-    color: rgb(204, 204, 204);
+    color: rgb(22, 22, 22);
 }
 
-body.dark #ranking > table tr > .number.link > t.big,
-body.dark #ranking > table tr > .number.correct > t.big,
-body.dark #ranking > table tr > .number.passed > t.big,
-body.dark #ranking > table tr > .number.accepted > t.big,
-body.dark #ranking > table tr > .number.failed > t.big,
-body.dark #ranking > table tr > .number.skipped > t.big {
-    color: rgb(226, 226, 226);
+/** =================== PROBLEM LIST =================== **/
+
+body.dark #problemsPanel > .problemsContainer > .listContainer > .searchBox {
+    background-color: rgb(21, 21, 21);
 }
 
-/** =================== PROBLEMS =================== **/
-
-body.dark #problemsPanel > .problemsContainer > .problemsList > .item {
-    background-color: rgb(28, 28, 28);
-    border-bottom-color: rgb(88, 88, 88);
+body.dark #problemsPanel > .problemsContainer > .listContainer > .searchBox.typing {
+    background-color: rgb(44, 44, 44);
 }
 
-body.dark #problemsPanel > .problemsContainer > .problemsList > .item[disabled="true"] {
-    background-color: rgba(92, 6, 22, 0.6);
+body.dark #problemsPanel > .problemsContainer > .listContainer > .searchBox > input::placeholder {
+	color: rgba(116, 116, 116, 0.5);
 }
 
-body.dark #problemsPanel > .problemsContainer > .problemsList > .item:hover {
-    background-color: rgb(34, 34, 34);
+body.dark #problemsPanel > .problemsContainer > .listContainer > .searchBox:hover > input::placeholder {
+	color: rgba(126, 126, 126, 0.7);
 }
 
-body.dark #problemsPanel > .problemsContainer > .problemsList > .item > .title > .name {
-    color: rgb(214, 214, 214);
+body.dark #problemsPanel > .problemsContainer > .listContainer > .list > .item > .content {
+    background-color: rgb(38, 38, 38);
 }
 
-body.dark #problemsPanel > .problemsContainer > .problemsList > .item > .title > .point {
-    background-color: #269555;
+body.dark #problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .point {
+    background-color: rgb(44, 44, 44);
 }
 
-body.dark #problemsPanel > .problemsContainer > .problem > .name {
-    color: rgb(216, 216, 216);
+body.dark #problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .detail > span > t::before {
+    color: rgb(218, 218, 218);
 }
 
-body.dark #problemsPanel > .problemsContainer > .problem > .point {
-    color: #29db73;
+body.dark #problemsPanel > .problemsContainer > .listContainer > .list > .item > .background {
+    background-color: rgb(38, 38, 38);
+    border-color: var(--status-passed);
 }
 
-body.dark #problemsPanel > .problemsContainer > .problem > .enlarge::before,
-body.dark #problemsPanel > .problemsContainer > .problem > .close::before {
-	color: rgb(202, 202, 202);
+body.dark #problemsPanel > .problemsContainer > .listContainer > .list > .item > .background:empty::before {
+    color: rgb(158, 158, 158);
 }
 
-body.dark .problemEnlarged > .left > .top > .group > .col > .name {
-    color: rgb(216, 216, 216);
+body.dark #problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .thumbnail {
+    filter: brightness(0.8);
 }
 
-body.dark .problemEnlarged > .left > .bottom {
-    background-color: rgb(16, 16, 16);
+/** =================== PROBLEM VIEWER =================== **/
+
+body.dark .problemViewer > .content {
+    background-color: rgb(21, 21, 21);
 }
 
-body.dark .problemEnlarged > .left > .bottom > .description {
-    color: rgb(214, 214, 214);
+body.dark .problemViewer > .content > .details > .left > .items > .item {
+    background-color: rgb(44, 44, 44);
 }
 
-/** =================== PROBLEMEDITOR =================== **/
-
-body.dark .problemsEditor > .header {
-    background-color: rgb(24, 24, 24);
+body.dark .problemViewer > .content > .details > .left > .items > .item > .label {
+    color: rgba(192, 192, 192, 0.8);
 }
 
-body.dark .problemsEditor > .header icon::after {
-    color: rgb(225, 225, 225);
+body.dark .problemViewer > .content > .details > .left > .items > .item::before {
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
-body.dark .problemsEditor > .header > .title {
-    color: rgb(245, 245, 245);
+body.dark .problemViewer > .content > .details > .left > .items > .item:hover::before {
+    background-color: rgba(255, 255, 255, 0.4);
 }
 
-body.dark .problemsEditor > .main > .list > li.item:hover {
-    background-color: rgba(36, 36, 36, 0.4);
+body.dark .problemViewer > .content > .details > .right > .languages {
+    color: rgb(109, 197, 255);
 }
 
-body.dark .problemsEditor > .main > .list > li.item > .title > .id {
+body.dark .problemViewer > .content > .details > .right > div:empty::after {
     color: rgb(160, 160, 160);
+    background-color: rgba(58, 58, 58, 0.2);
 }
 
-body.dark .problemsEditor > .main > .list > li.item > .title > .name {
-    color: rgb(214, 214, 214);
+body.dark .problemViewer > .content > .info > .header > t {
+    color: rgba(160, 160, 160, 0.7);
 }
 
-body.dark .problemsEditor > .main > .editor > .tests > .list > .cell > textarea {
-    color: rgb(204, 204, 204);
+body.dark .problemViewer > .content > .info[data-active="content"] > .header > t[key="content"],
+body.dark .problemViewer > .content > .info[data-active="ranking"] > .header > t[key="ranking"] {
+    color: white;
+    border-color: rgb(165, 165, 165);
 }
 
-body.dark .problemsEditor > .main > .editor > .tests > .add:hover {
-    background-color: rgba(202, 202, 202, 0.1);
+body.dark .problemViewer > .content > .info > .header::after {
+    background-color: rgb(165, 165, 165);
 }
 
-body.dark .problemsEditor > .main > .editor > .tests > .add:hover::after {
-    color: rgb(204, 204, 204);
+body.dark .problemViewer > .content > .info > .description > .switch > tag:hover {
+    background-color: rgba(65, 65, 65, 0.5);
+}
+
+body.dark .problemViewer > .content > .info > .description > .switch[data-active="markdown"] > .markdown,
+body.dark .problemViewer > .content > .info > .description > .switch[data-active="code"] > .code {
+    color: black;
+    background-color: rgb(218, 218, 218);
+}
+
+body.dark .problemViewer > .content > .info > .tests > .testContainer > .content > .test {
+    background-color: rgb(38, 38, 38);
+}
+
+body.dark .problemViewer > .content > .info > .tests > .testContainer > .content > .test > .header {
+    background-color: rgb(46, 46, 46);
+}
+
+body.dark .problemViewer > .content > .info > .ranking > .spotlight > .item {
+    background-color: rgb(38, 38, 38);
+}
+
+body.dark .problemViewer > .content > .info > .ranking > .spotlight > .item > .left > .user > .name {
+    color: white;
+}
+
+body.dark .problemViewer > .content > .info > .ranking > .spotlight > .item > .right > span > .item > .label {
+    border-bottom-color: rgba(216, 216, 216, 0.3);
+    color: rgb(213, 213, 213);
+}
+
+body.dark .problemViewer > .content > .info > .ranking > .spotlight > .item > .right > span > .item > .value {
+    color: white;
+}
+
+body.dark .problemViewer > .content > .info > .ranking > .spotlight > .item > .right > .bottom > .item.green > .value > t {
+	color: rgb(144, 250, 123);
+}
+
+body.dark .problemViewer > .content > .info > .ranking > .spotlight > .item > .right > .bottom > .item.yellow > .value > t {
+	color: rgb(250, 236, 126);
+}
+
+body.dark .problemViewer > .content > .info > .ranking > .spotlight > .item > .right > .bottom > .item.red > .value > t {
+	color: rgb(255, 146, 175);
+}
+
+body.dark .problemViewer > .content > .info > .ranking > table > tbody > tr > td {
+    color: rgb(232, 232, 232);
+}
+
+body.dark .problemViewer > .content > .info > .ranking > table > tbody > tr:nth-child(2n + 1) > td {
+    background-color: #1d1d1d;
+}
+
+body.dark .problemViewer > .content > .info > .ranking > table > tbody > tr:hover > td {
+    background-color: #292929;
+}
+
+/** =================== PROBLEM EDITOR =================== **/
+
+body.dark .problemEditor {
+    background-color: rgb(21, 21, 21);
+}
+
+body.dark .problemEditor > .header {
+    background-color: rgb(21, 21, 21);
+}
+
+body.dark .problemEditor > .header > .left > t {
+    --text-color: rgba(165, 165, 165, 0.6);
+	--bg-color: none;
+}
+
+body.dark .problemEditor > .header > .left > t:hover {
+	--text-color: rgba(202, 202, 202, 0.8);
+	--bg-color: rgba(55, 55, 55, 0.5);
+}
+
+body.dark .problemEditor[data-active="main"] > .header > .left > .main,
+body.dark .problemEditor[data-active="description"] > .header > .left > .description {
+	--text-color: rgb(24, 24, 24);
+	--bg-color: rgba(248, 248, 248, 0.9);
+}
+
+body.dark .problemEditor > .main > div[key="top"] > span[key="right"] > .accept > .label,
+body.dark .problemEditor > .main > div[key="top"] > span[key="left"] > .test > .label {
+    color: white;
 }
 
 /** =================== SUBMIT =================== **/

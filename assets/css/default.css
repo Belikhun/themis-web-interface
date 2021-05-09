@@ -226,6 +226,11 @@ tag {
     -webkit-font-smoothing: antialiased;
 }
 
+body.dark tag {
+	--color: #e8e8e8;
+    background-color: #333333;
+}
+
 /** ======================== ONLINE INDICATOR ======================== **/
 
 .onlineIndicator {
@@ -400,7 +405,9 @@ body.dark .lazyload::before,
 
 .tooltip > .content {
 	position: absolute;
-	display: block;
+	display: inline-flex;
+	flex-direction: row;
+	align-items: center;
 
 	padding: 4px 6px;
 
@@ -451,6 +458,14 @@ tip::before {
 	text-align: center;
 	line-height: 20px;
 	color: #ffffff;
+}
+
+body.dark tip {
+	background-color: rgba(245, 245, 245, 0.8);
+}
+
+body.dark tip::before {
+	color: black;
 }
 
 /** ======================== DOT ======================== **/
@@ -904,6 +919,14 @@ icon[data-icon="volume"]::after {
 	background-color: rgb(220, 220, 220);
 }
 
+body.dark .md2html blockquote {
+	background-color: #222222;
+}
+
+body.dark .md2html blockquote::before {
+	background-color: rgb(126, 126, 126);
+}
+
 .md2html ul,
 .md2html ol {
 	padding-inline-start: 20px;
@@ -924,6 +947,12 @@ icon[data-icon="volume"]::after {
     color: #c7254e;
     background-color: #f9f2f4;
     border-radius: 4px;
+}
+
+body.dark .md2html pre,
+body.dark .md2html code {
+    color: #ff799a;
+    background-color: #292929;
 }
 
 .md2html .image,

@@ -242,6 +242,19 @@
 	margin: 0 12px;
 }
 
+.navigationBar > .group > .component.iconBtn:hover > .triBgContainer,
+.navigationBar > .group > .component.iconBtn.active > .triBgContainer {
+	filter: unset;
+}
+
+.navigationBar > .group > .component.iconBtn:hover > .clickBox {
+	background-color: rgba(102, 102, 102, 0.2);
+}
+
+.navigationBar > .group > .component.iconBtn.active > .clickBox {
+	background-color: rgba(204, 204, 204, 0.2);
+}
+
 /** COMPONENTS: MENUBUTTON */
 
 .navigationBar > .group > .component.menuBtn {
@@ -980,6 +993,16 @@ body.dark .navigationBar > .group > .component.switch > icon.active {
 
 body.dark .navigationBar > .group > .component.menuBtn > .hamburger > span {
 	background-color: rgb(235, 235, 235);
+}
+
+/** COMPONENTS: ICONBUTTON */
+
+body.dark .navigationBar > .group > .component.iconBtn:hover > .clickBox {
+	background-color: rgba(102, 102, 102, 0.2);
+}
+
+body.dark .navigationBar > .group > .component.iconBtn.active > .clickBox {
+	background-color: rgba(150, 150, 150, 0.2);
 }
 
 /** COMPONENTS: ACCOUNT */

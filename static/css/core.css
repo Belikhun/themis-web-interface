@@ -7,14 +7,6 @@
 ? |-----------------------------------------------------------------------------------------------|
 */
 
-:root {
-	--status-correct: rgb(147, 252, 173);
-	--status-passed: rgb(166, 225, 252);
-	--status-accepted: rgb(253, 240, 141);
-	--status-failed: rgb(255, 181, 201);
-	--status-skipped: rgb(233, 233, 233);
-}
-
 body {
 	position: relative;
 	background-color: #666666;
@@ -23,6 +15,12 @@ body {
 	overflow: hidden;
 	width: 100vw;
 	height: 100vh;
+
+	--status-correct: rgb(147, 252, 173);
+	--status-passed: rgb(166, 225, 252);
+	--status-accepted: rgb(253, 240, 141);
+	--status-failed: rgb(255, 181, 201);
+	--status-skipped: rgb(233, 233, 233);
 }
 
 body.disableTransition * {
@@ -1125,8 +1123,6 @@ panel > .main > .loadingWrapper.show {
 	position: relative;
 	display: flex;
 	flex-direction: row;
-
-	background-color: white;
 }
 
 .problemViewer > .content > .details > span {
@@ -1182,6 +1178,7 @@ panel > .main > .loadingWrapper.show {
 	text-transform: uppercase;
 	letter-spacing: .4px;
 	color: rgba(26, 26, 26, 0.8);
+	user-select: none;
 }
 
 .problemViewer > .content > .details > .left > .items > .item > .value {

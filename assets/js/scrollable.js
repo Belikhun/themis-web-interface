@@ -25,7 +25,7 @@ class Scrollable {
 		horizontal = false,
 		smooth = true,
 		scrollbar = true,
-		scrollout = true,
+		scrollout = false,
 		barSize = 10
 	} = {}) {
 		if (typeof container !== "object" || (!container.classList && !container.container))

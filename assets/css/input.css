@@ -385,8 +385,12 @@ body.dark .sq-input {
     --focus-color: rgba(240, 240, 240, 0.8);
 }
 
-body.dark .sq-input > input {
+body.dark .sq-input > .input {
     color: white;
+}
+
+body.dark .sq-input > .input:disabled {
+    color: rgb(172, 172, 172);
 }
 
 /* Blue */

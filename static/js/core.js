@@ -4167,6 +4167,7 @@ const twi = {
 				active ? this.wavec.show() : this.wavec.hide();
 			});
 
+			twi.darkmode.onToggle((dark) => this.button.set({ color: dark ? "dark" : "whitesmoke" }));
 			this.wavec.onToggle((value) => this.button.click.setActive(value));
 			this.wavec.onReload(() => this.reload());
 
