@@ -376,6 +376,23 @@ body.dark .problemEditor > .main > div[key="top"] > span[key="left"] > .test > .
     color: white;
 }
 
+body.dark .problemEditor > .main > div[key="top"] > span[key="right"] > .tagsPreview {
+    border-color: rgba(184, 184, 184, 0.6);
+}
+
+body.dark .problemEditor > .main > div[key="top"] > span[key="left"] > .test > .list > .cell > textarea {
+    color: white;
+    background-color: rgb(28, 28, 28);
+}
+
+body.dark .problemEditor > .main > div[key="top"] > span[key="left"] > .test > .list > .cell > .delete {
+    background-color: rgb(28, 28, 28);
+}
+
+body.dark .problemEditor > .main > div[key="top"] > span[key="left"] > .test > .list > .cell > .delete:hover {
+    background-color: rgb(36, 36, 36);
+}
+
 /** =================== SUBMIT =================== **/
 
 body.dark #submitPanel > .submitContainer > #submitDropzone {

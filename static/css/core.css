@@ -2554,6 +2554,10 @@ panel > .main > .loadingWrapper.show {
 	overflow: auto;
 }
 
+.problemEditor > .description > .preview > .md2html {
+	padding-bottom: 60vh;
+}
+
 .problemEditor > .description > .editor:focus-within {
 	border-color: transparent;
 }

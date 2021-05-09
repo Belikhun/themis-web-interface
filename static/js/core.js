@@ -3306,7 +3306,7 @@ const twi = {
 					this.container.main.top.left.test.add.addEventListener("click", () => this.addTest());
 					this.container.header.right.cancel.addEventListener("click", () => this.wavec.hide());
 					this.container.header.right.delete.addEventListener("click", () => this.delete(this.id));
-					
+
 					this.container.main.top.right.tags.onInput((v) => {
 						this.container.main.top.right.tagsPreview.innerHTML = twi.problems.parseTags(v);
 					});
@@ -3318,6 +3318,12 @@ const twi = {
 							this.container.description.preview.replaceChild(md2html.parse(value), this.container.description.preview.firstChild);
 						}, 200);
 					});
+
+					this.container.description.editor.onScroll(
+						e => this.container.description.preview.scrollTop
+							= (e.target.scrollTop / (e.target.scrollHeight - e.target.offsetHeight))
+								* (this.container.description.preview.scrollHeight - this.container.description.preview.offsetHeight)
+					);
 
 					this.container.main.thumbnail.onReset(async () => {
 						if (this.id && await this.deleteFile("thumbnail", this.id))
