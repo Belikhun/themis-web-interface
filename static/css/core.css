@@ -34,6 +34,15 @@ input:-webkit-autofill {
 	background-color: rgba(0, 0, 0, 0);
 }
 
+.fullIframe {
+	position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: unset;
+    overflow: hidden;
+}
+
 /*? =================== COMPONENTS =================== **/
 
 .judgeStatus {

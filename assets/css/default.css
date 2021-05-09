@@ -748,6 +748,10 @@ icon[data-icon="file"]::after {
 	content: "\f15b";
 }
 
+icon[data-icon="upload"]::after {
+	content: "\f093";
+}
+
 /** ======================== NOTE ======================== **/
 
 .note {

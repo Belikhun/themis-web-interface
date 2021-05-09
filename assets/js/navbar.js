@@ -350,16 +350,17 @@ const navbar = {
 	},
 
 	iconButton({
-		icon = "circle"
-	}) {
+		icon = "circle",
+		color = document.body.classList.contains("dark") ? "dark" : "whitesmoke"
+	} = {}) {
 		let container = document.createElement("span");
 		container.classList.add("component", "iconBtn");
 
-		let iconNode = document.createElement("span");
-		iconNode.classList.add("icon");
+		let iconNode = document.createElement("icon");
 		iconNode.dataset.icon = icon;
 
 		container.appendChild(iconNode);
+		let background = triBg(container, { color, scale: 1, triangleCount: 8, speed: 6 });
 
 		let navtip = new this.Tooltip(container, (arguments && arguments[0] && arguments[0].tooltip) ? arguments[0].tooltip : {})
 		let click = new this.Clickable(container);
@@ -370,10 +371,14 @@ const navbar = {
 			click,
 
 			set({
-				icon = null
-			}) {
+				icon,
+				color
+			} = {}) {
 				if (icon)
 					iconNode.dataset.icon = icon;
+
+				if (color)
+					background.setColor(color);
 			}
 		}
 	},

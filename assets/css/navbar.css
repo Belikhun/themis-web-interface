@@ -238,24 +238,8 @@
 
 /** COMPONENTS: ICONBUTTON */
 
-.navigationBar > .group > .component.iconBtn > .icon {
-	margin: 0 6px;
-}
-
-.navigationBar > .group > .component.iconBtn > .icon::before {
-	content: "\f111";
-    position: relative;
-	display: block;
-
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    font-size: 24px;
-	font-style: normal;
-    color: rgb(44, 44, 44);
-}
-
-.navigationBar > .group > .component.iconBtn > .icon[data-icon = "home"]::before {
-	content: "\f015";
+.navigationBar > .group > .component.iconBtn > icon {
+	margin: 0 12px;
 }
 
 /** COMPONENTS: MENUBUTTON */

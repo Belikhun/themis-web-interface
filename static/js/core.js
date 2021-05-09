@@ -4106,6 +4106,56 @@ const twi = {
 		}
 	},
 
+	publicFile: {
+		priority: 3,
+
+		/** @type {HTMLIFrameElement} */
+		container: null,
+		
+		wavec: wavec.Container.prototype,
+		loaded: false,
+
+		button: navbar.iconButton({
+			icon: "upload",
+			tooltip: {
+				title: "public",
+				description: `danh sách các tệp công khai`
+			}
+		}),
+
+		init() {
+			this.container = document.createElement("iframe");
+			this.container.classList.add("fullIframe");
+			this.container.src = "/public";
+
+			this.wavec = new wavec.Container(this.container, {
+				icon: "upload",
+				title: "các tệp công khai"
+			});
+
+			this.button.click.setHandler((active) => {
+				if (!this.loaded)
+					this.load();
+
+				active ? this.wavec.show() : this.wavec.hide();
+			});
+
+			this.wavec.onToggle((value) => this.button.click.setActive(value));
+			this.wavec.onReload(() => this.reload());
+
+			navbar.insert(this.button, "right");
+		},
+
+		load() {
+			this.container.src = "/public";
+			this.loaded = true;
+		},
+
+		reload() {
+			this.container.contentWindow.location.reload();
+		}
+	},
+
 	tooltip: {
 		priority: 4,
 
