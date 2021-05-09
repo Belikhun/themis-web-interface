@@ -3810,27 +3810,12 @@ const twi = {
 			set({ p: 20, d: "Adding Default Navigation Bar Modules" });
 			this.title.set({
 				icon: "/api/images/icon",
-				background: "/api/images/landing",
-				title: SERVER.contest.name,
-				description: SERVER.contest.description
-			});
-
-			// Update title and description if
-			// changed on the server
-			twi.hash.onUpdate("config.contest.basicInfo", async () => {
-				await updateServerData();
-
-				this.title.set({
-					icon: "/api/images/icon",
-					background: "/api/images/landing",
-					title: SERVER.contest.name,
-					description: SERVER.contest.description
-				});
+				background: "/api/images/landing"
 			});
 
 			this.menu.click.setHandler((active) => (active) ? smenu.show() : smenu.hide());
-			smenu.onShow(() => this.menu.click.active = true);
-			smenu.onHide(() => this.menu.click.active = false);
+			smenu.onShow(() => this.menu.click.setActive(true));
+			smenu.onHide(() => this.menu.click.setActive(false));
 
 			navbar.insert(this.title, "left");
 			navbar.insert(this.menu, "right");
@@ -4063,6 +4048,61 @@ const twi = {
 				twi.darkmode.onToggle((e) => this.component.set({ color: e ? "darkBlue" : "blue" }));
 				navbar.insert(this.component, "right");
 			}
+		}
+	},
+
+	contestInfo: {
+		priority: 3,
+
+		/** @type {HTMLElement} */
+		container: null,
+		
+		wavec: wavec.Container.prototype,
+
+		init() {
+			this.container = makeTree("div", "contestInfo", {
+				header: { tag: "div", class: "header", child: {
+					landing: new lazyload({ source: "/api/images/landing", classes: "landing" }),
+					icon: new lazyload({ source: "/api/images/icon", classes: "icon" }),
+					cTitle: { tag: "t", class: "title", text: SERVER.contest.name }
+				}},
+
+				description: { tag: "div", class: "description", child: {
+					dummy: { tag: "span" }	
+				}}
+			});
+
+			// Update title and description if
+			// changed on the server
+			twi.hash.onUpdate("config.contest.basicInfo", async () => {
+				await updateServerData();
+
+				twi.navbar.title.set({
+					icon: "/api/images/icon",
+					title: SERVER.contest.name,
+				});
+
+				this.update();
+			});
+
+			this.wavec = new wavec.Container(this.container, {
+				icon: "book",
+				title: "thông tin kì thi"
+			});
+
+			this.update();
+			twi.navbar.title.click.setHandler((active) => (active) ? this.wavec.show() : this.wavec.hide());
+			this.wavec.onToggle((value) => twi.navbar.title.click.setActive(value));
+			this.wavec.onReload(() => this.reload());
+		},
+
+		update() {
+			this.wavec.loading = true;
+			this.container.header.landing.src = "/api/images/landing";
+			this.container.header.icon.src = "/api/images/icon";
+			this.container.header.cTitle.innerText = SERVER.contest.name;
+			this.container.description.replaceChild(md2html.parse(SERVER.contest.description), this.container.description.firstChild);
+			this.wavec.loading = false;
 		}
 	},
 

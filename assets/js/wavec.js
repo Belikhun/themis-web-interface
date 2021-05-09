@@ -36,6 +36,18 @@ const wavec = {
 			icon = "circle",
 			title = "sample container"
 		} = {}) {
+			/**
+			 * Handlers for toggle event
+			 * @type {Array}
+			 */
+			this.toggleHandlers = []
+
+			/**
+			 * Handlers for reload event
+			 * @type {Array}
+			 */
+			this.reloadHandlers = []
+
 			this.container = makeTree("div", ["container", "hide"], {
 				wave: { tag: "div", class: "wave", html: `<span></span>`.repeat(4) },
 				contentBox: { tag: "div", class: "contentBox", child: {
@@ -67,17 +79,18 @@ const wavec = {
 				sounds.applySound(this.container.contentBox.header.buttons.close, ["soundhoversoft", "soundselectsoft"]);
 				sounds.applySound(this.container.contentBox.header.buttons.reload, ["soundhoversoft", "soundselectsoft"]);
 			}
-
+			
 			if (typeof Scrollable === "function")
 				new Scrollable(this.container.contentBox, {
 					content: this.container.contentBox.content
 				});
-
+			
 			this.content = content;
 			this.showing = false;
 			this.stackPos = null;
 			this.hideTimeout = null;
 
+			this.container.contentBox.header.buttons.reload.addEventListener("click", () => this.reloadHandlers.forEach(f => f()));
 			this.container.contentBox.header.buttons.close.addEventListener("click", () => this.hide());
 		}
 
@@ -96,6 +109,20 @@ const wavec = {
 				this.container.contentBox.header.titleNode.innerText = title;
 		}
 
+		onToggle(f) {
+			if (typeof f !== "function")
+				throw { code: -1, description: `wavec.Container().onToggle(): not a valid function` }
+
+			return this.toggleHandlers.push(f);
+		}
+
+		onReload(f) {
+			if (typeof f !== "function")
+				throw { code: -1, description: `wavec.Container().onReload(): not a valid function` }
+
+			return this.reloadHandlers.push(f);
+		}
+
 		show() {
 			if (this.showing)
 				return;
@@ -108,6 +135,7 @@ const wavec = {
 			if (typeof sounds === "object")
 				sounds.toggle();
 
+			this.toggleHandlers.forEach(f => f(true));
 			requestAnimationFrame(() => {
 				this.container.classList.add("show");
 				wavec.layer.classList.add("show");
@@ -132,6 +160,7 @@ const wavec = {
 			if (wavec.active.length === 1)
 				wavec.layer.classList.remove("show");
 	
+			this.toggleHandlers.forEach(f => f(false));
 			this.hideTimeout = setTimeout(() => {
 				this.container.classList.add("hide");
 

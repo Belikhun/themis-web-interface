@@ -281,13 +281,25 @@ const navbar = {
 		 * @param {Boolean}		active
 		 */
 		set active(active) {
-			this.container.classList[active ? "add" : "remove"]("active");
+			this.setActive(active);
 
 			requestAnimationFrame(() => {
 				for (let item of this.handlers)
 					if (typeof item === "function")
 						item(active);
 			});
+		}
+
+		show() {
+			this.active = true;
+		}
+
+		hide() {
+			this.active = false;
+		}
+
+		setActive(active) {
+			this.container.classList[active ? "add" : "remove"]("active")
 		}
 
 		toggle() {
@@ -300,9 +312,7 @@ const navbar = {
 
 	title({
 		icon = "/api/images/icon",
-		background = "/api/images/landing",
-		title = "App Name",
-		description = "App Description"
+		title = "App Name"
 	} = {}) {
 		let container = document.createElement("span");
 		container.classList.add("component", "title");
@@ -320,61 +330,21 @@ const navbar = {
 
 		let navtip = new this.Tooltip(container, (arguments && arguments[0] && arguments[0].tooltip) ? arguments[0].tooltip : {})
 		let click = new this.Clickable(container);
-		let subWindow = new this.SubWindow(container);
-		subWindow.color = "green";
-
-		let subContainer = document.createElement("div");
-		subContainer.classList.add("contestDetails");
-
-		let subWinHeader = document.createElement("div");
-		subWinHeader.classList.add("header");
-
-		let subWinBackground = new lazyload({
-			source: background,
-			classes: "background"
-		})
-
-		let subWinIcon = new lazyload({
-			source: icon,
-			classes: "icon"
-		})
-
-		let subWinTitle = document.createElement("t");
-		subWinTitle.classList.add("title");
-		subWinTitle.innerText = title;
-
-		let subWinDescription = document.createElement("t");
-		subWinDescription.classList.add("description");
-		subWinDescription.innerHTML = description;
-
-		subWinHeader.append(subWinBackground.container, subWinIcon.container, subWinTitle);
-		subContainer.append(subWinHeader, subWinDescription);
-		subWindow.content = subContainer;
-		click.setHandler(() => subWindow.toggle());
 
 		return {
 			container,
-			subWindow,
 			tooltip: navtip,
 			click,
 
 			set({
-				icon = null,
-				background = null,
-				title = null,
-				description = null,
+				icon,
+				title,
 			}) {
 				if (icon)
-					subWinIcon.src = iconNode.src = icon;
-
-				if (background)
-					subWinBackground.src = background;
+					iconNode.src = icon;
 
 				if (title)
-					subWinTitle.innerText = titleNode.innerText = title;
-
-				if (description)
-					subWinDescription.innerHTML = description;
+					titleNode.innerText = title;
 			}
 		}
 	},

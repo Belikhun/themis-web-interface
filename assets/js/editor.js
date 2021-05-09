@@ -173,8 +173,7 @@ class Editor {
 			this.scrollable = new Scrollable(this.container, {
 				content: this.container.main,
 				smooth: false,
-				barSize: 15,
-				scrollout: true
+				barSize: 15
 			});
 
 			this.sIndicator = document.createElement("div");
