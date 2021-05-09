@@ -1162,13 +1162,28 @@ const twi = {
 										rank: { tag: "th", text: "Xếp Hạng" },
 										status: { tag: "th" },
 										point: { tag: "th", text: "Điểm" },
-										sp: { tag: "th", text: "SP" },
+
+										sp: { tag: "th", child: {
+											text: { tag: "content", text: "SP" },
+											tip: { tag: "tip", title: "Submission Point" }
+										}},
+
 										avatar: { tag: "th", text: "" },
 										uName: { tag: "th", text: "Tên" },
-										submitNth: { tag: "th", text: "Thứ Hạng Chấm" },
+
+										submitNth: { tag: "th", child: {
+											text: { tag: "content", text: "Thứ Hạng Chấm" },
+											tip: { tag: "tip", title: "Thứ hạng ghi nhận có kết quả chấm" }
+										}},
+
 										reSubmit: { tag: "th", text: "Chấm Lại" },
-										remainTime: { tag: "th", text: "Thời Gian Còn" },
-										time: { tag: "th", text: "Thời Gian Nộp" }
+
+										remainTime: { tag: "th", child: {
+											text: { tag: "content", text: "Thời Gian Còn" },
+											tip: { tag: "tip", title: "Thời gian còn lại của kì thi sau khi nộp bài lên hệ thống" }
+										}},
+
+										time: { tag: "th", text: "Thời Gian Nộp" },
 									}}
 								}},
 
@@ -1527,7 +1542,11 @@ const twi = {
 						}},
 
 						sp: { tag: "span", class: "item", child: {
-							label: { tag: "t", class: "label", text: "SP" },
+							label: { tag: "t", class: "label", child: {
+								text: { tag: "content", text: "SP" },
+								tip: { tag: "tip", title: "Submission Point" }
+							}},
+
 							value: {
 								tag: "t",
 								class: "value",
@@ -1549,7 +1568,11 @@ const twi = {
 
 					bottom: { tag: "span", class: "bottom", child: {
 						submitNth: { tag: "span", class: ["item", ["green", "yellow"][item.statistic.reSubmit - 1] || "red"], child: {
-							label: { tag: "t", class: "label", text: "Thứ Hạng Chấm" },
+							label: { tag: "t", class: "label", child: {
+								text: { tag: "content", text: "Thứ Hạng Chấm" },
+								tip: { tag: "tip", title: "Thứ hạng ghi nhận có kết quả chấm" }
+							}},
+
 							value: { tag: "t", class: "value", child: {
 								left: { tag: "t", text: item.statistic.submitNth || "" },
 								right: {
@@ -1587,7 +1610,11 @@ const twi = {
 									: "gray"
 							],
 							child: {
-								label: { tag: "t", class: "label", text: "Thời Gian Còn" },
+								label: { tag: "t", class: "label", child: {
+									text: { tag: "content", text: "Thời Gian Còn" },
+									tip: { tag: "tip", title: "Thời gian còn lại của kì thi sau khi nộp bài lên hệ thống" }
+								}},
+
 								value: { tag: "t", class: "value", child: {
 									left: {
 										tag: "t",
@@ -1771,6 +1798,7 @@ const twi = {
 			this.viewer.backgroundWrapper.background.load();
 			this.viewer.content.header.left.pTitle.innerText = data.name;
 			this.viewer.content.header.left.point.innerHTML = `<b>${data.point}</b> điểm`;
+			this.viewer.content.header.left.buttons.love.disabled = !SESSION.username;
 
 			// Only show author details when author is actually present
 			// in problem data

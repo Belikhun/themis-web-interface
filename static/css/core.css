@@ -1362,9 +1362,14 @@ panel > .main > .loadingWrapper.show {
 }
 
 .problemViewer > .content > .info > .ranking > .spotlight > .item > .right > span > .item > .label {
+	display: flex;
+	align-items: center;
+
 	min-width: 50px;
+	min-height: 20px;
     padding-bottom: 2px;
     border-bottom: 2px solid rgba(124, 124, 124, 0.3);
+	box-sizing: border-box;
 
 	font-size: 10px;
     font-weight: 700;
@@ -1372,6 +1377,10 @@ panel > .main > .loadingWrapper.show {
     text-transform: uppercase;
     white-space: nowrap;
 	user-select: none;
+}
+
+.problemViewer > .content > .info > .ranking > .spotlight > .item > .right > span > .item > .label > tip {
+	margin-left: 5px;
 }
 
 .problemViewer > .content > .info > .ranking > .spotlight > .item > .right > span > .item > .value {
@@ -1447,6 +1456,11 @@ panel > .main > .loadingWrapper.show {
     font-weight: 700;
 	text-align: left;
     text-transform: uppercase;
+}
+
+.problemViewer > .content > .info > .ranking > table > thead > tr > th > tip {
+	margin-left: 5px;
+	transform: translateY(-2px);
 }
 
 .problemViewer > .content > .info > .ranking > table > thead > tr > th[key="rank"] {

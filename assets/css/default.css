@@ -418,6 +418,29 @@ body.dark .lazyload::before,
     }
 }
 
+tip {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+	background-color: rgba(22, 22, 22, 0.8);
+}
+
+tip::before {
+	content: "\f128";
+	position: relative;
+
+    font-family: "Font Awesome 5 Free";
+    font-size: 8px;
+    font-weight: 600;
+	text-align: center;
+	line-height: 20px;
+	color: #ffffff;
+}
+
 /** ======================== DOT ======================== **/
 
 dot {
