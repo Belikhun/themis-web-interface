@@ -25,6 +25,7 @@ class Scrollable {
 		horizontal = false,
 		smooth = true,
 		scrollbar = true,
+		scrollout = true,
 		barSize = 10
 	} = {}) {
 		if (typeof container !== "object" || (!container.classList && !container.container))
@@ -93,17 +94,38 @@ class Scrollable {
 		this.disabled = false;
 		let ticking = false;
 
+		/**
+		 * Stop Propagating to parent scrollable even when scroll content
+		 * reached top or bottom point of scroll container
+		 * @type {Boolean}
+		 */
+		this.scrollout = scrollout;
+
 		// Listeners for scrolling events
 		this.content.addEventListener("scroll", (e) => this.updateScrollbar(e));
 		this.content.addEventListener("wheel", (event) => {
 			if (event.ctrlKey)
 				return;
+			
+			let contentScrollable = true;
 
-			let maxScroll = (horizontal)
-				? this.content.scrollWidth - this.content.offsetWidth
-				: this.content.scrollHeight - this.content.offsetHeight;
+			if (!this.scrollout) {
+				let delta = (this.horizontal)
+					? event.deltaX
+					: event.deltaY;
+	
+				let from = (horizontal)
+					? this.content.scrollLeft
+					: this.content.scrollTop;
+	
+				let maxScroll = (horizontal)
+					? this.content.scrollWidth - this.content.offsetWidth
+					: this.content.scrollHeight - this.content.offsetHeight;
+	
+				contentScrollable = maxScroll > 0 && (this.smooth || delta > 0 && from < maxScroll) || (delta < 0 && from > 0);
+			}
 
-			if (maxScroll > 0) {
+			if (contentScrollable) {
 				event.stopPropagation();
 				event.preventDefault();
 	

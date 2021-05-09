@@ -5,22 +5,12 @@
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
-const sbar = new statusBar(document.body);
-sbar.additem(USERNAME, "account", {space: false, align: "left"});
-
-document.__onclog = (type, ts, msg) => {
-    type = type.toLowerCase();
-    const typeList = ["okay", "warn", "errr", "crit", "lcnt"]
-    if (typeList.indexOf(type) === -1)
-        return false;
-
-    sbar.msg(type, msg, {time: ts, lock: (type === "crit" || type === "lcnt") ? true : false});
-}
-
 popup.init();
 
 const config = {
-	container: $("#formContainer"),
+	container: $("#container"),
+	formContainer: $("#formContainer"),
+	formSubmit: $("#formSubmit"),
 	configContainer: $("#configContainer"),
 
 	configItem: {},
@@ -33,11 +23,15 @@ const config = {
 		if (window.frameElement)
 			document.body.classList.add("embeded");
 
+		new Scrollable(this.container, {
+			content: this.formContainer
+		});
+		
 		tooltip.init();
 		await sounds.init();
 		await this.render();
 
-		this.container.addEventListener("submit", () => this.saveSettings());
+		this.formContainer.addEventListener("submit", () => this.saveSettings());
 	},
 
 	__setTreePath(object, path = [], value) {
@@ -87,6 +81,41 @@ const config = {
 						node: textInput.group,
 						setValue: (value) => textInput.input.value = value,
 						getValue: () => (item.type === "number") ? parseInt(textInput.input.value) : textInput.input.value
+					}
+
+					break;
+				}
+
+				case "editor": {
+					let updateTimeout = null;
+					let container = document.createElement("div");
+					container.classList.add("row", "editorContainer");
+
+					if (item.height)
+						container.style.height = `${item.height}px`;
+
+					let editor = new Editor("none", {
+						language: item.language,
+						value: item.value,
+						title: item.label
+					});
+
+					let preview = document.createElement("div");
+					preview.classList.add("preview");
+					preview.innerHTML = "<span></span>";
+
+					container.append(editor.container, preview);
+					editor.onScroll(e => preview.scrollTop = (e.target.scrollTop / (e.target.scrollHeight - e.target.offsetHeight)) * (preview.scrollHeight - preview.offsetHeight));
+					editor.onInput((value) => {
+						clearTimeout(updateTimeout);
+						updateTimeout = setTimeout(() => preview.replaceChild(md2html.parse(value), preview.firstChild), 600);
+					});
+
+					itemData = {
+						type: item.type,
+						node: container,
+						setValue: (value) => editor.value = value,
+						getValue: () => editor.value
 					}
 
 					break;
@@ -460,8 +489,11 @@ const config = {
 	},
 
 	async saveSettings() {
+		this.formSubmit.disabled = true;
+		let response
+
 		try {
-			await myajax({
+			response = await myajax({
 				url: "/api/config",
 				method: "POST",
 				header: {
@@ -476,6 +508,18 @@ const config = {
 
 		clog("OKAY", "Thay đổi cài đặt thành công");
 		await this.updateSettings();
+
+		this.formSubmit.disabled = false;
+		popup.show({
+			windowTitle: "Cài Đặt",
+			title: "Cài Đặt",
+			level: "okay",
+			message: "Thay đổi cài đặt thành công",
+			description: `Đã thay đổi ${response.data.changed || 0} giá trị`,
+			buttonList: {
+				close: { text: "ĐÓNG", color: "blue" }
+			}
+		});
 	}
 }
 

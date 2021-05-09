@@ -37,7 +37,7 @@ const errorHandler = async (error, returnable = true) => {
 		returnBtn.back = { text: "Quay lại", color: "green" }
 
 	let errorBox = document.createElement("pre");
-	errorBox.classList.add(document.body.classList.contains("dark") ? "dark" : "light", "break");
+	errorBox.classList.add(document.body.classList.contains("dark") ? "light" : "dark", "break");
 	errorBox.innerText = `[${e.code}] >>> ${e.description}`;
 	errorBox.style.fontSize = "16px";
 

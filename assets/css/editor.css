@@ -12,6 +12,8 @@
 	display: flex;
 	flex-direction: row;
 
+	padding-top: var(--header-height);
+
 	font-family: Consolas;
 	font-weight: bolder;
 	font-size: 17px;
@@ -22,8 +24,11 @@
 	border: 1px solid transparent;
 	background-color: var(--background-color);
 
+	--header-height: 32px;
 	--bottom-space: 60vh;
+	--header-color: rgb(240, 240, 240);
 	--background-color: white;
+	--border-color: rgba(124, 124, 124, 0.4);
 }
 
 .editor[data-readonly="true"] {
@@ -31,7 +36,13 @@
 }
 
 .editor:focus-within {
-	border-color: rgba(124, 124, 124, 0.4);
+	border-color: var(--border-color);
+}
+
+.editor.scrollable {
+	--show-color: rgba(204, 204, 204, 0.5);
+    --hover-color: rgba(140, 140, 140, 0.5);
+    --active-color: rgba(118, 118, 118, 0.6);
 }
 
 .editor.scrollable > .scrollbar {
@@ -39,7 +50,7 @@
 }
 
 .editor.scrollable > .scrollbar.vertical {
-    border-left: 1px solid rgba(124, 124, 124, 0.4);
+    border-left: 1px solid var(--border-color);
 }
 
 .editor.scrollable > .scrollbar.vertical > .indicator {
@@ -57,6 +68,107 @@
 .editor.scrollable > .scrollbar > .thumb {
 	width: 100%;
     border-radius: 0;
+}
+
+.editor > .header {
+	position: absolute;
+	display: flex;
+	flex-direction: row;
+
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: var(--header-height);
+	z-index: 4;
+
+	border-bottom: 1px solid var(--border-color);
+	background-color: var(--header-color);
+	box-sizing: border-box;
+}
+
+.editor > .header > span {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	flex: 1 1 0;
+
+	padding: 0 20px;
+}
+
+.editor > .header > .left > icon::after {
+	content: "\f15c";
+}
+
+.editor > .header > .left > icon[data-icon="js"]::after {
+	content: "\f3b9";
+	font-family: "Font Awesome 5 Brands";
+	font-weight: 100;
+	color: rgb(189, 151, 0);
+}
+
+.editor > .header > .left > icon[data-icon="html"]::after {
+	content: "\f13b";
+	font-family: "Font Awesome 5 Brands";
+	font-weight: 100;
+	color: rgb(218, 98, 6);
+}
+
+.editor > .header > .left > icon[data-icon="css"]::after {
+	content: "\f38b";
+	font-family: "Font Awesome 5 Brands";
+	font-weight: 100;
+	color: rgb(6, 121, 230);
+}
+
+.editor > .header > .left > icon[data-icon="md"]::after {
+	content: "\f60f";
+	font-family: "Font Awesome 5 Brands";
+	font-weight: 100;
+}
+
+.editor > .header > .left > .editorTitle {
+	margin-left: 10px;
+	font-family: Calibri;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.editor > .header > .right {
+	flex: 0 0 auto;
+}
+
+.editor > .header > .right > span {
+	margin-right: 10px;
+}
+
+.editor > .header > .right > .pos {
+	font-family: "Consolas";
+	font-size: 13px;
+	margin-right: 40px;
+}
+
+.editor > .header > .right > .warn > icon::after {
+	font-size: 14px;
+	color: rgb(243, 129, 7);
+	cursor: pointer;
+}
+
+.editor > .header > .right > .warn > .note {
+	position: absolute;
+	display: none;
+
+	top: calc(100% + 5px);
+	right: 20px;
+	width: 400px;
+}
+
+.editor > .header > .right > .warn > .note > .inner {
+	font-size: 13px;
+}
+
+.editor > .header > .right > .warn > icon:hover + .note {
+	display: flex;
 }
 
 .editor > .check {

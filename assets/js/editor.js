@@ -28,9 +28,10 @@ class Editor {
 	 */
 	constructor(container, {
 		value,
-		language = "text",
+		language = "txt",
 		tabSize = 4,
 		readonly = false,
+		title,
 		debug = false,
 		style = "default"
 	} = {}) {
@@ -66,7 +67,7 @@ class Editor {
 		this.currentLine = 0;
 
 		/** @type {String} */
-		this.language = language;
+		this.__language = "txt";
 
 		/**
 		 * Scrollable instance
@@ -114,21 +115,38 @@ class Editor {
 
 		//* ==================== Setup Editor Structure ====================
 		/** @type {HTMLTextAreaElement} */
-		this.container = buildElementTree("div", "editor", [
-			{ type: "div", class: "check", name: "check" },
-			{ type: "span", class: "lineNum", name: "lineNum", list: [
-				{ type: "div", class: "content", name: "content" }
-			]},
+		this.container = makeTree("div", "editor", {
+			check: { tag: "div", class: "check" },
+			header: { tag: "div", class: "header", child: {
+				left: { tag: "span", class: "left", child: {
+					icon: { tag: "icon", data: { icon: "txt" }, title: "txt" },
+					eTitle: { tag: "t", class: "editorTitle" }
+				}},
 
-			{ type: "div", class: "main", name: "main", list: [
-				{ type: "div", class: "wrapper", name: "wrapper", list: [
-					{ type: "div", class: "selections", name: "selections" },
-					{ type: "div", class: ["cursor", "smooth"], name: "cursor" },
-					{ type: "span", class: "code", name: "code" },
-					{ type: "textarea", class: "overlay", name: "overlay" }
-				]}
-			]},
-		]).obj;
+				right: { tag: "span", class: "right", child: {
+					pos: { tag: "span", class: "pos" },
+					warn: { tag: "span", class: "warn", child: {
+						icon: { tag: "icon", data: { icon: "exclamation" } },
+						note: createNote()
+					}},
+
+					info: { tag: "tip", title: `This editor is in beta stage!\nFor more information: <pre>belivipro9x99/editor.js</pre>` }
+				}}
+			}},
+			
+			lineNum: { tag: "span", class: "lineNum", child: {
+				content: { tag: "div", class: "content" }
+			}},
+
+			main: { tag: "div", class: "main", child: {
+				wrapper: { tag: "div", class: "wrapper", child: {
+					selections: { tag: "div", class: "selections" },
+					cursor: { tag: "div", class: ["cursor", "smooth"] },
+					code: { tag: "span", class: "code", name: "code" },
+					overlay: { tag: "textarea", class: "overlay" }
+				}}
+			}},
+		});
 
 		this.container.dataset.style = style;
 
@@ -155,7 +173,8 @@ class Editor {
 			this.scrollable = new Scrollable(this.container, {
 				content: this.container.main,
 				smooth: false,
-				barSize: 15
+				barSize: 15,
+				scrollout: true
 			});
 
 			this.sIndicator = document.createElement("div");
@@ -164,12 +183,15 @@ class Editor {
 		}
 
 		this.main.overlay.spellcheck = false;
-		
-		this.setup();
+		this.language = language;
 
+		this.setup();
 		this.value = value || "";
 		this.tabSize = tabSize;
 		this.readonly = readonly;
+
+		if (title)
+			this.title = title;
 	}
 
 	/**
@@ -200,14 +222,11 @@ class Editor {
 	 * This function will receive 2 arguments
 	 * 	- `event`: InputEvent object
 	 * 	- `editor`: Reference to editor instance
-	 * 
-	 * Listener will be called once first with `event` set to null
 	 */
 	onScroll(f) {
 		if (typeof f !== "function")
 			throw { code: -1, description: `Editor.onScroll(): not a valid function` }
 
-		f(null, this);
 		return this.scrollHandlers.push(f);
 	}
 
@@ -239,6 +258,14 @@ class Editor {
 	 */
 	get tabSize() {
 		return this.__tabSize;
+	}
+
+	/**
+	 * Editor Title
+	 * @param {String} title
+	 */
+	set title(title) {
+		this.container.header.left.eTitle.innerText = title;
 	}
 
 	/**
@@ -284,6 +311,31 @@ class Editor {
 
 	get readonly() {
 		return this.__readonly;
+	}
+
+	/**
+	 * Editor's Language
+	 * @param {String} language
+	 */
+	set language(language) {
+		this.__language = language;
+		this.container.header.left.icon.dataset.icon = language;
+		this.container.header.left.icon.setAttribute("tooltip", `Ngôn ngữ: <b>${language}</b>`);
+
+		if (typeof editorLanguages[language] !== "function") {
+			this.container.header.right.warn.style.display = null;
+			this.container.header.right.warn.note.set({
+				level: "warning",
+				message: `Không tìm thấy hàm sử lí ngôn ngữ cho ${language}!<br>Một số tính năng như Syntax Highlighting sẽ không được hỗ trợ!`
+			});
+		} else
+			this.container.header.right.warn.style.display = "none";
+
+		this.update();
+	}
+
+	get language() {
+		return this.__language;
 	}
 
 	setup() {
@@ -389,6 +441,8 @@ class Editor {
 			this.updateSelection(this.cStart, this.cEnd);
 		else
 			emptyNode(this.main.selections);
+
+		this.container.header.right.pos.innerText = `L:${this.cCursor.line} C:${this.cCursor.pos}`;
 
 		// Update active line
 		if (this.currentLine !== this.cCursor.line) {

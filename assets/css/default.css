@@ -88,7 +88,8 @@ ul {
 	padding: 0 0 0 20px;
 }
 
-pre {
+pre,
+code {
 	position: relative;
 	display: inline-block;
 
@@ -102,21 +103,25 @@ pre {
 	vertical-align: sub;
 }
 
-pre.break {
+pre.break,
+code.break {
 	display: block;
 	overflow: hidden;
 	white-space: pre-wrap;
 	word-wrap: break-word;
 }
 
-pre.center {
+pre.center,
+code.center {
 	display: block;
 	margin: 12px 0;
 	text-align: center;
 }
 
-pre.dark,
-body.dark pre {
+pre.light,
+body.dark pre,
+code.light,
+body.dark code {
 	color: white;
 }
 
@@ -395,22 +400,24 @@ body.dark .lazyload::before,
 
 .tooltip > .content {
 	position: absolute;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
+	display: block;
 
 	padding: 4px 6px;
 
 	white-space: pre;
 	font-family: Nunito;
 	font-size: 14px;
-	font-weight: lighter;
-	letter-spacing: .4px;
+	font-weight: normal;
+	letter-spacing: .2px;
 	color: white;
 }
 
 .tooltip > .content[data-no-padding="true"] {
 	padding: unset;
+}
+
+.tooltip > .content > * {
+	color: white;
 }
 
 @keyframes tooltip-blink {
@@ -835,8 +842,8 @@ icon[data-icon="file"]::after {
 }
 
 .md2html hr {
-	margin-top: 20px;
-    margin-bottom: 20px;
+	margin-top: 10px;
+    margin-bottom: 10px;
     border: 0;
     border-top: 1px solid #eee;
 }
@@ -894,7 +901,8 @@ icon[data-icon="file"]::after {
 	font-weight: bold;
 }
 
-.md2html pre {
+.md2html pre,
+.md2html code {
 	padding: 2px 4px;
     font-size: 90%;
     color: #c7254e;

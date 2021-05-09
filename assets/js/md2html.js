@@ -107,7 +107,7 @@ const md2html = {
 	
 				//* ==================== Inline Code ====================
 				lines[i] = this.processRegex(lines[i], /(\`)([^`]+)\1/g, (line, item) =>
-					line.replace(item[0], `<pre>${item[2]}</pre>`)
+					line.replace(item[0], `<code>${item[2]}</code>`)
 				);
 
 				//* ==================== Inline Math ====================
@@ -358,7 +358,7 @@ const md2html = {
 							lines[i] = `${lines[i]}</p>`;
 							isInsideParagraph = false;
 						}
-					} else if (lines[i + 1] === "" || lines.length === (i + 1)) {
+					} else if (lines[i + 1] === "" || (typeof lines[i + 1] === "string" && lines[i + 1].trim()[0] === "<") || lines.length === (i + 1)) {
 						lines[i] = `<p>${lines[i]}</p>`;
 					} else {
 						lines[i] = `<p>${lines[i]}`;
@@ -366,7 +366,7 @@ const md2html = {
 					}
 				}
 			}
-	
+
 			let container = document.createElement("div");
 			container.classList.add("md2html");
 			container.innerHTML = lines.join("\n");

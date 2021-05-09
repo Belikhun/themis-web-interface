@@ -97,10 +97,10 @@
 			),
 
 			"description" => Array(
-				"type" => "textarea",
+				"type" => "editor",
+				"language" => "md",
 				"label" => "Mô tả kì thi",
-				"color" => "blue",
-				"height" => 300,
+				"height" => 600,
 				"value" => "Bài làm nộp lên được chấm bằng phần mềm <a href=\"http://dsapblog.wordpress.com/\" target=\"_blank\" rel=\"noopener\">Themis (Lê Minh Hoàng & Đỗ Đức Đông)</a>",
 				"required" => true
 			),

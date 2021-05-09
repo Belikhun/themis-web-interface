@@ -2457,12 +2457,10 @@ const popup = {
 		document.body.insertBefore(this.popupNode, document.body.childNodes[0]);
 
 		this.popup.header.top.close.title = "Đóng";
-		this.popup.header.top.close.dataset.soundhover = "";
-		this.popup.header.top.close.dataset.soundselect = "";
 		this.popup.body.note.style.display = "none";
 
 		if (typeof sounds !== "undefined")
-			sounds.applySound(this.popup.header.top.close);
+			sounds.applySound(this.popup.header.top.close, ["soundhover", "soundselect"]);
 
 		this.initialized = true;
 	},

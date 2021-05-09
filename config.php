@@ -20,12 +20,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/default.css?v=<?php print VERSION; ?>" />
-	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/statusBar.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/scrollbar.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/input.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/switch.css?v=<?php print VERSION; ?>" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/table.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/slider.css?v=<?php print VERSION; ?>" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/editor.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/spinner.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/menu.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/configPage.css?v=<?php print VERSION; ?>" />
@@ -38,7 +39,7 @@
 </head>
 
 <body>
-	<div class="wrapper">
+	<div id="container">
 		<form id="formContainer" class="menu" action="javascript:void(0);">
 			<div class="group home">
 				<t class="title big">Admin Control Panel</t>
@@ -72,8 +73,8 @@
 				</div>
 			</div>
 
-			<div class="footer">
-				<button type="submit" class="sq-btn green sound" data-style="round" data-soundhover data-soundselect>
+			<div class="group home" id="footer">
+				<button id="formSubmit" type="submit" class="sq-btn green sound" data-style="round" data-soundhover data-soundselect>
 					<icon class="left" data-icon="save"></icon>
 					<span class="text">Lưu Thay Đổi</span>
 				</button>
@@ -90,6 +91,9 @@
 	<script src="/assets/js/statusBar.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 	<script src="/assets/js/sounds.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 	<script src="/assets/js/tooltip.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+	<script src="/assets/js/scrollable.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+	<script src="/assets/js/editor.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+	<script src="/assets/js/md2html.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 
 	<script src="/assets/js/config.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 
