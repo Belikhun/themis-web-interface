@@ -364,7 +364,6 @@ const md2html = {
 				}
 			}
 	
-			console.log(lines);
 			let container = document.createElement("div");
 			container.classList.add("md2html");
 			container.innerHTML = lines.join("\n");

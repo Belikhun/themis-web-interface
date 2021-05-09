@@ -20,9 +20,10 @@
 	overflow: hidden;
 	box-sizing: border-box;
 	border: 1px solid transparent;
-	background-color: white;
+	background-color: var(--background-color);
 
 	--bottom-space: 60vh;
+	--background-color: white;
 }
 
 .editor[data-readonly="true"] {
@@ -54,6 +55,7 @@
 }
 
 .editor.scrollable > .scrollbar > .thumb {
+	width: 100%;
     border-radius: 0;
 }
 
@@ -78,7 +80,7 @@
 
 	z-index: 2;
 	overflow: hidden;
-	background-color: white;
+	background-color: var(--background-color);
 }
 
 .editor > .lineNum > .content {
@@ -203,6 +205,14 @@
 	60%, 100% {
 		opacity: 0;
 	}
+}
+
+.editor[data-style="transparent"] {
+	--background-color: transparent;
+}
+
+.editor[data-style="transparent"] > .main > .wrapper > .code > .line.active {
+	background-color: rgba(248, 248, 248, 0.6);
 }
 
 /** ======================== STYLING:JS ======================== */

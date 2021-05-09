@@ -1921,7 +1921,7 @@ function createInput({
  * Create Checkbox Element, require switch.css
  */
 function createCheckbox({
-	label = "Sample Switch",
+	label = "Sample Checkbox",
 	color = "pink",
 	value = false,
 	type = "checkbox"
@@ -1951,6 +1951,53 @@ function createCheckbox({
 
 	switchLabel.appendChild(input);
 	switchLabel.appendChild(mark);
+	container.appendChild(title);
+	container.appendChild(switchLabel);
+
+	return {
+		group: container,
+		input,
+		title,
+		label: switchLabel
+	}
+}
+
+/**
+ * Create Switch Element, require switch.css
+ */
+ function createSwitch({
+	label = "Sample Switch",
+	value = false,
+	color = "blue",
+	type = "checkbox",
+	id = `switch_${randString(8)}`
+} = {}) {
+	let container = document.createElement("div");
+	container.classList.add("checkboxContainer");
+	sounds.applySound(container, ["soundhoversoft"]);
+
+	let title = document.createElement("span");
+	title.innerHTML = label;
+
+	let switchLabel = document.createElement("div");
+	switchLabel.classList.add("sq-switch");
+	switchLabel.dataset.color = color;
+
+	let input = document.createElement("input");
+	input.classList.add("checkbox");
+	input.id = id;
+	input.type = type;
+	input.checked = value;
+
+	if (typeof sounds === "object")
+		sounds.applySound(input, ["soundcheck"]);
+
+	let track = document.createElement("label");
+	track.classList.add("track");
+	track.htmlFor = id;
+
+	switchLabel.appendChild(input);
+	switchLabel.appendChild(track);
 	container.appendChild(title);
 	container.appendChild(switchLabel);
 
@@ -2152,6 +2199,8 @@ function createImageInput({
 
 		for (let f of resetHandlers)
 			await f(e);
+
+		container.reset.disabled = false;
 	});
 
 	container.input.dispatchEvent(new Event("change"));
@@ -2167,6 +2216,12 @@ function createImageInput({
 
 			image.src = src;
 			container.reset.disabled = (src === "//:0");
+		},
+
+		clear() {
+			container.clear.classList.remove("show");
+			container.input.value = null;
+			image.src = src;
 		},
 
 		onReset(f) {

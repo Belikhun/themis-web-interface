@@ -28,11 +28,13 @@
 		),
 		"accept" => Array("pas", "cpp", "c", "pp", "exe", "class", "py", "java"),
 		"loved" => Array(),
+		"tags" => Array(),
 		"description" => "Description About Problem",
 		"test" => Array(),
 		"thumbnail" => null,
 		"attachment" => null,
-		"disabled" => false
+		"disabled" => false,
+		"canSubmit" => false
 	));
 	
 	// Return Code
@@ -182,7 +184,7 @@
 		// This is to automaticly update problem config to the template
 		mergeObjectRecursive($defTemplate, $problemList[$id], false, true);
 		mergeObjectRecursive($defTemplate, $set, function($a, $b, $k) {
-			if ($a !== $b)
+			if ($a !== "NULL" && $a !== $b)
 				stop(3, "Loại biến không khớp! Yêu cầu $k là \"$a\", nhận được \"$b\"!", 400, Array(
 					"expect" => $a,
 					"got" => $b,
@@ -206,7 +208,7 @@
 		
 		$problemList[$id] = PROBLEM_TEMPLATE;
 		mergeObjectRecursive($problemList[$id], $add, function($a, $b, $k) {
-			if ($a !== $b)
+			if ($a !== "NULL" && $a !== $b)
 				stop(3, "Loại biến không khớp! Yêu cầu $k là \"$a\", nhận được \"$b\"!", 400, Array(
 					"expect" => $a,
 					"got" => $b,

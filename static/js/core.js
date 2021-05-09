@@ -888,7 +888,7 @@ const twi = {
 	},
 
 	problems: {
-		priority: 3,
+		priority: 2,
 		container: $("#problemsPanel"),
 		listContainer: $("#problemsListContainer"),
 		list: $("#problemsList"),
@@ -1005,20 +1005,6 @@ const twi = {
 								enlarge: createButton("Mở Rộng", {
 									color: "blue",
 									icon: "externalLink",
-									style: "round",
-									complex: true
-								}),
-	
-								edit: createButton("Chỉnh Sửa", {
-									color: "green",
-									icon: "pencil",
-									style: "round",
-									complex: true
-								}),
-	
-								delete: createButton("Xóa", {
-									color: "red",
-									icon: "trash",
 									style: "round",
 									complex: true
 								})
@@ -1407,6 +1393,25 @@ const twi = {
 			this.viewer.content.info.dataset.active = view;
 		},
 
+		parseTags(tags) {
+			tags = tags.replaceAll("\n", " ").split(" ");
+			let html = "";
+
+			for (let tag of tags) {
+				let token = tag.split("#");
+
+				if (token[0] === "")
+					continue;
+
+				if (token[1])
+					html += `<tag style="--color: #${token[1]}">${token[0]}</tag>`
+				else
+					html += `<tag>${token[0]}</tag>`
+			}
+
+			return html;
+		},
+
 		createTestViewer(test, title) {
 			let container = makeTree("div", "test", {
 				header: { tag: "div", class: "header", child: {
@@ -1682,7 +1687,22 @@ const twi = {
 			this.viewer.content.header.right.status.bar.skipped.style.width = `${(status.skipped / data.rank.length) * 100}%`;
 		},
 
-		updateViewer(data) {
+		async updateViewer(id, loadingProgress = false) {
+			if (loadingProgress)
+				if (this.problem.view.contains(this.viewer))
+					this.panel.loading = true;
+				else
+					this.wavec.loading = true;
+
+			let response = await myajax({
+				url: "/api/contest/problems/get",
+				method: "GET",
+				query: { id: id }
+			});
+
+			let data = response.data;
+			this.log("DEBG", "updateViewer():", data);
+
 			// Update Header
 			this.panel.title = `Đề bài - ${data.name}`;
 			this.viewer.backgroundWrapper.background.source = data.thumbnail;
@@ -1729,13 +1749,19 @@ const twi = {
 
 				this.viewer.content.info.tests.appendChild(container);
 			}
+
+			if (loadingProgress)
+				if (this.problem.view.contains(this.viewer))
+					this.panel.loading = false;
+				else
+					this.wavec.loading = false;
 		},
 
 		async viewProblem(id, viewInDialog = false) {
 			if (this.id === id)
 				if (viewInDialog) {
 					if (this.problem.view.contains(this.viewer))
-					this.wavec.content = this.viewer;
+						this.wavec.content = this.viewer;
 
 					this.viewer.content.header.left.buttons.enlarge.disabled = true;
 					this.listContainer.classList.remove("hide");
@@ -1776,16 +1802,7 @@ const twi = {
 				this.listContainer.classList.add("hide");
 			}
 
-			let response = await myajax({
-				url: "/api/contest/problems/get",
-				method: "GET",
-				query: { id: id }
-			});
-
-			let data = response.data;
-			this.log("DEBG", "viewProblem():", data);
-
-			this.updateViewer(data);
+			await this.updateViewer(id);
 			await this.updateRanking();
 			await this.updateLoved();
 
@@ -2959,189 +2976,356 @@ const twi = {
 				}
 			},
 
-			problemsEditor: {
-				container: HTMLElement.prototype,
-				panel: smenu.Panel.prototype,
-
+			problemEditor: {
+				/** @type {HTMLElement} */
+				container: null,
+				
 				id: null,
 				action: null,
-				form: HTMLFormElement.prototype,
+				updateTimeout: null,
+				addButton: null,
+				editButton: null,
+				deleteButton: null,
+				languages: {},
+				
+				/** @type {wavec.Container} */
+				wavec: wavec.Container.prototype,
 
 				async init() {
-					this.container = buildElementTree("div", "problemsEditor", [
-						{ type: "div", class: "header", name: "header", list: [
-							{ type: "icon", class: "back", name: "back", data: { icon: "arrowLeft" } },
-							{ type: "t", class: "title", name: "titleNode", text: "Chỉnh Sửa Đề Bài" },
-							{ type: "span", class: "right", name: "right", list: [
-								{ type: "icon", name: "add", data: { icon: "plus" } },
-								{ type: "icon", name: "save", data: { icon: "save" } }
-							]},
-						]},
+					this.container = makeTree("form", "problemEditor", {
+						header: { tag: "div", class: "header", child: {
+							left: { tag: "span", class: "left", child: {
+								main: { tag: "t", class: "main", html: `<icon data-icon="pencil"></icon>thông tin` },
 
-						{ type: "div", class: "main", name: "main", list: [
-							{ type: "div", class: "list", name: "list" },
-							{ type: "form", class: "editor", name: "editor", list: [
-								{ name: "pID", node: createInput({ color: "blue", label: "Mã Đề", required: true }) },
-								{ name: "pName", node: createInput({ color: "blue", label: "Tên Bài", required: true }) },
-								{ name: "point", node: createInput({ type: "number", color: "blue", label: "Điểm", required: true }) },
-								{ name: "time", node: createInput({ type: "number", color: "blue", label: "Thời Gian Chạy", required: true }) },
-								{ name: "memory", node: createInput({ type: "number", color: "blue", label: "Giới Hạn Bộ Nhớ", required: true }) },
-								{ name: "limit", node: createInput({ type: "number", color: "blue", label: "Giới Hạn Số Lần Nộp", required: true }) },
-								{ name: "inputType", node: createInput({ color: "blue", label: "Dữ Liệu Vào", required: true }) },
-								{ name: "outputType", node: createInput({ color: "blue", label: "Dữ Liệu Ra", required: true }) },
-								{ name: "extensions", node: createInput({ color: "blue", label: "Đuôi Tệp (dùng | để ngăn cách)", required: true }) },
-								{ name: "image", node: createImageInput({ label: "Ảnh Đính Kèm", resetLabel: "Xóa Ảnh Đính Kèm Hiện Tại" }) },
-								{ name: "attachment", node: createInput({ type: "file", label: "Tệp Đính Kèm", color: "blue" }) },
-								{ name: "removeAttachment", node: createButton("Xóa Tệp Đính Kèm Hiện Tại", { color: "pink" }) },
-								{ name: "description", node: createInput({ type: "textarea", color: "blue", label: "Nội Dung", required: true }) },
-								{ type: "div", class: "tests", name: "tests", list: [
-									{ type: "t", class: "label", name: "label", text: "Test Ví Dụ" },
-									{ type: "div", class: "list", name: "list" },
-									{ type: "div", class: "add", name: "add" }
-								]},
-								{ name: "submitButton", node: createButton("LƯU", { color: "blue", icon: "save", complex: "true" }) }
-							]}
-						]}
-					]);
+								description: { tag: "t", class: "description", html: `<icon data-icon="book"></icon>nội dung` }
+							}},
 
-					this.panel = new smenu.Panel(this.container.tree);
-					this.panel.setToggler(new smenu.components.Button({
-						label: "Chỉnh Sửa Đề Bài",
-						color: "blue",
-						icon: "arrowLeft",
+							right: { tag: "span", class: "right", child: {
+								delete: createButton("Xóa", {
+									color: "red",
+									classes: "delete",
+									style: "round",
+									icon: "trash",
+									complex: true
+								}),
+
+								cancel: createButton("Hủy", {
+									color: "yellow",
+									classes: "cancel",
+									style: "round",
+									icon: "close",
+									complex: true
+								}),
+
+								submit: createButton("LƯU", {
+									color: "blue",
+									type: "submit",
+									classes: "submit",
+									style: "round",
+									icon: "save",
+									complex: true
+								})
+							}}
+						}},
+
+						main: { tag: "div", class: "main", child: {
+							thumbnail: createImageInput({
+								id: "problemEditorThumbnail",
+								src: "/api/contest/problems/thumbnail",
+								resetText: "Xóa Ảnh Hiện Tại"
+							}),
+							
+							top: { tag: "div", class: "row", child: {
+								left: { tag: "span", class: "column", child: {
+									pID: createInput({
+										label: "Mã Đề Bài",
+										type: "text",
+										id: "problemEditorID",
+										required: true
+									}),
+
+									pTitle: createInput({
+										label: "Tên Đề Bài",
+										type: "text",
+										id: "problemEditorTitle",
+										required: true
+									}),
+
+									author: createInput({
+										type: "select",
+										label: "Tác Giả",
+										id: "problemEditorAuthor",
+										required: true
+									}),
+
+									point: createInput({
+										type: "number",
+										label: "Điểm",
+										id: "problemEditorPoint",
+										required: true
+									}),
+
+									input: createInput({
+										type: "text",
+										label: "Input",
+										id: "problemEditorInput",
+										required: true
+									}),
+
+									output: createInput({
+										type: "text",
+										label: "Output",
+										id: "problemEditorOutput",
+										required: true
+									}),
+
+									attachment: createInput({
+										type: "file",
+										label: "Tệp Đính Kèm",
+										id: "problemEditorAttachment",
+										required: false
+									}),
+
+									removeAttachment: createButton("Xóa Tệp Đính Kèm Hiện Tại", {
+										color: "pink",
+										icon: "trash",
+										complex: true
+									}),
+
+									disabled: createSwitch({
+										label: "Ẩn Đề Bài (Chỉ Quản Trị Viên Mới Có Thể Xem Đề Bài Này)",
+										color: "pink",
+										value: false
+									}),
+
+									canSubmit: createSwitch({
+										label: "Cho Phép Nộp Bài",
+										color: "blue",
+										value: true
+									}),
+
+									test: { tag: "div", class: "test", child: {
+										label: { tag: "t", class: "label", text: "Test Ví Dụ" },
+										list: { tag: "div", class: "list" },
+										add: createButton("THÊM", {
+											icon: "plus",
+											classes: "add",
+											complex: true
+										})
+									}}
+								}},
+
+								right: { tag: "span", class: "column", child: {
+									time: createInput({
+										type: "number",
+										label: "Thời Gian Chạy",
+										id: "problemEditorTime",
+										required: true
+									}),
+
+									memory: createInput({
+										type: "number",
+										label: "Giới Hạn Bộ Nhớ",
+										id: "problemEditorMemory",
+										required: true
+									}),
+
+									limit: createInput({
+										type: "number",
+										label: "Số Lần Nộp Lại Tối Đa",
+										id: "problemEditorLimit",
+										required: true
+									}),
+
+									tags: createInput({
+										type: "textarea",
+										label: "Thẻ",
+										id: "problemEditorTags",
+										required: false
+									}),
+
+									tagsPreview: { tag: "div", class: "tagsPreview" },
+
+									accept: { tag: "div", class: "accept", child: {
+										label: { tag: "t", class: "label", text: "Ngôn Ngữ Cho Phép" }
+									}}
+								}}
+							}}
+						}},
+
+						description: { tag: "div", class: "description", child: {
+							editor: new Editor("none", {
+								language: "md"
+							}),
+
+							preview: { tag: "span", class: "preview", child: {
+								dummy: { tag: "t", text: "Nhập Để Bắt Đầu" }
+							}}
+						}}
+					});
+
+					// Add Languages Switch
+					for (let key of Object.keys(twi.languages)) {
+						this.languages[key] = createCheckbox({
+							label: `${twi.languages[key]} (${key})`,
+							value: true
+						});
+
+						this.container.main.top.right.accept.appendChild(this.languages[key].group);
+					}
+
+					this.wavec = new wavec.Container(this.container);
+					this.container.addEventListener("submit", () => {});
+					this.container.action = "javascript:void(0);";
+					this.container.dataset.active = "main";
+					this.container.addEventListener("submit", () => this.postSubmit());
+					this.container.header.left.main.addEventListener("click", () => this.changeScreen("main"));
+					this.container.header.left.description.addEventListener("click", () => this.changeScreen("description"));
+					this.container.main.top.left.test.add.addEventListener("click", () => this.addTest());
+					this.container.header.right.cancel.addEventListener("click", () => this.wavec.hide());
+					this.container.header.right.delete.addEventListener("click", () => this.delete(this.id));
+					
+					this.container.main.top.right.tags.onInput((v) => {
+						this.container.main.top.right.tagsPreview.innerHTML = twi.problems.parseTags(v);
+					});
+
+					this.container.description.editor.onInput((value) => {
+						clearTimeout(this.updateTimeout);
+
+						this.updateTimeout = setTimeout(() => {
+							this.container.description.preview.replaceChild(md2html.parse(value), this.container.description.preview.firstChild);
+						}, 200);
+					});
+
+					this.container.main.thumbnail.onReset(async () => {
+						if (this.id && await this.deleteFile("thumbnail", this.id))
+							this.container.main.thumbnail.clear();
+					});
+
+					// Inject Button Into Problem Viewer
+					this.addButton = twi.problems.panel.button("plus", "Thêm Đề Bài");
+
+					this.editButton = createButton("Chỉnh Sửa", {
+						color: "green",
+						icon: "pencil",
+						style: "round",
 						complex: true
-					}, this.super.settingsChild));
-
-					this.container = this.container.obj;
-					this.form = this.container.main.editor;
-					
-					this.panel.reload.onClick(() => this.updateLists());
-					this.container.header.back.addEventListener("click", () => this.hideEditor());
-					this.container.header.right.add.addEventListener("click", () => this.add());
-					this.container.header.right.save.addEventListener("click", () => this.form.submitButton.click());
-					this.form.tests.add.addEventListener("click", () => this.addTest());
-					this.form.addEventListener("submit", () => this.postSubmit());
-					this.form.action = "javascript:void(0);";
-					this.form.submitButton.type = "submit";
-
-					this.form.image.onReset(async () => {
-						if (this.id && await this.deleteFile("image", this.id))
-							this.form.image.src();
 					});
 
-					this.hideEditor(false);
-					await this.updateLists();
+					this.deleteButton = createButton("Xóa", {
+						color: "red",
+						icon: "trash",
+						style: "round",
+						complex: true
+					});
+
+					twi.problems.viewer.content.header.left.buttons.append(this.editButton, this.deleteButton);
+					this.addButton.onClick(() => this.create());
+					this.editButton.addEventListener("click", () => this.edit(twi.problems.id));
+					this.deleteButton.addEventListener("click", () => this.delete(twi.problems.id));
 				},
 
-				async updateLists() {
+				changeScreen(screen) {
+					this.container.dataset.active = screen;
+					this.wavec.content.scrollTop = 0;
+				},
+
+				async resetForm() {
+					// Get Account List
 					let response = await myajax({
-						url: "/api/contest/problems/list",
-						method: "GET"
+						url: `/api/account/get`,
+						method: "POST",
+						form: {
+							token: API_TOKEN
+						}
 					});
-	
-					let data = response.data;
-					let html = "";
 
-					emptyNode(this.container.main.list);
-					
-					for (let item of data)
-						html += `
-							<li class="item">
-								<img class="icon" src="${item.image}">
-								<ul class="title">
-									<li class="id">${item.id}</li>
-									<li class="name">${item.name}</li>
-								</ul>
-								<div class="action">
-									<span class="sq-switch">
-										<input
-											id="problemToggler_${item.id}"
-											class="checkbox"
-											type="checkbox"
-											${!item.disabled ? "checked" : ""}
-											onchange="twi.userSettings.admin.problemsEditor.disable('${item.id}', this)"
-										></input>
+					let accounts = {}
+					for (let item of response.data)
+						accounts[item.username] = `(${item.username} #${item.id}) ${item.name}`;
 
-										<label for="problemToggler_${item.id}" class="track"></label>
-									</span>
+					this.container.main.top.left.author.set({
+						value: null,
+						options: accounts
+					});
 
-									<span class="delete" onclick="twi.userSettings.admin.problemsEditor.delete('${item.id}')"></span>
-									<span class="edit" onclick="twi.userSettings.admin.problemsEditor.edit('${item.id}')"></span>
-								</div>
-							</li>
-						`
-	
-					this.container.main.list.innerHTML = html;
-				},
-
-				showEditor(sound = true) {
-					this.container.main.classList.add("editor");
-					this.container.header.back.style.display = null;
-					this.container.header.right.add.style.display = "none";
-					this.container.header.right.save.style.display = null;
-
-					if (sound)
-						sounds.toggle()
-				},
-	
-				hideEditor(sound = true) {
-					this.container.main.classList.remove("editor");
-					this.container.header.back.style.display = "none";
-					this.container.header.right.add.style.display = null;
-					this.container.header.right.save.style.display = "none";
-					this.container.header.titleNode.innerText = "Chỉnh Sửa Đề Bài";
+					this.container.main.top.left.pID.input.value = "";
+					this.container.main.top.left.pID.input.disabled = false;
+					this.container.main.top.left.pTitle.input.value = "";
+					this.container.main.top.left.point.input.value = "";
+					this.container.main.top.left.input.input.value = "Bàn Phím";
+					this.container.main.top.left.output.input.value = "Màn Hình";
+					this.container.main.top.right.time.input.value = 1;
+					this.container.main.top.right.memory.input.value = 1024;
+					this.container.main.top.right.limit.input.value = 0;
+					this.container.main.top.right.tags.input.value = "";
+					this.container.main.top.left.attachment.input.value = null;
+					this.container.main.top.left.disabled.input.checked = false;
+					this.container.main.top.left.canSubmit.input.checked = true;
+					this.container.description.editor.value = "";
+					this.container.main.thumbnail.clear();
+					emptyNode(this.container.main.top.left.test.list);
+					this.changeScreen("main");
 					this.action = null;
 
-					if (sound)
-						sounds.toggle(1);
+					for (let item of Object.values(this.languages))
+						item.input.checked = true;
 				},
 
-				resetForm() {
-					this.form.pID.input.value = "";
-					this.form.pID.input.disabled = false;
-					this.form.pName.input.value = "";
-					this.form.point.input.value = null;
-					this.form.time.input.value = 1;
-					this.form.memory.input.value = 1024;
-					this.form.limit.input.value = 0;
-					this.form.inputType.input.value = "Bàn Phím";
-					this.form.outputType.input.value = "Màn Hình";
-					this.form.extensions.input.value = Object.keys(twi.languages).join("|");
-					this.form.image.src("//:0");
-					this.form.attachment.input.value = null;
-					this.form.description.input.value = "";
-
-					emptyNode(this.form.tests.list);
-				},
-
-				addTest({ inp = "", out = "" } = {}) {
+				addTest({ input = "", output = "" } = {}) {
 					let node = htmlToElement(`
 						<div class="cell">
-							<textarea placeholder="Input" required>${inp}</textarea>
-							<textarea placeholder="Output" required>${out}</textarea>
+							<textarea placeholder="Input" required>${input}</textarea>
+							<textarea placeholder="Output" required>${output}</textarea>
 							<span class="delete"></span>
 						</div>
-					`)
+					`);
 
 					node.querySelector(".delete").addEventListener("click", () => {
 						node.remove();
 						delete node;
 					});
 
-					this.form.tests.list.appendChild(node);
+					this.container.main.top.left.test.list.appendChild(node);
 				},
 
-				add() {
-					this.resetForm();
-					this.container.header.titleNode.innerText = "Thêm Đề Bài";
-					this.form.removeAttachment.disabled = true;
+				getTest() {
+					let testNodes = this.container.main.top.left.test.list.querySelectorAll("div.cell");
+					let test = []
+	
+					for (let item of testNodes) {
+						let inputs = item.getElementsByTagName("textarea");
+
+						if (inputs[0].value === "" || inputs[1].value === "")
+							continue;
+
+						test.push({
+							input: inputs[0].value,
+							output: inputs[1].value
+						});
+					}
+
+					return test;
+				},
+
+				async create() {
+					this.wavec.set({ title: "đề bài - Tạo Mới" });
+					this.wavec.show();
+					this.wavec.loading = true;
+
+					await this.resetForm();
+					this.container.main.top.left.attachment.input.disabled = false;
 					this.action = "add";
 
-					this.showEditor();
-					setTimeout(() => this.form.pID.input.focus(), 600);
+					this.wavec.loading = false;
+					setTimeout(() => this.container.main.top.left.pID.input.focus(), 600);
 				},
 
 				async edit(id) {
+					this.wavec.show();
+					this.wavec.loading = true;
+					this.wavec.set({ title: `đề bài - ${id}` });
+
 					let response = await myajax({
 						url: "/api/contest/problems/get",
 						method: "GET",
@@ -3154,88 +3338,98 @@ const twi = {
 					this.log("INFO", "Editing problem", {
 						color: flatc("yellow"),
 						text: id
-					});
-	
-					this.resetForm();
-					this.container.header.titleNode.innerText = "Đề Bài: " + data.id;
-					this.action = "edit";
-					this.id = id;
+					}, data);
 
-					this.form.pID.input.value = data.id;
-					this.form.pID.input.disabled = true;
-					this.form.pName.input.value = data.name;
-					this.form.point.input.value = data.point;
-					this.form.time.input.value = data.time || 1;
-					this.form.memory.input.value = data.memory || 1024;
-					this.form.limit.input.value = data.limit || 0;
-					this.form.inputType.input.value = data.type.inp || "Bàn Phím";
-					this.form.outputType.input.value = data.type.out || "Màn Hình";
-					this.form.extensions.input.value = data.accept.join("|");
-					this.form.description.input.value = data.description;
-					this.form.image.src(data.image || "//:0");
+					this.id = data.id;
 	
+					await this.resetForm();
+					this.container.main.top.left.pID.input.value = data.id;
+					this.container.main.top.left.pID.input.disabled = true;
+					this.container.main.top.left.pTitle.input.value = data.name;
+					this.container.main.top.left.point.input.value = data.point;
+					this.container.main.top.left.input.input.value = data.type.input;
+					this.container.main.top.left.output.input.value = data.type.output;
+					this.container.main.top.right.time.input.value = data.time;
+					this.container.main.top.right.memory.input.value = data.memory;
+					this.container.main.top.right.limit.input.value = data.limit;
+					this.container.main.top.right.tags.input.value = data.tags.join(" ");
+					this.container.main.top.left.disabled.input.checked = data.disabled;
+					this.container.main.top.left.canSubmit.input.checked = data.canSubmit;
+					this.container.description.editor.value = data.description;
+					this.container.main.thumbnail.src(data.thumbnail);
+
+					this.container.main.top.left.author.input.value = (data.author && data.author.username)
+						? data.author.username
+						: null;
+
 					if (data.attachment && data.attachment.file) {
-						this.form.removeAttachment.disabled = false;
+						this.container.main.top.left.removeAttachment.disabled = false;
 
-						this.form.removeAttachment.onclick = async () => {
-							this.form.removeAttachment.disabled = true;
+						this.container.main.top.left.removeAttachment.onclick = async () => {
+							this.container.main.top.left.removeAttachment.disabled = true;
 
 							if (!await this.deleteFile("attachment", data.id, data.attachment.file))
-								this.form.removeAttachment.disabled = false;
+								this.container.main.top.left.removeAttachment.disabled = false;
 						}
 					} else
-						this.form.removeAttachment.disabled = true;
-	
+						this.container.main.top.left.removeAttachment.disabled = true;
+
+					for (let key of Object.keys(this.languages))
+						if (data.accept.includes(key))
+							this.languages[key].input.checked = true;
+						else
+							this.languages[key].input.checked = false;
+
 					for (let item of data.test)
 						this.addTest(item);
-					
-					this.showEditor();
-					setTimeout(() => this.form.pName.input.focus(), 600);
+
+					this.action = "edit";
+					this.wavec.loading = false;
 				},
 
 				async postSubmit() {
-					this.container.header.titleNode.innerText = "Đang Lưu";
+					this.wavec.loading = true;
 	
 					let data = {
-						id: this.form.pID.input.value,
-						name: this.form.pName.input.value,
-						point: parseFloat(this.form.point.input.value),
-						time: parseInt(this.form.time.input.value),
-						memory: parseInt(this.form.memory.input.value),
-						limit: parseInt(this.form.limit.input.value),
+						id: this.container.main.top.left.pID.input.value,
+						name: this.container.main.top.left.pTitle.input.value,
+						author: this.container.main.top.left.author.input.value,
+						point: parseFloat(this.container.main.top.left.point.input.value),
+						time: parseInt(this.container.main.top.right.time.input.value),
+						memory: parseInt(this.container.main.top.right.memory.input.value),
+						limit: parseInt(this.container.main.top.right.limit.input.value),
 						type: {
-							inp: this.form.inputType.input.value,
-							out: this.form.outputType.input.value,
+							input: this.container.main.top.left.input.input.value,
+							output: this.container.main.top.left.output.input.value,
 						},
-						accept: this.form.extensions.input.value.split("|"),
-						description: this.form.description.input.value,
-						test: []
+						accept: [],
+						disabled: this.container.main.top.left.disabled.input.checked,
+						canSubmit: this.container.main.top.left.canSubmit.input.checked,
+						tags: this.container.main.top.right.tags.input.value.replaceAll("\n", " ").split(" "),
+						description: this.container.description.editor.value,
+						test: this.getTest()
 					}
 	
-					let image = this.form.image.input.files[0] || null;
-					let attachment =  this.form.attachment.input.files[0] || null;
-					let testNodes = this.form.tests.list.querySelectorAll("div.cell");
-	
-					for (let item of testNodes) {
-						let inputs = item.getElementsByTagName("textarea");
+					let thumbnail = this.container.main.thumbnail.input.files[0] || null;
+					let attachment =  this.container.main.top.left.attachment.input.files[0] || null;
 
-						if (inputs[0].value === "" || inputs[1].value === "")
-							continue;
-
-						data.test.push({
-							inp: inputs[0].value,
-							out: inputs[1].value
-						});
-					}
+					for (let key of Object.keys(this.languages))
+						if (this.languages[key].input.checked)
+							data.accept.push(key);
 					
-					await this.submit(this.action, data, image, attachment);
-					await this.updateLists();
-					this.hideEditor();
+					await this.submit(this.action, data, thumbnail, attachment);
+
+					await twi.problems.updateLists();
+					if (twi.problems.id)
+						twi.problems.updateViewer(twi.problems.id, true);
+
+					this.wavec.loading = false;
+					this.wavec.hide();
 				},
 	
-				async submit(action, data, image = null, attachment = null) {
+				async submit(action, data, thumbnail = null, attachment = null) {
 					if (!["edit", "add"].includes(action))
-						throw { code: -1, description: `twi.userSettings.admin.problemsEditor.submit(${action}): not a valid action!` }
+						throw { code: -1, description: `twi.userSettings.admin.problemEditor.submit(${action}): not a valid action!` }
 	
 					this.log("INFO", "Problem Submit:", {
 						color: flatc("green"),
@@ -3251,7 +3445,7 @@ const twi = {
 							method: "POST",
 							form: {
 								data: JSON.stringify(data),
-								image,
+								thumbnail,
 								attachment,
 								token: API_TOKEN
 							}
@@ -3262,23 +3456,6 @@ const twi = {
 					}
 
 					return true;
-				},
-
-				async disable(id, targetSwitch) {
-					sounds.select(1);
-					targetSwitch.disabled = true;
-	
-					await myajax({
-						url: "/api/contest/problems/edit",
-						method: "POST",
-						form: {
-							id: id,
-							disabled: !targetSwitch.checked,
-							token: API_TOKEN
-						}
-					})
-	
-					targetSwitch.disabled = false;
 				},
 
 				async delete(id) {
@@ -3331,14 +3508,14 @@ const twi = {
 						text: id
 					});
 	
-					await this.updateLists();
+					this.wavec.hide();
 				},
 
 				async deleteFile(type, id, fileName = null) {
-					if (!["image", "attachment"].includes(type))
-						throw { code: -1, description: `twi.userSettings.admin.problemsEditor.deleteFile(${type}): not a valid type!` }
+					if (!["thumbnail", "attachment"].includes(type))
+						throw { code: -1, description: `twi.userSettings.admin.problemEditor.deleteFile(${type}): not a valid type!` }
 	
-					typeName = { image: "Ảnh Đính Kèm", attachment: "Tệp Đính Kèm" }[type]
+					typeName = { thumbnail: "Ảnh Nền", attachment: "Tệp Đính Kèm" }[type]
 	
 					this.log("WARN", "Preparing to delete", typeName, "of", {
 						color: flatc("yellow"),

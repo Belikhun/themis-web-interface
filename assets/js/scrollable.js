@@ -99,18 +99,26 @@ class Scrollable {
 			if (event.ctrlKey)
 				return;
 
-			event.preventDefault();
-			if (!ticking) {
-				requestAnimationFrame(() => {
-					if (this.smooth)
-						this.animationUpdate({ event });
-					else
-						this.update({ event });
+			let maxScroll = (horizontal)
+				? this.content.scrollWidth - this.content.offsetWidth
+				: this.content.scrollHeight - this.content.offsetHeight;
 
-					ticking = false;
-				});
-
-				ticking = true;
+			if (maxScroll > 0) {
+				event.stopPropagation();
+				event.preventDefault();
+	
+				if (!ticking) {
+					requestAnimationFrame(() => {
+						if (this.smooth)
+							this.animationUpdate({ event });
+						else
+							this.update({ event });
+	
+						ticking = false;
+					});
+	
+					ticking = true;
+				}
 			}
 		}, { passive: false });
 

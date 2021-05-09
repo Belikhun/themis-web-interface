@@ -31,7 +31,8 @@ class Editor {
 		language = "text",
 		tabSize = 4,
 		readonly = false,
-		debug = false
+		debug = false,
+		style = "default"
 	} = {}) {
 		//* ==================== Setup Variables ====================
 
@@ -129,6 +130,8 @@ class Editor {
 			]},
 		]).obj;
 
+		this.container.dataset.style = style;
+
 		/**
 		 * Ssh... IT's JUST WORK!
 		 * 
@@ -214,6 +217,9 @@ class Editor {
 	set value(value) {
 		this.main.overlay.value = value;
 		this.update();
+
+		this.inputHandlers
+			.forEach((f) => f(value, null, this));
 	}
 
 	get value() {
@@ -295,7 +301,7 @@ class Editor {
 					// Backspace Key
 					// Remove the line the cursor is currently on if
 					// the cursor is in the first position
-					if (this.cCursor.pos === 0)
+					if (this.cCursor.pos === 0 && this.cCursor.line > 0)
 						this.removeLine(this.cCursor.line);
 					
 					break;
@@ -700,10 +706,10 @@ const editorLanguages = {
 		return line;
 	},
 
-	processRegex(line, type, regex, index = 0) {
+	processRegex(line, type, regex, replace = 0, index = replace) {
 		let matches = [ ...line.matchAll(regex) ]
 		for (let item of matches)
-			line = line.replace(item[index], `<${type}>${item[index]}</${type}>`);
+			line = line.replace(item[replace], `<${type}>${item[index]}</${type}>`);
 
 		return line;
 	},
@@ -805,10 +811,10 @@ const editorLanguages = {
 		line = this.processRegex(line, "ed-mdheading", /\#{1,6}\s.*/g);
 
 		// Bold Text
-		line = this.processRegex(line, "ed-mdbold", /([bruf]*)(\*\*|\_\_)(?:(?!\2)(?:\\.|[^\\]))*\2/g);
+		line = this.processRegex(line, "ed-mdbold", /([^*_]|^)((\*{2}|\_{2})([^*_]+)\3)/g, 2);
 
 		// Italic Text
-		line = this.processRegex(line, "ed-mditalic", /([^*_]|^)(\*|\_)[^*_]+\1/g);
+		line = this.processRegex(line, "ed-mditalic", /(^|[^*_])((\*|\_)([^*_]+)\3)/gm, 2);
 
 		// Link
 		let mdLinks = [ ...line.matchAll(/(\[[^\[\](\)\)]+\])(\([^\[\](\)\)]*\))/g) ]

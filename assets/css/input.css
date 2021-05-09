@@ -264,7 +264,7 @@ body.dark .formGroup[data-color="red"] > .formField:focus {
     font-family: "Segoe UI", "Open Sans", "Calibri", "sans-serif";
     font-size: 16px;
 
-    padding: 14px 20px;
+    margin: 14px 20px;
     border: none !important;
     caret-color: var(--focus-color);
     background-color: transparent;
@@ -310,7 +310,7 @@ body.dark .formGroup[data-color="red"] > .formField:focus {
 }
 
 .sq-input > .outline > .leading {
-    width: 15px;
+    width: 18px;
 
     border-left: 1px solid;
     border-right: none;

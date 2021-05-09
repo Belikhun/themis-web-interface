@@ -353,7 +353,7 @@ body.dark .sq-checkbox[data-color="pink"]:hover > input:checked ~ .checkmark {
     height: 100%;
 
     box-sizing: border-box;
-    border: 4px solid rgb(138, 138, 138);
+    border: 4px solid rgba(138, 138, 138, 0.6);
     border-radius: 15px;
     cursor: pointer;
 
@@ -378,7 +378,7 @@ body.dark .sq-checkbox[data-color="pink"]:hover > input:checked ~ .checkmark {
 }
 
 .sq-switch > .track:hover {
-    border-color: rgb(65, 65, 65);
+    border-color: rgba(48, 48, 48, 0.6);
 }
 
 .sq-switch > input:checked + .track {
@@ -422,6 +422,20 @@ body.dark .sq-switch > input:checked + .track {
 
 body.dark .sq-switch > input:checked + .track:hover {
     border-color: #86d7ff;
+}
+
+/* PINK */
+
+.sq-switch[data-color="pink"] > .track::before {
+    background-color: #FF66AA;
+}
+
+.sq-switch[data-color="pink"] > input:checked + .track {
+    border-color: #FF66AA;
+}
+
+.sq-switch[data-color="pink"] > input:checked + .track:hover {
+    border-color: #eb4a93;
 }
 
 /** CIRCLE CHECKBOX */

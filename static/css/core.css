@@ -2160,302 +2160,264 @@ panel > .main > .loadingWrapper.show {
 
 /** =================== PROBLEMEDITOR =================== **/
 
-.problemsEditor {
-	height: 100%;
-	padding: unset;
-}
-
-.problemsEditor > .header {
-	height: 40px;
-	background-color: #F5F5F6;
-	display: flex;
-	align-items: center;
-	padding: 0 15px;
-}
-
-.problemsEditor > .header icon {
-	cursor: pointer;
-}
-
-.problemsEditor > .header icon::after {
-	margin: 0 5px;
-
-	font-size: 18px;
-	color: rgb(138, 138, 138);
-
-	transition: color 0.1s ease-out;
-}
-
-.problemsEditor > .header icon:hover::after {
-	color: rgb(55, 55, 55);
-}
-
-.problemsEditor > .header icon[data-icon="arrowLeft"]::after {
-	font-size: 22px;
-}
-
-.problemsEditor > .header > .title {
-	position: absolute;
-
-	left: 50%;
-	transform: translateX(-50%);
-
-	font-family: "Segoe UI";
-	font-size: 14px;
-	font-weight: bold;
-	color: #414141;
-}
-
-.problemsEditor > .header > .right {
-	position: absolute;
-	right: 15px;
-}
-
-.problemsEditor > .main {
+.problemEditor {
 	position: relative;
-	display: block;
-
-	height: calc(100% - 46px);
-	background-color: transparent;
-	overflow: hidden;
-}
-
-.problemsEditor > .main > .list {
-	position: absolute;
 	display: flex;
 	flex-direction: column;
+	
+	--header-height: 40vh;
 
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	margin: unset;
 	padding: unset;
-	
-	list-style: none;
-	overflow-x: hidden;
-	overflow-y: auto;
-	opacity: 1;
-	transform: unset;
-
-	transition:
-		opacity 0.6s ease,
-		transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+	padding-bottom: calc(var(--header-height) / 2);
+	background-color: white;
 }
 
-.problemsEditor > .main.editor > .list {
-	opacity: 0;
-	transform: translateX(200px);
-}
-
-.problemsEditor > .main > .list > li.item {
-	position: relative;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-
-	width: 100%;
-	height: 64px;
-
-	padding: 0 10px;
-	box-sizing: border-box;
-	border-bottom: unset;
-}
-
-.problemsEditor > .main > .list > li.item:hover {
-	background-color: rgba(245, 245, 246, 0.4);
-}
-
-.problemsEditor > .main > .list > li.item:after {
-	content: unset;
-}
-
-.problemsEditor > .main > .list > li.item > .icon {
-	position: relative;
-	flex-grow: 0;
-	flex-shrink: 0;
-
-	width: 40px;
-	height: 40px;
-
-	border-radius: 50%;
-	object-fit: cover;
-}
-
-.problemsEditor > .main > .list > li.item > .title {
-	position: relative;
-	flex-grow: 1;
-	flex-shrink: 1;
-	list-style: none;
-	margin: unset;
-	padding: 0 0 0 10px;
-}
-
-.problemsEditor > .main > .list > li.item > .title > .id {
-	font-size: 11px;
-	color: rgb(73, 73, 73);
-	letter-spacing: 0.4px;
-}
-
-.problemsEditor > .main > .list > li.item > .title > .name {
-	font-family: Nunito;
-	font-size: 15px;
-	font-weight: bold;
-	color: #494949;
-}
-
-.problemsEditor > .main > .list > li.item > .action {
-	position: relative;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	flex-grow: 0;
-	flex-shrink: 0;
-}
-
-.problemsEditor > .main > .list > li.item > .action > span {
-	margin: 0 10px;
-	cursor: pointer;
-}
-
-.problemsEditor > .main > .list > li.item > .action > span::before {
-	font-family: "Font Awesome 5 Free";
-	font-size: 20px;
-	font-weight: 600;
-
-	color: #8a8a8a;
-	transition: color 0.1s ease-out;
-}
-
-.problemsEditor > .main > .list > li.item > .action > span.delete::before {
-	content: "\f1f8";
-}
-
-.problemsEditor > .main > .list > li.item > .action > span.delete:hover::before {
-	color: #e74c3c;
-}
-
-.problemsEditor > .main > .list > li.item > .action > span.edit::before {
-	content: "\f304";
-}
-
-.problemsEditor > .main > .list > li.item > .action > span.edit:hover::before {
-	color: #3498db;
-}
-
-.problemsEditor > .main > .editor {
-	position: absolute;
-	
-	top: 0;
-	left: 0;
-	width: 100%;
+.problemEditor[data-active="description"] {
 	height: 100%;
-
-	padding: 0 10px;
-	box-sizing: border-box;
-
-	overflow-x: hidden;
-	overflow-y: auto;
-	opacity: 0;
-	transform: translateX(100%);
-
-	transition:
-		opacity 0.6s ease,
-		transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+	padding-bottom: unset;
 }
 
-.problemsEditor > .main.editor > .editor {
-	opacity: 1;
-	transform: unset;
+.problemEditor > .header {
+	position: sticky;
+	display: flex;
+	flex-direction: row;
+	flex-grow: 0;
+	flex-shrink: 0;
+
+	top: 0;
+	padding: 20px 10px;
+
+	background-color: white;
+	border-bottom: 1px solid rgba(128, 128, 128, 0.5);
+	z-index: 10000;
 }
 
-.problemsEditor > .main.editor > .editor > button {
+.problemEditor > .header > span {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.problemEditor > .header > .left {
+	flex-grow: 1;
+}
+
+.problemEditor > .header > .left > t {
+	padding: 5px 15px;
+	margin: 0 10px;
+
+	font-family: Nunito;
+	font-size: 26px;
+	font-weight: 800;
+	color: var(--text-color);
+	cursor: pointer;
+	background-color: var(--bg-color);
+
+	--text-color: rgba(84, 84, 84, 0.6);
+	--bg-color: none;
+}
+
+.problemEditor > .header > .left > t > icon::after {
+	color: var(--text-color);
+	margin-right: 10px;
+}
+
+.problemEditor > .header > .left > t:hover {
+	--text-color: rgba(36, 36, 36, 0.8);
+	--bg-color: rgba(238, 238, 238, 0.5);
+}
+
+.problemEditor[data-active="main"] > .header > .left > .main,
+.problemEditor[data-active="description"] > .header > .left > .description {
+	--text-color: rgb(245, 245, 245);
+	--bg-color: rgba(14, 14, 14, 0.9);
+}
+
+.problemEditor > .header > .right {
+	flex-wrap: wrap;
+}
+
+.problemEditor > .header > .right > button {
+	flex-grow: 1;
+	flex-shrink: 0;
+	margin: 5px 10px 0;
+}
+
+.problemEditor > .main {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+}
+
+.problemEditor > .main > .imageInput {
+	position: relative;
+	margin: unset;
+	margin-bottom: 20px;
+}
+
+.problemEditor > .main > .imageInput > .imageBox {
 	width: 100%;
-	margin: 5px 0;
+	height: var(--header-height);
 }
 
-.problemsEditor > .main.editor > .editor > .formGroup[data-name="description"] > textarea {
-	height: 200px;
+.problemEditor > .main > .imageInput > button {
+	position: absolute;
+	bottom: 12px;
+	right: 22px;
+	z-index: 3;
+}
+
+.problemEditor > .main > div {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+
+	margin: 10px;
+}
+
+.problemEditor > .main > div > span {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	flex-basis: 0;
+}
+
+.problemEditor > .main > div > span > .sq-input {
+	width: auto;
+	margin: 10px;
+}
+
+.problemEditor > .main > div > span > .checkboxContainer { 
+	width: auto;
+	margin: 0 10px 10px;
+}
+
+.problemEditor > .main > div > span > .sq-input > textarea {
 	resize: vertical;
+	height: 80px;
 }
 
-.problemsEditor > .main > .editor > .tests {
+.problemEditor > .main > div > span > button {
+	margin: 0 10px 10px;
+}
+
+.problemEditor > .main > div[key="top"] > span[key="right"] > .tagsPreview {
 	position: relative;
+	margin: 10px;
+	padding: 10px;
+	min-height: 100px;
 
-	margin: 10px 0 20px;
-	padding-bottom: 1px;
+	border: 1px solid rgba(56, 56, 56, 0.6);
+	border-radius: 4px;
+}
+
+.problemEditor > .main > div[key="top"] > span[key="right"] > .tagsPreview:empty::before {
+	content: "TAG PREVIEW";
+	position: absolute;
+
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 	
-	border-bottom: 1px solid rgba(39, 39, 39, 0.4);
-	transition: 0.3s;
+	font-weight: bold;
+	color: rgb(182, 182, 182);
 }
 
-.problemsEditor > .main > .editor > .tests:hover {
-	border-bottom: 2px solid #4285f4;
-	padding-bottom: 0;
-}
-
-.problemsEditor > .main > .editor > .tests > .label {
+.problemEditor > .main > div[key="top"] > span[key="left"] > .test {
 	position: relative;
-	display: block;
-	
-    font-family: "Open Sans", "Calibri", "Segoe UI", "sans-serif";
-    font-size: 11px;
+	margin: 10px 10px 20px;
+}
+
+.problemEditor > .main > div[key="top"] > span[key="left"] > .test > .label {
+	position: relative;
+    display: inline-block;
+
+    font-family: "Calibri", "Segoe UI", "sans-serif";
+    font-size: 18px;
     font-weight: 700;
-	color: #5a5b5f;
-	
+    color: black;
     text-transform: uppercase;
     letter-spacing: .1px;
+
     user-select: none;
-    cursor: text;
+    pointer-events: none;
 }
 
-.problemsEditor > .main > .editor > .tests:hover .label {
-	color: #4285f4;
-}
-
-.problemsEditor > .main > .editor > .tests > .list {
+.problemEditor > .main > div[key="top"] > span[key="left"] > .test > .list {
 	position: relative;
 	display: block;
 	
 	width: 100%;
+	min-height: 100px;
 	box-sizing: border-box;
 }
 
-.problemsEditor > .main > .editor > .tests > .list > .cell {
-	position: relative;
-	height: 60px;
+.problemEditor > .main > div[key="top"] > span[key="left"] > .test > .list:empty::before {
+	content: "TRỐNG";
+
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+	color: rgb(182, 182, 182);
 }
 
-.problemsEditor > .main > .editor > .tests > .list > .cell > textarea {
+.problemEditor > .main > div[key="top"] > span[key="left"] > .test > .list > .cell {
 	position: relative;
+	display: flex;
+	flex-direction: row;
+
+	height: 120px;
+	margin: 10px 0;
+}
+
+.problemEditor > .main > div[key="top"] > span[key="left"] > .test > .list > .cell > textarea {
+	position: relative;
+	flex-grow: 1;
+
+	height: 100%;
+	padding: 10px;
+	margin-right: 10px;
+	border-radius: 4px;
+
+	font-family: "Consolas";
+	font-size: 17px;
+	font-weight: bold;
+	
+	box-sizing: border-box;
+	background-color: rgba(245, 245, 245, 0.8);
+
 	resize: none;
 	border: unset;
-	background-color: transparent;
-	box-sizing: border-box;
-	width: calc(50% - 15px);
-	height: 100%;
-	font-family: "Consolas";
-	border-bottom: 1px solid rgba(39, 39, 39, 0.4);
 }
 
-.problemsEditor > .main > .editor > .tests > .list > .cell > .delete {
-	position: absolute;
+.problemEditor > .main > div[key="top"] > span[key="left"] > .test > .list > .cell > textarea:focus {
+	outline: none;
+}
+
+.problemEditor > .main > div[key="top"] > span[key="left"] > .test > .list > .cell > .delete {
+	position: relative;
 	display: block;
+	flex-grow: 0;
 
 	top: 0;
 	right: 0;
-	width: 24px;
+	width: 60px;
 	height: 100%;
+	background-color: rgba(245, 245, 245, 0.8);
+	border-radius: 4px;
 
 	cursor: pointer;
-	transition: 0.2s;
+	transition: background-color 0.2s ease;
 }
 
-.problemsEditor > .main > .editor > .tests > .list > .cell > .delete:hover {
-	background-color: rgba(202, 202, 202, 0.2);
+.problemEditor > .main > div[key="top"] > span[key="left"] > .test > .list > .cell > .delete:hover {
+	background-color: rgba(202, 202, 202, 0.5);
 }
 
-.problemsEditor > .main > .editor > .tests > .list > .cell > .delete::before {
+.problemEditor > .main > div[key="top"] > span[key="left"] > .test > .list > .cell > .delete::before {
 	content: "\f146";
 	position: absolute;
 
@@ -2470,35 +2432,64 @@ panel > .main > .loadingWrapper.show {
 	transition: 0.2s;
 }
 
-.problemsEditor > .main > .editor > .tests > .list > .cell > .delete:hover::before {
+.problemEditor > .main > div[key="top"] > span[key="left"] > .test > .list > .cell > .delete:hover::before {
 	color: #e74c3c;
 }
 
-.problemsEditor > .main > .editor > .tests > .add {
+.problemEditor > .main > div[key="top"] > span[key="left"] > .test > .add {
+	width: 100%;
+}
+
+.problemEditor > .main > div[key="top"] > span[key="right"] > .accept {
+	position: relative;
+
+	margin: 10px;
+}
+
+.problemEditor > .main > div[key="top"] > span[key="right"] > .accept > .label {
+	position: relative;
+    display: inline-block;
+
+    font-family: "Calibri", "Segoe UI", "sans-serif";
+    font-size: 18px;
+    font-weight: 700;
+    color: black;
+    text-transform: uppercase;
+    letter-spacing: .1px;
+
+    user-select: none;
+    pointer-events: none;
+}
+
+.problemEditor > .description {
 	position: relative;
 	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 60px;
-	cursor: pointer;
-	transition: 0.2s;
+	flex-direction: row;
+	flex-grow: 1;
+	flex-shrink: 1;
+
+	overflow: hidden;
 }
 
-.problemsEditor > .main > .editor > .tests > .add:hover {
-	background-color: rgba(202, 202, 202, 0.2);
+.problemEditor > .description > .editor,
+.problemEditor > .description > .preview {
+	flex-grow: 1;
+	flex-basis: 0;
+
+	margin: 10px;
 }
 
-.problemsEditor > .main > .editor > .tests > .add::after {
-	content: "\f067";
-	font-family: "Font Awesome 5 Free";
-	font-size: 18px;
-	font-weight: 600;
-	color: #95a5a6;
-	transition: 0.2s;
+.problemEditor > .description > .preview {
+	overflow: auto;
 }
 
-.problemsEditor > .main > .editor > .tests > .add:hover::after {
-	color: #494949;
+.problemEditor > .description > .editor:focus-within {
+	border-color: transparent;
+}
+
+.problemEditor[data-active="description"] > .main,
+.problemEditor[data-active="main"] > .description {
+	display: none;
 }
 
 /** =================== SUBMIT =================== **/

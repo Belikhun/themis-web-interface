@@ -136,17 +136,20 @@ const tooltip = {
 		let checkNode = true;
 
 		if (this.nodeToShow) {
-			clearTimeout(this.hideTimeout);
 			checkNode = false;
 			
-			if (!this.__checkSameNode(event.target, this.nodeToShow) && !this.__checkSameNode(event.target, this.container, 5)) {
+			if (!this.__checkSameNode(event.target, this.nodeToShow)) {
 				checkNode = true;
 				
-				this.hideTimeout = setTimeout(() => {
-					this.nodeToShow = null;
-					this.prevData = null;
-					this.container.classList.remove("show");
-				}, this.showTime);
+				if (!this.hideTimeout)
+					this.hideTimeout = setTimeout(() => {
+						this.nodeToShow = null;
+						this.prevData = null;
+						this.container.classList.remove("show");
+					}, this.showTime);
+			} else {
+				clearTimeout(this.hideTimeout);
+				this.hideTimeout = null;
 			}
 		}
 
@@ -229,6 +232,7 @@ const tooltip = {
 			this.nodeToShow = showOnNode;
 		
 		clearTimeout(this.hideTimeout);
+		this.hideTimeout = null;
 		this.container.classList.add("show");
 
 		switch (typeof data) {

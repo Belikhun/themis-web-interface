@@ -206,14 +206,18 @@ timer > ms::before {
 tag {
     position: relative;
     display: inline-block;
-    background-color: #f1f1f1;
-    color: #4d4d4d;
+
     margin: 0 2px;
     padding: 2px 10px;
     border-radius: 15px;
+
     font-family: "Calibri";
     font-weight: bold;
-    font-size: 11px;
+    font-size: 16px;
+    color: var(--color);
+
+	--color: #4d4d4d;
+    background-color: #f1f1f1;
     -webkit-font-smoothing: antialiased;
 }
 
@@ -371,6 +375,7 @@ body.dark .lazyload::before,
 	z-index: 9999999;
 	overflow: hidden;
 	opacity: 0;
+	pointer-events: none;
 
 	transition: opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 	
@@ -476,12 +481,16 @@ body.dark separator {
     position: relative;
     flex-grow: 1;
     margin-right: 10px;
-    font-size: 12px;
+    font-size: 13px;
     color: #2c2c2c;
 }
 
 body.dark .checkboxContainer > span {
 	color: #dadada;
+}
+
+.checkboxContainer > :last-child {
+	flex-shrink: 0;
 }
 
 /** ======================== PRICE ======================== **/
