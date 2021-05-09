@@ -377,7 +377,8 @@ body.dark .lazyload::before,
 	opacity: 0;
 	pointer-events: none;
 
-	transition: opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+	transition:
+		all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 	
 	animation: tooltip-blink 0.3s linear;
 	animation-fill-mode: forwards;
@@ -385,7 +386,11 @@ body.dark .lazyload::before,
 
 .tooltip.show {
 	opacity: 1;
-	transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tooltip.hide {
+	display: none;
+	transition: none;
 }
 
 .tooltip > .content {

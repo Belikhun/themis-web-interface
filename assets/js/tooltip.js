@@ -146,6 +146,10 @@ const tooltip = {
 						this.nodeToShow = null;
 						this.prevData = null;
 						this.container.classList.remove("show");
+
+						this.hideTimeout = setTimeout(() => {
+							this.container.classList.add("hide");
+						}, 300);
 					}, this.showTime);
 			} else {
 				clearTimeout(this.hideTimeout);
@@ -201,6 +205,9 @@ const tooltip = {
 				}
 			}
 
+		if (this.container.classList.contains("hide"))
+			return;
+
 		let xPos = event.clientX + 20;
 		let yPos = event.clientY + 30;
 
@@ -211,9 +218,6 @@ const tooltip = {
 			yPos -= (this.content.clientHeight + 40);
 
 		this.container.style.transform = `translate(${xPos}px, ${yPos}px)`;
-
-		if (!this.container.classList.contains("show"))
-			return;
 	},
 
 	/**
@@ -224,7 +228,7 @@ const tooltip = {
 	 * @param {Boolean}			noPadding		Remove padding around tooltip
 	 * @returns 
 	 */
-	show(data, showOnNode, noPadding = false) {
+	async show(data, showOnNode, noPadding = false) {
 		if (!this.initialized)
 			return false;
 		
@@ -233,6 +237,9 @@ const tooltip = {
 		
 		clearTimeout(this.hideTimeout);
 		this.hideTimeout = null;
+		this.container.classList.remove("hide");
+
+		await nextFrameAsync();
 		this.container.classList.add("show");
 
 		switch (typeof data) {
