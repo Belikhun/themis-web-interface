@@ -550,12 +550,26 @@ panel > .main > .loadingWrapper.show {
 	box-shadow: inset 0 -180px 80px -85px rgba(0, 0, 0, 0.6);
 }
 
-#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .status {
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .icons {
 	position: absolute;
-	display: block;
-
+	display: flex;
+	flex-direction: row;
+	
 	top: 10px;
 	left: 10px;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .icons > icon {
+	width: 20px;
+	height: 20px;
+	margin-right: 5px;
+	background-color: rgba(26, 26, 26, 0.6);
+	border-radius: 50%;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .icons > icon::after {
+	font-size: 9px;
+	color: white;
 }
 
 #problemsPanel > .problemsContainer > .listContainer > .list > .item > .content > .tags {
@@ -743,6 +757,20 @@ panel > .main > .loadingWrapper.show {
 	transition:
 		display 0s linear 0.2s,
 		opacity 0.2s ease-out;
+}
+
+#problemsPanel > .problemsContainer > .listContainer > .list > .item > .background:empty::before {
+	content: "KHÔNG CÓ HOẠT ĐỘNG 😥";
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	width: 100%;
+	height: 60px;
+
+	font-weight: bold;
+	color: rgba(65, 65, 65, 0.8);
 }
 
 #problemsPanel > .problemsContainer > .listContainer > .list > .item.hide > .background {
@@ -1163,6 +1191,9 @@ panel > .main > .loadingWrapper.show {
 	position: relative;
 	display: block;
 
+	margin-top: 5px;
+	margin-bottom: 10px;
+
 	font-family: "Consolas";
 	font-size: 18px;
 	font-weight: bold;
@@ -1171,7 +1202,13 @@ panel > .main > .loadingWrapper.show {
 	color: rgb(2, 104, 172);
 }
 
-.problemViewer > .content > .details > .right > .languages:empty::after {
+.problemViewer > .content > .details > .right > .tags {
+	position: relative;
+	display: block;
+	margin-top: 5px;
+}
+
+.problemViewer > .content > .details > .right > div:empty::after {
 	content: "Trống";
     display: flex;
 	align-items: center;
@@ -1179,14 +1216,15 @@ panel > .main > .loadingWrapper.show {
 
 	min-width: 200px;
 	min-height: 60px;
-    margin-top: 10px;
 
-    font-size: 13px;
+	font-family: "Calibri";
+    font-size: 16px;
     font-weight: bold;
     text-transform: uppercase;
     text-align: center;
+
     color: rgba(38, 38, 38, 0.6);
-	background-color: rgba(26, 26, 26, 0.1);
+	background-color: rgba(160, 160, 160, 0.1);
 }
 
 .problemViewer > .content > .info {
@@ -1541,9 +1579,22 @@ panel > .main > .loadingWrapper.show {
 
 .problemViewer > .content > .info > .description > .content > .md2html,
 .problemViewer > .content > .info > .description > .content > .editor {
+	position: relative;
 	display: none;
 	padding-left: unset;
 	padding-right: unset;
+}
+
+.problemViewer > .content > .info > .description > .content > .md2html:empty::before {
+	content: "KHÔNG CÓ GÌ CẢ 😥";
+	position: absolute;
+
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	
+	font-weight: bold;
+	color: rgb(68, 68, 68);
 }
 
 .problemViewer > .content > .info > .description > .content[data-active="markdown"] > .md2html {

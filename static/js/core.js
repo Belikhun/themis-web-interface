@@ -1099,7 +1099,7 @@ const twi = {
 	
 					details: { tag: "div", class: "details", child: {
 						left: { tag: "span", class: "left", child: {
-							tTitle: { tag: "t", class: "title", text: "Thông Tin" },
+							tTitle: { tag: "t", class: "title", text: "thông tin" },
 	
 							items: { tag: "div", class: "items", child: {
 								pID: { tag: "span", class: ["item", "id"], child: {
@@ -1125,13 +1125,26 @@ const twi = {
 								output: { tag: "span", class: ["item", "output"], child: {
 									label: { tag: "t", class: "label", text: "Output" },
 									value: { tag: "t", class: "value", text: "Màn Hình" }
+								}},
+
+								disabled: { tag: "span", class: ["item", "disabled"], child: {
+									label: { tag: "t", class: "label", text: "Ẩn Đề Bài" },
+									value: { tag: "t", class: "value", text: "tắt" }
+								}},
+
+								canSubmit: { tag: "span", class: ["item", "canSubmit"], child: {
+									label: { tag: "t", class: "label", text: "Nộp Bài" },
+									value: { tag: "t", class: "value", text: "bật" }
 								}}
 							}}
 						}},
 	
 						right: { tag: "span", class: "right", child: {
-							tTitle: { tag: "t", class: "title", text: "Ngôn Ngữ" },
-							languages: { tag: "t", class: "languages" }
+							lTitle: { tag: "t", class: "title", text: "ngôn ngữ" },
+							languages: { tag: "div", class: "languages" },
+
+							tTitle: { tag: "t", class: "title", text: "tag" },
+							tags: { tag: "div", class: "tags" }
 						}}
 					}},
 	
@@ -1171,7 +1184,7 @@ const twi = {
 							}},
 	
 							content: { tag: "div", class: "content", child: {
-								markdown: { tag: "div" },
+								markdown: { tag: "div", class: "markdown" },
 								editor: new Editor("none", {
 									language: "md",
 									readonly: true
@@ -1245,7 +1258,32 @@ const twi = {
 			let t = makeTree("span", ["item", "hide"], {
 				content: { tag: "div", class: "content", child: {
 					thumbnail: new lazyload({ source: item.thumbnail, classes: "thumbnail" }),
-					status: { tag: "span", class: ["status", "judgeStatus"], text: "Chưa Nộp" },
+
+					icons: { tag: "span", class: "icons", child: {
+						attachment: {
+							tag: "icon",
+							class: "attachment",
+							data: { icon: "file" },
+							title: "Có Tệp Đính Kèm"
+						},
+
+						disabled: {
+							tag: "icon",
+							class: "disabled",
+							data: { icon: "userCog" },
+							title: "Chỉ Quản Trị Viên Mới Có Thể Nhìn Thấy"
+						},
+
+						noSubmit: {
+							tag: "icon",
+							class: "noSubmit",
+							data: { icon: "ban" },
+							title: "Không Cho Phép Nộp Bài"
+						},
+
+						status: { tag: "span", class: ["status", "judgeStatus"], text: "Chưa Nộp" },
+					}},
+
 					tags: { tag: "span", class: "tags", name: "tags" },
 					point: { tag: "span", class: "point", text: item.point },
 					pName: { tag: "t", class: "name", text: item.name },
@@ -1293,11 +1331,32 @@ const twi = {
 				`${item.status.skipped.length} SK`,
 			].join(" / ");
 
+			if (item.attachment) {
+				t.content.icons.attachment.style.display = null;
+				t.content.icons.attachment.title = item.attachment;
+			} else
+				t.content.icons.attachment.style.display = "none";
+
+			if (item.disabled)
+				t.content.icons.disabled.style.display = null;
+			else
+				t.content.icons.disabled.style.display = "none";
+	
+			if (item.canSubmit)
+				t.content.icons.noSubmit.style.display = "none";
+			else
+				t.content.icons.noSubmit.style.display = null;
+
 			for (let key of Object.keys(item.status)) {
-				let value = item.status[key]
+				let value = item.status[key];
 
 				if (key === "total" || value.length === 0)
 					continue;
+
+				if (SESSION.username && value.includes(SESSION.username)) {
+					t.content.icons.status.dataset.status = key;
+					t.content.icons.status.innerText = twi.taskStatus[key];
+				}
 
 				let con = document.createElement("div");
 				con.classList.add("container");
@@ -1394,7 +1453,9 @@ const twi = {
 		},
 
 		parseTags(tags) {
-			tags = tags.replaceAll("\n", " ").split(" ");
+			if (typeof tags === "string")
+				tags = tags.replaceAll("\n", " ").split(" ");
+
 			let html = "";
 
 			for (let tag of tags) {
@@ -1704,7 +1765,8 @@ const twi = {
 			this.log("DEBG", "updateViewer():", data);
 
 			// Update Header
-			this.panel.title = `Đề bài - ${data.name}`;
+			this.panel.title = `đề bài - ${data.name}`;
+			this.wavec.set({ title: `đề bài - ${data.name}` });
 			this.viewer.backgroundWrapper.background.source = data.thumbnail;
 			this.viewer.backgroundWrapper.background.load();
 			this.viewer.content.header.left.pTitle.innerText = data.name;
@@ -1727,7 +1789,10 @@ const twi = {
 			this.viewer.content.details.left.items.memory.value.innerText = convertSize(data.memory);
 			this.viewer.content.details.left.items.input.value.innerText = data.type.input || "không rõ";
 			this.viewer.content.details.left.items.output.value.innerText = data.type.output || "không rõ";
+			this.viewer.content.details.left.items.disabled.value.innerText = data.disabled ? "bật" : "tắt";
+			this.viewer.content.details.left.items.canSubmit.value.innerText = data.canSubmit ? "bật" : "tắt";
 			this.viewer.content.details.right.languages.innerText = data.accept.join(", ");
+			this.viewer.content.details.right.tags.innerHTML = this.parseTags(data.tags);
 
 			// Update Description
 			let mdNode = md2html.parse(data.description);
@@ -1740,7 +1805,7 @@ const twi = {
 			for (let ti = 0; ti < data.test.length; ti++) {
 				let item = data.test[ti];
 				let container = makeTree("div", "testContainer", {
-					tTitle: { tag: "t", class: "title", text: `Ví Dụ ${ti + 1}` },
+					tTitle: { tag: "t", class: "title", text: `ví dụ ${ti + 1}` },
 					content: { tag: "div", class: "content", child: {
 						input: this.createTestViewer(item.input || "", data.type.input),
 						output: this.createTestViewer(item.output || "", data.type.output)

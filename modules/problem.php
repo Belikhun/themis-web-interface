@@ -69,6 +69,10 @@
 					"loved" => isset($item["loved"])
 						? $item["loved"]
 						: Array(),
+
+					"canSubmit" => isset($item["canSubmit"])
+						? $item["canSubmit"]
+						: null,
 					
 					"modify" => filemtime(PROBLEMS_DIR ."/". $id ."/data.json"),
 					"disabled" => $item["disabled"]

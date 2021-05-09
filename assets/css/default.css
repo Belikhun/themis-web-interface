@@ -207,7 +207,7 @@ tag {
     position: relative;
     display: inline-block;
 
-    margin: 0 2px;
+    margin-right: 4px;
     padding: 2px 10px;
     border-radius: 15px;
 
@@ -703,6 +703,14 @@ icon[data-icon="heartFill"]::after {
 
 icon[data-icon="clipboard"]::after {
 	content: "\f328";
+}
+
+icon[data-icon="ban"]::after {
+	content: "\f05e";
+}
+
+icon[data-icon="file"]::after {
+	content: "\f15b";
 }
 
 /** ======================== NOTE ======================== **/

@@ -25,8 +25,11 @@ const md2html = {
 	 * @returns	{HTMLElement}
 	 */
 	parse(text) {
-		if (text === "")
-			return document.createElement("div");
+		if (text === "") {
+			let dummy = document.createElement("div");
+			dummy.classList.add("md2html");
+			return dummy;
+		}
 
 		try {
 			// Process simple tokens
