@@ -73,6 +73,10 @@
 					"canSubmit" => isset($item["canSubmit"])
 						? $item["canSubmit"]
 						: null,
+
+					"tags" => isset($item["tags"])
+						? $item["tags"]
+						: Array(),
 					
 					"modify" => filemtime(PROBLEMS_DIR ."/". $id ."/data.json"),
 					"disabled" => $item["disabled"]

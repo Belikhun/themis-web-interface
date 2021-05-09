@@ -950,8 +950,8 @@ const twi = {
 				else
 					this.search.container.classList.remove("typing");
 
-				//clearTimeout(searchDelay);
-				//searchDelay = setTimeout(() => this.fetchScriptList(false), 500);
+				clearTimeout(this.searchDelay);
+				this.searchDelay = setTimeout(() => this.pager.render(), 500);
 			});
 
 			this.search.clear.addEventListener("click", () => {
@@ -962,6 +962,27 @@ const twi = {
 			// Set up pager handler
 			this.pager.renderItem((i) => this.__renderItem(i));
 			this.pager.setFilter((i) => {
+				let searchKeyword = this.search.input.value
+					.toLowerCase()
+					.split(" ");
+
+				if (searchKeyword.length > 0 && searchKeyword[0] !== "") {
+					let match = false;
+					for (let field of [
+						i.id,
+						i.name,
+						i.tags.join(" "),
+						(i.author ? `${i.author.username} ${i.author.name}` : "")
+					])
+						if (field.toLowerCase().includes(...searchKeyword)) {
+							match = true;
+							break;
+						}
+	
+					if (!match)
+						return false;
+				}
+
 				return true;
 			});
 
