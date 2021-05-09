@@ -212,16 +212,13 @@ class splash {
 		this.error.innerText = `[${e.code}] >>> ${e.description}`;
 		this.bar.dataset.color = "red";
 		this.bar.dataset.blink = "fade";
+		cookie.set("splashInitSuccess", false, 1);
+		clog("ERRR", error);
 		
 		for (let f of this.onErrorHandlers)
 			await f(error, e.code, e.description)
 
-		cookie.set("splashInitSuccess", false, 1);
-		clog("ERRR", error);
-
 		if (stop)
 			throw error;
-		else
-			console.error(error);
 	}
 }

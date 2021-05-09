@@ -14,8 +14,11 @@
 		$maxRequest = getConfig("ratelimit.maxRequest") ?: 60;
 		$perSeconds = getConfig("ratelimit.requestTime") ?: 8;
 		$banTime = getConfig("ratelimit.banTime") ?: 15;
+		$identifier = getConfig("ratelimit.useIP")
+			? getClientIP()
+			: session_id();
 	
-		$ratelimitCache = new Cache("ratelimit.". md5(getClientIP()), Array(
+		$ratelimitCache = new Cache("ratelimit.". md5($identifier), Array(
 			"firstRequest" => time(),
 			"requestCount" => 0,
 			"banned" => false,

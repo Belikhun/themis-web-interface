@@ -426,6 +426,13 @@
 				"value" => true
 			),
 
+			"useIP" => Array(
+				"type" => "checkbox",
+				"label" => "Chặn bằng địa chỉ IP thay vì chặn bằng phiên (nên tắt tùy chọn này nếu bạn mở máy chủ qua tunnel hoặc proxy)",
+				"color" => "blue",
+				"value" => true
+			),
+
 			"maxRequest" => Array(
 				"type" => "number",
 				"label" => "Số yêu cầu tối đa",

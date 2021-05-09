@@ -380,7 +380,7 @@ const twi = {
 		priority: 3,
 		container: $("#ranking"),
 		refreshButton: $("#rankingRefresh"),
-		heartbeatDot: $("#rankingUpdateHeartbeat"),		
+		heartbeatDot: $("#rankingUpdateHeartbeat"),
 
 		folding: {},
 		timeout: null,
@@ -392,6 +392,7 @@ const twi = {
 		async init() {
 			this.refreshButton.addEventListener("click", () => this.update(true));
 			await this.updater();
+			this.update();
 		},
 
 		beat({ color = "green", beat = true } = {}) {
@@ -1690,6 +1691,7 @@ const twi = {
 				});
 			} catch (error) {
 				this.log("ERRR", `Lỗi đã xảy ra khi yêu thích đề bài ${this.id}:`, error);
+				errorHandler(error);
 			}
 
 			await this.updateLoved();
@@ -1792,7 +1794,7 @@ const twi = {
 			this.log("DEBG", "updateViewer():", data);
 
 			// Update Header
-			this.panel.title = `đề bài - ${data.name}`;
+			this.panel.title = `Đề Bài - ${data.name}`;
 			this.wavec.set({ title: `đề bài - ${data.name}` });
 			this.viewer.backgroundWrapper.background.source = data.thumbnail;
 			this.viewer.backgroundWrapper.background.load();
