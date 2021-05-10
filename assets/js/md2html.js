@@ -191,6 +191,8 @@ const md2html = {
 							default:
 								if (blockValue === "tex") {
 									node = document.createElement("div");
+									node.classList.add("texBlock");
+									
 									katex.render(blockLines.join("\n"), node, {
 										throwOnError: false
 									});
