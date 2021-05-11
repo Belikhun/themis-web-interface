@@ -128,9 +128,12 @@ const wavec = {
 				return;
 
 			clearTimeout(this.hideTimeout);
+			this.showing = true;
+
 			wavec.container.classList.remove("hide");
 			this.container.classList.remove("hide");
 			this.stackPos = wavec.active.push(this) - 1;
+			this.container.style.zIndex = this.stackPos;
 
 			if (typeof sounds === "object")
 				sounds.toggle();
@@ -139,7 +142,6 @@ const wavec = {
 			requestAnimationFrame(() => {
 				this.container.classList.add("show");
 				wavec.layer.classList.add("show");
-				this.showing = true;
 			});
 		}
 
@@ -148,6 +150,7 @@ const wavec = {
 				return;
 
 			clearTimeout(this.hideTimeout);
+			this.showing = false;
 
 			if (typeof sounds === "object")
 				sounds.toggle(1);
@@ -168,8 +171,7 @@ const wavec = {
 				// is one active container left
 				if (wavec.active.length === 1)
 					wavec.container.classList.add("hide");
-
-				this.showing = false;
+				
 				wavec.active.splice(this.stackPos, 1);
 			}, 600);
 		}
