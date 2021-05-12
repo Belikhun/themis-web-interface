@@ -215,23 +215,19 @@
 									<span class="buttons"></span>
 								</div>
 
-								<div class="main submitContainer">
-									<div id="submitDropzone">
+								<div id="submitContainer" class="main">
+									<div class="header">
+										<span id="submitDropzone" class="dropzone">
+											<t class="label">THẢ TỆP TẠI ĐÂY</t>
+										</span>
+
 										<input type="file" id="submitInput" multiple>
-										<t class="title">Thả tệp tại đây</t>
-										<t class="sub">hoặc</t>
-										<label for="submitInput" class="sq-btn dark sound" data-soundhover data-soundselect>Chọn tệp</label>
+										<label for="submitInput" class="sq-btn empty" data-style="round" data-soundhover data-soundselect>
+											<icon class="left" data-icon="upload"></icon>
+										</label>
 									</div>
 
-									<div class="info">
-										<t id="submitStatus">null</t>
-										<t id="submitFileName">null</t>
-										<div class="progressBar">
-											<div class="bar" id="submitprogressBar"></div>
-											<t class="left" id="submitInfoProgress">0%</t>
-											<t class="right" id="submitInfoSize">00/00</t>
-										</div>
-									</div>
+									<div id="submitQueue" class="queue showEmpty"></div>
 								</div>
 							</panel>
 						</div>

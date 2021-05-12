@@ -357,6 +357,21 @@ class Scrollable {
 			this.hBar.classList.add("hide");
 	}
 
+	toBottom() {
+		let maxScroll = this.content.scrollHeight - this.content.offsetHeight;
+
+		if (this.smooth)
+			this.animationUpdate({
+				value: maxScroll,
+				horizontal: false
+			});
+		else
+			this.update({
+				value: maxScroll,
+				horizontal: false
+			});
+	}
+
 	updateScrollbarPos() {
 		this.vBar.style.top = `${this.content.offsetTop}px`;
 		this.vBar.style.bottom = `${this.container.offsetHeight - this.content.offsetTop - this.content.offsetHeight}px`;

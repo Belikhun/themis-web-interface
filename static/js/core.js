@@ -1952,180 +1952,187 @@ const twi = {
 	submit: {
 		priority: 3,
 
-		container: $("#submitPanel"),
+		panelContainer: $("#submitPanel"),
+		container: $("#submitContainer"),
 		dropzone: $("#submitDropzone"),
 		input: $("#submitInput"),
-		state: $("#submitStatus"),
-		name: $("#submitFileName"),
-		bar: $("#submitprogressBar"),
-		percent: $("#submitInfoProgress"),
-		size: $("#submitInfoSize"),
+		queue: $("#submitQueue"),
 
 		panel: TWIPanel.prototype,
-		submitCooldown: 1000,
-		uploading: false,
-
 		reloadButton: null,
+
+		/** @type {Scrollable} */
+		scrollable: null,
+
+		uploadAtOnce: 2,
+		uploadQueue: [],
+		uploading: 0,
+		cooldown: 1000,
 
 		init() {
 			if (!SESSION || !SESSION.username) {
-				this.container.style.display = "none";
+				this.panelContainer.style.display = "none";
 				return false;
 			}
 
-			this.dropzone.addEventListener("dragenter", e => {
+			this.dropzone.addEventListener("dragenter", (e) => {
 				e.stopPropagation();
 				e.preventDefault();
 				e.target.classList.add("drag");
-			}, false);
+			});
 
-			this.dropzone.addEventListener("dragleave", e => {
+			this.dropzone.addEventListener("dragleave", (e) => {
 				e.stopPropagation();
 				e.preventDefault();
 				e.target.classList.remove("drag");
-			}, false);
+			});
 
-			this.dropzone.addEventListener("dragover", e => {
+			this.dropzone.addEventListener("dragover", (e) => {
 				e.stopPropagation();
 				e.preventDefault();
 				e.dataTransfer.dropEffect = "copy";
 				e.target.classList.add("drag");
-			}, false);
+			});
 
-			this.panel = new TWIPanel(this.container);
+			this.panel = new TWIPanel(this.panelContainer);
 			this.reloadButton = this.panel.button("reload");
 			this.reloadButton.onClick(() => this.reset());
+			this.scrollable = new Scrollable(this.container, { content: this.queue });
 
-			this.dropzone.addEventListener("drop", e => this.fileSelect(e), false);
-			this.input.addEventListener("change", e => this.fileSelect(e, "input"));
+			this.dropzone.addEventListener("drop", (e) => this.fileSelect(e));
+			this.input.addEventListener("change", (e) => this.fileSelect(e, "input"));
 			this.panel.title = "Nộp bài";
 		},
 
 		reset() {
-			if (this.uploading)
-				return;
-
-			this.dropzone.classList.remove("hide");
-			this.input.value = "";
-			this.panel.title = "Nộp bài";
-			this.name.innerText = "Unknown";
-			this.state.innerText = "Unknown";
-			this.size.innerText = "00B/00B";
-			this.percent.innerText = "0%";
-			this.bar.style.width = "0%";
-			this.bar.dataset.color = "";
+			for (let i = 0; i < this.uploadQueue.length; i++)
+				if (!this.uploadQueue[i].handling) {
+					this.queue.removeChild(this.uploadQueue[i].node);
+					this.uploadQueue.splice(i, 1);
+				}
 		},
 
-		fileSelect(e, type = "drop") {
-			if (type === "drop") {
+		fileSelect(e, from = "drop") {
+			if (from === "drop") {
 				e.stopPropagation();
 				e.preventDefault();
 				e.target.classList.remove("drag");
 			}
 
-			if (this.uploading)
-				return;
+			let files = (from === "drop")
+				? e.dataTransfer.files
+				: e.target.files;
 
-			var files = (type === "drop") ? e.dataTransfer.files : e.target.files;
-			this.dropzone.classList.add("hide");
-
-			this.log("info", "Started uploading", {
-				color: flatc("blue"),
-				text: files.length
-			}, "files");
-
-			sounds.confirm();
-
-			this.state.innerText = "Chuẩn bị tải lên " + files.length + " tệp...";
-			this.size.innerText = "00B/00B";
-			this.percent.innerText = "0%";
-			this.bar.style.width = "0%";
-			this.bar.dataset.color = "aqua";
-			setTimeout(() => this.upload(files), 1000);
+			for (let file of files)
+				this.addQueue(file);
 		},
+		
+		/**
+		 * Add File To Upload Queue
+		 * @param	{File}	file 
+		 */
+		addQueue(file) {
+			let node = makeTree("div", "item", {
+				header: { tag: "div", class: "header", child: {
+					fName: { tag: "t", class: "name", text: file.name },
+					status: { tag: "t", class: "status", text: "Trong Hàng Chờ" }
+				}},
 
-		upload(files, i = 0) {
-			if (i > files.length - 1) {
-				this.uploading = false;
-				this.reset();
-				return;
-			}
+				detail: { tag: "div", class: "detail", child: {
+					progress: { tag: "span", class: "progressBar", child: {
+						bar: { tag: "div", class: "bar" }
+					}},
 
-			this.log("INFO", "Uploading", {
-				color: flatc("yellow"),
-				text: files[i].name
+					value: { tag: "span", class: "value", text: "0B" },
+					size: { tag: "span", class: "size", text: convertSize(file.size) }
+				}}
 			});
 
-			let p = (i / files.length) * 100;
+			node.dataset.status = "wait";
+			this.queue.appendChild(node);
+			this.uploadQueue.push({
+				file,
+				node,
+				handing: false
+			});
 
-			this.uploading = true;
-			this.name.innerText = files[i].name;
-			this.state.innerText = "Đang tải lên";
-			this.panel.title = "Nộp bài - Đang tải lên " + (i + 1) + "/" + files.length;
-			this.size.innerText = "00B/00B";
-			this.percent.innerText = `${p.toFixed(0)}%`;
-			this.bar.style.width = `${p}%`;
+			this.scrollable.toBottom();
+			this.updateQueue();
+		},
 
-			setTimeout(() => {
-				myajax({
+		updateQueue() {
+			if (this.uploading >= this.uploadAtOnce)
+				return;
+
+			for (let i = 0; i < this.uploadQueue.length; i++) {
+				let item = this.uploadQueue[i];
+
+				if (item.handing)
+					continue;
+
+				item.handing = true;
+				this.upload(item.file, item.node)
+					.then(() => {
+						this.uploadQueue.splice(i, 1);
+						this.updateQueue();
+					});
+
+				break;
+			}
+		},
+
+		/**
+		 * Upload File
+		 * @param	{File}			file
+		 * @param	{HTMLElement}	node
+		 */
+		async upload(file, node) {
+			this.log("INFO", "Uploading", {
+				color: flatc("yellow"),
+				text: file.name
+			});
+
+			node.dataset.status = "uploading";
+			node.header.status.innerText = "Đang Nộp";
+			await delayAsync(this.cooldown);
+
+			let response
+			
+			try {
+				response = await myajax({
 					url: "/api/contest/upload",
 					method: "POST",
 					form: {
 						"token": API_TOKEN,
-						file: files[i]
+						file
 					},
-					onUpload: e => {
-						let p = (100 * ((e.loaded / e.total) + i)) / files.length;
-
-						this.size.innerText = `${convertSize(e.loaded)}/${convertSize(e.total)}`;
-						this.percent.innerText = `${p.toFixed(0)}%`;
-						this.bar.style.width = `${p}%`;
+					onUpload: (e) => {
+						node.detail.value.innerText = convertSize(e.loaded);
+						node.detail.progress.bar.style.width = `${(e.loaded / e.total) * 100}%`;
 					}
-				}, (response) => {
-					if ([103, 104].includes(response.code)) {
-						this.log("ERRR", "Upload Stopped:", {
-							color: flatc("red"),
-							text: response.description
-						});
+				});
+			} catch (error) {
+				this.log("ERRR", {
+					color: flatc("yellow"),
+					text: file.name
+				}, error);
 
-						this.uploading = false;
-						this.input.value = "";
-						this.state.innerText = res.description;
-						this.panel.title = "Nộp bài - ĐÃ XẢY RA LỖI!";
-						this.bar.dataset.color = "red";
+				let e = parseException(error);
+				node.dataset.status = "error";
+				node.header.status.innerText = error.data.description || e.description;
 
-						return false;
-					}
+				return false;
+			}
 
-					this.log("OKAY", "Uploaded", {
-						color: flatc("yellow"),
-						text: files[i].name
-					});
+			node.dataset.status = "complete";
+			node.header.status.innerText = "Đã Nộp";
+			this.log("OKAY", "Uploaded", {
+				color: flatc("yellow"),
+				text: file.name
+			});
 
-					this.state.innerText = `Tải lên thành công! ${(i + 1)}/${files.length}`;
-					sounds.notification();
-					
-					setTimeout(() => {
-						this.upload(files, i + 1);
-					}, this.uploadCoolDown / 2);
-				}, e => {
-					this.log("ERRR", "Upload Stopped", e);
-
-					this.uploading = false;
-					this.input.value = "";
-					this.state.innerText = e.data.description;
-					this.panel.title = "Nộp bài - ĐÃ XẢY RA LỖI!";
-					this.bar.dataset.color = "red";
-					sounds.warning();
-
-					switch(e.data.code) {
-						case 44:
-							this.name.innerText = e.data.data.file;
-							break;
-					}
-				})
-			}, this.uploadCoolDown / 2);
-		},
+			sounds.notification();
+		}
 	},
 
 	timer: {
@@ -2830,6 +2837,42 @@ const twi = {
 					defaultValue: true,
 					onChange: async (v) => await twi.timer.doCorrectTime(v)
 				}, general);
+			}
+		},
+
+		submit: {
+			group: smenu.Group.prototype,
+
+			init() {
+				this.group = new smenu.Group({ label: "nộp bài", icon: "upload" });
+
+				let general = new smenu.Child({ label: "Chung" }, this.group);
+
+				let uploadAtOnce = new smenu.components.Slider({
+					label: "Số bài tải lên cùng lúc",
+					color: "blue",
+					save: "submit.uploadAtOnce",
+					min: 1,
+					max: 10,
+					unit: "bài",
+					defaultValue: 2
+				}, general);
+
+				uploadAtOnce.onInput((v) => uploadAtOnce.set({ color: (v >= 5) ? "red" : "blue" }));
+				uploadAtOnce.onChange((v) => twi.submit.uploadAtOnce = v);
+
+				let cooldown = new smenu.components.Slider({
+					label: "Thời gian nghỉ",
+					color: "blue",
+					save: "submit.cooldown",
+					min: 0,
+					max: 10,
+					unit: "giây",
+					defaultValue: 2
+				}, general);
+
+				cooldown.onInput((v) => cooldown.set({ color: (v <= 1) ? "red" : "blue" }));
+				cooldown.onChange((v) => twi.submit.cooldown = (v * 1000));
 			}
 		},
 
