@@ -116,7 +116,7 @@
 	height: 0;
 
 	border-bottom: 3px solid rgba(68, 68, 68, 0.8);
-	background-color: rgba(236, 236, 236, 0.9);
+	background-color: rgba(250, 250, 250, 0.95);
 	cursor: default;
 	overflow: hidden;
 	opacity: 0;
@@ -135,37 +135,37 @@
 	display: none;
 }
 
-.navigationBar > .group > .component > .subWindow[data-color = "green"] {
+.navigationBar > .group > .component > .subWindow[data-color="green"] {
 	border-bottom-color: rgb(19, 121, 19);
 }
 
-.navigationBar > .group > .component > .subWindow[data-color = "yellow"] {
+.navigationBar > .group > .component > .subWindow[data-color="yellow"] {
 	border-bottom-color: rgb(202, 160, 20);
 }
 
-.navigationBar > .group > .component > .subWindow[data-color = "red"] {
+.navigationBar > .group > .component > .subWindow[data-color="red"] {
 	border-bottom-color: rgb(124, 14, 14);
 }
 
-.navigationBar > .group > .component > .subWindow[data-color = "blue"] {
+.navigationBar > .group > .component > .subWindow[data-color="blue"] {
 	border-bottom-color: rgb(26, 150, 187);
 }
 
-.navigationBar > .group > .component > .subWindow[data-color = "pink"] {
+.navigationBar > .group > .component > .subWindow[data-color="pink"] {
 	border-bottom-color: rgb(211, 29, 120);
 }
 
-.navigationBar > .group > .component > .subWindow[data-align = "center"] {
+.navigationBar > .group > .component > .subWindow[data-align="center"] {
 	left: 50%;
 	transform: translateX(-50%);
 }
 
-.navigationBar > .group > .component > .subWindow[data-align = "right"] {
+.navigationBar > .group > .component > .subWindow[data-align="right"] {
 	left: unset;
 	right: 0;
 }
 
-.navigationBar > .group > .component > .subWindow[data-align = "full"] {
+.navigationBar > .group > .component > .subWindow[data-align="full"] {
 	position: fixed;
 
 	top: 40px;

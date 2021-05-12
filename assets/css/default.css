@@ -814,7 +814,7 @@ icon[data-icon="volume"]::after {
 .note > .inner.inner,
 .note > .inner.inner > t,
 .note > .inner.inner > pre {
-    font-size: 16px;
+    font-size: 13px;
 	color: #343434;
 }
 

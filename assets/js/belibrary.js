@@ -589,7 +589,8 @@ function time(date = new Date()) {
 function parseTime(t = 0, {
 	forceShowHours = false,
 	msDigit = 3,
-	showPlus = false
+	showPlus = false,
+	strVal = true,
 } = {}) {
 	let d = showPlus ? "+" : "";
 	
@@ -604,14 +605,13 @@ function parseTime(t = 0, {
 	let ms = pleft(parseInt(t.toFixed(msDigit).split(".")[1]), msDigit);
 
 	return {
-		h: h,
-		m: m,
-		s: s,
-		ms: ms,
-		str: d + [h, m, s]
-			.map(v => v < 10 ? "0" + v : v)
-			.filter((v, i) => i > 0 || forceShowHours || v !== "00")
-			.join(":")
+		h, m, s, ms, d,
+		str: (strVal)
+			? d + [h, m, s]
+				.map(v => v < 10 ? "0" + v : v)
+				.filter((v, i) => i > 0 || forceShowHours || v !== "00")
+				.join(":")
+			: null
 	}
 }
 

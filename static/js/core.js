@@ -5,6 +5,8 @@
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
+var updateServerHandlers = []
+
 /**
  * Fetch server data and update `SERVER`
  * variable in current window
@@ -16,6 +18,15 @@ async function updateServerData() {
 	window.SERVER = response.data;
 	window.SESSION = response.data.SESSION;
 	window.API_TOKEN = SESSION.API_TOKEN;
+	updateServerHandlers.forEach((f) => f(window.SERVER));
+}
+
+function onUpdateServerData(f) {
+	if (typeof f !== "function")
+		throw { code: -1, description: `onUpdateServerData(): not a valid function` }
+
+	f(window.SERVER);
+	return updateServerHandlers.push(f);
 }
 
 /**
@@ -2121,11 +2132,6 @@ const twi = {
 		priority: 3,
 		enabled: false,
 
-		/**
-		 * Time Difference between Client and Server
-		 */
-		deltaT: 0,
-
 		container: HTMLElement.prototype,
 		navTimer: htmlToElement(`<timer class="small"><days>--</days>+--:--:--</timer>`),
 		navProgress: htmlToElement(`<span class="bar"></span>`),
@@ -2134,7 +2140,19 @@ const twi = {
 		timeData: {},
 		timeout: null,
 		subWindow: null,
+		window: null,
+		currentState: null,
+		tickAnimation: null,
+		currentSecond: null,
+		autoCorrect: true,
+
 		interval: 1,
+
+		/**
+		 * Time Difference between Client and Server
+		 * @type {Number}
+		 */
+		delta: 0,
 
 		showMs: false,
 		last: 0,
@@ -2159,60 +2177,185 @@ const twi = {
 			});
 
 			let click = new navbar.Clickable(this.container);
-			let subWindow = new navbar.SubWindow(this.container);
-			subWindow.color = "blue";
+			this.window = new navbar.SubWindow(this.container);
+			this.window.color = "blue";
 			
-			this.subWindow = buildElementTree("div", "timerDetails", [
-				{ type: "timer", class: "big", name: "timer", html: "<days>0</days>+00:00:00" },
-				{ type: "t", class: "state", name: "state", text: "Đang Khởi Động Đồng Hồ" },
-				{ type: "div", class: "timeline", name: "timeline", list: [
-					{ type: "span", class: "box", name: "begin", list: [
-						{ type: "t", class: "time", name: "time", text: "00:00:00" },
-						{ type: "t", class: "date", name: "date", text: "00/00/0000" }
-					]},
+			this.subWindow = makeTree("div", "timerDetails", {
+				progress: { tag: "div", class: "progress", child: {
+					start: { tag: "span", class: ["point", "start"], child: {
+						value: { tag: "t", class: "value", text: "00:00:00" }	
+					}},
 
-					{ type: "span", class: "line", name: "during", list: [
-						{ type: "t", class: "type", name: "type", text: "Làm Bài" },
-						{ type: "div", class: "progressBar", name: "progress", list: [
-							{ type: "div", class: "bar", name: "bar" }
-						]},
+					during: { tag: "span", class: "progressBar", child: {
+						bar: { tag: "div", class: "bar", data: { color: "green" } }
+					}},
 
-						{ type: "t", class: "amount", name: "amount", text: "0 phút" }
-					]},
+					end: { tag: "span", class: ["point", "end"], child: {
+						value: { tag: "t", class: "value", text: "00:00:00" }
+					}},
 
-					{ type: "span", class: "box", name: "end", list: [
-						{ type: "t", class: "time", name: "time", text: "00:00:00" },
-						{ type: "t", class: "date", name: "date", text: "00/00/0000" }
-					]},
+					offset: { tag: "span", class: "progressBar", child: {
+						bar: { tag: "div", class: "bar", data: { color: "yellow" } }
+					}},
 
-					{ type: "span", class: "line", name: "offset", list: [
-						{ type: "t", class: "type", name: "type", text: "Bù Giờ" },
-						{ type: "div", class: "progressBar", name: "progress", list: [
-							{ type: "div", class: "bar", name: "bar" }
-						]},
+					ticker: { tag: "div", class: "ticker", child: {
+						inner: { tag: "div", class: "inner" }
+					}}
+				}},
 
-						{ type: "t", class: "amount", name: "amount", text: "0 phút" }
-					]},
+				timer: { tag: "div", class: "timer", child: {
+					time: { tag: "span", class: "time", child: {
+						value: { tag: "div", class: "value", child: {
+							h: { tag: "h", class: "seg", text: "00" },
+							s1: { tag: "sep" },
+							m: { tag: "m", class: "seg", text: "00" },
+							s2: { tag: "sep" },
+							s: { tag: "s", class: "seg", text: "00" },
+							dot: { tag: "dot" },
+							ms: { tag: "ms", class: "seg", text: "000" }
+						}},
 
-					{ type: "span", class: "box", name: "over", list: [
-						{ type: "t", class: "time", name: "time", text: "00:00:00" },
-						{ type: "t", class: "date", name: "date", text: "00/00/0000" }
-					]},
-				]}
-			]);
+						status: { tag: "span", class: "status", text: "Đang Khởi Động" },
+					}},
+					
+					bottom: { tag: "div", class: "bottom", child: {
+						mid: { tag: "span" }
+					}},
+				}},
 
-			subWindow.content = this.subWindow.tree;
-			this.subWindow = this.subWindow.obj;
+				note: createNote()
+			});
 
-			this.subWindow.timeline.during.progress.bar.dataset.color = "green";
-			this.subWindow.timeline.offset.progress.bar.dataset.color = "red";
-			this.subWindow.timeline.offset.progress.bar.dataset.blink = "grow";
-
-			click.setHandler(() => subWindow.toggle());
+			this.window.content = this.subWindow;
+			click.setHandler(() => this.window.toggle());
 			navbar.insert({ container: this.container }, "right");
+			onUpdateServerData((s) => this.setDelta(s.TIME - time()));
+			twi.hash.onUpdate("config.timer", () => this.updateData(true));
 
+			
 			set({ p: 0, d: `Starting Timer` });
-			await this.updateData(true);
+			this.setDelta();
+			this.updateData(true);
+		},
+
+		set({
+			state,
+			time,
+			progress
+		} = {}) {
+			if (typeof time === "number") {
+				let t = parseTime(time);
+				this.navTimer.innerHTML = `${t.str}${this.showMs ? `<ms>${t.ms}</ms>` : ""}`;
+				
+				if (this.window.showing) {
+					if (t.h > 0) { 
+						this.subWindow.timer.time.value.h.style.display = null;
+						this.subWindow.timer.time.value.s1.style.display = null;
+						this.subWindow.timer.time.value.h.innerText = pleft(t.h, 2);
+					} else {
+						this.subWindow.timer.time.value.s1.style.display = "none";
+						this.subWindow.timer.time.value.h.style.display = "none";
+					}
+		
+					if (t.m > 0 || t.h > 0) {
+						this.subWindow.timer.time.value.s2.style.display = null;
+						this.subWindow.timer.time.value.m.style.display = null;
+						this.subWindow.timer.time.value.m.innerText = pleft(t.m, 2);
+					} else {
+						this.subWindow.timer.time.value.s2.style.display = "none";
+						this.subWindow.timer.time.value.m.style.display = "none";
+					}
+		
+					this.subWindow.timer.time.value.s.innerText = pleft(t.s, 2);
+	
+					if (!this.tickAnimation)
+						this.tickAnimation = this.subWindow.progress.ticker.inner.getAnimations()[0];
+	
+					if (this.tickAnimation && t.s !== this.currentSecond) {
+						this.tickAnimation.finish();
+						this.tickAnimation.play();
+						this.currentSecond = t.s;
+					}
+	
+					if (this.showMs) {
+						this.subWindow.timer.time.value.dot.style.display = null;
+						this.subWindow.timer.time.value.ms.style.display = null;
+						this.subWindow.timer.time.value.ms.innerText = pleft(t.ms, 3);
+					} else {
+						this.subWindow.timer.time.value.dot.style.display = "none";
+						this.subWindow.timer.time.value.ms.style.display = "none";
+					}
+				}
+			}
+
+			if (typeof state === "string" && this.currentState !== state) {
+				this.subWindow.timer.time.status.dataset.status = state;
+
+				switch (state) {
+					case "begin":
+						if (this.window.showing) {
+							this.subWindow.progress.during.bar.style.width = `0%`;
+							this.subWindow.progress.offset.bar.style.width = `0%`;
+							this.subWindow.timer.time.status.innerText = `Kì Thi Sắp Bắt Đầu`;
+						}
+
+						this.navProgress.dataset.color = "blue";
+						break;
+
+					case "during":
+						if (this.window.showing) {
+							this.subWindow.progress.during.bar.style.width = `${progress || 0}%`;
+							this.subWindow.progress.offset.bar.style.width = `0%`;
+							this.subWindow.timer.time.status.innerText = `Thời Gian Làm Bài`;
+						}
+
+						this.navProgress.dataset.color = "green";
+						break;
+
+					case "offset":
+						if (this.window.showing) {
+							this.subWindow.progress.during.bar.style.width = `100%`;
+							this.subWindow.progress.offset.bar.style.width = `${progress || 0}%`;
+							this.subWindow.timer.time.status.innerText = `Thời Gian Bù Giờ`;
+						}
+
+						this.navProgress.dataset.color = "yellow";
+						this.navProgress.dataset.blink = "grow";
+						break;
+
+					case "ended":
+						if (this.window.showing) {
+							this.subWindow.progress.during.bar.style.width = `100%`;
+							this.subWindow.progress.offset.bar.style.width = `100%`;
+							this.subWindow.timer.time.status.innerText = `ĐÃ HẾT THỜI GIAN LÀM BÀI`;
+						}
+
+						this.navProgress.dataset.color = "red";
+						this.navProgress.dataset.blink = "fade";
+						break;
+				}
+		
+				if (this.window.showing)
+					this.currentState = state;
+			}
+
+			if (typeof progress === "number") {
+				this.navProgress.style.width = `${progress}%`;
+
+				switch (state) {
+					case "during":
+						if (this.window.showing)
+							this.subWindow.progress.during.bar.style.width = `${progress}%`;
+						break;
+			
+					case "offset":
+						if (this.window.showing)
+							this.subWindow.progress.offset.bar.style.width = `${progress}%`;
+
+						this.navProgress.dataset.blinkFast = (progress < 20);
+						break;
+				}
+			}
 		},
 
 		async updateData(reload = false) {
@@ -2235,34 +2378,54 @@ const twi = {
 			
 			this.enabled = true;
 			this.timeData = data;
-			
 			this.container.style.display = null;
-			this.subWindow.timeline.dataset.box = 0;
 
 			let start = new Date(this.timeData.start * 1000);
-			this.subWindow.timeline.begin.time.innerText = start.toLocaleTimeString();
-			this.subWindow.timeline.begin.date.innerText = start.toLocaleDateString();
+			this.subWindow.progress.start.value.innerText = start.toLocaleTimeString();
 
 			let end = new Date((this.timeData.start + this.timeData.during) * 1000);
-			this.subWindow.timeline.end.time.innerText = end.toLocaleTimeString();
-			this.subWindow.timeline.end.date.innerText = end.toLocaleDateString();
-
-			let over = new Date((this.timeData.start + this.timeData.during + this.timeData.offset) * 1000);
-			this.subWindow.timeline.over.time.innerText = over.toLocaleTimeString();
-			this.subWindow.timeline.over.date.innerText = over.toLocaleDateString();
-
-			this.subWindow.timeline.during.amount.innerText = `${Math.round(this.timeData.during / 60 * 100) / 100} phút`;
-			this.subWindow.timeline.offset.amount.innerText = `${Math.round(this.timeData.offset / 60 * 100) / 100} phút`;
-
-			if (start.toDateString() == end.toDateString())
-				this.subWindow.timeline.classList.add("hideDate");
-			else
-				this.subWindow.timeline.classList.remove("hideDate");
+			this.subWindow.progress.end.value.innerText = end.toLocaleTimeString();
 
 			if (reload) {
 				this.last = 0;
 				this.updater();
 			}
+		},
+
+		async doCorrectTime(bool) {
+			this.autoCorrect = bool;
+
+			if (this.initialized) {
+				if (bool)
+					await updateServerData();
+				else
+					this.setDelta(0);
+			}
+		},
+
+		setDelta(delta) {
+			if (!delta)
+				delta = this.delta;
+
+			this.log("INFO", `Δt = ${delta}`);
+
+			if (this.autoCorrect)
+				this.delta = delta;
+			else
+				this.delta = 0;
+
+			if (this.delta !== 0) {
+				this.subWindow.note.group.style.display = null;
+				this.subWindow.note.set({
+					level: "warning",
+					message:
+						`
+							Thời gian trên máy của bạn <b>${delta > 0 ? "trễ" : "sớm"}</b> hơn so với máy chủ <b>${Math.abs(delta).toFixed(3)} giây!</b>
+							<br>Đồng hồ đã được tinh chỉnh để phù hợp với thời gian của máy chủ!
+						`
+				});
+			} else
+				this.subWindow.note.group.style.display = "none";
 		},
 
 		updater() {
@@ -2285,6 +2448,8 @@ const twi = {
 				this.interval = 1;
 				this.navProgress.classList.remove("noTransition");
 			}
+
+			this.timeUpdate();
 		},
 
 		timeUpdate() {
@@ -2294,73 +2459,46 @@ const twi = {
 			let beginTime = this.timeData.start;
 			let duringTime = this.timeData.during;
 			let offsetTime = this.timeData.offset;
-			let t = beginTime - time() + duringTime;
-
-			let color = "";
-			let progress = 0;
-			let blink = "none";
-			let state = "";
+			let t = beginTime - (time() + this.delta) + duringTime;
 
 			if (t > duringTime) {
 				t -= duringTime;
 				if (this.last === 0)
 					this.last = t;
 
-				color = "blue";
-				progress = ((t) / this.last) * 100;
-				state = "Kì Thi Sắp Bắt Đầu";
-
-				this.subWindow.timeline.dataset.box = 0;
-				this.subWindow.timeline.during.progress.bar.style.width = null;
-				this.subWindow.timeline.offset.progress.bar.style.width = null;
+				this.set({
+					state: "begin",
+					time: t,
+					progress: ((t) / this.last) * 100
+				});
 			} else if (t > 0) {
 				// if (!twi.problems.loaded) {
 				// 	this.log("INFO", "Reloading problems list and public files list");
 					
 				// }
 
-				color = "green";
-				progress = (t / duringTime) * 100;
-				state = "Thời Gian Làm Bài";
-
-				this.subWindow.timeline.dataset.box = 1;
-				this.subWindow.timeline.during.progress.bar.style.width = `${100 - progress}%`;
-				this.subWindow.timeline.offset.progress.bar.style.width = null;
+				this.set({
+					state: "during",
+					time: t,
+					progress: 100 - (t / duringTime) * 100
+				});
 			} else if (t > -offsetTime) {
 				t += offsetTime;
-				
-				color = "yellow";
-				progress = (t / offsetTime) * 100;
-				blink = "grow";
-				state = "Thời Gian Bù";
 
-				this.subWindow.timeline.dataset.box = 2;
-				this.subWindow.timeline.during.progress.bar.style.width = `100%`;
-				this.subWindow.timeline.offset.progress.bar.style.width = `${100 - progress}%`;
+				this.set({
+					state: "offset",
+					time: t,
+					progress: 100 - (t / offsetTime) * 100
+				});
 			} else {
 				t += offsetTime;
 
-				color = "red";
-				progress = 100;
-				blink = "fade"
-				state = "ĐÃ HẾT THỜI GIAN LÀM BÀI";
-
-				this.subWindow.timeline.dataset.box = 3;
-				this.subWindow.timeline.during.progress.bar.style.width = `100%`;
-				this.subWindow.timeline.offset.progress.bar.style.width = `100%`;
+				this.set({
+					state: "ended",
+					time: t,
+					progress: 100
+				});
 			}
-
-			let days = Math.floor(t / 86400) + (t < 0 ? 1 : 0);
-			let timeParsed = parseTime(t % 86400, { showPlus: (days !== 0), forceShowHours: true });
-			this.subWindow.timer.dataset.color = this.navTimer.dataset.color = color;
-			this.subWindow.timer.innerHTML = this.navTimer.innerHTML = `${days !== 0 ? `<days>${days}</days>` : ""}${timeParsed.str}${this.showMs ? `<ms>${timeParsed.ms}</ms>` : ""}`;
-			
-			this.navProgress.dataset.color = color;
-			this.navProgress.dataset.blink = blink;
-			this.navProgress.dataset.blinkFast = progress < 20 ? true : false;
-			this.navProgress.style.width = `${progress}%`;
-
-			this.subWindow.state.innerText = state;
 		}
 	},
 
@@ -2381,7 +2519,7 @@ const twi = {
 				throw { code: -1, description: `SERVER Data Not Found!` }
 			
 			let localVersion = `${SERVER.version}-${SERVER.versionTag}`;
-			twi.userSettings.admin.localVersion.content = `Phiên Bản Hiện Tại: <b>${localVersion}</b>`;
+			twi.userSettings.admin.localVersion.content = `Phiên Bản Hiện Tại: <br>${localVersion}</br>`;
 
 			let remoteData = null;
 			let remoteVersion = `0.0.0-unknown`;
@@ -2690,7 +2828,7 @@ const twi = {
 					color: "pink",
 					save: "clock.autoCorrect",
 					defaultValue: true,
-					onChange: (v) => {}
+					onChange: async (v) => await twi.timer.doCorrectTime(v)
 				}, general);
 			}
 		},
@@ -4443,6 +4581,7 @@ const twi = {
 
 				if (this.hashes[key] !== response.data[key]) {
 					let hash = response.data[key];
+					let doUpdate = (typeof this.hashes[key] === "string");
 					
 					this.log("INFO", "Hash Changed:",
 						{ text: hash, color: oscColor("green") },
@@ -4451,13 +4590,16 @@ const twi = {
 
 					this.hashes[key] = hash;
 
-					if (!this.changeHandlers[key] || this.changeHandlers[key].length === 0) {
-						this.log("DEBG", `No handlers for ${key}. Skipping`);
-						continue;
-					}
-
-					for (let f of this.changeHandlers[key])
-						await f(hash);
+					if (doUpdate) {
+						if (!this.changeHandlers[key] || this.changeHandlers[key].length === 0) {
+							this.log("DEBG", `No handlers for ${key}. Skipping`);
+							continue;
+						}
+	
+						for (let f of this.changeHandlers[key])
+							await f(hash);
+					} else
+						this.log("DEBG", "Hash Initialized:", { text: hash, color: oscColor("green") });
 				}
 			}
 		},
