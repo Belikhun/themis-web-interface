@@ -1600,14 +1600,14 @@ const twi = {
 					}},
 
 					bottom: { tag: "span", class: "bottom", child: {
-						submitNth: { tag: "span", class: ["item", ["green", "yellow"][item.statistic.reSubmit - 1] || "red"], child: {
+						submitNth: { tag: "span", class: ["item", item.statistic ? ["green", "yellow"][item.statistic.submitNth - 1] || "red" : "gray"], child: {
 							label: { tag: "t", class: "label", child: {
 								text: { tag: "content", text: "Thứ Hạng Chấm" },
 								tip: { tag: "tip", title: "Thứ hạng ghi nhận có kết quả chấm" }
 							}},
 
 							value: { tag: "t", class: "value", child: {
-								left: { tag: "t", text: item.statistic.submitNth || "" },
+								left: { tag: "t", text: item.statistic ? (item.statistic.submitNth || "") : "" },
 								right: {
 									tag: "t",
 									text: (item.sp)
@@ -1617,10 +1617,10 @@ const twi = {
 							}}
 						}},
 
-						reSubmit: { tag: "span", class: ["item", ["green", "yellow"][item.statistic.reSubmit - 1] || "red"], child: {
+						reSubmit: { tag: "span", class: ["item", item.statistic ? ["green", "yellow"][item.statistic.reSubmit - 1] || "red" : "gray"], child: {
 							label: { tag: "t", class: "label", text: "Chấm Lại" },
 							value: { tag: "t", class: "value", child: {
-								left: { tag: "t", text: item.statistic.reSubmit || "" },
+								left: { tag: "t", text: item.statistic ? (item.statistic.reSubmit || "") : "" },
 								right: {
 									tag: "t",
 									text: (item.sp)
@@ -1651,7 +1651,7 @@ const twi = {
 								value: { tag: "t", class: "value", child: {
 									left: {
 										tag: "t",
-										text: item.statistic.remainTime
+										text: (item.statistic && item.statistic.remainTime)
 											? parseTime(item.statistic.remainTime).str
 											: ""
 									},
@@ -1777,12 +1777,12 @@ const twi = {
 					}},
 
 					uName: { tag: "td", text: item.name || item.username, attribute: { username: item.username } },
-					submitNth: { tag: "td", text: item.statistic.submitNth || "" },
-					reSubmit: { tag: "td", text: item.statistic.reSubmit || "" },
+					submitNth: { tag: "td", text: item.statistic ? (item.statistic.submitNth || "") : "" },
+					reSubmit: { tag: "td", text: item.statistic ? (item.statistic.reSubmit || "") : "" },
 
 					remainTime: {
 						tag: "td",
-						text: (item.statistic.remainTime)
+						text: (item.statistic && item.statistic.remainTime)
 							? parseTime(item.statistic.remainTime).str
 							: ""
 					},
@@ -4648,7 +4648,7 @@ const twi = {
 						for (let f of this.changeHandlers[key])
 							await f(hash);
 					} else
-						this.log("DEBG", "Hash Initialized:", { text: hash, color: oscColor("green") });
+						this.log("DEBG", "Hash Initialized:", { text: key, color: oscColor("blue") });
 				}
 			}
 		},

@@ -2636,7 +2636,7 @@ panel > .main > .loadingWrapper.show {
 #submitContainer > .queue.queue:empty::before {
 	content: "\f574";
 	font-size: 48px;
-	transform: translate(-50%, calc(-50% - 14px));
+	transform: translate(-50%, calc(-50% - 18px));
 }
 
 #submitContainer > .queue.queue:empty::after {

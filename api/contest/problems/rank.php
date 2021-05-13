@@ -57,6 +57,11 @@
 		$subList = $sub -> list();
 
 		$userData = (new Account($user)) -> getDetails();
+		$data = $sub -> getData($id);
+
+		if (!$data || !isset($data["header"]))
+			continue;
+
 		$res[$user] = Array(
 			"username" => $user,
 			"name" => ($userData && isset($userData["name"]))
@@ -74,11 +79,6 @@
 			"lastSubmit" => null,
 			"lastModify" => null
 		);
-
-		$data = $sub -> getData($id);
-
-		if (!$data || !isset($data["header"]))
-			continue;
 
 		$data = $data["header"];
 		$meta = $sub -> getMeta($id);
