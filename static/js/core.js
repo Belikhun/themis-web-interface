@@ -2147,7 +2147,7 @@ const twi = {
 		timeData: {},
 		timeout: null,
 		subWindow: null,
-		window: null,
+		window:  navbar.SubWindow.prototype,
 		currentState: null,
 		tickAnimation: null,
 		currentSecond: null,
@@ -2238,7 +2238,11 @@ const twi = {
 			navbar.insert({ container: this.container }, "right");
 			onUpdateServerData((s) => this.setDelta(s.TIME - time()));
 			twi.hash.onUpdate("config.timer", () => this.updateData(true));
-
+			
+			this.window.onToggle((a) => {
+				if (!a)
+					this.tickAnimation = null;
+			});
 			
 			set({ p: 0, d: `Starting Timer` });
 			this.setDelta();
@@ -2275,8 +2279,10 @@ const twi = {
 		
 					this.subWindow.timer.time.value.s.innerText = pleft(t.s, 2);
 	
-					if (!this.tickAnimation)
-						this.tickAnimation = this.subWindow.progress.ticker.inner.getAnimations()[0];
+					if (!this.tickAnimation) {
+						this.tickAnimation = this.subWindow.progress.ticker.inner.getAnimations();
+						this.tickAnimation = this.tickAnimation[this.tickAnimation.length - 1];
+					}
 	
 					if (this.tickAnimation && t.s !== this.currentSecond) {
 						this.tickAnimation.finish();

@@ -143,6 +143,7 @@ const navbar = {
 			this.id = randString(6);
 			this.showing = false;
 			this.hideTimeout = null;
+			this.toggleHandlers = [];
 			this.container = container
 
 			this.windowNode = document.createElement("div");
@@ -221,6 +222,14 @@ const navbar = {
 
 		toggle() {
 			(this.showing) ? this.hide() : this.show();
+			this.toggleHandlers.forEach((f) => f(this.showing));
+		}
+
+		onToggle(f) {
+			if (typeof f !== "function")
+				throw { code: -1, description: `navbar.SubWindow().onToggle(): not a valid function` }
+
+			return this.toggleHandlers.push(f);
 		}
 
 		/**
