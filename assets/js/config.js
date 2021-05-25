@@ -503,6 +503,7 @@ const config = {
 			});
 		} catch(e) {
 			errorHandler(e);
+			this.formSubmit.disabled = false;
 			return;
 		}
 
