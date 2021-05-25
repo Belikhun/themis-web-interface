@@ -1787,7 +1787,7 @@ function sanitizeHTML(html) {
 }
 
 /**
- * Create Input Element, require input.css
+ * Create Input Element, require `input.css`
  * @param	{Object}
  */
 function createInput({
@@ -1801,8 +1801,12 @@ function createInput({
 	spellcheck = false,
 	options = {}
 } = {}) {
-	if (!["text", "textarea", "number", "date", "time", "select", "file"].includes(type))
-		type = "text";
+	// Check valid input type can be used in this api. Will throw an error when input type is invalid
+	// Some types are not included because there are api to create that specific input
+	//
+	// See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#input_types
+	if (!["text", "textarea", "email", "password", "color", "number", "date", "time", "select", "file", "datetime-local", "month", "week", "tel", "url"].includes(type))
+		throw { code: -1, description: `createInput(${type}): Invalid type: ${type}` }
 
 	let container = makeTree("span", "sq-input", {
 		input: {
