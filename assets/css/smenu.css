@@ -316,6 +316,52 @@
 	width: 36px;
 }
 
+/** COMPONENT: CHOICE **/
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.choice > .choiceBox {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.choice > .choiceBox > icon {
+	flex-grow: 1;
+
+	margin-top: 5px;
+	padding: 10px;
+	box-sizing: border-box;
+	border: 5px solid transparent;
+
+	cursor: pointer;
+	background-color: rgb(220, 220, 220);
+
+	transition:
+		border-color 0.1s ease-out,
+		background-color 0.1s ease-out;
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.choice > .choiceBox > icon:hover {
+	border-color: var(--osc-color-blue);
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.choice > .choiceBox > icon.active {
+	background-color: var(--osc-color-blue);
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.choice > .choiceBox > icon.active::after {
+	color: white;
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.choice > .choiceBox > icon:first-child {
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.choice > .choiceBox > icon:last-child {
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
 /** COMPONENT: SLIDER **/
 
 .smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.slider > .header {
@@ -925,6 +971,16 @@ body.dark .smenuContainer > .panels > .panel > .buttons > .close:hover::after {
 
 body.dark .smenuContainer > .panels > .panel > .main {
 	background-color: rgba(12, 12, 12, 0.85);
+}
+
+/** COMPONENT: CHOICE **/
+
+body.dark .smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.choice > .choiceBox > icon {
+	background-color: rgb(28, 28, 28);
+}
+
+body.dark .smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.choice > .choiceBox > icon.active {
+	background-color: var(--osc-color-blue);
 }
 
 /** COMPONENT: TEXT **/

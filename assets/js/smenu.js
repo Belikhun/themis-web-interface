@@ -60,7 +60,8 @@ const smenu = {
 		container.parentElement.replaceChild(tree.tree, container);
 		this.container = tree.obj;
 		
-		let searchTimeout = null;
+		let searchTimeout;
+		let navExpandTimeout;
 		
 		this.container.main.wrapper.smenu.search.input.placeholder = "nhập để tìm kiếm";
 		this.container.main.wrapper.smenu.search.input.addEventListener("input", (e) => {
@@ -68,11 +69,11 @@ const smenu = {
 			searchTimeout = setTimeout(() => this.filter(e.target.value), 200);
 		});
 
-		let navExpandTimeout = null;
-		this.scroll = new Scrollable(this.container.main.wrapper, {
-			content: this.container.main.wrapper.smenu,
-			scrollbar: false
-		});
+		if (typeof Scrollable === "function")
+			this.scroll = new Scrollable(this.container.main.wrapper, {
+				content: this.container.main.wrapper.smenu,
+				scrollbar: false
+			});
 		
 		this.container.main.navigator.addEventListener("mouseenter",
 			() => navExpandTimeout = setTimeout(() => {
@@ -639,6 +640,110 @@ const smenu = {
 			}
 		},
 
+		Choice: class {
+			constructor({
+				label = "Sample Choice Box",
+				color = "blue",
+				choice,
+				value,
+				save,
+				defaultValue,
+				onChange
+			} = {}, child) {
+				this.container = document.createElement("div");
+				this.container.classList.add("component", "choice");
+
+				this.labelNode = document.createElement("t");
+				this.labelNode.classList.add("label");
+
+				this.choiceBox = document.createElement("div");
+				this.choiceBox.classList.add("choiceBox");
+
+				this.container.append(this.labelNode, this.choiceBox);
+				this.choiceNodes = {}
+				this.activeNode = null;
+				this.activeValue = null;
+				this.changeHandlers = []
+				this.save = save;
+				this.defaultValue = defaultValue;
+
+				let savedValue = localStorage.getItem(this.save);
+				if (savedValue === null)
+					value = (typeof value === "number") ? value : defaultValue;
+				else
+					value = parseInt(savedValue);
+
+				if (typeof onChange === "function")
+					this.onChange(onChange);
+
+				this.set({ label, color, choice, value });
+
+				if (child) {
+					if (!child.container || typeof child.insert !== "function")
+						throw { code: -1, description: `smenu.components.Choice(): child is not a valid Child` }
+	
+					child.insert(this);
+				}
+			}
+
+			onChange(f) {
+				if (typeof f !== "function")
+					throw { code: -1, description: `smenu.components.Choice().onChange(): not a valid function` }
+
+				this.changeHandlers.push(f);
+			}
+
+			set({
+				label,
+				color,
+				choice,
+				value
+			} = {}) {
+				if (typeof label === "string")
+					this.labelNode.innerHTML = label;
+
+				if (typeof color === "string")
+					this.container.dataset.color = color;
+
+				if (typeof choice === "object") {
+					this.choiceNodes = {}
+					this.activeNode = null;
+					this.activeValue = null;
+
+					for (let key of Object.keys(choice)) {
+						let node = document.createElement("icon");
+						node.dataset.icon = choice[key].icon || "circle";
+						
+						if (typeof choice[key].title === "string")
+							node.title = choice[key].title;
+
+						this.choiceBox.appendChild(node);
+						this.choiceNodes[key] = node;
+						node.addEventListener("click", () => this.setValue(key));
+					}
+				}
+
+				if (typeof value !== "undefined")
+					this.setValue(value);
+			}
+
+			setValue(value) {
+				if (value === this.activeValue)
+					return;
+
+				if (!this.choiceNodes[value])
+					return;
+
+				if (this.activeNode)
+					this.activeNode.classList.remove("active");
+
+				this.choiceNodes[value].classList.add("active");
+				this.activeValue = value;
+				this.activeNode = this.choiceNodes[value];
+				this.changeHandlers.forEach(f => f(value, this));
+			}
+		},
+
 		Slider: class {
 			constructor({
 				label = "Sample Slider",
@@ -657,7 +762,6 @@ const smenu = {
 			} = {}, child) {
 				this.container = document.createElement("div");
 				this.container.classList.add("component", "slider");
-				this.container.dataset.soundhoversoft = true;
 
 				let header = document.createElement("div");
 				header.classList.add("header");
