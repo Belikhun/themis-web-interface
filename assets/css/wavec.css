@@ -18,6 +18,8 @@
 
 	z-index: 20;
 	overflow: hidden;
+
+	--container-padding: 100px;
 }
 
 .waveContainer.hide {
@@ -47,7 +49,7 @@
 
 	top: 0;
 	left: 50%;
-	width: calc(100% - 200px);
+	width: calc(100% - var(--container-padding) * 2);
 	height: 100%;
 	transform: translateX(-50%);
 
@@ -66,9 +68,6 @@
 	left: 0;
 	bottom: 0;
 	width: 100%;
-	padding-bottom: 100px;
-
-	overflow: hidden;
 
 	transition:
 		bottom 0.5s ease-in;
@@ -88,54 +87,65 @@
 	left: 0;
 	width: calc(100% * 1.4142);
 	height: calc(100vh + 100px);
+	
+	--rotate: 0deg;
+	--position: 0;
+	transform-origin: top left;
+	transform: translateY(var(--position)) rotate(var(--rotate));
 
 	transition:
-		top 0.53s cubic-bezier(0.12, 0, 0.39, 0);
+		transform 0.5s cubic-bezier(0.12, 0, 0.39, 0) 0.05s;
 }
 
 .waveContainer > .container.show > .wave > span {
 	transition:
-		top 0.8s cubic-bezier(0.61, 1, 0.88, 1);
+		transform 0.8s cubic-bezier(0.61, 1, 0.88, 1);
 }
 
 .waveContainer > .container > .wave > span:nth-child(1) {
-	left: unset;
-	right: 0;
-	transform: translateY(82px) rotate(13deg);
+	--rotate: 13deg;
 	background-color: var(--osc-color-red);
 }
 
 .waveContainer > .container > .wave > span:nth-child(2) {
-	transform: translateY(40px) rotate(-7deg);
+	left: unset;
+	right: 0;
+
+	transform-origin: top right;
+	--rotate: -7deg;
 	background-color: var(--osc-color-green);
 }
 
 .waveContainer > .container > .wave > span:nth-child(3) {
 	left: unset;
 	right: 0;
-	transform: translateY(23px) rotate(4deg);
+	--rotate: 4deg;
 	background-color: var(--osc-color-blue);
 }
 
 .waveContainer > .container > .wave > span:nth-child(4) {
-	transform: translateY(8px) rotate(-2deg);
+	left: unset;
+	right: 0;
+
+	transform-origin: top right;
+	--rotate: -2deg;
 	background-color: var(--osc-color-pink);
 }
 
 .waveContainer > .container.show > .wave > span:nth-child(1) {
-	top: -1230px;
+	--position: -930px;
 }
 
 .waveContainer > .container.show > .wave > span:nth-child(2) {
-	top: -860px;
+	--position: -560px;
 }
 
 .waveContainer > .container.show > .wave > span:nth-child(3) {
-	top: -590px
+	--position: -390px;
 }
 
 .waveContainer > .container.show > .wave > span:nth-child(4) {
-	top: -380px;
+	--position: -220px;
 }
 
 .waveContainer > .container > .contentBox {
@@ -272,8 +282,8 @@
 /*? SMALL SCREEN RULES */
 
 @media only screen and (max-width: 1000px) {
-	.waveContainer > .container {
-		width: 100%;
+	.waveContainer {
+		--container-padding: 0;
 	}
 }
 

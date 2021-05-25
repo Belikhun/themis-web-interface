@@ -173,7 +173,14 @@ const wavec = {
 					wavec.container.classList.add("hide");
 				
 				wavec.active.splice(this.stackPos, 1);
-			}, 600);
+			}, 520);
+		}
+
+		toggle() {
+			if (this.showing)
+				this.hide();
+			else
+				this.show();
 		}
 
 		setToggler(button) {
