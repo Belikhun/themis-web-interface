@@ -2132,12 +2132,17 @@ function createButton(text, {
 
 	let textNode = document.createElement("span");
 	textNode.classList.add("text");
+	button.changeText = (text) => textNode.innerText = text;
 
 	if (typeof text === "undefined" || text === null || text === "icon") {
 		button.classList.add("empty");
 	} else {
 		textNode.innerText = text;
-		button.appendChild(textNode);
+
+		if (align === "left")
+			button.appendChild(textNode);
+		else
+			button.insertBefore(textNode, button.firstChild);
 	}
 
 	if (complex)
