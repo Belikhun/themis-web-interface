@@ -265,7 +265,7 @@ body.dark .formGroup[data-color="red"] > .formField:focus {
     font-size: 16px;
 
     margin: 14px 20px;
-    border: none !important;
+    border: none;
     caret-color: var(--focus-color);
     background-color: transparent;
     
@@ -371,7 +371,7 @@ body.dark .formGroup[data-color="red"] > .formField:focus {
 
 .sq-input > .input:not(:placeholder-shown) + .outline > .label > label,
 .sq-input > .input:focus + .outline > .label > label {
-    transform: translateY(-12px) scale(0.9);
+    transform: translateY(-10px) scale(0.9);
 }
 
 .sq-input > .input:focus + .outline > .trailing {

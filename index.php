@@ -84,7 +84,7 @@
 		<script src="/assets/js/errorHandler.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 		<script type="text/javascript" src="/assets/js/splash.js?v=<?php print VERSION; ?>"></script>
 		<script type="text/javascript">
-			const mainSplash = new splash({
+			const mainSplash = new Splash({
 				container: document.body,
 				name: `<?php print getConfig("contest.name"); ?>`
 			});
@@ -101,7 +101,7 @@
 				set({ p: 0, m: "main", d: "Sending Analytics Data" });
                 gtag("event", "pageView", {
                     version: SERVER.version,
-                    hostname: `${location.hostname}:${location.port}`,
+                    hostname: `${location.hostname}${(location.port !== "") ? `:${location.port}` : ""}`,
                     loadtime: ((new Date()).getTime() - window.performance.timing.navigationStart) / 1000,
                     downlink: (navigator && navigator.connection) ? navigator.connection.downlink : 0,
                     versiontag: SERVER.versionTag,
@@ -251,7 +251,10 @@
 						<t class="title">xếp hạng</t>
 
 						<span class="heartbeat" id="rankingUpdateHeartbeat"></span>
-						<button id="rankingRefresh" class="sq-btn sound" data-soundhover data-soundselect>Làm Mới</button>
+						<button id="rankingRefresh" class="sq-btn sound" data-style="round" data-soundhover data-soundselect>
+							<icon class="left" data-icon="reload"></icon>
+							<span class="text">Làm Mới</span>
+						</button>
 					</div>
 
 					<div id="ranking" class="showEmpty"></div>

@@ -3564,6 +3564,10 @@ panel > .main > .loadingWrapper.show {
 	flex-direction: column;
 }
 
+#content > .rankingContainer {
+	overflow: hidden;
+}
+
 .rankingContainer > .header {
 	position: relative;
 	display: flex;
@@ -3600,11 +3604,16 @@ panel > .main > .loadingWrapper.show {
 	line-height: 38px;
 }
 
-#ranking {
+.rankingContainer > #ranking {
 	position: relative;
 	display: block;
 	flex-grow: 1;
 	
+	width: auto;
+	margin: 0 10px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+
 	z-index: 1;
 	overflow: auto;
 }
@@ -3621,36 +3630,35 @@ panel > .main > .loadingWrapper.show {
 	position: relative;
 
 	min-width: 100%;
-	padding: 0 10px;
 	box-sizing: border-box;
 	border-spacing: 0;
 
 	font-family: "Calibri";
 }
 
-#ranking > table thead tr th:nth-child(1),
+#ranking > table > thead > tr > th:nth-child(1),
 #ranking > table tr > td:nth-child(1) {
 	width: 20px;
 	text-align: center;
 }
 
-#ranking > table thead tr th:nth-child(2),
-#ranking > table tr > td:nth-child(2) {
+#ranking > table > thead > tr > th:nth-child(2),
+#ranking > table > tr > td:nth-child(2) {
 	text-align: left;
 }
 
-#ranking > table thead tr th:nth-child(2) {
+#ranking > table > thead > tr > th:nth-child(2) {
 	width: 40px;
 }
 
-#ranking > table tr > td:nth-child(2) {
+#ranking > table > tbody > tr > td:nth-child(2) {
 	display: flex;
 	align-items: center;
 	padding: 10px;
 	margin: 0 0 0 10px;
 }
 
-#ranking > table tr > td:nth-child(2) .avatar {
+#ranking > table > tbody > tr > td:nth-child(2) .avatar {
 	position: relative;
 	display: block;
 
@@ -3659,7 +3667,7 @@ panel > .main > .loadingWrapper.show {
 	border-radius: 50%;
 }
 
-#ranking > table tr > td:nth-child(3) .username {
+#ranking > table > tbody > tr > td:nth-child(3) .username {
 	font-family: "Open Sans";
 	font-size: 11px;
 	font-style: italic;
@@ -3667,39 +3675,39 @@ panel > .main > .loadingWrapper.show {
 	letter-spacing: .2px;
 }
 
-#ranking > table tr > td:nth-child(3) .name {
+#ranking > table > tbody > tr > td:nth-child(3) .name {
 	font-size: 15px;
 	letter-spacing: .2px;
 }
 
 
-#ranking > table tr > td.number:nth-child(4) {
+#ranking > table > tbody > tr > td.number:nth-child(4) {
 	color: #3c7be7;
 	font-size: 16px;
 	font-weight: bold;
 }
 
-#ranking > table tr > td.number:nth-child(5) {
+#ranking > table > tbody > tr > td.number:nth-child(5) {
     color: rgb(100, 62, 202);
     font-size: 16px;
     font-weight: bold;
 }
 
-#ranking > table tbody tr[data-rank="1"] {
+#ranking > table > tbody > tr[data-rank="1"] {
 	background-color: rgba(111, 241, 134, 0.2);
 }
 
-#ranking > table tbody tr[data-rank="2"] {
+#ranking > table > tbody > tr[data-rank="2"] {
 	background-color: rgba(239, 241, 111, 0.2);
 }
 
-#ranking > table tbody tr[data-rank="3"] {
+#ranking > table > tbody > tr[data-rank="3"] {
 	background-color: rgba(230, 111, 241, 0.2);
 }
 
-#ranking > table tbody tr[data-rank="1"] td:nth-child(3) .name,
-#ranking > table tbody tr[data-rank="2"] td:nth-child(3) .name,
-#ranking > table tbody tr[data-rank="3"] td:nth-child(3) .name {
+#ranking > table > tbody > tr[data-rank="1"] > td:nth-child(3) > .name,
+#ranking > table > tbody > tr[data-rank="2"] > td:nth-child(3) > .name,
+#ranking > table > tbody > tr[data-rank="3"] > td:nth-child(3) > .name {
 	font-family: Nunito;
 	font-size: 16px;
 	font-weight: 850;
@@ -3707,7 +3715,7 @@ panel > .main > .loadingWrapper.show {
 	color: rgb(65, 65, 65);
 }
 
-#ranking > table thead tr th {
+#ranking > table > thead > tr > th {
 	position: sticky;
 	top: 0;
 
@@ -3722,11 +3730,11 @@ panel > .main > .loadingWrapper.show {
 	z-index: 1;
 }
 
-#ranking > table thead tr th:nth-child(3) {
+#ranking > table > thead > tr > th:nth-child(3) {
 	text-align: left;
 }
 
-#ranking > table thead tr th.problem > t {
+#ranking > table > thead > tr > th.problem > t {
 	display: inline-block;
 	color: rgb(82, 82, 82);
 	font-family: Segoe UI;
@@ -3734,7 +3742,7 @@ panel > .main > .loadingWrapper.show {
 	font-weight: bold;
 }
 
-#ranking > table thead tr th.problem > .toggler {
+#ranking > table > thead > tr > th.problem > .toggler {
 	position: relative;
 	display: inline-flex;
 	align-items: center;
@@ -3747,7 +3755,7 @@ panel > .main > .loadingWrapper.show {
 	transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-#ranking > table thead tr th.problem > .toggler::after {
+#ranking > table > thead > tr > th.problem > .toggler::after {
 	content: "\f104";
 	position: relative;
 	display: block;
@@ -3757,24 +3765,24 @@ panel > .main > .loadingWrapper.show {
 	transform: translateY(2px);
 }
 
-#ranking > table thead tr th.problem[data-folding="true"] {
+#ranking > table > thead > tr > th.problem[data-folding="true"] {
 	width: 10px;
 	padding: unset;
 }
 
-#ranking > table thead tr th.problem[data-folding="true"] > t {
+#ranking > table > thead > tr > th.problem[data-folding="true"] > t {
 	display: none;
 }
 
-#ranking > table thead tr th.problem[data-folding="true"] > .toggler {
+#ranking > table > thead > tr > th.problem[data-folding="true"] > .toggler {
 	transform: rotate(180deg);
 }
 
-#ranking > table thead tr th.problem[data-folding="true"] > .toggler::after {
+#ranking > table > thead > tr > th.problem[data-folding="true"] > .toggler::after {
 	transform: unset;
 }
 
-#ranking > table thead tr th,
+#ranking > table > thead > tr > th,
 #ranking > table tr > td {
 	padding: 10px 12px;
 }

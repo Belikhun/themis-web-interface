@@ -392,6 +392,7 @@ const twi = {
 		container: $("#ranking"),
 		refreshButton: $("#rankingRefresh"),
 		heartbeatDot: $("#rankingUpdateHeartbeat"),
+		heartbeatAnm: null,
 
 		folding: {},
 		timeout: null,
@@ -402,6 +403,8 @@ const twi = {
 
 		async init() {
 			this.refreshButton.addEventListener("click", () => this.update(true));
+			new Scrollable(this.container.parentElement, { content: this.container });
+
 			await this.updater();
 			this.update();
 		},
@@ -409,14 +412,12 @@ const twi = {
 		beat({ color = "green", beat = true } = {}) {
 			if (color && typeof color === "string")
 				this.heartbeatDot.dataset.color = color;
-
-			this.heartbeatDot.style.animation = "none";
 			
-			if (beat) {
-				//? Trigger Reflow
-				this.heartbeatDot.offsetHeight;
-				this.heartbeatDot.style.animation = null;
-			}
+			if (!this.heartbeatAnm)
+				this.heartbeatAnm = this.heartbeatDot.getAnimations()[0];
+
+			if (this.heartbeatAnm && beat)
+				this.heartbeatAnm.play();
 		},
 
 		async updater() {
@@ -2238,7 +2239,7 @@ const twi = {
 			navbar.insert({ container: this.container }, "right");
 			onUpdateServerData((s) => this.setDelta(s.TIME - time()));
 			twi.hash.onUpdate("config.timer", () => this.updateData(true));
-			
+
 			this.window.onToggle((a) => {
 				if (!a)
 					this.tickAnimation = null;
@@ -4049,11 +4050,6 @@ const twi = {
 			navbar.init(this.container);
 
 			set({ p: 20, d: "Adding Default Navigation Bar Modules" });
-			this.title.set({
-				icon: "/api/images/icon",
-				background: "/api/images/landing"
-			});
-
 			this.menu.click.setHandler((active) => (active) ? smenu.show() : smenu.hide());
 			smenu.onShow(() => this.menu.click.setActive(true));
 			smenu.onHide(() => this.menu.click.setActive(false));
@@ -4317,12 +4313,6 @@ const twi = {
 			// changed on the server
 			twi.hash.onUpdate("config.contest.basicInfo", async () => {
 				await updateServerData();
-
-				twi.navbar.title.set({
-					icon: "/api/images/icon",
-					title: SERVER.contest.name,
-				});
-
 				this.update();
 			});
 
@@ -4344,6 +4334,11 @@ const twi = {
 			this.container.header.cTitle.innerText = SERVER.contest.name;
 			this.container.description.replaceChild(md2html.parse(SERVER.contest.description), this.container.description.firstChild);
 			this.wavec.loading = false;
+
+			twi.navbar.title.set({
+				icon: "/api/images/icon",
+				title: SERVER.contest.name,
+			});
 		}
 	},
 

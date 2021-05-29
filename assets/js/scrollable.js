@@ -82,6 +82,8 @@ class Scrollable {
 		this.clamp = clamp;
 		this.maxClamp = maxClamp;
 		this.currentVelocity = 0;
+		this.currentClampV = 0;
+		this.currentClampH = 0;
 		this.smooth = smooth;
 		this.scrollbar = scrollbar;
 		this.barSize = barSize;
@@ -109,7 +111,7 @@ class Scrollable {
 			
 			let contentScrollable = true;
 
-			if (!this.scrollout) {
+			if (!this.scrollout && !this.smooth) {
 				let delta = (this.horizontal)
 					? event.deltaX
 					: event.deltaY;
@@ -322,12 +324,17 @@ class Scrollable {
 	}
 
 	updateScrollbar() {
+		if (!this.scrollbar)
+			return;
+
 		/** @type {HTMLElement} */
 		let t = this.content;
 
 		let r =  {
 			width: t.offsetWidth,
-			height: t.offsetHeight
+			height: t.offsetHeight,
+			sWidth: t.scrollWidth + Math.abs(this.currentClampH),
+			sHeight: t.scrollHeight + Math.abs(this.currentClampV)
 		}
 
 		let s = {
@@ -337,19 +344,19 @@ class Scrollable {
 
 		let top = t.scrollTop;
 		let left = t.scrollLeft;
-		let width = t.scrollWidth - r.width;
-		let height = t.scrollHeight - r.height;
-		let tWidth = (r.width / t.scrollWidth) * s.width;
-		let tHeight = (r.height / t.scrollHeight) * s.height;
+		let width = r.sWidth - r.width - Math.abs(this.currentClampH);
+		let height = r.sHeight - r.height - Math.abs(this.currentClampV);
+		let tWidth = (r.width / r.sWidth) * s.width;
+		let tHeight = (r.height / r.sHeight) * s.height;
 
-		if (r.height < t.scrollHeight) {
+		if (r.height < r.sHeight) {
 			this.vBar.classList.remove("hide");
 			this.vBar.thumb.style.height = `${tHeight}px`;
 			this.vBar.thumb.style.top = `${(top / height) * (s.height - tHeight)}px`;
 		} else
 			this.vBar.classList.add("hide");
 
-		if (r.width < t.scrollWidth) {
+		if (r.width < r.sWidth) {
 			this.hBar.classList.remove("hide");
 			this.hBar.thumb.style.width = `${tWidth}px`;
 			this.hBar.thumb.style.left = `${(left / width) * (s.width - tWidth)}px`;
@@ -510,7 +517,13 @@ class Scrollable {
 				this.content.style.transform = (horizontal)
 					? `translateX(${clampValue}px)`
 					: `translateY(${clampValue}px)`;
+
+				if (this.horizontal)
+					this.currentClampH = clampValue;
+				else
+					this.currentClampV = clampValue;
 					
+				this.updateScrollbar();
 				this.content.clampValue = clampValue;
 			} else {
 				this.content.style.transform = null;

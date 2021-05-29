@@ -27,7 +27,8 @@ function myajax({
 	changeState = true,
 	reRequest = true,
 	withCredentials = false,
-	timeout = 0
+	timeout = 0,
+	formEncodeURL = false
 }, callout = () => {}, error = () => {}) {
 	let argumentsList = arguments;
 
@@ -54,10 +55,19 @@ function myajax({
 		let formData = null;
 
 		if (method.toUpperCase() === "POST") {
-			formData = new FormData();
-			
-			for (let key of Object.keys(form))
-				formData.append(key, form[key]);
+			if (formEncodeURL) {
+				formData = Array();
+
+				for (let key of Object.keys(form))
+					formData.push(`${key}=${encodeURIComponent(form[key])}`);
+
+				formData = formData.join("&");
+			} else {
+				formData = new FormData();
+				
+				for (let key of Object.keys(form))
+					formData.append(key, form[key]);
+			}
 		}
 
 		let queryKey = Object.keys(query);
@@ -212,17 +222,26 @@ function myajax({
 		xhr.withCredentials = withCredentials;
 		xhr.timeout = timeout;
 
-		let sendData = (raw !== null) ? raw : formData;
+		let sendData = (raw !== null)
+			? raw
+			: formData;
 
 		for (let key of Object.keys(header))
 			xhr.setRequestHeader(key, header[key]);
 
-		if (Object.keys(json).length !== 0) {
-			sendData = JSON.stringify(json);
-			xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+		if (method === "POST") {
+			if (formEncodeURL)
+				xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	
+			if (Object.keys(json).length !== 0) {
+				sendData = JSON.stringify(json);
+				xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+			}
 		}
 
-		xhr.setRequestHeader("Accept", `${type === "json" ? "application/json" : "text/plain"};charset=UTF-8`);
+		if (typeof header["Accept"] !== "string")
+			xhr.setRequestHeader("Accept", `${type === "json" ? "application/json" : "text/plain"};charset=UTF-8`);
+
 		xhr.send(sendData);
 	});
 }
@@ -586,6 +605,18 @@ function time(date = new Date()) {
 	return date.getTime() / 1000;
 }
 
+/**
+ * Get current Week in a year
+ * @returns {Number}	Current Week
+ */
+Date.prototype.getWeek = function() {
+	let date = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()));
+	let dayNum = date.getUTCDay() || 7;
+	date.setUTCDate(date.getUTCDate() + 4 - dayNum);
+	let yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+	return Math.ceil((((date - yearStart) / 86400000) + 1) / 7)
+}
+
 function parseTime(t = 0, {
 	forceShowHours = false,
 	msDigit = 3,
@@ -651,7 +682,15 @@ function formatTime(seconds, {
 		: res[0];
 }
 
-function liveTime(element, start = time(new Date()), { type = "full", count = "up", prefix = "", surfix = "", ended = "Đã kết thúc", endedCallback = () => {}, interval = 1000 } = {}) {
+function liveTime(element, start = time(new Date()), {
+	type = "full",
+	count = "up",
+	prefix = "",
+	surfix = "",
+	ended = "Đã kết thúc",
+	endedCallback = () => {},
+	interval = 1000
+} = {}) {
 	let updateInterval = setInterval(() => {
 		if (!document.body.contains(element)) {
 			clog("DEBG", "Live Time Element does not exist in document. Clearing...");
@@ -788,16 +827,26 @@ function clamp(value, min, max) {
 }
 
 class StopClock {
-	__time(date = new Date()) {
-		return date.getTime();
+	__time(date) {
+		return (typeof date !== "undefined")
+			? date.getTime()
+			: performance.now();
 	}
 
-	constructor(date = new Date()) {
+	/**
+	 * Create a new StopClock instance
+	 * @param {Date} date 
+	 */
+	constructor(date) {
 		this.start = this.__time(date);
 	}
 
 	get stop() {
 		return (this.__time() - this.start) / 1000;
+	}
+
+	tick() {
+		return this.stop;
 	}
 }
 
@@ -1449,7 +1498,9 @@ function triBg(element, {
 	triangleCount = 38
 } = {}) {
 	const DARKCOLOR = ["brown", "dark", "darkRed", "darkGreen", "darkBlue"]
-	let current = element.querySelector(".triBgContainer");
+	const LIGHTCOLOR = ["lightBlue"]
+
+	let current = element.querySelector(":scope > .triBgContainer");
 
 	if (current)
 		element.removeChild(current);
@@ -1483,7 +1534,9 @@ function triBg(element, {
 
 		let randBright = DARKCOLOR.includes(color)
 			? randBetween(1.1, 1.3, false)
-			: randBetween(0.9, 1.2, false)
+			: LIGHTCOLOR.includes(color)
+				? randBetween(0.95, 1.05, false)
+				: randBetween(0.9, 1.2, false)
 
 		let randLeftPos = randBetween(0, 98, false);
 		let delay = randBetween(-speed / 2, speed / 2, false);
@@ -2109,12 +2162,14 @@ function createButton(text, {
 	classes,
 	icon = null,
 	align = "left",
-	complex = false
+	complex = false,
+	disabled = false
 } = {}) {
 	let button = document.createElement(element);
 	button.type = type;
 	button.dataset.style = style;
 	button.dataset.color = color;
+	button.disabled = disabled;
 	button.classList.add("sq-btn");
 
 	switch (typeof classes) {
@@ -2152,9 +2207,9 @@ function createButton(text, {
 	if (complex)
 		triBg(button, {
 			scale: 1.6,
-			speed: 12,
+			speed: 8,
 			color: color,
-			triangleCount: 8
+			triangleCount: 16
 		});
 
 	if (typeof sounds === "object")

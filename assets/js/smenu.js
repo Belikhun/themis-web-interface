@@ -304,7 +304,7 @@ const smenu = {
 			let mHeight = smenu.container.offsetHeight + smenu.container.offsetTop;
 			let cHeight = this.container.offsetHeight;
 
-			if ((yPos < 0 && (yPos + cHeight - 100) > mHeight) || (yPos >= 0 && yPos <= (mHeight + 100))) {
+			if ((yPos < 0 && (yPos + cHeight + 100) > mHeight) || (yPos >= 0 && yPos <= (mHeight + 100))) {
 				this.toggler.classList.add("active");
 				return true;
 			} else {
@@ -962,18 +962,21 @@ const smenu = {
 
 	Panel: class {
 		constructor(content, { size = "normal" } = {}) {
-			this.container = buildElementTree("div", ["panel", "hide"], [
-				{ type: "span", class: "buttons", name: "buttons", list: [
-					{ type: "span", class: "reload", name: "reload" },
-					{ type: "span", class: "close", name: "close" },
-					{ type: "span", name: "custom" }
-				]},
+			this.container = makeTree("div", ["panel", "hide"], {
+				overlay: { tag: "div", class: "overlay", child: {
+					spinner: { tag: "div", class: "spinner" }
+				}},
 
-				{ type: "span", class: "main", name: "main" }
-			])
+				buttons: { tag: "span", class: "buttons", child: {
+					reload: { tag: "span", class: "reload" },
+					close: { tag: "span", class: "close" },
+					custom: { tag: "span" }
+				}},
 
-			smenu.container.panels.appendChild(this.container.tree);
-			this.container = this.container.obj;
+				main: { tag: "span", class: "main" }
+			});
+
+			smenu.container.panels.appendChild(this.container);
 			this.container.dataset.size = size;
 
 			/**
@@ -997,6 +1000,11 @@ const smenu = {
 			this.content(content);
 		}
 
+		/** @param {Boolean} loading */
+		set loading(loading) {
+			this.container.overlay.classList[loading ? "add" : "remove"]("show");
+		}
+
 		/**
 		 * @param {HTMLElement|String}	content
 		 */
@@ -1014,7 +1022,7 @@ const smenu = {
 					this.container.main.appendChild(content);
 				else if ((re = /iframe:(.+)/gm.exec(content)) !== null) {
 					this.iframe = document.createElement("iframe");
-					this.iframe.src = (re[1][0] === "/") ? `${location.protocol}//${location.hostname}${re[1]}` : re[1];
+					this.iframe.src = re[1];
 					this.container.main.appendChild(this.iframe);
 
 					this.iframe.addEventListener("load", () => resolve());
@@ -1024,7 +1032,7 @@ const smenu = {
 				
 				resolve();
 				return;
-			})
+			});
 		}
 
 		get reload() {

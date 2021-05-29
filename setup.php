@@ -61,6 +61,7 @@
 		<script type="text/javascript">
 			const VALID_SETUP = `<?php print boolval(isset($_SESSION["setup"]) && $_SESSION["setup"] === true); ?>` === "1";
 		</script>
+		
 		<script src="/static/js/setup.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 	</body>
 </html>

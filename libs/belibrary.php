@@ -118,6 +118,9 @@
 				case "json":
 					return json_decode($rawData, true);
 				
+				case "form":
+					return $_POST;
+
 				default:
 					return $rawData;
 			}

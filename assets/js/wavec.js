@@ -52,7 +52,7 @@ const wavec = {
 				wave: { tag: "div", class: "wave", html: `<span></span>`.repeat(4) },
 				contentBox: { tag: "div", class: "contentBox", child: {
 					wrapper: { tag: "div", class: "wrapper", child: {
-						spinner: { tag: "span", class: "simpleSpinner" }
+						spinner: { tag: "span", class: "spinner" }
 					}},
 
 					header: { tag: "div", class: "header", child: {
@@ -173,7 +173,7 @@ const wavec = {
 					wavec.container.classList.add("hide");
 				
 				wavec.active.splice(this.stackPos, 1);
-			}, 520);
+			}, 540);
 		}
 
 		toggle() {

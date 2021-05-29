@@ -173,6 +173,25 @@
 	width: 100vw;
 }
 
+.navigationBar > .group > .component > .subWindow > .overlay {
+	position: absolute;
+	display: none;
+	align-items: center;
+	justify-content: center;
+
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+
+	background-color: rgba(245, 245, 245, 0.8);
+	z-index: 10;
+}
+
+.navigationBar > .group > .component > .subWindow > .overlay.show {
+	display: flex;
+}
+
 .navigationBar > .group > .component > .subWindow > .content {
 	position: relative;
 	display: inline-block;
@@ -961,6 +980,10 @@ body.dark .navigationBar > .group > .component > .subWindow[data-color = "blue"]
 
 body.dark .navigationBar > .group > .component > .subWindow[data-color = "pink"] {
 	border-bottom-color: rgb(250, 119, 185);
+}
+
+body.dark .navigationBar > .group > .component > .subWindow > .overlay {
+	background-color: rgba(14, 14, 14, 0.8);
 }
 
 /** COMPONENTS: TITLE */

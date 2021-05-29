@@ -23,9 +23,9 @@
     display: block;
     flex-shrink: 0;
 
-    min-height: 30px;
+    min-height: 20px;
     margin: 0 0 0 50px;
-    padding: 4px 10px;
+    padding: 2px 10px;
     box-sizing: border-box;
     border-left: 1px solid rgba(82, 82, 82, 0.3);
     
@@ -34,6 +34,7 @@
     font-size: 17px;
     text-align: left;
     white-space: pre-wrap;
+    tab-size: 4;
     color: rgb(95, 95, 95);
 
     counter-increment: viewLog-line;

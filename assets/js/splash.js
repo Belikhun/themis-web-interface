@@ -5,7 +5,7 @@
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
-class splash {
+class Splash {
 	get tip() {
 		let tips = [
 			"Thử tải lại cứng bằng tổ hợp phím <b>Ctrl + Shift + R</b> hoặc <b>Ctrl + F5</b> nếu có lỗi xảy ra",
@@ -25,7 +25,7 @@ class splash {
 		onError
 	} = {}) {
 		if (!container || !container.classList)
-			throw { code: -1, description: `splash(): container is not a valid Element!` }
+			throw { code: -1, description: `Splash(): container is not a valid Element!` }
 
 		/**
 		 * The container will contain splash

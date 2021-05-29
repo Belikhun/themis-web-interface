@@ -151,13 +151,17 @@ const navbar = {
 			this.windowNode.dataset.id = this.id;
 			this.color = color;
 
+			this.overlayNode = document.createElement("overlay");
+			this.overlayNode.classList.add("overlay");
+			this.overlayNode.innerHTML = `<div class="spinner"></div>`;
+
 			this.contentNode = document.createElement("div");
 			this.contentNode.classList.add("content");
 			this.content = content;
 
 			new ResizeObserver(() => this.update()).observe(this.contentNode);
 	
-			this.windowNode.appendChild(this.contentNode);
+			this.windowNode.append(this.overlayNode, this.contentNode);
 			this.container.appendChild(this.windowNode);
 			navbar.subWindowLists.push(this);
 		}
@@ -237,6 +241,13 @@ const navbar = {
 		 */
 		set color(color) {
 			this.windowNode.dataset.color = color;
+		}
+
+		/**
+		 * @param {Boolean} loading
+		 */
+		set loading(loading) {
+			this.overlayNode.classList[loading ? "add" : "remove"]("show");
 		}
 
 		/**

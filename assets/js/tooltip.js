@@ -14,6 +14,7 @@ const tooltip = {
 	prevData: null,
 	nodeToShow: null,
 	hideTimeout: null,
+	fixedWidth: false,
 	showTime: 100,
 
 	hooks: [],
@@ -28,6 +29,7 @@ const tooltip = {
 		this.container.classList.add("tooltip");
 		this.content = document.createElement("div");
 		this.content.classList.add("content");
+		this.content.setAttribute("style", "");
 		this.container.append(this.content);
 
 		document.body.insertBefore(this.container, document.body.childNodes[0]);
@@ -149,6 +151,8 @@ const tooltip = {
 
 						this.hideTimeout = setTimeout(() => {
 							this.container.classList.add("hide");
+							this.fixedWidth = false;
+							this.content.style.width = null;
 						}, 300);
 					}, this.showTime);
 			} else {
@@ -211,8 +215,16 @@ const tooltip = {
 		let xPos = event.clientX + 20;
 		let yPos = event.clientY + 30;
 
-		if ((event.view.innerWidth - this.content.clientWidth) / Math.max(xPos, 1) < 1.4)
-			xPos -= (this.content.clientWidth + 20);
+		// Set a specified width value if tooltip content width overflow
+		// out of the viewbox
+		if (!this.fixedWidth && event.view.innerWidth - event.clientX < this.content.clientWidth) {
+			this.content.style.width = `${event.view.innerWidth - event.clientX - 10}px`;
+			this.fixedWidth = true;
+		}
+
+		if (event.clientX > this.content.clientWidth)
+			if ((event.view.innerWidth - this.content.clientWidth) / Math.max(xPos, 1) < 1.4)
+				xPos -= (this.content.clientWidth + 20);
 
 		if ((event.view.innerHeight - this.content.clientHeight) / Math.max(yPos, 1) < 1.1)
 			yPos -= (this.content.clientHeight + 40);
@@ -238,6 +250,9 @@ const tooltip = {
 		clearTimeout(this.hideTimeout);
 		this.hideTimeout = null;
 		this.container.classList.remove("hide");
+
+		this.fixedWidth = false;
+		this.content.style.width = null;
 
 		await nextFrameAsync();
 		this.container.classList.add("show");

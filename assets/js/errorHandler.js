@@ -5,22 +5,70 @@
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
-const parseException = (error) => {
+/**
+ * Parse error stack
+ * @param {Error|Object} error
+ */
+function parseException(error, inStack = false) {
+	/** @type {Number|String} */
+	let code = (typeof error === "object")
+		? (typeof error.code === "number")
+			? (typeof error.status === "number")
+				? `${error.code} ${error.status}`
+				: error.code
+			: (typeof error.name === "string")
+				? error.name
+				: "ERRR"
+		: "ERRR";
+
+	/** @type {String} */
+	let description = (typeof error === "object")
+		? (typeof error.description === "string")
+			? error.description
+			: (typeof error.message === "string")
+				? error.message
+				: "Unknown"
+		: "Unknown";
+
+	// File location parser specifically for
+	// Error object and my custom api error
+	// format (see BLibException)
+	let file = undefined;
+	if (error instanceof Error) {
+		let stack = error.stack;
+		file = stack.split("\n")[1];
+		file = file.slice(file.indexOf("at ") + 3, file.length);
+	} else if (typeof error.data === "object" && typeof error.data.file === "string" && typeof error.data.line === "number")
+		file = `${error.data.file}:${error.data.line}`;
+
+	if (file)
+		description += ` tại ${file}`;
+
+	// Create a copy of error object without
+	// referencing to it
+	let _e = { ...error };
+
+	/** @type {Array} */
+	let stack = []
+
+	if (!inStack) {
+		while (typeof _e.data === "object") {
+			let err = parseException(_e.data, true);
+
+			// If no error detail found in the end of the
+			// stack, we can stop executing now
+			if (!err || err.description === "Unknown")
+				break;
+
+			stack.push(`\t[${err.code}] >>> ${err.description}`);
+			_e = _e.data;
+		}
+	}
+
 	return {
-		code: (typeof error.code === "number" && error.data && error.data.code)
-			?	`[${error.code} ${error.data.code}]`
-			:	(typeof error.code === "number")
-				?	error.code
-				:	error.name
-				||	error.data.name
-				||	`${error.data.data.file}:${error.data.data.line}`,
-	
-		description: (error.description && error.data && error.data.description)
-			?	`${error.description} (${error.data.description}) ${(error.data.data && error.data.data.file) ? `${error.data.data.file}:${error.data.data.line}` : ""}`
-			:	error.message
-			||	error.description
-			||	error.data.message
-			||	error.data.description
+		code,
+		description,
+		stack
 	}
 }
 
@@ -36,10 +84,13 @@ const errorHandler = async (error, returnable = true) => {
 	if (returnable)
 		returnBtn.back = { text: "Quay lại", color: "green" }
 
-	let errorBox = document.createElement("pre");
-	errorBox.classList.add(document.body.classList.contains("dark") ? "light" : "dark", "break");
-	errorBox.innerText = `[${e.code}] >>> ${e.description}`;
-	errorBox.style.fontSize = "16px";
+	let errorLines = [`[${e.code}] >>> ${e.description}`]
+	if (e.stack.length > 0)
+		errorLines = [ ...errorLines, "", "Stack Trace:", ...e.stack ]
+
+	let errorBox = document.createElement("ul");
+	errorBox.classList.add("textView");
+	errorBox.innerHTML = errorLines.map(i => `<li>${i}</li>`).join("");
 
 	await popup.show({
 		windowTitle: "Error Handler",
@@ -54,9 +105,10 @@ const errorHandler = async (error, returnable = true) => {
 		}
     })
     
-    gtag("event", "errored", {
-        event_category: "error",
-        event_label: "exception",
-        value: `${e.code} >>> ${e.description}`
-    });
+	if (typeof gtag === "function")
+		gtag("event", "errored", {
+			event_category: "error",
+			event_label: "exception",
+			value: `${e.code} >>> ${e.description}`
+		});
 }
