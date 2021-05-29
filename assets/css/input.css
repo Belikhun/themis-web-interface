@@ -470,7 +470,7 @@ body.dark .flatInput::placeholder {
     color: rgb(148, 148, 148);
 }
 
-/** IMAGE INPUT */
+/** ===================== IMAGE INPUT ===================== */
 
 .imageInput {
     position: relative;
@@ -557,4 +557,138 @@ body.dark .flatInput::placeholder {
 /* Dark Icon Input */
 body.dark ::-webkit-calendar-picker-indicator {
     filter: invert(1);
+}
+
+/** ===================== SQ-SELECT ===================== */
+
+.sq-selector {
+    position: relative;
+    display: inline-block;
+
+    margin: 10px;
+    --background: rgb(242, 242, 242);
+    --active: var(--osc-color-blue);
+    --color: black;
+    --color-hover: white;
+}
+
+.sq-selector > .current {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 6px;
+
+    cursor: pointer;
+    user-select: none;
+    background-color: var(--background);
+}
+
+.sq-selector > .current:hover,
+.sq-selector.show > .current {
+    background-color: var(--active);
+}
+
+.sq-selector > .current > .value {
+    flex-grow: 1;
+    margin-right: 10px;
+
+    font-size: 16px;
+    font-weight: normal;
+    color: var(--color);
+}
+
+.sq-selector > .current:hover > .value,
+.sq-selector.show > .current > .value {
+    color: var(--color-hover);
+}
+
+.sq-selector > .current > icon::after {
+    font-size: 22px;
+    line-height: 20px;
+    color: var(--color);
+
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.sq-selector > .current:hover > icon::after,
+.sq-selector.show > .current > icon::after {
+    color: var(--color-hover);
+}
+
+.sq-selector.show > .current > icon::after {
+    transform: rotate(90deg);
+}
+
+.sq-selector > .select {
+    position: relative;
+    display: block;
+
+    width: 100%;
+    height: 0;
+    margin-top: 5px;
+    border-radius: 6px;
+
+    overflow: hidden;
+    background-color: var(--background);
+    transition: height 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.sq-selector > .select > .list {
+    display: inline-block;
+    width: 100%;
+}
+
+.sq-selector > .select > .list > .item {
+    position: relative;
+    display: block;
+    margin: 2px;
+    padding: 2px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+
+    font-size: 16px;
+    font-weight: normal;
+    olor: var(--color);;
+}
+
+.sq-selector > .select > .list > .item:hover,
+.sq-selector > .select > .list > .item.active {
+    color: var(--color-hover);
+    background-color: var(--active);
+}
+
+.sq-selector > .select > .list > .item:hover::before {
+    content: "\f105";
+	position: absolute;
+
+    top: 50%;
+    left: 8px;
+    transform: translateY(-50%);
+
+    font-family: "Font Awesome 5 Free";
+    font-size: 16px;
+    font-weight: 600;
+	text-align: center;
+	line-height: 16px;
+	color: var(--color-hover);
+}
+
+.sq-selector[data-color="pink"] {
+    --active: var(--osc-color-pink);
+}
+
+body.dark .sq-selector {
+    --background: rgb(26, 26, 26);
+    --active: var(--osc-color-blue);
+    --color: rgb(235, 235, 235);
+    --color-hover: white;
+}
+
+body.dark .sq-selector[data-color="pink"] {
+    --active: var(--osc-color-pink);
 }

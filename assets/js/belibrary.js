@@ -2066,6 +2066,121 @@ function createCheckbox({
 	}
 }
 
+function createSelectInput({
+	color = "blue",
+	options = {},
+	value
+} = {}) {
+	let container = makeTree("div", "sq-selector", {
+		current: { tag: "div", class: "current", child: {
+			value: { tag: "t", class: "value" },
+			icon: { tag: "icon", data: { icon: "arrowDown" } }
+		}},
+
+		select: { tag: "div", class: "select", child: {
+			list: { tag: "div", class: "list" }
+		}}
+	});
+
+	if (typeof Scrollable === "function")
+		new Scrollable(container.select, {
+			content: container.select.list
+		});
+
+	/** @type {HTMLDivElement} */
+	let activeNode = undefined;
+	let currentOptions = {}
+	let inputHandlers = []
+	let showing = false;
+
+	const show = () => {
+		showing = true;
+		container.classList.add("show");
+		container.select.style.height = `${container.select.list.offsetHeight}px`;
+	}
+
+	const hide = () => {
+		showing = false;
+		container.classList.remove("show");
+		container.select.style.height = null;
+	}
+
+	const toggle = () => {
+		if (showing)
+			hide();
+		else
+			show();
+	}
+
+	const set = ({
+		color,
+		options,
+		value
+	} = {}) => {
+		if (typeof color === "string")
+			container.dataset.color = color;
+
+		if (typeof options === "object") {
+			emptyNode(container.select.list);
+			activeNode = undefined;
+			currentOptions = {}
+
+			for (let key of Object.keys(options)) {
+				let item = document.createElement("div");
+				item.classList.add("item");
+				item.dataset.value = key;
+				item.innerText = options[key];
+				options[key] = item;
+
+				item.addEventListener("click", () => {
+					if (activeNode)
+						activeNode.classList.remove("active");
+
+					activeNode = item;
+					item.classList.add("active");
+					container.current.value.innerText = item.innerText;
+					inputHandlers.forEach(f => f(item.dataset.value));
+					hide();
+				});
+
+				container.select.list.appendChild(item);
+			}
+
+			currentOptions = options;
+		}
+
+		if (typeof value === "string" && currentOptions[value]) {
+			if (activeNode)
+				activeNode.classList.remove("active");
+
+			activeNode = currentOptions[value];
+			activeNode.classList.add("active");
+		}
+	}
+
+	set({ color, options, value });
+
+	container.current.addEventListener("click", () => toggle());
+
+	return {
+		group: container,
+		showing,
+		show,
+		hide,
+		set,
+
+		onInput: (f) => {
+			if (typeof f !== "function")
+				throw { code: -1, description: `createSelectInput().onInput(): not a valid function` }
+
+			inputHandlers.push(f);
+
+			if (activeNode)
+				f(activeNode.dataset.value);
+		}
+	}
+}
+
 function createSlider({
 	color = "pink",
 	value = 0,
