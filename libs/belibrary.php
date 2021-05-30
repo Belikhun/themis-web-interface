@@ -217,6 +217,16 @@
 		return $data;
 	}
 
+	function header_set($name) {
+		$name = strtolower($name);
+
+		foreach (headers_list() as $item)
+			if (strpos(strtolower($item), $name) >= 0)
+				return true;
+			
+		return false;
+	}
+
 	/**
 	 * Return the reference of the value in Object.
 	 * @param	Array					$object
@@ -426,8 +436,12 @@
 				break;
 			
 			case "API":
-				if (!headers_sent())
+				if (!headers_sent()) {
 					header("Content-Type: application/json", true);
+
+					if (!header_set("Access-Control-Allow-Origin"))
+						header("Access-Control-Allow-Origin: *", true);
+				}
 					
 				print(json_encode($output, JSON_PRETTY_PRINT));
 				
