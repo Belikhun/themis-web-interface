@@ -565,7 +565,6 @@ body.dark ::-webkit-calendar-picker-indicator {
     position: relative;
     display: inline-block;
 
-    margin: 10px;
     --background: rgb(242, 242, 242);
     --active: var(--osc-color-blue);
     --color: black;
@@ -592,12 +591,17 @@ body.dark ::-webkit-calendar-picker-indicator {
     background-color: var(--active);
 }
 
+.sq-selector > .current > .icon {
+    margin-right: 10px;
+}
+
 .sq-selector > .current > .value {
     flex-grow: 1;
     margin-right: 10px;
 
     font-size: 16px;
     font-weight: normal;
+    line-height: 17px;
     color: var(--color);
 }
 
@@ -606,7 +610,7 @@ body.dark ::-webkit-calendar-picker-indicator {
     color: var(--color-hover);
 }
 
-.sq-selector > .current > icon::after {
+.sq-selector > .current > .arrow::after {
     font-size: 22px;
     line-height: 20px;
     color: var(--color);
@@ -614,12 +618,12 @@ body.dark ::-webkit-calendar-picker-indicator {
     transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.sq-selector > .current:hover > icon::after,
-.sq-selector.show > .current > icon::after {
+.sq-selector > .current:hover > .arrow::after,
+.sq-selector.show > .current > .arrow::after {
     color: var(--color-hover);
 }
 
-.sq-selector.show > .current > icon::after {
+.sq-selector.show > .current > .arrow::after {
     transform: rotate(90deg);
 }
 
@@ -653,7 +657,8 @@ body.dark ::-webkit-calendar-picker-indicator {
 
     font-size: 16px;
     font-weight: normal;
-    olor: var(--color);;
+    line-height: 17px;
+    color: var(--color);
 }
 
 .sq-selector > .select > .list > .item:hover,
@@ -676,6 +681,12 @@ body.dark ::-webkit-calendar-picker-indicator {
 	text-align: center;
 	line-height: 16px;
 	color: var(--color-hover);
+}
+
+.sq-selector.right > .select > .list > .item:hover::before {
+    content: "\f104";
+    left: unset;
+    right: 8px;
 }
 
 .sq-selector[data-color="pink"] {

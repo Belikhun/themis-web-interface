@@ -2067,20 +2067,24 @@ function createCheckbox({
 }
 
 function createSelectInput({
+	icon,
 	color = "blue",
 	options = {},
 	value
 } = {}) {
 	let container = makeTree("div", "sq-selector", {
 		current: { tag: "div", class: "current", child: {
+			icon: { tag: "icon", class: "icon" },
 			value: { tag: "t", class: "value" },
-			icon: { tag: "icon", data: { icon: "arrowDown" } }
+			arrow: { tag: "icon", class: "arrow", data: { icon: "arrowDown" } }
 		}},
 
 		select: { tag: "div", class: "select", child: {
 			list: { tag: "div", class: "list" }
 		}}
 	});
+
+	container.current.icon.style.display = "none";
 
 	if (typeof Scrollable === "function")
 		new Scrollable(container.select, {
@@ -2089,8 +2093,9 @@ function createSelectInput({
 
 	/** @type {HTMLDivElement} */
 	let activeNode = undefined;
+	let activeValue = undefined;
 	let currentOptions = {}
-	let inputHandlers = []
+	let changeHandlers = []
 	let showing = false;
 
 	const show = () => {
@@ -2113,6 +2118,7 @@ function createSelectInput({
 	}
 
 	const set = ({
+		icon,
 		color,
 		options,
 		value
@@ -2120,9 +2126,16 @@ function createSelectInput({
 		if (typeof color === "string")
 			container.dataset.color = color;
 
+		if (typeof icon === "string") {
+			container.current.icon.style.display = null;
+			container.current.icon.dataset.icon = icon;
+		} else if (typeof icon !== "undefined")
+			container.current.icon.style.display = "none";
+
 		if (typeof options === "object") {
 			emptyNode(container.select.list);
 			activeNode = undefined;
+			activeValue = undefined;
 			currentOptions = {}
 
 			for (let key of Object.keys(options)) {
@@ -2139,7 +2152,7 @@ function createSelectInput({
 					activeNode = item;
 					item.classList.add("active");
 					container.current.value.innerText = item.innerText;
-					inputHandlers.forEach(f => f(item.dataset.value));
+					changeHandlers.forEach(f => f(item.dataset.value));
 					hide();
 				});
 
@@ -2155,28 +2168,31 @@ function createSelectInput({
 
 			activeNode = currentOptions[value];
 			activeNode.classList.add("active");
+			container.current.value.innerText = activeNode.innerText;
+			activeValue = value;
 		}
 	}
 
-	set({ color, options, value });
+	set({ icon, color, options, value });
 
 	container.current.addEventListener("click", () => toggle());
 
 	return {
 		group: container,
 		showing,
+		value: activeValue,
 		show,
 		hide,
 		set,
 
-		onInput: (f) => {
+		onChange: (f) => {
 			if (typeof f !== "function")
-				throw { code: -1, description: `createSelectInput().onInput(): not a valid function` }
+				throw { code: -1, description: `createSelectInput().onChange(): not a valid function` }
 
-			inputHandlers.push(f);
+			changeHandlers.push(f);
 
-			if (activeNode)
-				f(activeNode.dataset.value);
+			if (activeValue)
+				f(activeValue);
 		}
 	}
 }
