@@ -790,9 +790,9 @@ const smenu = {
 
 				let savedValue = localStorage.getItem(this.save);
 				if (savedValue === null)
-					this.set({ value: (typeof value === "boolean") ? value : defaultValue || false });
+					this.set({ value: (typeof value === "string") ? value : defaultValue || false });
 				else
-					this.set({ value: (savedValue === "true") });
+					this.set({ value: savedValue });
 
 				if (child) {
 					if (!child.container || typeof child.insert !== "function")

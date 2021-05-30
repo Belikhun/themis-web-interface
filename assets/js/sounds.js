@@ -26,10 +26,11 @@ const sounds = {
 		overlayPopOut: { path: "overlay-pop-out.mp3", require: ["panelToggle"] },
 		select: { path: "generic-select.mp3", require: ["btnClick"] },
 		selectSoft: { path: "generic-select-soft.mp3", require: ["btnClick"] },
+		valueChange: { path: "generic-value-change.mp3", require: ["others"] },
 		sliderHigh: { path: "slider-high.mp3", require: ["others"] },
 		sliderLow: { path: "slider-low.mp3", require: ["others"] },
 		sliderSlide: { path: "slider-slide.mp3", require: ["others"] },
-		warning: { path: "generic-warning.mp3", require: ["others"] }
+		warning: { path: "generic-warning.mp3", require: ["others"] },
 	},
 	
 	enable: {

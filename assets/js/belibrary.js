@@ -2086,6 +2086,9 @@ function createSelectInput({
 
 	container.current.icon.style.display = "none";
 
+	if (typeof sounds === "object")
+		sounds.applySound(container.current, ["soundhover"]);
+
 	if (typeof Scrollable === "function")
 		new Scrollable(container.select, {
 			content: container.select.list
@@ -2099,12 +2102,18 @@ function createSelectInput({
 	let showing = false;
 
 	const show = () => {
+		if (typeof sounds === "object")
+			sounds.select(1);
+
 		showing = true;
 		container.classList.add("show");
 		container.select.style.height = `${container.select.list.offsetHeight}px`;
 	}
 
-	const hide = () => {
+	const hide = (isSelected = false) => {
+		if (typeof sounds === "object" && !isSelected)
+			sounds.select(1);
+		
 		showing = false;
 		container.classList.remove("show");
 		container.select.style.height = null;
@@ -2145,15 +2154,22 @@ function createSelectInput({
 				item.innerText = options[key];
 				options[key] = item;
 
+				if (typeof sounds === "object")
+					sounds.applySound(item, ["soundhoversoft"]);
+
 				item.addEventListener("click", () => {
 					if (activeNode)
 						activeNode.classList.remove("active");
-
+					
 					activeNode = item;
 					item.classList.add("active");
 					container.current.value.innerText = item.innerText;
 					changeHandlers.forEach(f => f(item.dataset.value));
-					hide();
+
+					if (typeof sounds === "object")
+						sounds.soundToggle(sounds.sounds.valueChange);
+
+					hide(true);
 				});
 
 				container.select.list.appendChild(item);
@@ -2168,8 +2184,9 @@ function createSelectInput({
 
 			activeNode = currentOptions[value];
 			activeNode.classList.add("active");
-			container.current.value.innerText = activeNode.innerText;
 			activeValue = value;
+			container.current.value.innerText = activeNode.innerText;
+			changeHandlers.forEach(f => f(activeValue));
 		}
 	}
 
