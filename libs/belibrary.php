@@ -217,6 +217,16 @@
 		return $data;
 	}
 
+	function getAllHeadersUC() {
+		$headers = getallheaders();
+		$newHeaders = Array();
+
+		foreach ($headers as $key => $item)
+			$newHeaders[ucwords($key, "-")] = $item;
+
+		return $newHeaders;
+	}
+
 	function header_set($name) {
 		$name = strtolower($name);
 
