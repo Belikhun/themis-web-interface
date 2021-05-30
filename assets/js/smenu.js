@@ -744,6 +744,88 @@ const smenu = {
 			}
 		},
 
+		Select: class {
+			constructor({
+				label = "Sample Choice Box",
+				color = "blue",
+				icon,
+				options,
+				value,
+				save,
+				defaultValue,
+				onChange
+			} = {}, child) {
+				this.container = document.createElement("div");
+				this.container.classList.add("component", "select");
+
+				this.labelNode = document.createElement("t");
+				this.labelNode.classList.add("label");
+				this.labelNode.innerHTML = label;
+
+				this.selectInput = createSelectInput({ icon, color, options, value });
+				this.selectInput.group.classList.add("right");
+				this.container.append(this.labelNode, this.selectInput.group);
+
+				this.defaultValue = defaultValue;
+				this.save = save;
+
+				this.changeHandlers = []
+				this.selectInput.onChange(async (value) => {
+					for (let f of this.changeHandlers)
+						await f(value);
+				});
+
+				this.changeHandlers.push((value) => {
+					if (this.save)
+						localStorage.setItem(this.save, value);
+
+					if (value !== this.defaultValue)
+						this.container.classList.add("changed");
+					else
+						this.container.classList.remove("changed");
+				});
+
+				if (typeof onChange === "function")
+					this.changeHandlers.push(onChange);
+
+				let savedValue = localStorage.getItem(this.save);
+				if (savedValue === null)
+					this.set({ value: (typeof value === "boolean") ? value : defaultValue || false });
+				else
+					this.set({ value: (savedValue === "true") });
+
+				if (child) {
+					if (!child.container || typeof child.insert !== "function")
+						throw { code: -1, description: `smenu.components.Checkbox(): child is not a valid Child` }
+	
+					child.insert(this);
+				}
+			}
+
+			onChange(f) {
+				if (typeof f !== "function")
+					throw { code: -1, description: `smenu.components.Select().onChange(): not a valid function` }
+
+				this.changeHandlers.push(f);
+
+				if (this.selectInput.value)
+					f(this.selectInput.value);
+			}
+
+			set({
+				label,
+				icon,
+				color,
+				options,
+				value
+			} = {}) {
+				if (typeof label === "string")
+					this.labelNode.innerHTML = label;
+
+				this.selectInput.set({ icon, color, options, value });
+			}
+		},
+
 		Slider: class {
 			constructor({
 				label = "Sample Slider",
