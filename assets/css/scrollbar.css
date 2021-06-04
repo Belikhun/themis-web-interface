@@ -59,6 +59,10 @@ body.dark ::-webkit-scrollbar {
     overflow: hidden;
 }
 
+.scrollable > .scrollbar.none {
+    display: none;
+}
+
 .scrollable:not(.scrollbar) > .scrollbar {
     display: none;
 }
@@ -133,4 +137,11 @@ body.dark ::-webkit-scrollbar {
     width: 100%;
     height: 100%;
     transition: transform 0.05s linear;
+}
+
+body.dark .scrollable {
+    --idle-color: transparent;
+    --show-color: rgba(213, 204, 204, 0.5);
+    --hover-color: rgba(235, 235, 235, 0.6);
+    --active-color: rgba(255, 255, 255, 0.8);
 }

@@ -37,7 +37,7 @@
 	--osc-color-darkBlue:		#032b3d;
 	--osc-color-darkYellow:		#444304;
 	--osc-color-darkRed:		#440505;
-	--osc-color-lightBlue:		#eaf8ff;
+	--osc-color-lightBlue:		#daf3ff;
 	--osc-color-navyBlue:		#333D79;
 }
 
@@ -771,10 +771,6 @@ icon[data-icon="file"]::after {
 	content: "\f15b";
 }
 
-icon[data-icon="upload"]::after {
-	content: "\f093";
-}
-
 icon[data-icon="window"]::after {
 	content: "\f2d2";
 }
@@ -810,6 +806,10 @@ icon[data-icon="hive"]::after {
 
 icon[data-icon="infoCircle"]::after {
 	content: "\f05a";
+}
+
+icon[data-icon="shoppingCart"]::after {
+	content: "\f07a";
 }
 
 /** ======================== NOTE ======================== **/

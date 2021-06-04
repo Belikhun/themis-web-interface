@@ -269,15 +269,26 @@ const navbar = {
 
 			this.container = container;
 			this.container.classList.add("clickable");
+			this.clickHandlers = []
 			this.handlers = []
 
 			this.clickBox = document.createElement("div");
 			this.clickBox.classList.add("clickBox");
-			this.clickBox.addEventListener("click",
-				() => (onlyActive)
-					? this.active = true
-					: this.toggle()
-			);
+			this.clickBox.addEventListener("click", () => {
+				if (onlyActive) {
+					for (let f of this.clickHandlers)
+						f(true);
+
+					this.active = true;
+				} else {
+					let isActive = this.container.classList.contains("active");
+					
+					for (let f of this.clickHandlers)
+						f(!isActive);
+
+					this.toggle(isActive);
+				}
+			});
 
 			if (typeof sounds === "object")
 				sounds.applySound(this.clickBox, ["soundhover", "soundselect"]);
@@ -285,16 +296,23 @@ const navbar = {
 			this.container.appendChild(this.clickBox);
 		}
 
-		setHandler(handler) {
-			if (typeof handler !== "function")
-				throw { code: -1, description: `navbar.Clickable.setHandler(): not a valid function` }
+		onClick(f) {
+			if (typeof f !== "function")
+				throw { code: -1, description: `navbar.Clickable.onClick(): not a valid function` }
 
-			return this.handlers.push(handler);
+			return this.clickHandlers.push(f);
 		}
 
-		removeHandler(handler) {
-			if (this.handlers[handler])
-				this.handlers[handler] = undefined;
+		setHandler(f) {
+			if (typeof f !== "function")
+				throw { code: -1, description: `navbar.Clickable.setHandler(): not a valid function` }
+
+			return this.handlers.push(f);
+		}
+
+		removeHandler(index) {
+			if (this.handlers[index])
+				this.handlers[index] = undefined;
 		}
 
 		/**
@@ -322,9 +340,8 @@ const navbar = {
 			this.container.classList[active ? "add" : "remove"]("active")
 		}
 
-		toggle() {
-			let isActive = !this.container.classList.contains("active");
-			this.active = isActive;
+		toggle(isActive = this.container.classList.contains("active")) {
+			this.active = !isActive;
 		}
 	},
 
@@ -340,7 +357,7 @@ const navbar = {
 		let iconNode = new lazyload({
 			source: icon,
 			classes: "icon"
-		})
+		});
 
 		let titleNode = document.createElement("t");
 		titleNode.classList.add("title");

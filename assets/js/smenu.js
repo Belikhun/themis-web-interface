@@ -22,6 +22,7 @@ const smenu = {
 	containerHideTimeout: null,
 	mainHideTimeout: null,
 	activePanel: null,
+	align: "right",
 
 	showHandlers: [],
 	hideHandlers: [],
@@ -36,29 +37,29 @@ const smenu = {
 		if (typeof container !== "object" || !container.classList || !container.parentElement)
 			throw { code: -1, description: `smenu.init(): container is not a valid node` }
 
-		let tree = buildElementTree("div", ["smenuContainer", "hide"], [
-			{ type: "div", class: "main", name: "main", list: [
-				{ type: "div", class: "wrapper", name: "wrapper", list: [
-					{ type: "div", class: "smenu", name: "smenu", list: [
-						{ type: "t", class: "title", name: "menuTitle", text: title },	
-						{ type: "t", class: "description", name: "menuDescription", text: description },
-						{ type: "div", class: "searchBox", name: "search", list: [
-							{ type: "input", class: "flatInput", name: "input" }
-						]}
-					]}
-				]},
+		let view = makeTree("div", ["smenuContainer", "hide"], {
+			main: { tag: "div", class: "main", child: {
+				wrapper: { tag: "div", class: "wrapper", child: {
+					smenu: { tag: "div", class: "smenu", child: {
+						menuTitle: { tag: "t", class: "title", text: title },
+						menuDescription: { tag: "t", class: "description", text: description },
+						search: { tag: "div", class: "searchBox", child: {
+							input: { tag: "input", class: "flatInput" }
+						}}
+					}}
+				}},
 
-				{ type: "div", class: "navigator", name: "navigator" }
-			]},
+				navigator: { tag: "div", class: "navigator" }
+			}},
 
-			{ type: "div", class: "panels", name: "panels", list: [
-				{ type: "div", class: "underlay", name: "underlay" }
-			]}
-		])
+			panels: { tag: "div", class: "panels", child: {
+				underlay: { tag: "div", class: "underlay" }
+			}}
+		});
 
-		tree.tree.id = container.id;
-		container.parentElement.replaceChild(tree.tree, container);
-		this.container = tree.obj;
+		view.id = container.id;
+		container.parentElement.replaceChild(view, container);
+		this.container = view;
 		
 		let searchTimeout;
 		let navExpandTimeout;
@@ -114,6 +115,11 @@ const smenu = {
 		});
 
 		this.initialized = true;
+	},
+
+	setAlignment(align) {
+		this.align = align;
+		this.container.dataset.align = align;
 	},
 
 	onShow(f) {
@@ -879,7 +885,7 @@ const smenu = {
 				header.append(this.labelNode, this.previewNode);
 				this.container.append(header, this.slider.group);
 
-				this.onInput((value) => this.update(value));
+				this.onInput((value, e) => this.update(value, !!(e && e.isTrusted)));
 				this.update(value, false);
 
 				if (typeof onInput === "function")
@@ -1100,19 +1106,25 @@ const smenu = {
 				emptyNode(this.container.main);
 				let re = null;
 	
-				if (typeof content === "object" && content.classList)
+				if (typeof content === "object" && content.classList) {
 					this.container.main.appendChild(content);
-				else if ((re = /iframe:(.+)/gm.exec(content)) !== null) {
+					resolve();
+				} else if ((re = /iframe:(.+)/gm.exec(content)) !== null) {
+					this.loading = true;
 					this.iframe = document.createElement("iframe");
 					this.iframe.src = re[1];
 					this.container.main.appendChild(this.iframe);
 
-					this.iframe.addEventListener("load", () => resolve());
+					this.iframe.addEventListener("load", () => {
+						this.loading = false;
+						resolve()
+					});
 					return;
-				} else
+				} else {
 					this.container.main.innerHTML = content;
+					resolve();
+				}
 				
-				resolve();
 				return;
 			});
 		}
@@ -1176,7 +1188,7 @@ const smenu = {
 			requestAnimationFrame(() => {
 				smenu.collapse();
 				this.container.classList.add("show");
-			})
+			});
 		}
 
 		hide(callShowMenu = true) {

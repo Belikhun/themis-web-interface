@@ -89,7 +89,7 @@ const errorHandler = async (error, returnable = true) => {
 		errorLines = [ ...errorLines, "", "Stack Trace:", ...e.stack ]
 
 	let errorBox = document.createElement("ul");
-	errorBox.classList.add("textView");
+	errorBox.classList.add("textView", "breakWord");
 	errorBox.innerHTML = errorLines.map(i => `<li>${i}</li>`).join("");
 
 	await popup.show({

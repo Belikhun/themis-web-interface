@@ -84,6 +84,8 @@ class Scrollable {
 		this.currentVelocity = 0;
 		this.currentClampV = 0;
 		this.currentClampH = 0;
+		this.vHideTimeout = null;
+		this.hHideTimeout = null;
 		this.smooth = smooth;
 		this.scrollbar = scrollbar;
 		this.barSize = barSize;
@@ -350,18 +352,24 @@ class Scrollable {
 		let tHeight = (r.height / r.sHeight) * s.height;
 
 		if (r.height < r.sHeight) {
-			this.vBar.classList.remove("hide");
+			clearTimeout(this.vHideTimeout);
+			this.vBar.classList.remove("hide", "none");
 			this.vBar.thumb.style.height = `${tHeight}px`;
 			this.vBar.thumb.style.top = `${(top / height) * (s.height - tHeight)}px`;
-		} else
+		} else {
 			this.vBar.classList.add("hide");
+			this.vHideTimeout = setTimeout(() => this.vBar.classList.add("none"), 1000);
+		}
 
 		if (r.width < r.sWidth) {
-			this.hBar.classList.remove("hide");
+			clearTimeout(this.hHideTimeout);
+			this.hBar.classList.remove("hide", "none");
 			this.hBar.thumb.style.width = `${tWidth}px`;
 			this.hBar.thumb.style.left = `${(left / width) * (s.width - tWidth)}px`;
-		} else
+		} else {
 			this.hBar.classList.add("hide");
+			this.hHideTimeout = setTimeout(() => this.hBar.classList.add("none"), 1000);
+		}
 	}
 
 	toBottom() {
