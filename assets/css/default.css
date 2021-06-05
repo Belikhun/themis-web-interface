@@ -746,6 +746,10 @@ icon[data-icon="list"]::after {
 	content: "\f00b";
 }
 
+icon[data-icon="listC"]::after {
+	content: "\f03a";
+}
+
 icon[data-icon="search"]::after {
 	content: "\f002";
 }

@@ -3213,11 +3213,11 @@ panel > .main > .loadingWrapper.show {
 	margin: 4px 20px 0 0;
 }
 
-.logViewer > .header > .bottom > .line > .left > .sp > table tr > td {
+.logViewer > .header > .bottom > .line > .left > .sp > table > tbody > tr > td {
 	padding: 2px 6px;
 }
 
-.logViewer > .header > .bottom > .line > .left > .sp > table tr > td:nth-child(1) {
+.logViewer > .header > .bottom > .line > .left > .sp > table > tbody > tr > td:nth-child(1) {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -3229,7 +3229,7 @@ panel > .main > .loadingWrapper.show {
 	color: rgb(56, 56, 56);
 }
 
-.logViewer > .header > .bottom > .line > .left > .sp > table tr > td:nth-child(1)::before {
+.logViewer > .header > .bottom > .line > .left > .sp > table > tbody > tr > td:nth-child(1)::before {
 	content: "\f111";
 	position: relative;
 	flex-shrink: 0;
@@ -3245,26 +3245,26 @@ panel > .main > .loadingWrapper.show {
 	color: rgba(46, 46, 46, 0.5);
 }
 
-.logViewer > .header > .bottom > .line > .left > .sp > table tr > td:nth-child(1)[data-icon="clock"]::before {
+.logViewer > .header > .bottom > .line > .left > .sp > table > tbody > tr > td:nth-child(1)[data-icon="clock"]::before {
 	content: "\f017";
 }
 
-.logViewer > .header > .bottom > .line > .left > .sp > table tr > td:nth-child(1)[data-icon="gavel"]::before {
+.logViewer > .header > .bottom > .line > .left > .sp > table > tbody > tr > td:nth-child(1)[data-icon="gavel"]::before {
 	content: "\f0e3";
 }
 
-.logViewer > .header > .bottom > .line > .left > .sp > table tr > td:nth-child(1)[data-icon="line"]::before {
+.logViewer > .header > .bottom > .line > .left > .sp > table > tbody > tr > td:nth-child(1)[data-icon="line"]::before {
 	content: "\f201";
 }
 
-.logViewer > .header > .bottom > .line > .left > .sp > table tr > td:nth-child(2) {
+.logViewer > .header > .bottom > .line > .left > .sp > table > tbody > tr > td:nth-child(2) {
 	font-size: 13px;
 	font-weight: bold;
 
 	text-align: right;
 }
 
-.logViewer > .header > .bottom > .line > .left > .sp > table tr > td:nth-child(3) {
+.logViewer > .header > .bottom > .line > .left > .sp > table > tbody > tr > td:nth-child(3) {
 	font-family: "Consolas";
 	font-size: 15px;
 	font-weight: bold;
@@ -3272,15 +3272,15 @@ panel > .main > .loadingWrapper.show {
 	text-align: right;
 }
 
-.logViewer > .header > .bottom > .line > .left > .sp > table tr.green td:nth-child(3) {
+.logViewer > .header > .bottom > .line > .left > .sp > table > tbody > tr.green td:nth-child(3) {
 	color: rgb(8, 165, 40);
 }
 
-.logViewer > .header > .bottom > .line > .left > .sp > table tr.yellow td:nth-child(3) {
+.logViewer > .header > .bottom > .line > .left > .sp > table > tbody > tr.yellow td:nth-child(3) {
 	color: #d89519;
 }
 
-.logViewer > .header > .bottom > .line > .left > .sp > table tr.red td:nth-child(3) {
+.logViewer > .header > .bottom > .line > .left > .sp > table > tbody > tr.red td:nth-child(3) {
 	color: rgb(211, 47, 47);
 }
 
@@ -3637,7 +3637,7 @@ panel > .main > .loadingWrapper.show {
 }
 
 #ranking > table > thead > tr > th:nth-child(1),
-#ranking > table tr > td:nth-child(1) {
+#ranking > table > tbody > tr > td:nth-child(1) {
 	width: 20px;
 	text-align: center;
 }
@@ -3658,7 +3658,7 @@ panel > .main > .loadingWrapper.show {
 	margin: 0 0 0 10px;
 }
 
-#ranking > table > tbody > tr > td:nth-child(2) .avatar {
+#ranking > table > tbody > tr > td:nth-child(2) > .avatar {
 	position: relative;
 	display: block;
 
@@ -3667,7 +3667,12 @@ panel > .main > .loadingWrapper.show {
 	border-radius: 50%;
 }
 
-#ranking > table > tbody > tr > td:nth-child(3) .username {
+#ranking[data-type="compact"] > table > tbody > tr > td:nth-child(2) > .avatar {
+	width: 22px;
+	height: 22px;
+}
+
+#ranking > table > tbody > tr > td:nth-child(3) > .username {
 	font-family: "Open Sans";
 	font-size: 11px;
 	font-style: italic;
@@ -3675,7 +3680,11 @@ panel > .main > .loadingWrapper.show {
 	letter-spacing: .2px;
 }
 
-#ranking > table > tbody > tr > td:nth-child(3) .name {
+#ranking[data-type="compact"] > table > tbody > tr > td:nth-child(3) > .username {
+	display: none;
+}
+
+#ranking > table > tbody > tr > td:nth-child(3) > .name {
 	font-size: 15px;
 	letter-spacing: .2px;
 }
@@ -3783,64 +3792,73 @@ panel > .main > .loadingWrapper.show {
 }
 
 #ranking > table > thead > tr > th,
-#ranking > table tr > td {
+#ranking > table > tbody > tr > td {
 	padding: 10px 12px;
 }
 
-#ranking > table tr > td {
+#ranking[data-type="compact"] > table > thead > tr > th,
+#ranking[data-type="compact"] > table > tbody > tr > td {
+	padding: 5px 12px;
+}
+
+#ranking > table > tbody > tr > td {
 	font-size: 13px;
 }
 
-#ranking > table tr > td.number,
-#ranking > table tr > td.number > t {
+#ranking > table > tbody > tr > td.number,
+#ranking > table > tbody > tr > td.number > t {
 	font-size: 13px;
 	text-align: right;
 	color: rgb(172, 172, 172);
 }
 
-#ranking > table tr > td.number > t.big {
+#ranking > table > tbody > tr > td.number > t.big {
 	font-size: 16px;
 	font-weight: bold;
 }
 
-#ranking > table tr > td.number[data-folding="true"] > t {
+#ranking[data-type="compact"] > table > tbody > tr > td.number > t:not(.big) {
 	display: none;
 }
 
-#ranking > table tr > td.number.link {
+#ranking > table > tbody > tr > td.number[data-folding="true"] > t {
+	display: none;
+}
+
+#ranking > table > tbody > tr > td.number.link {
 	cursor: pointer;
 }
 
-#ranking > table tr .number.link > t,
-#ranking > table tr .number.correct > t,
-#ranking > table tr .number.passed > t,
-#ranking > table tr .number.accepted > t,
-#ranking > table tr .number.failed > t,
-#ranking > table tr .number.skipped > t {
+#ranking > table > tbody > tr .number.link > t,
+#ranking > table > tbody > tr .number.correct > t,
+#ranking > table > tbody > tr .number.passed > t,
+#ranking > table > tbody > tr .number.accepted > t,
+#ranking > table > tbody > tr .number.failed > t,
+#ranking > table > tbody > tr .number.skipped > t {
 	color: rgb(75, 75, 75);
 }
 
-#ranking > table tr > td.number.correct {
+#ranking > table > tbody > tr > td.number.correct {
 	background-color: var(--status-correct);
 }
 
-#ranking > table tr > td.number.passed {
+#ranking > table > tbody > tr > td.number.passed {
 	background-color: var(--status-passed);
 }
 
-#ranking > table tr > td.number.accepted {
+#ranking > table > tbody > tr > td.number.accepted {
 	background-color: var(--status-accepted);
 }
 
-#ranking > table tr > td.number.failed {
+#ranking > table > tbody > tr > td.number.failed {
 	background-color: var(--status-failed);
 }
 
-#ranking > table tr > td.number.skipped {
+#ranking > table > tbody > tr > td.number.skipped {
 	background-color: var(--status-skipped);
 }
 
-#ranking > table tr > td.number.link:hover {
+#ranking > table > tbody > tr > td.number.link:hover {
 	filter: brightness(1.1);
 }
 

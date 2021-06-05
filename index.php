@@ -187,7 +187,7 @@
 
 							<div class="main problemsContainer">
 								<div class="loadingWrapper">
-									<span class="simpleSpinner"></span>
+									<span class="spinner"></span>
 								</div>
 
 								<div id="problemsListContainer" class="listContainer">

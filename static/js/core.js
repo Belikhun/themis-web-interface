@@ -2631,6 +2631,25 @@ const twi = {
 
 		container: $("#userSettings"),
 
+		sliderStep: {
+			1: 0.5,		2: 1,		3: 2,		4: 10,
+			5: 60,		6: 120,		7: 240,		8: 300,
+			9: 600,		10: 3600,
+			11: false
+		},
+
+		ratelimitWarning: {
+			level: "warning",
+			windowTitle: "Cảnh Báo",
+			title: "Cảnh Báo",
+			message: "Thời gian làm mới quá nhỏ!",
+			description: "Việc đặt giá trị này quá nhỏ sẽ làm cho máy chủ hiểu nhầm rằng bạn đang tấn công máy chủ và sẽ chặn bạn trong một khoảng thời gian nhất định!",
+			buttonList: {
+				cancel: { color: "blue", text: "Bấm Lộn! Trả Về Cũ Đi!" },
+				ignore: { color: "red", text: "Máy Chủ Là Gì? Có Ăn Được Không?" }
+			}
+		},
+
 		/**
 		 * Initialize User Settings Module
 		 * @param {Function}	set		Report Progress to Initializer
@@ -2804,6 +2823,56 @@ const twi = {
 			}
 		},
 
+		ranking: {
+			group: smenu.Group.prototype,
+
+			init() {
+				this.group = new smenu.Group({ label: "xếp hạng", icon: "chart" });
+
+				let general = new smenu.Child({ label: "Chung" }, this.group);
+
+				let updateRank = new smenu.components.Slider({
+					label: "Thời gian cập nhật xếp hạng",
+					color: "blue",
+					save: "ranking.updateRank",
+					min: 1,
+					max: 11,
+					unit: "giây",
+					defaultValue: SERVER.clientSettings.rankUpdate,
+					valueStep: this.super.sliderStep
+				}, general);
+
+				updateRank.onInput((v) => updateRank.set({ color: (v <= 2) ? "red" : "blue" }));
+				updateRank.onChange(async (v, e) => {
+					if (v < 3 && e.isTrusted)
+						if (await popup.show(this.super.ratelimitWarning) === "cancel") {
+							updateRank.set({ value: 3 });
+							return;
+						}
+
+					if (this.super.sliderStep[v] === false)
+						twi.rank.enabled = false;
+					else {
+						twi.rank.enabled = true;
+						twi.rank.updateDelay = this.super.sliderStep[v];
+					}
+				});
+
+				let display = new smenu.Child({ label: "Hiển Thị" }, this.group);
+
+				let type = new smenu.components.Choice({
+					label: "Kiểu Bảng",
+					choice: {
+						full: { icon: "list", title: "Đầy Đủ" },
+						compact: { icon: "listC", title: "Thu Gọn" }
+					},
+					defaultValue: "full",
+					save: "ranking.type",
+					onChange: (v) => twi.rank.container.dataset.type = v
+				}, display);
+			}
+		},
+
 		problemViewer: {
 			group: smenu.Group.prototype,
 
@@ -2890,51 +2959,8 @@ const twi = {
 				this.group = new smenu.Group({ label: "khác", icon: "circle" });
 
 				let update = new smenu.Child({ label: "Làm Mới" }, this.group);
-				let sliderStep = {
-					1: 0.5,		2: 1,		3: 2,		4: 10,
-					5: 60,		6: 120,		7: 240,		8: 300,
-					9: 600,		10: 3600,
-					11: false
-				}
-
-				let lowWarningSettings = {
-					level: "warning",
-					windowTitle: "Cảnh Báo",
-					title: "Cảnh Báo",
-					message: "Thời gian làm mới quá nhỏ!",
-					description: "Việc đặt giá trị này quá nhỏ sẽ làm cho máy chủ hiểu nhầm rằng bạn đang tấn công máy chủ và sẽ chặn bạn trong một khoảng thời gian nhất định!",
-					buttonList: {
-						cancel: { color: "blue", text: "Bấm Lộn! Trả Về Cũ Đi!" },
-						ignore: { color: "red", text: "Máy Chủ Là Gì? Có Ăn Được Không?" }
-					}
-				}
-
-				let updateRank = new smenu.components.Slider({
-					label: "Thời gian cập nhật xếp hạng",
-					color: "blue",
-					save: "others.updateRank",
-					min: 1,
-					max: 11,
-					unit: "giây",
-					defaultValue: SERVER.clientSettings.rankUpdate,
-					valueStep: sliderStep
-				}, update);
-
-				updateRank.onInput((v) => updateRank.set({ color: (v <= 2) ? "red" : "blue" }));
-				updateRank.onChange(async (v, e) => {
-					if (v < 3 && e.isTrusted)
-						if (await popup.show(lowWarningSettings) === "cancel") {
-							updateRank.set({ value: 3 });
-							return;
-						}
-
-					if (sliderStep[v] === false)
-						twi.rank.enabled = false;
-					else {
-						twi.rank.enabled = true;
-						twi.rank.updateDelay = sliderStep[v];
-					}
-				});
+				let sliderStep = this.super.sliderStep;
+				let ratelimitWarning = this.super.ratelimitWarning;
 
 				let updateLogs = new smenu.components.Slider({
 					label: "Thời gian cập nhật nhật kí",
@@ -2950,7 +2976,7 @@ const twi = {
 				updateLogs.onInput((v) => updateLogs.set({ color: (v <= 2) ? "red" : "blue" }));
 				updateLogs.onChange(async (v, e) => {
 					if (v < 3 && e.isTrusted)
-						if (await popup.show(lowWarningSettings) === "cancel") {
+						if (await popup.show(ratelimitWarning) === "cancel") {
 							updateLogs.set({ value: 3 });
 							return;
 						}
@@ -2993,7 +3019,7 @@ const twi = {
 				updateHash.onInput((v) => updateHash.set({ color: (v <= 2) ? "red" : "blue" }));
 				updateHash.onChange(async (v, e) => {
 					if (v < 3 && e.isTrusted)
-						if (await popup.show(lowWarningSettings) === "cancel") {
+						if (await popup.show(ratelimitWarning) === "cancel") {
 							updateHash.set({ value: 3 });
 							return;
 						}
