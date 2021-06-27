@@ -403,7 +403,10 @@ const twi = {
 
 		async init() {
 			this.refreshButton.addEventListener("click", () => this.update(true));
-			new Scrollable(this.container.parentElement, { content: this.container });
+			new Scrollable(this.container.parentElement, {
+				content: this.container,
+				overrideScroll: false
+			});
 
 			await this.updater();
 			this.update();
