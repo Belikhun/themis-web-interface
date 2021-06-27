@@ -158,7 +158,7 @@
 	width: 100%;
 	height: 100%;
 	transform: translateY(100%);
-	background-color: rgba(255, 255, 255, 0.85);
+	background-color: rgb(255, 255, 255);
 
 	transition:
 		transform 0.5s ease-in;
@@ -290,7 +290,11 @@
 /** ============================ DARK MODE ============================ **/
 
 body.dark .waveContainer > .container > .contentBox {
-	background-color: rgba(22, 22, 22, 0.85);
+	background-color: rgb(22, 22, 22);
+}
+
+body.dark .waveContainer > .container > .contentBox > .wrapper {
+	background-color: rgba(24, 24, 24, 0.85);
 }
 
 body.dark .waveContainer > .container > .contentBox > .header {
