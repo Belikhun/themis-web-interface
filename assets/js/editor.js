@@ -23,7 +23,7 @@ class Editor {
 	/**
 	 * Initialize a new editor
 	 * 
-	 * @param	{HTMLTextAreaElement}		container
+	 * @param	{HTMLTextAreaElement|String}		container
 	 * @author	@belivipro9x99
 	 */
 	constructor(container, {
@@ -160,8 +160,25 @@ class Editor {
 		/** @type {HTMLElement} */
 		this.lineNum = this.container.lineNum.content;
 
+		if (typeof container === "string") {
+			let _c = document.getElementById(container);
+
+			if (_c)
+				container = _c;
+			else
+				clog("WARN", `Editor(): element with id ${container} does not exist!`);
+		}
+
 		if (typeof container === "object" && container.parentElement) {
-			this.container.id = container.id;
+			if (typeof container.value === "string" && !value)
+				value = container.value;
+
+			if (container.id && container.id !== "")
+				this.container.id = container.id;
+
+			if (container.name && container.name !== "")
+				this.container.main.wrapper.overlay.name = container.name;
+
 			container.parentElement.replaceChild(this.container, container);
 		}
 

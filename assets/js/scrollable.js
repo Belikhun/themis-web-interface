@@ -24,6 +24,7 @@ class Scrollable {
 		maxClamp = 400,
 		horizontal = false,
 		smooth = true,
+		overrideScroll = true,
 		scrollbar = true,
 		scrollout = false,
 		barSize = 10
@@ -50,6 +51,7 @@ class Scrollable {
 
 			this.content = container;
 			this.content.removeAttribute("id");
+			this.container.appendChild(this.content);
 		}
 
 		this.container.classList.add("scrollable");
@@ -74,7 +76,6 @@ class Scrollable {
 
 		this.container.insertBefore(this.hBar, this.container.firstChild);
 		this.container.insertBefore(this.vBar, this.container.firstChild);
-		this.container.appendChild(this.content);
 
 		// Initialize some variables
 		this.distance = distance;
@@ -87,6 +88,7 @@ class Scrollable {
 		this.vHideTimeout = null;
 		this.hHideTimeout = null;
 		this.smooth = smooth;
+		this.overrideScroll = overrideScroll;
 		this.scrollbar = scrollbar;
 		this.barSize = barSize;
 
@@ -108,15 +110,13 @@ class Scrollable {
 		// Listeners for scrolling events
 		this.content.addEventListener("scroll", (e) => this.updateScrollbar(e));
 		this.content.addEventListener("wheel", (event) => {
-			if (event.ctrlKey)
+			if (event.ctrlKey || !this.overrideScroll)
 				return;
 			
 			let contentScrollable = true;
 
 			if (!this.scrollout && !this.smooth) {
-				let delta = (this.horizontal)
-					? event.deltaX
-					: event.deltaY;
+				let delta = event.deltaY;
 	
 				let from = (horizontal)
 					? this.content.scrollLeft

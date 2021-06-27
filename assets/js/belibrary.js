@@ -1044,6 +1044,7 @@ class lazyload {
 		source,
 		classes,
 		tagName = "div",
+		spinner = "simpleSpinner",
 		doLoad = true
 	} = {}) {
 		/** @type {HTMLElement} */
@@ -1079,7 +1080,8 @@ class lazyload {
 
 		this.source = source;
 		this.spinner = document.createElement("div");
-		this.spinner.classList.add("simpleSpinner");
+		this.spinner.classList.add(spinner);
+		this.spinner.setAttribute("spinner", "true");
 		this.container.append(this.spinner);
 
 		if (doLoad)
@@ -2314,7 +2316,7 @@ function createButton(text, {
 	color = "blue",
 	element = "button",
 	type = "button",
-	style = "flat",
+	style = "default",
 	classes,
 	icon = null,
 	align = "left",
@@ -2360,7 +2362,7 @@ function createButton(text, {
 			button.insertBefore(textNode, button.firstChild);
 	}
 
-	if (complex)
+	if (complex && style !== "flat")
 		triBg(button, {
 			scale: 1.6,
 			speed: 8,

@@ -73,6 +73,7 @@
 	border: unset;
 	cursor: pointer;
 	overflow: hidden;
+	user-select: none;
 	z-index: 0;
 
 	transition:
@@ -153,6 +154,21 @@ body.dark .sq-btn > icon::after {
 
 .sq-btn[data-style="round"]:focus {
 	outline: none;
+}
+
+.sq-btn[data-style="flat"] {
+	padding: 14px;
+	border-radius: 4px;
+}
+
+.sq-btn[data-style="flat"]::before,
+.sq-btn[data-style="flat"]::after {
+	content: unset;
+	display: none;
+}
+
+.sq-btn[data-style="flat"] > .triBgContainer {
+	display: none;
 }
 
 @keyframes sq-btn-trig-anim {
