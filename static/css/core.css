@@ -1092,6 +1092,8 @@ panel > .main > .loadingWrapper.show {
 
 .problemViewer > .content > .header > .right > .status > .progressBar {
 	margin-bottom: 3px;
+	border-radius: 3px;
+	overflow: hidden;
 }
 
 .problemViewer > .content > .header > .right > .status > .detail > .item {
@@ -1379,7 +1381,7 @@ panel > .main > .loadingWrapper.show {
 
 	font-size: 10px;
     font-weight: 700;
-    color: rgb(114, 114, 114);
+    color: rgb(19, 19, 19);
     text-transform: uppercase;
     white-space: nowrap;
 	user-select: none;
@@ -1393,7 +1395,7 @@ panel > .main > .loadingWrapper.show {
 	font-family: Nunito;
 	font-size: 25px;
     font-weight: 300;
-    color: rgb(24, 24, 24);
+    color: rgb(0, 0, 0);
     margin-top: 4px;
     line-height: .9;
 }
@@ -1408,7 +1410,7 @@ panel > .main > .loadingWrapper.show {
 
 .problemViewer > .content > .info > .ranking > .spotlight > .item > .right > .bottom > .item > .value > t[key="left"] {
 	font-family: Nunito;
-	font-size: 18px;
+	font-size: 21px;
     font-weight: 600;
 	color: rgb(24, 24, 24);
     line-height: .9;
@@ -1420,11 +1422,11 @@ panel > .main > .loadingWrapper.show {
 	font-weight: bold;
 	line-height: 1;
 
-	margin-left: 10px;
+	margin-left: 20px;
 }
 
 .problemViewer > .content > .info > .ranking > .spotlight > .item > .right > .bottom > .item.green > .value > t {
-	color: rgb(7, 187, 22);
+	color: rgb(0, 172, 63);
 }
 
 .problemViewer > .content > .info > .ranking > .spotlight > .item > .right > .bottom > .item.yellow > .value > t {
@@ -1455,6 +1457,7 @@ panel > .main > .loadingWrapper.show {
 
 .problemViewer > .content > .info > .ranking > table > tbody > tr > td {
 	padding-bottom: 0;
+	font-family: Nunito;
 }
 
 .problemViewer > .content > .info > .ranking > table > thead > tr > th {
@@ -1485,6 +1488,16 @@ panel > .main > .loadingWrapper.show {
 
 .problemViewer > .content > .info > .ranking > table > thead > tr > th[key="uName"] {
 	width: 180px;
+}
+
+.problemViewer > .content > .info > .ranking > table > thead > tr > th[key="submitNth"],
+.problemViewer > .content > .info > .ranking > table > thead > tr > th[key="reSubmit"],
+.problemViewer > .content > .info > .ranking > table > thead > tr > th[key="remainTime"] {
+	text-align: right;
+}
+
+.problemViewer > .content > .info > .ranking > table > thead > tr > th[key="time"] {
+	text-align: center;
 }
 
 .problemViewer > .content > .info > .ranking > table > tbody > tr > td {
@@ -1545,12 +1558,21 @@ panel > .main > .loadingWrapper.show {
 }
 
 .problemViewer > .content > .info > .ranking > table > tbody > tr > td[key="uName"] {
-	font-family: Nunito;
-	font-weight: 700;
+	font-size: 15px;
+	font-weight: 800;
+	letter-spacing: .3px;
+}
+
+.problemViewer > .content > .info > .ranking > table > tbody > tr > td[key="submitNth"],
+.problemViewer > .content > .info > .ranking > table > tbody > tr > td[key="reSubmit"],
+.problemViewer > .content > .info > .ranking > table > tbody > tr > td[key="remainTime"] {
+	font-size: 14px;
+	text-align: right;
 }
 
 .problemViewer > .content > .info > .ranking > table > tbody > tr > td[key="time"] {
 	font-size: 14px;
+	text-align: center;
 }
 
 .problemViewer > .content > .info > .description {
