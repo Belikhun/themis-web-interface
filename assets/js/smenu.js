@@ -1112,13 +1112,18 @@ const smenu = {
 				} else if ((re = /iframe:(.+)/gm.exec(content)) !== null) {
 					this.loading = true;
 					this.iframe = document.createElement("iframe");
-					this.iframe.src = re[1];
-					this.container.main.appendChild(this.iframe);
 
+					if (re[1][0] === "/")
+						this.iframe.src = `${window.location.protocol}//${window.location.host}${re[1]}`;
+					else
+						this.iframe.src = re[1];
+
+					this.container.main.appendChild(this.iframe);
 					this.iframe.addEventListener("load", () => {
 						this.loading = false;
 						resolve()
 					});
+
 					return;
 				} else {
 					this.container.main.innerHTML = content;
