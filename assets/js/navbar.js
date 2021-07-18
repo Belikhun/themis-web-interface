@@ -450,7 +450,7 @@ const navbar = {
 		indicator.classList.add("indicator");
 		container.appendChild(indicator);
 
-		let background = triBg(container, { color, scale: 1, triangleCount: 8, speed: 6 });
+		let background = triBg(container, { color, scale: 2, triangleCount: 8, speed: 6 });
 		let currentActive = null;
 
 		return {

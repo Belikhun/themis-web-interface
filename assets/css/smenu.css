@@ -887,28 +887,6 @@
     overflow: hidden;
 }
 
-/*? ================ MOBILE LAYOUT ================ **/
-
-@media only screen and (max-width: 740px) {
-	.smenuContainer > .main {
-		padding-left: calc(100vw - 60px);
-	}
-
-	.smenuContainer > .main > .wrapper {
-		width: calc(100vw - 60px);
-	}
-
-	.smenuContainer > .main > .navigator.expand {
-		width: 60px;
-	}
-
-	.smenuContainer > .main > .wrapper > .smenu {
-		flex-grow: 1;
-		flex-shrink: 1;
-		width: auto;
-	}
-}
-
 /*? ================ LEFT ALIGNMENT ================ **/
 
 .smenuContainer[data-align="left"] > .main {
@@ -1013,9 +991,37 @@
 	content: "\f053";
 }
 
+
+/*? ================ MOBILE LAYOUT ================ **/
+
+@media only screen and (max-width: 740px) {
+	.smenuContainer > .main {
+		padding-left: calc(100vw - 60px);
+	}
+
+	.smenuContainer[data-align="left"] > .main {
+		padding-left: unset;
+		padding-right: calc(100vw - 60px);
+	}
+
+	.smenuContainer > .main > .wrapper {
+		width: calc(100vw - 60px);
+	}
+
+	.smenuContainer > .main > .navigator.expand {
+		width: 60px;
+	}
+
+	.smenuContainer > .main > .wrapper > .smenu {
+		flex-grow: 1;
+		flex-shrink: 1;
+		width: auto;
+	}
+}
+
 /** ============================ DARK MODE ============================ **/
 
-/** ================ CONTAINER ================ **/
+/*? ================ CONTAINER ================ **/
 
 body.dark .smenuContainer {
 	--background: rgba(22, 22, 22, 0.9);

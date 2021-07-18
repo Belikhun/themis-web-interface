@@ -147,6 +147,24 @@ body.dark .sq-btn > icon::after {
 	margin: unset;
 }
 
+.sq-btn > .simpleSpinner {
+	position: absolute;
+	display: none;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	--color: white;
+}
+
+.sq-btn[data-loading="true"] > .simpleSpinner {
+	display: block;
+}
+
+.sq-btn[data-loading="true"] > .text,
+.sq-btn[data-loading="true"] > icon {
+	visibility: hidden;
+}
+
 .sq-btn[data-style="round"] {
 	padding: 14px;
 	border-radius: 4px;

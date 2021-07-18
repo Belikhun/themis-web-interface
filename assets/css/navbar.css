@@ -492,8 +492,7 @@
 
 .navigationBar > .group > .component.account > .subWindow > .content > .accountSettings > .header > .avatar[data-state="load"] > .simpleSpinner {
 	display: block;
-	border-color: white;
-	border-right-color: transparent;
+	--color: white;
 
 	z-index: 2;
 }

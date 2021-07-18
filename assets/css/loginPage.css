@@ -10,13 +10,19 @@
 body {
     display: flex;
     flex-direction: row;
-    background-color: #ffffff;
-    font-family: "Segoe UI", Calibri, Geneva, Verdana, sans-serif;
-    margin: unset;
-    font-size: 13px;
-    color: #7c7c7c;
+
     width: 100vw;
     height: 100vh;
+    padding: 45px;
+    box-sizing: border-box;
+
+    font-family: "Segoe UI", Calibri, Geneva, Verdana, sans-serif;
+    font-size: 13px;
+    color: #7c7c7c;
+
+    background: #ECE9E6;
+    background: -webkit-linear-gradient(to right, #FFFFFF, #ECE9E6);
+    background: linear-gradient(to right, #FFFFFF, #ECE9E6);
 }
 
 body.dark {
@@ -27,23 +33,26 @@ body.dark {
     position: relative;
     display: block;
     flex-grow: 1;
+
     left: 0;
     width: calc(100% - 400px);
-    height: 100%;
+    margin: 15px;
+    border-radius: 25px;
+
     overflow: hidden;
     opacity: 1;
 
     transition: all 0.2s ease;
 }
 
-.leftPanel .wallpaper {
+.leftPanel > .wallpaper {
     position: relative;
     width: 100%;
     height: 100%;
     filter: brightness(0.8);
 }
 
-.leftPanel .footer {
+.leftPanel > .footer {
     position: absolute;
     bottom: 20px;
     left: 30px;
@@ -52,7 +61,7 @@ body.dark {
     padding: unset;
 }
 
-.leftPanel .footer .title {
+.leftPanel > .footer > .title {
     font-family: Nunito;
     font-size: 23px;
     font-weight: 600;
@@ -60,12 +69,12 @@ body.dark {
     color: #fff;
 }
 
-.leftPanel .footer .sub {
+.leftPanel > .footer > .sub {
     font-size: 11px;
     color: #fff;
 }
 
-.leftPanel .footer .sub2 {
+.leftPanel > .footer > .sub2 {
     padding-top: 10px;
     font-size: 10px;
     color: rgb(189, 189, 189);
@@ -76,18 +85,20 @@ body.dark {
     display: flex;
     flex-direction: column;
     align-items: center;
+
     right: 0;
     width: 400px;
-    height: 100%;
-
+    margin: 15px;
     padding: 20px 20px 0;
+    border-radius: 25px;
+
     box-sizing: border-box;
-    background-color: #f0f0f0;
+    background-color: #ffffff;
     overflow: hidden;
     transition: width 0.2s ease;
 }
 
-.rightPanel .header {
+.rightPanel > .header {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -98,7 +109,7 @@ body.dark {
     font-family: Calibri;
 }
 
-.rightPanel .header .icon {
+.rightPanel > .header > .icon {
     position: relative;
     display: inline-block;
     height: 44px;
@@ -107,7 +118,7 @@ body.dark {
     margin-right: 10px;
 }
 
-.rightPanel .header .info {
+.rightPanel > .header > .info {
     position: relative;
     display: inline-block;
     width: calc(100% - 54px);
@@ -118,27 +129,18 @@ body.dark {
     padding: unset;
 }
 
-.rightPanel .header .info .name {
+.rightPanel > .header > .info > .name {
     position: relative;
     font-family: Nunito;
     font-size: 16px;
     font-weight: 750;
-    letter-spacing: .8px;
+    letter-spacing: > .8px;
     color: #425161;
     overflow: hidden;
     white-space: nowrap;
 }
 
-.rightPanel .header .info .description {
-    position: relative;
-    font-size: 12px;
-    color: #546e7a;
-    letter-spacing: 0.4px;
-    font-weight: lighter;
-    white-space: nowrap;
-}
-
-.rightPanel .center {
+.rightPanel > .center {
     position: relative;
     display: flex;
     flex-grow: 1;
@@ -152,19 +154,20 @@ body.dark {
     overflow-y: auto;
 }
 
-.rightPanel .center > .title {
-    position: relative;
+.rightPanel > .center > .title {
     display: block;
+
     width: 100%;
     text-align: left;
-    font-size: 18px;
-    font-weight: 300;
+
+    font-family: Nunito;
+    font-size: 24px;
+    font-weight: 700;
     color: #494949;
-    text-transform: uppercase;
     letter-spacing: 1px;
 }
 
-.rightPanel .center > .message {
+.rightPanel > .center > .message {
     position: relative;
     display: block;
     width: 100%;
@@ -177,7 +180,7 @@ body.dark {
     letter-spacing: 0.01em;
 }
 
-.rightPanel .center .formBox {
+.rightPanel > .center > .formBox {
     position: relative;
     display: block;
     width: 100%;
@@ -188,7 +191,7 @@ body.dark {
     overflow-y: auto;
 }
 
-.rightPanel .center .formBox .inputForm {
+.rightPanel > .center > .formBox > .inputForm {
     position: absolute;
     display: inline-block;
     width: 100%;
@@ -198,7 +201,7 @@ body.dark {
     transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.rightPanel .center .formBox .inputForm .progress {
+.rightPanel > .center > .formBox > .inputForm > .progress {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -208,14 +211,14 @@ body.dark {
     padding-top: 8px;
 }
 
-.rightPanel .center .formBox .inputForm .progress .progressBar {
+.rightPanel > .center > .formBox > .inputForm > .progress > .progressBar {
     position: relative;
     width: calc(100% - 100px);
     height: 4px;
     margin-top: unset;
 }
 
-.rightPanel .center .formBox .inputForm .progress .indicator {
+.rightPanel > .center > .formBox > .inputForm > .progress > .indicator {
     position: absolute;
     display: flex;
     flex-direction: row;
@@ -224,7 +227,7 @@ body.dark {
     justify-content: space-between;
 }
 
-.rightPanel .center .formBox .inputForm .progress .indicator > .item {
+.rightPanel > .center > .formBox > .inputForm > .progress > .indicator > .item {
     position: relative;
     display: inline-block;
     width: 120px;
@@ -235,18 +238,18 @@ body.dark {
     counter-increment: indicatorItem;
 }
 
-.rightPanel .center .formBox .inputForm .progress .indicator > .item:first-child {
+.rightPanel > .center > .formBox > .inputForm > .progress > .indicator > .item:first-child {
     left: 50px;
     transform: translateX(-50%);
 }
 
-.rightPanel .center .formBox .inputForm .progress .indicator > .item:last-child {
+.rightPanel > .center > .formBox > .inputForm > .progress > .indicator > .item:last-child {
     left: unset;
     right: 50px;
     transform: translateX(50%);
 }
 
-.rightPanel .center .formBox .inputForm .progress .indicator > .item::before {
+.rightPanel > .center > .formBox > .inputForm > .progress > .indicator > .item::before {
     content: counter(indicatorItem);
     position: absolute;
     display: block;
@@ -268,46 +271,46 @@ body.dark {
 
 /*? ============= INDICATOR RULES ============= */
 
-.rightPanel .center .formBox .inputForm[data-layout="1"] .progress .indicator > .item:nth-child(1),
-.rightPanel .center .formBox .inputForm[data-layout="2"] .progress .indicator > .item:nth-child(1),
-.rightPanel .center .formBox .inputForm[data-layout="2"] .progress .indicator > .item:nth-child(2),
-.rightPanel .center .formBox .inputForm[data-layout="3"] .progress .indicator > .item:nth-child(1),
-.rightPanel .center .formBox .inputForm[data-layout="3"] .progress .indicator > .item:nth-child(2),
-.rightPanel .center .formBox .inputForm[data-layout="3"] .progress .indicator > .item:nth-child(3) {
+.rightPanel > .center > .formBox > .inputForm[data-layout="1"] > .progress > .indicator > .item:nth-child(1),
+.rightPanel > .center > .formBox > .inputForm[data-layout="2"] > .progress > .indicator > .item:nth-child(1),
+.rightPanel > .center > .formBox > .inputForm[data-layout="2"] > .progress > .indicator > .item:nth-child(2),
+.rightPanel > .center > .formBox > .inputForm[data-layout="3"] > .progress > .indicator > .item:nth-child(1),
+.rightPanel > .center > .formBox > .inputForm[data-layout="3"] > .progress > .indicator > .item:nth-child(2),
+.rightPanel > .center > .formBox > .inputForm[data-layout="3"] > .progress > .indicator > .item:nth-child(3) {
     font-weight: bold;
     text-transform: uppercase;
 }
 
-.rightPanel .center .formBox .inputForm[data-layout="1"] .progress .indicator > .item:nth-child(1)::before,
-.rightPanel .center .formBox .inputForm[data-layout="2"] .progress .indicator > .item:nth-child(1)::before,
-.rightPanel .center .formBox .inputForm[data-layout="2"] .progress .indicator > .item:nth-child(2)::before,
-.rightPanel .center .formBox .inputForm[data-layout="3"] .progress .indicator > .item:nth-child(1)::before,
-.rightPanel .center .formBox .inputForm[data-layout="3"] .progress .indicator > .item:nth-child(2)::before,
-.rightPanel .center .formBox .inputForm[data-layout="3"] .progress .indicator > .item:nth-child(3)::before {
+.rightPanel > .center > .formBox > .inputForm[data-layout="1"] > .progress > .indicator > .item:nth-child(1)::before,
+.rightPanel > .center > .formBox > .inputForm[data-layout="2"] > .progress > .indicator > .item:nth-child(1)::before,
+.rightPanel > .center > .formBox > .inputForm[data-layout="2"] > .progress > .indicator > .item:nth-child(2)::before,
+.rightPanel > .center > .formBox > .inputForm[data-layout="3"] > .progress > .indicator > .item:nth-child(1)::before,
+.rightPanel > .center > .formBox > .inputForm[data-layout="3"] > .progress > .indicator > .item:nth-child(2)::before,
+.rightPanel > .center > .formBox > .inputForm[data-layout="3"] > .progress > .indicator > .item:nth-child(3)::before {
     color: rgb(22, 22, 22);
     background-color: #6dc5ff;
 }
 
-.rightPanel .center .formBox .inputForm[data-layout="2"] .progress .progressBar > .bar {
+.rightPanel > .center > .formBox > .inputForm[data-layout="2"] > .progress > .progressBar > .bar {
     width: 50%;
 }
 
-.rightPanel .center .formBox .inputForm[data-layout="3"] .progress .progressBar > .bar {
+.rightPanel > .center > .formBox > .inputForm[data-layout="3"] > .progress > .progressBar > .bar {
     width: 100%;
 }
 
 /*? ============= END INDICATOR RULES ============= */
 
-.rightPanel .center .formBox .inputForm .username,
-.rightPanel .center .formBox .inputForm .password,
-.rightPanel .center .formBox .inputForm .complete {
+.rightPanel > .center > .formBox > .inputForm > .username,
+.rightPanel > .center > .formBox > .inputForm > .password,
+.rightPanel > .center > .formBox > .inputForm > .complete {
     position: absolute;
     display: inline-block;
     width: 100%;
     transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.rightPanel .center .formBox .inputForm div .button {
+.rightPanel > .center > .formBox > .inputForm div > .button {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -316,29 +319,29 @@ body.dark {
     margin-top: 30px;
 }
 
-.rightPanel .center .formBox .inputForm .password {
+.rightPanel > .center > .formBox > .inputForm > .password {
     right: -100%;
 }
 
-.rightPanel .center .formBox .inputForm .complete {
+.rightPanel > .center > .formBox > .inputForm > .complete {
     right: -200%;
     display: inline-flex;
     flex-direction: column;
     align-items: center;
 }
 
-.rightPanel .center .formBox .inputForm[data-layout = "2"] .username,
-.rightPanel .center .formBox .inputForm[data-layout = "2"] .password {
+.rightPanel > .center > .formBox > .inputForm[data-layout = "2"] > .username,
+.rightPanel > .center > .formBox > .inputForm[data-layout = "2"] > .password {
     transform: translateX(-100%);
 }
 
-.rightPanel .center .formBox .inputForm[data-layout = "3"] .username,
-.rightPanel .center .formBox .inputForm[data-layout = "3"] .password,
-.rightPanel .center .formBox .inputForm[data-layout = "3"] .complete {
+.rightPanel > .center > .formBox > .inputForm[data-layout = "3"] > .username,
+.rightPanel > .center > .formBox > .inputForm[data-layout = "3"] > .password,
+.rightPanel > .center > .formBox > .inputForm[data-layout = "3"] > .complete {
     transform: translateX(-200%);
 }
 
-.rightPanel .center .formBox .inputForm .complete .icon {
+.rightPanel > .center > .formBox > .inputForm > .complete > .icon {
     position: relative;
     display: flex;
     align-items: center;
@@ -350,7 +353,7 @@ body.dark {
     background-color: rgb(29, 248, 84);
 }
 
-.rightPanel .center .formBox .inputForm .complete .icon::before {
+.rightPanel > .center > .formBox > .inputForm > .complete > .icon::before {
     content: "\f00c";
     position: relative;
     font-family: "Font Awesome 5 Free";
@@ -360,22 +363,22 @@ body.dark {
     text-align: center;
 }
 
-.rightPanel .center .formBox .inputForm .complete .title {
+.rightPanel > .center > .formBox > .inputForm > .complete > .title {
     font-family: Nunito;
     font-size: 17px;
     font-weight: 750;
-    letter-spacing: .6px;
+    letter-spacing: > .6px;
     color: rgb(46, 46, 46);
     text-transform: uppercase;
     text-align: center;
 }
 
-.rightPanel .center .formBox .inputForm .complete .message {
+.rightPanel > .center > .formBox > .inputForm > .complete > .message {
     text-align: center;
     color: rgb(70, 70, 70);
 }
 
-.rightPanel .center .formBox .inputForm .complete .userEdit {
+.rightPanel > .center > .formBox > .inputForm > .complete > .userEdit {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -384,11 +387,11 @@ body.dark {
     margin-top: 20px;
 }
 
-.rightPanel .center .formBox .inputForm .complete .userEdit .avatarInput {
+.rightPanel > .center > .formBox > .inputForm > .complete > .userEdit > .avatarInput {
     display: none;
 }
 
-.rightPanel .center .formBox .inputForm .complete .userEdit .avatar {
+.rightPanel > .center > .formBox > .inputForm > .complete > .userEdit > .avatar {
     flex-grow: 0;
     width: 100px;
     height: 100px;
@@ -397,7 +400,7 @@ body.dark {
     cursor: pointer;
 }
 
-.rightPanel .center .formBox .inputForm .complete .userEdit .avatar::before {
+.rightPanel > .center > .formBox > .inputForm > .complete > .userEdit > .avatar::before {
     content: "\f304";
     position: absolute;
     display: flex;
@@ -421,33 +424,33 @@ body.dark {
     transition: opacity 0.2s ease;
 }
 
-.rightPanel .center .formBox .inputForm .complete .userEdit .avatar:hover::after {
+.rightPanel > .center > .formBox > .inputForm > .complete > .userEdit > .avatar:hover::after {
     opacity: 1;
 }
 
-.rightPanel .center .formBox .inputForm .complete .userEdit .nameInput {
+.rightPanel > .center > .formBox > .inputForm > .complete > .userEdit > .nameInput {
     flex-grow: 1;
     margin-top: unset;
 }
 
-.rightPanel .center .formBox #registerFormContainer {
+.rightPanel > .center > .formBox #registerFormContainer {
     right: -100%;
 }
 
-.rightPanel .center.registerForm .formBox #loginFormContainer,
-.rightPanel .center.registerForm .formBox #registerFormContainer {
+.rightPanel > .center.registerForm > .formBox #loginFormContainer,
+.rightPanel > .center.registerForm > .formBox #registerFormContainer {
     transform: translateX(-100%);
 }
 
 /* CUSTOM */
 
-.rightPanel .center .formBox #loginFormContainer .password #loginFormProfile {
+.rightPanel > .center > .formBox #loginFormContainer > .password #loginFormProfile {
     display: flex;
     align-items: center;
     cursor: pointer;
 }
 
-.rightPanel .center .formBox #loginFormContainer .password #loginFormProfile::after {
+.rightPanel > .center > .formBox #loginFormContainer > .password #loginFormProfile::after {
     content: "\f00d";
     position: absolute;
     right: 10px;
@@ -457,7 +460,7 @@ body.dark {
     text-align: center;
 }
 
-.rightPanel .center .formBox #loginFormContainer .password #loginFormProfile .avatar {
+.rightPanel > .center > .formBox #loginFormContainer > .password #loginFormProfile > .avatar {
     position: relative;
     display: inline-block;
     width: 44px;
@@ -467,18 +470,18 @@ body.dark {
     object-fit: cover;
 }
 
-.rightPanel .center .formBox #registerFormContainer .password .captchaContainer {
+.rightPanel > .center > .formBox #registerFormContainer > .password > .captchaContainer {
     position: relative;
     display: flex;
     flex-direction: column;
     margin-top: 20px;
 }
 
-.rightPanel .center .formBox #registerFormContainer .password .captchaContainer .info {
+.rightPanel > .center > .formBox #registerFormContainer > .password > .captchaContainer > .info {
     margin-bottom: 4px;
 }
 
-.rightPanel .center .formBox #registerFormContainer .password .captchaContainer .row {
+.rightPanel > .center > .formBox #registerFormContainer > .password > .captchaContainer > .row {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -486,12 +489,12 @@ body.dark {
     justify-content: space-between;
 }
 
-.rightPanel .center .formBox #registerFormContainer .password .captchaContainer .row .captcha {
+.rightPanel > .center > .formBox #registerFormContainer > .password > .captchaContainer > .row > .captcha {
     min-width: 180px;
     min-height: 50px;
 }
 
-.rightPanel .center .formBox #registerFormContainer .password .captchaContainer .row .renew {
+.rightPanel > .center > .formBox #registerFormContainer > .password > .captchaContainer > .row > .renew {
     position: relative;
     cursor: pointer;
 
@@ -500,7 +503,7 @@ body.dark {
     margin: 0 10px;
 }
 
-.rightPanel .center .formBox #registerFormContainer .password .captchaContainer .row .renew::before {
+.rightPanel > .center > .formBox #registerFormContainer > .password > .captchaContainer > .row > .renew::before {
     content: "\f2f1";
     position: relative;
     font-family: "Font Awesome 5 Free";
@@ -511,15 +514,15 @@ body.dark {
     transition: color 0.2s ease;
 }
 
-.rightPanel .center .formBox #registerFormContainer .password .captchaContainer .row .renew:hover {
+.rightPanel > .center > .formBox #registerFormContainer > .password > .captchaContainer > .row > .renew:hover {
     transform: rotate(45deg);
 }
 
-.rightPanel .center .formBox #registerFormContainer .password .captchaContainer .row .renew:hover::before {
+.rightPanel > .center > .formBox #registerFormContainer > .password > .captchaContainer > .row > .renew:hover::before {
     color: rgb(58, 58, 58);
 }
 
-.rightPanel .footer {
+.rightPanel > .footer {
     position: relative;
     display: inline-block;
     flex-grow: 0;
@@ -530,61 +533,61 @@ body.dark {
     border-top: 1px solid rgba(47, 47, 47, 0.4);
 }
 
-body.dark .formGroup[data-color = "blue"] .formField,
-body.dark .formGroup[data-color = "purple"] .formField {
+body.dark > .formGroup[data-color = "blue"] > .formField,
+body.dark > .formGroup[data-color = "purple"] > .formField {
     color: rgb(235, 235, 235);
 }
 
-body.dark .rightPanel {
+body.dark > .rightPanel {
     background-color: rgb(22, 22, 22);
 }
 
-body.dark .rightPanel .header .info .name {
+body.dark > .rightPanel > .header > .info > .name {
     color: rgb(218, 218, 218);
 }
 
-body.dark .rightPanel .header .info .description {
+body.dark > .rightPanel > .header > .info > .description {
     color: rgb(182, 182, 182);
 }
 
-body.dark .rightPanel .center .title {
+body.dark > .rightPanel > .center > .title {
     color: rgb(204, 204, 204);
 }
 
-body.dark .rightPanel .center .message {
+body.dark > .rightPanel > .center > .message {
     color: #ee6462;
 }
 
-body.dark .rightPanel .center .formBox .inputForm .progress .indicator > .item::before {
+body.dark > .rightPanel > .center > .formBox > .inputForm > .progress > .indicator > .item::before {
     background-color: rgb(56, 56, 56);
 }
 
-body.dark .rightPanel .center .formBox .inputForm .complete .title {
+body.dark > .rightPanel > .center > .formBox > .inputForm > .complete > .title {
     color: rgb(218, 218, 218);
 }
 
-body.dark .rightPanel .center .formBox .inputForm .complete .message {
+body.dark > .rightPanel > .center > .formBox > .inputForm > .complete > .message {
     color: rgb(204, 204, 204);
 }
 
-body.dark .rightPanel .footer {
+body.dark > .rightPanel > .footer {
     border-top-color: rgba(204, 204, 204, 0.4);
     color: rgb(206, 206, 206);
 }
 
 @media only screen and (max-width: 600px) {
-    .leftPanel {
+    > .leftPanel {
         flex-grow: 0;
         width: 0;
     }
 
-    .rightPanel {
+    > .rightPanel {
         width: 100%;
     }
 }
 
 @media only screen and (max-height: 450px) {
-    .rightPanel .footer {
+    > .rightPanel > .footer {
         display: none;
     }
 }

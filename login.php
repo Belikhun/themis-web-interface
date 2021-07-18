@@ -62,9 +62,6 @@
 					<li class="name text-overflow">
 						<?php print getConfig("contest.name"); ?>
 					</li>
-					<li class="description text-overflow">
-						<?php print getConfig("contest.description"); ?>
-					</li>
 				</ul>
 			</div>
 

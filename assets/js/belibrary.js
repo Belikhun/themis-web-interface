@@ -81,7 +81,7 @@ function myajax({
 
 		xhr.addEventListener("readystatechange", async function() {
 			if (this.readyState === this.DONE) {
-				if (this.status === 0) {
+				if (this.status === 0 && this.responseText === "") {
 					if (changeState === true)
 						__connection__.stateChange("offline");
 
@@ -644,6 +644,20 @@ function parseTime(t = 0, {
 				.join(":")
 			: null
 	}
+}
+
+/**
+ * Date to human readable time
+ * @param {Date} date 
+ */
+function humanReadableTime(date) {
+	let timeString = `${date.getHours()}:${pleft(date.getMinutes(), 2)}`;
+
+	if (date.getSeconds() > 0)
+		timeString += `:${pleft(date.getSeconds(), 2)}`;
+
+	let dateString = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+	return `${timeString} ${dateString}`;
 }
 
 function formatTime(seconds, {
@@ -2360,6 +2374,20 @@ function createButton(text, {
 			button.appendChild(textNode);
 		else
 			button.insertBefore(textNode, button.firstChild);
+	}
+
+	let spinner = document.createElement("div");
+	spinner.classList.add("simpleSpinner");
+	button.appendChild(spinner);
+
+	button.loading = (loading) => {
+		if (loading) {
+			button.disabled = true;
+			button.dataset.loading = true;
+		} else {
+			button.disabled = false;
+			button.removeAttribute("data-loading");
+		}
 	}
 
 	if (complex && style !== "flat")
