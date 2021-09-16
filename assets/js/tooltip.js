@@ -9,20 +9,75 @@ const tooltip = {
 	initialized: false,
 	container: HTMLDivElement.prototype,
 	content: HTMLDivElement.prototype,
-	render: false,
-	throttle: true,
 	prevData: null,
-	nodeToShow: null,
 	hideTimeout: null,
 	fixedWidth: false,
+	showing: false,
 	showTime: 100,
+	
+	/** @type {HTMLElement} */
+	nodeToShow: null,
 
 	hooks: [],
 
-	__wait: false,
-	__handlingMouseEvent: false,
 	__sizeOberving: false,
-	__backtrace: 1,
+
+	processor: {
+		dataset: {
+			/**
+			 * Build-in element's dataset value processor
+			 * 
+			 * @param	{HTMLElement}	target		Target element
+			 * @param	{String}		key			Key to get value from
+			 * @returns	{String|null}				Return value
+			 */
+			process(target, key) {
+				if (typeof target.dataset[key] === "string")
+					return target.dataset[key];
+	
+				return null;
+			},
+
+			/**
+			 * Scan for targets and attach event listener
+			 * with specified key value
+			 * 
+			 * @param	{String}		key			Key to scan for targets
+			 */
+			attach(key) {
+				let targets = document.querySelectorAll(`[data-${key}]:not([tooltip-listening])`);
+
+				for (let target of targets)
+					tooltip.attachEvent(target);
+			}
+		},
+
+		attribute: {
+			/**
+			 * Build-in element's dataset value processor
+			 * 
+			 * @param	{HTMLElement}	target		Target element
+			 * @param	{String}		key			Key to get value from
+			 * @returns	{String|null}				Return value
+			 */
+			process(target, key) {
+				return target.getAttribute(key);
+			},
+
+			/**
+			 * Scan for targets and attach event listener
+			 * with specified key value
+			 * 
+			 * @param	{String}		key			Key to scan for targets
+			 */
+			attach(key) {
+				let targets = document.querySelectorAll(`[${key}]:not([tooltip-listening])`);
+
+				for (let target of targets)
+					tooltip.attachEvent(target);
+			}
+		}
+	},
 
 	init() {
 		this.container = document.createElement("div");
@@ -35,23 +90,15 @@ const tooltip = {
 		document.body.insertBefore(this.container, document.body.childNodes[0]);
 
 		//* EVENTS
-		window.addEventListener("mousemove", e => {
-			//? THROTTLE MOUSE EVENT
-			if (!this.throttle) {
-				this.mouseMove(e);
-				return;
-			}
-
-			if (!this.__wait && !this.__handlingMouseEvent) {
-				this.__handlingMouseEvent = true;
-
-				this.mouseMove(e);
-				this.__wait = true;
-
-				setTimeout(() => this.__wait = false, 50);
-				this.__handlingMouseEvent = false;
-			}
-		}, { passive: true });
+		new MutationObserver((mutationList) => {
+			for (let mutation of mutationList)
+				for (let child of mutation.addedNodes) {
+					if (!(child instanceof HTMLElement) || child.dataset.tooltipChecked)
+						continue;
+					
+					this.attachEvent(child);
+				}
+		}).observe(document.body, { childList: true, subtree: true });
 
 		if (typeof ResizeObserver === "function") {
 			new ResizeObserver(() => {
@@ -65,26 +112,17 @@ const tooltip = {
 		//* BUILT IN HOOKS
 		this.addHook({
 			on: "dataset",
-			key: "tip",
-			backtrace: 3
+			key: "tip"
 		});
 
 		this.addHook({
 			on: "attribute",
-			key: "tooltip",
-			backtrace: 3
+			key: "tooltip"
 		});
 
 		this.addHook({
 			on: "attribute",
-			key: "title",
-			handler: ({ target, value }) => {
-				target.setAttribute("tooltip", value);
-				target.removeAttribute("title");
-
-				return value;
-			},
-			backtrace: 3
+			key: "title"
 		});
 
 		this.initialized = true;
@@ -95,10 +133,9 @@ const tooltip = {
 		key = null,
 		handler = ({ target, value }) => value,
 		priority = 1,
-		backtrace = 1,
 		noPadding = false
 	} = {}) {
-		if (typeof on !== "string" || !["dataset", "attribute"].includes(on))
+		if (typeof on !== "string" || typeof this.processor[on] !== "object")
 			throw { code: -1, description: `tooltip.addHook(): \"on\": unexpected '${on}', expecting 'dataset'/'attribute'` }
 
 		if (typeof key !== "string")
@@ -113,124 +150,86 @@ const tooltip = {
 		if (typeof noPadding !== "boolean")
 			throw { code: -1, description: `tooltip.addHook(): \"noPadding\" is not a valid boolean` }
 
-		this.hooks.push({ on, key, handler, priority, backtrace, noPadding });
+		this.hooks.push({ on, key, handler, priority, noPadding });
 		this.hooks.sort((a, b) => (a.priority < b.priority) ? 1 : (a.priority > b.priority) ? -1 : 0);
+
+		// Scan document for existing element with tooltip
+		this.processor[on].attach(key);
 	},
 
-	__checkSameNode(node1, node2, depth = this.__backtrace) {
-		let check = 1;
+	/**
+	 * Try to get value from target with specified hook
+	 * 
+	 * @param	{HTMLElement}	target
+	 * @param	{Object}		hook
+	 * @returns	{String|null}
+	 */
+	getValue(target, hook) {
+		if (!target.style || !target.tagName)
+			return null;
 
-		while (node1) {
-			if (check > depth)
-				return false;
+		if (typeof this.processor[hook.on] !== "object")
+			return null;
 
-			if (node1.isSameNode(node2))
-				return true;
-
-			check++;
-			node1 = node1.parentElement || null;
-		}
-
-		return false;
+		return this.processor[hook.on].process(target, hook.key);
 	},
 
-	mouseMove(event) {
-		let checkNode = true;
-
-		if (this.nodeToShow) {
-			checkNode = false;
-			
-			if (!this.__checkSameNode(event.target, this.nodeToShow)) {
-				checkNode = true;
-				
-				if (!this.hideTimeout)
-					this.hideTimeout = setTimeout(() => {
-						this.nodeToShow = null;
-						this.prevData = null;
-						this.container.classList.remove("show");
-
-						this.hideTimeout = setTimeout(() => {
-							this.container.classList.add("hide");
-							this.fixedWidth = false;
-							this.content.style.width = null;
-						}, 300);
-					}, this.showTime);
-			} else {
-				clearTimeout(this.hideTimeout);
-				this.hideTimeout = null;
+	/**
+	 * Attach tooltip mouse event to Element (if possible)
+	 * @param {HTMLElement} target 
+	 */
+	attachEvent(target) {
+		// Check for hook that match current target
+		for (let hook of this.hooks) {
+			if (!this.getValue(target, hook)) {
+				clog("DEBG", `tooltip.attachEvent(${hook.on} ${hook.key}): invalid target`, target);
+				continue;
 			}
+
+			if (target.dataset.tooltipListening) {
+				clog("DEBG", `tooltip.attachEvent(${hook.on} ${hook.key}): target already listening`, target);
+				break;
+			}
+
+			target.addEventListener("mouseenter", () => {
+				let value = this.getValue(target, hook);
+				let showValue = hook.handler({ target, value });
+
+				if (showValue) {
+					clearTimeout(this.hideTimeout);
+					this.hideTimeout = null;
+
+					this.show(showValue, target, hook.noPadding);
+				}
+			});
+
+			target.addEventListener("mouseleave", () => tooltip.hide());
+
+			target.dataset.tooltipListening = true;
+			clog("DEBG", `tooltip.attachEvent(${hook.on} ${hook.key}): event attached to`, target);
+			break;
 		}
 
-		if (checkNode)
-			for (let item of this.hooks) {
-				let _e = event.target;
-				let _v = null;
-				let _t = 0;
+		target.dataset.tooltipChecked = true;
+	},
 
-				while (_e && (_t <= item.backtrace || _e.getAttribute("tooltip-child"))) {
-					switch (item.on) {
-						case "dataset":
-							if (typeof _e.dataset[item.key] === "string")
-								_v = _e.dataset[item.key];
-							break;
-					
-						case "attribute":
-							_v = _e.getAttribute(item.key);
-							break;
-					}
-
-					if (_v)
-						break;
-					
-					_e = _e.parentElement;
-					_t++;
-				}
-
-				if (!_v)
-					continue;
-
-				if (_v === this.prevData) {
-					this.nodeToShow = _e;
-					return;
-				}
-
-				this.prevData = _v;
-
-				let _s = item.handler({
-					target: _e,
-					value: _v
-				});
-
-				if (_s) {
-					this.__backtrace = item.backtrace;
-					this.show(_s, _e, item.noPadding);
-
-					break;
-				}
-			}
-
-		if (this.container.classList.contains("hide"))
+	/**
+	 * Mouse move handler to update tooltip position
+	 * @param	{MouseEvent}	event		Mouse Event
+	 * @param	{Boolean}		forceUpdate	Force Update The Position Without Checking
+	 */
+	mouseMove(event, forceUpdate = false) {
+		if (!forceUpdate && this.container.classList.contains("hide"))
 			return;
 
-		let xPos = event.clientX + 20;
-		let yPos = event.clientY + 30;
-
-		// Set a specified width value if tooltip content width overflow
-		// out of the viewbox
-		if (!this.fixedWidth && event.view.innerWidth - event.clientX < this.content.clientWidth) {
-			this.content.style.width = `${event.view.innerWidth - event.clientX - 10}px`;
-			this.fixedWidth = true;
-		}
-
-		if (event.clientX > this.content.clientWidth)
-			if ((event.view.innerWidth - this.content.clientWidth) / Math.max(xPos, 1) < 1.4)
-				xPos -= (this.content.clientWidth + 20);
-
-		if ((event.view.innerHeight - this.content.clientHeight) / Math.max(yPos, 1) < 1.1)
-			yPos -= (this.content.clientHeight + 40);
+		let maxX = window.innerWidth - this.content.clientWidth - 15;
+		let xPos = Math.min(event.clientX + 10, maxX);
+		let yPos = event.clientY + 15;
 
 		this.container.style.transform = `translate(${xPos}px, ${yPos}px)`;
 	},
+
+	__mouseMove: (e) => tooltip.mouseMove(e),
 
 	/**
 	 * Show the tooltip on node
@@ -247,9 +246,19 @@ const tooltip = {
 		if (showOnNode && showOnNode.style)
 			this.nodeToShow = showOnNode;
 		
+		if (!this.showing) {
+			window.addEventListener("mousemove", this.__mouseMove, { passive: true });
+			this.mouseMove({ clientX: mouseCursor.x, clientY: mouseCursor.y }, true);
+			
+			// Await next frame to apply position change
+			// of tooltip
+			await nextFrameAsync();
+		}
+
 		clearTimeout(this.hideTimeout);
 		this.hideTimeout = null;
 		this.container.classList.remove("hide");
+		this.showing = true;
 
 		this.fixedWidth = false;
 		this.content.style.width = null;
@@ -287,5 +296,23 @@ const tooltip = {
 		});
 
 		return true;
+	},
+
+	async hide() {
+		if (!this.hideTimeout)
+			this.hideTimeout = setTimeout(() => {
+				this.nodeToShow = null;
+				this.prevData = null;
+				this.container.classList.remove("show");
+
+				this.hideTimeout = setTimeout(() => {
+					this.container.classList.add("hide");
+					this.fixedWidth = false;
+					this.content.style.width = null;
+
+					window.removeEventListener("mousemove", this.__mouseMove);
+					this.showing = false;
+				}, 300);
+			}, this.showTime);
 	}
 }

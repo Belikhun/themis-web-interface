@@ -118,11 +118,11 @@ class Scrollable {
 			if (!this.scrollout && !this.smooth) {
 				let delta = event.deltaY;
 	
-				let from = (horizontal)
+				let from = (this.horizontal)
 					? this.content.scrollLeft
 					: this.content.scrollTop;
 	
-				let maxScroll = (horizontal)
+				let maxScroll = (this.horizontal)
 					? this.content.scrollWidth - this.content.offsetWidth
 					: this.content.scrollHeight - this.content.offsetHeight;
 	
@@ -407,9 +407,7 @@ class Scrollable {
 		// Amount of scroll in pixel
 		let delta;
 		if (event)
-			delta = (horizontal)
-				? event.deltaX
-				: event.deltaY;
+			delta = event.deltaY;
 		else
 			delta = value - from;
 		
@@ -442,9 +440,7 @@ class Scrollable {
 		// Amount of scroll in pixel
 		let delta;
 		if (event)
-			delta = (horizontal)
-				? event.deltaX
-				: event.deltaY;
+			delta = event.deltaY;
 		else
 			delta = value - from;
 		

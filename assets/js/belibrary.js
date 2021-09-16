@@ -3045,14 +3045,61 @@ const __connection__ = {
 
 }
 
+const mouseCursor = {
+	/**
+	 * X Position of Mouse cursor in the screen
+	 * @type {Number}
+	 */
+	x: 0,
+
+	/**
+	 * Y Position of Mouse cursor in the screen
+	 * @type {Number}
+	 */
+	y: 0,
+
+	/**
+	 * The change amount in X coordinates between current position
+	 * and last position
+	 * @type {Number}
+	 */
+	deltaX: 0,
+
+	/**
+	 * The change amount in Y coordinates between current position
+	 * and last position
+	 * @type {Number}
+	 */
+	deltaY: 0,
+
+	/**
+	 * Current element under the cursor
+	 * @type {HTMLElement}
+	 */
+	target: null,
+
+	/**
+	 * Update Function
+	 * @param {MouseEvent} event 
+	 */
+	update(event) {
+		this.x = event.clientX;
+		this.y = event.clientY;
+		this.deltaX = event.movementX;
+		this.deltaY = event.movementY;
+	}
+}
+
 //? =================
 //?    SCRIPT INIT
 
 if (typeof document.__onclog === "undefined")
 	document.__onclog = (lv, t, m) => {}
 
+window.addEventListener("mousemove", (e) => mouseCursor.update(e), { passive: true });
+
 let sc = new StopClock();
-clog("info", "Log started at:", {
+clog("INFO", "Log started at:", {
 	color: flatc("green"),
 	text: (new Date()).toString()
 })
