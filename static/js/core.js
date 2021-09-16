@@ -4570,7 +4570,7 @@ const twi = {
 
 			tooltip.addHook({
 				on: "dataset",
-				key: "rankingCell",
+				key: "ranking-cell",
 				handler: ({ target, value }) => {
 					let v = value.split("|");
 					let id = v[0],

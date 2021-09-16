@@ -40,15 +40,15 @@ const tooltip = {
 
 			/**
 			 * Scan for targets and attach event listener
-			 * with specified key value
+			 * with specified hook
 			 * 
-			 * @param	{String}		key			Key to scan for targets
+			 * @param	{Object}	hook	Hook to scan for elements
 			 */
-			attach(key) {
-				let targets = document.querySelectorAll(`[data-${key}]:not([tooltip-listening])`);
+			attach(hook) {
+				let targets = document.querySelectorAll(`[data-${hook.key}]:not([data-tooltip-checked])`);
 
 				for (let target of targets)
-					tooltip.attachEvent(target);
+					tooltip.attachEvent(target, hook);
 			}
 		},
 
@@ -66,15 +66,15 @@ const tooltip = {
 
 			/**
 			 * Scan for targets and attach event listener
-			 * with specified key value
+			 * with specified hook
 			 * 
-			 * @param	{String}		key			Key to scan for targets
+			 * @param	{Object}	hook	Hook to scan for elements
 			 */
-			attach(key) {
-				let targets = document.querySelectorAll(`[${key}]:not([tooltip-listening])`);
+			attach(hook) {
+				let targets = document.querySelectorAll(`[${hook.key}]:not([data-tooltip-checked])`);
 
 				for (let target of targets)
-					tooltip.attachEvent(target);
+					tooltip.attachEvent(target, hook);
 			}
 		}
 	},
@@ -90,15 +90,8 @@ const tooltip = {
 		document.body.insertBefore(this.container, document.body.childNodes[0]);
 
 		//* EVENTS
-		new MutationObserver((mutationList) => {
-			for (let mutation of mutationList)
-				for (let child of mutation.addedNodes) {
-					if (!(child instanceof HTMLElement) || child.dataset.tooltipChecked)
-						continue;
-					
-					this.attachEvent(child);
-				}
-		}).observe(document.body, { childList: true, subtree: true });
+		new MutationObserver(() => this.scan())
+			.observe(document.body, { childList: true, subtree: true });
 
 		if (typeof ResizeObserver === "function") {
 			new ResizeObserver(() => {
@@ -150,11 +143,21 @@ const tooltip = {
 		if (typeof noPadding !== "boolean")
 			throw { code: -1, description: `tooltip.addHook(): \"noPadding\" is not a valid boolean` }
 
-		this.hooks.push({ on, key, handler, priority, noPadding });
+		let hook = { on, key, handler, priority, noPadding };
+		this.hooks.push(hook);
 		this.hooks.sort((a, b) => (a.priority < b.priority) ? 1 : (a.priority > b.priority) ? -1 : 0);
 
 		// Scan document for existing element with tooltip
-		this.processor[on].attach(key);
+		this.processor[on].attach(hook);
+	},
+
+	/**
+	 * Perform a full scan for element with tooltip
+	 * data need to show
+	 */
+	scan() {
+		for (let hook of this.hooks)
+			this.processor[hook.on].attach(hook);
 	},
 
 	/**
@@ -176,11 +179,16 @@ const tooltip = {
 
 	/**
 	 * Attach tooltip mouse event to Element (if possible)
-	 * @param {HTMLElement} target 
+	 * @param	{HTMLElement}		target
+	 * @param	{Object}			hook	Hook to try attach to
 	 */
-	attachEvent(target) {
+	attachEvent(target, hook) {
+		let hooks = (typeof hook === "object")
+			? [ hook ]
+			: this.hooks;
+
 		// Check for hook that match current target
-		for (let hook of this.hooks) {
+		for (let hook of hooks) {
 			if (!this.getValue(target, hook))
 				continue;
 
@@ -193,15 +201,9 @@ const tooltip = {
 				let value = this.getValue(target, hook);
 				let showValue = hook.handler({ target, value });
 
-				if (showValue) {
-					clearTimeout(this.hideTimeout);
-					this.hideTimeout = null;
-
+				if (showValue)
 					this.show(showValue, target, hook.noPadding);
-				}
 			});
-
-			target.addEventListener("mouseleave", () => tooltip.hide());
 
 			target.dataset.tooltipListening = true;
 			clog("DEBG", `tooltip.attachEvent(${hook.on} ${hook.key}): event attached to`, target);
