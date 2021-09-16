@@ -228,6 +228,7 @@ const tooltip = {
 	},
 
 	__mouseMove: (e) => tooltip.mouseMove(e),
+	__mouseLeave: () => tooltip.hide(),
 
 	/**
 	 * Show the tooltip on node
@@ -240,9 +241,17 @@ const tooltip = {
 	async show(data, showOnNode, noPadding = false) {
 		if (!this.initialized)
 			return false;
+
+		if (this.nodeToShow)
+			this.nodeToShow.removeEventListener("mouseleave", this.__mouseLeave);
 		
-		if (showOnNode && showOnNode.style)
+		if (showOnNode && showOnNode.tagName) {
 			this.nodeToShow = showOnNode;
+			this.nodeToShow.addEventListener("mouseleave", this.__mouseLeave);
+		}
+
+		clearTimeout(this.hideTimeout);
+		this.hideTimeout = null;
 		
 		if (!this.showing) {
 			window.addEventListener("mousemove", this.__mouseMove, { passive: true });
@@ -253,8 +262,6 @@ const tooltip = {
 			await nextFrameAsync();
 		}
 
-		clearTimeout(this.hideTimeout);
-		this.hideTimeout = null;
 		this.container.classList.remove("hide");
 		this.showing = true;
 
@@ -299,6 +306,9 @@ const tooltip = {
 	async hide() {
 		if (!this.hideTimeout)
 			this.hideTimeout = setTimeout(() => {
+				if (this.nodeToShow)
+					this.nodeToShow.removeEventListener("mouseleave", this.__mouseLeave);
+
 				this.nodeToShow = null;
 				this.prevData = null;
 				this.container.classList.remove("show");
