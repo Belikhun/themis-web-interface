@@ -2172,6 +2172,7 @@ const twi = {
 			set({ p: 0, d: `Setting Up Timer Component` });
 			this.container = document.createElement("span");
 			this.container.classList.add("component", "timer");
+			this.navTimer = createTimer(0, { style: "small" });
 
 			let icon = document.createElement("icon");
 			icon.dataset.icon = "clock";
@@ -2180,7 +2181,7 @@ const twi = {
 			progressBar.classList.add("progressBar");
 			progressBar.appendChild(this.navProgress);
 
-			this.container.append(icon, this.navTimer, progressBar);
+			this.container.append(icon, this.navTimer.group, progressBar);
 
 			this.tooltip = new navbar.Tooltip(this.container, {
 				title: "timer",
@@ -2260,7 +2261,7 @@ const twi = {
 		} = {}) {
 			if (typeof time === "number") {
 				let t = parseTime(time);
-				this.navTimer.innerHTML = `${t.str}${this.showMs ? `<ms>${t.ms}</ms>` : ""}`;
+				this.navTimer.set({ time: t });
 				
 				if (this.window.showing) {
 					if (t.h > 0) { 

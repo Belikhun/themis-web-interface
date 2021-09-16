@@ -181,10 +181,8 @@ const tooltip = {
 	attachEvent(target) {
 		// Check for hook that match current target
 		for (let hook of this.hooks) {
-			if (!this.getValue(target, hook)) {
-				clog("DEBG", `tooltip.attachEvent(${hook.on} ${hook.key}): invalid target`, target);
+			if (!this.getValue(target, hook))
 				continue;
-			}
 
 			if (target.dataset.tooltipListening) {
 				clog("DEBG", `tooltip.attachEvent(${hook.on} ${hook.key}): target already listening`, target);
