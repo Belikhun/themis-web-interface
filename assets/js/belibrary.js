@@ -5,6 +5,80 @@
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
+const HTTP_STATUS_MESSAGES = {
+	100: `Continue`,
+	101: `Switching Protocols`,
+	102: `Processing`,
+
+	// 2×× Success
+	200: `OK`,
+	201: `Created`,
+	202: `Accepted`,
+	203: `Non-authoritative Information`,
+	204: `No Content`,
+	205: `Reset Content`,
+	206: `Partial Content`,
+	207: `Multi-Status`,
+	208: `Already Reported`,
+	226: `IM Used`,
+
+	// 3×× Redirection
+	300: `Multiple Choices`,
+	301: `Moved Permanently`,
+	302: `Found`,
+	303: `See Other`,
+	304: `Not Modified`,
+	305: `Use Proxy`,
+	307: `Temporary Redirect`,
+	308: `Permanent Redirect`,
+
+	// 4×× Client Error
+	400: `Bad Request`,
+	401: `Unauthorized`,
+	402: `Payment Required`,
+	403: `Forbidden`,
+	404: `Not Found`,
+	405: `Method Not Allowed`,
+	406: `Not Acceptable`,
+	407: `Proxy Authentication Required`,
+	408: `Request Timeout`,
+	409: `Conflict`,
+	410: `Gone`,
+	411: `Length Required`,
+	412: `Precondition Failed`,
+	413: `Payload Too Large`,
+	414: `Request-URI Too Long`,
+	415: `Unsupported Media Type`,
+	416: `Requested Range Not Satisfiable`,
+	417: `Expectation Failed`,
+	418: `I'm a teapot`,
+	421: `Misdirected Request`,
+	422: `Unprocessable Entity`,
+	423: `Locked`,
+	424: `Failed Dependency`,
+	426: `Upgrade Required`,
+	428: `Precondition Required`,
+	429: `Too Many Requests`,
+	431: `Request Header Fields Too Large`,
+	444: `Connection Closed Without Response`,
+	451: `Unavailable For Legal Reasons`,
+	499: `Client Closed Request`,
+
+	// 5×× Server Error
+	500: `Internal Server Error`,
+	501: `Not Implemented`,
+	502: `Bad Gateway`,
+	503: `Service Unavailable`,
+	504: `Gateway Timeout`,
+	505: `HTTP Version Not Supported`,
+	506: `Variant Also Negotiates`,
+	507: `Insufficient Storage`,
+	508: `Loop Detected`,
+	510: `Not Extended`,
+	511: `Network Authentication Required`,
+	599: `Network Connect Timeout Error`,
+}
+
 /**
  * An AJAX function designed for my API
  * @param	{Object}		param0		request data
@@ -80,6 +154,10 @@ function myajax({
 		xhr.addEventListener("progress", e => onDownload(e), false);
 
 		xhr.addEventListener("readystatechange", async function() {
+			let statusText = (typeof HTTP_STATUS_MESSAGES[this.status] !== "undefined")
+				? HTTP_STATUS_MESSAGES[this.status]
+				: this.statusText;
+
 			if (this.readyState === this.DONE) {
 				if (this.status === 0 && this.responseText === "") {
 					if (changeState === true)
@@ -102,9 +180,9 @@ function myajax({
 					}, {
 						color: flatc("red"),
 						text: `HTTP ${this.status}:`
-					}, this.statusText);
+					}, statusText);
 
-					let errorObj = { code: 1, description: `HTTP ${this.status}: ${this.statusText} (${method} ${url})`, data: { status: this.status, method, url } }
+					let errorObj = { code: 1, description: `HTTP ${this.status}: ${statusText} (${method} ${url})`, data: { status: this.status, method, url } }
 					error(errorObj);
 					reject(errorObj);
 
@@ -140,7 +218,7 @@ function myajax({
 							}, {
 								color: flatc("red"),
 								text: `HTTP ${this.status}:`
-							}, this.statusText, ` >>> ${response.description}`);
+							}, statusText, ` >>> ${response.description}`);
 	
 							if (this.status === 429 && response.code === 32 && reRequest === true) {
 								// Wait for :?unratelimited:?
@@ -164,7 +242,7 @@ function myajax({
 							}
 						}
 
-						let errorObj = { code: 3, description: `HTTP ${this.status}: ${this.statusText} (${method} ${url})`, data: response }
+						let errorObj = { code: 3, description: `HTTP ${this.status}: ${statusText} (${method} ${url})`, data: response }
 						error(errorObj);
 						reject(errorObj);
 
@@ -177,7 +255,7 @@ function myajax({
 
 					if (this.status >= 400) {
 						let code = `HTTP ${this.status}`;
-						let text = (this.statusText === "") ? "?Unknown statusText" : this.statusText;
+						let text = (statusText === "") ? "?Unknown statusText" : statusText;
 						let resData = response;
 
 						let header = this.getResponseHeader("output-json");
@@ -622,12 +700,19 @@ function parseTime(t = 0, {
 	msDigit = 3,
 	showPlus = false,
 	strVal = true,
+	calcDays = false
 } = {}) {
 	let d = showPlus ? "+" : "";
+	let days = 0;
 	
 	if (t < 0) {
 		t = -t;
 		d = "-";
+	}
+
+	if (calcDays) {
+		days = Math.floor(t / 86400);
+		t %= 86400;
 	}
 	
 	let h = Math.floor(t / 3600);
@@ -637,6 +722,7 @@ function parseTime(t = 0, {
 
 	return {
 		h, m, s, ms, d,
+		days,
 		str: (strVal)
 			? d + [h, m, s]
 				.map(v => v < 10 ? "0" + v : v)
@@ -2092,6 +2178,7 @@ function createCheckbox({
 function createSelectInput({
 	icon,
 	color = "blue",
+	fixed = false,
 	options = {},
 	value
 } = {}) {
@@ -2114,8 +2201,7 @@ function createSelectInput({
 
 	if (typeof Scrollable === "function")
 		new Scrollable(container.select, {
-			content: container.select.list,
-			scrollbar: false
+			content: container.select.list
 		});
 
 	/** @type {HTMLDivElement} */
@@ -2131,7 +2217,7 @@ function createSelectInput({
 
 		showing = true;
 		container.classList.add("show");
-		container.select.style.height = `${container.select.list.offsetHeight}px`;
+		container.select.style.height = `${Math.min(150, container.select.list.scrollHeight)}px`;
 	}
 
 	const hide = (isSelected = false) => {
@@ -2154,6 +2240,7 @@ function createSelectInput({
 		icon,
 		color,
 		options,
+		fixed,
 		value
 	} = {}) => {
 		if (typeof color === "string")
@@ -2186,6 +2273,7 @@ function createSelectInput({
 						activeNode.classList.remove("active");
 					
 					activeNode = item;
+					activeValue = item.dataset.value;
 					item.classList.add("active");
 					container.current.value.innerText = item.innerText;
 					changeHandlers.forEach(f => f(item.dataset.value));
@@ -2202,6 +2290,10 @@ function createSelectInput({
 			currentOptions = options;
 		}
 
+		if (typeof fixed === "boolean") {
+			container.classList[fixed ? "add" : "remove"]("fixed");
+		}
+
 		if (typeof value === "string" && currentOptions[value]) {
 			if (activeNode)
 				activeNode.classList.remove("active");
@@ -2214,14 +2306,14 @@ function createSelectInput({
 		}
 	}
 
-	set({ icon, color, options, value });
+	set({ icon, color, options, fixed, value });
 
 	container.current.addEventListener("click", () => toggle());
 
 	return {
 		group: container,
 		showing,
-		value: activeValue,
+		value: () => activeValue,
 		show,
 		hide,
 		set,
@@ -2506,6 +2598,51 @@ function createNote({
 
 			if (message)
 				inner.innerHTML = message;
+		}
+	}
+}
+
+/**
+ * Create Timer Element
+ * @param	{Number|Object}	time	Time in seconds or object from parseTime()
+ */
+function createTimer(time = 0, {
+	style = "normal"
+} = {}) {
+	let timer = document.createElement("timer");
+	timer.dataset.style = style;
+
+	let days = document.createElement("days");
+	let inner = document.createElement("span");
+	let ms = document.createElement("ms");
+
+	timer.append(days, inner, ms);
+
+	const set = ({
+		time,
+		style
+	}) => {
+		if (typeof time === "number")
+			time = parseTime(time);
+
+		if (typeof time === "object") {
+			days.innerText = (time.days != 0) ? `${time.d}${time.days}` : "";
+			inner.innerText = time.str;
+			ms.innerText = time.ms;
+		}
+
+		if (typeof style === "string")
+			timer.dataset.style = style;
+	}
+
+	set({ time, style });
+
+	return {
+		group: timer,
+		set,
+
+		toggleMs: (show) => {
+			ms.style.display = (show) ? null : "none";
 		}
 	}
 }
@@ -2802,8 +2939,8 @@ const popup = {
 				button.returnValue = key;
 
 				if (!(typeof item.resolve === "boolean") || item.resolve !== false)
-					button.addEventListener("mouseup", e => {
-						resolve(e.target.returnValue);
+					button.addEventListener("mouseup", () => {
+						resolve(key);
 						this.hide();
 					});
 
@@ -2961,14 +3098,61 @@ const __connection__ = {
 
 }
 
+const mouseCursor = {
+	/**
+	 * X Position of Mouse cursor in the screen
+	 * @type {Number}
+	 */
+	x: 0,
+
+	/**
+	 * Y Position of Mouse cursor in the screen
+	 * @type {Number}
+	 */
+	y: 0,
+
+	/**
+	 * The change amount in X coordinates between current position
+	 * and last position
+	 * @type {Number}
+	 */
+	deltaX: 0,
+
+	/**
+	 * The change amount in Y coordinates between current position
+	 * and last position
+	 * @type {Number}
+	 */
+	deltaY: 0,
+
+	/**
+	 * Current element under the cursor
+	 * @type {HTMLElement}
+	 */
+	target: null,
+
+	/**
+	 * Update Function
+	 * @param {MouseEvent} event 
+	 */
+	update(event) {
+		this.x = event.clientX;
+		this.y = event.clientY;
+		this.deltaX = event.movementX;
+		this.deltaY = event.movementY;
+	}
+}
+
 //? =================
 //?    SCRIPT INIT
 
 if (typeof document.__onclog === "undefined")
 	document.__onclog = (lv, t, m) => {}
 
+window.addEventListener("mousemove", (e) => mouseCursor.update(e), { passive: true });
+
 let sc = new StopClock();
-clog("info", "Log started at:", {
+clog("INFO", "Log started at:", {
 	color: flatc("green"),
 	text: (new Date()).toString()
 })
