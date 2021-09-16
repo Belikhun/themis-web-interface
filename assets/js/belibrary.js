@@ -700,12 +700,19 @@ function parseTime(t = 0, {
 	msDigit = 3,
 	showPlus = false,
 	strVal = true,
+	calcDays = false
 } = {}) {
 	let d = showPlus ? "+" : "";
+	let days = 0;
 	
 	if (t < 0) {
 		t = -t;
 		d = "-";
+	}
+
+	if (calcDays) {
+		days = Math.floor(t / 86400);
+		t %= 86400;
 	}
 	
 	let h = Math.floor(t / 3600);
@@ -715,6 +722,7 @@ function parseTime(t = 0, {
 
 	return {
 		h, m, s, ms, d,
+		days,
 		str: (strVal)
 			? d + [h, m, s]
 				.map(v => v < 10 ? "0" + v : v)
@@ -2590,6 +2598,51 @@ function createNote({
 
 			if (message)
 				inner.innerHTML = message;
+		}
+	}
+}
+
+/**
+ * Create Timer Element
+ * @param	{Number|Object}	time	Time in seconds or object from parseTime()
+ */
+function createTimer(time = 0, {
+	style = "normal"
+} = {}) {
+	let timer = document.createElement("timer");
+	timer.dataset.style = style;
+
+	let days = document.createElement("days");
+	let inner = document.createElement("span");
+	let ms = document.createElement("ms");
+
+	timer.append(days, inner, ms);
+
+	const set = ({
+		time,
+		style
+	}) => {
+		if (typeof time === "number")
+			time = parseTime(time);
+
+		if (typeof time === "object") {
+			days.innerText = (time.days != 0) ? `${time.d}${time.days}` : "";
+			inner.innerText = time.str;
+			ms.innerText = time.ms;
+		}
+
+		if (typeof style === "string")
+			timer.dataset.style = style;
+	}
+
+	set({ time, style });
+
+	return {
+		group: timer,
+		set,
+
+		toggleMs: (show) => {
+			ms.style.display = (show) ? null : "none";
 		}
 	}
 }

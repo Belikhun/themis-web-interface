@@ -2144,9 +2144,9 @@ const twi = {
 		enabled: false,
 
 		container: HTMLElement.prototype,
-		navTimer: htmlToElement(`<timer class="small"><days>--</days>+--:--:--</timer>`),
 		navProgress: htmlToElement(`<span class="bar"></span>`),
 		tooltip: navbar.Tooltip.prototype,
+		navTimer: null,
 
 		timeData: {},
 		timeout: null,

@@ -139,11 +139,13 @@ timer {
     user-select: none;
 }
 
-timer.small {
+timer.small,
+timer[data-style = "small"] {
 	font-size: 17px;
 }
 
-timer.big {
+timer.big,
+timer[data-style = "big"] {
 	font-size: 34px;
 }
 
@@ -183,11 +185,13 @@ timer > days {
     font-size: 25px;
 }
 
-timer.small > days {
+timer.small > days,
+timer[data-style = "small"] > days {
 	font-size: 21px;
 }
 
-timer.big > days {
+timer.big > days,
+timer[data-style = "big"] > days {
 	font-size: 42px;
 }
 
@@ -195,11 +199,13 @@ timer > ms {
     font-size: 16px;
 }
 
-timer.small > ms {
+timer.small > ms,
+timer[data-style = "small"] > ms {
 	font-size: 13px;
 }
 
-timer.big > ms {
+timer.big > ms,
+timer[data-style = "big"] > ms {
 	font-size: 19px;
 }
 
