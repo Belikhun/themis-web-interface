@@ -34,7 +34,8 @@ jobs:
 
       - name: 🌏 Set up Apache2
         run: |
-          sudo apt-get -qq install apache2
+          sudo apt-get update
+          sudo apt-get install apache2
 
       - name: 🔩 Set up PHP ${{ matrix.php-version }}
         uses: shivammathur/setup-php@v2
@@ -45,7 +46,7 @@ jobs:
 
       - name: 🌏 Post Set up Apache2
         run: |
-          sudo apt-get -qq install libapache2-mod-php
+          sudo apt-get install libapache2-mod-php
           sudo systemctl restart apache2
 
       - name: 🛒 Install Dependencies
