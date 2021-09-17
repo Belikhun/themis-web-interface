@@ -33,7 +33,7 @@
         }
     },
     "folders": {
-        "submit": "/home/travis/build/belivipro9x99/themis-web-interface/tests/logParser",
+        "submit": "%CI_WORKSPACE%/tests/logParser",
         "submitLogs": "%submitFolder%\/Logs",
         "submissions": "%submitFolder%\/submissions"
     },

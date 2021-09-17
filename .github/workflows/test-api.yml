@@ -46,8 +46,9 @@ jobs:
       - name: 🌏 Post Set up Apache2
         run: |
           sudo apt-get install libapache2-mod-php${{ matrix.php-version }}
-          sudo cp -f tests/.config/action-apache.conf /etc/apache2/sites-available/000-default.conf
+          sudo cp -f tests/.config/action/apache.conf /etc/apache2/sites-available/000-default.conf
           sudo sed -e "s?%GITHUB_WORKSPACE%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
+          sudo sed -e "s?%CI_WORKSPACE%?$(pwd)?g" --in-place tests/.config/config.json
           sudo a2enmod rewrite actions alias mime headers
           sudo systemctl restart apache2 || sudo systemctl status apache2 || sudo journalctl -xe
 
