@@ -42,6 +42,7 @@ jobs:
 
       - name: 🛒 Install Dependencies
         run: |
+          sudo apt-get -qq install dos2unix
           pip -q install --upgrade colorama requests
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
