@@ -34,7 +34,7 @@ def __testServerOnline():
 
 apiTest.case("Server should be up and running", __testServerOnline)
 
-def testAPI(url = "", method = "GET", data = {}, files = {}):
+def testAPI(url = "", method = "GET", json = True, data = {}, files = {}):
 	global sess
 	global sauce
 
@@ -47,30 +47,30 @@ def testAPI(url = "", method = "GET", data = {}, files = {}):
 	except Exception as excp:
 		return repr(excp)
 	else:
-		if (not ("application/json" in data.headers["Content-Type"])):
+		if (not ("application/json" in data.headers["Content-Type"]) and not json):
 			return True
 
 		try:
-			json = data.json()
+			jsonData = data.json()
 		except Exception as excp:
 			print(data.text)
 			return repr(excp)
 		else:
-			if (json["code"] != 0 and json["code"] < 100):
-				return "[{}] {}".format(json["code"], json["description"])
+			if (jsonData["code"] != 0 and jsonData["code"] < 100):
+				return "[{}] {}".format(jsonData["code"], jsonData["description"])
 			
-			if (json["status"] >= 300):
-				return "[{}] {}".format(json["status"], json["description"])
+			if (jsonData["status"] >= 300):
+				return "[{}] {}".format(jsonData["status"], jsonData["description"])
 
-			if (json["runtime"] > 1):
-				return "RunTimeOverflow: {}s".format(str(round(json["runtime"], 4)))
+			if (jsonData["runtime"] > 1):
+				return "RunTimeOverflow: {}s".format(str(round(jsonData["runtime"], 4)))
 
 			try:
-				json["data"]["token"]
+				jsonData["data"]["token"]
 			except (KeyError, TypeError):
 				pass
 			else:
-				sauce = json["data"]["token"]
+				sauce = jsonData["data"]["token"]
 
 			return True
 
