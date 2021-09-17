@@ -64,6 +64,7 @@ jobs:
           python3 --version
           sudo chown -R www-data:www-data "$GITHUB_WORKSPACE"
           sudo chmod -R g+rw "$GITHUB_WORKSPACE"
+          sudo chmod -R 777 "$GITHUB_WORKSPACE"
           pwd
 
           dos2unix config.sh
