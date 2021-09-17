@@ -21,8 +21,9 @@ install:
   - sudo chown -R travis:travis /var/lib/apache2/fastcgi
   - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
   # configure apache virtual hosts
-  - sudo cp -f tests/.config/apache.conf /etc/apache2/sites-available/000-default.conf
+  - sudo cp -f tests/.config/travis/apache.conf /etc/apache2/sites-available/000-default.conf
   - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
+  - sudo sed -e "s?%CI_WORKSPACE%?$(pwd)?g" --in-place tests/.config/config.json
   - sudo systemctl restart apache2 || sudo systemctl status apache2 || sudo journalctl -xe
   # install python dependencies
   - pip3 -q install --upgrade colorama requests

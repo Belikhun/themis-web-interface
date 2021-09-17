@@ -11,9 +11,11 @@ from inspect import currentframe
 import atexit
 import time
 import re
+import os
 
-#init
-init(autoreset=True)
+# Init
+stripOutput = False if os.getenv("CI") else True
+init(autoreset = True, strip = stripOutput)
 sticks = time.time()
 
 def escape_ansi(line):

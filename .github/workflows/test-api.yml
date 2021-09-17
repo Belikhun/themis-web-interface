@@ -1,0 +1,85 @@
+name: 📟 API Test
+
+on:
+  push:
+    branches:
+      - '*'
+      - '!main'
+      - '!production'
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    env:
+      TEST_SUITE: API
+
+    strategy:
+      matrix:
+        php-version: [7.2, 7.4, '8.0']
+        python-version: [3.8]
+
+    steps:
+      - name: 📁 Checkout Repo
+        uses: actions/checkout@v2
+
+      - name: 🚀 Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: 🌏 Set up Apache2
+        run: |
+          sudo apt install software-properties-common
+          sudo add-apt-repository ppa:ondrej/php
+          sudo apt-get update
+          sudo apt-get install apache2
+
+      - name: 🔩 Set up PHP ${{ matrix.php-version }}
+        run: |
+          sudo apt-get install php${{ matrix.php-version }}
+
+      - name: 🌏 Post Set up Apache2
+        run: |
+          sudo apt-get install libapache2-mod-php${{ matrix.php-version }}
+          sudo cp -f tests/.config/action/apache.conf /etc/apache2/sites-available/000-default.conf
+          sudo sed -e "s?%GITHUB_WORKSPACE%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
+          sudo sed -e "s?%CI_WORKSPACE%?$(pwd)?g" --in-place tests/.config/config.json
+          sudo a2enmod rewrite actions alias mime headers
+          sudo systemctl restart apache2 || sudo systemctl status apache2 || sudo journalctl -xe
+
+      - name: 🛒 Install Dependencies
+        run: |
+          sudo apt-get -qq install dos2unix
+          pip -q install --upgrade colorama requests
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: 🔮 Preparing Test Environment
+        working-directory: tests
+        run: |
+          php --version
+          python3 --version
+          sudo chown -R www-data:www-data "$GITHUB_WORKSPACE"
+          sudo chmod -R a+rwx "$GITHUB_WORKSPACE"
+          pwd
+
+          sudo dos2unix config.sh
+          sudo dos2unix run.sh
+          sudo chmod ugo+x config.sh
+          sudo chmod ugo+x run.sh
+          sudo ./config.sh --init
+
+      - name: 📜 Run Test
+        working-directory: tests
+        run: ./run.sh $TEST_SUITE -q
+
+      - name: 🧺 Clean Up & Post Test Data
+        working-directory: tests
+        if: always()
+        run: |
+          sudo ./config.sh --restore
+          sudo cat /var/log/apache2/error.log

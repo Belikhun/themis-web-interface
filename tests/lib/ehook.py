@@ -9,8 +9,10 @@ from lib.log import log
 from colorama import init, Fore
 from ntpath import basename
 import sys
+import os
 
-init(autoreset=True)
+stripOutput = False if os.getenv("CI") else True
+init(autoreset = True, strip = stripOutput)
 
 def myexcepthook(exctype, value, tb):
 	log("EXCP", "File Traceback:")
