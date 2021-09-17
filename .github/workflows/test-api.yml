@@ -1,0 +1,66 @@
+name: 📟 API Test
+
+on:
+  push:
+    branches:
+      - '*'
+      - '!main'
+      - '!production'
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    env:
+      TEST_SUITE: API
+
+    strategy:
+      matrix:
+        php-version: [7.2, 7.4, 8.0]
+        python-version: [3.8]
+
+    steps:
+      - name: 📁 Checkout Repo
+        uses: actions/checkout@v2
+
+      - name: 🛠 Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: 🛠 Set up PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: rewrite
+          ini-values: post_max_size=256M, short_open_tag=On
+          coverage: none
+
+      - name: 🛒 Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip -q install --upgrade colorama requests
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: 🔮 Preparing Test Environment
+        run: |
+          php --version
+          python3 --version
+          pwd
+          cd tests
+          sudo chmod ugo+x config.sh
+          sudo chmod ugo+x run.sh
+          sudo ./config.sh --init
+
+      - name: 📜 Run Test
+        run: ./run.sh $TEST_SUITE -q
+
+      - name: 🚿 Clean Up & Post Test Data
+        run: |
+          sudo ./config.sh --restore
+          cd ..
+          sudo cat /var/log/apache2/error.log
