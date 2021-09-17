@@ -63,12 +63,11 @@ jobs:
           php --version
           python3 --version
           sudo chown -R www-data:www-data "$GITHUB_WORKSPACE"
-          sudo chmod -R g+rw "$GITHUB_WORKSPACE"
-          sudo chmod -R 777 "$GITHUB_WORKSPACE"
+          sudo chmod -R a+rwx "$GITHUB_WORKSPACE"
           pwd
 
-          dos2unix config.sh
-          dos2unix run.sh
+          sudo dos2unix config.sh
+          sudo dos2unix run.sh
           sudo chmod ugo+x config.sh
           sudo chmod ugo+x run.sh
           sudo ./config.sh --init
