@@ -36,7 +36,6 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          extensions: rewrite
           ini-values: post_max_size=256M, short_open_tag=On
           coverage: none
 
@@ -47,21 +46,24 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: 🔮 Preparing Test Environment
+        working-directory: tests
         run: |
           php --version
           python3 --version
           pwd
 
-          dos2unix tests/config.sh
-          dos2unix tests/run.sh
-          sudo chmod ugo+x tests/config.sh
-          sudo chmod ugo+x tests/run.sh
+          dos2unix config.sh
+          dos2unix run.sh
+          sudo chmod ugo+x config.sh
+          sudo chmod ugo+x run.sh
           sudo ./config.sh --init
 
       - name: 📜 Run Test
-        run: tests/run.sh $TEST_SUITE -q
+        working-directory: tests
+        run: ./run.sh $TEST_SUITE -q
 
       - name: 🧺 Clean Up & Post Test Data
+        working-directory: tests
         run: |
           sudo ./config.sh --restore
           cd ..
