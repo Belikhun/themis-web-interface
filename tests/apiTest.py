@@ -90,8 +90,6 @@ GETApiList = [
 	"/api/server",
 	"/api/hash",
 	"/api/announcement",
-	"/api/images/icon",
-	"/api/images/landing",
 	"/api/contest/logs",
 	"/api/contest/rank",
 	"/api/contest/timer",
@@ -102,6 +100,13 @@ for item in GETApiList:
 	apiTest.case (
 		"API \"{}\" should return a good status code".format(item),
 		lambda: testAPI(item, "GET")
+	)
+
+GETImageApi = ["/api/images/icon", "/api/images/landing"]
+for item in GETImageApi:
+	apiTest.case (
+		"API i\"{}\" should return a good status code".format(item),
+		lambda: testAPI(item, "GET", json = False, data = { "token": sauce })
 	)
 
 # All GET api with token required test

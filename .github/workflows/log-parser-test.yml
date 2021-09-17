@@ -58,11 +58,12 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: 🔮 Preparing Test Environment
+        working-directory: tests
         run: |
           php --version
           python3 --version
-          sudo chmod -R 777 .
-          cd tests
+          sudo chown -R www-data:www-data "$GITHUB_WORKSPACE"
+          sudo chmod -R g+rw "$GITHUB_WORKSPACE"
           pwd
 
           dos2unix config.sh
