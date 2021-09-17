@@ -73,6 +73,7 @@ jobs:
 
       - name: 🧺 Clean Up & Post Test Data
         working-directory: tests
+        if: always()
         run: |
           sudo ./config.sh --restore
           cd ..
