@@ -10,7 +10,10 @@ from sys import exit
 import atexit
 import lib.ehook
 import time
-init(autoreset=True)
+import os
+
+stripOutput = False if os.getenv("CI") else True
+init(autoreset = True, strip = stripOutput)
 
 class testFramework:
 	def __init__(self, name):
