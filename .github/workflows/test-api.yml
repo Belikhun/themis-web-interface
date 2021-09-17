@@ -50,13 +50,15 @@ jobs:
           php --version
           python3 --version
           pwd
-          cd tests
-          sudo chmod ugo+x config.sh
-          sudo chmod ugo+x run.sh
+
+          dos2unix tests/config.sh
+          dos2unix tests/run.sh
+          sudo chmod ugo+x tests/config.sh
+          sudo chmod ugo+x tests/run.sh
           sudo ./config.sh --init
 
       - name: 📜 Run Test
-        run: run.sh $TEST_SUITE -q
+        run: tests/run.sh $TEST_SUITE -q
 
       - name: 🧺 Clean Up & Post Test Data
         run: |
