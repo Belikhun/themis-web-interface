@@ -21,6 +21,7 @@ const tooltip = {
 	hooks: [],
 
 	__sizeOberving: false,
+	__wait: false,
 
 	processor: {
 		dataset: {
@@ -229,7 +230,15 @@ const tooltip = {
 		this.container.style.transform = `translate(${xPos}px, ${yPos}px)`;
 	},
 
-	__mouseMove: (e) => tooltip.mouseMove(e),
+	__mouseMove: (e) => {
+		if (!tooltip.__wait) {
+			tooltip.__wait = true;
+			tooltip.mouseMove(e);
+
+			setTimeout(() => tooltip.__wait = false, 50);
+		}
+	},
+
 	__mouseLeave: () => tooltip.hide(),
 
 	/**
