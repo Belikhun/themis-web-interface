@@ -684,6 +684,17 @@ function time(date = new Date()) {
 }
 
 /**
+ * Is date today??
+ * @param	{Date}	date
+ * @param	{Date}	today	Date to compare to
+ */
+function isToday(date, today = new Date()) {
+	return (date.getDate() === today.getDate() &&
+			date.getMonth() === today.getMonth() &&
+			date.getFullYear() === today.getFullYear())
+}
+
+/**
  * Get current Week in a year
  * @returns {Number}	Current Week
  */
@@ -845,10 +856,20 @@ function liveTime(element, start = time(new Date()), {
 	}, interval);
 }
 
-function setDateTimeValue(dateNode, timeNode, value = time()) {
+/**
+ * Set date and time input to a specified time
+ * @param	{HTMLInputElement}		dateNode	Date Input
+ * @param	{HTMLInputElement}		timeNode	Time Input
+ * @param	{Number}				value		UNIX Time
+ */
+ function setDateTimeValue(dateNode, timeNode, value = time()) {
 	let date = new Date(value * 1000);
-	dateNode.value = [date.getFullYear(), date.getMonth() + 1, date.getDate()].map(i => pleft(i, 2)).join("-");
-	timeNode.value = [date.getHours(), date.getMinutes(), date.getSeconds()].map(i => pleft(i, 2)).join(":");
+
+	if (typeof dateNode === "object" && dateNode)
+		dateNode.value = [date.getFullYear(), date.getMonth() + 1, date.getDate()].map(i => pleft(i, 2)).join("-");
+
+	if (typeof timeNode === "object" && timeNode)
+		timeNode.value = [date.getHours(), date.getMinutes(), date.getSeconds()].map(i => pleft(i, 2)).join(":");
 }
 
 function getDateTimeValue(dateNode, timeNode) {
@@ -2030,6 +2051,8 @@ function createInput({
 
 	return {
 		group: container,
+
+		/** @type {HTMLInputElement} */
 		input: container.input,
 
 		set({
@@ -2344,6 +2367,7 @@ function createSlider({
 		{ type: "span", class: "rightTrack", name: "right" }
 	]);
 
+	let mouseDownTick = 0;
 	let o = container.obj;
 	o.dataset.color = color;
 	o.dataset.soundhover = true;
@@ -2358,6 +2382,10 @@ function createSlider({
 	o.input.value = value;
 
 	const update = (e) => {
+		mouseDownTick++;
+		if (mouseDownTick > 1)
+			o.classList.add("dragging");
+
 		let valP = (e.target.value - min) / (max - min);
 
 		o.thumb.style.left = `calc(20px + (100% - 40px) * ${valP})`;
@@ -2378,12 +2406,17 @@ function createSlider({
 	let inputHandlers = []
 	let changeHandlers = []
 
+	// Event train
 	o.input.addEventListener("input", (e) => {
 		inputHandlers.forEach(f => f(parseFloat(e.target.value), e));
 		update(e);
 	});
 
 	o.input.addEventListener("change", (e) => changeHandlers.forEach(f => f(parseFloat(e.target.value), e)));
+	o.addEventListener("mouseup", () => {
+		o.classList.remove("dragging");
+		mouseDownTick = 0;
+	});
 
 	return {
 		group: container.tree,
@@ -2427,6 +2460,7 @@ function createButton(text, {
 	icon = null,
 	align = "left",
 	complex = false,
+	triangleCount = 16,
 	disabled = false
 } = {}) {
 	let button = document.createElement(element);
@@ -2487,7 +2521,7 @@ function createButton(text, {
 			scale: 1.6,
 			speed: 8,
 			color: color,
-			triangleCount: 16
+			triangleCount
 		});
 
 	if (typeof sounds === "object")
@@ -2577,11 +2611,13 @@ function createImageInput({
 
 function createNote({
 	level = "info",
-	message = "Smaple Note"
+	message = "Smaple Note",
+	style = "flat"
 } = {}) {
 	let container = document.createElement("div");
 	container.classList.add("note");
 	container.dataset.level = level;
+	container.dataset.style = style;
 
 	let inner = document.createElement("span");
 	inner.classList.add("inner");

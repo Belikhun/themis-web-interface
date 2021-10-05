@@ -8,7 +8,7 @@
 /**
  * Settings Menu
  * 
- * @author	@belivipro9x99
+ * @author	@Belikhun
  * @version	v1.0
  * @license	MIT
  */
@@ -673,11 +673,21 @@ const smenu = {
 				this.save = save;
 				this.defaultValue = defaultValue;
 
+				this.changeHandlers.push((value) => {
+					if (this.save)
+						localStorage.setItem(this.save, value);
+
+					if (value !== this.defaultValue)
+						this.container.classList.add("changed");
+					else
+						this.container.classList.remove("changed");
+				});
+
 				let savedValue = localStorage.getItem(this.save);
 				if (savedValue === null)
-					value = (typeof value === "number") ? value : defaultValue;
+					value = (typeof value === "string") ? value : defaultValue;
 				else
-					value = parseInt(savedValue);
+					value = savedValue;
 
 				if (typeof onChange === "function")
 					this.onChange(onChange);

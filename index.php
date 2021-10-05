@@ -327,6 +327,7 @@
 		<script src="/static/katex/katex.min.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 
 		<!-- Core script -->
+		<script src="/static/js/init.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 		<script src="/static/js/core.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 		
 		<!-- Global site tag (gtag.js) - Google Analytics -->

@@ -5,30 +5,6 @@
 //? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
 //? |-----------------------------------------------------------------------------------------------|
 
-var updateServerHandlers = []
-
-/**
- * Fetch server data and update `SERVER`
- * variable in current window
- */
-async function updateServerData() {
-	let response = await myajax({ url: "/api/server" });
-
-	document.title = response.data.pageTitle;
-	window.SERVER = response.data;
-	window.SESSION = response.data.SESSION;
-	window.API_TOKEN = SESSION.API_TOKEN;
-	updateServerHandlers.forEach((f) => f(window.SERVER));
-}
-
-function onUpdateServerData(f) {
-	if (typeof f !== "function")
-		throw { code: -1, description: `onUpdateServerData(): not a valid function` }
-
-	f(window.SERVER);
-	return updateServerHandlers.push(f);
-}
-
 /**
  * TWI Panel
  * 

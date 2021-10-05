@@ -393,7 +393,7 @@ body.dark .lazyload::before,
 	display: inline-block;
 
 	border-radius: 4px;
-	background-color: rgba(10, 10, 10, 0.6);
+	background-color: rgba(65, 65, 65, 0.8);
 	backdrop-filter: saturate(80%) blur(6px);
 	z-index: 9999999;
 	pointer-events: none;
@@ -446,7 +446,7 @@ body.dark .lazyload::before,
 
 @keyframes tooltip-blink {
     0% {
-        background-color: rgba(144, 144, 144, 0.8);
+        background-color: rgba(65, 65, 65, 0.8);
     }
 
     100% {

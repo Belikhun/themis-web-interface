@@ -15,6 +15,9 @@ stripOutput = False if os.getenv("CI") else True
 init(autoreset = True, strip = stripOutput)
 
 def myexcepthook(exctype, value, tb):
+	line = f"{Fore.LIGHTYELLOW_EX}/{Fore.LIGHTBLACK_EX}/" * 14
+
+	log("EXCP", f"{line} {Fore.LIGHTRED_EX}EXCEPTION {line}")
 	log("EXCP", "File Traceback:")
 	while tb:
 		filename = tb.tb_frame.f_code.co_filename

@@ -116,7 +116,21 @@ const tooltip = {
 
 		this.addHook({
 			on: "attribute",
-			key: "title"
+			key: "title",
+			handler: ({ target, value }) => {
+				let actualValue = target.getAttribute("tooltip");
+
+				// Little hack to disable browser's default tooltip.
+				// After this hack, value passed to this handler will be null, so we
+				// get value directly from tooltip attribute
+				if (!actualValue) {
+					target.setAttribute("tooltip", value);
+					target.removeAttribute("title");
+					actualValue = value;
+				}
+
+				return actualValue;
+			}
 		});
 
 		this.initialized = true;

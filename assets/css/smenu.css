@@ -322,6 +322,10 @@
 
 /** COMPONENT: CHOICE **/
 
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.choice > .label {
+	font-size: 13px;
+}
+
 .smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.choice > .choiceBox {
 	position: relative;
 	display: flex;

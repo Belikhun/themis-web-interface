@@ -15,7 +15,7 @@
  * 
  * `TOTAL HOURS WASTED: 21`
  * 
- * @author	@belivipro9x99
+ * @author	@Belikhun
  * @version	v1.0
  * @license	MIT
  */
@@ -24,7 +24,7 @@ class Editor {
 	 * Initialize a new editor
 	 * 
 	 * @param	{HTMLTextAreaElement|String}		container
-	 * @author	@belivipro9x99
+	 * @author	@Belikhun
 	 */
 	constructor(container, {
 		value,
@@ -130,7 +130,7 @@ class Editor {
 						note: createNote()
 					}},
 
-					info: { tag: "tip", title: `This editor is in beta stage!\nFor more information: <pre>belivipro9x99/editor.js</pre>` }
+					info: { tag: "tip", title: `This editor is in beta stage!\nFor more information: <pre>Belikhun/editor.js</pre>` }
 				}}
 			}},
 			

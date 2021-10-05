@@ -651,7 +651,7 @@ body.dark ::-webkit-calendar-picker-indicator {
     display: inline-block;
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    overflow: auto;
 }
 
 .sq-selector > .select > .list > .item {

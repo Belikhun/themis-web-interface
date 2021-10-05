@@ -1,0 +1,126 @@
+/*
+? |-----------------------------------------------------------------------------------------------|
+? |  /static/css/login.css                                                                        |
+? |                                                                                               |
+? |  Copyright (c) 2018-2021 Belikhun. All right reserved                                         |
+? |  Licensed under the MIT License. See LICENSE in the project root for license information.     |
+? |-----------------------------------------------------------------------------------------------|
+*/
+
+#splash {
+	position: absolute;
+
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+
+	background-color: white;
+	z-index: 100;
+}
+
+#splash.hide {
+	display: none;
+}
+
+#splash > .spinner {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+#container {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	flex: 1 1 auto;
+
+	width: 100%;
+	height: 100%;
+
+	user-select: none;
+	overflow: hidden;
+}
+
+#container > .leftPanel {
+	position: relative;
+	height: 100%;
+}
+
+#container > .leftPanel > .landing {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+#container > .leftPanel > .title {
+	position: absolute;
+	bottom: 40px;
+	left: 40px;
+
+	font-family: Nunito;
+	font-size: 30px;
+	font-weight: 600;
+	color: white;
+}
+
+#container > .rightPanel {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	flex: 0 0 auto;
+
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 600px;
+	box-sizing: border-box;
+
+	padding: 40px 120px;
+	background-color: rgba(255, 255, 255);
+}
+
+#container > .rightPanel > .icon {
+	flex-shrink: 0;
+	width: 90px;
+	height: 90px;
+}
+
+#container > .rightPanel > .center {
+	position: relative;
+	display: flex;
+	flex-grow: 1;
+	flex-direction: column;
+	justify-content: center;
+
+	margin-top: 20px;
+}
+
+#container > .rightPanel > .center > .action {
+	font-family: Nunito;
+	font-size: 32px;
+}
+
+#container > .rightPanel > .center > .description {
+	font-size: 16px;
+	margin-bottom: 40px;
+}
+
+#container > .rightPanel > .center > .panels {
+	margin: 20px 0 80px;
+}
+
+#container > .rightPanel > .center > .panels > div {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+}
+
+#container > .rightPanel > .center > .panels > div > .buttons {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+
+	margin-top: 30px;
+}
