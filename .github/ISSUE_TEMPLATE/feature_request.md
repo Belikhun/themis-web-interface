@@ -3,7 +3,7 @@ name: Thêm tính năng
 about: Góp ý một ý tưởng cho dự án
 title: ''
 labels: enhancement
-assignees: belivipro9x99
+assignees: Belikhun
 
 ---
 

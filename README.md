@@ -8,14 +8,14 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 
 ####
 
-[![version](https://img.shields.io/github/v/tag/belivipro9x99/themis-web-interface?color=brown&label=version&style=for-the-badge)](https://github.com/belivipro9x99/themis-webinterface/releases/)
-[![license](https://img.shields.io/badge/license-MIT-orange.svg?longCache=true&style=for-the-badge)](https://github.com/belivipro9x99/themis-web-interface/blob/master/LICENSE)
+[![version](https://img.shields.io/github/v/tag/Belikhun/themis-web-interface?color=brown&label=version&style=for-the-badge)](https://github.com/Belikhun/themis-webinterface/releases/)
+[![license](https://img.shields.io/badge/license-MIT-orange.svg?longCache=true&style=for-the-badge)](https://github.com/Belikhun/themis-web-interface/blob/master/LICENSE)
 [![status](https://img.shields.io/badge/status-near_stable-blue.svg?longCache=true&style=for-the-badge)]()
-[![codefactor](https://www.codefactor.io/repository/github/belivipro9x99/themis-web-interface/badge/main?style=for-the-badge)](https://www.codefactor.io/repository/github/belivipro9x99/themis-web-interface)
+[![codefactor](https://www.codefactor.io/repository/github/Belikhun/themis-web-interface/badge/main?style=for-the-badge)](https://www.codefactor.io/repository/github/Belikhun/themis-web-interface)
 
-[![Travis CI Build Status](https://img.shields.io/travis/belivipro9x99/themis-web-interface/main.svg?label=TRAVIS+CI&style=for-the-badge)](https://travis-ci.org/belivipro9x99/themis-web-interface)
-[![GitHub Workflow Status | API Test](https://img.shields.io/github/workflow/status/belivipro9x99/themis-web-interface/%F0%9F%93%9F%20API%20Test?label=%F0%9F%93%9F%20API%20Test&style=for-the-badge)](https://github.com/belivipro9x99/themis-web-interface/actions/workflows/test-api.yml)
-[![GitHub Workflow Status | Log PArser Test](https://img.shields.io/github/workflow/status/belivipro9x99/themis-web-interface/%F0%9F%9B%8B%20Log%20Parser%20Test?label=%F0%9F%9B%8B%20Log%20Parser%20Test&style=for-the-badge)](https://github.com/belivipro9x99/themis-web-interface/actions/workflows/log-parser-test.yml)
+[![Travis CI Build Status](https://img.shields.io/travis/Belikhun/themis-web-interface/main.svg?label=TRAVIS+CI&style=for-the-badge)](https://travis-ci.com/Belikhun/themis-web-interface)
+[![GitHub Workflow Status | API Test](https://img.shields.io/github/workflow/status/Belikhun/themis-web-interface/%F0%9F%93%9F%20API%20Test?label=%F0%9F%93%9F%20API%20Test&style=for-the-badge)](https://github.com/Belikhun/themis-web-interface/actions/workflows/test-api.yml)
+[![GitHub Workflow Status | Log PArser Test](https://img.shields.io/github/workflow/status/Belikhun/themis-web-interface/%F0%9F%9B%8B%20Log%20Parser%20Test?label=%F0%9F%9B%8B%20Log%20Parser%20Test&style=for-the-badge)](https://github.com/Belikhun/themis-web-interface/actions/workflows/log-parser-test.yml)
 
 </div>
 
@@ -45,15 +45,15 @@ An **beautiful** and **easy-to-use** Web Interface for **[Themis](https://dsapbl
 
 ## Tải về và cài đặt
 
-Tải về bản mới nhất tại: [releases list](https://github.com/belivipro9x99/themis-web-interface/releases)
+Tải về bản mới nhất tại: [releases list](https://github.com/Belikhun/themis-web-interface/releases)
 
-Hướng dẫn cài đặt, sử dụng và nâng cấp hiện có trong [Wiki](https://github.com/belivipro9x99/themis-web-interface/wiki/installation-and-config) của dự án.
+Hướng dẫn cài đặt, sử dụng và nâng cấp hiện có trong [Wiki](https://github.com/Belikhun/themis-web-interface/wiki/installation-and-config) của dự án.
 
 ## API Document
 
 > **⚠ Lưu ý:** Thông tin API trong Wiki chưa được cập nhật cho phiên bản mới nhất! Một số thông tin có thể bị sai lệch với phiên bản hiện tại
 
-Toàn bộ **Tài liệu** đều có ở trong [Wiki:API](https://github.com/belivipro9x99/themis-web-interface-reloaded/wiki/Getting-Started-with-API) của dự án.
+Toàn bộ **Tài liệu** đều có ở trong [Wiki:API](https://github.com/Belikhun/themis-web-interface-reloaded/wiki/Getting-Started-with-API) của dự án.
 
 ## Contributing
 

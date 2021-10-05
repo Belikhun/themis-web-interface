@@ -2521,7 +2521,7 @@ const twi = {
 
 			try {
 				let response = await myajax({
-					url: "https://api.github.com/repos/belivipro9x99/themis-web-interface/releases/latest",
+					url: "https://api.github.com/repos/Belikhun/themis-web-interface/releases/latest",
 					method: "GET",
 					changeState: false,
 					reRequest: false

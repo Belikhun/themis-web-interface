@@ -13,9 +13,9 @@
 	define("AUTHOR", "Belikhun");
 	define("VERSION", "1.2.0");
 	define("VERSION_TAG", "indev");
-	define("REPO_ADDRESS", "https://github.com/belivipro9x99/themis-web-interface");
+	define("REPO_ADDRESS", "https://github.com/Belikhun/themis-web-interface");
 	define("REPORT_ERROR", REPO_ADDRESS . "/issues");
-	define("CONTACT_LINK", "http://m.me/belivipro9x99");
+	define("CONTACT_LINK", "http://m.me/Belikhun");
 	define("TRACK_ID", "UA-124598427-1");
 
 	// SIZE LIMIT

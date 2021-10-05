@@ -8,7 +8,7 @@
 /**
  * Simple Markdown to HTML (md2html)
  * 
- * @author	@belivipro9x99
+ * @author	@Belikhun
  * @version	v1.0
  */
 const md2html = {
@@ -404,7 +404,7 @@ const md2html = {
 			return createNote({
 				level: "error",
 				message: `<pre class="break">md2html.parse(): Lỗi đã xảy ra khi xử lí dữ liệu!\nCode: ${error.code}\nDescription: ${error.description}</pre>
-					<br>Powered by <pre>belivipro9x99/md2html.js</pre>: A simple markdown to html converter`
+					<br>Powered by <pre>Belikhun/md2html.js</pre>: A simple markdown to html converter`
 			}).group;
 		}
 	},

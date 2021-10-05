@@ -3,7 +3,7 @@ name: Hỏi
 about: Đặt một câu hỏi về vấn đề bạn đang vướng mắc
 title: ''
 labels: question
-assignees: belivipro9x99
+assignees: Belikhun
 
 ---
 
