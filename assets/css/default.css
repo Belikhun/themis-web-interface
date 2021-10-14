@@ -395,9 +395,9 @@ body.dark .lazyload::before,
 	border-radius: 4px;
 	background-color: rgba(65, 65, 65, 0.8);
 	backdrop-filter: saturate(80%) blur(6px);
-	z-index: 9999999;
 	pointer-events: none;
 	overflow: hidden;
+	z-index: 9999999;
 	opacity: 0;
 
 	transition:
@@ -414,6 +414,7 @@ body.dark .lazyload::before,
 .tooltip.hide {
 	display: none;
 	transition: none;
+	width: 90vw!important;
 }
 
 .tooltip > .content {
@@ -422,6 +423,8 @@ body.dark .lazyload::before,
 	flex-direction: row;
 	align-items: center;
 
+	width: auto;
+	max-width: 90vw;
 	padding: 4px 6px;
 	white-space: pre;
 

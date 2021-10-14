@@ -976,22 +976,29 @@ const smenu = {
 				color = "blue",
 				icon,
 				complex = false,
+				disabled = false,
 				onClick
 			} = {}, child) {
 				this.container = document.createElement("div");
 				this.container.classList.add("component", "button");
 
-				this.button = createButton(label, { color, icon, complex });
+				this.button = createButton(label, { color, icon, complex, disabled });
 				this.container.appendChild(this.button);
 				
 				this.clickHandlers = []
 				this.button.addEventListener("click", async (e) => {
-					this.button.disabled = true;
+					this.button.loading(true);
 
-					for (let f of this.clickHandlers)
-						await f(e);
+					for (let f of this.clickHandlers) {
+						try {
+							await f(e);
+						} catch(error) {
+							clog("ERRR", "smenu.components.Button().handleClick(): An error occured when handling click handlers", error);
+							continue;
+						}
+					}
 
-					this.button.disabled = false;
+					this.button.loading(false);
 				});
 
 				if (typeof onClick === "function")
@@ -1008,19 +1015,21 @@ const smenu = {
 			set({
 				label,
 				color,
-				icon
+				icon,
+				disabled
 			} = {}) {
 				if (typeof label === "string")
-					this.button.innerText = label;
+					this.button.changeText(label);
 				
 				if (typeof color === "string")
-					if (this.triBg)
-						this.button.dataset.triColor = color;
-					else
-						this.button.dataset.color = color;
+					if (this.button.background)
+						this.button.background.setColor(color);
 
 				if (typeof icon === "string")
 					this.button.dataset.icon = icon;
+
+				if (typeof disabled === "boolean")
+					this.button.disabled = disabled;
 			}
 
 			onClick(f) {

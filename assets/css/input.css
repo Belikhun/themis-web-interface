@@ -322,7 +322,7 @@ body.dark .formGroup[data-color="red"] > .formField:focus {
     display: inline-block;
 
     top: 0;
-    transform: translateY(12px);
+    transform: translateY(14px);
     font-family: "Calibri", "Segoe UI", "sans-serif";
     font-size: 18px;
     font-weight: 700;

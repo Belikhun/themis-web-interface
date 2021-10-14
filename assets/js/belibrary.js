@@ -2517,7 +2517,7 @@ function createButton(text, {
 	}
 
 	if (complex && style !== "flat")
-		triBg(button, {
+		button.background = triBg(button, {
 			scale: 1.6,
 			speed: 8,
 			color: color,
