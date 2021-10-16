@@ -40,30 +40,54 @@ const login = {
 		});
 
 		this.login = makeTree("div", "login", {
-			usernameBox: { tag: "div", class: ["box", "username"], child: {
-				username: createInput({
-					label: "Tên Đăng Nhập",
-					required: true,
-					autofill: false
+			info: { tag: "div", class: "userInfo", child: {
+				avatar: new lazyload({
+					source: `/api/avatar`,
+					classes: "avatar"
 				}),
 
-				buttons: { tag: "div", class: "buttons", child: {
-					login: createButton("ĐĂNG NHẬP", {
-						color: "blue",
-						style: "round",
-						complex: true
+				displayName: { tag: "t", class: "displayName", text: "nhập tên người dùng để tiếp tục" },
+				close: { tag: "icon", class: "close", data: { icon: "close" } }
+			}},
+
+			boxes: { tag: "div", class: "boxes", child: {
+				usernameBox: { tag: "div", class: ["box", "username"], child: {
+					username: createInput({
+						label: "Tên Đăng Nhập",
+						required: true,
+						autofill: false
 					}),
-		
-					register: { tag: "button", class: "text-btn", text: "chưa có tài khoản?" }
+	
+					buttons: { tag: "div", class: "buttons", child: {
+						login: createButton("tiếp theo", {
+							color: "green",
+							style: "round",
+							complex: true
+						}),
+						
+						register: { tag: "button", class: "text-btn", text: "chưa có tài khoản?" }
+					}}
+				}},
+	
+				passwordBox: { tag: "div", class: ["box", "password"], child: {
+					password: createInput({
+						label: "Mật Khẩu",
+						required: true,
+						autofill: false
+					}),
+	
+					buttons: { tag: "div", class: "buttons", child: {
+						login: createButton("ĐĂNG NHẬP", {
+							color: "blue",
+							style: "round",
+							complex: true
+						})
+					}}
+				}},
+	
+				completeBox: { tag: "div", class: ["box", "complete"], child: {
+					
 				}}
-			}},
-
-			passwordBox: { tag: "div", class: ["box", "password"], child: {
-
-			}},
-
-			completeBox: { tag: "div", class: ["box", "complete"], child: {
-				
 			}}
 		});
 
@@ -96,6 +120,10 @@ const login = {
 
 		this.container.append(this.left, this.right);
 		this.splash.classList.add("hide");
+	},
+
+	changePanel(panel) {
+		
 	}
 }
 

@@ -77,7 +77,7 @@
 	width: 600px;
 	box-sizing: border-box;
 
-	padding: 40px 120px;
+	padding: 80px 120px;
 	background-color: rgba(255, 255, 255);
 }
 
@@ -104,7 +104,7 @@
 
 #container > .rightPanel > .center > .description {
 	font-size: 16px;
-	margin-bottom: 40px;
+	margin-bottom: 20px;
 }
 
 #container > .rightPanel > .center > .panels {
@@ -117,9 +117,9 @@
 	flex-direction: column;
 }
 
-#container > .rightPanel > .center > .panels > div > .buttons {
+#container > .rightPanel > .center > .panels > div > .boxes > .box > .buttons {
 	display: flex;
-	flex-direction: row;
+	flex-direction: row-reverse;
 	justify-content: space-between;
 
 	margin-top: 30px;

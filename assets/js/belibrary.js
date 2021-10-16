@@ -748,7 +748,7 @@ function parseTime(t = 0, {
  * @param {Date} date 
  */
 function humanReadableTime(date) {
-	let timeString = `${date.getHours()}:${pleft(date.getMinutes(), 2)}`;
+	let timeString = `${pleft(date.getHours(), 2)}:${pleft(date.getMinutes(), 2)}`;
 
 	if (date.getSeconds() > 0)
 		timeString += `:${pleft(date.getSeconds(), 2)}`;

@@ -903,13 +903,25 @@ icon[data-icon="print"]::after {
 .note > .inner.inner,
 .note > .inner.inner > t,
 .note > .inner.inner > pre {
-    font-size: 14px;
+    font-size: 15px;
 	color: #343434;
 }
 
 .note.info,
 .note[data-level="info"] {
     background-color: #ffffff;
+}
+
+.note[data-style="round"] {
+	flex-direction: column;
+	align-items: flex-start;
+	border-radius: 5px;
+}
+
+.note[data-style="round"]::before {
+	margin-right: unset;
+	margin-bottom: 10px;
+	font-size: 20px;
 }
 
 .note.info::before,
