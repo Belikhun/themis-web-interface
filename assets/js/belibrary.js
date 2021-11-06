@@ -2361,6 +2361,119 @@ function createSelectInput({
 	}
 }
 
+/**
+ * Check current agent is a mobile phone?
+ * @returns {Boolean}
+ */
+function checkAgentMobile() {
+	if (typeof navigator.userAgentData === "object"
+		&& typeof navigator.userAgentData.mobile === "boolean")
+		return navigator.userAgentData.mobile;
+
+	// Borrowed from Stack Overflow
+	// https://stackoverflow.com/questions/11381673/detecting-a-mobile-browser
+	const toMatch = Array(
+		/Android/i,
+		/webOS/i,
+		/iPhone/i,
+		/iPad/i,
+		/iPod/i,
+		/BlackBerry/i,
+		/Windows Phone/i
+	);
+		
+	return toMatch.some((i) => navigator.userAgent.match(i));
+}
+
+function createChoiceInput({
+	color,
+	choice,
+	value,
+	classes
+} = {}) {
+	let container = document.createElement("div");
+	container.classList.add("sq-choice");
+
+	switch (typeof classes) {
+		case "string":
+			container.classList.add(classes);
+			break;
+		
+		case "object":
+			if (classes.length && classes.length > 0)
+				container.classList.add(...classes);
+			else
+				throw { code: -1, description: `createChoiceInput(): Invalid or empty "classes" type: ${typeof classes}` }
+
+			break;
+	}
+
+	let choiceNodes = {}
+	let activeNode = null;
+	let activeValue = null;
+	let changeHandlers = []
+
+	const setValue = (value) => {
+		if (value === activeValue)
+			return;
+
+		if (!choiceNodes[value])
+			return;
+
+		if (activeNode)
+			activeNode.classList.remove("active");
+
+		choiceNodes[value].classList.add("active");
+		activeValue = value;
+		activeNode = choiceNodes[value];
+		changeHandlers.forEach(f => f(value));
+	}
+
+	const set = ({
+		color,
+		choice,
+		value
+	} = {}) => {
+		if (typeof color === "string")
+			container.dataset.color = color;
+
+		if (typeof choice === "object") {
+			choiceNodes = {}
+			activeNode = null;
+			activeValue = null;
+
+			for (let key of Object.keys(choice)) {
+				let node = document.createElement("icon");
+				node.dataset.icon = choice[key].icon || "circle";
+				
+				if (typeof choice[key].title === "string")
+					node.title = choice[key].title;
+
+				container.appendChild(node);
+				choiceNodes[key] = node;
+				node.addEventListener("click", () => setValue(key));
+			}
+		}
+
+		if (typeof value !== "undefined")
+			setValue(value);
+	}
+
+	set({ color, choice, value });
+
+	return {
+		container,
+		set,
+
+		onChange(f) {
+			if (typeof f !== "function")
+				throw { code: -1, description: `createChoiceInput().onChange(): not a valid function` }
+
+			changeHandlers.push(f);
+		}
+	}
+}
+
 function createSlider({
 	color = "pink",
 	value = 0,

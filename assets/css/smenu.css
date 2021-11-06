@@ -326,48 +326,8 @@
 	font-size: 13px;
 }
 
-.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.choice > .choiceBox {
-	position: relative;
-	display: flex;
-	flex-direction: row;
-}
-
-.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.choice > .choiceBox > icon {
-	flex-grow: 1;
-
-	margin-top: 5px;
-	padding: 10px;
-	box-sizing: border-box;
-	border: 3px solid transparent;
-
-	cursor: pointer;
-	background-color: rgb(255, 255, 255);
-
-	transition:
-		border-color 0.1s ease-out,
-		background-color 0.1s ease-out;
-}
-
-.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.choice > .choiceBox > icon:hover {
-	border-color: var(--osc-color-blue);
-}
-
-.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.choice > .choiceBox > icon.active {
-	background-color: var(--osc-color-blue);
-}
-
-.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.choice > .choiceBox > icon.active::after {
-	color: white;
-}
-
-.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.choice > .choiceBox > icon:first-child {
-	border-top-left-radius: 5px;
-	border-bottom-left-radius: 5px;
-}
-
-.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.choice > .choiceBox > icon:last-child {
-	border-top-right-radius: 5px;
-	border-bottom-right-radius: 5px;
+.smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.choice > .sq-choice {
+	margin-top: 10px;
 }
 
 /** COMPONENT: SELECT **/
@@ -1121,13 +1081,6 @@ body.dark .smenuContainer > .panels > .panel > .buttons > .close:hover::after {
 
 /** COMPONENT: CHOICE **/
 
-body.dark .smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.choice > .choiceBox > icon {
-	background-color: rgb(28, 28, 28);
-}
-
-body.dark .smenuContainer > .main > .wrapper > .smenu > .group > .child > .component.choice > .choiceBox > icon.active {
-	background-color: var(--osc-color-blue);
-}
 
 /** COMPONENT: SELECT **/
 

@@ -82,6 +82,12 @@ const tooltip = {
 	},
 
 	init() {
+		// Check mobile phone
+		if (checkAgentMobile()) {
+			clog("WARN", "tooltip: this module will be disabled on mobile device due to performance reason. Initialize aborted.");
+			return false;
+		}
+
 		this.container = document.createElement("div");
 		this.container.classList.add("tooltip", "hide");
 		this.content = document.createElement("div");

@@ -662,18 +662,12 @@ const smenu = {
 				this.labelNode = document.createElement("t");
 				this.labelNode.classList.add("label");
 
-				this.choiceBox = document.createElement("div");
-				this.choiceBox.classList.add("choiceBox");
-
-				this.container.append(this.labelNode, this.choiceBox);
-				this.choiceNodes = {}
-				this.activeNode = null;
-				this.activeValue = null;
-				this.changeHandlers = []
+				this.choice = createChoiceInput();
+				this.container.append(this.labelNode, this.choice.container);
 				this.save = save;
 				this.defaultValue = defaultValue;
 
-				this.changeHandlers.push((value) => {
+				this.onChange((value) => {
 					if (this.save)
 						localStorage.setItem(this.save, value);
 
@@ -706,7 +700,7 @@ const smenu = {
 				if (typeof f !== "function")
 					throw { code: -1, description: `smenu.components.Choice().onChange(): not a valid function` }
 
-				this.changeHandlers.push(f);
+				this.choice.onChange(f);
 			}
 
 			set({
@@ -718,45 +712,7 @@ const smenu = {
 				if (typeof label === "string")
 					this.labelNode.innerHTML = label;
 
-				if (typeof color === "string")
-					this.container.dataset.color = color;
-
-				if (typeof choice === "object") {
-					this.choiceNodes = {}
-					this.activeNode = null;
-					this.activeValue = null;
-
-					for (let key of Object.keys(choice)) {
-						let node = document.createElement("icon");
-						node.dataset.icon = choice[key].icon || "circle";
-						
-						if (typeof choice[key].title === "string")
-							node.title = choice[key].title;
-
-						this.choiceBox.appendChild(node);
-						this.choiceNodes[key] = node;
-						node.addEventListener("click", () => this.setValue(key));
-					}
-				}
-
-				if (typeof value !== "undefined")
-					this.setValue(value);
-			}
-
-			setValue(value) {
-				if (value === this.activeValue)
-					return;
-
-				if (!this.choiceNodes[value])
-					return;
-
-				if (this.activeNode)
-					this.activeNode.classList.remove("active");
-
-				this.choiceNodes[value].classList.add("active");
-				this.activeValue = value;
-				this.activeNode = this.choiceNodes[value];
-				this.changeHandlers.forEach(f => f(value, this));
+				this.choice.set({ color, choice, value });
 			}
 		},
 

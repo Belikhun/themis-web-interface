@@ -95,6 +95,20 @@
 	font-weight: 500;
 }
 
+.navigationBar > .underlay {
+	position: absolute;
+	display: none;
+
+	top: 100%;
+	left: 0;
+	right: 0;
+	height: calc(100vh - 100%);
+}
+
+.navigationBar > .underlay.show {
+	display: block;
+}
+
 .navigationBar > .group > .component {
 	position: relative;
 	display: flex;
@@ -383,7 +397,7 @@
 @media only screen and (max-width: 500px) {
 	.navigationBar > .group > .component.switch > .indicator,
 	.navigationBar > .group > .component.switch > icon {
-		width: 50px;
+		width: 45px;
 	}
 }
 
