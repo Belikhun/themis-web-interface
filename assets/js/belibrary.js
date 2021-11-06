@@ -745,16 +745,24 @@ function parseTime(t = 0, {
 
 /**
  * Date to human readable time
- * @param {Date} date 
+ * 
+ * @param	{Date}			date		Date to display
+ * @param	{Boolean}		beautify	Will return beautified html code
+ * @return	{String}
  */
-function humanReadableTime(date) {
+function humanReadableTime(date, {
+	beautify = false,
+	alwayShowSecond = false
+} = {}) {
 	let timeString = `${pleft(date.getHours(), 2)}:${pleft(date.getMinutes(), 2)}`;
 
-	if (date.getSeconds() > 0)
+	if (date.getSeconds() > 0 || alwayShowSecond)
 		timeString += `:${pleft(date.getSeconds(), 2)}`;
 
-	let dateString = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
-	return `${timeString} ${dateString}`;
+	let dateString = `${pleft(date.getDate(), 2)}/${pleft(date.getMonth() + 1, 2)}/${date.getFullYear()}`;
+	return beautify
+		? `<b>${timeString}</b> ${dateString}`
+		: `${timeString} ${dateString}`;
 }
 
 function formatTime(seconds, {

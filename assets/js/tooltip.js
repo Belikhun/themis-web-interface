@@ -22,6 +22,7 @@ const tooltip = {
 
 	__sizeOberving: false,
 	__wait: false,
+	__currentHook: null,
 
 	processor: {
 		dataset: {
@@ -139,7 +140,8 @@ const tooltip = {
 	addHook({
 		on = null,
 		key = null,
-		handler = ({ target, value }) => value,
+		handler = ({ target, value, update }) => value,
+		destroy = () => {},
 		priority = 1,
 		noPadding = false
 	} = {}) {
@@ -152,13 +154,16 @@ const tooltip = {
 		if (typeof handler !== "function")
 			throw { code: -1, description: `tooltip.addHook(): \"handler\" is not a valid function` }
 
+		if (typeof destroy !== "function")
+			throw { code: -1, description: `tooltip.addHook(): \"handler\" is not a valid function` }
+
 		if (typeof priority !== "number")
 			throw { code: -1, description: `tooltip.addHook(): \"priority\" is not a valid number` }
 
 		if (typeof noPadding !== "boolean")
 			throw { code: -1, description: `tooltip.addHook(): \"noPadding\" is not a valid boolean` }
 
-		let hook = { on, key, handler, priority, noPadding };
+		let hook = { on, key, handler, destroy, priority, noPadding };
 		this.hooks.push(hook);
 		this.hooks.sort((a, b) => (a.priority < b.priority) ? 1 : (a.priority > b.priority) ? -1 : 0);
 
@@ -204,7 +209,7 @@ const tooltip = {
 
 		// Check for hook that match current target
 		for (let hook of hooks) {
-			if (!this.getValue(target, hook))
+			if (this.getValue(target, hook) === null)
 				continue;
 
 			if (target.dataset.tooltipListening) {
@@ -214,10 +219,14 @@ const tooltip = {
 
 			target.addEventListener("mouseenter", () => {
 				let value = this.getValue(target, hook);
-				let showValue = hook.handler({ target, value });
+				let showValue = hook.handler({
+					target,
+					value,
+					update: (data) => this.update(data)
+				});
 
 				if (showValue)
-					this.show(showValue, target, hook.noPadding);
+					this.show(showValue, target, hook.noPadding, hook);
 			});
 
 			target.dataset.tooltipListening = true;
@@ -261,9 +270,10 @@ const tooltip = {
 	 * @param {String|Object}	data			Text to show
 	 * @param {HTMLElement}		showOnNode		Node to show text on
 	 * @param {Boolean}			noPadding		Remove padding around tooltip
+	 * @param {Object}			hook			Hook called this function, for calling destroy handler
 	 * @returns 
 	 */
-	async show(data, showOnNode, noPadding = false) {
+	async show(data, showOnNode, noPadding = false, hook = null) {
 		if (!this.initialized)
 			return false;
 
@@ -295,7 +305,19 @@ const tooltip = {
 
 		await nextFrameAsync();
 		this.container.classList.add("show");
+		this.content.dataset.noPadding = noPadding;
 
+		this.__currentHook = hook;
+		this.update(data);
+		return true;
+	},
+
+	/**
+	 * Change tooltip content
+	 * 
+	 * @param {String|Object|HTMLElement}	data	Data to be shown
+	 */
+	update(data) {
 		switch (typeof data) {
 			case "object":
 				if (data.classList && data.dataset) {
@@ -312,8 +334,6 @@ const tooltip = {
 				break;
 		}
 
-		this.content.dataset.noPadding = noPadding;
-
 		//? TRIGGER REFLOW TO REPLAY ANIMATION
 		this.container.style.animation = "none";
 		requestAnimationFrame(() => {
@@ -324,11 +344,15 @@ const tooltip = {
 				this.container.style.height = this.content.clientHeight + "px";
 			}
 		});
-
-		return true;
 	},
 
 	async hide() {
+		// Destroy active hook
+		if (tooltip.__currentHook) {
+			tooltip.__currentHook.destroy();
+			tooltip.__currentHook = null;
+		}
+
 		if (!this.hideTimeout)
 			this.hideTimeout = setTimeout(() => {
 				if (this.nodeToShow)

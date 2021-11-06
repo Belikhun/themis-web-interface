@@ -389,6 +389,10 @@ body.dark .sq-input > .input {
     color: white;
 }
 
+body.dark .sq-input > .input > option {
+    background-color: #1b1b1b;
+}
+
 body.dark .sq-input > .input:disabled {
     color: rgb(172, 172, 172);
 }
