@@ -933,12 +933,13 @@ const smenu = {
 				icon,
 				complex = false,
 				disabled = false,
+				triangleCount = 8,
 				onClick
 			} = {}, child) {
 				this.container = document.createElement("div");
 				this.container.classList.add("component", "button");
 
-				this.button = createButton(label, { color, icon, complex, disabled });
+				this.button = createButton(label, { color, icon, complex, triangleCount, disabled });
 				this.container.appendChild(this.button);
 				
 				this.clickHandlers = []
