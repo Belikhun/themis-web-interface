@@ -126,6 +126,27 @@ body.dark code {
 	color: white;
 }
 
+.parallelogram {
+	position: relative;
+	display: inline-block;
+	--p-color: rgb(235, 235, 235);
+}
+
+.parallelogram::before {
+	content: "";
+	position: absolute;
+	display: block;
+	top: 0;
+	left: 5px;
+	right: 5px;
+	height: 100%;
+	
+	background-color: var(--p-color);
+	transform: skew(-9deg);
+	border-radius: 6px;
+	z-index: -1;
+}
+
 /** ======================== TIMER ======================== **/
 
 timer {
@@ -726,6 +747,10 @@ icon[data-icon="chart"]::after {
 	content: "\f080";
 }
 
+icon[data-icon="chartLine"]::after {
+	content: "\f201";
+}
+
 icon[data-icon="clock"]::after {
 	content: "\f017";
 }
@@ -870,6 +895,14 @@ icon[data-icon="note"]::after {
 
 icon[data-icon="print"]::after {
 	content: "\f02f";
+}
+
+icon[data-icon="atom"]::after {
+	content: "\f5d2";
+}
+
+icon[data-icon="shapes"]::after {
+	content: "\f61f";
 }
 
 /** ======================== NOTE ======================== **/
@@ -1271,6 +1304,11 @@ body.dark .md2html code {
 	overflow: auto;
 }
 
+.popupContainer > .popupWindow > .body > .customNode.progressBar {
+	overflow: visible;
+	margin-top: 25px;
+}
+
 .popupContainer > .popupWindow > .body > .buttonGroup {
     position: relative;
     display: flex;
@@ -1622,7 +1660,7 @@ body.dark a.sq-btn:not(.light) {
 }
 
 body.dark t:not(.light) {
-	color: rgb(214, 214, 214);
+	color: rgb(225, 225, 225);
 }
 
 body.dark dot:not(.light) {

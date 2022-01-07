@@ -142,7 +142,8 @@ body.dark .simpleTable:not(.light) tbody tr:not(:last-child) td,
 	transform: translateY(-2px);
 }
 
-.generalTable > tbody > tr:nth-child(2n + 1) > td {
+.generalTable:not(.noBackground) > tbody > tr:not(.header):nth-child(2n + 1) > td,
+.generalTable > tbody > tr.odd > td {
 	background-color: var(--oddRow);
 }
 
@@ -156,7 +157,7 @@ body.dark .simpleTable:not(.light) tbody tr:not(:last-child) td,
     border-bottom-right-radius: 5px;
 }
 
-.generalTable > tbody > tr:hover > td {
+.generalTable > tbody > tr:not(.header):hover > td {
 	background-color: var(--hover);
 }
 

@@ -341,7 +341,7 @@ const smenu = {
 				if (anm.id !== this.id && anm.animator && anm.animator.cancel)
 					anm.animator.cancel();
 
-			this.animator = Animator(0.6, Easing.OutExpo, (t) => _c.scrollTop = current + (target - current) * t);
+			this.animator = new Animator(0.6, Easing.OutExpo, (t) => _c.scrollTop = current + (target - current) * t);
 
 			this.animator.onComplete(() => {
 				this.animator = null;

@@ -479,7 +479,7 @@ class Scrollable {
 		if (this.animator)
 			this.animator.cancel();
 
-		this.animator = Animator(.6, Easing.OutQuart, (t) => {
+		this.animator = new Animator(.6, Easing.OutQuart, (t) => {
 			// Calucate current scrolling point by time
 			let current = from + (to - from) * t;
 
