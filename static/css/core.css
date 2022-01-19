@@ -4717,7 +4717,7 @@ footer .header .logo {
 	margin: auto;
 	margin-bottom: 12px;
 
-	background-image: url("/assets/img/icon.webp");
+	background-image: url("/static/img/icon.webp");
 	background-position: center;
 	background-size: cover;
 	border-radius: 50%;

@@ -3966,7 +3966,7 @@ const twi = {
 				twi.darkmode.onToggle((enabled) => this.licensePanel.iframe.contentDocument.body.classList[enabled ? "add" : "remove"]("dark"));
 
 				new smenu.components.Footer({
-					icon: "/assets/img/icon.webp",
+					icon: "/static/img/icon.webp",
 					appName: SERVER.APPNAME,
 					version: SERVER.version
 				}, project);

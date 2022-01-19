@@ -95,7 +95,7 @@ const setup = {
 
 		intro.setup(async ({ screen, container, left, right }) => {
 			let icon = new lazyload({
-				source: "/assets/img/icon.webp",
+				source: "/static/img/icon.webp",
 				classes: "icon"
 			});
 

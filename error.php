@@ -61,7 +61,7 @@
 		case 404:
 			$error = "Not Found";
 			$description = "Không thể tìm thấy <sy>$sv_hs$uri</sy> trên máy chủ.";
-			$errDetailSub = "thanos: <sg>*snap fingers*</sg><br>this page:<br>you:<br><img src=\"/assets/img/pikachu.jpg\" width=\"20%\" style=\"margin-top: 6px\">";
+			$errDetailSub = "thanos: <sg>*snap fingers*</sg><br>this page:<br>you:<br><img src=\"/static/img/pikachu.jpg\" width=\"20%\" style=\"margin-top: 6px\">";
 			break;
 		case 405:
 			$error = "Method Not Allowed";
@@ -192,7 +192,7 @@
 		</div>
 
 		<div class="footer">
-			<img src="/assets/img/icon.webp" class="icon">
+			<img src="/static/img/icon.webp" class="icon">
 			<p><?php print APPNAME; ?>. Copyright (c) <?php print AUTHOR; ?>. This project is licensed under the MIT License.</p>
 		</div>
 

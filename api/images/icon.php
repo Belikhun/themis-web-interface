@@ -9,7 +9,7 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/ratelimit.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] ."/libs/belibrary.php";
 	
-	define("DEFAULT_IMAGE", $_SERVER["DOCUMENT_ROOT"] ."/assets/img/icon.webp");
+	define("DEFAULT_IMAGE", $_SERVER["DOCUMENT_ROOT"] ."/static/img/icon.webp");
 	define("MODIFIED_IMAGE_PATH", $_SERVER["DOCUMENT_ROOT"] ."/data/images");
 	define("MODIFIED_IMAGE_NAME", "icon");
 	define("MODIFIED_IMAGE", MODIFIED_IMAGE_PATH ."/". MODIFIED_IMAGE_NAME);

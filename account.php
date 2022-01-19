@@ -29,7 +29,7 @@
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/button.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/spinner.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/menu.css?v=<?php print VERSION; ?>" />
-	<link rel="stylesheet" type="text/css" media="screen" href="/assets/css/accountPage.css?v=<?php print VERSION; ?>" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/static/css/accountPage.css?v=<?php print VERSION; ?>" />
 	<!-- Fonts -->
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/calibri/calibri.css?v=<?php print VERSION; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/assets/fonts/nunito/nunito.css?v=<?php print VERSION; ?>" />
@@ -106,7 +106,7 @@
 	<script src="/assets/js/errorHandler.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 	<script src="/assets/js/statusBar.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 	<script src="/assets/js/sounds.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
-	<script src="/assets/js/account.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
+	<script src="/static/js/account.js?v=<?php print VERSION; ?>" type="text/javascript"></script>
 
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=<?php print TRACK_ID; ?>"></script>
