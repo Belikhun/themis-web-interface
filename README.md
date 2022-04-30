@@ -1,3 +1,8 @@
+> ### v2 Is in Progress!
+> I've decided to scrap v1 as I think I'm leading it the wrong way. v2 will be a complete rewritten with routing and OOP in hope of making this easier to maintain and implement new features. This can be found in the new `rewrite` branch.
+>
+> Be noted that this is my free-time project, so please don't expect this will be done in a fast manner.
+
 <div align="center">
 
 # Themis Web Interface
