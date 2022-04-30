@@ -1,7 +1,0 @@
-# This sets up expire times 
-# BEGIN Expire headers
-<IfModule mod_headers.c>
-	# Expire after 1 WEEK
-	Header set Cache-Control "public, max-age=604800"
-</IfModule>
-# END Expire headers
