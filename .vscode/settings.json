@@ -3,5 +3,50 @@
     "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
     "livereload.exclusions": ".DS_Store,.gitignore,.git,.svn,.hg,html,js,cache,json,py,php",
     "livereload.exts": "css",
-    "discord.enabled": true
+    "discord.enabled": true,
+    "psi-header.templates": [
+        {
+            "language": "*",
+            "template": [
+                "<<filerelativepath>>",
+                "",
+                "File Description",
+                "",
+                "@author    <<author>>",
+                "@since     <<version>>",
+                "@license   https://tldrlegal.com/license/mit-license MIT",
+                "",
+                "Copyright (C) 2018-<<dateformat('YYYY')>> Belikhun. All right reserved",
+                "See LICENSE in the project root for license information."
+            ]
+        }
+    ],
+    "psi-header.license-reference": {
+        "uri": "LICENSE"
+    },
+    "psi-header.variables": [
+        ["version", "2.0.0"]
+    ],
+    "psi-header.lang-config": [
+        {
+            "language": "php",
+            "begin": "/**",
+            "prefix": " * ",
+            "end": " */"
+        },
+
+        {
+            "language": "css",
+            "begin": "/**",
+            "prefix": " * ",
+            "end": " */"
+        },
+
+        {
+            "language": "js",
+            "begin": "/**",
+            "prefix": " * ",
+            "end": " */"
+        }
+    ]
 }

@@ -1,18 +1,2 @@
-# Data
-data/log.json
-data/avatar/*
-data/accounts/*
-data/config.json
-data/images/*
-data/problems/*
-!data/avatar/avatar.default
-!data/problems/thumbnail.default
-playground.php
-
-# Cache Folder
-.cache
-
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-log.txt
+/config.php
+/data/*

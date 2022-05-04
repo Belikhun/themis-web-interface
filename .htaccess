@@ -1,0 +1,16 @@
+Options +FollowSymLinks -Indexes
+Order allow,deny
+Allow from all
+Require all granted
+
+# Disable mod_dir to prevent redirecting.
+<IfModule rewrite_module>
+	# Rewrite url
+	RewriteEngine on
+	RewriteCond %{THE_REQUEST} \s\/+(.*)\sHTTP [NC]
+	RewriteRule ^(.*)$ index.php?path=/%1 [NC,L]
+</IfModule>
+
+# Rewrite URL to /local/api to remove .php extension and handle custom routing
+# This rule is for nginx
+# rewrite ^(\/local\/api\/.*)$ /local/api/route.php?path=$1&params=$args last;
