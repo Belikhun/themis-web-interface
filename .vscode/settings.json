@@ -8,7 +8,7 @@
         {
             "language": "*",
             "template": [
-                "<<filerelativepath>>",
+                "<<filename>>",
                 "",
                 "File Description",
                 "",
@@ -48,5 +48,6 @@
             "prefix": " * ",
             "end": " */"
         }
-    ]
+    ],
+    "php.format.codeStyle": "Off"
 }
