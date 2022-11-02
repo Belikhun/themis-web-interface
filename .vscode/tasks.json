@@ -6,7 +6,7 @@
 		{
 			"label": "[LOG] error.log",
 			"type": "shell",
-			"command": "wsl lnav",
+			"command": "code",
 			"args": [
 				"../core/apache2/logs/error.log"
 			],

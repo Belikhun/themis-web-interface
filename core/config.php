@@ -9,11 +9,16 @@
 class ConfigPathProperty {}
 
 /**
- * Config
+ * config.php
  * 
- * @copyright	2022 Belikhun
- * @author		Belikhun <belivipro9x99@gmail.com>
- * @license		https://tldrlegal.com/license/mit-license MIT
+ * Predefine configs that web core needed in order to function.
+ * 
+ * @author    Belikhun
+ * @since     2.0.0
+ * @license   https://tldrlegal.com/license/mit-license MIT
+ * 
+ * Copyright (C) 2018-2022 Belikhun. All right reserved
+ * See LICENSE in the project root for license information.
  */
 class CoreConfig {
 	/**

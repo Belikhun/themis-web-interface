@@ -3,7 +3,8 @@ Order allow,deny
 Allow from all
 Require all granted
 
-# Disable mod_dir to prevent redirecting.
+#!!! IMPORTANT:
+#!!! Disable mod_dir to prevent redirecting.
 <IfModule rewrite_module>
 	# Rewrite url
 	RewriteEngine on

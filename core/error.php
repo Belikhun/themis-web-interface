@@ -1,47 +1,17 @@
 <?php
-
-function renderSourceCode($file, $line, $count = 10) {
-	$content = (new FileIO($file)) -> read();
-	$lines = explode("\n", $content);
-
-	$from = $line - floor($count / 2);
-	$to = $line + ceil($count / 2);
-	$max = count($lines) - 1;
-
-	if ($from < 0) {
-		$to -= $from;
-		$from = 0;
-
-		if ($to > $max)
-			$to = $max;
-	} else if ($to > $max) {
-		$from -= $to - $max;
-		$to = $max;
-
-		if ($from < 0)
-			$from = 0;
-	}
-
-	echo HTMLBuilder::startDIV(Array( "class" => "sourceCode" ));
-	echo HTMLBuilder::div(Array( "class" => "file" ), getRelativePath($file) . ":$line");
-
-	for ($i = $from; $i <= $to; $i++) {
-		$code = trim($lines[$i], "\n\r");
-		$classes = Array( "line" );
-
-		if ($i == $line - 1)
-			$classes[] = "current";
-
-		echo HTMLBuilder::startDIV(Array( "class" => $classes ));
-		?>
-		<span class="num"><?php echo $i; ?></span>
-		<code><?php echo htmlspecialchars($code); ?></code>
-		<?php
-		echo HTMLBuilder::endDIV();
-	}
-
-	echo HTMLBuilder::endDIV();
-}
+/**
+ * error.php
+ * 
+ * Genetic error page. Used when page haven't registered its own
+ * error page.
+ * 
+ * @author    Belikhun
+ * @since     2.0.0
+ * @license   https://tldrlegal.com/license/mit-license MIT
+ * 
+ * Copyright (C) 2018-2022 Belikhun. All right reserved
+ * See LICENSE in the project root for license information.
+ */
 
 $styles = (new FileIO(CORE_ROOT . "/error.css")) -> read();
 

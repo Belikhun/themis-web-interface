@@ -1,11 +1,16 @@
 <?php
 
 /**
+ * DB.php
+ * 
  * Interface for interacting with the DB, using mysqli driver.
  * 
- * @copyright	2022 Belikhun
- * @author		Belikhun <belivipro9x99@gmail.com>
- * @license		https://tldrlegal.com/license/mit-license MIT
+ * @author    Belikhun
+ * @since     2.0.0
+ * @license   https://tldrlegal.com/license/mit-license MIT
+ * 
+ * Copyright (C) 2018-2022 Belikhun. All right reserved
+ * See LICENSE in the project root for license information.
  */
 class DB {
 	/** @var mysqli */
@@ -27,18 +32,18 @@ class DB {
 	);
 
 	public static function connect($host, $username, $password, $database) {
-		if (self::$connected)
+		if (static::$connected)
 			return;
 
 		mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-		self::$mysqli = new mysqli(
+		static::$mysqli = new mysqli(
 			$host,
 			$username,
 			$password,
 			$database
 		);
 
-		self::$connected = true;
+		static::$connected = true;
 	}
 
 	/**
@@ -58,7 +63,7 @@ class DB {
 		int $from = 0,
 		int $limit = 0
 	) {
-		if (empty(self::$mysqli))
+		if (empty(static::$mysqli))
 			stop(DB_NOT_INITIALIZED, "DB haven't been initialized yet! Please initialize it first by using DB::connect()", 500);
 
 		$sql = trim($sql);
@@ -94,11 +99,11 @@ class DB {
 		$types = "";
 		if (!empty($params)) {
 			foreach ($params as $value)
-				$types = $types . self::$types[gettype($value)] ?: "s";
+				$types = $types . static::$types[gettype($value)] ?: "s";
 		}
 
 		try {
-			$stmt = self::$mysqli -> prepare($sql);
+			$stmt = static::$mysqli -> prepare($sql);
 		} catch(mysqli_sql_exception $e) {
 			throw new SQLError(
 				$e -> getCode(),
@@ -109,8 +114,8 @@ class DB {
 
 		if ($stmt === false) {
 			throw new SQLError(
-				self::$mysqli -> errno,
-				self::$mysqli -> error,
+				static::$mysqli -> errno,
+				static::$mysqli -> error,
 				$sql
 			);
 		}
@@ -125,8 +130,8 @@ class DB {
 		// Check for error
 		if ($stmt -> errno) {
 			throw new SQLError(
-				self::$mysqli -> errno,
-				self::$mysqli -> error,
+				static::$mysqli -> errno,
+				static::$mysqli -> error,
 				$sql
 			);
 		}
@@ -154,13 +159,13 @@ class DB {
 		// number of affected rows on update mode.
 		switch ($mode) {
 			case SQL_INSERT:
-				$id = @self::$mysqli -> insert_id;
+				$id = @static::$mysqli -> insert_id;
 				break;
 
 			case SQL_UPDATE:
 			case SQL_DELETE:
 			case SQL_TRUNCATE:
-				$affected = @self::$mysqli -> affected_rows;
+				$affected = @static::$mysqli -> affected_rows;
 				break;
 		}
 
@@ -272,7 +277,7 @@ class DB {
 		if (is_array($fields))
 			$fields = implode(", ", $fields);
 
-		list($select, $params) = self::whereClause($conditions);
+		list($select, $params) = static::whereClause($conditions);
 
 		if (!empty($select))
 			$select = "WHERE $select";
@@ -284,7 +289,7 @@ class DB {
 		$metric = new \Metric\Query("SELECT", $table);
 
 		$sql = "SELECT $fields FROM `$table` $select $sort";
-		$results = self::execute($sql, $params, $from, $limit);
+		$results = static::execute($sql, $params, $from, $limit);
 
 		$metric -> time(count($results));
 		return $results;
@@ -309,7 +314,7 @@ class DB {
 		String $fields = "*",
 		String $sort = ""
 	) {
-		$records = self::records($table, $conditions, $sort, $fields, 0, 1);
+		$records = static::records($table, $conditions, $sort, $fields, 0, 1);
 
 		if (empty($records) || empty($records[0]))
 			return null;
@@ -355,7 +360,7 @@ class DB {
 		// Record Metric
 		$metric = new \Metric\Query("INSERT", $table);
 
-		$results = self::execute($sql, $values);
+		$results = static::execute($sql, $values);
 		$metric -> time(1);
 		return $results;
 	}
@@ -400,7 +405,7 @@ class DB {
 		// Record Metric
 		$metric = new \Metric\Query("INSERT", $table);
 		
-		$affected = self::execute($sql, $values);
+		$affected = static::execute($sql, $values);
 		$metric -> time($affected);
 		return ($affected > 0);
 	}
@@ -420,7 +425,7 @@ class DB {
 	public static function exist(String $table, Array $conditions = Array()) {
 		// Select 'X' to find if a row exist!
 		// https://stackoverflow.com/questions/7624376/what-is-select-x
-		$record = self::record($table, $conditions, "'x'");
+		$record = static::record($table, $conditions, "'x'");
 		return !empty($record);
 	}
 
@@ -436,7 +441,7 @@ class DB {
 	 * @return	int
 	 */
 	public static function count(String $table, Array $conditions = Array()) {
-		$count = self::record($table, $conditions, "COUNT('x')");
+		$count = static::record($table, $conditions, "COUNT('x')");
 		$count = (int) $count -> {"COUNT('x')"};
 
 		if ($count < 0)
@@ -462,12 +467,12 @@ class DB {
 			// Record Metric
 			$metric = new \Metric\Query("TRUNCATE", $table);
 			
-			$affected = self::execute("TRUNCATE TABLE {" . $table . "}");
+			$affected = static::execute("TRUNCATE TABLE {" . $table . "}");
 			$metric -> time($affected);
 			return $affected;
 		}
 		
-		list($select, $params) = self::whereClause($conditions);
+		list($select, $params) = static::whereClause($conditions);
 
 		if (!empty($select))
 			$select = "WHERE $select";
@@ -477,7 +482,7 @@ class DB {
 		// Record Metric
 		$metric = new \Metric\Query("TRUNCATE", $table);
 
-		$affected = self::execute($sql, $params);
+		$affected = static::execute($sql, $params);
 		$metric -> time($affected);
 			return $affected;
 	}

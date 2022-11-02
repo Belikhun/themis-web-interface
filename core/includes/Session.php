@@ -1,5 +1,16 @@
 <?php
-
+/**
+ * Session.php
+ * 
+ * Represent current active session.
+ * 
+ * @author    Belikhun
+ * @since     2.0.0
+ * @license   https://tldrlegal.com/license/mit-license MIT
+ * 
+ * Copyright (C) 2018-2022 Belikhun. All right reserved
+ * See LICENSE in the project root for license information.
+ */
 class Session {
 	/**
 	 * Session lifespan. Default to 1 day.

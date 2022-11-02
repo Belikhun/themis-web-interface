@@ -1,11 +1,8 @@
 <?php
 /**
- * Config.php
+ * config.default.php
  * 
- * Default CONFIG class.
- * 
- * Default fallback global config class if
- * site haven't defined it own config yet!
+ * Configuration file.
  * 
  * @author    Belikhun
  * @since     2.0.0
@@ -15,4 +12,4 @@
  * See LICENSE in the project root for license information.
  */
 
-class CONFIG extends \CoreConfig {}
+CONFIG::$APP_NAME = "Themis Web Interface";

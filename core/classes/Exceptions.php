@@ -1,4 +1,16 @@
 <?php
+/**
+ * Exceptions.php
+ * 
+ * Web core built in exceptions.
+ * 
+ * @author    Belikhun
+ * @since     2.0.0
+ * @license   https://tldrlegal.com/license/mit-license MIT
+ * 
+ * Copyright (C) 2018-2022 Belikhun. All right reserved
+ * See LICENSE in the project root for license information.
+ */
 
 class InvalidValue extends GeneralException {
 	public function __construct(String $value, String $type) {

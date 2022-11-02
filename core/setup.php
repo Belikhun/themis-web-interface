@@ -1,10 +1,16 @@
 <?php
 /**
- * Index file to init session and handle routing.
+ * setup.php
  * 
- * @copyright	2022 Belikhun
- * @author		Belikhun <belivipro9x99@gmail.com>
- * @license		https://tldrlegal.com/license/mit-license MIT
+ * Web core setup file for initializing components,
+ * session and handle current request's routing.
+ * 
+ * @author    Belikhun
+ * @since     2.0.0
+ * @license   https://tldrlegal.com/license/mit-license MIT
+ * 
+ * Copyright (C) 2018-2022 Belikhun. All right reserved
+ * See LICENSE in the project root for license information.
  */
 
 setlocale(LC_TIME, "vi_VN.UTF-8");
@@ -102,6 +108,11 @@ if (file_exists(BASE_PATH . "/config.store.php")) {
 // Initialize session
 if (class_exists("Session"))
 	\Session::start();
+
+//* ================== Additional Page Setup ==================
+
+if (file_exists(BASE_PATH . "/setup.php"))
+	require_once BASE_PATH . "/setup.php";
 
 //* ================== Handle Page Routing ==================
 
