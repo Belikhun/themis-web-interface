@@ -1,8 +1,11 @@
 <?php
+
+namespace DB;
+
 /**
- * \LDB.php
+ * DB.SQLite3.php
  * 
- * Interface for interacting with the DB, using SQLite driver.
+ * SQLite3 database driver.
  * 
  * @author    Belikhun
  * @since     2.0.0
@@ -11,79 +14,81 @@
  * Copyright (C) 2018-2022 Belikhun. All right reserved
  * See LICENSE in the project root for license information.
  */
-
-class LDB extends DB {
+class SQLite3 extends \DB {
 	/**
 	 * Database instance
 	 * @var SQLite3
 	 */
-	public static $INST;
+	public $instance;
 	
 	/**
-	 * Database base path
+	 * Database data base path
 	 * @var	String
 	 */
-	public static $PATH;
+	public $path;
 	
 	/**
 	 * Database file name
 	 * @var	String
 	 */
-	public static $FILE = "database.db";
+	public $file = "database.db";
 
 	/**
 	 * DB connection state
 	 * @var bool
 	 */
-	public static $CONNECTED = false;
+	public $connected = false;
 
-	protected static $TYPES = Array(
-		"double" => SQLITE3_FLOAT,
-		"string" => SQLITE3_TEXT,
-		"integer" => SQLITE3_INTEGER,
-		"array" => SQLITE3_BLOB,
-		"boolean" => SQLITE3_INTEGER,
-		"NULL" => SQLITE3_NULL
-	);
-
-	protected static function filePath() {
-		return static::$PATH . "/" . static::$FILE;
+	public function getType(String $type): int {
+		return Array(
+			"double" => SQLITE3_FLOAT,
+			"string" => SQLITE3_TEXT,
+			"integer" => SQLITE3_INTEGER,
+			"array" => SQLITE3_BLOB,
+			"boolean" => SQLITE3_INTEGER,
+			"NULL" => SQLITE3_NULL
+		)[$type] ?: SQLITE3_TEXT;
 	}
 
-	public static function connect($host = null, $username = null, $password = null, $database = null) {
-		static::setup();
+	protected function filePath() {
+		return $this -> path . "/" . $this -> file;
 	}
 
-	public static function setup() {
-		if (static::$CONNECTED)
+	public function connect(Array $options) {
+		$this -> path = $options["path"];
+		$this -> setup();
+	}
+
+	public function setup() {
+		if ($this -> connected)
 			return;
 
-		if (!file_exists(static::filePath())) {
-			static::init();
+		if (!file_exists($this -> filePath())) {
+			$this -> init();
 			return;
 		}
 
-		static::$INST = new SQLite3(static::filePath());
-		static::$CONNECTED = true;
+		$this -> instance = new \SQLite3($this -> filePath());
+		$this -> connected = true;
 	}
 
 	/**
 	 * Initialize Database
 	 */
-	public static function init() {
-		static::$INST = new SQLite3(static::filePath());
+	public function init() {
+		$this -> instance = new \SQLite3($this -> filePath());
 
-		$tables = glob(static::$PATH . "/tables/*.sql");
+		$tables = glob($this -> path . "/tables/*.sql");
 		foreach ($tables as $table) {
-			$content = (new FileIO($table)) -> read();
+			$content = (new \FileIO($table)) -> read();
 
 			if (empty($content))
 				continue;
 
-			if (!static::$INST -> exec($content)) {
-				throw new SQLError(
-					static::$INST -> lastErrorCode(),
-					static::$INST -> lastErrorMsg(),
+			if (!$this -> instance -> exec($content)) {
+				throw new \SQLError(
+					$this -> instance -> lastErrorCode(),
+					$this -> instance -> lastErrorMsg(),
 					$content
 				);
 			}
@@ -101,15 +106,12 @@ class LDB extends DB {
 	 * 								id in insert mode, and number of affected row
 	 * 								in update mode.
 	 */
-	public static function execute(
+	public function execute(
 		String $sql,
 		Array $params = null,
 		int $from = 0,
 		int $limit = 0
-	) {
-		if (empty(static::$INST))
-			stop(DB_NOT_INITIALIZED, "DB haven't been initialized yet! Please initialize it first by using DB::connect()", 500);
-
+	): Object|Array|int {
 		$sql = trim($sql);
 
 		// Detect current mode
@@ -124,14 +126,14 @@ class LDB extends DB {
 		else if (str_starts_with($sql, SQL_TRUNCATE))
 			$mode = SQL_TRUNCATE;
 		else
-			throw new CodingError("DB::execute(): cannot detect sql execute mode");
+			throw new \CodingError("\$DB -> execute(): cannot detect sql execute mode");
 
 		$from = max($from, 0);
 		$limit = max($limit, 0);
 
 		if ($from || $limit) {
 			if ($mode !== SQL_SELECT)
-				throw new CodingError("DB::execute(): \$from and \$limit can only be used in SELECT mode!");
+				throw new \CodingError("\$DB -> execute(): \$from and \$limit can only be used in SELECT mode!");
 
 			if ($limit < 1)
 				$limit = "18446744073709551615";
@@ -139,18 +141,18 @@ class LDB extends DB {
 			$sql .= " LIMIT $limit OFFSET $from";
 		}
 
-		$stmt = static::$INST -> prepare($sql);
+		$stmt = $this -> instance -> prepare($sql);
 
 		if ($stmt === false) {
-			throw new SQLError(
-				static::$INST -> lastErrorCode(),
-				static::$INST -> lastErrorMsg(),
+			throw new \SQLError(
+				$this -> instance -> lastErrorCode(),
+				$this -> instance -> lastErrorMsg(),
 				$sql
 			);
 		}
 
 		foreach ($params as $key => $value) {
-			$type = static::$TYPES[gettype($value)] ?: SQLITE3_TEXT;
+			$type = $this -> getType(gettype($value));
 			$stmt -> bindValue($key, $value, $type);
 		}
 
@@ -158,9 +160,9 @@ class LDB extends DB {
 
 		// Check for error
 		if ($res === false) {
-			throw new SQLError(
-				static::$INST -> lastErrorCode(),
-				static::$INST -> lastErrorMsg(),
+			throw new \SQLError(
+				$this -> instance -> lastErrorCode(),
+				$this -> instance -> lastErrorMsg(),
 				$sql
 			);
 		}
@@ -187,13 +189,13 @@ class LDB extends DB {
 		// number of affected rows on update mode.
 		switch ($mode) {
 			case SQL_INSERT:
-				$id = @static::$INST -> lastInsertRowID();
+				$id = @$this -> instance -> lastInsertRowID();
 				break;
 
 			case SQL_UPDATE:
 			case SQL_DELETE:
 			case SQL_TRUNCATE:
-				$affected = @static::$INST -> changes();
+				$affected = @$this -> instance -> changes();
 				break;
 		}
 
@@ -209,7 +211,7 @@ class LDB extends DB {
 				return $affected;
 			
 			default:
-				throw new GeneralException(UNKNOWN_ERROR, "DB::execute(): Something went really wrong!", 500);
+				throw new \GeneralException(UNKNOWN_ERROR, "\$DB -> execute(): Something went really wrong!", 500);
 		}
 	}
 }

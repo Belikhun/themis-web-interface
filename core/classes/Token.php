@@ -47,14 +47,17 @@ class Token {
 	}
 
 	public function renew() {
+		global $DB;
+
 		$this -> created = time();
 		$this -> expire = $this -> created + CONFIG::$TOKEN_LIFETIME;
 
-		DB::update("tokens", $this);
+		$DB -> update("tokens", $this);
 	}
 
 	public static function getToken(String $token) {
-		$record = DB::record("tokens", Array( "token" => $token ));
+		global $DB;
+		$record = $DB -> record("tokens", Array( "token" => $token ));
 
 		if (empty($record))
 			throw new InvalidToken();
@@ -74,7 +77,8 @@ class Token {
 	 * @return	\Token
 	 */
 	public static function get(String $username) {
-		$record = DB::record("tokens", Array( "username" => $username ));
+		global $DB;
+		$record = $DB -> record("tokens", Array( "username" => $username ));
 
 		if (empty($record))
 			return self::createToken($username);
@@ -94,11 +98,13 @@ class Token {
 	 * @return	\Token
 	 */
 	public static function createToken(String $username) {
+		global $DB;
+		
 		$token = bin2hex(random_bytes(64));
 		$created = time();
 		$expire = $created + CONFIG::$TOKEN_LIFETIME;
 
-		$id = DB::insert("tokens", Array(
+		$id = $DB -> insert("tokens", Array(
 			"token" => $token,
 			"created" => $created,
 			"expire" => $expire,

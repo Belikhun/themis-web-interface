@@ -38,6 +38,8 @@ class Search {
 		int $page = 0,
 		int $limit = 20
 	) {
+		global $DB;
+		
 		$from = ($page - 1) * $limit;
 		$total = 0;
 
@@ -48,7 +50,7 @@ class Search {
 			$sql = "SELECT * FROM `$table` WHERE $where";
 
 			if (!empty($conditions)) {
-				list($cWhere, $cParams) = DB::whereClause($conditions);
+				list($cWhere, $cParams) = $DB -> whereClause($conditions);
 				$sql .= " AND $cWhere";
 				$params = array_merge($params, $cParams);
 			}
@@ -56,13 +58,13 @@ class Search {
 			if (!empty($sort))
 				$sql .= " ORDER BY $sort";
 
-			$total = DB::execute("SELECT COUNT('x') FROM `$table` WHERE $where", $params)[0];
+			$total = $DB -> execute("SELECT COUNT('x') FROM `$table` WHERE $where", $params)[0];
 			$total = (int) $total -> {"COUNT('x')"};
 		
-			$records = DB::execute($sql, $params, from: $from, limit: $limit);
+			$records = $DB -> execute($sql, $params, from: $from, limit: $limit);
 		} else {
-			$total = DB::count($table, $conditions);
-			$records = DB::records($table, $conditions, $sort, from: $from, limit: $limit);
+			$total = $DB -> count($table, $conditions);
+			$records = $DB -> records($table, $conditions, $sort, from: $from, limit: $limit);
 		}
 		
 		return Array($records, new PageInfo($from, $limit, $total));

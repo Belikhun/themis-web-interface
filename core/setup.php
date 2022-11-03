@@ -109,6 +109,48 @@ if (file_exists(BASE_PATH . "/config.store.php")) {
 if (class_exists("Session"))
 	\Session::start();
 
+//* ================== Initialize Database ==================
+
+/**
+ * Global Database Instance. Initialized based on type of
+ * SQL driver specified in config.
+ * 
+ * @var \DB
+ */
+global $DB;
+
+require_once CORE_ROOT . "/db/DB.Abstract.php";
+$DB_DRIVER_PATH = CORE_ROOT . "/db/DB." . CONFIG::$DB_DRIVER . ".php";
+
+if (file_exists($DB_DRIVER_PATH)) {
+	require_once $DB_DRIVER_PATH;
+	$className = "\\DB\\" . CONFIG::$DB_DRIVER;
+
+	if (!class_exists($className) || !in_array("DB", class_parents($className)))
+		throw new InvalidSQLDriver(CONFIG::$DB_DRIVER);
+
+	$DB = new $className();
+
+	switch (CONFIG::$DB_DRIVER) {
+		case "SQLite3":
+			$DB -> connect(Array(
+				"path" => CONFIG::$DB_PATH
+			));
+			break;
+	
+		default:
+			// We default the config arguments to standard info
+			// like mysqli.
+			$DB -> connect(Array(
+				"host" => CONFIG::$DB_HOST,
+				"username" => CONFIG::$DB_USER,
+				"password" => CONFIG::$DB_PASS,
+				"database" => CONFIG::$DB_NAME
+			));
+	}
+} else
+	throw new SQLDriverNotFound(CONFIG::$DB_DRIVER);
+
 //* ================== Additional Page Setup ==================
 
 if (file_exists(BASE_PATH . "/setup.php"))

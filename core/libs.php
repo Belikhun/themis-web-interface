@@ -768,7 +768,7 @@ function renderSourceCode(String $file, int $line, int $count = 10) {
 
 		echo HTMLBuilder::startDIV(Array( "class" => $classes ));
 		?>
-		<span class="num"><?php echo $i; ?></span>
+		<span class="num"><?php echo $i + 1; ?></span>
 		<code><?php echo htmlspecialchars($code); ?></code>
 		<?php
 		echo HTMLBuilder::endDIV();

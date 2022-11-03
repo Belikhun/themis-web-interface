@@ -29,6 +29,5 @@ class CONFIG extends CoreConfig {
 	);
 }
 
-CONFIG::$INCLUDES[] = BASE_PATH . "/db";
 CONFIG::$INCLUDES[] = BASE_PATH . "/includes";
 CONFIG::$INCLUDES[] = BASE_PATH . "/classes";

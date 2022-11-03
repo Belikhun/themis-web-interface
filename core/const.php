@@ -60,6 +60,7 @@ define("INVALID_FILE", 206);
 define("INVALID_HASH", 207);
 define("MAX_LENGTH_EXCEEDED", 208);
 define("INVALID_URL", 209);
+define("FILE_INSTANCE_NOT_FOUND", 209);
 
 define("ACCESS_DENIED", 300);
 define("LOGGED_IN", 301);
@@ -69,6 +70,8 @@ define("NOT_LOGGED_IN", 304);
 define("USER_EXIST", 305);
 
 define("SQL_ERROR", 400);
+define("SQL_DRIVER_NOT_FOUND", 401);
+define("INVALID_SQL_DRIVER", 402);
 
 define("INVALID_TOKEN", 500);
 define("INVALID_SECRET", 501);

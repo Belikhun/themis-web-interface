@@ -30,10 +30,13 @@ class CoreConfig {
 	public static int		$SESSION_LIFETIME = 86400;
 	public static int		$TOKEN_LIFETIME = 86400;
 
+
+	public static String	$DB_DRIVER = "MySQLi";
 	public static String	$DB_HOST = "127.0.0.1";
 	public static String	$DB_USER = "";
 	public static String	$DB_PASS = "";
 	public static String	$DB_NAME = "";
+	public static String	$DB_PATH = BASE_PATH . "/db";
 
 	#[ConfigPathProperty]
 	public static String	$FILES_ROOT = DATA_ROOT . "/files";

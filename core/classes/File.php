@@ -48,6 +48,8 @@ class File {
 	}
 
 	public function save() {
+		global $DB;
+
 		$record = Array(
 			"hash" => $this -> hash,
 			"filename" => $this -> filename,
@@ -60,9 +62,9 @@ class File {
 
 		if ($this -> isValidID()) {
 			$record["id"] = $this -> id;
-			DB::update("files", $record);
+			$DB -> update("files", $record);
 		} else {
-			$this -> id = DB::insert("files", $record);
+			$this -> id = $DB -> insert("files", $record);
 		}
 	}
 	
@@ -149,7 +151,8 @@ class File {
 
 
 	public static function getByHash(String $hash) {
-		$record = DB::record("files", Array("hash" => $hash));
+		global $DB;
+		$record = $DB -> record("files", Array("hash" => $hash));
 
 		if (empty($record))
 			throw new FileInstanceNotFound($hash);
@@ -158,7 +161,8 @@ class File {
 	}
 
 	public static function getByID(int $id) {
-		$record = DB::record("files", Array("id" => $id));
+		global $DB;
+		$record = $DB -> record("files", Array("id" => $id));
 
 		if (empty($record))
 			throw new FileInstanceNotFound($id);
@@ -172,6 +176,8 @@ class File {
 	 * @return	\File
 	 */
 	public static function processFile($file) {
+		global $DB;
+		
 		switch ($file["error"]) {
 			case UPLOAD_ERR_OK:
 				break;
@@ -188,7 +194,7 @@ class File {
 
 		// Check if file is already exist. If so
 		// we don"t need to create new record for it.
-		$record = DB::record("files", Array("hash" => $hash));
+		$record = $DB -> record("files", Array("hash" => $hash));
 		if (!empty($record))
 			return self::processRecord($record);
 

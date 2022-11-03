@@ -47,12 +47,12 @@ $styles = (new FileIO(CORE_ROOT . "/error.css")) -> read();
 					<div class="error"><?php echo $detail; ?></div>
 
 					<?php if (isset($data["file"]) && isset($data["line"])) {
-						renderSourceCode(BASE_PATH . $data["file"], $data["line"]);
+						renderSourceCode(BASE_PATH . $data["file"], $data["line"], 20);
 					} ?>
 
 					<?php if (isset($data["trace"])) {
 						foreach ($data["trace"] as $trace)
-							renderSourceCode($trace["file"], $trace["line"]);
+							renderSourceCode($trace["file"], $trace["line"], 10);
 					} ?>
 
 					<details>

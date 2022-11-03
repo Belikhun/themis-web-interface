@@ -26,6 +26,18 @@ class MaxLengthExceeded extends GeneralException {
 
 class FileInstanceNotFound extends GeneralException {
 	public function __construct(String $hash) {
-		parent::__construct(MAX_LENGTH_EXCEEDED, "Không tồn tại tệp với mã $hash trong cơ sở dữ liệu!", 404);
+		parent::__construct(FILE_INSTANCE_NOT_FOUND, "Không tồn tại tệp với mã $hash trong cơ sở dữ liệu!", 404);
+	}
+}
+
+class SQLDriverNotFound extends GeneralException {
+	public function __construct(String $name) {
+		parent::__construct(SQL_DRIVER_NOT_FOUND, "Không tồn tại driver SQL với tên \"$name\"!", 500);
+	}
+}
+
+class InvalidSQLDriver extends GeneralException {
+	public function __construct(String $name) {
+		parent::__construct(INVALID_SQL_DRIVER, "Driver SQL \"$name\" không hợp lệ! Có thể driver này chưa được định nghĩa hoặc chưa kế thừa từ \"\\DB\"!", 500);
 	}
 }

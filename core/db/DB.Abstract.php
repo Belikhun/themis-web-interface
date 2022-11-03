@@ -1,9 +1,9 @@
 <?php
 
 /**
- * DB.php
+ * db.abstract.php
  * 
- * Interface for interacting with the DB, using mysqli driver.
+ * Abstract class for DB.
  * 
  * @author    Belikhun
  * @since     2.0.0
@@ -12,39 +12,29 @@
  * Copyright (C) 2018-2022 Belikhun. All right reserved
  * See LICENSE in the project root for license information.
  */
-class DB {
-	/** @var mysqli */
-	public static $mysqli;
-
+abstract class DB {
 	/**
 	 * DB connection state
 	 * @var bool
 	 */
-	public static $connected = false;
+	public $connected = false;
 
-	protected static $types = Array(
-		"string" => "s",
-		"double" => "d",
-		"integer" => "i",
-		"array" => "b",
-		"boolean" => "i",
-		"NULL" => "i",
-	);
+	/**
+	 * Return variable type from `gettype()` to
+	 * current sql driver.
+	 */
+	abstract public function getType(String $type): String|int;
 
-	public static function connect($host, $username, $password, $database) {
-		if (static::$connected)
-			return;
-
-		mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-		static::$mysqli = new mysqli(
-			$host,
-			$username,
-			$password,
-			$database
-		);
-
-		static::$connected = true;
-	}
+	/**
+	 * Create a new connection to database.
+	 * This function might need some additional arguments
+	 * based on type of drivers used.
+	 * 
+	 * @param	Array	$options	Arguments to pass into connect
+	 * 								function. This will vary based on
+	 * 								each sql drivers.
+	 */
+	abstract public function connect(Array $options);
 
 	/**
 	 * Execute a SQL query.
@@ -57,133 +47,12 @@ class DB {
 	 * 								id in insert mode, and number of affected row
 	 * 								in update mode.
 	 */
-	public static function execute(
+	abstract public function execute(
 		String $sql,
 		Array $params = null,
 		int $from = 0,
 		int $limit = 0
-	) {
-		if (empty(static::$mysqli))
-			stop(DB_NOT_INITIALIZED, "DB haven't been initialized yet! Please initialize it first by using DB::connect()", 500);
-
-		$sql = trim($sql);
-
-		// Detect current mode
-		if (str_starts_with($sql, SQL_SELECT))
-			$mode = SQL_SELECT;
-		else if (str_starts_with($sql, SQL_INSERT))
-			$mode = SQL_INSERT;
-		else if (str_starts_with($sql, SQL_UPDATE))
-			$mode = SQL_UPDATE;
-		else if (str_starts_with($sql, SQL_DELETE))
-			$mode = SQL_DELETE;
-		else if (str_starts_with($sql, SQL_TRUNCATE))
-			$mode = SQL_TRUNCATE;
-		else
-			throw new CodingError("DB::execute(): cannot detect sql execute mode");
-
-		$from = max($from, 0);
-		$limit = max($limit, 0);
-
-		if ($from || $limit) {
-			if ($mode !== SQL_SELECT)
-				throw new CodingError("DB::execute(): \$from and \$limit can only be used in SELECT mode!");
-
-			if ($limit < 1)
-				$limit = "18446744073709551615";
-			
-			$sql .= " LIMIT $from, $limit";
-		}
-
-		// Generate types string.
-		$types = "";
-		if (!empty($params)) {
-			foreach ($params as $value)
-				$types = $types . static::$types[gettype($value)] ?: "s";
-		}
-
-		try {
-			$stmt = static::$mysqli -> prepare($sql);
-		} catch(mysqli_sql_exception $e) {
-			throw new SQLError(
-				$e -> getCode(),
-				$e -> getMessage(),
-				$sql
-			);
-		}
-
-		if ($stmt === false) {
-			throw new SQLError(
-				static::$mysqli -> errno,
-				static::$mysqli -> error,
-				$sql
-			);
-		}
-
-		if (!empty($params)) {
-			$vals = array_values($params);
-			$stmt -> bind_param($types, ...$vals);
-		}
-
-		$stmt -> execute();
-
-		// Check for error
-		if ($stmt -> errno) {
-			throw new SQLError(
-				static::$mysqli -> errno,
-				static::$mysqli -> error,
-				$sql
-			);
-		}
-
-		$res = $stmt -> get_result();
-		if (!is_bool($res)) {
-			$rows = Array();
-
-			while ($row = $res -> fetch_array(MYSQLI_ASSOC)) {
-				$row = (Object) $row;
-	
-				if (isset($row -> id))
-					$row -> id = (int) $row -> id;
-	
-				$rows[] = $row;
-			}
-
-			return $rows;
-		}
-
-		$id = null;
-		$affected = 0;
-
-		// Return the inserted record id when in insert mode and
-		// number of affected rows on update mode.
-		switch ($mode) {
-			case SQL_INSERT:
-				$id = @static::$mysqli -> insert_id;
-				break;
-
-			case SQL_UPDATE:
-			case SQL_DELETE:
-			case SQL_TRUNCATE:
-				$affected = @static::$mysqli -> affected_rows;
-				break;
-		}
-
-		$stmt -> close();
-
-		switch ($mode) {
-			case SQL_INSERT:
-				return $id;
-
-			case SQL_UPDATE:
-			case SQL_DELETE:
-			case SQL_TRUNCATE:
-				return $affected;
-			
-			default:
-				throw new GeneralException(UNKNOWN_ERROR, "DB::execute(): Something went really wrong!", 500);
-		}
-	}
+	): Object|Array|int;
 
 	/**
      * Returns the SQL WHERE conditions.
@@ -214,7 +83,7 @@ class DB {
 			if (is_array($value)) {
 				// Don't accept empty array.
 				if (empty($value))
-					throw new CodingError("DB::whereClause(): value of array \"$key\" is empty!");
+					throw new CodingError("\$DB -> whereClause(): value of array \"$key\" is empty!");
 
 				$cond = Array();
 
@@ -266,7 +135,7 @@ class DB {
 	 * @param	String		$fields		A valid SELECT value.
 	 * @return	Object[]
 	 */
-	public static function records(
+	public function records(
 		String $table,
 		Array $conditions = Array(),
 		String $sort = "",
@@ -289,7 +158,7 @@ class DB {
 		$metric = new \Metric\Query("SELECT", $table);
 
 		$sql = "SELECT $fields FROM `$table` $select $sort";
-		$results = static::execute($sql, $params, $from, $limit);
+		$results = $this -> execute($sql, $params, $from, $limit);
 
 		$metric -> time(count($results));
 		return $results;
@@ -308,13 +177,13 @@ class DB {
 	 * @param	String		$sort		A valid ORDER BY value.
 	 * @return	Object|null
 	 */
-	public static function record(
+	public function record(
 		String $table,
 		Array $conditions = Array(),
 		String $fields = "*",
 		String $sort = ""
 	) {
-		$records = static::records($table, $conditions, $sort, $fields, 0, 1);
+		$records = $this -> records($table, $conditions, $sort, $fields, 0, 1);
 
 		if (empty($records) || empty($records[0]))
 			return null;
@@ -333,7 +202,7 @@ class DB {
      * @param	Object|Array	$object		A data object with values for one or more fields in the record
      * @return	int				new id
      */
-	public static function insert(String $table, Array|Object $object) {
+	public function insert(String $table, Array|Object $object) {
 		$object = (Array) $object;
 		$fields = Array();
 		$values = Array();
@@ -342,7 +211,7 @@ class DB {
 			unset($object["id"]);
 
 		if (empty($object))
-			throw new CodingError("DB::insert(): no fields found");
+			throw new CodingError("\$DB -> insert(): no fields found");
 
 		foreach ($object as $key => $value) {
 			if (is_null($value) || $value == "null")
@@ -360,7 +229,7 @@ class DB {
 		// Record Metric
 		$metric = new \Metric\Query("INSERT", $table);
 
-		$results = static::execute($sql, $values);
+		$results = $this -> execute($sql, $values);
 		$metric -> time(1);
 		return $results;
 	}
@@ -372,17 +241,17 @@ class DB {
      * @param	Object|Array	$object		A data object with values for one or more fields in the record
      * @return	bool
 	 */
-	public static function update(String $table, Array|Object $object) {
+	public function update(String $table, Array|Object $object) {
 		$object = (Array) $object;
 
 		if (empty($object["id"]))
-			throw new \CodingError("DB::update(): id field must be specified");
+			throw new \CodingError("\$DB -> update(): id field must be specified");
 
 		$id = $object["id"];
 		unset($object["id"]);
 
 		if (empty($object))
-			throw new CodingError("DB::update(): no fields found");
+			throw new CodingError("\$DB -> update(): no fields found");
 
 		$sets = Array();
 		$values = Array();
@@ -405,7 +274,7 @@ class DB {
 		// Record Metric
 		$metric = new \Metric\Query("INSERT", $table);
 		
-		$affected = static::execute($sql, $values);
+		$affected = $this -> execute($sql, $values);
 		$metric -> time($affected);
 		return ($affected > 0);
 	}
@@ -422,10 +291,10 @@ class DB {
 	 * 
 	 * @return	bool
 	 */
-	public static function exist(String $table, Array $conditions = Array()) {
+	public function exist(String $table, Array $conditions = Array()) {
 		// Select 'X' to find if a row exist!
 		// https://stackoverflow.com/questions/7624376/what-is-select-x
-		$record = static::record($table, $conditions, "'x'");
+		$record = $this -> record($table, $conditions, "'x'");
 		return !empty($record);
 	}
 
@@ -440,12 +309,12 @@ class DB {
 	 * 
 	 * @return	int
 	 */
-	public static function count(String $table, Array $conditions = Array()) {
-		$count = static::record($table, $conditions, "COUNT('x')");
+	public function count(String $table, Array $conditions = Array()) {
+		$count = $this -> record($table, $conditions, "COUNT('x')");
 		$count = (int) $count -> {"COUNT('x')"};
 
 		if ($count < 0)
-            throw new CodingError("DB::count() expects the first field to contain non-negative number from COUNT(), \"$count\" found instead.");
+            throw new CodingError("\$DB -> count() expects the first field to contain non-negative number from COUNT(), \"$count\" found instead.");
 
 		return (int) $count;
 	}
@@ -462,12 +331,12 @@ class DB {
 	 * 
 	 * @return	int			Affected rows
 	 */
-	public static function delete(String $table, Array $conditions = Array()) {
+	public function delete(String $table, Array $conditions = Array()) {
 		if (empty($conditions)) {
 			// Record Metric
 			$metric = new \Metric\Query("TRUNCATE", $table);
 			
-			$affected = static::execute("TRUNCATE TABLE {" . $table . "}");
+			$affected = $this -> execute("TRUNCATE TABLE {" . $table . "}");
 			$metric -> time($affected);
 			return $affected;
 		}
@@ -482,7 +351,7 @@ class DB {
 		// Record Metric
 		$metric = new \Metric\Query("TRUNCATE", $table);
 
-		$affected = static::execute($sql, $params);
+		$affected = $this -> execute($sql, $params);
 		$metric -> time($affected);
 			return $affected;
 	}
