@@ -41,3 +41,9 @@ class InvalidSQLDriver extends GeneralException {
 		parent::__construct(INVALID_SQL_DRIVER, "Driver SQL \"$name\" không hợp lệ! Có thể driver này chưa được định nghĩa hoặc chưa kế thừa từ \"\\DB\"!", 500);
 	}
 }
+
+class DatabaseNotUpgraded extends GeneralException {
+	public function __construct(int $version, int $target) {
+		parent::__construct(DATABASE_NOT_UPGRADED, "Cơ sở dữ liệu chưa được cập nhật! Phiên bản hiện tại là $version nhưng phiên bản của cấu trúc bảng là $target. Vui lòng cập nhật lại đoạn mã nâng cấp của bạn!", 500);
+	}
+}

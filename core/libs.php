@@ -778,6 +778,40 @@ function renderSourceCode(String $file, int $line, int $count = 10) {
 }
 
 /**
+ * Fast file get content with metric recording.
+ * 
+ * @param	String		$path		Path to file
+ * @param	String		$default	Default value
+ * @return	String|null				File content or default value if failed.
+ */
+function fileGet(String $path, $default = null): String|null {
+	$metric = new \Metric\File("r", "text", $path);
+	$content = file_get_contents($path);
+
+	if ($content === false) {
+		$metric -> time(-1);
+		return $default;
+	}
+
+	$metric -> time(!empty($content) ? mb_strlen($content, "utf-8") : -1);
+	return $content;
+}
+
+/**
+ * Fast file put content with metric recording.
+ * 
+ * @param	String		$path		Path to file
+ * @param	String		$content	File content
+ * @return	int|null				Bytes written or null if write failed.
+ */
+function filePut(String $path, $content): int|null {
+	$metric = new \Metric\File("w", "text", $path);
+	$bytes = file_put_contents($path, $content);
+	$metric -> time(($bytes === false) ? -1 : $bytes);
+	return ($bytes === false) ? null : $bytes;
+}
+
+/**
  * Simple File Input/Output
  * 
  * @author	Belikhun

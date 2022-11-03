@@ -72,6 +72,7 @@ define("USER_EXIST", 305);
 define("SQL_ERROR", 400);
 define("SQL_DRIVER_NOT_FOUND", 401);
 define("INVALID_SQL_DRIVER", 402);
+define("DATABASE_NOT_UPGRADED", 403);
 
 define("INVALID_TOKEN", 500);
 define("INVALID_SECRET", 501);

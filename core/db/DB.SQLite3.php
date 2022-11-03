@@ -1,6 +1,8 @@
 <?php
 
 namespace DB;
+use DatabaseNotUpgraded;
+use GeneralException;
 
 /**
  * DB.SQLite3.php
@@ -39,6 +41,18 @@ class SQLite3 extends \DB {
 	 */
 	public $connected = false;
 
+	/**
+	 * Current DB version.
+	 * @var int
+	 */
+	public $version = 0;
+
+	/**
+	 * Table structures version.
+	 * @var int
+	 */
+	public $tableVersion = 0;
+
 	public function getType(String $type): int {
 		return Array(
 			"double" => SQLITE3_FLOAT,
@@ -52,6 +66,41 @@ class SQLite3 extends \DB {
 
 	protected function filePath() {
 		return $this -> path . "/" . $this -> file;
+	}
+
+	public function dbVersion(): int {
+		if ($this -> version !== 0)
+			return $this -> version;
+
+		$content = file_get_contents("{$this -> path}/database.version");
+
+		if ($content == false)
+			return 0;
+
+		$this -> version = intval($content);
+		return $this -> version;
+	}
+
+	public function tbVersion(): int {
+		if ($this -> tableVersion !== 0)
+			return $this -> tableVersion;
+		
+		$content = file_get_contents("{$this -> path}/tables/.version");
+
+		if ($content == false)
+			return 0;
+
+		$this -> tableVersion = intval($content);
+		return intval($content);
+	}
+
+	public function needUpgrade(): bool {
+		return $this -> dbVersion() < $this -> tbVersion();
+	}
+
+	public function upgrade(int $version) {
+		file_put_contents("{$this -> path}/database.version", $version);
+		$this -> version = $version;
 	}
 
 	public function connect(Array $options) {
@@ -69,7 +118,24 @@ class SQLite3 extends \DB {
 		}
 
 		$this -> instance = new \SQLite3($this -> filePath());
+		$this -> dbVersion();
 		$this -> connected = true;
+
+		if (file_exists("{$this -> path}/upgrade.php") && $this -> needUpgrade()) {
+			/**
+			 * SQLite3 instance, only available when performing
+			 * an database upgrade!
+			 * @var \DB\SQLite3
+			 */
+			global $SQLiDB;
+			$SQLiDB = $this;
+
+			require_once "{$this -> path}/upgrade.php";
+
+			// Check if we still need to upgrade.
+			if ($this -> needUpgrade())
+				throw new DatabaseNotUpgraded($this -> dbVersion(), $this -> tbVersion());
+		}
 	}
 
 	/**
@@ -93,6 +159,9 @@ class SQLite3 extends \DB {
 				);
 			}
 		}
+
+		// Upgrade current version
+		$this -> upgrade($this -> tbVersion());
 	}
 
 	/**
