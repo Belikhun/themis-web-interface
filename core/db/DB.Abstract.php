@@ -356,3 +356,52 @@ abstract class DB {
 			return $affected;
 	}
 }
+
+/**
+ * Function to initialize the global `$DB`
+ * variable.
+ */
+function initializeDB() {
+	/**
+	 * Global Database Instance. Initialized based on type of
+	 * SQL driver specified in config.
+	 * 
+	 * @var \DB
+	 */
+	global $DB;
+
+	// $DB is initialized, we don't need to do anything.
+	if (!empty($DB))
+		return;
+
+	$DB_DRIVER_PATH = CORE_ROOT . "/db/DB." . CONFIG::$DB_DRIVER . ".php";
+
+	if (file_exists($DB_DRIVER_PATH)) {
+		require_once $DB_DRIVER_PATH;
+		$className = "\\DB\\" . CONFIG::$DB_DRIVER;
+
+		if (!class_exists($className) || !in_array("DB", class_parents($className)))
+			throw new InvalidSQLDriver(CONFIG::$DB_DRIVER);
+
+		$DB = new $className();
+
+		switch (CONFIG::$DB_DRIVER) {
+			case "SQLite3":
+				$DB -> connect(Array(
+					"path" => CONFIG::$DB_PATH
+				));
+				break;
+		
+			default:
+				// We default the config arguments to standard info
+				// like mysqli.
+				$DB -> connect(Array(
+					"host" => CONFIG::$DB_HOST,
+					"username" => CONFIG::$DB_USER,
+					"password" => CONFIG::$DB_PASS,
+					"database" => CONFIG::$DB_NAME
+				));
+		}
+	} else
+		throw new SQLDriverNotFound(CONFIG::$DB_DRIVER);
+}

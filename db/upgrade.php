@@ -18,7 +18,7 @@ global $DB;
 if ($DB instanceof \DB\SQLite3) {
 	global $SQLiDB;
 	
-	if ($SQLiDB -> dbVersion() < 2022110302) {
+	if ($SQLiDB -> version < 2022110302) {
 		// Upgrade code here.
 
 		$SQLiDB -> upgrade(2022110302);

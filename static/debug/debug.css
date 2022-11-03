@@ -1,0 +1,68 @@
+/**
+ * debug.css
+ * 
+ * DEBUG PANEL
+ * 
+ * @author    Belikhun
+ * @since     2.0.0
+ * @license   https://tldrlegal.com/license/mit-license MIT
+ * 
+ * Copyright (C) 2018-2022 Belikhun. All right reserved
+ * See LICENSE in the project root for license information.
+ */
+
+#debug {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+
+	min-width: 100px;
+	padding: 30px 10px 0;
+	
+	border: 1px solid black;
+	background-color: white;
+	z-index: 999;
+}
+
+#debug > * {
+	margin-top: 0;
+	margin-bottom: 10px;
+}
+
+#debug.minimize > *:not(.header) {
+	display: none;
+}
+
+#debug > pre {
+	max-height: 300px;
+	overflow: auto;
+}
+
+#debug > .header {
+	position: absolute;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	top: 0;
+	left: 0;
+	right: 0;
+	padding: 0 10px;
+
+	background-color: black;
+	color: white;
+
+	cursor: move;
+	user-select: none;
+}
+
+#debug > .header > .title {
+	flex-grow: 1;
+}
+
+#debug > .header > .mini {
+	cursor: pointer;
+	font-size: 22px;
+	font-weight: 600;
+	line-height: 0;
+}

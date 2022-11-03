@@ -18,14 +18,7 @@ class CONFIG extends CoreConfig {
 	public static String	$AVATAR_ROOT = DATA_ROOT . "/avatars";
 
 	public static Array		$FONTS = Array(
-		"LeagueSpartan" => "League Spartan",
-		"BeVietnamPro" => "Be Vietnam Pro",
-		"JosefinSans" => "Josefin Sans",
-		"Livvic" => "Livvic",
-		"Roboto" => "Roboto",
-		"Signika" => "Signika",
-		"WorkSans" => "Work Sans",
-		"Cabin" => "Cabin",
+		"Arial" => "Arial"
 	);
 }
 

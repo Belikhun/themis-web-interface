@@ -1011,6 +1011,9 @@ function stop(Int $code = 0, String $description = "", Int $status = 200, $data 
 		);
 	}
 
+	// Remove absolute path
+	$description = str_replace(BASE_PATH, "", $description);
+
 	$output = Array(
 		"code" => $code,
 		"status" => $status,
