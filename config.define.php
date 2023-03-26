@@ -3,7 +3,7 @@
 class CONFIG extends CoreConfig {
 	/**
 	 * Page title
-	 * @var String
+	 * @var string
 	 */
 	public static String	$APP_NAME = "Themis Web Interface";
 

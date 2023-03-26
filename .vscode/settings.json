@@ -49,5 +49,9 @@
             "end": " */"
         }
     ],
-    "php.format.codeStyle": "Off"
+    "php.format.codeStyle": "K&R",
+    "php.problems.scope": "user",
+    "php.completion.setterSnippet": "return {PROPERTY};",
+    "php.inlayHints.types.return": true,
+    "php.version": "8.1"
 }

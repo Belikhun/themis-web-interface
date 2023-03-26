@@ -32,19 +32,6 @@ $jsLibs = globFilesPriorityCached("/assets/js/*.js");
 	<script type="text/javascript" src="<?php echo getRelativePath($js -> path); ?>"></script>
 <?php } ?>
 
-<script type="text/javascript">
-	USER = <?php echo \Session::loggedIn()
-		? sprintf("new User(%d, \"%s\", \"%s\", \"%s\", \"%s\");",
-			\Session::$user -> id,
-			\Session::$user -> username,
-			\Session::$user -> name,
-			\Session::$user -> avatar,
-			\Session::$user -> role)
-		: "null;" ?>
-	
-	registerModule({ popup });
-</script>
-
 <?php \Lazyload::render(); ?>
 
 <?php
