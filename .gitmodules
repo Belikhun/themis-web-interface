@@ -1,3 +1,6 @@
 [submodule "assets"]
 	path = assets
 	url = https://github.com/Belikhun/libraries.git
+[submodule "core"]
+	path = core
+	url = https://github.com/Belikhun/blink.git
