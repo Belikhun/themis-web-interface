@@ -21,7 +21,7 @@ foreach ($pageDirs as $page) {
 	$name = pathinfo($page, PATHINFO_BASENAME);
 
 	// Check valid page.
-	if (!file_exists($page . "/page.php"))
+	if (!file_exists($page . "/index.php") && !file_exists($page . "/page.php"))
 		continue;
 
 	// Process path tokens
@@ -58,7 +58,15 @@ foreach ($pageDirs as $page) {
 			define("PAGE_TYPE", "NORMAL");
 
 			ob_start();
-			require_once $PAGE -> location . "/page.php";
+
+			if (file_exists($PAGE -> location . "/index.php")) {
+				// Try to include file which match folder name.
+				require_once $PAGE -> location . "/index.php";
+			} else {
+				// Fallback to default page.php file.
+				require_once $PAGE -> location . "/page.php";
+			}
+
 			$content = ob_get_clean();
 
 			if (!defined("PAGE_TITLE"))
