@@ -58,7 +58,7 @@ foreach ($files as $file) {
 		"/$path",
 		function(...$args) use ($path, $file) {
 			define("PAGE_TYPE", "API");
-			initializeDB();
+			\Blink\initializeDB();
 
 			// Check for token header.
 			$token = getHeader("Authorization");

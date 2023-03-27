@@ -7,6 +7,9 @@
  * @license		https://tldrlegal.com/license/mit-license MIT
  */
 
+use Blink\Exception\FileNotFound;
+use Blink\Exception\IllegalAccess;
+
 global $PATH;
 define("ASSETS_ALLOW", Array("js", "css", "png", "jpg", "webp", "otf", "ttf", "woff", "woff2"));
 

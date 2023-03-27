@@ -42,7 +42,7 @@ foreach ($pageDirs as $page) {
 	
 	// Create new route
 	$ROUTE = \Router::GET("/$name", function(...$args) use ($page) {
-		initializeDB();
+		\Blink\initializeDB();
 
 		/**
 		 * An instance of current page. You can control page behaviour
