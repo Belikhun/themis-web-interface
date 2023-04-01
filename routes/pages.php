@@ -41,7 +41,7 @@ foreach ($pageDirs as $page) {
 		$name = "";
 	
 	// Create new route
-	$ROUTE = \Router::GET("/$name", function(...$args) use ($page) {
+	$ROUTE = \Router::ANY("/$name", function(...$args) use ($page) {
 		\Blink\initializeDB();
 
 		/**
