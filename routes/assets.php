@@ -21,7 +21,7 @@ define("ASSETS_ALLOW", Array("js", "css", "png", "jpg", "webp", "otf", "ttf", "w
 
 // Only add asset's routes if current request indicate an asset
 // request and we are in production mode.
-if (\CONFIG::$PRODUCTION && !str_starts_with($PATH, "/assets"))
+if (!CONFIG::$DEBUG && !str_starts_with($PATH, "/assets"))
 	return;
 
 // Serve asset with specified path.
@@ -37,7 +37,7 @@ Router::GET("/assets", function() {
 		throw new IllegalAccess();
 	
 	// Only cache assets on production
-	if (CONFIG::$PRODUCTION)
+	if (!CONFIG::$DEBUG)
 		expireHeader(CONFIG::$ASSETS_EXPIRE);
 	
 	contentType($ext);
@@ -61,7 +61,7 @@ Router::GET("/assets/**", function() {
 		throw new IllegalAccess();
 
 	// Only cache assets on production
-	if (CONFIG::$PRODUCTION)
+	if (!CONFIG::$DEBUG)
 		expireHeader(CONFIG::$ASSETS_EXPIRE);
 	
 	contentType($ext);
@@ -85,7 +85,7 @@ Router::GET("/static/**", function() {
 		throw new IllegalAccess();
 
 	// Only cache assets on production
-	if (CONFIG::$PRODUCTION)
+	if (!CONFIG::$DEBUG)
 		expireHeader(CONFIG::$ASSETS_EXPIRE);
 	
 	contentType($ext);

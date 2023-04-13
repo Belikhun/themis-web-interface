@@ -20,7 +20,7 @@ global $PATH;
 
 // We can skip normal page if user is requesting api
 // endpoint and we are in production mode.
-if (\CONFIG::$PRODUCTION && str_starts_with($PATH, "/api"))
+if (!CONFIG::$DEBUG && str_starts_with($PATH, "/api"))
 	return;
 
 // Scan all available pages and add route for it.
@@ -78,7 +78,7 @@ foreach ($pageDirs as $page) {
 		 */
 		global $RESPONSE;
 		
-		$PAGE = new Page($page);
+		$PAGE = new Page($page, Router::$active -> uri);
 		$REQUEST = $request;
 		$RESPONSE = new Response();
 
@@ -97,18 +97,10 @@ foreach ($pageDirs as $page) {
 				require_once $PAGE -> location . "/page.php";
 			}
 
-			$content = ob_get_clean();
-
-			if (!defined("PAGE_TITLE"))
-				define("PAGE_TITLE", Router::$active -> uri);
+			$PAGE -> content = ob_get_clean();
 
 			// Load header
-			require_once BASE_PATH . "/fragments/header.php";
-
-			echo $content;
-
-			// Load footer
-			require_once BASE_PATH . "/fragments/footer.php";
+			require_once BASE_PATH . "/fragments/page.php";
 		})();
 
 		$body = ob_get_clean();

@@ -2,10 +2,16 @@
 
 class CONFIG extends CoreConfig {
 	/**
-	 * Page title
+	 * App title
 	 * @var string
 	 */
 	public static String	$APP_NAME = "Themis Web Interface";
+
+	/**
+	 * App version
+	 * @var string
+	 */
+	public static String	$VERSION = "2.0.0";
 
 	/**
 	 * Asset files expire header. Time in
@@ -18,6 +24,7 @@ class CONFIG extends CoreConfig {
 	public static String	$AVATAR_ROOT = DATA_ROOT . "/avatars";
 
 	public static Array		$FONTS = Array(
+		"Albula" => "Albula",
 		"Arial" => "Arial"
 	);
 }

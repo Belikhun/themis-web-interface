@@ -17,7 +17,7 @@ global $PATH;
 
 // Only scan for routes if current request indicate an api
 // request and we are in production mode.
-if (\CONFIG::$PRODUCTION && !str_starts_with($PATH, "/api"))
+if (!CONFIG::$DEBUG && !str_starts_with($PATH, "/api"))
 	return;
 
 $dir = new RecursiveDirectoryIterator(BASE_PATH . "/api");

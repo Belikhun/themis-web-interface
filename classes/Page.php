@@ -14,7 +14,6 @@
  */
 
 use Blink\Exception\FileNotFound;
-use Blink\Exception\MissingParam;
 
 class Page {
 
@@ -23,6 +22,9 @@ class Page {
 	 * @var string
 	 */
 	public $location;
+
+	public String $title = "";
+	public String $content = "";
 
 	/**
 	 * List of js file to include.
@@ -36,8 +38,9 @@ class Page {
 	 */
 	public $cssFiles;
 
-	public function __construct(String $location) {
+	public function __construct(String $location, String $title) {
 		$this -> location = $location;
+		$this -> title = $title;
 
 		$this -> jsFiles = Array();
 		$this -> cssFiles = Array();
