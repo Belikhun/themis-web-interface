@@ -1,14 +1,20 @@
 <?php
 /**
+ * assets.php
+ * 
  * Route for serving asset files
  * 
- * @copyright	2022 Hanoi Open University
- * @author		Belikhun <domanhha@hou.edu.vn>
- * @license		https://tldrlegal.com/license/mit-license MIT
+ * @author    Belikhun
+ * @since     2.0.0
+ * @license   https://tldrlegal.com/license/mit-license MIT
+ * 
+ * Copyright (C) 2018-2023 Belikhun. All right reserved
+ * See LICENSE in the project root for license information.
  */
 
 use Blink\Exception\FileNotFound;
 use Blink\Exception\IllegalAccess;
+use Blink\Router;
 
 global $PATH;
 define("ASSETS_ALLOW", Array("js", "css", "png", "jpg", "webp", "otf", "ttf", "woff", "woff2"));

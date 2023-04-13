@@ -9,14 +9,6 @@
 			"type": "php",
 			"request": "launch",
             "port": 9003
-		},
-        {
-            "type": "chrome",
-            "request": "launch",
-            "name": "[Chrome] Open Browswer",
-            "url": "http://localhost:80",
-            "webRoot": "${workspaceFolder}",
-            "userDataDir": false
-        }
+		}
     ]
 }

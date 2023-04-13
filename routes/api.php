@@ -1,12 +1,18 @@
 <?php
 /**
+ * api.php
+ * 
  * Define routes for api
  * 
- * @copyright	2022 Hanoi Open University
- * @author		Belikhun <domanhha@hou.edu.vn>
- * @license		https://tldrlegal.com/license/mit-license MIT
+ * @author    Belikhun
+ * @since     2.0.0
+ * @license   https://tldrlegal.com/license/mit-license MIT
+ * 
+ * Copyright (C) 2018-2023 Belikhun. All right reserved
+ * See LICENSE in the project root for license information.
  */
 
+use Blink\Router;
 global $PATH;
 
 // Only scan for routes if current request indicate an api
@@ -53,8 +59,8 @@ foreach ($files as $file) {
 	$path = implode("/", $tokens);
 
 	// Register route
-	\Router::match(
-		empty($verb) ? \Router::$verbs : $verb,
+	Router::match(
+		empty($verb) ? Router::$verbs : $verb,
 		"/$path",
 		function(...$args) use ($path, $file) {
 			define("PAGE_TYPE", "API");
@@ -91,7 +97,7 @@ foreach ($files as $file) {
 }
 
 // Create master route for handling undefined apis.
-\Router::ANY("/api/**", function() {
+Router::ANY("/api/**", function() {
 	if (!defined("PAGE_TYPE"))
 		define("PAGE_TYPE", "API");
 	

@@ -1,11 +1,20 @@
 <?php
 /**
+ * pages.php
+ * 
  * Main route for normal pages routing
  * 
- * @copyright	2022 Hanoi Open University
- * @author		Belikhun <domanhha@hou.edu.vn>
- * @license		https://tldrlegal.com/license/mit-license MIT
+ * @author    Belikhun
+ * @since     2.0.0
+ * @license   https://tldrlegal.com/license/mit-license MIT
+ * 
+ * Copyright (C) 2018-2023 Belikhun. All right reserved
+ * See LICENSE in the project root for license information.
  */
+
+use Blink\Request;
+use Blink\Response;
+use Blink\Router;
 
 global $PATH;
 
@@ -40,8 +49,14 @@ foreach ($pageDirs as $page) {
 	if ($name === "index")
 		$name = "";
 	
+	/**
+	 * An instance of current route.
+	 * @var Router\Route
+	 */
+	global $ROUTE;
+
 	// Create new route
-	$ROUTE = \Router::ANY("/$name", function(...$args) use ($page) {
+	$ROUTE = Router::ANY("/$name", function(Request $request, ...$args) use ($page) {
 		\Blink\initializeDB();
 
 		/**
@@ -50,10 +65,25 @@ foreach ($pageDirs as $page) {
 		 * @var \Page
 		 */
 		global $PAGE;
-		
-		$PAGE = new Page($args, $page);
 
-		// Isolate variable scope.
+		/**
+		 * An instance of current request.
+		 * @var \Blink\Request
+		 */
+		global $REQUEST;
+
+		/**
+		 * An instance of initialized response for current request.
+		 * @var \Blink\Response
+		 */
+		global $RESPONSE;
+		
+		$PAGE = new Page($page);
+		$REQUEST = $request;
+		$RESPONSE = new Response();
+
+		ob_start();
+
 		(function() use ($PAGE) {
 			define("PAGE_TYPE", "NORMAL");
 
@@ -80,6 +110,10 @@ foreach ($pageDirs as $page) {
 			// Load footer
 			require_once BASE_PATH . "/fragments/footer.php";
 		})();
+
+		$body = ob_get_clean();
+		$RESPONSE -> body($body);
+		return $RESPONSE;
 	});
 
 	if (file_exists($page . "/config.php"))

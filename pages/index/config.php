@@ -1,4 +1,4 @@
 <?php
 
-/** @var \Router\Route */
+/** @var \Blink\Router\Route */
 $ROUTE;

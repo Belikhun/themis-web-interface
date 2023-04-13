@@ -14,3 +14,4 @@
 
 CONFIG::$APP_NAME = "Themis Web Interface";
 CONFIG::$DB_DRIVER = "SQLite3";
+CONFIG::$FILE_STORE = FILE_STORE_DB;

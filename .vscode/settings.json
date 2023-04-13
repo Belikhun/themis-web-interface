@@ -1,8 +1,5 @@
 {
     "python.linting.enabled": true,
-    "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
-    "livereload.exclusions": ".DS_Store,.gitignore,.git,.svn,.hg,html,js,cache,json,py,php",
-    "livereload.exts": "css",
     "discord.enabled": true,
     "psi-header.templates": [
         {
@@ -53,5 +50,8 @@
     "php.problems.scope": "user",
     "php.completion.setterSnippet": "return {PROPERTY};",
     "php.inlayHints.types.return": true,
-    "php.version": "8.1"
+    "php.version": "8.1",
+	"files.associations": {
+		"*.blade.php": "blade"
+	}
 }
