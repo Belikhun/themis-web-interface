@@ -1,8 +1,8 @@
 <?php
 /**
- * index.php
+ * Request.php
  * 
- * The index page.
+ * Request middleware
  * 
  * @author    Belikhun
  * @since     2.0.0
@@ -12,11 +12,10 @@
  * See LICENSE in the project root for license information.
  */
 
-global $PAGE, $REQUEST;
+namespace Middleware;
 
-$PAGE -> js("app.js");
-?>
-
-<div id="app">
-	
-</div>
+class Request extends \Blink\Middleware\Request {
+	protected static Array $middleware = Array(
+		
+	);
+}

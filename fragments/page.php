@@ -14,7 +14,8 @@
 
 use Blink\Metric;
 use Blink\Router;
-global $PAGE;
+
+global $PAGE, $RUNTIME;
 
 // Set default font
 if (!isset($_SESSION["font"]) || !isset(CONFIG::$FONTS[$_SESSION["font"]]))
@@ -29,10 +30,13 @@ if (CONFIG::$DEBUG) {
 $fontPath = "/assets/fonts" . str_repeat("/" . $_SESSION["font"], 2) . ".css";
 $fontName = CONFIG::$FONTS[$_SESSION["font"]];
 
+// Prepare asset files.
 $jsLibs = globFilesPriorityCached("/assets/js/*.js");
-$jsObjs = globFilesPriorityCached("/assets/js/Objects/*.js");
+$jsObjs = globFilesPriorityCached("/static/js/Objects/*.js");
+$PAGE -> css(glob(BASE_PATH . "/assets/css/*.css"), true);
 
 if (CONFIG::$DEBUG) {
+	// Include debug panel.
 	$PAGE -> css("/static/debug/debug.css");
 }
 
@@ -46,14 +50,7 @@ if (CONFIG::$DEBUG) {
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<!-- ASSETS: Include css files -->
-		<?php foreach (glob(BASE_PATH . "/assets/css/*.css") as $css) { ?>
-			<link rel="stylesheet" href="<?php echo getRelativePath($css) . "?v=" . \CONFIG::$VERSION; ?>">
-		<?php } ?>
-
-		<!-- $PAGE: Include css files -->
-		<?php foreach ($PAGE -> cssFiles as $css) { ?>
-			<link rel="stylesheet" href="/assets?path=<?php echo getRelativePath($css) . "&v=" . \CONFIG::$VERSION; ?>">
-		<?php } ?>
+		<?php $PAGE -> renderIncludeCSS(); ?>
 
 		<!-- ASSETS: Include font files -->
 		<link rel="stylesheet" href="<?php echo $fontPath; ?>">
@@ -119,7 +116,7 @@ if (CONFIG::$DEBUG) {
 
 			$dbgTexts[] = "";
 			$dbgTexts[] = "> FILES";
-			$dbgTexts[] = " TIME MODE       TYPE     SIZE PATH";
+			$dbgTexts[] = " TIME   M       TYPE         SIZE PATH";
 			foreach (Metric::$files as $file)
 				$dbgTexts[] = (String) $file;
 			
@@ -131,6 +128,9 @@ if (CONFIG::$DEBUG) {
 			foreach (Router::getRoutes() as $route)
 				$dbgTexts[] = (String) $route;
 			
+			$dbgTexts[] = "";
+			$dbgTexts[] = "RUNTIME: " . $RUNTIME -> stop();
+
 			$PAGE -> js("/static/debug/debug.js", "debug", Array(
 				"text" => implode("\n", $dbgTexts),
 				"fonts" => CONFIG::$FONTS,

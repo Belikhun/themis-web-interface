@@ -1,4 +1,4 @@
 /config.php
-/data/*
+/data
 /db/database.db
 /db/database.version

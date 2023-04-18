@@ -45,7 +45,7 @@ const debug = {
 		this.container = makeTree("div", ["debug", "minimize"], {
 			header: { tag: "div", class: "header", child: {
 				wTitle: { tag: "span", class: "title", text: "DEBUG" },
-				minimize: { tag: "span", class: "mini", text: "-" }
+				minimize: { tag: "span", class: "mini", text: this.minimized ? "+" : "-" }
 			}},
 
 			dbgTexts: { tag: "pre", text: this.params.text },

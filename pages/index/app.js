@@ -1,8 +1,7 @@
-<?php
 /**
- * index.php
+ * index.js
  * 
- * The index page.
+ * File Description
  * 
  * @author    Belikhun
  * @since     2.0.0
@@ -12,11 +11,6 @@
  * See LICENSE in the project root for license information.
  */
 
-global $PAGE, $REQUEST;
-
-$PAGE -> js("app.js");
-?>
-
-<div id="app">
+const index = {
 	
-</div>
+}

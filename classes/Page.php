@@ -126,7 +126,7 @@ class Page {
 		</script> <?php
 
 		foreach ($this -> jsFiles as $js) {
-			$path = "/assets?path=" . getRelativePath($js["path"]);
+			$path = "/asset?path=" . getRelativePath($js["path"]);
 
 			?>
 			<!-- <?php echo "Priority:" . $js["priority"] . " | Module: " . $js["object"]; ?> -->
@@ -158,23 +158,50 @@ class Page {
 	 * Include css file provided by path. Return false when
 	 * target path is invalid or file does not exist.
 	 * 
-	 * @param	string	$path	Path of css file to include.
+	 * @param	string|array	$path	Path of css file to include.
 	 * Directory base at folder containing current page.php
+	 * 
+	 * @param	bool			$append	Add to the begin of include list.
 	 * 
 	 * @return	bool
 	 */
-	public function css($path) {
-		if ($path[0] === "/") {
-			$path = BASE_PATH . $path;
-		} else {
-			$path = "{$this -> location}/$path";
+	public function css($path, bool $append = false) {
+		if (is_string($path))
+			$path = Array( $path );
+
+		$processed = Array();
+
+		foreach ($path as $item) {
+			if ($item[0] === "/")
+				$item = BASE_PATH . $item;
+			else if (!file_exists($item))
+				$item = "{$this -> location}/$item";
+	
+			// Validate path
+			if (!$this -> validatePath($item))
+				continue;
+			
+			$processed[] = $item;
 		}
 
-		// Validate path
-		if (!$this -> validatePath($path))
+		if (empty($processed))
 			return false;
 
-		$this -> cssFiles[] = $path;
+		$this -> cssFiles = $append
+			? array_merge($processed, $this -> cssFiles)
+			: array_merge($this -> cssFiles, $processed);
+		
 		return true;
+	}
+
+	public function renderIncludeCSS() {
+		foreach ($this -> cssFiles as $css) {
+			$path = getRelativePath($css);
+
+			if (!str_starts_with($css, "/assets") && !str_starts_with($css, "/static"))
+				$path = "/asset?path={$path}&v=" . CONFIG::$VERSION;
+
+			echo HtmlWriter::css($path);
+		}
 	}
 }
